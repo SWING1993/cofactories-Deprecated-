@@ -1,0 +1,91 @@
+//
+//  MessageDetailViewController.m
+//  cofactory-1.1
+//
+//  Created by Mr.song on 15/7/11.
+//  Copyright (c) 2015年 聚工科技. All rights reserved.
+//
+
+#import "Header.h"
+#import "MessageDetailViewController.h"
+
+@interface MessageDetailViewController ()
+
+@end
+
+@implementation MessageDetailViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor=[UIColor whiteColor];
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, kScreenW, kScreenH-(kNavigationBarHeight+kStatusBarHeight)) style:UITableViewStyleGrouped];
+    self.tableView.rowHeight=150;
+    self.tableView.showsVerticalScrollIndicator=NO;
+    self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+    self.automaticallyAdjustsScrollViewInsets = YES;// 自动调整视图关闭
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 5;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    //static NSString*CellIdentifier=@"cellID";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    
+    UILabel*timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
+    //headerLabel.backgroundColor=[UIColor greenColor];
+    timeLabel.font=[UIFont boldSystemFontOfSize:14];
+    timeLabel.textColor=[UIColor lightGrayColor];
+    timeLabel.textAlignment=NSTextAlignmentCenter;
+    timeLabel.text = @"2015-10-31";
+    [cell addSubview:timeLabel];
+    
+    UIFont*font=[UIFont systemFontOfSize:14];
+    UILabel*messageLabel=[[UILabel alloc]init];
+    messageLabel.font=font;
+    messageLabel.numberOfLines=0;
+    messageLabel.textColor=[UIColor whiteColor];
+    messageLabel.text = @"聚工厂验证码：123456 有效期十分钟，请您抓紧时间，机不可失，失不再来聚工厂验证码：123456 有效期十分钟，请您抓紧时间，机不可失，失不再来";
+    CGSize size = [messageLabel.text sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
+    messageLabel.frame=CGRectMake(10, 5, kScreenW-90, size.height+20);
+    
+    UIImageView *messageBgView = [[UIImageView alloc]initWithFrame:CGRectMake(64, 25, kScreenW-75, size.height+30)];
+    messageBgView.image=[UIImage imageNamed:@"login"];
+    [messageBgView addSubview:messageLabel];
+    [cell addSubview:messageBgView];
+    
+    UIImageView*headerImage=[[UIImageView alloc]initWithFrame:CGRectMake(10, size.height+28, 44, 44)];
+    headerImage.image=[UIImage imageNamed:@"消息头像"];
+    headerImage.layer.cornerRadius=44/2.0f;
+    [cell addSubview:headerImage];
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.01;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end
