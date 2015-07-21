@@ -9,8 +9,9 @@
 #import "Header.h"
 #import "SetaddressViewController.h"
 
-@interface SetaddressViewController (){
+@interface SetaddressViewController () <BMKGeoCodeSearchDelegate> {
     UITextField*addressTF;
+    BMKGeoCodeSearch *_searcher;
 }
 
 @end
@@ -20,28 +21,66 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title=@"修改公司地址";
+    self.title=@"公司地址";
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
 
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
 
+    _searcher = [[BMKGeoCodeSearch alloc] init];
+    _searcher.delegate = self;
+
     addressTF=[[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 44)];
+    addressTF.text=self.placeholder;
     addressTF.clearButtonMode=YES;
-    addressTF.placeholder=@"修改公司地址";
+    addressTF.placeholder=@"输入公司地址";
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-//    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //确定Btn
+    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
+    self.navigationItem.rightBarButtonItem = setButton;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)buttonClicked {
+    if ([addressTF.text isEqualToString:@""]) {
+        UIAlertView*alertView =[[UIAlertView alloc]initWithTitle:@"公司地址不能为空" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }else{
+        BMKGeoCodeSearchOption *geoCodeSearchOption = [[BMKGeoCodeSearchOption alloc] init];
+        geoCodeSearchOption.address = addressTF.text;
+        if ([_searcher geoCode:geoCodeSearchOption]) {
+            NSLog(@"geo检索发送正常");
+
+        } else {
+            NSLog(@"geo检索发送失败");
+            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"检索发送失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alertView show];
+        }
+
+    }
 }
+
+#pragma mark - <BMKGeoCodeSearchDelegate>
+- (void)onGetGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
+    if (error == BMK_SEARCH_NO_ERROR) {
+        // 正常结果
+
+        //NSLog(@"%lf %lf", result.location.latitude, result.location.longitude);
+        SetMapViewController*mapVC = [[SetMapViewController alloc]init];
+        mapVC.addressStr=addressTF.text;
+        mapVC.centerLocation = result.location;
+        [self.navigationController pushViewController:mapVC animated:YES];
+    } else {
+        UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"抱歉，未找到结果" message:@"请重新填写地址" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.tableView endEditing:YES];
+}
+
 
 #pragma mark - Table view data source
 
@@ -68,6 +107,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 0.01f;
+}
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 /*

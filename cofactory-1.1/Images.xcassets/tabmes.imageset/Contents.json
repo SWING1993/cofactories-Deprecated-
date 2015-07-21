@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "tabmes.png",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "tabmes.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "603.png"
     },
     {
       "idiom" : "universal",

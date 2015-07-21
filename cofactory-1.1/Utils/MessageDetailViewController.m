@@ -11,12 +11,15 @@
 
 @interface MessageDetailViewController ()
 
+
 @end
 
 @implementation MessageDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, kScreenW, kScreenH-(kNavigationBarHeight+kStatusBarHeight)) style:UITableViewStyleGrouped];
     self.tableView.rowHeight=150;
@@ -26,7 +29,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -38,13 +41,13 @@
     }
     
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+
     
     UILabel*timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
-    //headerLabel.backgroundColor=[UIColor greenColor];
     timeLabel.font=[UIFont boldSystemFontOfSize:14];
     timeLabel.textColor=[UIColor lightGrayColor];
     timeLabel.textAlignment=NSTextAlignmentCenter;
-    timeLabel.text = @"2015-10-31";
+    timeLabel.text = _timeString;
     [cell addSubview:timeLabel];
     
     UIFont*font=[UIFont systemFontOfSize:14];
@@ -52,7 +55,7 @@
     messageLabel.font=font;
     messageLabel.numberOfLines=0;
     messageLabel.textColor=[UIColor whiteColor];
-    messageLabel.text = @"聚工厂验证码：123456 有效期十分钟，请您抓紧时间，机不可失，失不再来聚工厂验证码：123456 有效期十分钟，请您抓紧时间，机不可失，失不再来";
+    messageLabel.text = _messageStr;
     CGSize size = [messageLabel.text sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
     messageLabel.frame=CGRectMake(10, 5, kScreenW-90, size.height+20);
     
@@ -71,6 +74,15 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 0.01;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    UIFont*font=[UIFont systemFontOfSize:14];
+
+    CGSize size = [_messageStr sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
+
+    return size.height+80.0f;
 }
 
 - (void)didReceiveMemoryWarning {

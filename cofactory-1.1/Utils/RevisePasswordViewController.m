@@ -10,6 +10,8 @@
 #import "RevisePasswordViewController.h"
 
 @interface RevisePasswordViewController (){
+
+    UITextField*oldPasswordTF;
     UITextField*passwordTF1;
     UITextField*passwordTF2;
 
@@ -27,6 +29,11 @@
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
 
+    oldPasswordTF=[[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 44)];
+    oldPasswordTF.clearButtonMode=YES;
+    oldPasswordTF.secureTextEntry=YES;
+    oldPasswordTF.placeholder=@"输入旧密码";
+
 
     passwordTF1=[[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 44)];
     passwordTF1.clearButtonMode=YES;
@@ -38,7 +45,7 @@
     passwordTF2.secureTextEntry=YES;
     passwordTF2.placeholder=@"请您再次输入密码";
 
-    UIButton* showBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-120, 155, 100, 30)];
+    UIButton* showBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-120, 225, 100, 30)];
     showBtn.titleLabel.font=[UIFont boldSystemFontOfSize:13.0f];
     [showBtn setImage:[UIImage imageNamed:@"select"] forState:UIControlStateNormal];
     [showBtn setImage:[UIImage imageNamed:@"select_highlight"] forState:UIControlStateSelected];
@@ -49,7 +56,7 @@
     [self.tableView addSubview:showBtn];
 
 
-    UIButton*ReviseBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 200, kScreenW-40, 35)];
+    UIButton*ReviseBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 270, kScreenW-40, 35)];
     [ReviseBtn setTitle:@"确定" forState:UIControlStateNormal];
     [ReviseBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
     [ReviseBtn addTarget:self action:@selector(RevisePasswordBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -74,7 +81,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -88,11 +95,17 @@
     }
     switch (indexPath.section) {
         case 0:{
-            [cell addSubview:passwordTF1];
+            [cell addSubview:oldPasswordTF];
 
         }
             break;
         case 1:{
+            [cell addSubview:passwordTF1];
+
+
+        }
+            break;
+        case 2:{
             [cell addSubview:passwordTF2];
 
 
@@ -124,10 +137,15 @@
             break;
         case 1:
         {
-            titleLabel.text=@"旧密码";
+            titleLabel.text=@"新密码";
         }
             break;
-            
+        case 2:
+        {
+            titleLabel.text=@"确认新密码";
+        }
+            break;
+
         default:
             break;
     }

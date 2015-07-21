@@ -11,7 +11,12 @@
 @interface MessageDetailViewController : UITableViewController
 
 @property (nonatomic, strong) NSString *messageStr;
+
+@property (nonatomic, strong) NSString *timeString;
+
+
 @property (nonatomic, strong) UIImageView *avatarView;
+
 @property (nonatomic, strong) UILabel *bubbleLabel;
 
 @end

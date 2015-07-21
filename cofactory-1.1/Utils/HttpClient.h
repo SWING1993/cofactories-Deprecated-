@@ -18,7 +18,21 @@
 
 #pragma mark - API RESTful方法
 
+/*!
+ 重置密码
 
+ @param phoneNumber 手机号码(11位)
+ @param block       回调函数 会返回 0->(网络错误) 200->(成功) 400->(手机格式不正确) 409->(需要等待冷却) 502->(发送错误)
+ */
++ (void)postResetPasswordWithPhone:(NSString *)phoneNumber code:(NSString *)code password:(NSString *)password andBlock:(void (^)(int statusCode))block;
+/*!
+ 修改密码
+
+ @param password    旧密码
+ @param newPassword 新密码
+ @param block       回调函数 会返回 0->(网络错误) 200->(成功) 403->(旧密码错误) 404->(access_token不存在)
+ */
++ (void)modifyPassword:(NSString *)password newPassword:(NSString *)newPassword andBlock:(void (^)(int statusCode))block;
 /*!
  返回登录凭据
 

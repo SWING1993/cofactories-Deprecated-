@@ -23,6 +23,8 @@
     // Do any additional setup after loading the view.
     self.title=@"设置状态";
     self.view.backgroundColor=[UIColor whiteColor];
+    self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
+    self.tableView.showsVerticalScrollIndicator=NO;
     self.cellTitleArr=@[@"公司空闲开关",@"设置空闲时间",@"有无自备货车"];
     self.tableView.scrollEnabled=NO;
     self.tableView.rowHeight=44.0f;
@@ -56,7 +58,7 @@
 
     }
 
-    UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectMake(kScreenW-70.0f, 8.0f, 60.0f, 28.0f)];
+    UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectMake(kScreenW-70.0f, 7.0f, 60.0f, 28.0f)];
     switchView.on = YES;//设置初始为ON的一边
     switchView.tag=indexPath.section;
     switchView.tag=indexPath.section;
@@ -66,6 +68,9 @@
 
     cell.textLabel.font=[UIFont boldSystemFontOfSize:16.0f];
     cell.textLabel.text = self.cellTitleArr[indexPath.section];
+
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+
     return cell;
 }
 

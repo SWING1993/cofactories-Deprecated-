@@ -10,7 +10,11 @@
 
 @interface MessageModel : NSObject
 
-@property (nonatomic, strong) NSString *time;
+@property (nonatomic, strong) NSString *time1;
+
+@property (nonatomic, strong) NSString *time2;
+
+
 @property (nonatomic, copy) NSString *message;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;

@@ -47,8 +47,62 @@
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 
-    //@"服装厂",@"加工厂",@"代裁厂",@"锁眼钉扣厂"
-    // 获取用户model
+    // 初始化模型
+    self.homeItemModel = [[HomeItemModel alloc] init];
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, kScreenW, kScreenH-(kNavigationBarHeight+kStatusBarHeight)) style:UITableViewStyleGrouped];
+    self.automaticallyAdjustsScrollViewInsets = YES;// 自动调整视图关闭
+    self.tableView.showsVerticalScrollIndicator = NO;// 竖直滚动条不显示
+
+    //网络获取itemArray
+    [HttpClient listMenuWithBlock:^(NSDictionary *responseDictionary) {
+        NSArray*arr=responseDictionary[@"responseArray"];
+        if (arr.count==0) {
+            [self getListMenu];
+        }
+        for (int i=0; i<arr.count; i++) {
+            NSInteger x = [arr[i] integerValue];
+            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[x]];
+            [self.tableView reloadData];
+        }
+    }];
+    
+    // 表头视图
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
+    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:nil];
+    [headerView addSubview:bannerView];
+
+    // 按钮功能区
+    ButtonView *buttonView = [[ButtonView alloc] initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight)];
+    [headerView addSubview:buttonView];
+    // 添加 target
+    [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
+
+    [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
+        NSLog(@"%@",dictionary);
+        NSLog(@"认证信息%@",dictionary[@"message"]);
+    }];
+//    if ([[Config getUserType] intValue] == 0) {
+//        // 服装厂
+//        [buttonView.postButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    } else {
+//        // 配套工厂
+//        [buttonView.postButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    }
+
+    [buttonView.postButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
+
+    [buttonView.authenticationButton addTarget:self action:@selector(authClicked:) forControlEvents:UIControlEventTouchUpInside];
+    self.tableView.tableHeaderView = headerView;
+
+}
+
+- (void)getListMenu {
+
+    NSLog(@"ListMenu为0，初始化");
+
+//    @"服装厂",@"加工厂",@"代裁厂",@"锁眼钉扣厂"
+//     获取用户model
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         UserModel*userModel=responseDictionary[@"model"];
         switch (userModel.factoryType) {
@@ -85,67 +139,15 @@
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[7]];
                 [self.tableView reloadData];
-                }
+            }
                 break;
-                
+
             default:
                 break;
         }
 
     }];
 
-    //网络获取itemArray
-        [HttpClient listMenuWithBlock:^(NSDictionary *responseDictionary) {
-
-            NSLog(@"listDic%@",responseDictionary);
-    //        NSLog(@"%@",responseDictionary[@"statusCode"]);
-    //        NSLog(@"%@",responseDictionary);
-    //        self.homeItemModel.itemArray=responseDictionary[@"responseArray"];
-    //        NSLog(@"%@",self.homeItemModel.itemArray);
-    
-        }];
-
-
-//    [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
-//        NSLog(@"%@",responseDictionary[@"model"]);
-//    }];
-//    [HttpClient listFavoriteWithBlock:^(NSDictionary *responseDictionary) {
-//        NSLog(@"%@",responseDictionary);
-//    }];
-//    [HttpClient listMenuWithBlock:^(NSDictionary *responseDictionary) {
-//        NSLog(@"%@",responseDictionary[@"message"]);
-//    }];
-    NSLog(@"%@",[HttpClient getToken]);
-
-    // 初始化模型
-    self.homeItemModel = [[HomeItemModel alloc] init];
-    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, kScreenW, kScreenH-(kNavigationBarHeight+kStatusBarHeight)) style:UITableViewStyleGrouped];
-    self.automaticallyAdjustsScrollViewInsets = YES;// 自动调整视图关闭
-    self.tableView.showsVerticalScrollIndicator = NO;// 竖直滚动条不显示
-    
-    // 表头视图
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
-    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:nil];
-    [headerView addSubview:bannerView];
-
-    // 按钮功能区
-    ButtonView *buttonView = [[ButtonView alloc] initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight)];
-    [headerView addSubview:buttonView];
-    // 添加 target
-    [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    if ([[Config getUserType] intValue] == 0) {
-//        // 服装厂
-//        [buttonView.postButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    } else {
-//        // 配套工厂
-//        [buttonView.postButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    }
-
-    [buttonView.postButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
-
-    [buttonView.authenticationButton addTarget:self action:@selector(authClicked:) forControlEvents:UIControlEventTouchUpInside];
-    self.tableView.tableHeaderView = headerView;
 
 }
 
@@ -202,18 +204,17 @@
             // accessoryView 设置
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             // 设置字体
-            cell.textLabel.font = [UIFont boldSystemFontOfSize:13.0f];
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0f];
 
             UILabel*moreLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-2*cell.frame.size.height+10, 11, 45, 22)];
             moreLabel.text=@"更多";
             moreLabel.backgroundColor=self.homeItemModel.colorArray[indexPath.section % self.homeItemModel.colorArray.count];
-            moreLabel.font=[UIFont boldSystemFontOfSize:12.0f];
+            moreLabel.font=[UIFont boldSystemFontOfSize:13.0f];
             moreLabel.textColor=[UIColor whiteColor];
             moreLabel.textAlignment=NSTextAlignmentCenter;
             moreLabel.layer.cornerRadius=10.0f;
             moreLabel.layer.masksToBounds=YES;
             [cell addSubview:moreLabel];
-
 
         }
         
@@ -245,9 +246,7 @@
     return view;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSLog(@"%d",indexPath.section);
-//    NSLog(@"%d",self.homeItemModel.itemArray.count);
-//    NSLog(@"%@",self.homeItemModel.itemArray);
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == self.homeItemModel.itemArray.count) {
         // 编辑自定义项目

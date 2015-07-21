@@ -45,11 +45,11 @@
 
     UILabel*usernameLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 14, 40, 20)];
     usernameLable.text=@"账号";
-    usernameLable.font=[UIFont boldSystemFontOfSize:15];
+    usernameLable.font=[UIFont boldSystemFontOfSize:16];
     usernameLable.textColor=[UIColor blackColor];
     [TFView addSubview:usernameLable];
     
-    _usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(50, 5, kScreenW-90, 40)];
+    _usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(50, 5, kScreenW-80, 40)];
     _usernameTF.clearButtonMode=UITextFieldViewModeWhileEditing;
     _usernameTF.placeholder=@"请输入账号/手机号";
     _usernameTF.keyboardType = UIKeyboardTypeNumberPad;
@@ -57,11 +57,11 @@
     
     UILabel*passwordLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 63, 40, 20)];
     passwordLable.text=@"密码";
-    passwordLable.font=[UIFont boldSystemFontOfSize:15];
+    passwordLable.font=[UIFont boldSystemFontOfSize:16];
     passwordLable.textColor=[UIColor blackColor];
     [TFView addSubview:passwordLable];
     
-    _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(50, 55, kScreenW-90, 40)];
+    _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(50, 55, kScreenW-80, 40)];
     _passwordTF.clearButtonMode=UITextFieldViewModeWhileEditing;
     _passwordTF.secureTextEntry=YES;
     _passwordTF.placeholder=@"请输入您的密码";
@@ -125,7 +125,6 @@
                 UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"请您填写账号以及密码后登陆" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                 [alertView show];
             }else{
-                NSLog(@"%@=%@",_usernameTF.text,_passwordTF.text);
                 [HttpClient loginWithUsername:_usernameTF.text password:_passwordTF.text andBlock:^(int statusCode) {
                     NSLog(@"%d",statusCode);
                     switch (statusCode) {
@@ -159,6 +158,10 @@
             break;
         case 3:{
             NSLog(@"忘记密码");
+            ResetPasswordViewController*resetVC = [[ResetPasswordViewController alloc]init];
+            UINavigationController*resetNav = [[UINavigationController alloc]initWithRootViewController:resetVC];
+            resetNav.navigationBar.barStyle=UIBarStyleBlack;
+            [self presentViewController:resetNav animated:YES completion:nil];
         }
         default:
             break;

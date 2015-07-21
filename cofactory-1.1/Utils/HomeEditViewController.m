@@ -47,7 +47,7 @@
     [button addTarget:self action:@selector(savePreference:) forControlEvents:UIControlEventTouchUpInside];
     [footerView addSubview:button];
     self.tableView.tableFooterView = footerView;
-
+    
 }
 
 #pragma mark - Table view data source
@@ -87,7 +87,6 @@
         [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[indexPath.row]];
         [parameters addObject:@(indexPath.row)];
     }
-
 
     //更新MenuList  严重BUG  已修复
     MBProgressHUD *hud = [Tools createHUD];

@@ -62,7 +62,7 @@
             //btnTitleLabel.backgroundColor=[UIColor greenColor];
             btnTitleLabel.textColor=[UIColor blackColor];
             btnTitleLabel.textAlignment=NSTextAlignmentCenter;
-            btnTitleLabel.font=[UIFont boldSystemFontOfSize:13];
+            btnTitleLabel.font=[UIFont systemFontOfSize:13];
             [self addSubview:btnTitleLabel];
         }
     }

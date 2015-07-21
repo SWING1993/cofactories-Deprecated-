@@ -10,31 +10,31 @@
 	<string>cofactory-1.1</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>65641FC2AFDA0520F75D63B63E3BCA9171E4D6EF</key>
-		<string>https://git.coding.net/song104466/cofactory1.1.git</string>
+		<key>839D11C8AB14986D45CED414A52F5D7DD8182FCE</key>
+		<string>https://git.coding.net/song104466/Cofactory_1.1.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>cofactory-1.1.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>65641FC2AFDA0520F75D63B63E3BCA9171E4D6EF</key>
+		<key>839D11C8AB14986D45CED414A52F5D7DD8182FCE</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://git.coding.net/song104466/cofactory1.1.git</string>
+	<string>https://git.coding.net/song104466/Cofactory_1.1.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>65641FC2AFDA0520F75D63B63E3BCA9171E4D6EF</string>
+	<string>839D11C8AB14986D45CED414A52F5D7DD8182FCE</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>65641FC2AFDA0520F75D63B63E3BCA9171E4D6EF</string>
+			<string>839D11C8AB14986D45CED414A52F5D7DD8182FCE</string>
 			<key>IDESourceControlWCCName</key>
-			<string>%E8%81%9A%E5%B7%A5%E5%8E%82-1.1</string>
+			<string>Cofactory_1.1_</string>
 		</dict>
 	</array>
 </dict>

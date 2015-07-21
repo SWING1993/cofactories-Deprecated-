@@ -103,7 +103,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case 0:{
-//            cell.textLabel.text=@"修改密码";
             RevisePasswordViewController*reviseVC = [[RevisePasswordViewController alloc]init];
             [self.navigationController pushViewController:reviseVC animated:YES];
 
@@ -128,10 +127,7 @@
         default:
             break;
     }
-
-
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

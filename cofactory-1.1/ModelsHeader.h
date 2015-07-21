@@ -17,3 +17,6 @@
 #import "MessageModel.h"
 #import "OrderModel.h"
 #import "UserModel.h"
+
+
+#import "FactoryRangeModel.h"

@@ -12,22 +12,45 @@
 
 + (NSMutableArray *)RangeSizeWith:(NSString *)sizeString {
 
+
     NSMutableArray*mutableArray=[[NSMutableArray alloc]initWithCapacity:0];
 
-    NSArray*sizeArray=[sizeString componentsSeparatedByString:@"-"];
+    if ([sizeString rangeOfString:@"万件"].location !=NSNotFound) {
 
-    //最小值
-    NSString*firstSizeString = [sizeArray firstObject];
-    NSArray*firstArray=[firstSizeString componentsSeparatedByString:@"万件"];
-    NSString*sizeMin=[firstArray firstObject];
-    [mutableArray addObject:sizeMin];
+        NSArray*sizeArray=[sizeString componentsSeparatedByString:@"-"];
 
+        //最小值
+        NSString*firstSizeString = [sizeArray firstObject];
+        NSArray*firstArray=[firstSizeString componentsSeparatedByString:@"万件"];
+        NSString*min=[NSString stringWithFormat:@"%@0000",[firstArray firstObject]];
+        NSNumber*sizeMin = [[NSNumber alloc]initWithInteger:[min integerValue]];
+        [mutableArray addObject:sizeMin];
 
-    //最大值
-    NSString*lastSizeString = [sizeArray lastObject];
-    NSArray*lastArray=[lastSizeString componentsSeparatedByString:@"万件"];
-    NSString*sizeMax=[lastArray firstObject];
-    [mutableArray addObject:sizeMax];
+        //最大值
+        NSString*lastSizeString = [sizeArray lastObject];
+        NSArray*lastArray=[lastSizeString componentsSeparatedByString:@"万件"];
+        NSString*max=[NSString stringWithFormat:@"%@0000",[lastArray lastObject]];
+        NSNumber* sizeMax= [[NSNumber alloc]initWithInteger:[max integerValue]];
+        [mutableArray addObject:sizeMax];
+    }
+    if ([sizeString rangeOfString:@"人"].location !=NSNotFound) {
+
+        NSArray*sizeArray=[sizeString componentsSeparatedByString:@"-"];
+
+        //最小值
+        NSString*firstSizeString = [sizeArray firstObject];
+        NSArray*firstArray=[firstSizeString componentsSeparatedByString:@"人"];
+        NSString*min=[firstArray firstObject];
+        NSNumber*sizeMin = [[NSNumber alloc]initWithInteger:[min integerValue]];
+        [mutableArray addObject:sizeMin];
+
+        //最大值
+        NSString*lastSizeString = [sizeArray lastObject];
+        NSArray*lastArray=[lastSizeString componentsSeparatedByString:@"万件"];
+        NSString*max=[lastArray firstObject];
+        NSNumber* sizeMax= [[NSNumber alloc]initWithInteger:[max integerValue]];
+        [mutableArray addObject:sizeMax];
+    }
 
     return mutableArray;
 }

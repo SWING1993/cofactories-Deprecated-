@@ -39,19 +39,24 @@
 #define CellIdentifier @"Cell"
 
 #import "HttpClient.h"
+
 #import "Tools.h"
 
 #import "MobClick.h"
-#import "HttpClient.h"
+
 #import "UMessage.h"
+
 #import "MBProgressHUD.h"
+
 #import "UIButton+WebCache.h"
 
+#import "UIImageView+WebCache.h"
 
 //#import "UMFeedback.h"
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+
 
 //HomeVC
 #import "HomeViewController.h"
@@ -60,8 +65,14 @@
 #import "StatusViewController.h"//设置状态
 #import "SearchViewController.h"//找合作商
 #import "SetaddressViewController.h"//设置位置
+#import "ModifyFactoryNameViewController.h"//设置工厂名称
 
 
+
+
+//合作商
+#import "CooperationViewController.h"
+#import "CooperationInfoViewController.h"//合作商详情页
 
 
 //MeVC
@@ -69,17 +80,30 @@
 #import "SetViewController.h" //设置VC
 #import "RevisePasswordViewController.h"//修改密码
 #import "AboutViewController.h"//关于
+#import "ModifyNameViewController.h"//设置name
+#import "ModifyJobViewController.h"//设置job
+#import "SetaddressViewController.h"//工厂位置
+#import "SetMapViewController.h"//map
+#import "ModifySizeViewController.h"//修改公司size
+#import "ModifyServiceRangeViewController.h"//修改公司业务类型
+#import "PhotoViewController.h"//公司相册
+#import "UploadImageViewController.h"//上传图片
+#import "FavoriteViewController.h"//我的收藏
+#import "DescriptionViewController.h"//公司简介
 
 
 
 
 
-#import "CooperationViewController.h"
+
 #import "MessageViewController.h"
 
 
 //登录注册VC
 #import "LoginViewController.h"
 #import "RegisterViewController.h"
+#import "ResetPasswordViewController.h" //找回密码
+
+
 
 

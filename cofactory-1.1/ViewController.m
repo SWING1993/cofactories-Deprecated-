@@ -17,7 +17,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
 
     if (![HttpClient getToken]) {
         NSLog(@"未登录");
@@ -45,7 +44,7 @@
     [homeViewController setTitle:@"聚工厂"];
     homeNavigationController.navigationBar.barStyle=UIBarStyleBlack;
     homeNavigationController.tabBarItem.image =[UIImage imageNamed:@"tabHome"];
-    //homeNavigationController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabHomeSelected"];
+    homeNavigationController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabHomeSelected"];
 
 
 
@@ -55,16 +54,16 @@
     [cooperationViewController setTitle:@"合作商"];
     cooperationNavigationController.navigationBar.barStyle=UIBarStyleBlack;
     cooperationNavigationController.tabBarItem.image =[UIImage imageNamed:@"tabpat"];
-    //cooperationNavigationController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabpatSelected"];
+    cooperationNavigationController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabpatSelected"];
 
 
     // MessageViewController 初始化
     MessageViewController *messageViewController = [[MessageViewController alloc] init];
-    UINavigationController *messageNavigationCOntroller = [[UINavigationController alloc] initWithRootViewController:messageViewController];
+    UINavigationController *messageNavigationController = [[UINavigationController alloc] initWithRootViewController:messageViewController];
     [messageViewController setTitle:@"消息"];
-    messageNavigationCOntroller.navigationBar.barStyle=UIBarStyleBlack;
+    messageNavigationController.navigationBar.barStyle=UIBarStyleBlack;
     messageViewController.tabBarItem.image =[UIImage imageNamed:@"tabmes"];
-    //messageViewController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabmesSelected"];
+    messageViewController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabmesSelected"];
 
 
     // MeViewController 初始化
@@ -73,12 +72,12 @@
     [meViewController setTitle:@"我"];
     meNavigationController.navigationBar.barStyle=UIBarStyleBlack;
     meNavigationController.tabBarItem.image =[UIImage imageNamed:@"tabuser"];
-    //meNavigationController.tabBarItem.image =[UIImage imageNamed:@"tabuserSelected"];
+    meNavigationController.tabBarItem.selectedImage=[UIImage imageNamed:@"tabuserSelected"];
 
 
     // tabbarcontroller
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    tabBarController.viewControllers = @[homeNavigationController, cooperationNavigationController, messageNavigationCOntroller, meNavigationController];
+    tabBarController.viewControllers = @[homeNavigationController, cooperationNavigationController, messageNavigationController, meNavigationController];
     tabBarController.selectedIndex=0;
     //tabBarController.tabBar.tintColor=[UIColor colorWithRed:60.0/255 green:255.0/255 blue:109.0/255 alpha:1];
     AppDelegate *app =[UIApplication sharedApplication].delegate;

@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 聚工科技. All rights reserved.
 //
 #import "Header.h"
+#import "ModelsHeader.h"
 #import "RegisterViewController3.h"
 
 
@@ -17,7 +18,9 @@
     NSString*_servicePickerName;
 
     UITextField*_factoryNameTF;//公司名称
+
     UITextField*_factorySizeTF;//工厂规模
+
     UITextField*_factoryServiceRangeTF;//业务类型
 
 
@@ -46,25 +49,35 @@
 
     NSArray*serviceListArr=@[@[@"童装",@"成人装"],@[@"针织",@"梭织"]];
 
-    NSArray*cellListArr=@[@[@"10万件-30万件", @"30万件-50万件", @"50万件-100万件", @"100万件-200万件", @"200万件以上"],@[@"2人-4人", @"4人-10人", @"10人-20人", @"20人以上"],@[@"2人-4人", @"4人-10人"],@[@"2人-4人", @"4人-10人"]];
+    FactoryRangeModel*rangeModel = [[FactoryRangeModel alloc]init];
+
+//    NSArray*cellListArr=@[@[@"10万件-30万件", @"30万件-50万件", @"50万件-100万件", @"100万件-200万件", @"200万件以上"],@[@"2人-4人", @"4人-10人", @"10人-20人", @"20人以上"],@[@"2人-4人", @"4人-10人"],@[@"2人-4人", @"4人-10人"]];
 
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"]) {
         self.cellServicePickList=serviceListArr[0];
-        self.cellPickList=cellListArr[0];
+        self.cellPickList=rangeModel.allFactorySize[0];
     }
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"加工厂"]) {
         self.cellServicePickList=serviceListArr[1];
-        self.cellPickList=cellListArr[1];
+        self.cellPickList=rangeModel.allFactorySize[1];
     }
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"代裁厂"]) {
-        self.cellPickList=cellListArr[2];
+        self.cellPickList=rangeModel.allFactorySize[2];
     }
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"锁眼钉扣厂"]) {
-        self.cellPickList=cellListArr[3];
+        self.cellPickList=rangeModel.allFactorySize[3];
     }
-
     [self createUI];
 
+    //设置Btn
+    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回登录" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
+    self.navigationItem.rightBarButtonItem = setButton;
+
+}
+
+- (void)buttonClicked {
+    NSArray*navArr = self.navigationController.viewControllers;
+    [self.navigationController popToViewController:navArr[0] animated:YES];
 }
 
 -(void)createUI{
@@ -101,11 +114,10 @@
         [TFView addSubview:factorySizeLable];
 
         _factorySizeTF = [[UITextField alloc]initWithFrame:CGRectMake(50, 55, kScreenW-70, 40)];
-        _factorySizeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
         _factorySizeTF.placeholder=@"请选择公司规模";
         _factorySizeTF.inputView = [self fecthSizePicker];
         _factorySizeTF.inputAccessoryView = [self fecthToolbar];
-        _factorySizeTF.text = _sizePickerName;
+        _factorySizeTF.text = self.cellPickList[0];
         _factorySizeTF.delegate =self;
         [TFView addSubview:_factorySizeTF];
 
@@ -118,11 +130,10 @@
         [TFView addSubview:factoryServiceRangeLable];
 
         _factoryServiceRangeTF = [[UITextField alloc]initWithFrame:CGRectMake(50, 105, kScreenW-70, 40)];
-        _factoryServiceRangeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
         _factoryServiceRangeTF.placeholder=@"请选择公司业务类型";
         _factoryServiceRangeTF.inputView = [self fecthServicePicker];
         _factoryServiceRangeTF.inputAccessoryView = [self fecthServiceToolbar];
-        _factoryServiceRangeTF.text =_servicePickerName;
+        _factoryServiceRangeTF.text =self.cellServicePickList[0];
         _factoryServiceRangeTF.delegate =self;
         [TFView addSubview:_factoryServiceRangeTF];
 
@@ -130,7 +141,6 @@
         [registerBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
         registerBtn.layer.cornerRadius=5.0f;
         registerBtn.layer.masksToBounds=YES;
-//        registerBtn.alpha=0.9f;
         [registerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
         [registerBtn addTarget:self action:@selector(clickRegisterBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -165,7 +175,6 @@
         [TFView addSubview:passwordLable];
 
         _factorySizeTF = [[UITextField alloc]initWithFrame:CGRectMake(50, 55, kScreenW-70, 40)];
-        _factorySizeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
         _factorySizeTF.placeholder=@"请选择公司规模";
         _factorySizeTF.inputView = [self fecthSizePicker];
         _factorySizeTF.inputAccessoryView = [self fecthToolbar];
@@ -177,7 +186,6 @@
         [registerBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
         registerBtn.layer.cornerRadius=5.0f;
         registerBtn.layer.masksToBounds=YES;
-//        registerBtn.alpha=0.8f;
         [registerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
         [registerBtn addTarget:self action:@selector(clickRegisterBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -218,16 +226,9 @@
 
 -(void)ensure{
 
-//    if (_sizePickerName) {
-//        _factorySizeTF.text = _sizePickerName;
-//        _sizePickerName = nil;
-//    }
-    if (![_factorySizeTF.text isEqualToString:@""]) {
+    if (_sizePickerName) {
         _factorySizeTF.text = _sizePickerName;
-        _servicePickerName = nil;
-    }else{
-        _factorySizeTF.text = self.cellPickList[0];
-        _servicePickerName = nil;
+        _sizePickerName = nil;
     }
     [_factorySizeTF endEditing:YES];
 }
@@ -265,18 +266,10 @@
 
 -(void)serviceEnsure{
 
-//    if (_factoryServiceRangeTF) {
-//        _factoryServiceRangeTF.text = _servicePickerName;
-//        _servicePickerName = nil;
-//    }
-    if (![_factoryServiceRangeTF.text isEqualToString:@""]) {
+    if (_servicePickerName) {
         _factoryServiceRangeTF.text = _servicePickerName;
         _servicePickerName = nil;
-    }else{
-        _factoryServiceRangeTF.text = self.cellServicePickList[0];
-        _servicePickerName = nil;
     }
-
     [_factoryServiceRangeTF endEditing:YES];
 }
 
@@ -355,62 +348,55 @@
     //业务类型
     NSString*factoryServiceRange=_factoryServiceRangeTF.text;
 
-    NSNumber*sizeMin=[[NSNumber alloc]initWithInt:10];
-    NSNumber*sizeMax=[[NSNumber alloc]initWithInt:20];
+
+    NSNumber*sizeMin=[[Tools RangeSizeWith:_factorySizeTF.text] firstObject];
+    NSNumber*sizeMax=[[Tools RangeSizeWith:_factorySizeTF.text] lastObject];
+
+    NSLog(@"Size=(%@-%@)",sizeMin,sizeMax);
 
     if ([factoryName isEqualToString:@""]||[factoryServiceRange isEqualToString:@""]||[_factorySizeTF.text isEqualToString:@""]) {
 
         UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"请将公司信息填写完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alertView show];
     }else{
-
         //注册
-        NSLog(@"%@-%@-%d-%@-%@-%d-%f-%f-%@-%@",phone,password,factoryType,verifyCode,factoryAddress,factoryType,lon,lat,factoryName,factoryServiceRange);
-        [HttpClient registerWithUsername:phone password:password factoryType:factoryType verifyCode:verifyCode factoryName:factoryName lon:lat lat:lat factorySizeMin:sizeMin factorySizeMax:sizeMax factoryAddress:factoryAddress factoryServiceRange:factoryServiceRange andBlock:^(NSDictionary *responseDictionary) {
+//        NSLog(@"%@-%@-%d-%@-%@-%d-%f-%f-%@-%@",phone,password,factoryType,verifyCode,factoryAddress,factoryType,lon,lat,factoryName,factoryServiceRange);
+        [HttpClient registerWithUsername:phone password:password factoryType:factoryType verifyCode:verifyCode factoryName:factoryName lon:lon lat:lat factorySizeMin:[[Tools RangeSizeWith:_factorySizeTF.text] firstObject] factorySizeMax:[[Tools RangeSizeWith:_factorySizeTF.text] lastObject] factoryAddress:factoryAddress factoryServiceRange:factoryServiceRange andBlock:^(NSDictionary *responseDictionary) {
             NSString*message=responseDictionary[@"message"];
             UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             [alertView show];
         }];
 
     }
-
 }
 
 
 //注册成功 登录
 - (void)login{
-//    [HttpClient loginWithUsername:_usernameTF.text password:_passwordTF.text andBlock:^(int statusCode) {
-//        NSLog(@"%d",statusCode);
-//        switch (statusCode) {
-//            case 0:{
+    [HttpClient loginWithUsername:[[NSUserDefaults standardUserDefaults] objectForKey:@"phone"] password:[[NSUserDefaults standardUserDefaults] objectForKey:@"phone"] andBlock:^(int statusCode) {
+        NSLog(@"%d",statusCode);
+        switch (statusCode) {
+            case 0:{
 //                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"网络错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
 //                [alertView show];
-//            }
-//                break;
-//            case 200:{
+            }
+                break;
+            case 200:{
+                [ViewController goMain];
 //                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"登陆成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
 //                [alertView show];
-
-    //登录成功  删除用户的注册信息
-    //    NSDictionary *dictionary = [userDefaults dictionaryRepresentation];
-    //    for(NSString* key in [dictionary allKeys]){
-    //        [userDefaults removeObjectForKey:key];
-    //        [userDefaults synchronize];
-    //    }
-//            }
-//                break;
-//            case 400:{
+            }
+                break;
+            case 400:{
 //                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"用户名密码错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
 //                [alertView show];
-//            }
-//                break;
-//
-//            default:
-//                break;
-//        }
-//    }];
+            }
+                break;
 
-
+            default:
+                break;
+        }
+    }];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{

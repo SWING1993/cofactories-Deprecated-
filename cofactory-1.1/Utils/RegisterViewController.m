@@ -7,7 +7,6 @@
 //
 #import "Header.h"
 #import "RegisterViewController.h"
-#import "CodeViewController.h"
 #import "PasswordViewController.h"
 
 @interface RegisterViewController ()<UIAlertViewDelegate> {
@@ -59,7 +58,7 @@
     usernameLable.textColor=[UIColor blackColor];
     [TFView addSubview:usernameLable];
     
-    _usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 5, kScreenW-90, 40)];
+    _usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(60, 5, kScreenW-90, 40)];
     _usernameTF.clearButtonMode=UITextFieldViewModeWhileEditing;
     _usernameTF.keyboardType = UIKeyboardTypeNumberPad;
     _usernameTF.placeholder=@"请输入手机号";
@@ -71,7 +70,7 @@
     codeLable.textColor=[UIColor blackColor];
     [TFView addSubview:codeLable];
 
-    _authcodeTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 55, kScreenW-200, 40)];
+    _authcodeTF = [[UITextField alloc]initWithFrame:CGRectMake(60, 55, kScreenW-190, 40)];
     _authcodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
     _authcodeTF.keyboardType = UIKeyboardTypeNumberPad;
     _authcodeTF.placeholder=@"请输入验证码";
@@ -88,7 +87,6 @@
     [TFView addSubview:authcodeBtn];
 
     UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 220, kScreenW-20, 35)];
-//    nextBtn.alpha=0.8f;
     [nextBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
     nextBtn.layer.cornerRadius=5.0f;
     nextBtn.layer.masksToBounds=YES;

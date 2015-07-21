@@ -13,8 +13,9 @@
 
     UIButton*_beforeBtn;
     UILabel*_label;
-    NSString *_tmpPickerName;
     UITextField*_typeTF;
+    NSString *_tmpPickerName;
+
 }
 
 @property(nonatomic,retain)NSArray*cellPickList;
@@ -60,8 +61,7 @@
     [TFView addSubview:usernameLable];
     
     _typeTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 5, kScreenW-90, 40)];
-    _typeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-    _typeTF.text = _tmpPickerName;
+    _typeTF.text = self.cellPickList[0];
     _typeTF.placeholder=@"请选择工厂类型";
     _typeTF.inputView = [self fecthPicker];
     _typeTF.inputAccessoryView = [self fecthToolbar];
@@ -140,15 +140,12 @@
 }
 -(void)ensure{
 
-    if (![_typeTF.text isEqualToString:@""]) {
+    if (_tmpPickerName) {
         _typeTF.text = _tmpPickerName;
         _tmpPickerName = nil;
-    }else{
-        _typeTF.text = self.cellPickList[0];
-        _tmpPickerName = nil;
     }
-
     [_typeTF endEditing:YES];
+
 }
 -(void)cancel{
     

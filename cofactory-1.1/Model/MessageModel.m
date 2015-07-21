@@ -14,9 +14,15 @@
     self = [super init];
     if (self) {
         NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[dictionary objectForKey:@"time"] intValue]];
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"yyyy-MM-DD HH:mm:ss";// 年月日
-        _time = [dateFormatter stringFromDate:date];
+        NSDateFormatter *dateFormatter1 = [[NSDateFormatter alloc] init];
+        dateFormatter1.dateFormat = @"yyyy-MM-DD";// 年月日
+        _time1 = [dateFormatter1 stringFromDate:date];
+
+        NSDateFormatter *dateFormatter2 = [[NSDateFormatter alloc] init];
+        dateFormatter2.dateFormat = @"HH:mm:ss";// 年月日
+        _time2 = [dateFormatter2 stringFromDate:date];
+
+        _message=[dictionary objectForKey:@"message"];
     }
     return self;
 }

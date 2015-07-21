@@ -14,7 +14,6 @@
 //分割字符串
 + (NSMutableArray *)RangeSizeWith:(NSString *)sizeString;
 
-
 + (MBProgressHUD *)createHUD;
 
 @end

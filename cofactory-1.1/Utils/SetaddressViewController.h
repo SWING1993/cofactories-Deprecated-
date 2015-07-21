@@ -10,4 +10,6 @@
 
 @interface SetaddressViewController : UITableViewController
 
+@property (nonatomic,copy) NSString*placeholder;
+
 @end

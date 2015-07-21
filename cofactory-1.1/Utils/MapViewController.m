@@ -11,7 +11,7 @@
 #import "RegisterViewController3.h"
 #import <BaiduMapAPI/BMapKit.h>
 
-@interface MapViewController ()<BMKMapViewDelegate,BMKPoiSearchDelegate> {
+@interface MapViewController () <BMKMapViewDelegate,BMKPoiSearchDelegate> {
     BMKMapView *_mapView;
 }
 @property (nonatomic,assign)double longitude;
@@ -63,9 +63,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     _mapView.delegate = self;
+    _mapView.zoomLevel=14;
     BMKPointAnnotation *annotatioin = [[BMKPointAnnotation alloc] init];
     annotatioin.coordinate = self.centerLocation;
-    annotatioin.title = @"工厂位置";
+    annotatioin.title = @"公司位置";
     [_mapView addAnnotation:annotatioin];
 }
 
@@ -95,30 +96,10 @@
     [_mapView removeAnnotations:_mapView.annotations];
     BMKPointAnnotation *annotatioin = [[BMKPointAnnotation alloc] init];
     annotatioin.coordinate = self.centerLocation;
-    annotatioin.title = @"工厂位置";
+    annotatioin.title = @"公司位置";
     [_mapView addAnnotation:annotatioin];
 }
 
-//- (void)updateAddress:(id)sender {
-//    MBProgressHUD *hud = [Config createHUD];
-//    hud.labelText = @"正在更新地址...";
-//    [[HttpClient sharedInstance] updateFactoryProfile:@{@"factoryAddress": self.address, @"factoryLocation": [NSString stringWithFormat:@"%lf, %lf", self.centerLocation.longitude, self.centerLocation.latitude]} andBlock:^(int statusCode) {
-//        NSLog(@"%d", statusCode);
-//        if (statusCode == 200) {
-//            hud.labelText = @"地址更新成功";
-//            [hud hide:YES];
-//            [Config setForKey:kFactoryAddress andValue:self.address];
-//            [self.navigationController popToRootViewControllerAnimated:YES];
-//            return;
-//        }
-//        hud.labelText = @"更新地址失败";
-//        [hud hide:YES];
-//    }];
-//    //创建通知
-//    NSNotification *notification =[NSNotification notificationWithName:@"refreshAddress" object:nil userInfo:nil];
-//    //通过通知中心发送通知
-//    [[NSNotificationCenter defaultCenter] postNotification:notification];
-//}
 
 /*
 #pragma mark - Navigation

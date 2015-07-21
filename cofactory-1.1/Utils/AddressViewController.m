@@ -11,7 +11,7 @@
 #import "MapViewController.h"
 
 
-@interface AddressViewController ()<BMKGeoCodeSearchDelegate>{
+@interface AddressViewController () <BMKGeoCodeSearchDelegate>{
     UITextField*_addressTF;
     BMKGeoCodeSearch *_searcher;
 }
@@ -25,7 +25,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
     
-    self.title=@"工厂地址";
+    self.title=@"公司地址";
 
     // 初始化检索对象
     _searcher = [[BMKGeoCodeSearch alloc] init];
@@ -51,14 +51,14 @@
     
     
     UILabel*usernameLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 14, 60, 20)];
-    usernameLable.text=@"工厂地址";
-    usernameLable.font=[UIFont boldSystemFontOfSize:15];
+    usernameLable.text=@"公司地址";
+    usernameLable.font=[UIFont systemFontOfSize:15];
     usernameLable.textColor=[UIColor blackColor];
     [TFView addSubview:usernameLable];
     
     _addressTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 5, kScreenW-90, 40)];
     _addressTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-    _addressTF.placeholder=@"请输入工厂地址";
+    _addressTF.placeholder=@"请输入公司地址";
     [TFView addSubview:_addressTF];
     
     UIButton*mapBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 170, kScreenW-20, 35)];
@@ -67,7 +67,7 @@
     mapBtn.backgroundColor=[UIColor redColor];
     mapBtn.layer.cornerRadius=5.0f;
     mapBtn.layer.masksToBounds=YES;
-    [mapBtn setTitle:@"确定精确位置" forState:UIControlStateNormal];
+    [mapBtn setTitle:@"确定公司精确位置" forState:UIControlStateNormal];
     [mapBtn addTarget:self action:@selector(clickMapBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:mapBtn];
     

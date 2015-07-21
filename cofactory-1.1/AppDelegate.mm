@@ -72,9 +72,9 @@
         NSLog(@"百度地图SDK错误");
     }
     
-    
     return YES;
 }
+
 #if TARGET_IPHONE_SIMULATOR
 #else
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
