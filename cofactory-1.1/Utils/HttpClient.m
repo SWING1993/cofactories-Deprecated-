@@ -797,6 +797,7 @@
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"===%@", operation.responseString);
 
+            NSLog(@"%@",error);
             NSLog(@"======%d",[operation.response statusCode]);
             switch ([operation.response statusCode]) {
                 case 400:

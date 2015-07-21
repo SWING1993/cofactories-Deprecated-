@@ -12,8 +12,7 @@
 @interface RevisePasswordViewController (){
 
     UITextField*oldPasswordTF;
-    UITextField*passwordTF1;
-    UITextField*passwordTF2;
+    UITextField*passwordTF;
 
 }
 
@@ -35,28 +34,12 @@
     oldPasswordTF.placeholder=@"输入旧密码";
 
 
-    passwordTF1=[[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 44)];
-    passwordTF1.clearButtonMode=YES;
-    passwordTF1.secureTextEntry=YES;
-    passwordTF1.placeholder=@"6-16个字符，区分大小写";
+    passwordTF=[[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 44)];
+    passwordTF.clearButtonMode=YES;
+    passwordTF.secureTextEntry=YES;
+    passwordTF.placeholder=@"6-16个字符，区分大小写";
 
-    passwordTF2=[[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 44)];
-    passwordTF2.clearButtonMode=YES;
-    passwordTF2.secureTextEntry=YES;
-    passwordTF2.placeholder=@"请您再次输入密码";
-
-    UIButton* showBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-120, 225, 100, 30)];
-    showBtn.titleLabel.font=[UIFont boldSystemFontOfSize:13.0f];
-    [showBtn setImage:[UIImage imageNamed:@"select"] forState:UIControlStateNormal];
-    [showBtn setImage:[UIImage imageNamed:@"select_highlight"] forState:UIControlStateSelected];
-    [showBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [showBtn setTitle:@"显示密码" forState:UIControlStateNormal];
-    [showBtn setTitle:@"隐藏密码" forState:UIControlStateSelected];
-    [showBtn addTarget:self action:@selector(showPasswordBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView addSubview:showBtn];
-
-
-    UIButton*ReviseBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 270, kScreenW-40, 35)];
+    UIButton*ReviseBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 160, kScreenW-40, 35)];
     [ReviseBtn setTitle:@"确定" forState:UIControlStateNormal];
     [ReviseBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
     [ReviseBtn addTarget:self action:@selector(RevisePasswordBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -64,24 +47,35 @@
 
 }
 
-- (void)showPasswordBtn:(UIButton *)sender {
-    UIButton*button = (UIButton *)sender;
-    button.selected=!button.selected;
-    passwordTF1.secureTextEntry=!passwordTF1.secureTextEntry;
-    passwordTF2.secureTextEntry=!passwordTF2.secureTextEntry;
-}
-
 - (void)RevisePasswordBtn {
-    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"无接口，该功能暂不提供" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
 
-    [alertView show];
+    [HttpClient modifyPassword:oldPasswordTF.text newPassword:passwordTF.text andBlock:^(int statusCode) {
+        switch (statusCode) {
+            case 200:
+            {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"密码修改成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+
+            }
+                break;
+            case 403:
+            {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"旧密码错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }];
 
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -100,17 +94,12 @@
         }
             break;
         case 1:{
-            [cell addSubview:passwordTF1];
+            [cell addSubview:passwordTF];
 
 
         }
             break;
-        case 2:{
-            [cell addSubview:passwordTF2];
 
-
-        }
-            break;
         default:
             break;
     }
@@ -138,11 +127,6 @@
         case 1:
         {
             titleLabel.text=@"新密码";
-        }
-            break;
-        case 2:
-        {
-            titleLabel.text=@"确认新密码";
         }
             break;
 
