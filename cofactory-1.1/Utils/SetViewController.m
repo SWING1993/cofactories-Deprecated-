@@ -49,37 +49,38 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+        cell.textLabel.font=[UIFont systemFontOfSize:16];
+        cell.detailTextLabel.textColor=[UIColor blackColor];
+
+        switch (indexPath.section) {
+            case 0:{
+                cell.textLabel.text=@"修改密码";
+
+            }
+                break;
+            case 1:{
+                cell.textLabel.text=@"分享给好友";
+
+            }
+                break;
+            case 2:{
+                cell.textLabel.text=@"意见反馈";
+
+            }
+                break;
+            case 3:{
+                cell.textLabel.text=@"关于聚工厂";
+                
+            }
+                break;
+                
+            default:
+                break;
+        }
+
     }
-    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-    cell.textLabel.font=[UIFont systemFontOfSize:16];
-    cell.detailTextLabel.textColor=[UIColor blackColor];
-
-    switch (indexPath.section) {
-        case 0:{
-            cell.textLabel.text=@"修改密码";
-
-        }
-            break;
-        case 1:{
-            cell.textLabel.text=@"分享给好友";
-
-        }
-            break;
-        case 2:{
-            cell.textLabel.text=@"意见反馈";
-
-        }
-            break;
-        case 3:{
-            cell.textLabel.text=@"关于聚工厂";
-
-        }
-            break;
-
-        default:
-            break;
-    }
-    return cell;
+        return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

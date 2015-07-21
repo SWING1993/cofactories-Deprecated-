@@ -47,7 +47,7 @@
     }else{
         MBProgressHUD *hud = [Tools createHUD];
         hud.labelText = @"正在工厂名称";
-        [HttpClient updateFactoryProfileWithFactoryName:factoryNameTF.text factoryAddress:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryLon:nil factoryLat:nil factoryFree:nil andBlock:^(int statusCode) {
+        [HttpClient updateFactoryProfileWithFactoryName:factoryNameTF.text factoryAddress:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryLon:nil factoryLat:nil factoryFree:nil factoryDescription:nil andBlock:^(int statusCode) {
             if (statusCode == 200) {
                 hud.labelText = @"工厂名称修改成功";
                 [hud hide:YES];
@@ -56,6 +56,7 @@
                 hud.labelText = @"工厂名称修改失败";
                 [hud hide:YES];
             }
+
         }];
     }
 }

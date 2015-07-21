@@ -143,10 +143,11 @@
  @param factorySizeMax      工厂规模最大值(必须是最大值,且用 NSNumber 包装)
  @param factoryLon          工厂经度
  @param factoryLat          工厂纬度
+ @param factoryDescription  工厂描述
  @param factoryFree         工厂空闲状态(服装厂传nil,加工厂传yyyy-MM-DD字符串,代裁厂锁眼钉扣厂传NSNumber,关闭状态都传NSNumber对象)
  @param block               回调函数 会返回 0->(网络错误) 200->(更新成功) 400->(未登录) 401->(access_token过期或无效) 404->(access_token不存在)
  */
-+ (void)updateFactoryProfileWithFactoryName:(NSString *)factoryName factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryLon:(NSNumber *)factoryLon factoryLat:(NSNumber *)factoryLat factoryFree:(id)factoryFree andBlock:(void (^)(int statusCode))block;
++ (void)updateFactoryProfileWithFactoryName:(NSString *)factoryName factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryLon:(NSNumber *)factoryLon factoryLat:(NSNumber *)factoryLat factoryFree:(id)factoryFree factoryDescription:(NSString *)factoryDescription andBlock:(void (^)(int statusCode))block;
 /*!
  获取任意用户资料
 

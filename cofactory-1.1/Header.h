@@ -39,23 +39,19 @@
 #define CellIdentifier @"Cell"
 
 #import "HttpClient.h"
-
 #import "Tools.h"
-
 #import "MobClick.h"
-
 #import "UMessage.h"
-
 #import "MBProgressHUD.h"
-
 #import "UIButton+WebCache.h"
-
 #import "UIImageView+WebCache.h"
 
-//#import "UMFeedback.h"
 
+
+//#import "UMFeedback.h"
 #import "AppDelegate.h"
 #import "ViewController.h"
+
 
 
 //HomeVC
@@ -67,6 +63,7 @@
 #import "SetaddressViewController.h"//设置位置
 #import "ModifyFactoryNameViewController.h"//设置工厂名称
 
+#import "VeifyViewController.h"//认证
 
 
 
@@ -90,9 +87,6 @@
 #import "UploadImageViewController.h"//上传图片
 #import "FavoriteViewController.h"//我的收藏
 #import "DescriptionViewController.h"//公司简介
-
-
-
 
 
 

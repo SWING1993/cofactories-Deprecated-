@@ -50,7 +50,6 @@
             }
             [self addSubview:btn];
             
-            //UILabel*btnTitleLabel=[[UILabel alloc]initWithFrame:CGRectMake((frame.size.width-4*(frame.size.height))/5+i*(frame.size.height+(frame.size.width-4*(frame.size.height))/5), frame.size.height-20, frame.size.height, 20)];
             UILabel*btnTitleLabel=[[UILabel alloc]initWithFrame:CGRectMake(
                                                                            (frame.size.width-4*(frame.size.height-20))/5+i*(frame.size.height-20+(frame.size.width-4*(frame.size.height-20))/5),
                                                                            frame.size.height-20,

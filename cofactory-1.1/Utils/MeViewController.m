@@ -57,7 +57,6 @@
         int FinishedDegree = self.userModel.factoryFinishedDegree;
         infoLabel.text = [NSString stringWithFormat:@"信息完整度为%d%s",FinishedDegree,"%"];
 
-
         if (self.userModel.factoryType==GarmentFactory) {
             NSLog(@"---服装厂");
             self.sizeArray=rangeModel.allFactorySize[0];
@@ -242,9 +241,9 @@
     UITableViewCell*cell = [tableView cellForRowAtIndexPath:indexPath];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+
     }
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-//    cell.textLabel.font=[UIFont systemFontOfSize:16];
     cell.detailTextLabel.font=[UIFont systemFontOfSize:14.0f];
     cell.detailTextLabel.textColor=[UIColor blackColor];
 
@@ -281,7 +280,7 @@
 
             }
                 break;
-                
+
             default:
                 break;
         }
@@ -326,25 +325,27 @@
     }
     if (indexPath.section == 2) {
         [cell setAccessoryType:UITableViewCellAccessoryNone];
-        UILabel*titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 30)];
+        UILabel*titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
         titleLabel.text=@"公司简介";
+        //            titleLabel.backgroundColor=[UIColor redColor];
         titleLabel.textAlignment=NSTextAlignmentCenter;
-        titleLabel.font=[UIFont systemFontOfSize:18.0f];
+        titleLabel.font=[UIFont systemFontOfSize:16.0f];
         [cell addSubview:titleLabel];
 
-        UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 30, kScreenW-40, 50)];
+
+        UIFont*font=[UIFont systemFontOfSize:14];
+
+        CGSize size = [self.userModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
+        UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 30, kScreenW-40, size.height)];
         descriptionLabel.text=self.userModel.factoryDescription;
+        //            descriptionLabel.backgroundColor=[UIColor grayColor];
+        descriptionLabel.font=[UIFont systemFontOfSize:14.0f];
         descriptionLabel.numberOfLines=0;
         [cell addSubview:descriptionLabel];
-
-
-
     }
-
     [cell addSubview:cellLabel];
     [cell addSubview:cellImage];
-
-    return cell;
+        return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -373,7 +374,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     if (indexPath.section==2) {
-        return 100;
+
+        UIFont*font=[UIFont systemFontOfSize:14];
+
+        CGSize size = [self.userModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
+        return size.height+40;
     }else{
         return 44;
     }

@@ -47,6 +47,13 @@
 
 }
 
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+
+    [self.tableView endEditing:YES];
+}
+
+
 - (void)RevisePasswordBtn {
 
     [HttpClient modifyPassword:oldPasswordTF.text newPassword:passwordTF.text andBlock:^(int statusCode) {

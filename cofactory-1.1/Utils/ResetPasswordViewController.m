@@ -109,7 +109,7 @@
     nextBtn.layer.cornerRadius=5.0f;
     nextBtn.layer.masksToBounds=YES;
     [nextBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [nextBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [nextBtn setTitle:@"重置密码" forState:UIControlStateNormal];
     [nextBtn addTarget:self action:@selector(nextBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:nextBtn];
 
@@ -122,7 +122,36 @@
 - (void)nextBtn {
 
     [HttpClient postResetPasswordWithPhone:_usernameTF.text code:_codeTF.text password:_passwordTF.text andBlock:^(int statusCode) {
-        NSLog(@"%d",statusCode);
+        switch (statusCode) {
+            case 200:
+            {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"密码重置成功" message:nil
+                                                                 delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+
+            }
+                break;
+            case 400:
+            {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"没有这个用户" message:nil
+                                                                 delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+
+            }
+                break;
+            case 403:
+            {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"验证码错误" message:nil
+                                                                 delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+
+            }
+                break;
+
+                
+            default:
+                break;
+        }
     }];
     
 }

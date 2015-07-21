@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VeifyViewController : UIViewController
+@interface VeifyViewController : UITableViewController
 
 @end

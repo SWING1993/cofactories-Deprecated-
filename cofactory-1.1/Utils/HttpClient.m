@@ -379,7 +379,7 @@
     }
 }
 
-+ (void)updateFactoryProfileWithFactoryName:(NSString *)factoryName factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryLon:(NSNumber *)factoryLon factoryLat:(NSNumber *)factoryLat factoryFree:(NSString *)factoryFree andBlock:(void (^)(int))block {
++ (void)updateFactoryProfileWithFactoryName:(NSString *)factoryName factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryLon:(NSNumber *)factoryLon factoryLat:(NSNumber *)factoryLat factoryFree:(id)factoryFree factoryDescription:(NSString *)factoryDescription andBlock:(void (^)(int statusCode))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
@@ -389,6 +389,8 @@
         NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:7];
         if (factoryName)
             [mutableDictionary setObject:factoryName forKey:@"factoryName"];
+        if (factoryDescription)
+            [mutableDictionary setObject:factoryDescription forKey:@"factoryDescription"];
         if (factoryAddress)
             [mutableDictionary setObject:factoryAddress forKey:@"factoryAddress"];
         if (factoryServiceRange)

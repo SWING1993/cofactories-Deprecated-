@@ -33,7 +33,9 @@
 
 @end
 
-@implementation HomeViewController
+@implementation HomeViewController {
+    int status;
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -44,6 +46,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+    //认证信息
+    [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
+        NSLog(@"认证字典%@",dictionary);
+        status = [dictionary[@"status"] intValue];
+    }];
+
+
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 
@@ -78,11 +88,7 @@
     [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
     [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
 
-    [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
-        NSLog(@"%@",dictionary);
-        NSLog(@"认证信息%@",dictionary[@"message"]);
-    }];
-//    if ([[Config getUserType] intValue] == 0) {
+    //    if ([[Config getUserType] intValue] == 0) {
 //        // 服装厂
 //        [buttonView.postButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
 //    } else {
@@ -90,9 +96,9 @@
 //        [buttonView.postButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
 //    }
 
-    [buttonView.postButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [buttonView.postButton addTarget:self action:@selector(authClicked:) forControlEvents:UIControlEventTouchUpInside];
 
-    [buttonView.authenticationButton addTarget:self action:@selector(authClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
     self.tableView.tableHeaderView = headerView;
 
 }
@@ -107,7 +113,7 @@
         UserModel*userModel=responseDictionary[@"model"];
         switch (userModel.factoryType) {
             case 0:{
-                NSLog(@"服装厂");
+                //服装厂
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[5]];
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[6]];
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[7]];
@@ -116,7 +122,7 @@
             }
                 break;
             case 1:{
-                NSLog(@"加工厂");
+                //加工厂
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[5]];
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[6]];
@@ -126,7 +132,7 @@
             }
                 break;
             case 2:{
-                NSLog(@"代裁厂");
+                //代裁厂
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[6]];
                 [self.tableView reloadData];
@@ -135,7 +141,7 @@
             }
                 break;
             case 3:{
-                NSLog(@"锁眼钉扣厂");
+                //锁眼钉扣厂
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[7]];
                 [self.tableView reloadData];
@@ -163,15 +169,21 @@
     [self.navigationController pushViewController:searchViewController animated:YES];
 }
 - (void)postClicked:(id)sender {
-}
-- (void)statusClicked:(id)sender {
 
+}
+
+- (void)authClicked:(id)sender {
     StatusViewController*statusVC = [[StatusViewController alloc]init];
     statusVC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:statusVC animated:YES];
+    
 }
-- (void)authClicked:(id)sender {
+- (void)statusClicked:(id)sender {
+    VeifyViewController*veifyVC = [[VeifyViewController alloc]init];
+    veifyVC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:veifyVC animated:YES];
 }
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -185,12 +197,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == self.homeItemModel.itemArray.count) {
         HomeFooterCell *cell = [tableView dequeueReusableCellWithIdentifier:FooterCellIdentifier];
-        
         if (!cell) {
             NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HomeFooterCell" owner:nil options:nil];
             cell = [nib objectAtIndex:0];
         }
-        
         return cell;
     } else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -234,7 +244,6 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     CGSize size = [[UIScreen mainScreen] bounds].size;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, kRowInset)];
-    //view.backgroundColor = [UIColor colorWithHex:0xf0efea];
     
     return view;
 }
@@ -246,7 +255,6 @@
     return view;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == self.homeItemModel.itemArray.count) {
         // 编辑自定义项目

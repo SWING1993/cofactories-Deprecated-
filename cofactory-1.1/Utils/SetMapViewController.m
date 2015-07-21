@@ -57,7 +57,7 @@
 
     MBProgressHUD *hud = [Tools createHUD];
     hud.labelText = @"正在修改公司位置";
-    [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:self.addressStr factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryLon:lon factoryLat:lat factoryFree:nil andBlock:^(int statusCode) {
+    [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:self.addressStr factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryLon:lon factoryLat:lat factoryFree:nil  factoryDescription:nil andBlock:^(int statusCode) {
         if (statusCode == 200) {
             hud.labelText = @"公司位置修改成功";
             [hud hide:YES];

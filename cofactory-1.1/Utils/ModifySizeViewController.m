@@ -53,7 +53,7 @@
         MBProgressHUD *hud = [Tools createHUD];
         hud.labelText = @"正在修改";
 
-        [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:[[Tools RangeSizeWith:SizeTF.text] firstObject] factorySizeMax:[[Tools RangeSizeWith:SizeTF.text] lastObject] factoryLon:nil factoryLat:nil factoryFree:nil andBlock:^(int statusCode) {
+        [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:[[Tools RangeSizeWith:SizeTF.text] firstObject] factorySizeMax:[[Tools RangeSizeWith:SizeTF.text] lastObject] factoryLon:nil factoryLat:nil factoryFree:nil  factoryDescription:nil andBlock:^(int statusCode) {
             if (statusCode == 200) {
                 hud.labelText = @"修改成功";
                 [hud hide:YES];
