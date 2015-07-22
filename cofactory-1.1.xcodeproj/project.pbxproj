@@ -16,6 +16,8 @@
 		0479EAE91B5A8F61007FE48E /* CooperationInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0479EAE81B5A8F61007FE48E /* CooperationInfoViewController.m */; };
 		04A20C321B5F3317001AADE9 /* VeifyingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A20C311B5F3317001AADE9 /* VeifyingViewController.m */; };
 		04A20C351B5F332C001AADE9 /* VeifyEndViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A20C341B5F332C001AADE9 /* VeifyEndViewController.m */; };
+		04A20C3A1B5F4C73001AADE9 /* FactoryListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A20C371B5F4C73001AADE9 /* FactoryListTableViewCell.m */; };
+		04A20C3B1B5F4C73001AADE9 /* FactoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A20C391B5F4C73001AADE9 /* FactoryListViewController.m */; };
 		04AE21861B535ABC007A3279 /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AE21851B535ABC007A3279 /* Tools.m */; };
 		04C28A1D1B58AC20005014E5 /* ModifyNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C28A1C1B58AC20005014E5 /* ModifyNameViewController.m */; };
 		04D462E81B5CD21000B9B4D8 /* ResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D462E71B5CD21000B9B4D8 /* ResetPasswordViewController.m */; };
@@ -154,6 +156,10 @@
 		04A20C311B5F3317001AADE9 /* VeifyingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VeifyingViewController.m; sourceTree = "<group>"; };
 		04A20C331B5F332C001AADE9 /* VeifyEndViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VeifyEndViewController.h; sourceTree = "<group>"; };
 		04A20C341B5F332C001AADE9 /* VeifyEndViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VeifyEndViewController.m; sourceTree = "<group>"; };
+		04A20C361B5F4C73001AADE9 /* FactoryListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactoryListTableViewCell.h; sourceTree = "<group>"; };
+		04A20C371B5F4C73001AADE9 /* FactoryListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoryListTableViewCell.m; sourceTree = "<group>"; };
+		04A20C381B5F4C73001AADE9 /* FactoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactoryListViewController.h; sourceTree = "<group>"; };
+		04A20C391B5F4C73001AADE9 /* FactoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoryListViewController.m; sourceTree = "<group>"; };
 		04AE21841B535ABC007A3279 /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
 		04AE21851B535ABC007A3279 /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tools.m; sourceTree = "<group>"; };
 		04C28A1B1B58AC20005014E5 /* ModifyNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyNameViewController.h; sourceTree = "<group>"; };
@@ -580,6 +586,10 @@
 		0451D64D1B574A1B007CCD59 /* 找合作商 */ = {
 			isa = PBXGroup;
 			children = (
+				04A20C381B5F4C73001AADE9 /* FactoryListViewController.h */,
+				04A20C391B5F4C73001AADE9 /* FactoryListViewController.m */,
+				04A20C361B5F4C73001AADE9 /* FactoryListTableViewCell.h */,
+				04A20C371B5F4C73001AADE9 /* FactoryListTableViewCell.m */,
 			);
 			name = "找合作商";
 			sourceTree = "<group>";
@@ -1457,6 +1467,7 @@
 				BD4311CF1B4F41DE0097E4BC /* MessageViewController.m in Sources */,
 				BDC908E61B4E9B3700856A32 /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				04AE21861B535ABC007A3279 /* Tools.m in Sources */,
+				04A20C3B1B5F4C73001AADE9 /* FactoryListViewController.m in Sources */,
 				04D7D0271B5A15870054861E /* PhotoViewController.m in Sources */,
 				BDC908D71B4E9B3700856A32 /* AFNetworkReachabilityManager.m in Sources */,
 				BD8AD7EB1B50E62600373E5E /* SDWebImageDownloader.m in Sources */,
@@ -1477,6 +1488,7 @@
 				BD8AD7F51B50E62600373E5E /* UIView+WebCacheOperation.m in Sources */,
 				BDC908F21B4E9B3800856A32 /* UpYun.m in Sources */,
 				BD8AD7E81B50E62600373E5E /* SDImageCache.m in Sources */,
+				04A20C3A1B5F4C73001AADE9 /* FactoryListTableViewCell.m in Sources */,
 				BD8AD7E61B50E62600373E5E /* MKAnnotationView+WebCache.m in Sources */,
 				04D462EC1B5D14CC00B9B4D8 /* VeifyViewController.m in Sources */,
 				BD7A51D01B4F8478001ACDE3 /* RegisterViewController3.m in Sources */,

@@ -157,9 +157,10 @@
     [self.navigationController pushViewController:pushHelerVC animated:YES];
 }
 - (void)findClicked:(id)sender {
-//    SearchViewController *searchViewController = [[SearchViewController alloc] initWithStyle:UITableViewStylePlain];
-//    searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-//    [self.navigationController pushViewController:searchViewController animated:YES];
+    FactoryListViewController *factoryListVC= [[FactoryListViewController alloc]init];
+    factoryListVC.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+    factoryListVC.factoryType = 10;
+    [self.navigationController pushViewController:factoryListVC animated:YES];
 }
 - (void)postClicked:(id)sender {
 
@@ -276,9 +277,103 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == self.homeItemModel.itemArray.count) {
+    if (indexPath.section != self.homeItemModel.itemArray.count) {
+        NSInteger index = [self.homeItemModel.allItemArray indexOfObject:self.homeItemModel.itemArray[indexPath.section]];
+        switch (index) {
+            case 0:
+            {
+                // 各类营销活动
+
+                /*
+                 ActivityViewController *webViewController = [[ActivityViewController alloc] init];
+                 UINavigationController *webNavigationController = [[UINavigationController alloc] initWithRootViewController:webViewController];
+                 webViewController.url = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/activity/draw.html#%@", [HttpClient getAccessToken]];
+                 webViewController.hidesBottomBarWhenPushed = YES;
+                 [self.navigationController pushViewController:webNavigationController animated:YES];
+                 */
+            }
+                break;
+            case 1:
+            {
+                // 找服装厂外发加工订单
+                /*  OrderListViewController *orderDetailViewController =[[OrderListViewController alloc] initWithStyle:UITableViewStyleGrouped];
+                 orderDetailViewController.orderListIndex = 4;
+                 orderDetailViewController.title = @"外发加工";
+                 orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+                 [self.navigationController pushViewController:orderDetailViewController animated:YES];
+                 */
+
+            }
+                break;
+            case 2:{
+                // 找服装厂外发代裁订单
+                /*
+                 OrderListViewController *orderDetailViewController =[[OrderListViewController alloc] initWithStyle:UITableViewStyleGrouped];
+                 orderDetailViewController.orderListIndex = 5;
+                 orderDetailViewController.title = @"外发代裁";
+                 orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+                 [self.navigationController pushViewController:orderDetailViewController animated:YES];
+                 */
+            }
+                break;
+            case 3:{
+                // 找服装厂外发锁眼钉扣订单
+                /*
+                 OrderListViewController *orderDetailViewController =[[OrderListViewController alloc] initWithStyle:UITableViewStyleGrouped];
+                 orderDetailViewController.orderListIndex = 6;
+                 orderDetailViewController.title = @"外发锁眼钉扣";
+                 orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+                 [self.navigationController pushViewController:orderDetailViewController animated:YES];
+                 */
+            }
+                break;
+            case 4:
+            {
+                // 找服装厂信息
+                FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
+                searchViewController.factoryType = 0;
+                searchViewController.currentData1Index = 1;
+                searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+                [self.navigationController pushViewController:searchViewController animated:YES];
+            }
+                break;
+            case 5:
+            {
+                // 找加工厂信息
+                FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
+                searchViewController.factoryType = 1;
+                searchViewController.currentData1Index = 2;
+                searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+                [self.navigationController pushViewController:searchViewController animated:YES];
+            }
+                break;
+            case 6:
+            {
+                // 找代裁厂信息
+                FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
+                searchViewController.factoryType = 2;
+                searchViewController.currentData1Index = 3;
+                searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+                [self.navigationController pushViewController:searchViewController animated:YES];
+            }
+                break;
+            case 7:
+            {
+                // 找锁眼钉扣厂信息
+                FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
+                searchViewController.factoryType = 3;
+                searchViewController.currentData1Index = 4;
+                searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+                [self.navigationController pushViewController:searchViewController animated:YES];
+            }
+                break;
+
+            default:
+                break;
+        }
+    } else {
         // 编辑自定义项目
-        HomeEditViewController *homeEditViewController = [[HomeEditViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        HomeEditViewController *homeEditViewController = [[HomeEditViewController alloc] initWithStyle:UITableViewStylePlain];
         homeEditViewController.homeItemModel = self.homeItemModel;
         homeEditViewController.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:homeEditViewController animated:YES];
