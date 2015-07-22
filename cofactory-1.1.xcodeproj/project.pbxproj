@@ -827,10 +827,10 @@
 				BD4311C81B4F41DE0097E4BC /* HomeViewController.m */,
 				BD8AD8011B5102C200373E5E /* HomeEditViewController.h */,
 				BD8AD8021B5102C200373E5E /* HomeEditViewController.m */,
-				04D462E91B5D14B600B9B4D8 /* 认证 */,
 				0404F5461B54FE1B00B7004B /* 推送助手 */,
 				0451D64D1B574A1B007CCD59 /* 找合作商 */,
 				04DE27831B55F86E0008DEED /* 设置状态 */,
+				04D462E91B5D14B600B9B4D8 /* 认证 */,
 			);
 			name = Home;
 			sourceTree = "<group>";

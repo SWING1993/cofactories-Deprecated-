@@ -52,8 +52,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    cell.textLabel.font=[UIFont systemFontOfSize:14.0f];
-    cell.detailTextLabel.font=[UIFont systemFontOfSize:14.0f];
+    cell.textLabel.font=[UIFont systemFontOfSize:15.0f];
+    cell.detailTextLabel.font=[UIFont systemFontOfSize:15.0f];
     cell.detailTextLabel.textColor=[UIColor blackColor];
     switch (indexPath.section) {
         case 0:

@@ -10,4 +10,6 @@
 
 @interface CooperationInfoViewController : UITableViewController
 
+@property (nonatomic,retain) FactoryModel *factoryModel;
+
 @end

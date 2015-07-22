@@ -45,35 +45,35 @@
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
 
 
+    [HttpClient getUserProfileWithUid:@"14" andBlock:^(NSDictionary *responseDictionary) {
+        NSLog(@"---%@",responseDictionary);
 
-    // 表头视图
+    }];
+      // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight)];
 
     UIImageView*BGImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight-50)];
     BGImage.image=[UIImage imageNamed:@"bb"];
     headerView.backgroundColor=[UIColor whiteColor];
     [headerView addSubview:BGImage];
+
+
     UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, kBannerHeight-80, 60, 60)];
     headerImage.backgroundColor=[UIColor blueColor];
     headerImage.layer.cornerRadius=60/2.0f;
     headerImage.layer.masksToBounds=YES;
+    NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",self.factoryModel.uid];
+    [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
+    [headerView addSubview:headerImage];
+
 
 
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, kBannerHeight-45, kScreenW-100, 20)];
     factoryNameLabel.font=[UIFont boldSystemFontOfSize:18];
+    factoryNameLabel.text=self.factoryModel.factoryName;
+    [headerView addSubview:factoryNameLabel];
 
-    //初始化用户model
-    self.userModel=[[UserModel alloc]init];
-    [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
-        self.userModel=responseDictionary[@"model"];
-        NSLog(@"%@",self.userModel);
-        factoryNameLabel.text=self.userModel.factoryName;
-        [headerView addSubview:factoryNameLabel];
-        [self.tableView reloadData];
 
-        [headerImage sd_setImageWithURL:[NSURL URLWithString:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/14"] placeholderImage:[UIImage imageNamed:@"消息头像"]];
-        [headerView addSubview:headerImage];
-    }];
 
     infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-140, kBannerHeight-25, 130, 20)];
     infoLabel.font=[UIFont boldSystemFontOfSize:15.0f];

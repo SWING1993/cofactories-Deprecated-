@@ -163,9 +163,9 @@
     FactoryListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
     FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
-    //    NSLog(@">>>>>????%d",factoryModel.factoryType);
-    
-    NSString *imageUrlString = @"";
+
+    NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",factoryModel.uid];
+
     [cell.companyImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
     
     
@@ -229,6 +229,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // 找cell
+    FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
+    CooperationInfoViewController*cooperationInfoVC = [[CooperationInfoViewController alloc]init];
+    cooperationInfoVC.factoryModel=factoryModel;
+    cooperationInfoVC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:cooperationInfoVC animated:YES];
 
 }
 
