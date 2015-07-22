@@ -44,10 +44,8 @@
     if (self.factoryType==10)
     {
         [HttpClient searchWithFactoryName:nil factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil andBlock:^(NSDictionary *responseDictionary) {
-            
             self.factoryModelArray = nil;
             self.factoryModelArray = responseDictionary[@"responseArray"];
-            // NSLog(@"++++++=====%@",self.factoryModelArray);
             [_tableView reloadData];
         }];
     }
@@ -57,7 +55,6 @@
             
             self.factoryModelArray = nil;
             self.factoryModelArray = responseDictionary[@"responseArray"];
-            // NSLog(@"++++++=====%@",self.factoryModelArray);
             [_tableView reloadData];
         }];
 
@@ -166,14 +163,10 @@
     FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
 
     NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",factoryModel.uid];
-
     [cell.companyImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
-    
-    
+
     cell.companyNameLB.text = factoryModel.factoryName;
     cell.companyLocationLB.text = factoryModel.factoryAddress;
-    
-    
     
     switch (factoryModel.factoryType) {
         case 0:
@@ -235,7 +228,6 @@
     cooperationInfoVC.factoryModel=factoryModel;
     cooperationInfoVC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:cooperationInfoVC animated:YES];
-
 }
 
 /*

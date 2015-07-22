@@ -18,6 +18,7 @@
 		04A20C351B5F332C001AADE9 /* VeifyEndViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A20C341B5F332C001AADE9 /* VeifyEndViewController.m */; };
 		04A20C3A1B5F4C73001AADE9 /* FactoryListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A20C371B5F4C73001AADE9 /* FactoryListTableViewCell.m */; };
 		04A20C3B1B5F4C73001AADE9 /* FactoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A20C391B5F4C73001AADE9 /* FactoryListViewController.m */; };
+		04A20C3E1B5FBDB7001AADE9 /* PushOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A20C3D1B5FBDB7001AADE9 /* PushOrderViewController.m */; };
 		04AE21861B535ABC007A3279 /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AE21851B535ABC007A3279 /* Tools.m */; };
 		04C28A1D1B58AC20005014E5 /* ModifyNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C28A1C1B58AC20005014E5 /* ModifyNameViewController.m */; };
 		04D462E81B5CD21000B9B4D8 /* ResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D462E71B5CD21000B9B4D8 /* ResetPasswordViewController.m */; };
@@ -160,6 +161,8 @@
 		04A20C371B5F4C73001AADE9 /* FactoryListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoryListTableViewCell.m; sourceTree = "<group>"; };
 		04A20C381B5F4C73001AADE9 /* FactoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactoryListViewController.h; sourceTree = "<group>"; };
 		04A20C391B5F4C73001AADE9 /* FactoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoryListViewController.m; sourceTree = "<group>"; };
+		04A20C3C1B5FBDB7001AADE9 /* PushOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushOrderViewController.h; sourceTree = "<group>"; };
+		04A20C3D1B5FBDB7001AADE9 /* PushOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushOrderViewController.m; sourceTree = "<group>"; };
 		04AE21841B535ABC007A3279 /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
 		04AE21851B535ABC007A3279 /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tools.m; sourceTree = "<group>"; };
 		04C28A1B1B58AC20005014E5 /* ModifyNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyNameViewController.h; sourceTree = "<group>"; };
@@ -686,13 +689,15 @@
 			name = "修改公司简介";
 			sourceTree = "<group>";
 		};
-		04DE27831B55F86E0008DEED /* 设置状态 */ = {
+		04DE27831B55F86E0008DEED /* 订单 */ = {
 			isa = PBXGroup;
 			children = (
 				04DE27841B55F8D20008DEED /* StatusViewController.h */,
 				04DE27851B55F8D20008DEED /* StatusViewController.m */,
+				04A20C3C1B5FBDB7001AADE9 /* PushOrderViewController.h */,
+				04A20C3D1B5FBDB7001AADE9 /* PushOrderViewController.m */,
 			);
-			name = "设置状态";
+			name = "订单";
 			sourceTree = "<group>";
 		};
 		04E81EED1B57F71A00B7CE7B /* 修改地址 */ = {
@@ -829,7 +834,7 @@
 				BD8AD8021B5102C200373E5E /* HomeEditViewController.m */,
 				0404F5461B54FE1B00B7004B /* 推送助手 */,
 				0451D64D1B574A1B007CCD59 /* 找合作商 */,
-				04DE27831B55F86E0008DEED /* 设置状态 */,
+				04DE27831B55F86E0008DEED /* 订单 */,
 				04D462E91B5D14B600B9B4D8 /* 认证 */,
 			);
 			name = Home;
@@ -1514,6 +1519,7 @@
 				BD8AD7F41B50E62600373E5E /* UIImageView+WebCache.m in Sources */,
 				BDC908FC1B4E9B6B00856A32 /* FactoryModel.m in Sources */,
 				04F60C701B58EF8D00CD3DEC /* ModifySizeViewController.m in Sources */,
+				04A20C3E1B5FBDB7001AADE9 /* PushOrderViewController.m in Sources */,
 				BDC908E91B4E9B3700856A32 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				BD8AD7BD1B50E27C00373E5E /* PushHelperItemModel.m in Sources */,
 				BD8AD7F21B50E62600373E5E /* UIImage+WebP.m in Sources */,

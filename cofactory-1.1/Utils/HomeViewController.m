@@ -88,7 +88,7 @@
 //        [buttonView.postButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
 //    }
 
-    [buttonView.postButton addTarget:self action:@selector(authClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [buttonView.postButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
 
     [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
     self.tableView.tableHeaderView = headerView;
@@ -162,6 +162,10 @@
     [self.navigationController pushViewController:factoryListVC animated:YES];
 }
 - (void)postClicked:(id)sender {
+
+    PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
+    pushOrderVC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:pushOrderVC animated:YES];
 
 }
 
