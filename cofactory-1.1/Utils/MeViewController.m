@@ -123,7 +123,6 @@
     self.userModel=[[UserModel alloc]init];
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         self.userModel=responseDictionary[@"model"];
-        NSLog(@"%@",self.userModel);
         factoryNameLabel.text=self.userModel.factoryName;
         [headerView addSubview:factoryNameLabel];
         [self.tableView reloadData];
@@ -365,9 +364,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    CGSize size = [[UIScreen mainScreen] bounds].size;
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, 0.01f)];
-    //view.backgroundColor = [UIColor colorWithHex:0xf0efea];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.01f)];
     return view;
 }
 

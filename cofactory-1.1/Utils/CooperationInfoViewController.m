@@ -11,8 +11,6 @@
 
 @interface CooperationInfoViewController ()
 
-//用户模型
-@property (nonatomic, strong) UserModel*userModel;
 
 //公司规模数组
 @property(nonatomic,retain)NSArray*sizeArray;
@@ -44,11 +42,8 @@
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
 
+    NSLog(@"%d",self.factoryModel.authStatus);
 
-    [HttpClient getUserProfileWithUid:@"14" andBlock:^(NSDictionary *responseDictionary) {
-        NSLog(@"---%@",responseDictionary);
-
-    }];
       // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight)];
 
@@ -97,6 +92,31 @@
 - (void)favoriteBtn {
 
     NSLog(@"添加收藏");
+    NSString * Uid = [NSString stringWithFormat:@"%d",self.factoryModel.uid];
+    [HttpClient addFavoriteWithUid:Uid andBlock:^(int statusCode) {
+        switch (statusCode) {
+            case 201:
+            {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"收藏成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+                break;
+            case 400:
+            {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"未登录" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+                break;
+            case 401:
+            {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"收藏失败需要重新登录" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+                break;
+                
+            default:
+                break;
+        }    }];
 
 }
 
@@ -113,7 +133,7 @@
     if (section==1) {
         return 5;
     }else{
-        if (self.userModel.factoryType==GarmentFactory||self.userModel.factoryType==ProcessingFactory) {
+        if (self.factoryModel.factoryType==GarmentFactory||self.factoryModel.factoryType==ProcessingFactory) {
             return 1;
         }else{
             return 1;
@@ -165,30 +185,30 @@
             switch (indexPath.row) {
                 case 0:{
                     cellLabel.text=@"公司名称";
-                    cell.detailTextLabel.text=self.userModel.factoryName;
+                    cell.detailTextLabel.text=self.factoryModel.factoryName;
 
                 }
                     break;
                 case 1:{
                     cellLabel.text=@"公司地址";
-                    cell.detailTextLabel.text=self.userModel.factoryAddress;
+                    cell.detailTextLabel.text=self.factoryModel.factoryAddress;
 
                 }
                     break;
                 case 2:{
                     cellLabel.text=@"公司规模";
-                    cell.detailTextLabel.text=self.userModel.factorySize;
+                    cell.detailTextLabel.text=self.factoryModel.factorySize;
 
                 }
                     break;
                 case 3:{
                     cellLabel.text=@"业务类型";
-                    cell.detailTextLabel.text=self.userModel.factoryServiceRange;
+                    cell.detailTextLabel.text=self.factoryModel.factoryServiceRange;
                 }
                     break;
                 case 4:{
                     cellLabel.text=@"公司电话";
-                    cell.detailTextLabel.text=self.userModel.phone;
+                    cell.detailTextLabel.text=self.factoryModel.phone;
                 }
                     break;
 
@@ -214,18 +234,22 @@
             }
         }
         if (indexPath.section == 3) {
+
             [cell setAccessoryType:UITableViewCellAccessoryNone];
-            UILabel*titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 30)];
+            UILabel*titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
             titleLabel.text=@"公司简介";
+            //            titleLabel.backgroundColor=[UIColor redColor];
             titleLabel.textAlignment=NSTextAlignmentCenter;
-            titleLabel.font=[UIFont systemFontOfSize:18.0f];
+            titleLabel.font=[UIFont systemFontOfSize:16.0f];
             [cell addSubview:titleLabel];
-            
-            UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 30, kScreenW-40, 50)];
-            descriptionLabel.text=self.userModel.factoryDescription;
+
+            UIFont*font=[UIFont systemFontOfSize:14];
+            CGSize size = [self.factoryModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
+            UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 30, kScreenW-40, size.height)];
+            descriptionLabel.text=self.factoryModel.factoryDescription;
+            descriptionLabel.font=[UIFont systemFontOfSize:14.0f];
             descriptionLabel.numberOfLines=0;
             [cell addSubview:descriptionLabel];
-            
         }
         
         [cell addSubview:cellLabel];
@@ -251,7 +275,9 @@
         return 65;
     }
     if (indexPath.section==3) {
-        return 100;
+        UIFont*font=[UIFont systemFontOfSize:14];
+        CGSize size = [self.factoryModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
+        return size.height+40;
     }else{
         return 44;
     }
@@ -262,14 +288,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

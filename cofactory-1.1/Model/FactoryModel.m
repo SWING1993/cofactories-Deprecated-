@@ -53,8 +53,11 @@
         _factoryFinishedDegree = [[dictionary objectForKey:@"factoryFinishedDegree"] intValue];
         _legalPerson = [dictionary objectForKey:@"legalPerson"];
         _idCard = [dictionary objectForKey:@"idCard"];
-        _authStatus = [[dictionary objectForKey:@"status"] intValue];
         _distance = [[dictionary objectForKey:@"distance"] intValue];
+        _phone = [dictionary objectForKey:@"phone"];
+        NSDictionary*verifyDic = dictionary[@"verify"];
+        _authStatus = [[verifyDic objectForKey:@"status"] intValue];
+
     }
     return self;
 }
