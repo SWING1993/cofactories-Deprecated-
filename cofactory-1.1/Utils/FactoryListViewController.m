@@ -70,7 +70,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+    self.title=@"";
     //创建表
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 45, self.view.frame.size.width, self.view.frame.size.height-45) style:UITableViewStylePlain];
     _tableView.delegate = self;

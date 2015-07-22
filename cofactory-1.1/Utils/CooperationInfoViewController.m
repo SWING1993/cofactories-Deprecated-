@@ -42,7 +42,8 @@
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
 
-    NSLog(@"%d",self.factoryModel.authStatus);
+    NSLog(@"认证状态=%d ",self.factoryModel.authStatus);
+    NSLog(@"uid=%d ",self.factoryModel.uid);
 
       // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight)];
@@ -86,7 +87,29 @@
 - (void)callBtn {
 
     NSLog(@"拨打电话");
+    NSString *str = [NSString stringWithFormat:@"telprompt://%@", self.factoryModel.phone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    [self performSelector:@selector(popAlertViewController) withObject:nil afterDelay:5.0f];
+}
 
+- (void)popAlertViewController {
+    if ([self.navigationController.topViewController isEqual:self]) {
+        // 弹出对话框
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"是否加入合作商列表以便继续合作" delegate:self cancelButtonTitle:@"不加入" otherButtonTitles:@"加入合作商", nil];
+        [alertView show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex==1) {
+        [HttpClient addPartnerWithUid:12 andBlock:^(int statusCode) {
+            if (statusCode==201) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"添加成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+        }];
+
+    }
 }
 
 - (void)favoriteBtn {
@@ -109,7 +132,7 @@
                 break;
             case 401:
             {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"收藏失败需要重新登录" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"需要重新登录" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                 [alertView show];
             }
                 break;
@@ -158,18 +181,21 @@
             UIButton*callBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 10, kScreenW/2-20, 40)];
             callBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
             callBtn.titleEdgeInsets = UIEdgeInsetsMake(20, 0, 20, 40);
-            [callBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            [callBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [callBtn setTitle:@"拨打电话" forState:UIControlStateNormal];
             [callBtn setImage:[UIImage imageNamed:@"set_号码"] forState:UIControlStateNormal];
             callBtn.imageEdgeInsets = UIEdgeInsetsMake(0,0 ,0 ,kScreenW/2-60);
             [callBtn addTarget:self action:@selector(callBtn) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:callBtn];
 
+            UIView*view=[[UIView alloc]initWithFrame:CGRectMake(kScreenW/2-1.5f, 0, 3.0f, 60)];
+            view.backgroundColor=[UIColor lightGrayColor];
+            [cell addSubview:view];
 
             UIButton*favoriteBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2+10, 10, kScreenW/2-20, 40)];
             favoriteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
             favoriteBtn.titleEdgeInsets = UIEdgeInsetsMake(20, -20, 20, 20);
-            [favoriteBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            [favoriteBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [favoriteBtn setTitle:@"收藏工厂" forState:UIControlStateNormal];
             [favoriteBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
             favoriteBtn.imageEdgeInsets = UIEdgeInsetsMake(0,0 ,0 ,kScreenW/2-60);
@@ -219,18 +245,39 @@
         if (indexPath.section == 2) {
 
             for (int i = 0; i<3; i++) {
-                UIImageView*imageView = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenW-90)/4+i*((kScreenW-90)/4+30), 5, 30 , 30)];
-                imageView.image = self.cellImageArray3[i];
+                UIImageView*imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10+i*((kScreenW-90)/3+30), 5, 30 , 30)];
+                if (i==0) {
+                    imageView.image = self.cellImageArray3[i];
+                }
+                if (i==1) {
+                    imageView.image = self.cellImageArray3[i];
+                }
+                if (i==2) {
+                    if (self.factoryModel.authStatus==2) {
+                        imageView.image = self.cellImageArray4[2];
+                    }else{
+                        imageView.image = self.cellImageArray3[2];
+                    }
+                }
                 [cell addSubview:imageView];
 
-
-                UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake((kScreenW-240)/4+i*((kScreenW-240)/4+80), 40, 80, 20)];
-                cellLabel.backgroundColor = [UIColor grayColor];
+                UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(50+i*((kScreenW-90)/3+30), 5, 80 , 30)];
+//                cellLabel.backgroundColor = [UIColor grayColor];
                 cellLabel.font = [UIFont systemFontOfSize:14.0f];
-                cellLabel.text = @"测试";
-                cellLabel.textAlignment = NSTextAlignmentCenter;
+                if (i==0) {
+                    cellLabel.text = @"测试";
+                }
+                if (i==1) {
+                    cellLabel.text = @"测试";
+                }
+                if (i==2) {
+                    if (self.factoryModel.authStatus==2) {
+                        cellLabel.text = @"已认证";
+                    }else{
+                        cellLabel.text = @"未认证";
+                    }
+                }
                 [cell addSubview:cellLabel];
-
             }
         }
         if (indexPath.section == 3) {
@@ -243,9 +290,9 @@
             titleLabel.font=[UIFont systemFontOfSize:16.0f];
             [cell addSubview:titleLabel];
 
-            UIFont*font=[UIFont systemFontOfSize:14];
+            UIFont*font=[UIFont systemFontOfSize:14.0f];
             CGSize size = [self.factoryModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
-            UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 30, kScreenW-40, size.height)];
+            UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 25, kScreenW-40, size.height)];
             descriptionLabel.text=self.factoryModel.factoryDescription;
             descriptionLabel.font=[UIFont systemFontOfSize:14.0f];
             descriptionLabel.numberOfLines=0;
@@ -264,6 +311,9 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section==3) {
+        return 5.0f;
+    }
     return 0.01f;
 }
 
@@ -271,13 +321,11 @@
 
     if (indexPath.section==0) {
         return 60;
-    }if (indexPath.section==2) {
-        return 65;
     }
     if (indexPath.section==3) {
         UIFont*font=[UIFont systemFontOfSize:14];
         CGSize size = [self.factoryModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
-        return size.height+40;
+        return size.height+30;
     }else{
         return 44;
     }

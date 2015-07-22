@@ -630,6 +630,7 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_partnerList parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//            NSLog(@"%@",responseObject);
             block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseObject});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             switch ([operation.response statusCode]) {
