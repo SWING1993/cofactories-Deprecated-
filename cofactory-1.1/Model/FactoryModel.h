@@ -31,6 +31,11 @@ typedef enum {
 @property (nonatomic, assign) FactoryType factoryType;
 @property (nonatomic, assign) int distance;
 
+@property (nonatomic,assign) int verifyStatus;
+@property (nonatomic,assign)int hasTruck;
+@property (nonatomic,assign)int otherTwoFactoryStatus;
+@property (nonatomic,copy)NSDate *facTypeOneStatus;
+
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end
