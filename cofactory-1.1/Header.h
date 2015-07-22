@@ -66,10 +66,16 @@
 //HomeVC
 #import "HomeViewController.h"
 #import "HomeEditViewController.h"//主页编辑
+
+
 #import "PushHelperViewController.h"//推送助手
+
+//找合作商
+#import "FactoryListViewController.h"
+
+//订单
+#import "PushOrderViewController.h"//推送订单
 #import "StatusViewController.h"//设置状态
-#import "SetaddressViewController.h"//设置位置
-#import "FactoryListViewController.h"//找合作商
 
 
 
@@ -80,14 +86,10 @@
 #import "VeifyEndViewController.h"//认证成功
 
 
-
-
-
-
-
-//合作商
 #import "CooperationViewController.h"
 #import "CooperationInfoViewController.h"//合作商详情页
+
+
 
 
 //消息

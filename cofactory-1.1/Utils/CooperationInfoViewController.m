@@ -9,7 +9,7 @@
 #import "Header.h"
 #import "CooperationInfoViewController.h"
 
-@interface CooperationInfoViewController ()
+@interface CooperationInfoViewController () <UIAlertViewDelegate>
 
 
 //公司规模数组
@@ -41,9 +41,10 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
+    self.title=@"公司信息";
 
-    NSLog(@"认证状态=%d ",self.factoryModel.authStatus);
-    NSLog(@"uid=%d ",self.factoryModel.uid);
+//    NSLog(@"认证状态=%d ",self.factoryModel.authStatus);
+//    NSLog(@"uid=%d ",self.factoryModel.uid);
 
       // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight)];
@@ -75,7 +76,6 @@
     infoLabel.font=[UIFont boldSystemFontOfSize:15.0f];
     infoLabel.textColor=[UIColor grayColor];
     [headerView addSubview:infoLabel];
-
     self.tableView.tableHeaderView = headerView;
 
     self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"]];
@@ -85,8 +85,7 @@
 }
 
 - (void)callBtn {
-
-    NSLog(@"拨打电话");
+//    NSLog(@"拨打电话");
     NSString *str = [NSString stringWithFormat:@"telprompt://%@", self.factoryModel.phone];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
     [self performSelector:@selector(popAlertViewController) withObject:nil afterDelay:5.0f];
@@ -102,13 +101,15 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex==1) {
-        [HttpClient addPartnerWithUid:12 andBlock:^(int statusCode) {
+        [HttpClient addPartnerWithUid:self.factoryModel.uid andBlock:^(int statusCode) {
             if (statusCode==201) {
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"添加成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                 [alertView show];
+            }else{
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"添加失败" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
             }
         }];
-
     }
 }
 

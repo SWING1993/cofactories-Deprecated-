@@ -13,6 +13,7 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
+//        NSLog(@"%@",dictionary);
         _uid = [[dictionary objectForKey:@"uid"] intValue];
         _factoryName = [dictionary objectForKey:@"factoryName"];
         _factoryType = [[dictionary objectForKey:@"factoryType"] intValue];
@@ -51,12 +52,18 @@
         _factoryAddress = [dictionary objectForKey:@"factoryAddress"];
         _factoryDescription = [dictionary objectForKey:@"factoryDescription"];
         _factoryFinishedDegree = [[dictionary objectForKey:@"factoryFinishedDegree"] intValue];
-        _legalPerson = [dictionary objectForKey:@"legalPerson"];
         _idCard = [dictionary objectForKey:@"idCard"];
         _distance = [[dictionary objectForKey:@"distance"] intValue];
         _phone = [dictionary objectForKey:@"phone"];
         NSDictionary*verifyDic = dictionary[@"verify"];
         _authStatus = [[verifyDic objectForKey:@"status"] intValue];
+        _legalPerson = [verifyDic objectForKey:@"legalPerson"];
+        
+        _verifyStatus = [[verifyDic objectForKey:@"status"] intValue];
+        _hasTruck = [[dictionary objectForKey:@"hasTruck"] intValue];
+        _otherTwoFactoryStatus = [[dictionary objectForKey:@"factoryFreeStatus"] intValue];
+        self.facTypeOneStatus = [dictionary objectForKey:@"factoryFreeTime"];
+
 
     }
     return self;

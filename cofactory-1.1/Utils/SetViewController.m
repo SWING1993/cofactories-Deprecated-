@@ -38,7 +38,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -59,17 +59,17 @@
 
             }
                 break;
-            case 1:{
-                cell.textLabel.text=@"分享给好友";
-
-            }
+//            case 1:{
+//                cell.textLabel.text=@"分享给好友";
+//
+//            }
                 break;
-            case 2:{
+            case 1:{
                 cell.textLabel.text=@"意见反馈";
 
             }
                 break;
-            case 3:{
+            case 2:{
                 cell.textLabel.text=@"关于聚工厂";
                 
             }
@@ -84,7 +84,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 15.0f;
+    return 10.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -114,17 +114,12 @@
         }
             break;
         case 2:{
-
-        }
-            break;
-        case 3:{
             AboutViewController*aboutVC = [[AboutViewController alloc]init];
             aboutVC.hidesBottomBarWhenPushed=YES;
             [self.navigationController pushViewController:aboutVC animated:YES];
-
         }
             break;
-            
+                    
         default:
             break;
     }

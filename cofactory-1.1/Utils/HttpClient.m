@@ -473,7 +473,6 @@
     [manager GET:API_search parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSArray *jsonArray = (NSArray *)responseObject;
         NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
-
         for (NSDictionary *dictionary in jsonArray) {
             FactoryModel *factoryModel = [[FactoryModel alloc] initWithDictionary:dictionary];
             [responseArray addObject:factoryModel];
@@ -630,8 +629,13 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_partnerList parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//            NSLog(@"%@",responseObject);
-            block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseObject});
+            NSArray *jsonArray = (NSArray *)responseObject;
+            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
+            for (NSDictionary *dictionary in jsonArray) {
+                FactoryModel *factoryModel = [[FactoryModel alloc] initWithDictionary:dictionary];
+                [responseArray addObject:factoryModel];
+            }
+            block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseArray});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             switch ([operation.response statusCode]) {
                 case 400:
