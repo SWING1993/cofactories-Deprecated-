@@ -9,6 +9,8 @@
 #import "Header.h"
 
 @interface CooperationViewController ()
+
+@property (nonatomic,retain)NSMutableArray*modelArray;
 @end
 
 @implementation CooperationViewController
@@ -23,9 +25,13 @@
     self.tableView.showsVerticalScrollIndicator=NO;
     self.tableView.rowHeight=100;
 
+    self.modelArray = [[NSMutableArray alloc]initWithCapacity:0];
+
     //列出合作商
     [HttpClient listPartnerWithBlock:^(NSDictionary *responseDictionary) {
         NSLog(@"合作商%@",responseDictionary);
+        NSDictionary*FactoryDic = responseDictionary[@"responseArray"];
+        [self.modelArray addObject:FactoryDic];
     }];
 }
 

@@ -26,6 +26,7 @@ typedef enum {
 @property (nonatomic, assign) int factoryFinishedDegree;
 @property (nonatomic, copy) NSString *legalPerson;
 @property (nonatomic, copy) NSString *idCard;
+@property (nonatomic, copy) NSString * phone;
 @property (nonatomic, assign) AuthStatus authStatus;
 @property (nonatomic, assign) FactoryType factoryType;
 @property (nonatomic, assign) int distance;

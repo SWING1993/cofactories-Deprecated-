@@ -47,6 +47,7 @@
 #import "MBProgressHUD.h"
 #import "UIButton+WebCache.h"
 #import "UIImageView+WebCache.h"
+#import "JSDropDownMenu.h"
 
 
 
@@ -68,6 +69,8 @@
 #import "PushHelperViewController.h"//推送助手
 #import "StatusViewController.h"//设置状态
 #import "SetaddressViewController.h"//设置位置
+#import "FactoryListViewController.h"//找合作商
+
 
 
 

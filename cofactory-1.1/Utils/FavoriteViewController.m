@@ -30,6 +30,7 @@
 
     [HttpClient listPartnerWithBlock:^(NSDictionary *responseDictionary) {
         self.cellArray=responseDictionary[@"responseArray"];
+        NSLog(@"我的收藏%@",responseDictionary);
     }];
 
 }
@@ -54,7 +55,6 @@
     UserModel*model=self.cellArray[indexPath.row];
     cell.textLabel.text=model.factoryAddress;
     return cell;
-
 }
 
 - (void)didReceiveMemoryWarning {

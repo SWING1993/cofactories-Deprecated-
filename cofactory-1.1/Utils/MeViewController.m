@@ -123,7 +123,7 @@
     self.userModel=[[UserModel alloc]init];
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         self.userModel=responseDictionary[@"model"];
-        NSLog(@"%@",self.userModel);
+//        NSLog(@"%@",self.userModel);
         factoryNameLabel.text=self.userModel.factoryName;
         [headerView addSubview:factoryNameLabel];
         [self.tableView reloadData];
@@ -205,14 +205,6 @@
             NSLog(@"上传头像返回%@",dictionary[@"statusCode"]);
 
         }];
-
-//        MBProgressHUD *hud = [Config createHUD];
-//        hud.labelText = @"正在上传头像";
-//        [[HttpClient sharedInstance] uploadAvatar:UIImageJPEGRepresentation(image, 0.5) andBlock:^(int statusCode) {
-//            [hud hide:YES afterDelay:1];
-//            //            NSLog(@"%d", statusCode);
-//            [((MeHeaderView *)(self.tableView.tableHeaderView)).avatarButton setImage:image forState:UIControlStateNormal];
-//        }];
     }];
 }
 
@@ -336,9 +328,9 @@
         UIFont*font=[UIFont systemFontOfSize:14];
 
         CGSize size = [self.userModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
-        UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 30, kScreenW-40, size.height)];
+        UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 25, kScreenW-40, size.height-10)];
         descriptionLabel.text=self.userModel.factoryDescription;
-        //            descriptionLabel.backgroundColor=[UIColor grayColor];
+//                    descriptionLabel.backgroundColor=[UIColor grayColor];
         descriptionLabel.font=[UIFont systemFontOfSize:14.0f];
         descriptionLabel.numberOfLines=0;
         [cell addSubview:descriptionLabel];
@@ -352,10 +344,13 @@
     if (section==0) {
         return 0.01f;
     }
-    return 15.0f;
+    return 10.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section==3) {
+        return 5.0f;
+    }
     return 0.01f;
 }
 
@@ -365,9 +360,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    CGSize size = [[UIScreen mainScreen] bounds].size;
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, 0.01f)];
-    //view.backgroundColor = [UIColor colorWithHex:0xf0efea];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.01f)];
     return view;
 }
 
@@ -378,7 +371,7 @@
         UIFont*font=[UIFont systemFontOfSize:14];
 
         CGSize size = [self.userModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
-        return size.height+40;
+        return size.height+20;
     }else{
         return 44;
     }

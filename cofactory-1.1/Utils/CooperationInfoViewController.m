@@ -11,8 +11,6 @@
 
 @interface CooperationInfoViewController ()
 
-//用户模型
-@property (nonatomic, strong) UserModel*userModel;
 
 //公司规模数组
 @property(nonatomic,retain)NSArray*sizeArray;
@@ -44,36 +42,34 @@
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
 
+    NSLog(@"认证状态=%d ",self.factoryModel.authStatus);
+    NSLog(@"uid=%d ",self.factoryModel.uid);
 
-
-    // 表头视图
+      // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight)];
 
     UIImageView*BGImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight-50)];
     BGImage.image=[UIImage imageNamed:@"bb"];
     headerView.backgroundColor=[UIColor whiteColor];
     [headerView addSubview:BGImage];
+
+
     UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, kBannerHeight-80, 60, 60)];
     headerImage.backgroundColor=[UIColor blueColor];
     headerImage.layer.cornerRadius=60/2.0f;
     headerImage.layer.masksToBounds=YES;
+    NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",self.factoryModel.uid];
+    [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
+    [headerView addSubview:headerImage];
+
 
 
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, kBannerHeight-45, kScreenW-100, 20)];
     factoryNameLabel.font=[UIFont boldSystemFontOfSize:18];
+    factoryNameLabel.text=self.factoryModel.factoryName;
+    [headerView addSubview:factoryNameLabel];
 
-    //初始化用户model
-    self.userModel=[[UserModel alloc]init];
-    [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
-        self.userModel=responseDictionary[@"model"];
-        NSLog(@"%@",self.userModel);
-        factoryNameLabel.text=self.userModel.factoryName;
-        [headerView addSubview:factoryNameLabel];
-        [self.tableView reloadData];
 
-        [headerImage sd_setImageWithURL:[NSURL URLWithString:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/14"] placeholderImage:[UIImage imageNamed:@"消息头像"]];
-        [headerView addSubview:headerImage];
-    }];
 
     infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-140, kBannerHeight-25, 130, 20)];
     infoLabel.font=[UIFont boldSystemFontOfSize:15.0f];
@@ -91,12 +87,59 @@
 - (void)callBtn {
 
     NSLog(@"拨打电话");
+    NSString *str = [NSString stringWithFormat:@"telprompt://%@", self.factoryModel.phone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    [self performSelector:@selector(popAlertViewController) withObject:nil afterDelay:5.0f];
+}
 
+- (void)popAlertViewController {
+    if ([self.navigationController.topViewController isEqual:self]) {
+        // 弹出对话框
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"是否加入合作商列表以便继续合作" delegate:self cancelButtonTitle:@"不加入" otherButtonTitles:@"加入合作商", nil];
+        [alertView show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex==1) {
+        [HttpClient addPartnerWithUid:12 andBlock:^(int statusCode) {
+            if (statusCode==201) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"添加成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+        }];
+
+    }
 }
 
 - (void)favoriteBtn {
 
     NSLog(@"添加收藏");
+    NSString * Uid = [NSString stringWithFormat:@"%d",self.factoryModel.uid];
+    [HttpClient addFavoriteWithUid:Uid andBlock:^(int statusCode) {
+        switch (statusCode) {
+            case 201:
+            {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"收藏成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+                break;
+            case 400:
+            {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"未登录" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+                break;
+            case 401:
+            {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"需要重新登录" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+                break;
+                
+            default:
+                break;
+        }    }];
 
 }
 
@@ -113,7 +156,7 @@
     if (section==1) {
         return 5;
     }else{
-        if (self.userModel.factoryType==GarmentFactory||self.userModel.factoryType==ProcessingFactory) {
+        if (self.factoryModel.factoryType==GarmentFactory||self.factoryModel.factoryType==ProcessingFactory) {
             return 1;
         }else{
             return 1;
@@ -138,18 +181,21 @@
             UIButton*callBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 10, kScreenW/2-20, 40)];
             callBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
             callBtn.titleEdgeInsets = UIEdgeInsetsMake(20, 0, 20, 40);
-            [callBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            [callBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [callBtn setTitle:@"拨打电话" forState:UIControlStateNormal];
             [callBtn setImage:[UIImage imageNamed:@"set_号码"] forState:UIControlStateNormal];
             callBtn.imageEdgeInsets = UIEdgeInsetsMake(0,0 ,0 ,kScreenW/2-60);
             [callBtn addTarget:self action:@selector(callBtn) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:callBtn];
 
+            UIView*view=[[UIView alloc]initWithFrame:CGRectMake(kScreenW/2-1.5f, 0, 3.0f, 60)];
+            view.backgroundColor=[UIColor lightGrayColor];
+            [cell addSubview:view];
 
             UIButton*favoriteBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2+10, 10, kScreenW/2-20, 40)];
             favoriteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
             favoriteBtn.titleEdgeInsets = UIEdgeInsetsMake(20, -20, 20, 20);
-            [favoriteBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            [favoriteBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [favoriteBtn setTitle:@"收藏工厂" forState:UIControlStateNormal];
             [favoriteBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
             favoriteBtn.imageEdgeInsets = UIEdgeInsetsMake(0,0 ,0 ,kScreenW/2-60);
@@ -165,30 +211,30 @@
             switch (indexPath.row) {
                 case 0:{
                     cellLabel.text=@"公司名称";
-                    cell.detailTextLabel.text=self.userModel.factoryName;
+                    cell.detailTextLabel.text=self.factoryModel.factoryName;
 
                 }
                     break;
                 case 1:{
                     cellLabel.text=@"公司地址";
-                    cell.detailTextLabel.text=self.userModel.factoryAddress;
+                    cell.detailTextLabel.text=self.factoryModel.factoryAddress;
 
                 }
                     break;
                 case 2:{
                     cellLabel.text=@"公司规模";
-                    cell.detailTextLabel.text=self.userModel.factorySize;
+                    cell.detailTextLabel.text=self.factoryModel.factorySize;
 
                 }
                     break;
                 case 3:{
                     cellLabel.text=@"业务类型";
-                    cell.detailTextLabel.text=self.userModel.factoryServiceRange;
+                    cell.detailTextLabel.text=self.factoryModel.factoryServiceRange;
                 }
                     break;
                 case 4:{
                     cellLabel.text=@"公司电话";
-                    cell.detailTextLabel.text=self.userModel.phone;
+                    cell.detailTextLabel.text=self.factoryModel.phone;
                 }
                     break;
 
@@ -199,33 +245,58 @@
         if (indexPath.section == 2) {
 
             for (int i = 0; i<3; i++) {
-                UIImageView*imageView = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenW-90)/4+i*((kScreenW-90)/4+30), 5, 30 , 30)];
-                imageView.image = self.cellImageArray3[i];
+                UIImageView*imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10+i*((kScreenW-90)/3+30), 5, 30 , 30)];
+                if (i==0) {
+                    imageView.image = self.cellImageArray3[i];
+                }
+                if (i==1) {
+                    imageView.image = self.cellImageArray3[i];
+                }
+                if (i==2) {
+                    if (self.factoryModel.authStatus==2) {
+                        imageView.image = self.cellImageArray4[2];
+                    }else{
+                        imageView.image = self.cellImageArray3[2];
+                    }
+                }
                 [cell addSubview:imageView];
 
-
-                UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake((kScreenW-240)/4+i*((kScreenW-240)/4+80), 40, 80, 20)];
-                cellLabel.backgroundColor = [UIColor grayColor];
+                UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(50+i*((kScreenW-90)/3+30), 5, 80 , 30)];
+//                cellLabel.backgroundColor = [UIColor grayColor];
                 cellLabel.font = [UIFont systemFontOfSize:14.0f];
-                cellLabel.text = @"测试";
-                cellLabel.textAlignment = NSTextAlignmentCenter;
+                if (i==0) {
+                    cellLabel.text = @"测试";
+                }
+                if (i==1) {
+                    cellLabel.text = @"测试";
+                }
+                if (i==2) {
+                    if (self.factoryModel.authStatus==2) {
+                        cellLabel.text = @"已认证";
+                    }else{
+                        cellLabel.text = @"未认证";
+                    }
+                }
                 [cell addSubview:cellLabel];
-
             }
         }
         if (indexPath.section == 3) {
+
             [cell setAccessoryType:UITableViewCellAccessoryNone];
-            UILabel*titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 30)];
+            UILabel*titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
             titleLabel.text=@"公司简介";
+            //            titleLabel.backgroundColor=[UIColor redColor];
             titleLabel.textAlignment=NSTextAlignmentCenter;
-            titleLabel.font=[UIFont systemFontOfSize:18.0f];
+            titleLabel.font=[UIFont systemFontOfSize:16.0f];
             [cell addSubview:titleLabel];
-            
-            UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 30, kScreenW-40, 50)];
-            descriptionLabel.text=self.userModel.factoryDescription;
+
+            UIFont*font=[UIFont systemFontOfSize:14.0f];
+            CGSize size = [self.factoryModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
+            UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 25, kScreenW-40, size.height)];
+            descriptionLabel.text=self.factoryModel.factoryDescription;
+            descriptionLabel.font=[UIFont systemFontOfSize:14.0f];
             descriptionLabel.numberOfLines=0;
             [cell addSubview:descriptionLabel];
-            
         }
         
         [cell addSubview:cellLabel];
@@ -240,6 +311,9 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section==3) {
+        return 5.0f;
+    }
     return 0.01f;
 }
 
@@ -247,11 +321,11 @@
 
     if (indexPath.section==0) {
         return 60;
-    }if (indexPath.section==2) {
-        return 65;
     }
     if (indexPath.section==3) {
-        return 100;
+        UIFont*font=[UIFont systemFontOfSize:14];
+        CGSize size = [self.factoryModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
+        return size.height+30;
     }else{
         return 44;
     }
@@ -262,14 +336,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
