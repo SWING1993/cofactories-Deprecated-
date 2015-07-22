@@ -61,6 +61,15 @@
     [ReviseBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
     [ReviseBtn addTarget:self action:@selector(RevisePasswordBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.tableView addSubview:ReviseBtn];
+
+    //确定Btn
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(goback)];
+    self.navigationItem.leftBarButtonItem = backButton;
+}
+
+- (void)goback {
+    NSArray*navArr = self.navigationController.viewControllers;
+    [self.navigationController popToViewController:navArr[0] animated:YES];
 }
 
 - (void)RevisePasswordBtn {

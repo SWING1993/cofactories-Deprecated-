@@ -53,6 +53,8 @@
         MBProgressHUD *hud = [Tools createHUD];
         hud.labelText = @"正在修改";
 
+        NSLog(@"%@===%@",[[Tools RangeSizeWith:SizeTF.text] firstObject],[[Tools RangeSizeWith:SizeTF.text] lastObject]);
+
         [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:[[Tools RangeSizeWith:SizeTF.text] firstObject] factorySizeMax:[[Tools RangeSizeWith:SizeTF.text] lastObject] factoryLon:nil factoryLat:nil factoryFree:nil  factoryDescription:nil andBlock:^(int statusCode) {
             if (statusCode == 200) {
                 hud.labelText = @"修改成功";

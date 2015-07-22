@@ -29,9 +29,10 @@
         //最大值
         NSString*lastSizeString = [sizeArray lastObject];
         NSArray*lastArray=[lastSizeString componentsSeparatedByString:@"万件"];
-        NSString*max=[NSString stringWithFormat:@"%@0000",[lastArray lastObject]];
+        NSString*max=[NSString stringWithFormat:@"%@0000",[lastArray firstObject]];
         NSNumber* sizeMax= [[NSNumber alloc]initWithInteger:[max integerValue]];
         [mutableArray addObject:sizeMax];
+
     }
     if ([sizeString rangeOfString:@"人"].location !=NSNotFound) {
 

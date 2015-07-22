@@ -38,6 +38,8 @@
 #define kNavigationBarHeight 44
 #define CellIdentifier @"Cell"
 
+
+//第三方
 #import "HttpClient.h"
 #import "Tools.h"
 #import "MobClick.h"
@@ -54,22 +56,39 @@
 
 
 
+//登录注册VC
+#import "LoginViewController.h"//登录
+#import "RegisterViewController.h"//注册
+#import "ResetPasswordViewController.h" //找回密码
+
+
 //HomeVC
 #import "HomeViewController.h"
 #import "HomeEditViewController.h"//主页编辑
 #import "PushHelperViewController.h"//推送助手
 #import "StatusViewController.h"//设置状态
-#import "SearchViewController.h"//找合作商
 #import "SetaddressViewController.h"//设置位置
-#import "ModifyFactoryNameViewController.h"//设置工厂名称
 
+
+
+//认证服务
 #import "VeifyViewController.h"//认证
+#import "VeifyingViewController.h"//认证中
+#import "VeifyEndViewController.h"//认证成功
+
+
+
+
 
 
 
 //合作商
 #import "CooperationViewController.h"
 #import "CooperationInfoViewController.h"//合作商详情页
+
+
+//消息
+#import "MessageViewController.h"
 
 
 //MeVC
@@ -80,6 +99,7 @@
 #import "ModifyNameViewController.h"//设置name
 #import "ModifyJobViewController.h"//设置job
 #import "SetaddressViewController.h"//工厂位置
+#import "ModifyFactoryNameViewController.h"//设置工厂名称
 #import "SetMapViewController.h"//map
 #import "ModifySizeViewController.h"//修改公司size
 #import "ModifyServiceRangeViewController.h"//修改公司业务类型
@@ -90,13 +110,6 @@
 
 
 
-#import "MessageViewController.h"
-
-
-//登录注册VC
-#import "LoginViewController.h"
-#import "RegisterViewController.h"
-#import "ResetPasswordViewController.h" //找回密码
 
 
 

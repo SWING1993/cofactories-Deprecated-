@@ -7,16 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0451D6531B574B50007CCD59 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D6521B574B50007CCD59 /* SearchViewController.m */; };
 		0451D6581B574BCB007CCD59 /* ico_make.png in Resources */ = {isa = PBXBuildFile; fileRef = 0451D6551B574BCB007CCD59 /* ico_make.png */; };
 		0451D6591B574BCB007CCD59 /* JSDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D6571B574BCB007CCD59 /* JSDropDownMenu.m */; };
-		0451D65D1B574F8A007CCD59 /* SearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D65B1B574F8A007CCD59 /* SearchCell.m */; };
-		0451D65E1B574F8A007CCD59 /* SearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0451D65C1B574F8A007CCD59 /* SearchCell.xib */; };
 		0451D6661B579147007CCD59 /* SetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D6651B579147007CCD59 /* SetViewController.m */; };
 		0451D6691B579A19007CCD59 /* RevisePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D6681B579A19007CCD59 /* RevisePasswordViewController.m */; };
 		0451D66C1B57AB4A007CCD59 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D66B1B57AB4A007CCD59 /* AboutViewController.m */; };
 		0479EAE61B5A5714007FE48E /* UploadImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0479EAE51B5A5714007FE48E /* UploadImageViewController.m */; };
 		0479EAE91B5A8F61007FE48E /* CooperationInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0479EAE81B5A8F61007FE48E /* CooperationInfoViewController.m */; };
+		04A20C321B5F3317001AADE9 /* VeifyingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A20C311B5F3317001AADE9 /* VeifyingViewController.m */; };
+		04A20C351B5F332C001AADE9 /* VeifyEndViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A20C341B5F332C001AADE9 /* VeifyEndViewController.m */; };
 		04AE21861B535ABC007A3279 /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AE21851B535ABC007A3279 /* Tools.m */; };
 		04C28A1D1B58AC20005014E5 /* ModifyNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C28A1C1B58AC20005014E5 /* ModifyNameViewController.m */; };
 		04D462E81B5CD21000B9B4D8 /* ResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D462E71B5CD21000B9B4D8 /* ResetPasswordViewController.m */; };
@@ -138,14 +137,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0451D6511B574B50007CCD59 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
-		0451D6521B574B50007CCD59 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		0451D6551B574BCB007CCD59 /* ico_make.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ico_make.png; sourceTree = "<group>"; };
 		0451D6561B574BCB007CCD59 /* JSDropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSDropDownMenu.h; sourceTree = "<group>"; };
 		0451D6571B574BCB007CCD59 /* JSDropDownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSDropDownMenu.m; sourceTree = "<group>"; };
-		0451D65A1B574F8A007CCD59 /* SearchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCell.h; sourceTree = "<group>"; };
-		0451D65B1B574F8A007CCD59 /* SearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchCell.m; sourceTree = "<group>"; };
-		0451D65C1B574F8A007CCD59 /* SearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchCell.xib; sourceTree = "<group>"; };
 		0451D6641B579147007CCD59 /* SetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetViewController.h; sourceTree = "<group>"; };
 		0451D6651B579147007CCD59 /* SetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetViewController.m; sourceTree = "<group>"; };
 		0451D6671B579A19007CCD59 /* RevisePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RevisePasswordViewController.h; sourceTree = "<group>"; };
@@ -156,6 +150,10 @@
 		0479EAE51B5A5714007FE48E /* UploadImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadImageViewController.m; sourceTree = "<group>"; };
 		0479EAE71B5A8F61007FE48E /* CooperationInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CooperationInfoViewController.h; sourceTree = "<group>"; };
 		0479EAE81B5A8F61007FE48E /* CooperationInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CooperationInfoViewController.m; sourceTree = "<group>"; };
+		04A20C301B5F3317001AADE9 /* VeifyingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VeifyingViewController.h; sourceTree = "<group>"; };
+		04A20C311B5F3317001AADE9 /* VeifyingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VeifyingViewController.m; sourceTree = "<group>"; };
+		04A20C331B5F332C001AADE9 /* VeifyEndViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VeifyEndViewController.h; sourceTree = "<group>"; };
+		04A20C341B5F332C001AADE9 /* VeifyEndViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VeifyEndViewController.m; sourceTree = "<group>"; };
 		04AE21841B535ABC007A3279 /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
 		04AE21851B535ABC007A3279 /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tools.m; sourceTree = "<group>"; };
 		04C28A1B1B58AC20005014E5 /* ModifyNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyNameViewController.h; sourceTree = "<group>"; };
@@ -582,11 +580,6 @@
 		0451D64D1B574A1B007CCD59 /* 找合作商 */ = {
 			isa = PBXGroup;
 			children = (
-				0451D6511B574B50007CCD59 /* SearchViewController.h */,
-				0451D6521B574B50007CCD59 /* SearchViewController.m */,
-				0451D65A1B574F8A007CCD59 /* SearchCell.h */,
-				0451D65B1B574F8A007CCD59 /* SearchCell.m */,
-				0451D65C1B574F8A007CCD59 /* SearchCell.xib */,
 			);
 			name = "找合作商";
 			sourceTree = "<group>";
@@ -637,6 +630,10 @@
 			children = (
 				04D462EA1B5D14CC00B9B4D8 /* VeifyViewController.h */,
 				04D462EB1B5D14CC00B9B4D8 /* VeifyViewController.m */,
+				04A20C301B5F3317001AADE9 /* VeifyingViewController.h */,
+				04A20C311B5F3317001AADE9 /* VeifyingViewController.m */,
+				04A20C331B5F332C001AADE9 /* VeifyEndViewController.h */,
+				04A20C341B5F332C001AADE9 /* VeifyEndViewController.m */,
 			);
 			name = "认证";
 			sourceTree = "<group>";
@@ -1417,7 +1414,6 @@
 				BD8AD8001B50FDBB00373E5E /* HomeFooterCell.xib in Resources */,
 				BDC907C81B4E9A5700856A32 /* Images.xcassets in Resources */,
 				BDEDA4381B52254A000E5012 /* mapapi.bundle in Resources */,
-				0451D65E1B574F8A007CCD59 /* SearchCell.xib in Resources */,
 				04DE27911B56713B0008DEED /* PushEditCell.xib in Resources */,
 				0451D6581B574BCB007CCD59 /* ico_make.png in Resources */,
 			);
@@ -1448,11 +1444,9 @@
 				04F60C6C1B58EC7F00CD3DEC /* FactoryRangeModel.m in Sources */,
 				BDC908E11B4E9B3700856A32 /* NSData+Utils.m in Sources */,
 				BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */,
-				0451D6531B574B50007CCD59 /* SearchViewController.m in Sources */,
 				BDC909051B4EB77000856A32 /* LoginViewController.m in Sources */,
 				0479EAE61B5A5714007FE48E /* UploadImageViewController.m in Sources */,
 				BD8AD8091B511ACA00373E5E /* MessageDetailViewController.m in Sources */,
-				0451D65D1B574F8A007CCD59 /* SearchCell.m in Sources */,
 				BDC908D41B4E9B3700856A32 /* AFHTTPRequestOperation.m in Sources */,
 				BDC907C31B4E9A5700856A32 /* ViewController.m in Sources */,
 				BDC908D51B4E9B3700856A32 /* AFHTTPRequestOperationManager.m in Sources */,
@@ -1467,6 +1461,7 @@
 				BDC908D71B4E9B3700856A32 /* AFNetworkReachabilityManager.m in Sources */,
 				BD8AD7EB1B50E62600373E5E /* SDWebImageDownloader.m in Sources */,
 				BD8AD7ED1B50E62600373E5E /* SDWebImageManager.m in Sources */,
+				04A20C351B5F332C001AADE9 /* VeifyEndViewController.m in Sources */,
 				BDC908DD1B4E9B3700856A32 /* AFHTTPRequestSerializer+OAuth2.m in Sources */,
 				BD8AD7F01B50E62600373E5E /* UIImage+GIF.m in Sources */,
 				04DE27891B565ACA0008DEED /* PushEditViewController.m in Sources */,
@@ -1520,6 +1515,7 @@
 				04DE27901B56713B0008DEED /* PushEditCell.m in Sources */,
 				BD8AD7E71B50E62600373E5E /* NSData+ImageContentType.m in Sources */,
 				BD8AD7F11B50E62600373E5E /* UIImage+MultiFormat.m in Sources */,
+				04A20C321B5F3317001AADE9 /* VeifyingViewController.m in Sources */,
 				BD8AD7F31B50E62600373E5E /* UIImageView+HighlightedWebCache.m in Sources */,
 				BDC908E71B4E9B3700856A32 /* UIScrollView+SVPullToRefresh.m in Sources */,
 				BD4311CE1B4F41DE0097E4BC /* HomeViewController.m in Sources */,

@@ -47,13 +47,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    //认证信息
-    [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
-        NSLog(@"认证字典%@",dictionary);
-        status = [dictionary[@"status"] intValue];
-    }];
-
-
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 
@@ -164,9 +157,9 @@
     [self.navigationController pushViewController:pushHelerVC animated:YES];
 }
 - (void)findClicked:(id)sender {
-    SearchViewController *searchViewController = [[SearchViewController alloc] initWithStyle:UITableViewStylePlain];
-    searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-    [self.navigationController pushViewController:searchViewController animated:YES];
+//    SearchViewController *searchViewController = [[SearchViewController alloc] initWithStyle:UITableViewStylePlain];
+//    searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+//    [self.navigationController pushViewController:searchViewController animated:YES];
 }
 - (void)postClicked:(id)sender {
 
@@ -179,9 +172,36 @@
     
 }
 - (void)statusClicked:(id)sender {
-    VeifyViewController*veifyVC = [[VeifyViewController alloc]init];
-    veifyVC.hidesBottomBarWhenPushed=YES;
-    [self.navigationController pushViewController:veifyVC animated:YES];
+
+    //认证信息
+    [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
+        NSDictionary*VeifyDic=dictionary[@"responseDictionary"];
+        status = [VeifyDic[@"status"] intValue];
+        NSLog(@"%d",status);
+
+        //未认证
+        if (status==0) {
+            VeifyViewController*veifyVC = [[VeifyViewController alloc]init];
+            veifyVC.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:veifyVC animated:YES];
+
+        }
+        //认证中
+        if (status==1) {
+            VeifyingViewController*veifyingVC = [[VeifyingViewController alloc]init];
+            veifyingVC.hidesBottomBarWhenPushed=YES;
+            veifyingVC.VeifyDic=VeifyDic;
+            veifyingVC.title=@"认证资料已提交";
+            [self.navigationController pushViewController:veifyingVC animated:YES];
+        }
+        //认证成功
+        if (status==2) {
+            VeifyEndViewController*endVC = [[VeifyEndViewController alloc]init];
+            endVC.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:endVC animated:YES];
+
+        }
+    }];
 }
 
 #pragma mark - Table view data source

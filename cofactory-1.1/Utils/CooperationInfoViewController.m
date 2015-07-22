@@ -148,10 +148,10 @@
 
             UIButton*favoriteBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2+10, 10, kScreenW/2-20, 40)];
             favoriteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
-            favoriteBtn.titleEdgeInsets = UIEdgeInsetsMake(20, 0, 20, 40);
+            favoriteBtn.titleEdgeInsets = UIEdgeInsetsMake(20, -20, 20, 20);
             [favoriteBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
             [favoriteBtn setTitle:@"收藏工厂" forState:UIControlStateNormal];
-            [favoriteBtn setImage:[UIImage imageNamed:@"set_收藏"] forState:UIControlStateNormal];
+            [favoriteBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
             favoriteBtn.imageEdgeInsets = UIEdgeInsetsMake(0,0 ,0 ,kScreenW/2-60);
             [favoriteBtn addTarget:self action:@selector(favoriteBtn) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:favoriteBtn];
