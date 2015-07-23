@@ -316,7 +316,6 @@
         [cell setAccessoryType:UITableViewCellAccessoryNone];
         UILabel*titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
         titleLabel.text=@"公司简介";
-        //            titleLabel.backgroundColor=[UIColor redColor];
         titleLabel.textAlignment=NSTextAlignmentCenter;
         titleLabel.font=[UIFont systemFontOfSize:16.0f];
         [cell addSubview:titleLabel];
@@ -325,9 +324,8 @@
         UIFont*font=[UIFont systemFontOfSize:14];
 
         CGSize size = [self.userModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
-        UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 25, kScreenW-40, size.height-10)];
+        UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 25, kScreenW-40, size.height)];
         descriptionLabel.text=self.userModel.factoryDescription;
-//                    descriptionLabel.backgroundColor=[UIColor grayColor];
         descriptionLabel.font=[UIFont systemFontOfSize:14.0f];
         descriptionLabel.numberOfLines=0;
         [cell addSubview:descriptionLabel];
@@ -368,7 +366,7 @@
         UIFont*font=[UIFont systemFontOfSize:14];
 
         CGSize size = [self.userModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
-        return size.height+20;
+        return size.height+40;
     }else{
         return 44;
     }

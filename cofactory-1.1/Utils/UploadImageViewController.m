@@ -65,8 +65,6 @@
 
 
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-//    layout.minimumLineSpacing = 20;
-//    layout.minimumInteritemSpacing = 10;
     layout.itemSize = CGSizeMake(kScreenW/4-10, kScreenW/4-10);
     layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
 
@@ -108,13 +106,11 @@
             NSLog(@"self.imageArray=%@",self.imageArray);
         }
     }];
-
-
-    dispatch_async([self serialQueue], ^{//把block中的任务放入串行队列中执行，这是第一个任务
-                sleep(3);//假装这个viewController创建}
-        [CollectionView reloadData];
-
-      });
+//    dispatch_async([self serialQueue], ^{//把block中的任务放入串行队列中执行，这是第一个任务
+//                sleep(3);//假装这个viewController创建}
+//        [CollectionView reloadData];
+//
+//      });
 }
 
 
@@ -140,7 +136,6 @@
             imagePickerController.showsCameraControls = YES;
             imagePickerController.cameraDevice = UIImagePickerControllerCameraDeviceRear;
             imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
-
             [self presentViewController:imagePickerController animated:YES completion:nil];
         }
         return;
@@ -163,9 +158,10 @@
     [picker dismissViewControllerAnimated:YES completion:^{
 
         [HttpClient uploadImageWithImage:image type:self.type andblock:^(NSDictionary *dictionary) {
-//            NSLog(@"-----%@",dictionary[@"statusCode"]);
             if ([dictionary[@"statusCode"] intValue]==200) {
                 [self getImage];
+            }else{
+                NSLog(@"===%@",dictionary);
             }
         }];
 
@@ -190,8 +186,9 @@
 
     UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW/4-10, kScreenW/4-10)];
 
-    NSString*urlString =[NSString stringWithFormat:@"cdn.cofactories.com%@",self.imageArray[indexPath.row]];
+    NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[indexPath.row]];
 
+    NSLog(@">>>%@",urlString);
 //    [photoView sd_setImageWithURL:[NSURL URLWithString:urlString]];
     
 

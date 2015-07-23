@@ -15,4 +15,8 @@
 @property (weak, nonatomic) UIButton *postButton;// 发布订单
 @property (weak, nonatomic) UIButton *authenticationButton;// 认证
 
+
+- (instancetype)initWithFrame:(CGRect)frame withString:(NSString *)btnTitle;
+
+
 @end

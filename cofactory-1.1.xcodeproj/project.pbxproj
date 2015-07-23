@@ -12,8 +12,13 @@
 		0451D6661B579147007CCD59 /* SetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D6651B579147007CCD59 /* SetViewController.m */; };
 		0451D6691B579A19007CCD59 /* RevisePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D6681B579A19007CCD59 /* RevisePasswordViewController.m */; };
 		0451D66C1B57AB4A007CCD59 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D66B1B57AB4A007CCD59 /* AboutViewController.m */; };
+		047332FD1B60C4C400F684A2 /* OverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047332FC1B60C4C400F684A2 /* OverlayView.xib */; };
+		047333081B60D2B700F684A2 /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047333031B60D2B600F684A2 /* OrderDetailViewController.m */; };
+		047333091B60D2B700F684A2 /* OrderListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 047333041B60D2B600F684A2 /* OrderListTableViewCell.m */; };
+		0473330A1B60D2B700F684A2 /* OrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047333051B60D2B700F684A2 /* OrderListViewController.m */; };
 		0479EAE61B5A5714007FE48E /* UploadImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0479EAE51B5A5714007FE48E /* UploadImageViewController.m */; };
 		0479EAE91B5A8F61007FE48E /* CooperationInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0479EAE81B5A8F61007FE48E /* CooperationInfoViewController.m */; };
+		047EF0E31B6085A0007DD2AE /* AddOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047EF0E21B6085A0007DD2AE /* AddOrderViewController.m */; };
 		04A20C321B5F3317001AADE9 /* VeifyingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A20C311B5F3317001AADE9 /* VeifyingViewController.m */; };
 		04A20C351B5F332C001AADE9 /* VeifyEndViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A20C341B5F332C001AADE9 /* VeifyEndViewController.m */; };
 		04A20C3A1B5F4C73001AADE9 /* FactoryListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A20C371B5F4C73001AADE9 /* FactoryListTableViewCell.m */; };
@@ -149,10 +154,19 @@
 		0451D6681B579A19007CCD59 /* RevisePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RevisePasswordViewController.m; sourceTree = "<group>"; };
 		0451D66A1B57AB4A007CCD59 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		0451D66B1B57AB4A007CCD59 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		047332FC1B60C4C400F684A2 /* OverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayView.xib; sourceTree = "<group>"; };
+		047333001B60D2B600F684A2 /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailViewController.h; sourceTree = "<group>"; };
+		047333011B60D2B600F684A2 /* OrderListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderListTableViewCell.h; sourceTree = "<group>"; };
+		047333021B60D2B600F684A2 /* OrderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderListViewController.h; sourceTree = "<group>"; };
+		047333031B60D2B600F684A2 /* OrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailViewController.m; sourceTree = "<group>"; };
+		047333041B60D2B600F684A2 /* OrderListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderListTableViewCell.m; sourceTree = "<group>"; };
+		047333051B60D2B700F684A2 /* OrderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderListViewController.m; sourceTree = "<group>"; };
 		0479EAE41B5A5714007FE48E /* UploadImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadImageViewController.h; sourceTree = "<group>"; };
 		0479EAE51B5A5714007FE48E /* UploadImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadImageViewController.m; sourceTree = "<group>"; };
 		0479EAE71B5A8F61007FE48E /* CooperationInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CooperationInfoViewController.h; sourceTree = "<group>"; };
 		0479EAE81B5A8F61007FE48E /* CooperationInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CooperationInfoViewController.m; sourceTree = "<group>"; };
+		047EF0E11B6085A0007DD2AE /* AddOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddOrderViewController.h; sourceTree = "<group>"; };
+		047EF0E21B6085A0007DD2AE /* AddOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddOrderViewController.m; sourceTree = "<group>"; };
 		04A20C301B5F3317001AADE9 /* VeifyingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VeifyingViewController.h; sourceTree = "<group>"; };
 		04A20C311B5F3317001AADE9 /* VeifyingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VeifyingViewController.m; sourceTree = "<group>"; };
 		04A20C331B5F332C001AADE9 /* VeifyEndViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VeifyEndViewController.h; sourceTree = "<group>"; };
@@ -696,6 +710,15 @@
 				04DE27851B55F8D20008DEED /* StatusViewController.m */,
 				04A20C3C1B5FBDB7001AADE9 /* PushOrderViewController.h */,
 				04A20C3D1B5FBDB7001AADE9 /* PushOrderViewController.m */,
+				047EF0E11B6085A0007DD2AE /* AddOrderViewController.h */,
+				047EF0E21B6085A0007DD2AE /* AddOrderViewController.m */,
+				047332FC1B60C4C400F684A2 /* OverlayView.xib */,
+				047333021B60D2B600F684A2 /* OrderListViewController.h */,
+				047333051B60D2B700F684A2 /* OrderListViewController.m */,
+				047333011B60D2B600F684A2 /* OrderListTableViewCell.h */,
+				047333041B60D2B600F684A2 /* OrderListTableViewCell.m */,
+				047333001B60D2B600F684A2 /* OrderDetailViewController.h */,
+				047333031B60D2B600F684A2 /* OrderDetailViewController.m */,
 			);
 			name = "订单";
 			sourceTree = "<group>";
@@ -1429,6 +1452,7 @@
 				BD8AD8001B50FDBB00373E5E /* HomeFooterCell.xib in Resources */,
 				BDC907C81B4E9A5700856A32 /* Images.xcassets in Resources */,
 				BDEDA4381B52254A000E5012 /* mapapi.bundle in Resources */,
+				047332FD1B60C4C400F684A2 /* OverlayView.xib in Resources */,
 				04DE27911B56713B0008DEED /* PushEditCell.xib in Resources */,
 				0451D6581B574BCB007CCD59 /* ico_make.png in Resources */,
 			);
@@ -1453,6 +1477,7 @@
 				BDC908EC1B4E9B3700856A32 /* UIImageView+AFNetworking.m in Sources */,
 				BDC908EB1B4E9B3700856A32 /* UIButton+AFNetworking.m in Sources */,
 				04D7D02F1B5A4B430054861E /* DescriptionViewController.m in Sources */,
+				047333091B60D2B700F684A2 /* OrderListTableViewCell.m in Sources */,
 				0451D6661B579147007CCD59 /* SetViewController.m in Sources */,
 				04F60C661B58CB9700CD3DEC /* ModifyFactoryNameViewController.m in Sources */,
 				BD8AD7EE1B50E62600373E5E /* SDWebImagePrefetcher.m in Sources */,
@@ -1460,6 +1485,7 @@
 				BDC908E11B4E9B3700856A32 /* NSData+Utils.m in Sources */,
 				BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */,
 				BDC909051B4EB77000856A32 /* LoginViewController.m in Sources */,
+				0473330A1B60D2B700F684A2 /* OrderListViewController.m in Sources */,
 				0479EAE61B5A5714007FE48E /* UploadImageViewController.m in Sources */,
 				BD8AD8091B511ACA00373E5E /* MessageDetailViewController.m in Sources */,
 				BDC908D41B4E9B3700856A32 /* AFHTTPRequestOperation.m in Sources */,
@@ -1504,6 +1530,8 @@
 				BDC908E01B4E9B3700856A32 /* MF_Base64Additions.m in Sources */,
 				04F60C621B58C07100CD3DEC /* ModifyJobViewController.m in Sources */,
 				0451D66C1B57AB4A007CCD59 /* AboutViewController.m in Sources */,
+				047333081B60D2B700F684A2 /* OrderDetailViewController.m in Sources */,
+				047EF0E31B6085A0007DD2AE /* AddOrderViewController.m in Sources */,
 				BD8AD80C1B513B4300373E5E /* PasswordViewController.m in Sources */,
 				04DE27861B55F8D20008DEED /* StatusViewController.m in Sources */,
 				04E81EF01B57F75700B7CE7B /* SetaddressViewController.m in Sources */,

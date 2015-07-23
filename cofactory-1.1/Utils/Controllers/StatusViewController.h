@@ -10,4 +10,6 @@
 
 @interface StatusViewController : UITableViewController
 
+@property (nonatomic, assign) int factoryType;
+
 @end

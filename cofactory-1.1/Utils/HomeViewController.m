@@ -25,6 +25,8 @@
 
 @property (nonatomic, strong) HomeItemModel *homeItemModel;
 
+@property (nonatomic, assign) int factoryType;
+
 - (void)pushClicked:(id)sender;
 - (void)findClicked:(id)sender;
 - (void)postClicked:(id)sender;
@@ -70,27 +72,39 @@
     
     // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
-    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:nil];
+    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW+10, kBannerHeight) andImageArray:nil];
     [headerView addSubview:bannerView];
 
-    // 按钮功能区
-    ButtonView *buttonView = [[ButtonView alloc] initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight)];
-    [headerView addSubview:buttonView];
-    // 添加 target
-    [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    // 按钮功能区
+//    ButtonView *buttonView = [[ButtonView alloc] initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight)];
 
-    //    if ([[Config getUserType] intValue] == 0) {
-//        // 服装厂
-//        [buttonView.postButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    } else {
-//        // 配套工厂
-//        [buttonView.postButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    }
 
-    [buttonView.postButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
+        UserModel*userModel=responseDictionary[@"model"];
+        self.factoryType = userModel.factoryType;
+        if (self.factoryType==0) {
 
-    [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
+            ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"发布订单"];
+
+            [headerView addSubview:buttonView];
+            // 添加 target
+            [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
+
+            [buttonView.postButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
+        }else{
+            ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"设置状态"];
+
+            [headerView addSubview:buttonView];
+            // 添加 target
+            [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
+
+            [buttonView.postButton addTarget:self action:@selector(authClicked:) forControlEvents:UIControlEventTouchUpInside];
+                [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
+        }
+    }];
+
     self.tableView.tableHeaderView = headerView;
 
 }
@@ -172,6 +186,7 @@
 - (void)authClicked:(id)sender {
     StatusViewController*statusVC = [[StatusViewController alloc]init];
     statusVC.hidesBottomBarWhenPushed=YES;
+    statusVC.factoryType=self.factoryType;
     [self.navigationController pushViewController:statusVC animated:YES];
     
 }

@@ -207,6 +207,20 @@
  @param block               回调函数 会返回 @{@"statusCode": @200, @"data": 订单返回字典}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误) @{@"statusCode": @400, @"message": @"未登录"}->(未登录) @{@"statusCode": @401, @"message": @"access_token过期或者无效"}->(access_token过期或者无效) @{@"statusCode": @404, @"message": @"access_token不存在"}
  */
 + (void)addOrderWithAmount:(int)amount factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange workingTime:(NSString *)workingTime andBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
+//历史订单
++ (void)listHistoryOrderWithBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
+//进行中的订单
++ (void)listOrderWithBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+//关闭订单
++ (void)closeOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
+
 /*!
  订单详情接口
 
