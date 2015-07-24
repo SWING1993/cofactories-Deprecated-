@@ -27,7 +27,11 @@
 
 @end
 
-@implementation OrderListViewController
+@implementation OrderListViewController {
+
+    int oid;
+
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -35,8 +39,8 @@
 //   NSLog(@"+++++=====self++==%d",self.userType);
 
     self.view.backgroundColor = [UIColor whiteColor];
-
     if (self.isHistory==YES) {
+        self.title=@"历史订单";
         self.orderModerArr=[[NSMutableArray alloc]initWithCapacity:0];
         [HttpClient listHistoryOrderWithBlock:^(NSDictionary *responseDictionary) {
             if ([responseDictionary[@"statusCode"] intValue]==200) {
@@ -45,6 +49,7 @@
             }
         }];
     }else{
+        self.title=@"进行中的订单";
         self.orderModerArr=[[NSMutableArray alloc]initWithCapacity:0];
         [HttpClient listOrderWithBlock:^(NSDictionary *responseDictionary) {
             if ([responseDictionary[@"statusCode"] intValue]==200) {
@@ -60,8 +65,6 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
 
-
-    
     /**创建三个选项栏标题数组，初始化时后两个为空
      */
     NSArray *processArray = @[@"加工厂不限类型", @"针织", @"梭织"];
@@ -184,11 +187,13 @@
 {
     UIButton *button = (UIButton *)sender;
 
+    FactoryModel*model = self.orderModerArr[button.tag];
+
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"是否确认订单" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles: @"确定",nil];
     [alertView show];
 
 
-    NSLog(@"++%ld",button.tag);
+    oid=model.oid;
 }
 
 - (void)orderDetailsBtnClick:(id)sender
@@ -196,8 +201,8 @@
     UIButton *button = (UIButton *)sender;
     OrderModel*model = self.orderModerArr[button.tag];
 
-    NSLog(@"--%ld",button.tag);
-    
+//    NSLog(@"--%ld",button.tag);
+
     OrderDetailViewController *VC = [[OrderDetailViewController alloc]init];
     VC.model=model;
     UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
@@ -212,17 +217,22 @@
 {
     if (buttonIndex == 1)
     {
-        self.isHistory = YES;
-        
-        self.orderModerArr=[[NSMutableArray alloc]initWithCapacity:0];
-        [HttpClient listHistoryOrderWithBlock:^(NSDictionary *responseDictionary) {
+
+        [HttpClient closeOrderWithOid:oid andBlock:^(NSDictionary *responseDictionary) {
+            NSLog(@"oid==%d==%@",oid,responseDictionary);
+
             if ([responseDictionary[@"statusCode"] intValue]==200) {
-                self.orderModerArr=responseDictionary[@"responseArray"];
-                [_tableView reloadData];
+                self.isHistory = YES;
+                self.title=@"历史订单";
+                self.orderModerArr=[[NSMutableArray alloc]initWithCapacity:0];
+                [HttpClient listHistoryOrderWithBlock:^(NSDictionary *responseDictionary) {
+                    if ([responseDictionary[@"statusCode"] intValue]==200) {
+                        self.orderModerArr=responseDictionary[@"responseArray"];
+                        [_tableView reloadData];
+                    }
+                }];
             }
         }];
-
-
     }
 }
 

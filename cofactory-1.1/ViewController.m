@@ -37,6 +37,12 @@
 }
 //加载主界面
 +(void)goMain {
+
+    AFOAuthCredential *credential=[HttpClient getToken];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:credential.accessToken forKey:@"accessToken"];
+    [userDefaults synchronize];
+
     
     // HomeViewController 初始化
     HomeViewController *homeViewController = [[HomeViewController alloc] init];
@@ -46,8 +52,6 @@
     homeNavigationController.tabBarItem.image =[UIImage imageNamed:@"tabHome"];
     homeNavigationController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabHomeSelected"];
 
-
-
     // CooperationViewController 初始化
     CooperationViewController *cooperationViewController = [[CooperationViewController alloc] init];
     UINavigationController *cooperationNavigationController = [[UINavigationController alloc] initWithRootViewController:cooperationViewController];
@@ -55,7 +59,6 @@
     cooperationNavigationController.navigationBar.barStyle=UIBarStyleBlack;
     cooperationNavigationController.tabBarItem.image =[UIImage imageNamed:@"tabpat"];
     cooperationNavigationController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabpatSelected"];
-
 
     // MessageViewController 初始化
     MessageViewController *messageViewController = [[MessageViewController alloc] init];
@@ -65,7 +68,6 @@
     messageViewController.tabBarItem.image =[UIImage imageNamed:@"tabmes"];
     messageViewController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabmesSelected"];
 
-
     // MeViewController 初始化
     MeViewController *meViewController = [[MeViewController alloc] init];
     UINavigationController *meNavigationController = [[UINavigationController alloc] initWithRootViewController:meViewController];
@@ -73,7 +75,6 @@
     meNavigationController.navigationBar.barStyle=UIBarStyleBlack;
     meNavigationController.tabBarItem.image =[UIImage imageNamed:@"tabuser"];
     meNavigationController.tabBarItem.selectedImage=[UIImage imageNamed:@"tabuserSelected"];
-
 
     // tabbarcontroller
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
@@ -83,7 +84,6 @@
     AppDelegate *app =[UIApplication sharedApplication].delegate;
     app.window.rootViewController =tabBarController;
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

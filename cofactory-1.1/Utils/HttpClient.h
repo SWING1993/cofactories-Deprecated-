@@ -148,6 +148,12 @@
  @param block               回调函数 会返回 0->(网络错误) 200->(更新成功) 400->(未登录) 401->(access_token过期或无效) 404->(access_token不存在)
  */
 + (void)updateFactoryProfileWithFactoryName:(NSString *)factoryName factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryLon:(NSNumber *)factoryLon factoryLat:(NSNumber *)factoryLat factoryFree:(id)factoryFree factoryDescription:(NSString *)factoryDescription andBlock:(void (^)(int statusCode))block;
+
+
+//是否有货车
++ (void)updateFactoryProfileWithHasTruck:(id)hasTruck andBlock:(void (^)(int statusCode))block;
+
+
 /*!
  获取任意用户资料
 
@@ -219,7 +225,8 @@
 //关闭订单
 + (void)closeOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
-
+//订单搜索
++ (void)searchOrderWithRole:(FactoryType)role FactoryServiceRange:(NSString *)factoryServiceRange Time:(NSString *)time AmountMin:(NSNumber *)amountMin AmountMax:(NSNumber *)amountMax  Page:(NSNumber *)page andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 /*!
  订单详情接口

@@ -53,7 +53,7 @@
         self.isHaveCarLB.text = @"自备货车";
         [self addSubview:self.isHaveCarLB];
         
-        self.distenceLB = [[UILabel alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width-95, 60, 80, 20)];
+        self.distenceLB = [[UILabel alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width-130, 60, 120, 20)];
         self.distenceLB.font = [UIFont systemFontOfSize:12];
         self.distenceLB.textAlignment = 2;
         self.distenceLB.textColor = [UIColor colorWithRed:0/255.0 green:191/255.0 blue:255/255.0 alpha:1.0];

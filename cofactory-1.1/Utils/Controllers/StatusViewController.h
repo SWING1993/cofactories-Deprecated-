@@ -7,9 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THDatePickerViewController.h"
 
-@interface StatusViewController : UITableViewController
+
+@interface StatusViewController : UITableViewController<THDatePickerDelegate>
 
 @property (nonatomic, assign) int factoryType;
+
+@property (nonatomic, copy) NSString* factoryFreeStatus;
+
+@property (nonatomic, copy) NSString* factoryFreeTime;
+
+@property (nonatomic, assign) int hasTruck;
 
 @end

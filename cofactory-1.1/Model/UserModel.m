@@ -15,6 +15,8 @@
     if (self) {
         _uid = [[dictionary objectForKey:@"uid"] intValue];
         _factoryType = [[dictionary objectForKey:@"factoryType"] intValue];
+        _factoryFreeStatus = [dictionary objectForKey:@"factoryFreeStatus"];
+        _hasTruck =[[dictionary objectForKey:@"hasTruck"] intValue];
         _phone = [dictionary objectForKey:@"phone"];
         _name = [dictionary objectForKey:@"name"];
         _job = [dictionary objectForKey:@"job"];
@@ -66,6 +68,7 @@
             [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
             _factoryFree = [formatter stringFromDate:date];
         }
+        _factoryFreeTime = dictionary[@"factoryFreeTime"];
         _factoryAddress = [dictionary objectForKey:@"factoryAddress"];
         _factoryServiceRange = [dictionary objectForKey:@"factoryServiceRange"];
         _factoryDescription = [dictionary objectForKey:@"factoryDescription"];

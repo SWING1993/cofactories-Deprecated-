@@ -19,15 +19,16 @@
         _accept = NO;// 需要改
         _amount = [[dictionary objectForKey:@"amount"] intValue];
         _serviceRange = [dictionary objectForKey:@"serviceRange"];
-//        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[dictionary objectForKey:@"createdAt"] intValue]];
-//        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//        dateFormatter.dateFormat = @"yyyy-MM-DD";// 年月日
-//        _createTime = [dateFormatter stringFromDate:date];
+        //        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[dictionary objectForKey:@"createdAt"] intValue]];
+        //        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        //        dateFormatter.dateFormat = @"yyyy-MM-DD";// 年月日
+        //        _createTime = [dateFormatter stringFromDate:date];
         _createTime=dictionary[@"createdAt"];
         _workingTime=dictionary[@"workingTime"];
         _name = dictionary[@"name"];
         _phone = dictionary[@"phone"];
         _interest = dictionary[@"interest"];
+        _facName = dictionary[@"factoryName"];
     }
     return self;
 }

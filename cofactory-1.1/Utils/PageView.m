@@ -26,7 +26,6 @@
         for (int i = 1; i <= 3; ++i) {
             NSString *url = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/images/banner/banner%d.png", i];
             UIImageView *imageView = [[UIImageView alloc] init];
-            imageView.contentMode=UIViewContentModeScaleAspectFill;
             [imageView sd_setImageWithURL:[NSURL URLWithString:url]];
             [imageView setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];
             [scrollView addSubview:imageView];

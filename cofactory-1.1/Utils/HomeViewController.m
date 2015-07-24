@@ -25,7 +25,21 @@
 
 @property (nonatomic, strong) HomeItemModel *homeItemModel;
 
+//记录工厂类型
 @property (nonatomic, assign) int factoryType;
+
+//记录认证状态
+@property (nonatomic, assign) int status;
+
+
+//记录空闲忙碌
+@property (nonatomic, copy) NSString* factoryFreeStatus;
+
+//记录自备货车
+@property (nonatomic, assign) int hasTruck;
+
+//记录空闲时间
+@property (nonatomic, copy) NSString* factoryFreeTime;
 
 - (void)pushClicked:(id)sender;
 - (void)findClicked:(id)sender;
@@ -35,18 +49,28 @@
 
 @end
 
-@implementation HomeViewController {
-    int status;
-}
-
+@implementation HomeViewController
 - (void)viewWillAppear:(BOOL)animated {
+
+    //工厂空闲忙碌状态
+    [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
+
+        UserModel*userModel=responseDictionary[@"model"];
+        //        NSLog(@"%@",userModel);
+        self.factoryFreeStatus=userModel.factoryFreeStatus;
+        self.hasTruck=userModel.hasTruck;
+        self.factoryFreeTime=userModel.factoryFreeTime;
+        NSLog(@"刷新工厂=%@  自备货车%d  空闲时间%@",userModel.factoryFreeStatus,self.hasTruck,self.factoryFreeTime);
+    }];
+
     [super viewWillAppear:animated];
-    [self.tableView reloadData];
+    //    [self.tableView reloadData];
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
 
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -69,40 +93,35 @@
             [self.tableView reloadData];
         }
     }];
-    
+
+
     // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
-    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW+10, kBannerHeight) andImageArray:nil];
+    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:nil];
     [headerView addSubview:bannerView];
 
-//    // 按钮功能区
-//    ButtonView *buttonView = [[ButtonView alloc] initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight)];
-
-
+    //工厂类型
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         UserModel*userModel=responseDictionary[@"model"];
-        self.factoryType = userModel.factoryType;
+        self.factoryFreeStatus=userModel.factoryFreeStatus;
+        self.factoryType =userModel.factoryType;
         if (self.factoryType==0) {
-
             ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"发布订单"];
-
             [headerView addSubview:buttonView];
-            // 添加 target
             [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
             [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
-
             [buttonView.postButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
         }else{
-            ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"设置状态"];
 
+            ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"设置状态"];
             [headerView addSubview:buttonView];
-            // 添加 target
             [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
             [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
-
             [buttonView.postButton addTarget:self action:@selector(authClicked:) forControlEvents:UIControlEventTouchUpInside];
-                [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
         }
+
     }];
 
     self.tableView.tableHeaderView = headerView;
@@ -113,59 +132,52 @@
 
     NSLog(@"ListMenu为0，初始化");
 
-//    @"服装厂",@"加工厂",@"代裁厂",@"锁眼钉扣厂"
-//     获取用户model
-    [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
-        UserModel*userModel=responseDictionary[@"model"];
-        switch (userModel.factoryType) {
-            case 0:{
-                //服装厂
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[5]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[6]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[7]];
-                [self.tableView reloadData];
-
-            }
-                break;
-            case 1:{
-                //加工厂
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[5]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[6]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[7]];
-                [self.tableView reloadData];
-
-            }
-                break;
-            case 2:{
-                //代裁厂
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[6]];
-                [self.tableView reloadData];
-
-
-            }
-                break;
-            case 3:{
-                //锁眼钉扣厂
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[7]];
-                [self.tableView reloadData];
-            }
-                break;
-
-            default:
-                break;
+    //@"服装厂",@"加工厂",@"代裁厂",@"锁眼钉扣厂"
+    switch (self.factoryType) {
+        case 0:
+        {
+            //服装厂
+            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[5]];
+            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[6]];
+            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[7]];
+            [self.tableView reloadData];
         }
+            break;
+        case 1:
+        {
+            //加工厂
+            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
+            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[5]];
+            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[6]];
+            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[7]];
+            [self.tableView reloadData];
+        }
+            break;
+        case 2:
+        {
+            //代裁厂
+            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
+            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[6]];
+            [self.tableView reloadData];
+        }
+            break;
+        case 3:
+        {
+            //锁眼钉扣厂
+            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
+            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[7]];
+            [self.tableView reloadData];
 
-    }];
+        }
+            break;
 
-
+        default:
+            break;
+    }
 }
 
-
 - (void)pushClicked:(id)sender {
-    PushHelperViewController*pushHelerVC = [[PushHelperViewController alloc]init];
+    PushViewController*pushHelerVC = [[PushViewController alloc]init];
     pushHelerVC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:pushHelerVC animated:YES];
 }
@@ -180,33 +192,43 @@
     PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
     pushOrderVC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:pushOrderVC animated:YES];
-
 }
 
 - (void)authClicked:(id)sender {
-    StatusViewController*statusVC = [[StatusViewController alloc]init];
-    statusVC.hidesBottomBarWhenPushed=YES;
-    statusVC.factoryType=self.factoryType;
-    [self.navigationController pushViewController:statusVC animated:YES];
-    
+    if (self.factoryType==1) {
+        StatusViewController*statusVC = [[StatusViewController alloc]init];
+        statusVC.factoryFreeTime=self.factoryFreeTime;
+        statusVC.factoryType=self.factoryType;
+        statusVC.hasTruck=self.hasTruck;
+        statusVC.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:statusVC animated:YES];
+    }else{
+        StatusViewController*statusVC = [[StatusViewController alloc]init];
+        statusVC.factoryFreeStatus=self.factoryFreeStatus;
+        statusVC.factoryType=self.factoryType;
+        statusVC.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:statusVC animated:YES];
+
+    }
+
+
 }
 - (void)statusClicked:(id)sender {
-
     //认证信息
     [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
         NSDictionary*VeifyDic=dictionary[@"responseDictionary"];
-        status = [VeifyDic[@"status"] intValue];
-        NSLog(@"%d",status);
+        self.status = [VeifyDic[@"status"] intValue];
+        NSLog(@"认证状态%d", self.status);
 
         //未认证
-        if (status==0) {
+        if ( self.status==0) {
             VeifyViewController*veifyVC = [[VeifyViewController alloc]init];
             veifyVC.hidesBottomBarWhenPushed=YES;
+            veifyVC.title=@"未认证";
             [self.navigationController pushViewController:veifyVC animated:YES];
-
         }
         //认证中
-        if (status==1) {
+        if ( self.status==1) {
             VeifyingViewController*veifyingVC = [[VeifyingViewController alloc]init];
             veifyingVC.hidesBottomBarWhenPushed=YES;
             veifyingVC.VeifyDic=VeifyDic;
@@ -214,11 +236,11 @@
             [self.navigationController pushViewController:veifyingVC animated:YES];
         }
         //认证成功
-        if (status==2) {
+        if ( self.status==2) {
             VeifyEndViewController*endVC = [[VeifyEndViewController alloc]init];
             endVC.hidesBottomBarWhenPushed=YES;
+            endVC.title=@"认证成功";
             [self.navigationController pushViewController:endVC animated:YES];
-
         }
     }];
 }
@@ -243,7 +265,7 @@
         return cell;
     } else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
+
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             // 添加前置颜色
@@ -266,7 +288,7 @@
             [cell addSubview:moreLabel];
 
         }
-        
+
         cell.textLabel.text = self.homeItemModel.itemArray[indexPath.section];
         return cell;
     }
@@ -283,7 +305,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     CGSize size = [[UIScreen mainScreen] bounds].size;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, kRowInset)];
-    
+
     return view;
 }
 
@@ -301,50 +323,51 @@
             case 0:
             {
                 // 各类营销活动
+                NSString*accessToken = [[NSUserDefaults standardUserDefaults]objectForKey:@"accessToken"];
+                ActivityViewController *webViewController = [[ActivityViewController alloc] init];
+                webViewController.url = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/activity/draw.html#%@",accessToken ];
+                webViewController.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:webViewController animated:YES];
 
-                /*
-                 ActivityViewController *webViewController = [[ActivityViewController alloc] init];
-                 UINavigationController *webNavigationController = [[UINavigationController alloc] initWithRootViewController:webViewController];
-                 webViewController.url = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/activity/draw.html#%@", [HttpClient getAccessToken]];
-                 webViewController.hidesBottomBarWhenPushed = YES;
-                 [self.navigationController pushViewController:webNavigationController animated:YES];
-                 */
             }
                 break;
             case 1:
             {
                 // 找服装厂外发加工订单
-                /*  OrderListViewController *orderDetailViewController =[[OrderListViewController alloc] initWithStyle:UITableViewStyleGrouped];
-                 orderDetailViewController.orderListIndex = 4;
-                 orderDetailViewController.title = @"外发加工";
-                 orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-                 [self.navigationController pushViewController:orderDetailViewController animated:YES];
-                 */
+                searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc]init];
+                orderDetailViewController.orderListType = 1;
+                orderDetailViewController.title = @"外发加工";
+                orderDetailViewController.userType = self.factoryType;
+                orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+                [self.navigationController pushViewController:orderDetailViewController animated:YES];
 
             }
                 break;
             case 2:{
                 // 找服装厂外发代裁订单
-                /*
-                 OrderListViewController *orderDetailViewController =[[OrderListViewController alloc] initWithStyle:UITableViewStyleGrouped];
-                 orderDetailViewController.orderListIndex = 5;
-                 orderDetailViewController.title = @"外发代裁";
-                 orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-                 [self.navigationController pushViewController:orderDetailViewController animated:YES];
-                 */
+
+                searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc] init];
+                orderDetailViewController.orderListType = 2;
+                orderDetailViewController.title = @"外发代裁";
+                orderDetailViewController.userType = self.factoryType;
+                orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+                [self.navigationController pushViewController:orderDetailViewController animated:YES];
+
             }
                 break;
             case 3:{
-                // 找服装厂外发锁眼钉扣订单
-                /*
-                 OrderListViewController *orderDetailViewController =[[OrderListViewController alloc] initWithStyle:UITableViewStyleGrouped];
-                 orderDetailViewController.orderListIndex = 6;
-                 orderDetailViewController.title = @"外发锁眼钉扣";
-                 orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-                 [self.navigationController pushViewController:orderDetailViewController animated:YES];
-                 */
+                //找服装厂外发锁眼钉扣订单
+
+                searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc] init];
+                orderDetailViewController.orderListType = 3;
+                orderDetailViewController.title = @"外发锁眼钉扣";
+                orderDetailViewController.userType = self.factoryType;
+                orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+                [self.navigationController pushViewController:orderDetailViewController animated:YES];
+
             }
                 break;
+
             case 4:
             {
                 // 找服装厂信息
@@ -404,13 +427,13 @@
 }
 
 /*
-#pragma mark - Navigation
+ #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

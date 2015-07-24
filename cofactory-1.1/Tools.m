@@ -56,6 +56,17 @@
     return mutableArray;
 }
 
++ (NSMutableArray *)WithTime:(NSString *)timeString {
+    NSMutableArray*mutableArray=[[NSMutableArray alloc]initWithCapacity:0];
+    NSArray*sizeArray=[timeString componentsSeparatedByString:@"T"];
+    NSString*yearString = [sizeArray firstObject];
+    NSString*dayString = [sizeArray lastObject];
+    [mutableArray addObject:yearString];
+    [mutableArray addObject:dayString];
+    return mutableArray;
+}
+
+
 + (MBProgressHUD *)createHUD {
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithWindow:window];
@@ -64,6 +75,27 @@
     [hud show:YES];
 
     return hud;
+}
+
++ (NSString *)SizeWith:(NSString *)sizeString {
+    NSString*string;
+    if ([sizeString rangeOfString:@"万件以上"].location !=NSNotFound) {
+        NSArray*sizeArray=[sizeString componentsSeparatedByString:@"万件以上"];
+        int size = [[sizeArray firstObject] intValue];
+        NSString*min=[NSString stringWithFormat:@"%d",size/10000];
+        string = [NSString stringWithFormat:@"%@万件以上",min];
+    }
+    else{
+        NSArray*sizeArray=[sizeString componentsSeparatedByString:@"万件"];
+        NSString*size = [sizeArray firstObject];
+        NSArray*sizeArray2=[size componentsSeparatedByString:@"到"];
+        int firstSize = [[sizeArray2 firstObject] intValue];
+        int lastSize = [[sizeArray2 lastObject] intValue];
+        NSString*min=[NSString stringWithFormat:@"%d",firstSize/10000];
+        NSString*max=[NSString stringWithFormat:@"%d",lastSize/10000];
+        string = [NSString stringWithFormat:@"%@万件-%@万件",min,max];
+    }
+    return string;
 }
 
 @end

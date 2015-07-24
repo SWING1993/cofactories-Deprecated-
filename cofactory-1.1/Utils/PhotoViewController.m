@@ -22,48 +22,42 @@
 
 @implementation PhotoViewController
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    [HttpClient getFactoryPhotoWithUid:self.userUid type:@"employee" andBlock:^(NSDictionary *dictionary) {
-
-        if ([dictionary[@"statusCode"] intValue]== 200) {
-            self.employeeArray = [[NSMutableArray alloc]initWithCapacity:0];
-            NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
-            NSDictionary*factory=responseDictionary[@"factory"];
-            self.employeeArray = factory[@"employee"];
-
-            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0],nil] withRowAnimation:UITableViewRowAnimationNone];
-
-//            NSLog(@"1");
-        }
-    }];
-    [HttpClient getFactoryPhotoWithUid:self.userUid type:@"environment" andBlock:^(NSDictionary *dictionary) {
-
-        if ([dictionary[@"statusCode"] intValue]== 200) {
-            self.environmentArray = [[NSMutableArray alloc]initWithCapacity:0];
-            NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
-            NSDictionary*factory=responseDictionary[@"factory"];
-            self.environmentArray=factory[@"environment"];
-            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:1],nil] withRowAnimation:UITableViewRowAnimationNone];
-
-//            NSLog(@"2");
-
-        }
-    }];
-
-    [HttpClient getFactoryPhotoWithUid:self.userUid type:@"equipment" andBlock:^(NSDictionary *dictionary) {
-        if ([dictionary[@"statusCode"] intValue]== 200) {
-            self.equipmentArray = [[NSMutableArray alloc]initWithCapacity:0];
-            NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
-            NSDictionary*factory=responseDictionary[@"factory"];
-            self.equipmentArray=factory[@"equipment"];
-
-            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:2],nil] withRowAnimation:UITableViewRowAnimationNone];
-//            NSLog(@"3");
-        }
-    }];
-}
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//
+//    [HttpClient getFactoryPhotoWithUid:self.userUid type:@"employee" andBlock:^(NSDictionary *dictionary) {
+//
+//        if ([dictionary[@"statusCode"] intValue]== 200) {
+//            self.employeeArray = [[NSMutableArray alloc]initWithCapacity:0];
+//            NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
+//            NSDictionary*factory=responseDictionary[@"factory"];
+//            self.employeeArray = factory[@"employee"];
+//
+//            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0],nil] withRowAnimation:UITableViewRowAnimationNone];
+//        }
+//    }];
+//    [HttpClient getFactoryPhotoWithUid:self.userUid type:@"environment" andBlock:^(NSDictionary *dictionary) {
+//
+//        if ([dictionary[@"statusCode"] intValue]== 200) {
+//            self.environmentArray = [[NSMutableArray alloc]initWithCapacity:0];
+//            NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
+//            NSDictionary*factory=responseDictionary[@"factory"];
+//            self.environmentArray=factory[@"environment"];
+//            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:1],nil] withRowAnimation:UITableViewRowAnimationNone];
+//        }
+//    }];
+//
+//    [HttpClient getFactoryPhotoWithUid:self.userUid type:@"equipment" andBlock:^(NSDictionary *dictionary) {
+//        if ([dictionary[@"statusCode"] intValue]== 200) {
+//            self.equipmentArray = [[NSMutableArray alloc]initWithCapacity:0];
+//            NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
+//            NSDictionary*factory=responseDictionary[@"factory"];
+//            self.equipmentArray=factory[@"equipment"];
+//
+//            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:2],nil] withRowAnimation:UITableViewRowAnimationNone];
+//        }
+//    }];
+//}
 
 
 - (void)viewDidLoad {
@@ -89,38 +83,40 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell*cell = [tableView cellForRowAtIndexPath:indexPath];
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-    }
-    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-    switch (indexPath.section) {
-        case 0:
-        {
-            cell.detailTextLabel.text=[NSString stringWithFormat:@"%lu/10",(unsigned long)[self.employeeArray count]];
-        }
-            break;
-        case 1:
-        {
-            cell.detailTextLabel.text=[NSString stringWithFormat:@"%lu/10",(unsigned long)[self.environmentArray count]];
-        }
-            break;
-        case 2:
-        {
-            cell.detailTextLabel.text=[NSString stringWithFormat:@"%lu/10",(unsigned long)[self.equipmentArray count]];
-        }
-            break;
+        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+//        switch (indexPath.section) {
+//            case 0:
+//            {
+//                cell.detailTextLabel.text=[NSString stringWithFormat:@"%lu/10",(unsigned long)[self.employeeArray count]];
+//            }
+//                break;
+//            case 1:
+//            {
+//                cell.detailTextLabel.text=[NSString stringWithFormat:@"%lu/10",(unsigned long)[self.environmentArray count]];
+//            }
+//                break;
+//            case 2:
+//            {
+//                cell.detailTextLabel.text=[NSString stringWithFormat:@"%lu/10",(unsigned long)[self.equipmentArray count]];
+//            }
+//                break;
+//
+//            default:
+//                break;
+//        }
+        UIImageView*cellImage= [[UIImageView alloc]initWithFrame:CGRectMake(10, 7, 30, 30)];
+        cellImage.image=[UIImage imageNamed:@"set_公司相册"];
+        [cell addSubview:cellImage];
 
-        default:
-            break;
-    }
-    UIImageView*cellImage= [[UIImageView alloc]initWithFrame:CGRectMake(10, 7, 30, 30)];
-    cellImage.image=[UIImage imageNamed:@"set_公司相册"];
-    [cell addSubview:cellImage];
+        UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 7, kScreenW-40, 30)];
+        cellLabel.font=[UIFont systemFontOfSize:15.0f];
+        cellLabel.text=self.cellArray[indexPath.section];
+        [cell addSubview:cellLabel];
 
-    UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 7, kScreenW-40, 30)];
-    cellLabel.font=[UIFont systemFontOfSize:15.0f];
-    cellLabel.text=self.cellArray[indexPath.section];
-    [cell addSubview:cellLabel];
+    }
 
     return cell;
 }

@@ -33,6 +33,11 @@ typedef enum {
 @property (nonatomic, copy) NSString *factoryServiceRange;
 @property (nonatomic, copy) NSString *factoryDescription;
 @property (nonatomic, assign) int factoryFinishedDegree;
+@property (nonatomic, assign) int hasTruck;
+
+@property (nonatomic, copy) NSString  *factoryFreeStatus;
+
+@property (nonatomic, copy) NSString  *factoryFreeTime;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 - (instancetype)initWithTouristIdentity:(FactoryType)factoryType;

@@ -18,6 +18,7 @@ typedef enum {
 @interface FactoryModel : NSObject
 
 @property (nonatomic, assign) int uid;
+@property (nonatomic, assign) int oid;
 @property (nonatomic, copy) NSString *factoryName;
 @property (nonatomic, strong) NSString *factorySize;
 @property (nonatomic, copy) NSString *factoryServiceRange;
@@ -30,6 +31,9 @@ typedef enum {
 @property (nonatomic, assign) AuthStatus authStatus;
 @property (nonatomic, assign) FactoryType factoryType;
 @property (nonatomic, assign) int distance;
+@property (nonatomic, copy) NSString* factoryFreeStatus;
+@property (nonatomic, copy) NSString* factoryFreeTime;
+
 
 @property (nonatomic,assign) int verifyStatus;
 @property (nonatomic,assign)int hasTruck;

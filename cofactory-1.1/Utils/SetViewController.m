@@ -38,7 +38,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -59,11 +59,7 @@
 
             }
                 break;
-//            case 1:{
-//                cell.textLabel.text=@"分享给好友";
-//
-//            }
-                break;
+                
             case 1:{
                 cell.textLabel.text=@"意见反馈";
 
@@ -110,7 +106,9 @@
         }
             break;
         case 1:{
-
+            FeedbackViewController*feedbackVC = [[FeedbackViewController alloc]init];
+            feedbackVC.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:feedbackVC animated:YES];
         }
             break;
         case 2:{

@@ -71,6 +71,12 @@
     if (!ret) {
         NSLog(@"百度地图SDK错误");
     }
+
+    //推送助手模型
+    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"dic"] != nil)
+    {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"dic"];
+    }
     
     return YES;
 }

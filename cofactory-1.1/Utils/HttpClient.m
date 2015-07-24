@@ -28,6 +28,7 @@
 #define API_updateMenu @"/menu/edit"
 #define API_getMenu @"/menu/list"
 
+#define API_searchOrder @"/search/order"
 #define API_addOrder @"/order/add"
 #define API_orderDetail @"/order"
 #define API_closeOrder @"/order/close"
@@ -205,7 +206,6 @@
         [self getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
 
             if ([[responseDictionary objectForKey:@"statusCode"] intValue] == 200) {
-                //严重BUG
                 NSLog(@"登录信息字典模型%@",[responseDictionary objectForKey:@"model"] );
 //                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 //                [userDefaults setObject:[responseDictionary objectForKey:@"model"] forKey:@"UserModel"];
@@ -239,6 +239,7 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_userProfile parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//            NSLog(@"%@",responseObject);
             UserModel *userModel = [[UserModel alloc] initWithDictionary:responseObject];
             block(@{@"statusCode": @([operation.response statusCode]), @"model": userModel});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -334,14 +335,6 @@
                 FactoryModel *factoryModel = [[FactoryModel alloc] initWithDictionary:dictionary];
                 [responseArray addObject:factoryModel];
             }
-
-
-//            NSArray *jsonArray = (NSArray *)responseObject;
-//            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
-//            for (NSDictionary *dictionary in jsonArray) {
-//                UserModel *userModel = [[UserModel alloc] initWithDictionary:dictionary];
-//                [responseArray addObject:userModel];
-//            }
             block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseArray});
 
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -399,7 +392,7 @@
     if (credential) {
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
-        NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:7];
+        NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
         if (factoryName)
             [mutableDictionary setObject:factoryName forKey:@"factoryName"];
         if (factoryDescription)
@@ -417,7 +410,31 @@
         if (factoryLat)
             [mutableDictionary setObject:factoryLat forKey:@"factoryLat"];
         if (factoryFree) {
-            [mutableDictionary setObject:factoryFree forKey:@""];
+            [mutableDictionary setObject:factoryFree forKey:@"factoryFree"];
+        }
+        [manager POST:API_factoryProfile parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block((int)[operation.response statusCode]);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            block((int)[operation.response statusCode]);
+        }];
+    } else {
+        block(404);// access_token不存在
+    }
+}
+
+//是否有货车
++ (void)updateFactoryProfileWithHasTruck:(id)hasTruck andBlock:(void (^)(int statusCode))block {
+
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
+
+        if (hasTruck) {
+            [mutableDictionary setObject:hasTruck forKey:@"hasTruck"];
         }
         [manager POST:API_factoryProfile parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
             block((int)[operation.response statusCode]);
@@ -638,8 +655,6 @@
     } else {
         block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
     }
-
-
 }
 
 //进行中的订单
@@ -710,6 +725,43 @@
         block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
     }
 }
++ (void)searchOrderWithRole:(FactoryType)role FactoryServiceRange:(NSString *)factoryServiceRange Time:(NSString *)time AmountMin:(NSNumber *)amountMin AmountMax:(NSNumber *)amountMax  Page:(NSNumber *)page andBlock:(void (^)(NSDictionary *responseDictionary))block {
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+    if (credential) {
+        // 有 access_token
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+    }
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
+    if (role)
+        [mutableDictionary setObject:@(role) forKey:@"role"];
+    if (factoryServiceRange)
+        [mutableDictionary setObject:factoryServiceRange forKey:@"factoryServiceRange"];
+    if (time)
+        [mutableDictionary setObject:time forKey:@"time"];
+    if (amountMin) {
+        NSArray *amount = [[NSArray alloc] initWithObjects:amountMin, amountMax, nil];
+        [mutableDictionary setObject:amount forKey:@"amount"];
+    }
+    if (page)
+        [mutableDictionary setObject:page forKey:@"page"];
+
+    [manager GET:API_searchOrder parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"订单搜索=%@",responseObject);
+        NSArray *jsonArray = (NSArray *)responseObject;
+        NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
+        for (NSDictionary *dictionary in jsonArray) {
+            OrderModel *orderModel = [[OrderModel alloc] initWithDictionary:dictionary];
+            [responseArray addObject:orderModel];
+        }
+        block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseArray});
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(@{@"statusCode": @0, @"message": @"网络错误"});// 网络错误
+    }];
+}
+
 
 + (void)getOrderDetailWithOid:(int)oid andBlock:(void (^)(NSDictionary *))block {
     NSParameterAssert(oid);

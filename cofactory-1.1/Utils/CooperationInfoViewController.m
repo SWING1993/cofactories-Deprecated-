@@ -181,9 +181,10 @@
 
             UIButton*callBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 10, kScreenW/2-20, 40)];
             callBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
-            callBtn.titleEdgeInsets = UIEdgeInsetsMake(20, 0, 20, 40);
             [callBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [callBtn setTitle:@"拨打电话" forState:UIControlStateNormal];
+            callBtn.titleEdgeInsets = UIEdgeInsetsMake(20, -20, 20, 00);
+
             [callBtn setImage:[UIImage imageNamed:@"set_号码"] forState:UIControlStateNormal];
             callBtn.imageEdgeInsets = UIEdgeInsetsMake(0,0 ,0 ,kScreenW/2-60);
             [callBtn addTarget:self action:@selector(callBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -195,7 +196,7 @@
 
             UIButton*favoriteBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2+10, 10, kScreenW/2-20, 40)];
             favoriteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
-            favoriteBtn.titleEdgeInsets = UIEdgeInsetsMake(20, -20, 20, 20);
+            favoriteBtn.titleEdgeInsets = UIEdgeInsetsMake(20, -20, 20, 00);
             [favoriteBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [favoriteBtn setTitle:@"收藏工厂" forState:UIControlStateNormal];
             [favoriteBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
@@ -247,35 +248,65 @@
 
             for (int i = 0; i<3; i++) {
                 UIImageView*imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10+i*((kScreenW-90)/3+30), 5, 30 , 30)];
+                UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(50+i*((kScreenW-90)/3+30), 5, 80 , 30)];
+                cellLabel.font = [UIFont systemFontOfSize:14.0f];
                 if (i==0) {
-                    imageView.image = self.cellImageArray3[i];
+
+                    if (self.factoryModel.factoryType==1) {
+                        imageView.image = self.cellImageArray3[0];
+                        if (self.factoryModel.factoryFreeTime) {
+                            NSString*timeString=[[Tools WithTime:self.factoryModel.factoryFreeTime] firstObject];
+                            cellLabel.text = timeString;
+                        }
+                    }else{
+                        if ([self.factoryModel.factoryFreeStatus isEqualToString:@"空闲"]) {
+                            imageView.image = self.cellImageArray3[0];
+                            cellLabel.text = @"空闲";
+
+                        }else{
+                            imageView.image = self.cellImageArray4[0];
+                            cellLabel.text = @"忙碌";
+
+                        }
+                    }
                 }
                 if (i==1) {
-                    imageView.image = self.cellImageArray3[i];
+                    if (self.factoryModel.hasTruck==0) {
+                        imageView.image = self.cellImageArray3[1];
+                        cellLabel.text = @"不自备货车";
+
+                    }else{
+                        imageView.image = self.cellImageArray4[1];
+                        cellLabel.text = @"自备货车";
+
+                    }
                 }
                 if (i==2) {
                     if (self.factoryModel.authStatus==2) {
                         imageView.image = self.cellImageArray4[2];
+                        cellLabel.text = @"已认证";
+
                     }else{
                         imageView.image = self.cellImageArray3[2];
+                        cellLabel.text = @"未认证";
+
                     }
                 }
                 [cell addSubview:imageView];
 
-                UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(50+i*((kScreenW-90)/3+30), 5, 80 , 30)];
-//                cellLabel.backgroundColor = [UIColor grayColor];
-                cellLabel.font = [UIFont systemFontOfSize:14.0f];
+
                 if (i==0) {
-                    cellLabel.text = @"测试";
+
+                    if ([self.factoryModel.factoryFreeStatus isEqualToString:@"空闲"]) {
+                    }else{
+                    }
+
                 }
                 if (i==1) {
-                    cellLabel.text = @"测试";
                 }
                 if (i==2) {
                     if (self.factoryModel.authStatus==2) {
-                        cellLabel.text = @"已认证";
                     }else{
-                        cellLabel.text = @"未认证";
                     }
                 }
                 [cell addSubview:cellLabel];

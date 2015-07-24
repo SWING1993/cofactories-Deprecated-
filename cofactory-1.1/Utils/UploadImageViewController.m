@@ -106,11 +106,35 @@
             NSLog(@"self.imageArray=%@",self.imageArray);
         }
     }];
-//    dispatch_async([self serialQueue], ^{//把block中的任务放入串行队列中执行，这是第一个任务
-//                sleep(3);//假装这个viewController创建}
-//        [CollectionView reloadData];
-//
-//      });
+    dispatch_async([self serialQueue], ^{//把block中的任务放入串行队列中执行，这是第一个任务
+                sleep(5);//假装这个viewController创建}
+        [HttpClient getFactoryPhotoWithUid:self.userUid type:self.type andBlock:^(NSDictionary *dictionary) {
+
+            if ([dictionary[@"statusCode"] intValue]== 200) {
+
+                self.imageArray = [[NSMutableArray alloc]initWithCapacity:0];
+
+                NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
+
+                NSDictionary*factory=responseDictionary[@"factory"];
+
+                if ([self.type isEqualToString:@"employee"]) {
+                    self.imageArray=factory[@"employee"];
+                }
+                if ([self.type isEqualToString:@"environment"]) {
+                    self.imageArray=factory[@"environment"];
+                }
+                if ([self.type isEqualToString:@"equipment"]) {
+                    self.imageArray=factory[@"equipment"];
+                }
+                
+                [CollectionView reloadData];
+                
+                NSLog(@"self.imageArray=%@",self.imageArray);
+            }
+        }];
+
+      });
 }
 
 
@@ -155,13 +179,18 @@
 #pragma mark <UIImagePickerControllerDelegate>
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *image = info[UIImagePickerControllerEditedImage];
+
+    NSData*imageData = UIImageJPEGRepresentation(image, 0.3);
+
+    UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+
     [picker dismissViewControllerAnimated:YES completion:^{
 
-        [HttpClient uploadImageWithImage:image type:self.type andblock:^(NSDictionary *dictionary) {
+        [HttpClient uploadImageWithImage:newImage type:self.type andblock:^(NSDictionary *dictionary) {
             if ([dictionary[@"statusCode"] intValue]==200) {
                 [self getImage];
             }else{
-                NSLog(@"===%@",dictionary);
+                NSLog(@"失败%@",dictionary);
             }
         }];
 
@@ -181,20 +210,11 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-
     UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW/4-10, kScreenW/4-10)];
-
     NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[indexPath.row]];
-
-    NSLog(@">>>%@",urlString);
-//    [photoView sd_setImageWithURL:[NSURL URLWithString:urlString]];
-    
-
+//    NSLog(@">>>%@",urlString);
     [photoView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
-//    NSLog(@"%@",urlString);
-
     photoView.contentMode=UIViewContentModeScaleAspectFill;
     photoView.clipsToBounds=YES;
     [cell addSubview:photoView];
@@ -202,36 +222,6 @@
     return cell;
 }
 
-#pragma mark <UICollectionViewDelegate>
-
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

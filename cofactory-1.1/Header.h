@@ -48,6 +48,7 @@
 #import "UIButton+WebCache.h"
 #import "UIImageView+WebCache.h"
 #import "JSDropDownMenu.h"
+#import "THDatePickerViewController.h"//日历
 
 
 
@@ -68,7 +69,7 @@
 #import "HomeEditViewController.h"//主页编辑
 
 
-#import "PushHelperViewController.h"//推送助手
+#import "PushViewController.h"//推送助手
 
 //找合作商
 #import "FactoryListViewController.h"
@@ -77,6 +78,7 @@
 #import "PushOrderViewController.h"//推送订单
 #import "StatusViewController.h"//设置状态
 #import "AddOrderViewController.h"//发布订单
+#import "searchOrderListVC.h"//搜索订单
 
 #import "OrderListViewController.h"
 #import "OrderListTableViewCell.h"
@@ -94,6 +96,7 @@
 #import "CooperationInfoViewController.h"//合作商详情页
 
 
+#import "ActivityViewController.h"//营销活动
 
 
 //消息
@@ -116,6 +119,8 @@
 #import "UploadImageViewController.h"//上传图片
 #import "FavoriteViewController.h"//我的收藏
 #import "DescriptionViewController.h"//公司简介
+#import "FeedbackViewController.h"//意见反馈
+
 
 
 

@@ -22,7 +22,7 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, strong) NSString *phone;
 @property (nonatomic, strong) NSString *interest;
-
+@property (nonatomic, strong) NSString *facName;
 
 
 

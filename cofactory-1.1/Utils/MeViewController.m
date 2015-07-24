@@ -107,8 +107,6 @@
     headerView.backgroundColor=[UIColor whiteColor];
     [headerView addSubview:BGImage];
 
-    [[SDImageCache sharedImageCache] clearDisk];
-
     UIButton*headerButton=[[UIButton alloc]initWithFrame:CGRectMake(10, kBannerHeight-80, 60, 60)];
     headerButton.backgroundColor=[UIColor blueColor];
     headerButton.layer.cornerRadius=60/2.0f;
@@ -123,8 +121,8 @@
     self.userModel=[[UserModel alloc]init];
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         self.userModel=responseDictionary[@"model"];
-//        NSLog(@"%@",self.userModel);
         factoryNameLabel.text=self.userModel.factoryName;
+        NSLog(@"%@",self.userModel);
         [headerView addSubview:factoryNameLabel];
         [self.tableView reloadData];
 
@@ -143,7 +141,6 @@
 
     self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"]];
     self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司相册"],[UIImage imageNamed:@"set_公司业务类型"]];
-//
 
 }
 
@@ -293,8 +290,12 @@
                 break;
             case 2:{
                 cellLabel.text=@"公司规模";
-                cell.detailTextLabel.text=self.userModel.factorySize;
 
+                if (self.userModel.factoryType==GarmentFactory) {
+                    cell.detailTextLabel.text=[Tools SizeWith:self.userModel.factorySize];
+                }else {
+                    cell.detailTextLabel.text=self.userModel.factorySize;
+                }
             }
                 break;
             case 3:{
@@ -409,7 +410,6 @@
                 default:
                     break;
             }
-
         }
             break;
         case 1:{
@@ -474,7 +474,6 @@
         default:
             break;
     }
-
 }
 
 

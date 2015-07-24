@@ -59,10 +59,17 @@
         }];
 
     }
-    
-    
-    
+
+    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax andBlock:^(NSDictionary *responseDictionary) {
+        self.factoryModelArray = nil;
+        self.factoryModelArray = responseDictionary[@"responseArray"];
+        [_tableView reloadData];
+    }];
+
+
 }
+
+
 
 
 - (void)viewDidLoad {
@@ -229,7 +236,7 @@
             break;
     }
     
-    cell.distenceLB.text = [NSString stringWithFormat:@"相距%d公里",factoryModel.distance];
+    cell.distenceLB.text = [NSString stringWithFormat:@"相距%d公里",factoryModel.distance/1000];
     if (factoryModel.verifyStatus == 2)
     {
         cell.certifyUserLB.hidden = NO;
@@ -462,11 +469,9 @@
     else {
         _currentData4Index = indexPath.row;
     }
-    
-    
-    NSLog(@"%d %d %d %d", indexPath.column, indexPath.leftOrRight, indexPath.leftRow, indexPath.row);
-    
-    
+        
+//    NSLog(@"%d %d %d %d", indexPath.column, indexPath.leftOrRight, indexPath.leftRow, indexPath.row);
+
     // 筛选工厂类型
     if (indexPath.column == 0 && indexPath.leftOrRight == 1 )
     {
@@ -732,15 +737,10 @@
     NSLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax);
 
 
-
-
     [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax andBlock:^(NSDictionary *responseDictionary) {
-
         self.factoryModelArray = nil;
         self.factoryModelArray = responseDictionary[@"responseArray"];
-        //        NSLog(@"++++++=====%@",self.factoryModelArray);
         [_tableView reloadData];
-        
     }];
 
 }
@@ -748,7 +748,7 @@
 #pragma mark - <UISearchBarDelegate>
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.navigationItem.titleView resignFirstResponder];
+    [self.navigationItem.titleView endEditing:YES];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -758,8 +758,6 @@
     [HttpClient searchWithFactoryName:searchBar.text factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil andBlock:^(NSDictionary *responseDictionary) {
         self.factoryModelArray = nil;
         self.factoryModelArray = responseDictionary[@"responseArray"];
-        NSLog(@"++++++=====%d",self.factoryModelArray.count
-              );
         [_tableView reloadData];
 
         if (self.factoryModelArray.count == 0)
