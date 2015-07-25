@@ -66,6 +66,13 @@
         headerImage.layer.masksToBounds=YES;
         [cell addSubview:headerImage];
 
+
+        UIButton*callBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-55, 30, 40, 40)];
+        callBtn.tag=indexPath.section;
+        [callBtn setBackgroundImage:[UIImage imageNamed:@"PHONE"] forState:UIControlStateNormal];
+        [callBtn addTarget:self action:@selector(callBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [cell addSubview:callBtn];
+
         for (int i=0; i<3; i++) {
             UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, (10+30*i), kScreenW-170, 20)];
             cellLabel.font=[UIFont systemFontOfSize:14.0f];
@@ -97,6 +104,16 @@
         }
     }
     return cell;
+}
+
+- (void)callBtn:(UIButton *)sender {
+    UIButton*button = (UIButton *)sender;
+    FactoryModel*factoryModel=self.modelArray[button.tag];
+
+    NSString *str = [NSString stringWithFormat:@"telprompt://%@", factoryModel.phone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+
+
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 5.0f;

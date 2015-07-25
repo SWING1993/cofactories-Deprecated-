@@ -9,7 +9,7 @@
 #import "Header.h"
 #import "SetViewController.h"
 
-@interface SetViewController ()
+@interface SetViewController () <UIAlertViewDelegate>
 
 @end
 
@@ -31,14 +31,24 @@
 }
 
 - (void)quitButtonClicked{
-    [HttpClient logout];
-    [ViewController goLogin];
+
+    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"确定退出" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+
+    [alertView show];
+
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex==1) {
+        [HttpClient logout];
+        [ViewController goLogin];
+    }
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -59,11 +69,7 @@
 
             }
                 break;
-//            case 1:{
-//                cell.textLabel.text=@"分享给好友";
-//
-//            }
-                break;
+                
             case 1:{
                 cell.textLabel.text=@"意见反馈";
 
@@ -110,7 +116,9 @@
         }
             break;
         case 1:{
-
+            FeedbackViewController*feedbackVC = [[FeedbackViewController alloc]init];
+            feedbackVC.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:feedbackVC animated:YES];
         }
             break;
         case 2:{

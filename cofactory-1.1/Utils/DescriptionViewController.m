@@ -35,7 +35,6 @@
     //设置Btn
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
     self.navigationItem.rightBarButtonItem = setButton;
-
 }
 
 - (void)buttonClicked{

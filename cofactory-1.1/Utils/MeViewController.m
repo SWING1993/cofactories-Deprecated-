@@ -15,6 +15,8 @@
 
     UILabel*infoLabel;
 
+    UIButton*headerButton;
+
 }
 
 //用户模型
@@ -97,8 +99,6 @@
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
 
-
-
     // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight)];
 
@@ -107,9 +107,7 @@
     headerView.backgroundColor=[UIColor whiteColor];
     [headerView addSubview:BGImage];
 
-    [[SDImageCache sharedImageCache] clearDisk];
-
-    UIButton*headerButton=[[UIButton alloc]initWithFrame:CGRectMake(10, kBannerHeight-80, 60, 60)];
+    headerButton=[[UIButton alloc]initWithFrame:CGRectMake(10, kBannerHeight-80, 60, 60)];
     headerButton.backgroundColor=[UIColor blueColor];
     headerButton.layer.cornerRadius=60/2.0f;
     headerButton.layer.masksToBounds=YES;
@@ -119,16 +117,18 @@
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, kBannerHeight-45, kScreenW-100, 20)];
     factoryNameLabel.font=[UIFont boldSystemFontOfSize:18];
 
+
+    [[SDImageCache sharedImageCache]clearDisk];
     //初始化用户model
     self.userModel=[[UserModel alloc]init];
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         self.userModel=responseDictionary[@"model"];
-//        NSLog(@"%@",self.userModel);
         factoryNameLabel.text=self.userModel.factoryName;
+        NSLog(@"%d",self.userModel.uid);
         [headerView addSubview:factoryNameLabel];
         [self.tableView reloadData];
 
-        [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
+        [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
         [headerView addSubview:headerButton];
     }];
 
@@ -143,7 +143,6 @@
 
     self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"]];
     self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司相册"],[UIImage imageNamed:@"set_公司业务类型"]];
-//
 
 }
 
@@ -200,7 +199,12 @@
     UIImage *image = info[UIImagePickerControllerEditedImage];
     [picker dismissViewControllerAnimated:YES completion:^{
         [HttpClient uploadImageWithImage:image type:@"avatar" andblock:^(NSDictionary *dictionary) {
-            NSLog(@"上传头像返回%@",dictionary[@"statusCode"]);
+            if ([dictionary[@"statusCode"] intValue]==200) {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"头像上传成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+                [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
+                [headerButton setBackgroundImage:image forState:UIControlStateNormal];
+            }
         }];
     }];
 }
@@ -293,8 +297,12 @@
                 break;
             case 2:{
                 cellLabel.text=@"公司规模";
-                cell.detailTextLabel.text=self.userModel.factorySize;
 
+                if (self.userModel.factoryType==GarmentFactory) {
+                    cell.detailTextLabel.text=[Tools SizeWith:self.userModel.factorySize];
+                }else {
+                    cell.detailTextLabel.text=self.userModel.factorySize;
+                }
             }
                 break;
             case 3:{
@@ -316,7 +324,6 @@
         [cell setAccessoryType:UITableViewCellAccessoryNone];
         UILabel*titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
         titleLabel.text=@"公司简介";
-        //            titleLabel.backgroundColor=[UIColor redColor];
         titleLabel.textAlignment=NSTextAlignmentCenter;
         titleLabel.font=[UIFont systemFontOfSize:16.0f];
         [cell addSubview:titleLabel];
@@ -325,9 +332,8 @@
         UIFont*font=[UIFont systemFontOfSize:14];
 
         CGSize size = [self.userModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
-        UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 25, kScreenW-40, size.height-10)];
+        UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 25, kScreenW-40, size.height)];
         descriptionLabel.text=self.userModel.factoryDescription;
-//                    descriptionLabel.backgroundColor=[UIColor grayColor];
         descriptionLabel.font=[UIFont systemFontOfSize:14.0f];
         descriptionLabel.numberOfLines=0;
         [cell addSubview:descriptionLabel];
@@ -368,7 +374,7 @@
         UIFont*font=[UIFont systemFontOfSize:14];
 
         CGSize size = [self.userModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
-        return size.height+20;
+        return size.height+40;
     }else{
         return 44;
     }
@@ -411,7 +417,6 @@
                 default:
                     break;
             }
-
         }
             break;
         case 1:{
@@ -434,7 +439,12 @@
                     break;
                 case 2:{
                     ModifySizeViewController*sizeVC = [[ModifySizeViewController alloc]init];
-                    sizeVC.placeholder=self.userModel.factorySize;
+
+                    if (self.userModel.factoryType==GarmentFactory) {
+                        sizeVC.placeholder=[Tools SizeWith:self.userModel.factorySize];
+                    }else {
+                        sizeVC.placeholder=self.userModel.factorySize;
+                    }
                     sizeVC.cellPickList=self.sizeArray;
                     sizeVC.hidesBottomBarWhenPushed=YES;
                     [self.navigationController pushViewController:sizeVC animated:YES];
@@ -476,7 +486,6 @@
         default:
             break;
     }
-
 }
 
 

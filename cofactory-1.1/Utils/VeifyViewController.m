@@ -284,7 +284,7 @@
     switch (self.imageType) {
         case 0:
         {
-            [HttpClient uploadVerifyImage:[self.imageArray lastObject] type:@"idCard" andblock:^(NSDictionary *dictionary) {
+            [HttpClient uploadVerifyImage:[self.imageArray lastObject] type:@"license" andblock:^(NSDictionary *dictionary) {
                 if ([dictionary[@"statusCode"] intValue]==200) {
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"上传成功" message:nil
                 delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
@@ -296,7 +296,7 @@
 
         case 1:
         {
-            [HttpClient uploadVerifyImage:[self.imageArray lastObject] type:@"license" andblock:^(NSDictionary *dictionary) {
+            [HttpClient uploadVerifyImage:[self.imageArray lastObject] type:@"idCard" andblock:^(NSDictionary *dictionary) {
                 if ([dictionary[@"statusCode"] intValue]==200) {
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"上传成功" message:nil
                                                                      delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];

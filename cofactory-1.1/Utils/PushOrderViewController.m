@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title=@"设置状态";
+    self.title=@"订单";
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
@@ -43,7 +43,6 @@
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 
-
         UIImageView*cellImage= [[UIImageView alloc]initWithFrame:CGRectMake(10, 7, 30, 30)];
         cellImage.image=self.cellImageArr[indexPath.section];
         [cell addSubview:cellImage];
@@ -52,17 +51,46 @@
         cellLabel.font=[UIFont systemFontOfSize:15.0f];
         cellLabel.text=self.cellTitleArr[indexPath.section];
         [cell addSubview:cellLabel];
-
-
     }
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 15.0;
+    return 5.0;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 0.1;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    switch (indexPath.section) {
+        case 0:
+        {
+            AddOrderViewController*addOrderVC = [[AddOrderViewController alloc]init];
+            [self.navigationController pushViewController:addOrderVC animated:YES];
+
+        }
+            break;
+        case 1:
+        {
+            OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
+            orderListVC.isHistory=NO;
+            orderListVC.HiddenJSDropDown=YES;
+            [self.navigationController pushViewController:orderListVC animated:YES];
+        }
+            break;
+        case 2:
+        {
+            OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
+            orderListVC.isHistory=YES;
+            orderListVC.HiddenJSDropDown=YES;
+            [self.navigationController pushViewController:orderListVC animated:YES];
+        }
+            break;
+
+        default:
+            break;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

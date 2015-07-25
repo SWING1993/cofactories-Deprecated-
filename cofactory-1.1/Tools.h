@@ -14,7 +14,11 @@
 //分割字符串
 + (NSMutableArray *)RangeSizeWith:(NSString *)sizeString;
 
++ (NSMutableArray *)WithTime:(NSString *)timeString;
+
+
 + (MBProgressHUD *)createHUD;
 
++ (NSString *)SizeWith:(NSString *)sizeString;
 
 @end

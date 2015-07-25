@@ -15,8 +15,13 @@
     if (self) {
 //        NSLog(@"%@",dictionary);
         _uid = [[dictionary objectForKey:@"uid"] intValue];
+        _oid = [[dictionary objectForKey:@"oid"] intValue];
         _factoryName = [dictionary objectForKey:@"factoryName"];
         _factoryType = [[dictionary objectForKey:@"factoryType"] intValue];
+        _factoryFreeStatus=[dictionary objectForKey:@"factoryFreeStatus"];
+        _hasTruck =[[dictionary objectForKey:@"hasTruck"] intValue];
+        _factoryFreeTime = dictionary[@"factoryFreeTime"];
+
         NSArray *factorySize = [dictionary objectForKey:@"factorySize"];
         if ([factorySize[1] intValue] == 2147483647) {
             // 最大的选项
@@ -60,7 +65,7 @@
         _legalPerson = [verifyDic objectForKey:@"legalPerson"];
         
         _verifyStatus = [[verifyDic objectForKey:@"status"] intValue];
-        _hasTruck = [[dictionary objectForKey:@"hasTruck"] intValue];
+//        _hasTruck = [[dictionary objectForKey:@"hasTruck"] intValue];
         _otherTwoFactoryStatus = [[dictionary objectForKey:@"factoryFreeStatus"] intValue];
         self.facTypeOneStatus = [dictionary objectForKey:@"factoryFreeTime"];
 

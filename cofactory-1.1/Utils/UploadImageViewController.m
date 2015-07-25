@@ -13,6 +13,8 @@
 
     UICollectionView *CollectionView;
 
+    UIView*view;
+
 }
 
 @property (nonatomic,retain)NSMutableArray*imageArray;
@@ -65,8 +67,6 @@
 
 
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-//    layout.minimumLineSpacing = 20;
-//    layout.minimumInteritemSpacing = 10;
     layout.itemSize = CGSizeMake(kScreenW/4-10, kScreenW/4-10);
     layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
 
@@ -108,11 +108,33 @@
             NSLog(@"self.imageArray=%@",self.imageArray);
         }
     }];
-
-
     dispatch_async([self serialQueue], ^{//把block中的任务放入串行队列中执行，这是第一个任务
-                sleep(3);//假装这个viewController创建}
-        [CollectionView reloadData];
+                sleep(5);//假装这个viewController创建}
+        [HttpClient getFactoryPhotoWithUid:self.userUid type:self.type andBlock:^(NSDictionary *dictionary) {
+
+            if ([dictionary[@"statusCode"] intValue]== 200) {
+
+                self.imageArray = [[NSMutableArray alloc]initWithCapacity:0];
+
+                NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
+
+                NSDictionary*factory=responseDictionary[@"factory"];
+
+                if ([self.type isEqualToString:@"employee"]) {
+                    self.imageArray=factory[@"employee"];
+                }
+                if ([self.type isEqualToString:@"environment"]) {
+                    self.imageArray=factory[@"environment"];
+                }
+                if ([self.type isEqualToString:@"equipment"]) {
+                    self.imageArray=factory[@"equipment"];
+                }
+                
+                [CollectionView reloadData];
+                
+                NSLog(@"self.imageArray=%@",self.imageArray);
+            }
+        }];
 
       });
 }
@@ -140,7 +162,6 @@
             imagePickerController.showsCameraControls = YES;
             imagePickerController.cameraDevice = UIImagePickerControllerCameraDeviceRear;
             imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
-
             [self presentViewController:imagePickerController animated:YES completion:nil];
         }
         return;
@@ -160,18 +181,38 @@
 #pragma mark <UIImagePickerControllerDelegate>
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *image = info[UIImagePickerControllerEditedImage];
+
+    NSData*imageData = UIImageJPEGRepresentation(image, 0.3);
+
+    UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+
     [picker dismissViewControllerAnimated:YES completion:^{
 
-        [HttpClient uploadImageWithImage:image type:self.type andblock:^(NSDictionary *dictionary) {
-//            NSLog(@"-----%@",dictionary[@"statusCode"]);
+        [HttpClient uploadImageWithImage:newImage type:self.type andblock:^(NSDictionary *dictionary) {
             if ([dictionary[@"statusCode"] intValue]==200) {
                 [self getImage];
+            }else{
+                NSLog(@"失败%@",dictionary);
             }
         }];
 
     }];
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath{
+
+    NSLog(@"%d",indexPath.row);
+
+    view=[[UIView alloc]initWithFrame:CGRectMake(0, kScreenH/4, kScreenW, kScreenW)];
+
+    UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW)];
+    NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[indexPath.row]];
+    [photoView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
+    photoView.contentMode=UIViewContentModeScaleAspectFill;
+    photoView.clipsToBounds=YES;
+    [view addSubview:photoView];
+    [self.view addSubview:view];
+}
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -185,56 +226,19 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-
     UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW/4-10, kScreenW/4-10)];
-
-    NSString*urlString =[NSString stringWithFormat:@"cdn.cofactories.com%@",self.imageArray[indexPath.row]];
-
-//    [photoView sd_setImageWithURL:[NSURL URLWithString:urlString]];
-    
-
+    NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[indexPath.row]];
     [photoView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
-//    NSLog(@"%@",urlString);
-
     photoView.contentMode=UIViewContentModeScaleAspectFill;
     photoView.clipsToBounds=YES;
     [cell addSubview:photoView];
-
     return cell;
 }
 
-#pragma mark <UICollectionViewDelegate>
-
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [view removeFromSuperview];
 }
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

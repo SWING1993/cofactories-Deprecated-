@@ -77,18 +77,12 @@
 - (void)savePreference:(id)sender {
     NSArray *indexPaths = [self.tableView indexPathsForSelectedRows];
     [self.homeItemModel.itemArray removeAllObjects];
-//    if (indexPaths == nil) {
-//        [self.navigationController popViewControllerAnimated:YES];
-//        return;
-//    }
     // 上传网络构造字典
     NSMutableArray *parameters = [NSMutableArray arrayWithCapacity:0];
     for (NSIndexPath *indexPath in indexPaths) {
         [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[indexPath.row]];
         [parameters addObject:@(indexPath.row)];
     }
-
-    //更新MenuList  严重BUG  已修复
     MBProgressHUD *hud = [Tools createHUD];
     hud.labelText = @"正在添加模块";
     [HttpClient updateMenuWithMenuArray:parameters andBlock:^(int statusCode) {
