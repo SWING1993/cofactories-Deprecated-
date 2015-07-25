@@ -19,6 +19,4 @@
 
 @property (nonatomic,assign)BOOL isOK;
 
-
-
 @end

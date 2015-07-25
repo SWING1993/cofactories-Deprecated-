@@ -38,10 +38,10 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    
+
     [super viewWillAppear:animated];
-    
-    if (self.isOK==YES)
+
+    if (self.factoryType==10)
     {
         [HttpClient searchWithFactoryName:nil factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil andBlock:^(NSDictionary *responseDictionary) {
             self.factoryModelArray = nil;
@@ -52,7 +52,7 @@
     else
     {
         [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil andBlock:^(NSDictionary *responseDictionary) {
-            
+
             self.factoryModelArray = nil;
             self.factoryModelArray = responseDictionary[@"responseArray"];
             [_tableView reloadData];
@@ -65,10 +65,9 @@
         self.factoryModelArray = responseDictionary[@"responseArray"];
         [_tableView reloadData];
     }];
-
-
+    
+    
 }
-
 
 
 
