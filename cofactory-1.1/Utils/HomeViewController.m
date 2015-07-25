@@ -64,7 +64,7 @@
     }];
 
     [super viewWillAppear:animated];
-    //    [self.tableView reloadData];
+    [self.tableView reloadData];
 }
 
 
