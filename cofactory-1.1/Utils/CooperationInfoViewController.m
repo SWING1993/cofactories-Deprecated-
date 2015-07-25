@@ -198,7 +198,7 @@
             {
                 UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"收藏成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                 [alertView show];
-                [favoriteBtn setTitle:@"已收藏" forState:UIControlStateNormal];
+//                [favoriteBtn setTitle:@"已收藏" forState:UIControlStateNormal];
 
             }
                 break;
@@ -301,7 +301,12 @@
                     break;
                 case 2:{
                     cellLabel.text=@"公司规模";
-                    cell.detailTextLabel.text=self.factoryModel.factorySize;
+//                    cell.detailTextLabel.text=self.factoryModel.factorySize;
+                    if (self.factoryModel.factoryType==GarmentFactory) {
+                        cell.detailTextLabel.text=[Tools SizeWith:self.factoryModel.factorySize];
+                    }else {
+                        cell.detailTextLabel.text=self.factoryModel.factorySize;
+                    }
 
                 }
                     break;
@@ -348,7 +353,6 @@
                         }else{
                             imageView.image = self.cellImageArray4[0];
                             cellLabel.text = @"忙碌";
-
                         }
                     }
                 }

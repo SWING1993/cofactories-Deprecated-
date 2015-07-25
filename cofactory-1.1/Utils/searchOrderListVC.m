@@ -127,13 +127,13 @@
             _currentData3Index = 0;
             break;
         case 1:
-            _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"5000-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
+            _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"500-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
             _data3 = [NSMutableArray arrayWithObjects:@"3天", @"5天",@"5天以上", nil];
             _currentData2Index = 0;
             _currentData3Index = 0;
             break;
         case 2:
-            _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"5000-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
+            _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"500-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
             _data3 = [NSMutableArray arrayWithObjects:@"1天", @"1-3天",@"3天以上", nil];
             
             _currentData2Index = 0;
@@ -141,7 +141,7 @@
             break;
             
         default:
-            _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"5000-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
+            _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"500-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
             _data3 = [NSMutableArray arrayWithObjects:@"1天", @"1-3天",@"3天以上", nil];
             
             _currentData2Index = 0;
@@ -341,14 +341,14 @@
                     _currentData3Index = 0;
                     break;
                 case 1:
-                    _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"5000-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
+                    _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"500-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
                     _data3 = [NSMutableArray arrayWithObjects:@"3天", @"5天",@"5天以上", nil];
                     _currentData2Index = 0;
                     _currentData3Index = 0;
                     
                     break;
                 case 2:
-                    _data2 =[NSMutableArray arrayWithObjects: @"500件以内", @"5000-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
+                    _data2 =[NSMutableArray arrayWithObjects: @"500件以内", @"500-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
                     _data3 = [NSMutableArray arrayWithObjects:@"1天", @"1-3天",@"3天以上", nil];
                     _currentData2Index = 0;
                     _currentData3Index = 0;
@@ -356,7 +356,7 @@
                     break;
                     
                 default:
-                    _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"5000-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
+                    _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"500-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
                     _data3 = [NSMutableArray arrayWithObjects:@"1天", @"1-3天",@"3天以上", nil];
                     _currentData2Index = 0;
                     _currentData3Index = 0;

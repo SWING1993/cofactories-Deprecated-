@@ -115,6 +115,36 @@
 }
 
 
+#pragma mark--删除表单元格
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+
+        FactoryModel*factoryModel=self.modelArray[indexPath.section];
+
+        NSLog(@"%d",factoryModel.uid);
+        [HttpClient deleteFavoriteWithUid:[NSString stringWithFormat:@"%d",factoryModel.uid] andBlock:^(int statusCode) {
+            NSLog(@"%d",statusCode);
+            if (statusCode==200) {
+                self.modelArray = [[NSMutableArray alloc]initWithCapacity:0];
+                [HttpClient listFavoriteWithBlock:^(NSDictionary *responseDictionary) {
+                    self.modelArray=responseDictionary[@"responseArray"];
+                    [self.tableView reloadData];
+                    NSLog(@"%@",responseDictionary);
+                }];
+            }else{
+                UIAlertView*alertVierw = [[UIAlertView alloc]initWithTitle:@"删除出错" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertVierw show];
+            }
+        }];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

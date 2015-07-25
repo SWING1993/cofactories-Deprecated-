@@ -41,9 +41,6 @@
 //记录空闲时间
 @property (nonatomic, copy) NSString* factoryFreeTime;
 
-//token
-@property (nonatomic,copy)NSString*accessToken;
-
 - (void)pushClicked:(id)sender;
 - (void)findClicked:(id)sender;
 - (void)postClicked:(id)sender;
@@ -73,9 +70,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.accessToken=[[NSUserDefaults standardUserDefaults]objectForKey:@"accessToken"];
-    NSLog(@"accessToken=%@",self.accessToken);
 
 
     self.view.backgroundColor=[UIColor whiteColor];
@@ -119,6 +113,7 @@
             [buttonView.postButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
             [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
         }else{
+
             ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"设置状态"];
             [headerView addSubview:buttonView];
             [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -126,6 +121,7 @@
             [buttonView.postButton addTarget:self action:@selector(authClicked:) forControlEvents:UIControlEventTouchUpInside];
             [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
         }
+
     }];
 
     self.tableView.tableHeaderView = headerView;
@@ -133,7 +129,9 @@
 }
 
 - (void)getListMenu {
+
     NSLog(@"ListMenu为0，初始化");
+
     //@"服装厂",@"加工厂",@"代裁厂",@"锁眼钉扣厂"
     switch (self.factoryType) {
         case 0:
@@ -176,7 +174,6 @@
         default:
             break;
     }
-
 }
 
 - (void)pushClicked:(id)sender {
@@ -187,10 +184,11 @@
 - (void)findClicked:(id)sender {
     FactoryListViewController *factoryListVC= [[FactoryListViewController alloc]init];
     factoryListVC.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-    factoryListVC.isOK = YES;
+    factoryListVC.factoryType = 10;
     [self.navigationController pushViewController:factoryListVC animated:YES];
 }
 - (void)postClicked:(id)sender {
+
     PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
     pushOrderVC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:pushOrderVC animated:YES];
@@ -210,10 +208,13 @@
         statusVC.factoryType=self.factoryType;
         statusVC.hidesBottomBarWhenPushed=YES;
         [self.navigationController pushViewController:statusVC animated:YES];
+
     }
+
 
 }
 - (void)statusClicked:(id)sender {
+    //认证信息
     [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
         NSDictionary*VeifyDic=dictionary[@"responseDictionary"];
         self.status = [VeifyDic[@"status"] intValue];
@@ -242,7 +243,6 @@
             [self.navigationController pushViewController:endVC animated:YES];
         }
     }];
-
 }
 
 #pragma mark - Table view data source
@@ -317,6 +317,8 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    NSLog(@"%d",self.homeItemModel.itemArray.count);
     if (indexPath.section != self.homeItemModel.itemArray.count) {
         NSInteger index = [self.homeItemModel.allItemArray indexOfObject:self.homeItemModel.itemArray[indexPath.section]];
         switch (index) {
@@ -372,7 +374,7 @@
             {
                 // 找服装厂信息
                 FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-                searchViewController.factoryType = 0;
+                searchViewController.factoryType = 100;
                 searchViewController.currentData1Index = 1;
                 searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
                 [self.navigationController pushViewController:searchViewController animated:YES];
@@ -392,8 +394,8 @@
             {
                 // 找代裁厂信息
                 FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-                searchViewController.factoryType = 2;
-                searchViewController.currentData1Index = 3;
+                searchViewController.factoryType = 3;
+                searchViewController.currentData1Index = 4;
                 searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
                 [self.navigationController pushViewController:searchViewController animated:YES];
             }
@@ -402,8 +404,9 @@
             {
                 // 找锁眼钉扣厂信息
                 FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-                searchViewController.factoryType = 3;
-                searchViewController.currentData1Index = 4;
+                
+                searchViewController.factoryType = 2;
+                searchViewController.currentData1Index = 3;
                 searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
                 [self.navigationController pushViewController:searchViewController animated:YES];
             }
