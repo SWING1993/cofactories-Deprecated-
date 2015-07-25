@@ -23,7 +23,7 @@
     // Override point for customization after application launch.
     
     // 注册友盟统计 SDK
-    [MobClick startWithAppkey:@"ijDoxrS8H8lrgD9GDbLQpjNR" reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
+    [MobClick startWithAppkey:@"55a0778367e58e452400710a" reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
     // Version 标识
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     [MobClick setAppVersion:version];
@@ -31,7 +31,7 @@
     // 注册友盟推送服务 SDK
 #if TARGET_IPHONE_SIMULATOR
 #else
-    [UMessage startWithAppkey:@"5566b5e767e58e0c4700aab0" launchOptions:launchOptions];
+    [UMessage startWithAppkey:@"55a0778367e58e452400710a" launchOptions:launchOptions];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
         //register remoteNotification types

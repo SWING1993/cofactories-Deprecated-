@@ -153,7 +153,11 @@
         }
             break;
         case 2:{
-            [ViewController goMain];
+//            [ViewController goMain];
+            TouristViewController*touristVC = [[TouristViewController alloc]init];
+            UINavigationController*touristNav = [[UINavigationController alloc]initWithRootViewController:touristVC];
+            touristNav.navigationBar.barStyle=UIBarStyleBlack;
+            [self presentViewController:touristNav animated:YES completion:nil];
         }
             break;
         case 3:{

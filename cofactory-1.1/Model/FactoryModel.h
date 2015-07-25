@@ -38,7 +38,7 @@ typedef enum {
 @property (nonatomic,assign) int verifyStatus;
 @property (nonatomic,assign)int hasTruck;
 @property (nonatomic,assign)int otherTwoFactoryStatus;
-@property (nonatomic,copy)NSDate *facTypeOneStatus;
+@property (nonatomic,copy)NSString *facTypeOneStatus;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

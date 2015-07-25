@@ -13,6 +13,8 @@
 
     UICollectionView *CollectionView;
 
+    UIView*view;
+
 }
 
 @property (nonatomic,retain)NSMutableArray*imageArray;
@@ -197,6 +199,20 @@
     }];
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath{
+
+    NSLog(@"%d",indexPath.row);
+
+    view=[[UIView alloc]initWithFrame:CGRectMake(0, kScreenH/4, kScreenW, kScreenW)];
+
+    UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW)];
+    NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[indexPath.row]];
+    [photoView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
+    photoView.contentMode=UIViewContentModeScaleAspectFill;
+    photoView.clipsToBounds=YES;
+    [view addSubview:photoView];
+    [self.view addSubview:view];
+}
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -213,15 +229,16 @@
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW/4-10, kScreenW/4-10)];
     NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[indexPath.row]];
-//    NSLog(@">>>%@",urlString);
     [photoView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
     photoView.contentMode=UIViewContentModeScaleAspectFill;
     photoView.clipsToBounds=YES;
     [cell addSubview:photoView];
-
     return cell;
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [view removeFromSuperview];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

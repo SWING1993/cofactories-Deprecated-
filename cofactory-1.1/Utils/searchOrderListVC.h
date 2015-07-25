@@ -22,5 +22,6 @@
  *3.找服装厂外发锁眼钉扣订单
  */
 @property (nonatomic,assign)int orderListType;
+@property (nonatomic,assign) int uid;//gt123
 
 @end

@@ -125,7 +125,7 @@
             [HttpClient addOrderWithAmount:amount factoryType:1 factoryServiceRange:ServiceRangeTextField.text workingTime:dateTextField.text andBlock:^(NSDictionary *responseDictionary) {
                 int statusCode = [responseDictionary[@"statusCode"] intValue];
                 if (statusCode==200) {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                     [alertView show];
                 }else{
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
@@ -143,7 +143,7 @@
             [HttpClient addOrderWithAmount:amount factoryType:self.type+1 factoryServiceRange:nil workingTime:dateTextField.text andBlock:^(NSDictionary *responseDictionary) {
                 int statusCode = [responseDictionary[@"statusCode"] intValue];
                 if (statusCode==200) {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                     [alertView show];
                 }else{
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
@@ -153,6 +153,16 @@
         }
     }
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
+    orderListVC.HiddenJSDropDown=YES;
+    orderListVC.isHistory=NO;
+    [self.navigationController pushViewController:orderListVC animated:YES];
+
+
+}
+
 - (void)clickTypeBtn:(UIButton *)sender {
     UIButton*button=(UIButton *)sender;
 

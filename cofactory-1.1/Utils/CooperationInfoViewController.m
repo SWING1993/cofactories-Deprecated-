@@ -6,8 +6,14 @@
 //  Copyright (c) 2015年 聚工科技. All rights reserved.
 //
 
+#define ImageViewHeight 250
+
+
 #import "Header.h"
 #import "CooperationInfoViewController.h"
+#import "FactoryPhotoViewController.h"
+
+
 
 @interface CooperationInfoViewController () <UIAlertViewDelegate>
 
@@ -26,7 +32,13 @@
 @property (nonatomic,retain)NSArray*cellImageArray3;
 @property (nonatomic,retain)NSArray*cellImageArray4;
 
+@property (nonatomic, strong) UIView *markView;
+@property (nonatomic, strong) UIView *scrollPanel;
+@property (nonatomic, strong) UIScrollView *myScrollViews;
 
+@property (nonatomic,retain)NSMutableArray*employee;
+@property (nonatomic,retain)NSMutableArray*environment;
+@property (nonatomic,retain)NSMutableArray*equipment;
 
 @end
 
@@ -34,6 +46,45 @@
     UILabel*factoryNameLabel;
 
     UILabel*infoLabel;
+
+    UIButton*favoriteBtn;
+
+    UIImageView*leftImage;
+    UIImageView*rightImage1;
+    UIImageView*rightImage2;
+}
+
+- (void)getImage {
+
+    [HttpClient getFactoryPhotoWithUid:[NSString stringWithFormat:@"%d",self.factoryModel.uid] type:@"employee" andBlock:^(NSDictionary *dictionary) {
+        if ([dictionary[@"statusCode"] intValue]== 200) {
+            NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
+            NSDictionary*factory=responseDictionary[@"factory"];
+            self.employee=factory[@"employee"];
+            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.employee firstObject]];
+            [leftImage sd_setImageWithURL:[NSURL URLWithString:urlString]];
+        }
+    }];
+    [HttpClient getFactoryPhotoWithUid:[NSString stringWithFormat:@"%d",self.factoryModel.uid] type:@"environment" andBlock:^(NSDictionary *dictionary) {
+        if ([dictionary[@"statusCode"] intValue]== 200) {
+            NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
+            NSDictionary*factory=responseDictionary[@"factory"];
+            self.environment=factory[@"environment"];
+            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.environment firstObject]];
+            [rightImage1 sd_setImageWithURL:[NSURL URLWithString:urlString]];
+        }
+    }];
+    [HttpClient getFactoryPhotoWithUid:[NSString stringWithFormat:@"%d",self.factoryModel.uid] type:@"equipment" andBlock:^(NSDictionary *dictionary) {
+        if ([dictionary[@"statusCode"] intValue]== 200) {
+            NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
+            NSDictionary*factory=responseDictionary[@"factory"];
+            self.equipment=factory[@"equipment"];
+            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.equipment firstObject]];
+            [rightImage2 sd_setImageWithURL:[NSURL URLWithString:urlString]];
+        }
+    }];
+
+
 }
 
 - (void)viewDidLoad {
@@ -43,20 +94,39 @@
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
     self.title=@"公司信息";
 
-//    NSLog(@"认证状态=%d ",self.factoryModel.authStatus);
-//    NSLog(@"uid=%d ",self.factoryModel.uid);
+    self.employee = [[NSMutableArray alloc]initWithCapacity:0];
+    self.environment = [[NSMutableArray alloc]initWithCapacity:0];
+    self.equipment = [[NSMutableArray alloc]initWithCapacity:0];
 
       // 表头视图
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight)];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, ImageViewHeight)];
 
-    UIImageView*BGImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight-50)];
+    leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW/2+30, ImageViewHeight-50)];
+    leftImage.contentMode=UIViewContentModeScaleAspectFill;
+    leftImage.clipsToBounds=YES;
+
+    rightImage1 = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2+30, 0, kScreenW-kScreenW/2-30, (ImageViewHeight-50)/2)];
+    rightImage1.contentMode=UIViewContentModeScaleAspectFill;
+    rightImage1.clipsToBounds=YES;
+    rightImage2 = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2+30, (ImageViewHeight-50)/2, kScreenW-kScreenW/2-30, (ImageViewHeight-50)/2)];
+
+    rightImage2.contentMode=UIViewContentModeScaleAspectFill;
+    rightImage2.clipsToBounds=YES;
+
+
+    UIImageView*BGImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, ImageViewHeight-50)];
     BGImage.image=[UIImage imageNamed:@"bb"];
     headerView.backgroundColor=[UIColor whiteColor];
     [headerView addSubview:BGImage];
 
 
-    UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, kBannerHeight-80, 60, 60)];
-    headerImage.backgroundColor=[UIColor blueColor];
+    [headerView addSubview:leftImage];
+    [headerView addSubview:rightImage1];
+    [headerView addSubview:rightImage2];
+
+    [self getImage];
+
+    UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, ImageViewHeight-80, 60, 60)];
     headerImage.layer.cornerRadius=60/2.0f;
     headerImage.layer.masksToBounds=YES;
     NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",self.factoryModel.uid];
@@ -65,23 +135,28 @@
 
 
 
-    factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, kBannerHeight-45, kScreenW-100, 20)];
+    factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, ImageViewHeight-45, kScreenW-100, 20)];
     factoryNameLabel.font=[UIFont boldSystemFontOfSize:18];
     factoryNameLabel.text=self.factoryModel.factoryName;
     [headerView addSubview:factoryNameLabel];
 
 
 
-    infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-140, kBannerHeight-25, 130, 20)];
+
+    infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-140, ImageViewHeight-25, 130, 20)];
     infoLabel.font=[UIFont boldSystemFontOfSize:15.0f];
     infoLabel.textColor=[UIColor grayColor];
     [headerView addSubview:infoLabel];
     self.tableView.tableHeaderView = headerView;
 
     self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"]];
-    self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司相册"],[UIImage imageNamed:@"set_公司业务类型"]];
-    self.cellImageArray3=@[[UIImage imageNamed:@"空闲"],[UIImage imageNamed:@"货车"],[UIImage imageNamed:@"认证"],];
-    self.cellImageArray4=@[[UIImage imageNamed:@"空闲2"],[UIImage imageNamed:@"货车2"],[UIImage imageNamed:@"认证2"]];
+    self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司业务类型"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_公司相册"]];
+    self.cellImageArray3=@[[UIImage imageNamed:@"空闲"],[UIImage imageNamed:@"货车2"],[UIImage imageNamed:@"认证2"],];
+    self.cellImageArray4=@[[UIImage imageNamed:@"空闲2"],[UIImage imageNamed:@"货车"],[UIImage imageNamed:@"认证"]];
+}
+
+- (void)tappedImageView:(id)sender {
+
 }
 
 - (void)callBtn {
@@ -123,6 +198,8 @@
             {
                 UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"收藏成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                 [alertView show];
+                [favoriteBtn setTitle:@"已收藏" forState:UIControlStateNormal];
+
             }
                 break;
             case 400:
@@ -155,7 +232,7 @@
         return 1;
     }
     if (section==1) {
-        return 5;
+        return 6;
     }else{
         if (self.factoryModel.factoryType==GarmentFactory||self.factoryModel.factoryType==ProcessingFactory) {
             return 1;
@@ -194,7 +271,7 @@
             view.backgroundColor=[UIColor lightGrayColor];
             [cell addSubview:view];
 
-            UIButton*favoriteBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2+10, 10, kScreenW/2-20, 40)];
+            favoriteBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2+10, 10, kScreenW/2-20, 40)];
             favoriteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
             favoriteBtn.titleEdgeInsets = UIEdgeInsetsMake(20, -20, 20, 00);
             [favoriteBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -207,7 +284,6 @@
         }
 
         if (indexPath.section == 1) {
-            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             cellImage.image=self.cellImageArray2[indexPath.row];
 
             switch (indexPath.row) {
@@ -239,6 +315,12 @@
                     cell.detailTextLabel.text=self.factoryModel.phone;
                 }
                     break;
+                case 5:{
+                    cellLabel.text=@"公司相册";
+                    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+
+                }
+                    break;
 
                 default:
                     break;
@@ -248,7 +330,7 @@
 
             for (int i = 0; i<3; i++) {
                 UIImageView*imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10+i*((kScreenW-90)/3+30), 5, 30 , 30)];
-                UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(50+i*((kScreenW-90)/3+30), 5, 80 , 30)];
+                UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(40+i*((kScreenW-90)/3+30), 5, 80 , 30)];
                 cellLabel.font = [UIFont systemFontOfSize:14.0f];
                 if (i==0) {
 
@@ -271,15 +353,23 @@
                     }
                 }
                 if (i==1) {
-                    if (self.factoryModel.hasTruck==0) {
-                        imageView.image = self.cellImageArray3[1];
-                        cellLabel.text = @"不自备货车";
 
+                    if (self.factoryModel.factoryType==1) {
+                        if (self.factoryModel.hasTruck==0) {
+                            imageView.image = self.cellImageArray3[1];
+                            cellLabel.text = @"不自备货车";
+
+                        }else{
+                            imageView.image = self.cellImageArray4[1];
+                            cellLabel.text = @"自备货车";
+                            
+                        }
                     }else{
-                        imageView.image = self.cellImageArray4[1];
-                        cellLabel.text = @"自备货车";
+                        imageView.hidden=YES;
+                        cellLabel.hidden=YES;
 
                     }
+
                 }
                 if (i==2) {
                     if (self.factoryModel.authStatus==2) {
@@ -363,6 +453,17 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section==1&&indexPath.row==5) {
+        NSLog(@"相册");
+        FactoryPhotoViewController*factoryPhoto = [[FactoryPhotoViewController alloc]init];
+        factoryPhoto.employee=self.employee;
+        factoryPhoto.environment=self.environment;
+        factoryPhoto.equipment=self.equipment;
+        [self.navigationController pushViewController:factoryPhoto animated:YES];
+    }
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

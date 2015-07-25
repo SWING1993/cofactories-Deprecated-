@@ -13,5 +13,7 @@
 @property (nonatomic,strong) UIView   *contactManufacturerView;
 @property (nonatomic,assign)int oid;
 
+@property (nonatomic,assign)int uid;//gt123
+
 
 @end

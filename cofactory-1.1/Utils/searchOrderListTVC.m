@@ -24,7 +24,7 @@
         [self addSubview:labelBGView];
         
         self.timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 100, 15)];
-        self.timeLabel.font = [UIFont systemFontOfSize:12.0f];
+        self.timeLabel.font = [UIFont systemFontOfSize:14.0f];
         self.timeLabel.textColor = [UIColor whiteColor];
         [labelBGView addSubview:self.timeLabel];
         
@@ -34,15 +34,15 @@
         [self addSubview:self.orderImage];
         
         self.orderTypeLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 20, 100, 20)];
-        self.orderTypeLabel.font = [UIFont systemFontOfSize:11.0f];
+        self.orderTypeLabel.font = [UIFont systemFontOfSize:14.0f];
         [self addSubview:self.orderTypeLabel];
         
         self.amountLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 40, 160, 20)];
-        self.amountLabel.font = [UIFont systemFontOfSize:11.0f];
+        self.amountLabel.font = [UIFont systemFontOfSize:14.0f];
         [self addSubview:self.amountLabel];
         
         self.workingTimeLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 60, 100, 20)];
-        self.workingTimeLabel.font = [UIFont systemFontOfSize:11.0f];
+        self.workingTimeLabel.font = [UIFont systemFontOfSize:14.0f];
         [self addSubview:self.workingTimeLabel];
         
         self.intersestLabelView = [[UIView alloc]initWithFrame:CGRectMake(170, 60, [UIScreen mainScreen].bounds.size.width-180, 20)];
@@ -50,12 +50,12 @@
         [self addSubview:self.intersestLabelView];
         
         self.interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
-        self.interestCountLabel.font = [UIFont systemFontOfSize:11.0f];
+        self.interestCountLabel.font = [UIFont systemFontOfSize:14.0f];
         self.interestCountLabel.textColor = [UIColor orangeColor];
         [self.intersestLabelView addSubview:self.interestCountLabel];
         
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(30, 0, [UIScreen mainScreen].bounds.size.width-180-50, 20)];
-        label.font = [UIFont systemFontOfSize:11.0f];
+        label.font = [UIFont systemFontOfSize:14.0f];
         label.text = @"厂商对此订单感兴趣";
         [self.intersestLabelView addSubview:label];
         
@@ -78,7 +78,7 @@
         self.orderDetailsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         self.orderDetailsBtn.frame = CGRectMake(kScreenW-70, 92, 60, 22);
         [self.orderDetailsBtn setTitle:@"订单详情" forState:UIControlStateNormal];
-        self.orderDetailsBtn.titleLabel.font = [UIFont systemFontOfSize:10.0f];
+        self.orderDetailsBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
         self.orderDetailsBtn.layer.masksToBounds = YES;
         self.orderDetailsBtn.layer.cornerRadius = 3;
         self.orderDetailsBtn.backgroundColor = [UIColor colorWithRed:255/255.0 green:106/255.0 blue:106/255.0 alpha:1.0];

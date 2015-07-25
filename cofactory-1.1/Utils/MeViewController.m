@@ -15,6 +15,8 @@
 
     UILabel*infoLabel;
 
+    UIButton*headerButton;
+
 }
 
 //用户模型
@@ -97,8 +99,6 @@
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
 
-
-
     // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight)];
 
@@ -107,7 +107,7 @@
     headerView.backgroundColor=[UIColor whiteColor];
     [headerView addSubview:BGImage];
 
-    UIButton*headerButton=[[UIButton alloc]initWithFrame:CGRectMake(10, kBannerHeight-80, 60, 60)];
+    headerButton=[[UIButton alloc]initWithFrame:CGRectMake(10, kBannerHeight-80, 60, 60)];
     headerButton.backgroundColor=[UIColor blueColor];
     headerButton.layer.cornerRadius=60/2.0f;
     headerButton.layer.masksToBounds=YES;
@@ -117,16 +117,18 @@
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, kBannerHeight-45, kScreenW-100, 20)];
     factoryNameLabel.font=[UIFont boldSystemFontOfSize:18];
 
+
+    [[SDImageCache sharedImageCache]clearDisk];
     //初始化用户model
     self.userModel=[[UserModel alloc]init];
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         self.userModel=responseDictionary[@"model"];
         factoryNameLabel.text=self.userModel.factoryName;
-        NSLog(@"%@",self.userModel);
+        NSLog(@"%d",self.userModel.uid);
         [headerView addSubview:factoryNameLabel];
         [self.tableView reloadData];
 
-        [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
+        [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
         [headerView addSubview:headerButton];
     }];
 
@@ -197,7 +199,12 @@
     UIImage *image = info[UIImagePickerControllerEditedImage];
     [picker dismissViewControllerAnimated:YES completion:^{
         [HttpClient uploadImageWithImage:image type:@"avatar" andblock:^(NSDictionary *dictionary) {
-            NSLog(@"上传头像返回%@",dictionary[@"statusCode"]);
+            if ([dictionary[@"statusCode"] intValue]==200) {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"头像上传成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+                [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
+                [headerButton setBackgroundImage:image forState:UIControlStateNormal];
+            }
         }];
     }];
 }
@@ -432,7 +439,12 @@
                     break;
                 case 2:{
                     ModifySizeViewController*sizeVC = [[ModifySizeViewController alloc]init];
-                    sizeVC.placeholder=self.userModel.factorySize;
+
+                    if (self.userModel.factoryType==GarmentFactory) {
+                        sizeVC.placeholder=[Tools SizeWith:self.userModel.factorySize];
+                    }else {
+                        sizeVC.placeholder=self.userModel.factorySize;
+                    }
                     sizeVC.cellPickList=self.sizeArray;
                     sizeVC.hidesBottomBarWhenPushed=YES;
                     [self.navigationController pushViewController:sizeVC animated:YES];

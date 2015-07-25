@@ -191,8 +191,10 @@
         cell.orderTypeLabel.hidden = YES;
     }
     
-    cell.timeLabel.text = model.createTime;
-    cell.orderImage.backgroundColor = [UIColor grayColor];
+    NSMutableArray *arr = [Tools WithTime:model.createTime];//gt123
+    cell.timeLabel.text = arr[0];
+[cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",model.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];//gt123
+    self.uid = model.uid;
     cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
     cell.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"万件"];
     cell.workingTimeLabel.text = [NSString stringWithFormat:@"期限 :  %@",model.workingTime];
@@ -222,7 +224,7 @@
     OrderModel *model = self.dataArray [button.tag-1];
     SearchOrderListDetailsVC *vc = [[SearchOrderListDetailsVC alloc]init];
     vc.oid = model.oid;
-    
+    vc.uid = self.uid;//gt123
     UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
     backItem.title=@"";
     backItem.tintColor=[UIColor whiteColor];

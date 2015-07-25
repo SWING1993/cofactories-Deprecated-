@@ -41,7 +41,7 @@
     
     [super viewWillAppear:animated];
     
-    if (self.factoryType==10)
+    if (self.isOK==YES)
     {
         [HttpClient searchWithFactoryName:nil factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil andBlock:^(NSDictionary *responseDictionary) {
             self.factoryModelArray = nil;
@@ -237,7 +237,7 @@
     }
     
     cell.distenceLB.text = [NSString stringWithFormat:@"相距%d公里",factoryModel.distance/1000];
-    if (factoryModel.verifyStatus == 2)
+    if (factoryModel.verifyStatus == 0)
     {
         cell.certifyUserLB.hidden = NO;
     }
@@ -250,7 +250,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // 找cell
     FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
     CooperationInfoViewController*cooperationInfoVC = [[CooperationInfoViewController alloc]init];
     cooperationInfoVC.factoryModel=factoryModel;
@@ -258,47 +257,10 @@
     [self.navigationController pushViewController:cooperationInfoVC animated:YES];
 }
 
-/*
- - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
- {
- 
- UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 45)];
- 
- for (int i = 0; i<2; i++)
- {
- NSArray *buttonTitleArr = @[@"有货车",@"无货车"];
- UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
- button.frame = CGRectMake(20+i*([UIScreen mainScreen].bounds.size.width-140), 3, 100, 29);
- button.backgroundColor =  [UIColor colorWithRed:188/255.0 green:188/255.0 blue:188/255.0 alpha:1.0];
- button.tag = i+1;
- [button setTitle:buttonTitleArr[i] forState:UIControlStateNormal];
- [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
- button.titleLabel.font = [UIFont systemFontOfSize:12];
- button.layer.masksToBounds = YES;
- button.layer.cornerRadius = 4;
- [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
- [view addSubview:button];
- }
- 
- UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 45-10, [UIScreen mainScreen].bounds.size.width, 10)];
- lineLabel.backgroundColor = [UIColor colorWithRed:188/255.0 green:188/255.0 blue:188/255.0 alpha:1.0];
- [view addSubview:lineLabel];
- 
- return view;
- }
- 
- - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
- {
- return 45;
- }
- 
- */
-
 #pragma mark--按钮方法
 - (void)buttonClick:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    NSLog(@"%ld",button.tag);
 }
 
 
@@ -522,21 +484,6 @@
         }
     }
 
-    if (indexPath.column == 1 && indexPath.leftOrRight == 0 && indexPath.leftRow == 0 && indexPath.row == 0)
-    {
-        self.factoryType = nil;
-    }
-
-    if (indexPath.column == 2 && indexPath.leftOrRight == 0 && indexPath.leftRow == 0 && indexPath.row == 0)
-    {
-        self.factoryType = nil;
-    }
-
-    if (indexPath.column == 3 && indexPath.leftOrRight == 0 && indexPath.leftRow == 0 && indexPath.row == 0)
-    {
-        self.factoryType = nil;
-    }
-
 
     if (self.factoryType == 0)
     {
@@ -728,21 +675,26 @@
             {
                 self.factoryDistanceMin = @10;
             }
-
         }
+    }
+    if (indexPath.column == 0 && indexPath.leftOrRight == 1 && indexPath.leftRow == 1 && indexPath.row == 0)
+    {
+        [HttpClient searchWithFactoryName:self.factoryName factoryType:100 factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax andBlock:^(NSDictionary *responseDictionary) {
+            self.factoryModelArray = nil;
+            self.factoryModelArray = responseDictionary[@"responseArray"];
+            [_tableView reloadData];
+        }];
 
     }
+    else
+    {
+        [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax andBlock:^(NSDictionary *responseDictionary) {
+            self.factoryModelArray = nil;
+            self.factoryModelArray = responseDictionary[@"responseArray"];
+            [_tableView reloadData];
+        }];
 
-
-    NSLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax);
-
-
-    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax andBlock:^(NSDictionary *responseDictionary) {
-        self.factoryModelArray = nil;
-        self.factoryModelArray = responseDictionary[@"responseArray"];
-        [_tableView reloadData];
-    }];
-
+    }
 }
 
 #pragma mark - <UISearchBarDelegate>
