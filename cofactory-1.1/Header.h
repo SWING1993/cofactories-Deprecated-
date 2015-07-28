@@ -99,6 +99,7 @@
 
 
 #import "ActivityViewController.h"//营销活动
+#import "WebViewController.h"//抽奖
 
 
 //消息

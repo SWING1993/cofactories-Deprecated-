@@ -85,6 +85,9 @@
 #else
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
+    [HttpClient registerDeviceWithDeviceId:[NSString stringWithFormat:@"%@", deviceToken] andBlock:^(int statusCode) {
+                NSLog(@"deviceTokenStatus %d", statusCode);
+    }];
     [UMessage registerDeviceToken:deviceToken];
 }
 

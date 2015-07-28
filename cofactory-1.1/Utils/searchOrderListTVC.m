@@ -23,7 +23,7 @@
         labelBGView.userInteractionEnabled = YES;
         [self addSubview:labelBGView];
         
-        self.timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 100, 15)];
+        self.timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, kScreenW, 15)];
         self.timeLabel.font = [UIFont systemFontOfSize:14.0f];
         self.timeLabel.textColor = [UIColor whiteColor];
         [labelBGView addSubview:self.timeLabel];
@@ -33,7 +33,7 @@
         self.orderImage.layer.cornerRadius = 5;
         [self addSubview:self.orderImage];
         
-        self.orderTypeLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 20, 100, 20)];
+        self.orderTypeLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 20, 140, 20)];
         self.orderTypeLabel.font = [UIFont systemFontOfSize:14.0f];
         [self addSubview:self.orderTypeLabel];
         

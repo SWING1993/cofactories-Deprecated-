@@ -98,4 +98,14 @@
     return string;
 }
 
++ (BOOL)isTourist {
+    NSString*Tourist=[[NSUserDefaults standardUserDefaults]objectForKey:@"toursit"];
+    if ([Tourist isEqualToString:@"YES"]) {
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
+
 @end

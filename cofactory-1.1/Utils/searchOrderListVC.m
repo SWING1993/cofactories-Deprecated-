@@ -49,8 +49,10 @@
         {
             [HttpClient searchOrderWithRole:1 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:nil andBlock:^(NSDictionary *responseDictionary) {
                 self.dataArray = responseDictionary[@"responseArray"];
+                self.role = 1;
+
                 [_tableView reloadData];
-                // NSLog(@"+++++responseDictionary==%@",self.dataArray);
+                NSLog(@"+++++responseDictionary==%@",self.dataArray);
             }];
         }
             break;
@@ -58,8 +60,10 @@
         {
             [HttpClient searchOrderWithRole:2 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:nil andBlock:^(NSDictionary *responseDictionary) {
                 self.dataArray = responseDictionary[@"responseArray"];
+                self.role = 2;
+
                 [_tableView reloadData];
-                // NSLog(@"+++++responseDictionary==%@",self.dataArray);
+                 NSLog(@"+++++responseDictionary==%@",self.dataArray);
             }];
         }
             
@@ -68,8 +72,11 @@
         {
             [HttpClient searchOrderWithRole:3 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:nil andBlock:^(NSDictionary *responseDictionary) {
                 self.dataArray = responseDictionary[@"responseArray"];
+                self.role = 3;
+
                 [_tableView reloadData];
-                // NSLog(@"+++++responseDictionary==%@",self.dataArray);
+
+                 NSLog(@"+++++responseDictionary==%@",self.dataArray);
             }];
         }
             
@@ -78,6 +85,9 @@
         default:
             break;
     }
+
+    NSLog(@"+++++++++======self.role=%d,self.factoryServiceRange=%@,self.time=%@,self.min=%@,self.max=%@",self.orderListType,self.factoryServiceRange,self.time,self.min,self.max);
+
     
 }
 
@@ -178,14 +188,20 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
     searchOrderListTVC *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    
     OrderModel *model = self.dataArray[indexPath.row];
-    
+
+    NSLog(@">>>>>>>>??????%@",model.serviceRange);
     if (self.orderListType == 1)
     {
         cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
     }
+
+//    if (model.serviceRange == nil)
+//    {
+//        cell.orderTypeLabel.hidden = YES;
+//    }
     else
     {
         cell.orderTypeLabel.hidden = YES;
@@ -193,10 +209,10 @@
     
     NSMutableArray *arr = [Tools WithTime:model.createTime];//gt123
     cell.timeLabel.text = arr[0];
-[cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",model.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];//gt123
+    [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",model.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];//gt123
     self.uid = model.uid;
     cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
-    cell.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"万件"];
+    cell.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"件"];
     cell.workingTimeLabel.text = [NSString stringWithFormat:@"期限 :  %@",model.workingTime];
     
     NSString *interestString = [NSString stringWithFormat:@"%@",model.interest];
@@ -219,20 +235,24 @@
 
 - (void)orderDetailsBtnClick:(id)sender
 {
-   
-    UIButton *button = (UIButton *)sender;
-    OrderModel *model = self.dataArray [button.tag-1];
-    SearchOrderListDetailsVC *vc = [[SearchOrderListDetailsVC alloc]init];
-    vc.oid = model.oid;
-    vc.uid = self.uid;//gt123
-    UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
-    backItem.title=@"";
-    backItem.tintColor=[UIColor whiteColor];
-    self.navigationItem.backBarButtonItem = backItem;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([Tools isTourist]) {
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您登录后查看订单详情" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }else{
+        UIButton *button = (UIButton *)sender;
+        OrderModel *model = self.dataArray [button.tag-1];
+        SearchOrderListDetailsVC *vc = [[SearchOrderListDetailsVC alloc]init];
+        vc.oid = model.oid;
+        vc.uid = self.uid;//gt123
+        vc.model = model;
+        UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+        backItem.title=@"";
+        backItem.tintColor=[UIColor whiteColor];
+        self.navigationItem.backBarButtonItem = backItem;
+        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
-
 
 #pragma mark - <JSDropDownMenuDataSource,JSDropDownMenuDelegate>
 - (NSInteger)numberOfColumnsInMenu:(JSDropDownMenu *)menu {
@@ -580,7 +600,7 @@
         
     }
     
-  //  NSLog(@"self.role=%d,self.factoryServiceRange=%@,self.time=%@,self.min=%@,self.max=%@",self.role,self.factoryServiceRange,self.time,self.min,self.max);
+    NSLog(@"self.role=%d,self.factoryServiceRange=%@,self.time=%@,self.min=%@,self.max=%@",self.role,self.factoryServiceRange,self.time,self.min,self.max);
     
     [HttpClient searchOrderWithRole:self.role FactoryServiceRange:self.factoryServiceRange Time:self.time AmountMin:self.min AmountMax:self.max Page:nil andBlock:^(NSDictionary *responseDictionary) {
         

@@ -7,14 +7,12 @@
 //
 
 #import "SearchOrderListDetailsVC.h"
-#import "Header.h"
 @interface SearchOrderListDetailsVC ()<UITableViewDataSource,UITableViewDelegate>
 {
     UILabel *_interestCountLabel;
     UILabel *_label;
     UIView *_view;//gt123
 }
-@property (nonatomic,strong) OrderModel *model;
 
 
 @end
@@ -29,7 +27,7 @@
 
     [HttpClient getOrderDetailWithOid:self.oid andBlock:^(NSDictionary *responseDictionary) {
 
-        self.model = responseDictionary[@"model"];
+//        self.model = responseDictionary[@"model"];
         [self.tableView reloadData];
 
     }];
@@ -66,15 +64,16 @@
     self.tableView.tableHeaderView = tableHeaderView;
 
     //表头试图添加UI
-    UIImageView *companyImage = [[UIImageView alloc]initWithFrame:CGRectMake(5, 5, 50, 50)];
-    [companyImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.oid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];    //gt123
-    companyImage.layer.masksToBounds = YES;
-    companyImage.layer.cornerRadius = 25;
-    [tableHeaderView addSubview:companyImage];
+//    UIImageView *companyImage = [[UIImageView alloc]initWithFrame:CGRectMake(5, 5, 50, 50)];
+//    [companyImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.oid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];    //gt123
+//    companyImage.layer.masksToBounds = YES;
+//    companyImage.layer.cornerRadius = 25;
+//    [tableHeaderView addSubview:companyImage];
 
-    UILabel *comanyNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 5, 165, 30)];
+    UILabel *comanyNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 15, 165, 30)];
     comanyNameLabel.text = self.model.facName;
-    comanyNameLabel.font = [UIFont systemFontOfSize:13.0f];
+    NSLog(@"*****+++%@",self.model.facName);
+    comanyNameLabel.font = [UIFont systemFontOfSize:15.0f];
     [tableHeaderView addSubview:comanyNameLabel];
 
 //    UIButton *companyDetailsBtn = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -87,11 +86,13 @@
     orderImageLabel.backgroundColor = [UIColor colorWithRed:255/255.0 green:106/255.0 blue:106/255.0 alpha:1.0];
     orderImageLabel.text = [NSString stringWithFormat:@"     %@",@"订单图片"];
     orderImageLabel.textColor = [UIColor whiteColor];
-    orderImageLabel.font = [UIFont systemFontOfSize:11.0f];
+    orderImageLabel.font = [UIFont systemFontOfSize:14.0f];
     [tableHeaderView addSubview:orderImageLabel];
 
     UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [imageButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/order/%d.png",self.model.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];//gt123
+    [imageButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/order/%d.png",self.model.oid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"placeholder232"]];//gt123
+    NSLog(@"*****+++%@",[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/order/%d.png",self.model.oid]]);
+
     imageButton.frame = CGRectMake((kScreenW-46)/2.0, 85+3, 46, 46);
     imageButton.layer.masksToBounds = YES;
     imageButton.layer.cornerRadius = 5;
@@ -220,7 +221,9 @@
             cell.textLabel.textColor = [UIColor grayColor];
             break;
         case 5:
-            cell.textLabel.text = [NSString stringWithFormat:@"下单时间:   %@",self.model.createTime];
+            ;
+
+            cell.textLabel.text = [NSString stringWithFormat:@"下单时间:   %@",[[Tools WithTime:self.model.createTime]firstObject]];
             cell.textLabel.font = [UIFont systemFontOfSize:13];
             cell.textLabel.textColor = [UIColor grayColor];
             break;
@@ -241,9 +244,9 @@
     detailLabel.text = @"订单详情";
     [view addSubview:detailLabel];
 
-    UILabel *orderNumlLabel = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-140, 0, 140, 35)];
+    UILabel *orderNumlLabel = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-160, 0, 140, 35)];
     orderNumlLabel.text = [NSString stringWithFormat:@"订单号 :  %d",self.model.oid];
-    orderNumlLabel.font = [UIFont systemFontOfSize:10.0f];
+    orderNumlLabel.font = [UIFont systemFontOfSize:14.0f];
     orderNumlLabel.textColor = [UIColor grayColor];
     [view addSubview:orderNumlLabel];
 
@@ -304,8 +307,7 @@
     _view.backgroundColor=[UIColor clearColor];
 
     UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, kScreenH/4, kScreenW, kScreenW)];
-    NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%d",self.model.uid];
-    [photoView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
+    [photoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/order/%d.png",self.model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"]];
     photoView.contentMode=UIViewContentModeScaleAspectFill;
     photoView.clipsToBounds=YES;
     [_view addSubview:photoView];

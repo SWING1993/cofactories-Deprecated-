@@ -28,6 +28,8 @@
 @property (nonatomic,strong) UIPickerView *servicePicker;
 @property (nonatomic,strong) UIToolbar *serviceToolbar;
 
+@property (nonatomic,copy) NSString*oid;
+
 @end
 
 @implementation AddOrderViewController {
@@ -109,7 +111,6 @@
     [self.tableView addSubview:pushOrderBtn];
 
     self.isBlur = NO;
-
 }
 
 - (void)pushOrderBtn {
@@ -127,6 +128,9 @@
                 if (statusCode==200) {
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                     [alertView show];
+                    NSDictionary*data = responseDictionary[@"data"];
+                    self.oid = data[@"oid"];
+
                 }else{
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                     [alertView show];
@@ -145,6 +149,8 @@
                 if (statusCode==200) {
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                     [alertView show];
+                    NSDictionary*data = responseDictionary[@"data"];
+                    self.oid = data[@"oid"];
                 }else{
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                     [alertView show];
@@ -155,12 +161,28 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
-    orderListVC.HiddenJSDropDown=YES;
-    orderListVC.isHistory=NO;
-    [self.navigationController pushViewController:orderListVC animated:YES];
 
+    NSLog(@"oid=%@",self.oid);
 
+    if (self.image) {
+    
+        [HttpClient uploadOrderImageWithImage:self.image oid:self.oid andblock:^(NSDictionary *dictionary) {
+            if ([dictionary[@"statusCode"] intValue]==200) {
+                OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
+                orderListVC.HiddenJSDropDown=YES;
+                orderListVC.isHistory=NO;
+                [self.navigationController pushViewController:orderListVC animated:YES];
+            }else{
+                NSLog(@"图片上传失败%@",dictionary);
+            }
+        }];
+    }else{
+        NSLog(@"没有图片");
+        OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
+        orderListVC.HiddenJSDropDown=YES;
+        orderListVC.isHistory=NO;
+        [self.navigationController pushViewController:orderListVC animated:YES];
+    }
 }
 
 - (void)clickTypeBtn:(UIButton *)sender {
@@ -462,84 +484,94 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *aImage = info[UIImagePickerControllerOriginalImage];
 
-    if (aImage.imageOrientation != UIImageOrientationUp) {
-        CGAffineTransform transform = CGAffineTransformIdentity;
-        switch (aImage.imageOrientation) {
-            case UIImageOrientationDown:
-            case UIImageOrientationDownMirrored:
-                transform = CGAffineTransformTranslate(transform, aImage.size.width, aImage.size.height);
-                transform = CGAffineTransformRotate(transform, M_PI);
-                break;
-            case UIImageOrientationLeft:
-            case UIImageOrientationLeftMirrored:
-                transform = CGAffineTransformTranslate(transform, aImage.size.width, 0);
-                transform = CGAffineTransformRotate(transform, M_PI_2);
-                break;
-            case UIImageOrientationRight:
-            case UIImageOrientationRightMirrored:
-                transform = CGAffineTransformTranslate(transform, 0, aImage.size.height);
-                transform = CGAffineTransformRotate(transform, -M_PI_2);
-                break;
+    NSData*imageData = UIImageJPEGRepresentation(aImage, 0.2);
 
-            default:
-                break;
-        }
-        switch (aImage.imageOrientation) {
-            case UIImageOrientationUpMirrored:
-            case UIImageOrientationDownMirrored:
-                transform = CGAffineTransformTranslate(transform, aImage.size.width, 0);
-                transform = CGAffineTransformScale(transform, -1, 1);
-                break;
+    UIImage*newImage = [[UIImage alloc]initWithData:imageData];
 
-            case UIImageOrientationLeftMirrored:
-            case UIImageOrientationRightMirrored:
-                transform = CGAffineTransformTranslate(transform, aImage.size.height, 0);
-                transform = CGAffineTransformScale(transform, -1, 1);
-                break;
-            default:
-                break;
-        }
-        CGContextRef ctx = CGBitmapContextCreate(NULL, aImage.size.width, aImage.size.height,
-                                                 CGImageGetBitsPerComponent(aImage.CGImage), 0,
-                                                 CGImageGetColorSpace(aImage.CGImage),
-                                                 CGImageGetBitmapInfo(aImage.CGImage));
-        CGContextConcatCTM(ctx, transform);
-        switch (aImage.imageOrientation) {
-            case UIImageOrientationLeft:
-            case UIImageOrientationLeftMirrored:
-            case UIImageOrientationRight:
-            case UIImageOrientationRightMirrored:
-                // Grr...
-                CGContextDrawImage(ctx, CGRectMake(0,0,aImage.size.height,aImage.size.width), aImage.CGImage);
-                break;
+    [picker dismissViewControllerAnimated:YES completion:^{
+        self.image = newImage;
+            [self.tableView reloadData];
+    }];
 
-            default:
-                CGContextDrawImage(ctx, CGRectMake(0,0,aImage.size.width,aImage.size.height), aImage.CGImage);
-                break;
-        }
-        CGImageRef cgimg = CGBitmapContextCreateImage(ctx);
-        UIImage *img = [UIImage imageWithCGImage:cgimg];
-        CGContextRelease(ctx);
-        CGImageRelease(cgimg);
-        self.image = img;
-    } else {
-        self.image = aImage;
-    }
-    if (self.isBlur) {
-        // 高斯模糊
-        CIContext *context = [CIContext contextWithOptions:nil];
-        CIImage *inputImage = [[CIImage alloc] initWithImage:self.image];
 
-        CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
-        [filter setValue:inputImage forKey:kCIInputImageKey];
-        [filter setValue:[NSNumber numberWithFloat:5.0] forKey:@"inputRadius"];
-        CIImage *result = [filter valueForKey:kCIOutputImageKey];
-        CGImageRef cgImageRef = [context createCGImage:result fromRect:result.extent];
-        self.image = [UIImage imageWithCGImage:cgImageRef];
-        CGImageRelease(cgImageRef);
-    }
-    [self.tableView reloadData];
-    [picker dismissViewControllerAnimated:YES completion:nil];
+//    if (aImage.imageOrientation != UIImageOrientationUp) {
+//        CGAffineTransform transform = CGAffineTransformIdentity;
+//        switch (aImage.imageOrientation) {
+//            case UIImageOrientationDown:
+//            case UIImageOrientationDownMirrored:
+//                transform = CGAffineTransformTranslate(transform, aImage.size.width, aImage.size.height);
+//                transform = CGAffineTransformRotate(transform, M_PI);
+//                break;
+//            case UIImageOrientationLeft:
+//            case UIImageOrientationLeftMirrored:
+//                transform = CGAffineTransformTranslate(transform, aImage.size.width, 0);
+//                transform = CGAffineTransformRotate(transform, M_PI_2);
+//                break;
+//            case UIImageOrientationRight:
+//            case UIImageOrientationRightMirrored:
+//                transform = CGAffineTransformTranslate(transform, 0, aImage.size.height);
+//                transform = CGAffineTransformRotate(transform, -M_PI_2);
+//                break;
+//
+//            default:
+//                break;
+//        }
+//        switch (aImage.imageOrientation) {
+//            case UIImageOrientationUpMirrored:
+//            case UIImageOrientationDownMirrored:
+//                transform = CGAffineTransformTranslate(transform, aImage.size.width, 0);
+//                transform = CGAffineTransformScale(transform, -1, 1);
+//                break;
+//
+//            case UIImageOrientationLeftMirrored:
+//            case UIImageOrientationRightMirrored:
+//                transform = CGAffineTransformTranslate(transform, aImage.size.height, 0);
+//                transform = CGAffineTransformScale(transform, -1, 1);
+//                break;
+//            default:
+//                break;
+//        }
+//        CGContextRef ctx = CGBitmapContextCreate(NULL, aImage.size.width, aImage.size.height,
+//                                                 CGImageGetBitsPerComponent(aImage.CGImage), 0,
+//                                                 CGImageGetColorSpace(aImage.CGImage),
+//                                                 CGImageGetBitmapInfo(aImage.CGImage));
+//        CGContextConcatCTM(ctx, transform);
+//        switch (aImage.imageOrientation) {
+//            case UIImageOrientationLeft:
+//            case UIImageOrientationLeftMirrored:
+//            case UIImageOrientationRight:
+//            case UIImageOrientationRightMirrored:
+//                // Grr...
+//                CGContextDrawImage(ctx, CGRectMake(0,0,aImage.size.height,aImage.size.width), aImage.CGImage);
+//                break;
+//
+//            default:
+//                CGContextDrawImage(ctx, CGRectMake(0,0,aImage.size.width,aImage.size.height), aImage.CGImage);
+//                break;
+//        }
+//        CGImageRef cgimg = CGBitmapContextCreateImage(ctx);
+//        UIImage *img = [UIImage imageWithCGImage:cgimg];
+//        CGContextRelease(ctx);
+//        CGImageRelease(cgimg);
+//        self.image = img;
+//    } else {
+//        self.image = aImage;
+//    }
+//    if (self.isBlur) {
+//        // 高斯模糊
+//        CIContext *context = [CIContext contextWithOptions:nil];
+//        CIImage *inputImage = [[CIImage alloc] initWithImage:self.image];
+//
+//        CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
+//        [filter setValue:inputImage forKey:kCIInputImageKey];
+//        [filter setValue:[NSNumber numberWithFloat:5.0] forKey:@"inputRadius"];
+//        CIImage *result = [filter valueForKey:kCIOutputImageKey];
+//        CGImageRef cgImageRef = [context createCGImage:result fromRect:result.extent];
+//        self.image = [UIImage imageWithCGImage:cgImageRef];
+//        CGImageRelease(cgImageRef);
+//    }
+//    [self.tableView reloadData];
+//    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Button Method

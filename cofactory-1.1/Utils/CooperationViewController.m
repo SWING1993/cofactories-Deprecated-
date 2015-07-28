@@ -56,10 +56,13 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
         FactoryModel*factoryModel=self.modelArray[indexPath.section];
 
+        [[SDImageCache sharedImageCache]clearDisk];
+
         UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 80, 80)];
         //    headerImage.image=[UIImage imageNamed:@"placeholder232"];
-        NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",factoryModel.uid];
-        [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"placeholder232"]];
+        //NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",factoryModel.uid];
+        NSString* imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",factoryModel.uid];
+        [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"消息头像"]];
         headerImage.clipsToBounds=YES;
         headerImage.contentMode=UIViewContentModeScaleAspectFill;
         headerImage.layer.cornerRadius=80/2.0f;

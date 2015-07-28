@@ -23,6 +23,8 @@
 
     UITextField*_factoryServiceRangeTF;//业务类型
 
+        UITextField*inviteCodeTF;
+
 
 }
 @property(nonatomic,retain)NSArray*cellPickList;
@@ -137,7 +139,12 @@
         _factoryServiceRangeTF.delegate =self;
         [TFView addSubview:_factoryServiceRangeTF];
 
-        UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 270, kScreenW-20, 35)];
+        inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 270, kScreenW-20, 35)];
+        inviteCodeTF.placeholder=@"邀请码";
+        [self.view addSubview:inviteCodeTF];
+
+
+        UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 320, kScreenW-20, 35)];
         [registerBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
         registerBtn.layer.cornerRadius=5.0f;
         registerBtn.layer.masksToBounds=YES;
@@ -182,7 +189,15 @@
         _factorySizeTF.delegate =self;
         [TFView addSubview:_factorySizeTF];
 
-        UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 220, kScreenW-20, 35)];
+        inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 220, kScreenW-20, 35)];
+        inviteCodeTF.placeholder=@"邀请码";
+        inviteCodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+        inviteCodeTF.borderStyle=UITextBorderStyleRoundedRect;
+        inviteCodeTF.backgroundColor=[UIColor whiteColor];
+        [self.view addSubview:inviteCodeTF];
+
+
+        UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 270, kScreenW-20, 35)];
         [registerBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
         registerBtn.layer.cornerRadius=5.0f;
         registerBtn.layer.masksToBounds=YES;
@@ -190,7 +205,6 @@
         [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
         [registerBtn addTarget:self action:@selector(clickRegisterBtn) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:registerBtn];
-
     }
 }
 
@@ -360,13 +374,11 @@
         [alertView show];
     }else{
         //注册
-//        NSLog(@"%@-%@-%d-%@-%@-%d-%f-%f-%@-%@",phone,password,factoryType,verifyCode,factoryAddress,factoryType,lon,lat,factoryName,factoryServiceRange);
-        [HttpClient registerWithUsername:phone password:password factoryType:factoryType verifyCode:verifyCode factoryName:factoryName lon:lon lat:lat factorySizeMin:[[Tools RangeSizeWith:_factorySizeTF.text] firstObject] factorySizeMax:[[Tools RangeSizeWith:_factorySizeTF.text] lastObject] factoryAddress:factoryAddress factoryServiceRange:factoryServiceRange andBlock:^(NSDictionary *responseDictionary) {
+        [HttpClient registerWithUsername:phone  InviteCode:inviteCodeTF.text password:password factoryType:factoryType verifyCode:verifyCode factoryName:factoryName lon:lon lat:lat factorySizeMin:[[Tools RangeSizeWith:_factorySizeTF.text] firstObject] factorySizeMax:[[Tools RangeSizeWith:_factorySizeTF.text] lastObject] factoryAddress:factoryAddress factoryServiceRange:factoryServiceRange andBlock:^(NSDictionary *responseDictionary) {
             NSString*message=responseDictionary[@"message"];
             UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             [alertView show];
         }];
-
     }
 }
 

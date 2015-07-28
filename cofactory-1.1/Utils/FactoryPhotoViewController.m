@@ -15,6 +15,8 @@
 
 @implementation FactoryPhotoViewController {
     UICollectionView *CollectionView;
+
+    UIView*view;
 }
 
 - (void)viewDidLoad {
@@ -82,6 +84,63 @@
     [cell addSubview:photoView];
 
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath{
+
+    //    NSLog(@"%d",indexPath.row);
+    view=[[UIView alloc]initWithFrame:CGRectMake(0, 64, kScreenW, kScreenH-64)];
+    view.backgroundColor=[UIColor blackColor];
+    UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, kScreenH/4-64, kScreenW, kScreenW)];
+    switch (indexPath.section) {
+        case 0:
+        {
+            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.equipment[indexPath.row]];
+            [photoView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
+        }
+            break;
+        case 1:
+        {
+            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.environment[indexPath.row]];
+            [photoView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
+        }
+            break;
+        case 2:
+        {
+            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.employee[indexPath.row]];
+            [photoView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
+        }
+            break;
+
+        default:
+            break;
+    }
+
+
+
+    photoView.contentMode=UIViewContentModeScaleAspectFill;
+    photoView.clipsToBounds=YES;
+    [view addSubview:photoView];
+    [self.view addSubview:view];
+
+//    UIButton *cancleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    cancleBtn.frame = CGRectMake(40, kScreenH-110-64, kScreenW-80, 30);
+//    [cancleBtn addTarget:self action:@selector(cancleBtn) forControlEvents:UIControlEventTouchUpInside];
+//    [cancleBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
+//    [cancleBtn setTitle:@"返回" forState:UIControlStateNormal];
+//    cancleBtn.layer.masksToBounds = YES;
+//    cancleBtn.layer.cornerRadius = 5;
+//    [view addSubview:cancleBtn];
+}
+//-(void)cancleBtn//gt123
+//{
+//    [view removeFromSuperview];
+//}
+
+
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [view removeFromSuperview];
 }
 
 - (void)didReceiveMemoryWarning {

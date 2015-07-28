@@ -201,18 +201,42 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath{
 
-    NSLog(@"%d",indexPath.row);
+//    NSLog(@"%d",indexPath.row);
 
-    view=[[UIView alloc]initWithFrame:CGRectMake(0, kScreenH/4, kScreenW, kScreenW)];
+//    view=[[UIView alloc]initWithFrame:CGRectMake(0, kScreenH/4, kScreenW, kScreenW)];
+//
+//    UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW)];
+//    NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[indexPath.row]];
+//    [photoView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
+//    photoView.contentMode=UIViewContentModeScaleAspectFill;
+//    photoView.clipsToBounds=YES;
+//    [view addSubview:photoView];
+//    [self.view addSubview:view];
 
-    UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW)];
+    view=[[UIView alloc]initWithFrame:CGRectMake(0, 64, kScreenW, kScreenH-64)];
+    view.backgroundColor=[UIColor blackColor];
+    UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, kScreenH/4-64, kScreenW, kScreenW)];
     NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[indexPath.row]];
     [photoView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
     photoView.contentMode=UIViewContentModeScaleAspectFill;
     photoView.clipsToBounds=YES;
     [view addSubview:photoView];
     [self.view addSubview:view];
+
+//    UIButton *cancleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    cancleBtn.frame = CGRectMake(40, kScreenH-110-64, kScreenW-80, 30);
+//    [cancleBtn addTarget:self action:@selector(cancleBtn) forControlEvents:UIControlEventTouchUpInside];
+//    [cancleBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
+//    [cancleBtn setTitle:@"返回" forState:UIControlStateNormal];
+//    cancleBtn.layer.masksToBounds = YES;
+//    cancleBtn.layer.cornerRadius = 5;
+//    [view addSubview:cancleBtn];
 }
+//-(void)cancleBtn//gt123
+//{
+//    [view removeFromSuperview];
+//}
+
 
 #pragma mark <UICollectionViewDataSource>
 

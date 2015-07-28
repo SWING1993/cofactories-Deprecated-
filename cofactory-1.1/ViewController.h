@@ -15,5 +15,7 @@
 
 //登录注册
 + (void)goLogin;
+
++(void)TouristLogin;
 @end
 

@@ -83,7 +83,13 @@
  @param factoryServiceRange 业务类型
  @param block               回调函数 会返回 @{@"statusCode": @201, @"responseObject": 字典}->(注册成功) @{@"statusCode": @401, @"message": @"验证码错误"}->(验证码错误) @{@"statusCode": @409, @"message": @"该手机已经注册过""}->(手机已经注册过) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误)
  */
-+ (void)registerWithUsername:(NSString *)username password:(NSString *)password factoryType:(int)type verifyCode:(NSString *)code factoryName:(NSString *)factoryName lon:(double)lon lat:(double)lat factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange andBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)registerWithUsername:(NSString *)username InviteCode:(NSString *)inviteCode password:(NSString *)password factoryType:(int)type verifyCode:(NSString *)code factoryName:(NSString *)factoryName lon:(double)lon lat:(double)lat factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange andBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
+//邀请码
++ (void)registerWithInviteCode:(NSString *)inviteCode andBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
 /*!
  登录账号
 
@@ -112,7 +118,9 @@
  @param id_card 身份证号
  @param block   回调函数 会返回 0->(网络错误) 200->(更新成功) 400->(未登录) 401->(access_toke过期或者无效) 404->(access_token不存在)
  */
+
 + (void)modifyUserProfileWithName:(NSString *)name job:(NSString *)job id_card:(NSString *)id_card andBlock:(void (^)(int statusCode))block;
+
 /*!
  添加收藏
 
@@ -228,6 +236,11 @@
 //订单搜索
 + (void)searchOrderWithRole:(FactoryType)role FactoryServiceRange:(NSString *)factoryServiceRange Time:(NSString *)time AmountMin:(NSNumber *)amountMin AmountMax:(NSNumber *)amountMax  Page:(NSNumber *)page andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
+//感兴趣
++ (void)interestOrderWithOid:(int)oid andBlock:(void (^)(int statusCode))block ;
+
+
+
 /*!
  订单详情接口
 
@@ -312,5 +325,11 @@
  @param block 回调函数 会返回 @{@"statusCode": @200, @"responseDictionary": 字典}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误) @{@"statusCode": @400, @"message": @"未登录"}->(未登录) @{@"statusCode": @401, @"message": @"access_token过期或者无效"}->(access_token过期或者无效) @{@"statusCode": @404, @"message": @"access_token不存在"}
  */
 + (void)uploadVerifyImage:(UIImage *)image type:(NSString *)type andblock:(void (^)(NSDictionary *dictionary))block;
+
+
+//订单图片上传
++ (void)uploadOrderImageWithImage:(UIImage *)image oid:(NSString *)oid andblock:(void (^)(NSDictionary *dictionary))block;
+
+
 
 @end

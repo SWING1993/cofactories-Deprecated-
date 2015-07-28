@@ -11,7 +11,7 @@
 #import "UpYun.h"
 #import "AFNetworking.h"
 
-#define kBaseUrl @"http://192.168.100.2:3001"
+#define kBaseUrl @"http://app2.cofactories.com"
 #define kClientID @"123"
 #define kSecret @"123"
 #define API_reset @"/user/reset"
@@ -34,6 +34,7 @@
 #define API_closeOrder @"/order/close"
 #define API_orderDoing @"/order/doing"
 #define API_historyOrder @"/order/history"
+#define API_interestOrder @"/order/interest"
 
 #define API_partnerList @"/partner/list"
 #define API_addPartner @"/partner/add"
@@ -45,6 +46,8 @@
 #define API_factoryPhoto @"/factory/photo"
 #define API_uploadFactory @"/upload/factory"
 #define API_uploadVerify @"/upload/verify"
+#define API_uploadOrder @"upload/order"
+
 
 @implementation HttpClient
 
@@ -160,8 +163,33 @@
     }];
 }
 
++ (void)registerWithInviteCode:(NSString *)inviteCode andBlock:(void (^)(NSDictionary *responseDictionary))block {
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        // 已经登录则修改用户资料
+        // 构造参数字典
+        NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithCapacity:0];
+        if (inviteCode) {
+            [parameters setObject:inviteCode forKey:@"inviteCode"];
+        }
+        
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        [manager POST:API_userProfile parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block (responseObject);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//            block (error);
+        }];
+    } else {
+
+    }
+}
+
+
 //注册
-+ (void)registerWithUsername:(NSString *)username password:(NSString *)password factoryType:(int)type verifyCode:(NSString *)code factoryName:(NSString *)factoryName lon:(double)lon lat:(double)lat factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange andBlock:(void (^)(NSDictionary *))block {
++ (void)registerWithUsername:(NSString *)username InviteCode:(NSString *)inviteCode password:(NSString *)password factoryType:(int)type verifyCode:(NSString *)code factoryName:(NSString *)factoryName lon:(double)lon lat:(double)lat factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange andBlock:(void (^)(NSDictionary *))block {
     NSParameterAssert(username);
     NSParameterAssert(password);
     NSParameterAssert(code);
@@ -175,7 +203,7 @@
     }
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
     NSArray *factorySize = [[NSArray alloc] initWithObjects:factorySizeMin, factorySizeMax, nil];
-    [manager POST:API_register parameters:@{@"phone": username, @"password": password, @"type": @(type), @"code": code, @"factoryName": factoryName, @"lon": @(lon), @"lat": @(lat), @"factorySize": factorySize, @"factoryAddress": factoryAddress, @"factoryServiceRange": (factoryServiceRange == nil ? @"" : factoryServiceRange)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:API_register parameters:@{@"phone": username,@"inviteCode": inviteCode, @"password": password, @"type": @(type), @"code": code, @"factoryName": factoryName, @"lon": @(lon), @"lat": @(lat), @"factorySize": factorySize, @"factoryAddress": factoryAddress, @"factoryServiceRange": (factoryServiceRange == nil ? @"" : factoryServiceRange)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         block(@{@"statusCode": @([operation.response statusCode]), @"responseObject": responseObject});
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         switch ([operation.response statusCode]) {
@@ -207,9 +235,6 @@
 
             if ([[responseDictionary objectForKey:@"statusCode"] intValue] == 200) {
                 NSLog(@"登录信息字典模型%@",[responseDictionary objectForKey:@"model"] );
-//                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//                [userDefaults setObject:[responseDictionary objectForKey:@"model"] forKey:@"UserModel"];
-//                [userDefaults synchronize];
             }
         }];
         block(200);// 登录成功
@@ -223,8 +248,6 @@
 }
 
 + (BOOL)logout {
-//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//    [userDefaults removeObjectForKey:@"UserModel"];
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     return [AFOAuthCredential deleteCredentialWithIdentifier:serviceProviderIdentifier];
@@ -725,6 +748,37 @@
         block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
     }
 }
+
++ (void)interestOrderWithOid:(int)oid andBlock:(void (^)(int statusCode))block {
+    NSParameterAssert(oid);
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        NSString *url = [[NSString alloc] initWithFormat:@"%@/%d", API_interestOrder, oid];
+        [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block(@{@"statusCode": @([operation.response statusCode])});
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            switch ([operation.response statusCode]) {
+                case 400:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"未登录"});
+                    break;
+                case 401:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"access_token过期或者无效"});
+                    break;
+
+                default:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"网络错误"});
+                    break;
+            }
+        }];
+    } else {
+        block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
+    }
+}
+
 + (void)searchOrderWithRole:(FactoryType)role FactoryServiceRange:(NSString *)factoryServiceRange Time:(NSString *)time AmountMin:(NSNumber *)amountMin AmountMax:(NSNumber *)amountMax  Page:(NSNumber *)page andBlock:(void (^)(NSDictionary *responseDictionary))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
@@ -749,7 +803,7 @@
         [mutableDictionary setObject:page forKey:@"page"];
 
     [manager GET:API_searchOrder parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"订单搜索=%@",responseObject);
+//        NSLog(@"订单搜索=%@",responseObject);
         NSArray *jsonArray = (NSArray *)responseObject;
         NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
         for (NSDictionary *dictionary in jsonArray) {
@@ -1101,5 +1155,43 @@
         block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
     }
 }
+
++ (void)uploadOrderImageWithImage:(UIImage *)image oid:(NSString *)oid andblock:(void (^)(NSDictionary *dictionary))block {
+    NSParameterAssert(image);
+    NSParameterAssert(oid);
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        [manager GET:API_uploadOrder parameters:@{@"oid": oid} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            UpYun *upYun = [[UpYun alloc] init];
+            upYun.bucket = @"cofactories";
+            upYun.expiresIn = 600;// 10分钟
+            [upYun uploadImage:image policy:[responseObject objectForKey:@"policy"] signature:[responseObject objectForKey:@"signature"]];
+            block(@{@"statusCode": @([operation.response statusCode]), @"responseDictionary": responseObject});
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            switch ([operation.response statusCode]) {
+                case 400:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"未登录"});
+                    break;
+                case 401:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"access_token过期或者无效"});
+                    break;
+
+                default:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"网络错误"});
+                    break;
+            }
+        }];
+    } else {
+        block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
+    }
+    
+    
+    
+}
+
 
 @end

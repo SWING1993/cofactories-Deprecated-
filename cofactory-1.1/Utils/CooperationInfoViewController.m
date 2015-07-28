@@ -129,18 +129,18 @@
     UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, ImageViewHeight-80, 60, 60)];
     headerImage.layer.cornerRadius=60/2.0f;
     headerImage.layer.masksToBounds=YES;
-    NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",self.factoryModel.uid];
-    [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
+
+    [[SDImageCache sharedImageCache]clearDisk];
+
+    NSString* imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.factoryModel.uid];
+    //NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",self.factoryModel.uid];
+    [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"消息头像"]];
     [headerView addSubview:headerImage];
-
-
 
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, ImageViewHeight-45, kScreenW-100, 20)];
     factoryNameLabel.font=[UIFont boldSystemFontOfSize:18];
     factoryNameLabel.text=self.factoryModel.factoryName;
     [headerView addSubview:factoryNameLabel];
-
-
 
 
     infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-140, ImageViewHeight-25, 130, 20)];
@@ -155,9 +155,6 @@
     self.cellImageArray4=@[[UIImage imageNamed:@"空闲2"],[UIImage imageNamed:@"货车"],[UIImage imageNamed:@"认证"]];
 }
 
-- (void)tappedImageView:(id)sender {
-
-}
 
 - (void)callBtn {
 //    NSLog(@"拨打电话");

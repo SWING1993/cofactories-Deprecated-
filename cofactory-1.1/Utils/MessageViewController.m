@@ -31,13 +31,8 @@
 
     [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {
         if ([responseDictionary[@"statusCode"] intValue]==200) {
-
-//            NSLog(@"%@",responseDictionary);
-
             self.messageArray=responseDictionary[@"responseArray"];
-
             [self.tableView reloadData];
-
         };
     }];
 }

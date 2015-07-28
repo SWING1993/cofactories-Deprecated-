@@ -15,7 +15,10 @@
     UILabel *label;
     UILabel *interestCountLabel;
         UIView *_view;//gt123
+    UITableView*tableView;
 }
+
+@property (nonatomic,strong)UserModel *userModel;
 @end
 
 @implementation OrderDetailViewController
@@ -31,83 +34,98 @@
     self.navigationItem.title = @"订单详情";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19],NSForegroundColorAttributeName:[UIColor whiteColor]}];
 
-    [HttpClient getOrderDetailWithOid:self.model.oid andBlock:^(NSDictionary *responseDictionary) {
+//    [HttpClient getOrderDetailWithOid:self.model.uid andBlock:^(NSDictionary *responseDictionary) {
+//
+//        NSLog(@">>>++%@",responseDictionary);
+//
+//    }];
 
-        NSLog(@">>>++%@",responseDictionary);
-        
+    [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
+
+            NSLog(@">>>++==%@",responseDictionary);
+
+        self.userModel = [responseDictionary objectForKey:@"model"];
+        [tableView reloadData];
+
     }];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.view.backgroundColor = [UIColor whiteColor];
     
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-80) style:UITableViewStyleGrouped];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.showsVerticalScrollIndicator = NO;
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    tableView = [[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    tableView.showsVerticalScrollIndicator = NO;
+    [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     
     if (kScreenH>568)
     {
-        self.tableView.rowHeight = 50;
+        tableView.rowHeight = 50;
     }
     else
     {
-        self.tableView.rowHeight = 45;
+        tableView.rowHeight = 45;
     }
-    self.tableView.backgroundColor = [UIColor whiteColor];
+    tableView.backgroundColor = [UIColor whiteColor];
     
     //表头试图
-    UIView *tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 170)];
+    UIView *tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 100)]; //170
     tableHeaderView.backgroundColor = [UIColor whiteColor];
-    self.tableView.tableHeaderView = tableHeaderView;
-    
-    //表头试图添加UI
-    UIImageView *companyImage = [[UIImageView alloc]initWithFrame:CGRectMake(5, 5, 50, 50)];
-[companyImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.model.oid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];    //gt123    companyImage.layer.masksToBounds = YES;
-    companyImage.layer.cornerRadius = 25;
-    [tableHeaderView addSubview:companyImage];
-    
-    UILabel *comanyNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 5, 165, 30)];
-    //gt123
-    NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:@"name"];
-    comanyNameLabel.text = name;
-    comanyNameLabel.font = [UIFont systemFontOfSize:13.0f];
-    [tableHeaderView addSubview:comanyNameLabel];
-    
+    tableView.tableHeaderView = tableHeaderView;
+//    
+//    //表头试图添加UI
+//    UIImageView *companyImage = [[UIImageView alloc]initWithFrame:CGRectMake(5, 5, 50, 50)];
+//[companyImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.model.oid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];    //gt123    companyImage.layer.masksToBounds = YES;
+//    companyImage.layer.cornerRadius = 25;
+//    [tableHeaderView addSubview:companyImage];
+//    
+//    UILabel *comanyNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 5, 165, 30)];
+//    //gt123
+//    NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:@"name"];
+//    comanyNameLabel.text = name;
+//    comanyNameLabel.font = [UIFont systemFontOfSize:13.0f];
+//    [tableHeaderView addSubview:comanyNameLabel];
+
 //    UIButton *companyDetailsBtn = [UIButton buttonWithType:UIButtonTypeSystem];
 //    companyDetailsBtn.frame = CGRectMake(kScreenW-50, 9, 15,15);
 //    [companyDetailsBtn setBackgroundImage:[UIImage imageNamed:@"箭头.png"] forState:UIControlStateNormal];
 //    [companyDetailsBtn addTarget:self action:@selector(goToCompanyDetailClick) forControlEvents:UIControlEventTouchUpInside];
 //    [tableHeaderView addSubview:companyDetailsBtn];
 
-    UILabel *orderImageLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 70, kScreenW, 15)];
+    UILabel *orderImageLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 15)];
     orderImageLabel.backgroundColor = [UIColor colorWithRed:255/255.0 green:106/255.0 blue:106/255.0 alpha:1.0];
     orderImageLabel.text = [NSString stringWithFormat:@"     %@",@"订单图片"];
     orderImageLabel.textColor = [UIColor whiteColor];
-    orderImageLabel.font = [UIFont systemFontOfSize:12.0f];
+    orderImageLabel.font = [UIFont systemFontOfSize:14.0f];
     [tableHeaderView addSubview:orderImageLabel];
-    
+
+    [[SDImageCache sharedImageCache]clearDisk];
     UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-[imageButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/order/%d.png",self.model.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];//gt123
-    imageButton.frame = CGRectMake((kScreenW-46)/2.0, 85+3, 46, 46);
+    [imageButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/order/%d.png",self.model.oid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];//
+
+    NSLog(@"model.uid%d",self.model.uid);
+//    gt123
+    imageButton.frame = CGRectMake((kScreenW-46)/2.0, 15, 46, 46);
     imageButton.layer.masksToBounds = YES;
     imageButton.layer.cornerRadius = 5;
     [imageButton addTarget:self action:@selector(imageButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [tableHeaderView addSubview:imageButton];
     
-    UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 138, kScreenW-40, 1)];
+    UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 68, kScreenW-40, 1)];
     lineLabel.backgroundColor = [UIColor colorWithRed:213/255.0 green:213/255.0 blue:213/255.0 alpha:1.0];
     [tableHeaderView addSubview:lineLabel];
     
-    interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake((kScreenW-120)/2.0-13, 140, 40, 20)];
-    interestCountLabel.font = [UIFont systemFontOfSize:12.0f];
+    interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake((kScreenW-120)/2.0-13, 70, 40, 20)];
+    interestCountLabel.font = [UIFont systemFontOfSize:13.0f];
     interestCountLabel.textColor = [UIColor orangeColor];
     interestCountLabel.textAlignment = 2;
     [tableHeaderView addSubview:interestCountLabel];
     
-    label= [[UILabel alloc]initWithFrame:CGRectMake(([UIScreen mainScreen].bounds.size.width-120)/2.0+25, 140,120 , 20)];
-    label.font = [UIFont systemFontOfSize:12.0f];
+    label= [[UILabel alloc]initWithFrame:CGRectMake(([UIScreen mainScreen].bounds.size.width-120)/2.0+25, 70,120 , 20)];
+    label.font = [UIFont systemFontOfSize:13.0f];
     label.text = @"家厂商对此订单感兴趣";
     [tableHeaderView addSubview:label];
 
@@ -144,12 +162,11 @@
 //    [contactManufacturerButton addTarget:self action:@selector(contactManufacturerClick) forControlEvents:UIControlEventTouchUpInside];
 //    [self.contactManufacturerView addSubview:contactManufacturerButton];
 
-   for (int i = 0; i<2; i++)
-    {
-        UILabel *labels = [[UILabel alloc]initWithFrame:CGRectMake(0, 60+i*100, [UIScreen mainScreen].bounds.size.width, 10)];
+
+        UILabel *labels = [[UILabel alloc]initWithFrame:CGRectMake(0, 60, [UIScreen mainScreen].bounds.size.width, 10)];
         labels.backgroundColor = [UIColor colorWithRed:213/255.0 green:213/255.0 blue:213/255.0 alpha:1.0];
         [tableHeaderView addSubview:labels];
-    }
+    [self.view addSubview:tableView];
 }
 
 
@@ -165,11 +182,11 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     switch (indexPath.row) {
         case 0:
-            cell.textLabel.text = [NSString stringWithFormat:@"联系人:   %@",self.model.name];
+            cell.textLabel.text = [NSString stringWithFormat:@"联系人:   %@",self.userModel.name];
             cell.textLabel.font = [UIFont systemFontOfSize:14];
             break;
         case 1:
-            cell.textLabel.text = [NSString stringWithFormat:@"联系电话:   %@",self.model.phone];
+            cell.textLabel.text = [NSString stringWithFormat:@"联系电话:   %@",self.userModel.phone];
             cell.textLabel.font = [UIFont systemFontOfSize:14];
             break;
         case 2:
@@ -196,6 +213,7 @@
             cell.textLabel.font = [UIFont systemFontOfSize:14];
             break;
         case 4:
+
             cell.textLabel.text = [NSString stringWithFormat:@"工期:   %@",self.model.workingTime];
             cell.textLabel.font = [UIFont systemFontOfSize:14];
             break;
@@ -313,25 +331,28 @@
     _view.backgroundColor=[UIColor clearColor];
 
     UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, kScreenH/4, kScreenW, kScreenW)];
-    NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%d",self.model.uid];
-    [photoView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
+    [photoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/order/%d.png",self.model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
     photoView.contentMode=UIViewContentModeScaleAspectFill;
     photoView.clipsToBounds=YES;
     [_view addSubview:photoView];
     [self.view addSubview:_view];
 
-    UIButton *cancleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    cancleBtn.frame = CGRectMake(40, kScreenH-110, kScreenW-80, 30);
-    [cancleBtn addTarget:self action:@selector(cancleBtn) forControlEvents:UIControlEventTouchUpInside];
-    [cancleBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
-    [cancleBtn setTitle:@"取消" forState:UIControlStateNormal];
-    cancleBtn.layer.masksToBounds = YES;
-    cancleBtn.layer.cornerRadius = 5;
-    [_view addSubview:cancleBtn];
+//    UIButton *cancleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    cancleBtn.frame = CGRectMake(40, kScreenH-30, kScreenW-80, 30);
+//    [cancleBtn addTarget:self action:@selector(cancleBtn) forControlEvents:UIControlEventTouchUpInside];
+//    [cancleBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
+//    [cancleBtn setTitle:@"取消" forState:UIControlStateNormal];
+//    cancleBtn.layer.masksToBounds = YES;
+//    cancleBtn.layer.cornerRadius = 5;
+//    [_view addSubview:cancleBtn];
 }
--(void)cancleBtn//gt123
-{
+//-(void)cancleBtn//gt123
+//{
+//    [_view removeFromSuperview];
+//}
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [_view removeFromSuperview];
+
 }
 
 

@@ -9,7 +9,7 @@
 #import "ModelsHeader.h"
 #import "MeViewController.h"
 
-@interface MeViewController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate> {
+@interface MeViewController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate> {
 
     UILabel*factoryNameLabel;
 
@@ -57,6 +57,7 @@
 
         //更新信息完整度
         int FinishedDegree = self.userModel.factoryFinishedDegree;
+
         infoLabel.text = [NSString stringWithFormat:@"信息完整度为%d%s",FinishedDegree,"%"];
 
         if (self.userModel.factoryType==GarmentFactory) {
@@ -81,7 +82,6 @@
 
         //刷新tableview
         [self.tableView reloadData];
-
     }];
 }
 
@@ -90,7 +90,6 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
-
 
     //设置Btn
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStylePlain target:self action:@selector(saetButtonClicked)];
@@ -132,18 +131,15 @@
         [headerView addSubview:headerButton];
     }];
 
-    infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-140, kBannerHeight-25, 130, 20)];
+    infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-150, kBannerHeight-25, 140, 20)];
     infoLabel.font=[UIFont boldSystemFontOfSize:15.0f];
     infoLabel.textColor=[UIColor grayColor];
     [headerView addSubview:infoLabel];
 
     self.tableView.tableHeaderView = headerView;
 
-
-
     self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"]];
     self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司相册"],[UIImage imageNamed:@"set_公司业务类型"]];
-
 }
 
 //设置
@@ -161,6 +157,7 @@
 }
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
+        
         if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误"
                                                                 message:@"设备没有相机"
@@ -370,124 +367,125 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     if (indexPath.section==2) {
-
         UIFont*font=[UIFont systemFontOfSize:14];
-
         CGSize size = [self.userModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
         return size.height+40;
     }else{
         return 44;
     }
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    switch (indexPath.section) {
-        case 0:{
-            switch (indexPath.row) {
-                case 0:{
-                    ModifyNameViewController*modifyNameVC = [[ModifyNameViewController alloc]init];
-                    modifyNameVC.placeholder=self.userModel.name;
-                    modifyNameVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:modifyNameVC animated:YES];
-
-                }
-                    break;
-                case 1:{
-
-                    //电话 账号
-
-                }
-                    break;
-                case 2:{
-                    ModifyJobViewController*modifyJobVC = [[ModifyJobViewController alloc]init];
-                    modifyJobVC.placeholder=self.userModel.job;
-                    modifyJobVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:modifyJobVC animated:YES];
-
-                }
-                    break;
-                case 3:{
-                    FavoriteViewController*favoriteVC = [[FavoriteViewController alloc]init];
-                    favoriteVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:favoriteVC animated:YES];
-
-                }
-                    break;
-                    
-                default:
-                    break;
-            }
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex==1) {
+        if (alertView.tag==99) {
+            [ViewController goLogin];
         }
-            break;
-        case 1:{
-            switch (indexPath.row) {
-                case 0:{
-                    ModifyFactoryNameViewController*modifyFactoryNameVC = [[ModifyFactoryNameViewController alloc]init];
-                    modifyFactoryNameVC.placeholder=self.userModel.factoryName;
-                    modifyFactoryNameVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:modifyFactoryNameVC animated:YES];
-
-                }
-                    break;
-                case 1:{
-                    SetaddressViewController*setaddressVC = [[SetaddressViewController alloc]init];
-                    setaddressVC.placeholder=self.userModel.factoryAddress;
-                    setaddressVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:setaddressVC animated:YES];
-
-                }
-                    break;
-                case 2:{
-                    ModifySizeViewController*sizeVC = [[ModifySizeViewController alloc]init];
-
-                    if (self.userModel.factoryType==GarmentFactory) {
-                        sizeVC.placeholder=[Tools SizeWith:self.userModel.factorySize];
-                    }else {
-                        sizeVC.placeholder=self.userModel.factorySize;
-                    }
-                    sizeVC.cellPickList=self.sizeArray;
-                    sizeVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:sizeVC animated:YES];
-
-                }
-                    break;
-                case 3:{
-                    PhotoViewController*photoVC = [[PhotoViewController alloc]init];
-                    photoVC.userUid=[NSString stringWithFormat:@"%d",self.userModel.uid];
-                    photoVC.hidesBottomBarWhenPushed = YES;
-                    [self.navigationController pushViewController:photoVC animated:YES];
-                }
-                    break;
-
-                case 4:{
-                    ModifyServiceRangeViewController*rangeVC = [[ModifyServiceRangeViewController alloc]init];
-                    rangeVC.cellPickList=self.serviceRangeArray;
-                    rangeVC.placeholder=self.userModel.factoryServiceRange;
-                    rangeVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:rangeVC animated:YES];
-                }
-                    break;
-
-                default:
-                    break;
-            }
-
-        }
-            break;
-        case 2:{
-            DescriptionViewController*descriptionVC = [[DescriptionViewController alloc]init];
-            descriptionVC.placeholder = self.userModel.factoryDescription;
-            descriptionVC.hidesBottomBarWhenPushed=YES;
-            [self.navigationController pushViewController:descriptionVC animated:YES];
-
-        }
-            break;
-
-        default:
-            break;
     }
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if ([Tools isTourist]) {
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"您目前的身份是游客，是否进行登录注册" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alertView.tag=99;
+        [alertView show];
+    }else{
+        switch (indexPath.section) {
+            case 0:{
+                switch (indexPath.row) {
+                    case 0:{
+                        ModifyNameViewController*modifyNameVC = [[ModifyNameViewController alloc]init];
+                        modifyNameVC.placeholder=self.userModel.name;
+                        modifyNameVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:modifyNameVC animated:YES];
+                    }
+                        break;
+                    case 1:{
+
+                        //电话 账号
+
+                    }
+                        break;
+                    case 2:{
+                        ModifyJobViewController*modifyJobVC = [[ModifyJobViewController alloc]init];
+                        modifyJobVC.placeholder=self.userModel.job;
+                        modifyJobVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:modifyJobVC animated:YES];
+                    }
+                        break;
+                    case 3:{
+                        FavoriteViewController*favoriteVC = [[FavoriteViewController alloc]init];
+                        favoriteVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:favoriteVC animated:YES];
+                    }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+                break;
+            case 1:{
+                switch (indexPath.row) {
+                    case 0:{
+                        ModifyFactoryNameViewController*modifyFactoryNameVC = [[ModifyFactoryNameViewController alloc]init];
+                        modifyFactoryNameVC.placeholder=self.userModel.factoryName;
+                        modifyFactoryNameVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:modifyFactoryNameVC animated:YES];
+                    }
+                        break;
+                    case 1:{
+                        SetaddressViewController*setaddressVC = [[SetaddressViewController alloc]init];
+                        setaddressVC.placeholder=self.userModel.factoryAddress;
+                        setaddressVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:setaddressVC animated:YES];
+                    }
+                        break;
+                    case 2:{
+                        ModifySizeViewController*sizeVC = [[ModifySizeViewController alloc]init];
+                        if (self.userModel.factoryType==GarmentFactory) {
+                            sizeVC.placeholder=[Tools SizeWith:self.userModel.factorySize];
+                        }else {
+                            sizeVC.placeholder=self.userModel.factorySize;
+                        }
+                        sizeVC.cellPickList=self.sizeArray;
+                        sizeVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:sizeVC animated:YES];
+                    }
+                        break;
+                    case 3:{
+                        PhotoViewController*photoVC = [[PhotoViewController alloc]init];
+                        photoVC.userUid=[NSString stringWithFormat:@"%d",self.userModel.uid];
+                        photoVC.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:photoVC animated:YES];
+                    }
+                        break;
+                    case 4:{
+                        ModifyServiceRangeViewController*rangeVC = [[ModifyServiceRangeViewController alloc]init];
+                        rangeVC.cellPickList=self.serviceRangeArray;
+                        rangeVC.placeholder=self.userModel.factoryServiceRange;
+                        rangeVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:rangeVC animated:YES];
+                    }
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+                break;
+            case 2:{
+                DescriptionViewController*descriptionVC = [[DescriptionViewController alloc]init];
+                descriptionVC.placeholder = self.userModel.factoryDescription;
+                descriptionVC.hidesBottomBarWhenPushed=YES;
+                [self.navigationController pushViewController:descriptionVC animated:YES];
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

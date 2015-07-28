@@ -21,4 +21,7 @@
 
 + (NSString *)SizeWith:(NSString *)sizeString;
 
++ (BOOL)isTourist;
+
+
 @end

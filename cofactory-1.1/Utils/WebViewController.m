@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 聚工科技. All rights reserved.
 //
 
+#import "Header.h"
 #import "WebViewController.h"
 
 @interface WebViewController ()
@@ -17,11 +18,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.view.backgroundColor=[UIColor whiteColor];
+    AFOAuthCredential *credential=[HttpClient getToken];
     UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
-    NSURL *url = [NSURL URLWithString:self.url];
+    NSString*token = credential.accessToken;
+    NSString*string = [NSString stringWithFormat:@"http://app2.cofactories.com/draw/draw.html#%@",token];
+    NSURL *url = [NSURL URLWithString:string];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [webView loadRequest:urlRequest];
     [self.view addSubview:webView];
+
+    //设置Btn
+    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(goBackClicked)];
+    self.navigationItem.leftBarButtonItem = setButton;
+
+
+}
+- (void)goBackClicked {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
