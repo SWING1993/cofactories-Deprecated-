@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "THDatePickerViewController.h"
 
 
-@interface StatusViewController : UITableViewController<THDatePickerDelegate>
+@interface StatusViewController : UITableViewController
 
 @property (nonatomic, assign) int factoryType;
 

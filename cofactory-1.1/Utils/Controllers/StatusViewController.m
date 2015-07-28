@@ -8,12 +8,19 @@
 
 #import "Header.h"
 #import "StatusViewController.h"
+
+#import "CalendarHomeViewController.h"
+#import "CalendarViewController.h"
+#import "Color.h"
+
+
 #define CellIdentifier @"Cell"
 
-@interface StatusViewController () <THDatePickerDelegate>
-
+@interface StatusViewController ()
 @property (nonatomic,copy)NSArray * cellTitleArr;
-@property (nonatomic, strong) THDatePickerViewController * datePicker;
+//@property (nonatomic, strong) THDatePickerViewController * datePicker;
+@property (nonatomic, strong) UILabel*timeLabel;
+
 
 @property (nonatomic, retain) NSDate * curDate;
 @property (nonatomic, retain) NSDateFormatter * formatter;
@@ -21,7 +28,9 @@
 @end
 
 @implementation StatusViewController {
-    UILabel*timeLabel;
+
+    CalendarHomeViewController *chvc;
+
 
 }
 
@@ -34,15 +43,13 @@
     self.tableView.showsVerticalScrollIndicator=NO;
     if (self.factoryType==1) {
         self.cellTitleArr=@[@"设置空闲时间",@"有无自备货车"];
-        timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(kScreenW-120, 7, 100, 30)];
-        timeLabel.textAlignment=NSTextAlignmentRight;
-        timeLabel.font=[UIFont systemFontOfSize:15.0f];
+        self.timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(kScreenW-120, 7, 100, 30)];
+        self.timeLabel.textAlignment=NSTextAlignmentRight;
+        self.timeLabel.font=[UIFont systemFontOfSize:15.0f];
         if (self.factoryFreeTime) {
             NSString*timeString=[[Tools WithTime:self.factoryFreeTime] firstObject];
-            timeLabel.text=timeString;
+            self.timeLabel.text=timeString;
         }
-        [self.tableView addSubview:timeLabel];
-
         self.curDate = [NSDate date];
         self.formatter = [[NSDateFormatter alloc] init];
         [_formatter setDateFormat:@"yyyy/MM/dd"];
@@ -51,25 +58,6 @@
     }
     self.tableView.scrollEnabled=NO;
     self.tableView.rowHeight=44.0f;
-}
-
--(void)refreshTitle{
-    if(self.curDate) {
-        timeLabel.text=[_formatter stringFromDate:_curDate];
-        [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryLon:nil factoryLat:nil factoryFree:[_formatter stringFromDate:_curDate] factoryDescription:nil andBlock:^(int statusCode) {
-            if (statusCode==200) {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:[NSString stringWithFormat:@"空闲时间到%@",[_formatter stringFromDate:_curDate]] message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
-            }else{
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"空闲时间设置失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
-            }
-        }];
-
-    }
-    else {
-        timeLabel.text=@"No date selected";
-    }
 }
 
 #pragma mark - Table view data source
@@ -92,7 +80,7 @@
 
         if (self.factoryType==1) {
             if (indexPath.section==0) {
-                [cell addSubview:timeLabel];
+                [cell addSubview:self.timeLabel];
             }
             if (indexPath.section==1) {
                 UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectMake(kScreenW-70.0f, 7.0f, 60.0f, 28.0f)];
@@ -196,57 +184,42 @@
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.factoryType==1) {
-        if (indexPath.section==0) {
-            if(!self.datePicker)
-                self.datePicker = [THDatePickerViewController datePicker];
-            self.datePicker.date = self.curDate;
-            self.datePicker.delegate = self;
-            [self.datePicker setAllowClearDate:NO];
-            [self.datePicker setAutoCloseOnSelectDate:YES];
-            [self.datePicker setSelectedBackgroundColor:[UIColor colorWithRed:125/255.0 green:208/255.0 blue:0/255.0 alpha:1.0]];
-            [self.datePicker setCurrentDateColor:[UIColor colorWithRed:242/255.0 green:121/255.0 blue:53/255.0 alpha:1.0]];
 
-            [self.datePicker setDateHasItemsCallback:^BOOL(NSDate *date) {
-                int tmp = (arc4random() % 30)+1;
-                if(tmp % 5 == 0)
-                    return YES;
-                return NO;
-            }];
-            UINavigationController*dateNav = [[UINavigationController alloc]initWithRootViewController:self.datePicker];
-            dateNav.title=@"选择空闲时间";
-            dateNav.navigationBar.barStyle=UIBarStyleBlack;
-            [self presentViewController:dateNav animated:NO completion:nil];
-        }
+    if (!chvc) {
+
+        chvc = [[CalendarHomeViewController alloc]init];
+
+        chvc.calendartitle = @"空闲日期";
+
+        [chvc setAirPlaneToDay:365 ToDateforString:nil];//飞机初始化方法
+
     }
-}
+    chvc.calendarblock = ^(CalendarDayModel *model){
 
+        NSLog(@"\n---------------------------");
+        NSLog(@"1星期 %@",[model getWeek]);
+        NSLog(@"2字符串 %@",[model toString]);
+        NSLog(@"3节日  %@",model.holiday);
 
--(void)datePickerDonePressed:(THDatePickerViewController *)datePicker{
-    self.curDate = datePicker.date;
-    [self refreshTitle];
-    //[self.datePicker slideDownAndOut];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
+        self.timeLabel.text=[NSString stringWithFormat:@"%@",[model toString]];
+        [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryLon:nil factoryLat:nil factoryFree:[model toString] factoryDescription:nil andBlock:^(int statusCode) {
+            if (statusCode==200) {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:[NSString stringWithFormat:@"空闲时间到%@",[model toString]] message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }else{
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"空闲时间设置失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+        }];
 
--(void)datePickerCancelPressed:(THDatePickerViewController *)datePicker{
-    //[self.datePicker slideDownAndOut];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    };
+    [self.navigationController pushViewController:chvc animated:YES];
+
 }
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
