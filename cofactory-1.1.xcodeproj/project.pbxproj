@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		043257981B673D0400C3705D /* ODRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 043257971B673D0400C3705D /* ODRefreshControl.m */; };
 		0451D6581B574BCB007CCD59 /* ico_make.png in Resources */ = {isa = PBXBuildFile; fileRef = 0451D6551B574BCB007CCD59 /* ico_make.png */; };
 		0451D6591B574BCB007CCD59 /* JSDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D6571B574BCB007CCD59 /* JSDropDownMenu.m */; };
 		0451D6691B579A19007CCD59 /* RevisePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D6681B579A19007CCD59 /* RevisePasswordViewController.m */; };
@@ -179,6 +180,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		043257961B673D0400C3705D /* ODRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODRefreshControl.h; sourceTree = "<group>"; };
+		043257971B673D0400C3705D /* ODRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODRefreshControl.m; sourceTree = "<group>"; };
 		0451D6551B574BCB007CCD59 /* ico_make.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ico_make.png; sourceTree = "<group>"; };
 		0451D6561B574BCB007CCD59 /* JSDropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSDropDownMenu.h; sourceTree = "<group>"; };
 		0451D6571B574BCB007CCD59 /* JSDropDownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSDropDownMenu.m; sourceTree = "<group>"; };
@@ -506,6 +509,15 @@
 				0455E11A1B61E4F8009C5CDA /* PushTableViewCell.m */,
 			);
 			name = Push;
+			sourceTree = "<group>";
+		};
+		043257951B673D0400C3705D /* ODRefreshControl */ = {
+			isa = PBXGroup;
+			children = (
+				043257961B673D0400C3705D /* ODRefreshControl.h */,
+				043257971B673D0400C3705D /* ODRefreshControl.m */,
+			);
+			path = ODRefreshControl;
 			sourceTree = "<group>";
 		};
 		0451D64D1B574A1B007CCD59 /* FactoryList */ = {
@@ -877,10 +889,10 @@
 			children = (
 				BD4311CB1B4F41DE0097E4BC /* MeViewController.h */,
 				BD4311CC1B4F41DE0097E4BC /* MeViewController.m */,
+				0451D65F1B578E37007CCD59 /* Set */,
 				04D7D02C1B5A492D0054861E /* Description */,
 				04D7D0281B5A1B1A0054861E /* Favorite */,
 				04D7D0241B5A12980054861E /* Photo */,
-				0451D65F1B578E37007CCD59 /* Set */,
 				04D7D0201B59E7850054861E /* Range */,
 				04F60C6D1B58EF1C00CD3DEC /* Size */,
 				04C28A1A1B58ABAA005014E5 /* Name */,
@@ -964,6 +976,7 @@
 		BDC907E11B4E9B3700856A32 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				043257951B673D0400C3705D /* ODRefreshControl */,
 				04822DD51B62182D00A370F6 /* THCalendarDatePicker */,
 				BD8C4DF41B4FB2BA0065ECFA /* libz.dylib */,
 				0451D6541B574BCB007CCD59 /* JSDropDownMenu */,
@@ -1378,6 +1391,7 @@
 				04F60C701B58EF8D00CD3DEC /* ModifySizeViewController.m in Sources */,
 				04DFCAAC1B63D53A00356F4B /* PushHelperItemModel.m in Sources */,
 				04A20C3E1B5FBDB7001AADE9 /* PushOrderViewController.m in Sources */,
+				043257981B673D0400C3705D /* ODRefreshControl.m in Sources */,
 				04822E361B62E5C200A370F6 /* TouristViewController.m in Sources */,
 				BDC908E91B4E9B3700856A32 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				BD8AD7F21B50E62600373E5E /* UIImage+WebP.m in Sources */,

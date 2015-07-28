@@ -52,6 +52,8 @@
 
         self.userModel=responseDictionary[@"model"];
 
+        NSLog(@"user.uid=%d",self.userModel.uid);
+
         //更新公司名称label.text
         factoryNameLabel.text=self.userModel.factoryName;
 
@@ -116,14 +118,12 @@
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, kBannerHeight-45, kScreenW-100, 20)];
     factoryNameLabel.font=[UIFont boldSystemFontOfSize:18];
 
-
     [[SDImageCache sharedImageCache]clearDisk];
     //初始化用户model
     self.userModel=[[UserModel alloc]init];
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         self.userModel=responseDictionary[@"model"];
         factoryNameLabel.text=self.userModel.factoryName;
-        NSLog(@"%d",self.userModel.uid);
         [headerView addSubview:factoryNameLabel];
         [self.tableView reloadData];
 

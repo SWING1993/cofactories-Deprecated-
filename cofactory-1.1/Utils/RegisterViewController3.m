@@ -23,9 +23,7 @@
 
     UITextField*_factoryServiceRangeTF;//业务类型
 
-        UITextField*inviteCodeTF;
-
-
+    UITextField*inviteCodeTF;
 }
 @property(nonatomic,retain)NSArray*cellPickList;
 @property(nonatomic,retain)NSArray*cellServicePickList;
@@ -140,6 +138,7 @@
         [TFView addSubview:_factoryServiceRangeTF];
 
         inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 270, kScreenW-20, 35)];
+        inviteCodeTF.keyboardType=UIKeyboardTypeNumberPad;
         inviteCodeTF.placeholder=@"邀请码";
         [self.view addSubview:inviteCodeTF];
 

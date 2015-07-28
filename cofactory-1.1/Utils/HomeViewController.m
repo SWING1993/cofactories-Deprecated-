@@ -74,7 +74,6 @@
 
     NSLog(@"游客=%d",[Tools isTourist]);
 
-
     [HttpClient drawAccessWithBlock:^(int statusCode) {
         NSLog(@"%d",statusCode);
         if (statusCode==200) {
@@ -105,7 +104,6 @@
             [self.tableView reloadData];
         }
     }];
-
 
     // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
@@ -261,7 +259,7 @@
 - (void)findClicked:(id)sender {
     FactoryListViewController *factoryListVC= [[FactoryListViewController alloc]init];
     factoryListVC.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-    factoryListVC.factoryType = 10;
+//    factoryListVC.factoryType = 10;
     [self.navigationController pushViewController:factoryListVC animated:YES];
 }
 - (void)postClicked:(id)sender {

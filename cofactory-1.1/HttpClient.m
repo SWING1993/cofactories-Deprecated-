@@ -445,30 +445,6 @@
     }
 }
 
-//是否有货车
-+ (void)updateFactoryProfileWithHasTruck:(id)hasTruck andBlock:(void (^)(int statusCode))block {
-
-    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
-    NSString *serviceProviderIdentifier = [baseUrl host];
-    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
-    if (credential) {
-        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
-        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
-        NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
-
-        if (hasTruck) {
-            [mutableDictionary setObject:hasTruck forKey:@"hasTruck"];
-        }
-        [manager POST:API_factoryProfile parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            block((int)[operation.response statusCode]);
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            block((int)[operation.response statusCode]);
-        }];
-    } else {
-        block(404);// access_token不存在
-    }
-}
-
 + (void)getUserProfileWithUid:(NSString *)uid andBlock:(void (^)(NSDictionary *))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
@@ -499,7 +475,31 @@
     }
 }
 
-+ (void)searchWithFactoryName:(NSString *)factoryName factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax andBlock:(void (^)(NSDictionary *))block {
+//是否有货车
++ (void)updateFactoryProfileWithHasTruck:(id)hasTruck andBlock:(void (^)(int statusCode))block {
+
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
+
+        if (hasTruck) {
+            [mutableDictionary setObject:hasTruck forKey:@"hasTruck"];
+        }
+        [manager POST:API_factoryProfile parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block((int)[operation.response statusCode]);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            block((int)[operation.response statusCode]);
+        }];
+    } else {
+        block(404);// access_token不存在
+    }
+}
+
++ (void)searchWithFactoryName:(NSString *)factoryName factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax Truck:(id)hasTruck factoryFree:(id)factoryFree andBlock:(void (^)(NSDictionary *responseDictionary))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
@@ -522,6 +522,12 @@
     if (factoryDistanceMin) {
         NSArray *factoryDistance = [[NSArray alloc] initWithObjects:factoryDistanceMin, factoryDistanceMax, nil];
         [mutableDictionary setObject:factoryDistance forKey:@"factoryDistance"];
+    }
+    if (hasTruck) {
+        [mutableDictionary setObject:hasTruck forKey:@"hasTruck"];
+    }
+    if (factoryFree) {
+        [mutableDictionary setObject:factoryFree forKey:@"factoryFree"];
     }
     [manager GET:API_search parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSArray *jsonArray = (NSArray *)responseObject;

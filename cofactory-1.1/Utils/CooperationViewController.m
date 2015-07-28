@@ -8,18 +8,21 @@
 #import "CooperationViewController.h"
 #import "Header.h"
 
-@interface CooperationViewController ()
+@interface CooperationViewController () <UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,retain)NSMutableArray*modelArray;
+@property (nonatomic, retain) UITableView *tableView;
+
 
 @end
 
-@implementation CooperationViewController
+@implementation CooperationViewController {
+
+
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
-    self.modelArray = [[NSMutableArray alloc]initWithCapacity:0];
 
     //列出合作商
     [HttpClient listPartnerWithBlock:^(NSDictionary *responseDictionary) {
@@ -32,13 +35,46 @@
     [super viewDidLoad];
 
     self.title=@"合作商";
+    self.automaticallyAdjustsScrollViewInsets=NO;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor=[UIColor whiteColor];
-    self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 64, kScreenW, kScreenH-64-44) style:UITableViewStyleGrouped];
+    self.tableView.dataSource=self;
+    self.tableView.delegate=self;
     self.tableView.showsVerticalScrollIndicator=NO;
     self.tableView.rowHeight=100;
+    [self.view addSubview:self.tableView];
 
-   }
+    self.modelArray = [[NSMutableArray alloc]initWithCapacity:0];
+
+    //下拉刷新
+    ODRefreshControl *refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
+    [refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
+    [refreshControl beginRefreshing];
+    //列出合作商
+    [HttpClient listPartnerWithBlock:^(NSDictionary *responseDictionary) {
+        self.modelArray = responseDictionary[@"responseArray"];
+        [self.tableView reloadData];
+        [refreshControl endRefreshing];
+    }];
+
+}
+
+- (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
+{
+    double delayInSeconds = 2.0;
+    //列出合作商
+    [HttpClient listPartnerWithBlock:^(NSDictionary *responseDictionary) {
+        self.modelArray = responseDictionary[@"responseArray"];
+    }];
+
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        NSLog(@"下拉刷新结束");
+        [self.tableView reloadData];
+        [refreshControl endRefreshing];
+    });
+}
 
 #pragma mark - Table view data source
 
@@ -55,12 +91,8 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
         FactoryModel*factoryModel=self.modelArray[indexPath.section];
-
         [[SDImageCache sharedImageCache]clearDisk];
-
         UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 80, 80)];
-        //    headerImage.image=[UIImage imageNamed:@"placeholder232"];
-        //NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",factoryModel.uid];
         NSString* imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",factoryModel.uid];
         [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"消息头像"]];
         headerImage.clipsToBounds=YES;

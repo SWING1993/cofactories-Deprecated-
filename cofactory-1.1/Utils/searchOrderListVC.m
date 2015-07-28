@@ -215,6 +215,13 @@
     }
 }
 
+- (void)dealloc
+{
+    _tableView.delegate = nil;
+    _tableView.dataSource = nil;
+    self.JSDropDownMenu = nil;
+    NSLog(@"找订单释放内存");
+}
 
 #pragma mark--表的协议方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

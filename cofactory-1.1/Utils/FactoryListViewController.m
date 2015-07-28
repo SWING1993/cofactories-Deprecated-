@@ -148,23 +148,30 @@
             break;
     }
 
+    [[SDImageCache sharedImageCache]clearDisk];
 
-    [HttpClient searchWithFactoryName:nil factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil andBlock:^(NSDictionary *responseDictionary) {
+
+
+
+    [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil andBlock:^(NSDictionary *responseDictionary) {
         self.factoryModelArray = nil;
         self.factoryModelArray = responseDictionary[@"responseArray"];
         [_tableView reloadData];
     }];
-
-
-
-
     
+}
+
+- (void)dealloc
+{
+    _tableView.delegate = nil;
+    _tableView.dataSource = nil;
+    self.JSDropDownMenu = nil;
+    NSLog(@"找合作商释放内存");
 }
 
 #pragma mark--表的协议方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     return self.factoryModelArray.count;
 }
 
@@ -179,7 +186,8 @@
     
     FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
 
-    NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",factoryModel.uid];
+    //SString* imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",factoryModel.uid];
+    NSString *imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",factoryModel.uid];
     [cell.companyImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
 
     cell.companyNameLB.text = factoryModel.factoryName;
@@ -945,7 +953,7 @@
 
     if (indexPath.column == 0 && indexPath.leftOrRight == 1 && indexPath.leftRow == 1 && indexPath.row == 0)
     {
-        [HttpClient searchWithFactoryName:self.factoryName factoryType:100 factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax andBlock:^(NSDictionary *responseDictionary) {
+        [HttpClient searchWithFactoryName:self.factoryName factoryType:100 factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax  Truck:nil factoryFree:nil andBlock:^(NSDictionary *responseDictionary) {
             self.factoryModelArray = nil;
             self.factoryModelArray = responseDictionary[@"responseArray"];
             [_tableView reloadData];
@@ -954,7 +962,7 @@
     }
     else
     {
-        [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax andBlock:^(NSDictionary *responseDictionary) {
+        [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:nil factoryFree:nil andBlock:^(NSDictionary *responseDictionary) {
             self.factoryModelArray = nil;
             self.factoryModelArray = responseDictionary[@"responseArray"];
             [_tableView reloadData];
@@ -977,7 +985,7 @@
 {
     [searchBar resignFirstResponder];
     NSLog(@"333%@",searchBar.text);
-    [HttpClient searchWithFactoryName:searchBar.text factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil andBlock:^(NSDictionary *responseDictionary) {
+    [HttpClient searchWithFactoryName:searchBar.text factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil andBlock:^(NSDictionary *responseDictionary) {
         self.factoryModelArray = nil;
         self.factoryModelArray = responseDictionary[@"responseArray"];
         [_tableView reloadData];

@@ -26,6 +26,7 @@
     
     inviteCodeTF=[[UITextField alloc]initWithFrame:CGRectMake(10, 5, kScreenW/2-10, 34)];
     inviteCodeTF.borderStyle=UITextBorderStyleRoundedRect;
+    inviteCodeTF.keyboardType=UIKeyboardTypeNumberPad;
     inviteCodeTF.placeholder=@"邀请码";
     //设置Btn
     UIBarButtonItem *quitButton = [[UIBarButtonItem alloc] initWithTitle:@"退出登录" style:UIBarButtonItemStylePlain target:self action:@selector(quitButtonClicked)];

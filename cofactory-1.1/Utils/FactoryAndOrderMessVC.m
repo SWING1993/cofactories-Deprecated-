@@ -81,14 +81,14 @@
             [headerView addSubview:_lineLabel];
         }
         typeBtn.tag=i;
-        typeBtn.titleLabel.font=[UIFont systemFontOfSize:14.0f];
+        typeBtn.titleLabel.font=[UIFont systemFontOfSize:15.0f];
         [typeBtn setTitle:btnTitleArray[i] forState:UIControlStateNormal];
         [typeBtn addTarget:self action:@selector(clickTypeBtn:) forControlEvents:UIControlEventTouchUpInside];
         [headerView addSubview:typeBtn];
     }
     self.tableView.tableHeaderView=headerView;
     
-    self.listData = @[@[@"业务类型(选择器)", @"距离(选择器)", @"规模(选择器)"], @[@"距离(选择器)", @"规模(选择器)"], @[@"距离(选择器)", @"规模(选择器)"]];
+    self.listData = @[@[@"业务类型", @"距离", @"规模"], @[@"距离", @"规模"], @[@"距离", @"规模"]];
     self.pickList =@[@[@"不限类型",@"针织", @"梭织"],@[@"不限距离",@"10公里以内", @"10-50公里", @"50-100公里",@"100-200公里",@"200-300公里",@"300公里以上"],@[@"不限规模",@"2-4人", @"4-10人", @"10-20人",@"20人以上"]];
     self.pickList0 =@[@[@"不限类型",@"针织", @"梭织"],@[@"不限距离",@"10公里以内", @"10-50公里", @"50-100公里",@"100-200公里",@"200-300公里",@"300公里以上"],@[@"不限规模",@"2-4人", @"4-10人", @"10-20人",@"20人以上"]];
     self.pickList1 =@[@[@"不限类型",@"针织", @"梭织"],@[@"不限距离",@"1公里以内", @"1-5公里", @"5-10公里"],@[@"不限规模",@"2-4人", @"4人以上"]];
