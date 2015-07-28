@@ -36,41 +36,41 @@
 
 @implementation FactoryListViewController
 
-- (void)viewWillAppear:(BOOL)animated
-{
-
-    [super viewWillAppear:animated];
-
-    if (self.factoryType==10)
-    {
-        [HttpClient searchWithFactoryName:nil factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil andBlock:^(NSDictionary *responseDictionary) {
-            self.factoryModelArray = nil;
-            self.factoryModelArray = responseDictionary[@"responseArray"];
-            [_tableView reloadData];
-        }];
-    }
-    else
-    {
-        [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil andBlock:^(NSDictionary *responseDictionary) {
-
-            self.factoryModelArray = nil;
-            self.factoryModelArray = responseDictionary[@"responseArray"];
-            [_tableView reloadData];
-        }];
-
-    }
-
-    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax andBlock:^(NSDictionary *responseDictionary) {
-        self.factoryModelArray = nil;
-        self.factoryModelArray = responseDictionary[@"responseArray"];
-        [_tableView reloadData];
-    }];
-    
-    
-    NSLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax);
-    
-
-}
+//- (void)viewWillAppear:(BOOL)animated
+//{
+//
+//    [super viewWillAppear:animated];
+//
+//    if (self.factoryType==10)
+//    {
+//        [HttpClient searchWithFactoryName:nil factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil andBlock:^(NSDictionary *responseDictionary) {
+//            self.factoryModelArray = nil;
+//            self.factoryModelArray = responseDictionary[@"responseArray"];
+//            [_tableView reloadData];
+//        }];
+//    }
+//    else
+//    {
+//        [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil andBlock:^(NSDictionary *responseDictionary) {
+//
+//            self.factoryModelArray = nil;
+//            self.factoryModelArray = responseDictionary[@"responseArray"];
+//            [_tableView reloadData];
+//        }];
+//
+//    }
+//
+//    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax andBlock:^(NSDictionary *responseDictionary) {
+//        self.factoryModelArray = nil;
+//        self.factoryModelArray = responseDictionary[@"responseArray"];
+//        [_tableView reloadData];
+//    }];
+//    
+//    
+//    NSLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax);
+//    
+//
+//}
 
 
 
@@ -147,9 +147,17 @@
             _currentData4Index = 0;
             break;
     }
-    
-    
-    
+
+
+    [HttpClient searchWithFactoryName:nil factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil andBlock:^(NSDictionary *responseDictionary) {
+        self.factoryModelArray = nil;
+        self.factoryModelArray = responseDictionary[@"responseArray"];
+        [_tableView reloadData];
+    }];
+
+
+
+
     
 }
 

@@ -366,7 +366,7 @@
     NSNumber*sizeMin=[[Tools RangeSizeWith:_factorySizeTF.text] firstObject];
     NSNumber*sizeMax=[[Tools RangeSizeWith:_factorySizeTF.text] lastObject];
 
-    NSLog(@"Size=(%@-%@)",sizeMin,sizeMax);
+    NSLog(@"Size=(%@-%@) range = %d",sizeMin,sizeMax,factoryType);
 
     if ([factoryName isEqualToString:@""]||[factoryServiceRange isEqualToString:@""]||[_factorySizeTF.text isEqualToString:@""]) {
 

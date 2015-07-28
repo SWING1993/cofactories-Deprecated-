@@ -18,11 +18,11 @@
 @property (nonatomic, assign) int amount;
 @property (nonatomic, copy) NSString *workingTime;
 @property (nonatomic, copy) NSString *serviceRange;
-@property (nonatomic, strong) NSString *createTime;//订单创建时间
+@property (nonatomic, copy) NSString *createTime;//订单创建时间
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic, strong) NSString *phone;
-@property (nonatomic, strong) NSString *interest;
-@property (nonatomic, strong) NSString *facName;
+@property (nonatomic, copy) NSString *phone;
+@property (nonatomic, copy) NSString *interest;
+@property (nonatomic, copy) NSString *facName;
 
 
 

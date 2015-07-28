@@ -37,6 +37,7 @@
 
 @implementation searchOrderListVC
 
+/*
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -102,6 +103,7 @@
         //     NSLog(@"+++++responseDictionary==%@",self.dataArray);
     }];
 }
+*/
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -169,9 +171,48 @@
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [_tableView registerClass:[searchOrderListTVC class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:_tableView];
-    
-    
-    
+
+    switch (self.orderListType) {
+        case 1:
+        {
+            [HttpClient searchOrderWithRole:1 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:nil andBlock:^(NSDictionary *responseDictionary) {
+                self.dataArray = responseDictionary[@"responseArray"];
+                self.role = 1;
+
+                [_tableView reloadData];
+                NSLog(@"+++++responseDictionary==%@",self.dataArray);
+            }];
+        }
+            break;
+        case 2:
+        {
+            [HttpClient searchOrderWithRole:2 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:nil andBlock:^(NSDictionary *responseDictionary) {
+                self.dataArray = responseDictionary[@"responseArray"];
+                self.role = 2;
+
+                [_tableView reloadData];
+                NSLog(@"+++++responseDictionary==%@",self.dataArray);
+            }];
+        }
+
+            break;
+        case 3:
+        {
+            [HttpClient searchOrderWithRole:3 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:nil andBlock:^(NSDictionary *responseDictionary) {
+                self.dataArray = responseDictionary[@"responseArray"];
+                self.role = 3;
+
+                [_tableView reloadData];
+
+                NSLog(@"+++++responseDictionary==%@",self.dataArray);
+            }];
+        }
+
+            break;
+            
+        default:
+            break;
+    }
 }
 
 
