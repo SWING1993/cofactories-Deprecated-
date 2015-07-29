@@ -76,6 +76,14 @@
 
 #pragma mark - Table view data source
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 10.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.01f;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 1;
@@ -146,16 +154,6 @@
         _tmpPickerName = nil;
     }
     [SizeTF endEditing:YES];
-
-//    if (![SizeTF.text isEqualToString:@""]) {
-//        SizeTF.text = _tmpPickerName;
-//        _tmpPickerName = nil;
-//    }else{
-//        SizeTF.text = self.cellPickList[0];
-//        _tmpPickerName = nil;
-//    }
-//
-//    [SizeTF endEditing:YES];
 }
 -(void)cancel{
 

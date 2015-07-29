@@ -40,7 +40,8 @@
         self.isBusyLB.font = [UIFont systemFontOfSize:12];
         [self addSubview:self.isBusyLB];
         
-        self.factoryNatureLB = [[UILabel alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width-65, 0, 50, 20)];
+        //787878
+        self.factoryNatureLB = [[UILabel alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width-100, 0, 85, 20)];
         self.factoryNatureLB.font = [UIFont systemFontOfSize:12];
         self.factoryNatureLB.textColor = [UIColor grayColor];
         self.factoryNatureLB.textAlignment = 2;

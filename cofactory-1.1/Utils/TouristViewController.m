@@ -63,14 +63,14 @@
     UIButton *button = (UIButton *)sender;
     NSLog(@"%ld",(long)button.tag);
     [[NSUserDefaults standardUserDefaults]setInteger:button.tag forKey:@"toursitTag"];
-    [[NSUserDefaults standardUserDefaults]setObject:@"YES" forKey:@"toursit"];
+//    [[NSUserDefaults standardUserDefaults]setObject:@"YES" forKey:@"toursit"];
     [[NSUserDefaults standardUserDefaults]synchronize];
     [ViewController TouristLogin];
 }
 
 - (void)goBackClick
 {    
-    NSLog(@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"toursit"]);
+    NSLog(@"toursitTag%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"toursitTag"]);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

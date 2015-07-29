@@ -248,5 +248,34 @@
     return str_week;
 }
 
+//判断几天后
+-(NSString *)compareIfTodayAfterDates
+{
+    NSDate *todate = [NSDate date];//今天
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSChineseCalendar];
+    NSDateComponents *comps_today= [calendar components:(NSYearCalendarUnit |
+                                                         NSMonthCalendarUnit |
+                                                         NSDayCalendarUnit |
+                                                         NSWeekdayCalendarUnit) fromDate:todate];
+    
+    
+    NSDateComponents *comps_other= [calendar components:(NSYearCalendarUnit |
+                                                         NSMonthCalendarUnit |
+                                                         NSDayCalendarUnit |
+                                                         NSWeekdayCalendarUnit) fromDate:self];
+    
+
+    
+    long year = comps_other.year-comps_today.year;
+    long month = comps_other.month - comps_today.month;
+    long day = comps_other.day - comps_today.day;
+    
+    long x = year*365 + month*30 + day;
+    
+    return [NSString stringWithFormat:@"%ld天后",x];
+
+}
+
+
 
 @end

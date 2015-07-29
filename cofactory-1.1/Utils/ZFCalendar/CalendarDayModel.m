@@ -64,4 +64,16 @@
     return isEqual;
 }
 
+//song
+//返回几天后
+- (NSString *)afterDays
+{
+    
+    NSDate *date = [self date];
+    
+    NSString *week_str = [date compareIfTodayAfterDates];
+    
+    return week_str;
+}
+
 @end

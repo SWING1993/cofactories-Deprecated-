@@ -10,9 +10,13 @@
 // http://code4app.com (cn) http://code4app.net (en)
 // 发布代码于最专业的源码分享网站: Code4App.com
 
-#import "Header.h"
 
 #import "CalendarMonthCollectionViewLayout.h"
+
+
+//song
+#define kScreenW [[UIScreen mainScreen] bounds].size.width
+
 
 @interface CalendarMonthCollectionViewLayout ()
 @end
@@ -23,9 +27,11 @@
 {
     self = [super init];
     if (self) {
-        self.headerReferenceSize = CGSizeMake(320.0f, 65.0f);//头部视图的框架大小
         
-        self.itemSize = CGSizeMake(320/7, 70.0f);//每个cell的大小
+        //song
+        self.headerReferenceSize = CGSizeMake(kScreenW, 65.0f);//头部视图的框架大小
+        
+        self.itemSize = CGSizeMake(kScreenW/7, 70.0f);//每个cell的大小
         
         self.minimumLineSpacing = 0.0f;//每行的最小间距
         

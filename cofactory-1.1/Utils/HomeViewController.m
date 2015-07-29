@@ -74,6 +74,7 @@
 
     NSLog(@"游客=%d",[Tools isTourist]);
 
+    //抽奖
     [HttpClient drawAccessWithBlock:^(int statusCode) {
         NSLog(@"%d",statusCode);
         if (statusCode==200) {

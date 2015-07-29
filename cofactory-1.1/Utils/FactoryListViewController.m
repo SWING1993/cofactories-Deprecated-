@@ -9,10 +9,15 @@
 #import "Header.h"
 #import "FactoryListViewController.h"
 #import "FactoryListTableViewCell.h"
+#import "THDatePickerViewController.h"
 
-@interface FactoryListViewController ()<UITableViewDataSource,UITableViewDelegate,JSDropDownMenuDataSource,JSDropDownMenuDelegate,UISearchBarDelegate>
+@interface FactoryListViewController ()<UITableViewDataSource,UITableViewDelegate,JSDropDownMenuDataSource,JSDropDownMenuDelegate,UISearchBarDelegate,THDatePickerDelegate>
 {
     UITableView *_tableView;
+    UILabel *_lineLabel;//787878
+    UIView *_view;
+    NSNumber *_number;
+    NSDateFormatter *_dateFormatter;
 }
 
 @property (nonatomic,strong)JSDropDownMenu *JSDropDownMenu;
@@ -23,6 +28,10 @@
 @property (nonatomic, strong) NSMutableArray *data2;
 @property (nonatomic, strong) NSMutableArray *data3;
 @property (nonatomic, strong) NSMutableArray *data4;
+@property (nonatomic, strong) NSMutableArray *truckBtnArray;
+@property (nonatomic, strong) NSMutableArray *dateArray;
+
+
 
 //请求参数
 @property (nonatomic,copy) NSString *factoryName;
@@ -32,45 +41,19 @@
 @property (nonatomic,assign) NSNumber *factoryDistanceMin;
 @property (nonatomic,assign) NSNumber *factoryDistanceMax;
 
+//787878
+@property (nonatomic,assign) BOOL isHaveTruck;
+@property (nonatomic,assign) NSString *factoryFree;
+
+@property (nonatomic, strong) THDatePickerViewController * datePicker;
+@property (nonatomic, strong) NSDate * curDate;
+@property (nonatomic, strong) NSDateFormatter * formatter;
+
+
 @end
 
 @implementation FactoryListViewController
 
-//- (void)viewWillAppear:(BOOL)animated
-//{
-//
-//    [super viewWillAppear:animated];
-//
-//    if (self.factoryType==10)
-//    {
-//        [HttpClient searchWithFactoryName:nil factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil andBlock:^(NSDictionary *responseDictionary) {
-//            self.factoryModelArray = nil;
-//            self.factoryModelArray = responseDictionary[@"responseArray"];
-//            [_tableView reloadData];
-//        }];
-//    }
-//    else
-//    {
-//        [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil andBlock:^(NSDictionary *responseDictionary) {
-//
-//            self.factoryModelArray = nil;
-//            self.factoryModelArray = responseDictionary[@"responseArray"];
-//            [_tableView reloadData];
-//        }];
-//
-//    }
-//
-//    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax andBlock:^(NSDictionary *responseDictionary) {
-//        self.factoryModelArray = nil;
-//        self.factoryModelArray = responseDictionary[@"responseArray"];
-//        [_tableView reloadData];
-//    }];
-//    
-//    
-//    NSLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax);
-//    
-//
-//}
 
 
 
@@ -86,6 +69,47 @@
     _tableView.rowHeight = 80;
     [_tableView registerClass:[FactoryListTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:_tableView];
+    
+    //787878根据条件判断是否有货车
+    NSArray *btnTitleArray = @[@"有货车",@"无货车"];
+    _view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 44)];
+    _tableView.tableHeaderView = _view;
+    
+    self.truckBtnArray = [[NSMutableArray alloc]initWithCapacity:0];
+    self.dateArray = [[NSMutableArray alloc]initWithCapacity:0];
+    for (int i=0; i<2; i++)
+    {
+        UIButton*typeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        typeBtn.frame = CGRectMake((kScreenW-160)/3+i*((kScreenW-160)/3*2), 5, 80 , 30);
+        [typeBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
+//        [typeBtn setTitleColor: [UIColor grayColor] forState:UIControlStateNormal];
+        typeBtn.titleLabel.font=[UIFont systemFontOfSize:14.0f];
+        [typeBtn setTitle:btnTitleArray[i] forState:UIControlStateNormal];
+        typeBtn.tag = i;
+        [typeBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_view addSubview:typeBtn];
+        if (i == 0)
+        {
+            _lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(typeBtn.frame.origin.x, 40, typeBtn.frame.size.width, 2)];
+            _lineLabel.backgroundColor = [UIColor redColor];
+            [_view addSubview:_lineLabel];
+            [self.truckBtnArray addObject:typeBtn];
+        }
+    }
+    
+    _tableView.tableHeaderView = nil;
+    
+    self.curDate = [NSDate date];
+    self.formatter = [[NSDateFormatter alloc] init];
+    [_formatter setDateFormat:@"yyyy年MM月dd日"];
+
+
+    _number = nil;
+    
+    
+    _dateFormatter = [[NSDateFormatter alloc] init];
+    [_dateFormatter setDateFormat:@"yyyy-MM-dd"];
+
     
     // 搜索栏
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
@@ -130,7 +154,7 @@
         case 2:
             _data2 = [NSMutableArray arrayWithObjects:@"不限规模", @"2-4人", @"4-10人", @"10-20人", @"20人以上", nil];
             _data3 = [NSMutableArray arrayWithObjects:@"不限距离", @"10公里以内", @"10-50公里", @"50-100公里", @"100-200公里", @"200-300公里", @"300公里以外", nil];
-            _data4 = [NSMutableArray arrayWithObjects:@"1-3天", @"3-5天", @"5-10天",@"10天以上",nil];
+            _data4 = [@[@"时间筛选"] mutableCopy];
             
             _currentData2Index = 0;
             _currentData3Index = 0;
@@ -140,38 +164,31 @@
         default:
             _data2 = [NSMutableArray arrayWithObjects:@"不限规模", @"2-4人", @"4人以上", nil];
             _data3 = [NSMutableArray arrayWithObjects:@"不限规模", @"1公里以内", @"1-5公里", @"5-10公里", @"10公里以外",nil];
-            _data4 =   [NSMutableArray arrayWithObjects:@"不限时间", nil];
-            
+            _data4 =   [NSMutableArray arrayWithObjects:@"空闲",@"忙碌", nil];
             _currentData2Index = 0;
             _currentData3Index = 0;
             _currentData4Index = 0;
             break;
     }
 
-    [[SDImageCache sharedImageCache]clearDisk];
 
-
-
-
+    
     [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil andBlock:^(NSDictionary *responseDictionary) {
         self.factoryModelArray = nil;
         self.factoryModelArray = responseDictionary[@"responseArray"];
         [_tableView reloadData];
-    }];
-    
-}
 
-- (void)dealloc
-{
-    _tableView.delegate = nil;
-    _tableView.dataSource = nil;
-    self.JSDropDownMenu = nil;
-    NSLog(@"找合作商释放内存");
+    }];
+
+
+
+    
 }
 
 #pragma mark--表的协议方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    
     return self.factoryModelArray.count;
 }
 
@@ -186,8 +203,9 @@
     
     FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
 
-    //SString* imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",factoryModel.uid];
-    NSString *imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",factoryModel.uid];
+    //NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",factoryModel.uid];
+
+    NSString* imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",factoryModel.uid];
     [cell.companyImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
 
     cell.companyNameLB.text = factoryModel.factoryName;
@@ -219,10 +237,23 @@
             }
             if (![dateString isEqualToString:@"0"])
             {
-
                 NSArray *array = [dateString componentsSeparatedByString:@"T"];
-                cell.isBusyLB.text = [NSString stringWithFormat:@"%@日后有空",array[0]];
-                //NSLog(@">>>++++++factoryModel===%@",array[0]);
+                NSDate *dateForCell = [_dateFormatter dateFromString:array[0]];
+                NSString *dateStrings = [Tools compareIfTodayAfterDates:dateForCell];
+                NSArray *array1 = [dateStrings componentsSeparatedByString:@"天"];
+                int date = [array1[0] intValue];
+                if (date < 0)
+                {
+                    cell.isBusyLB.text = @"空闲中";
+                }
+                if (date == 0)
+                {
+                    cell.isBusyLB.text = @"今天有空";
+                }
+                if (date > 0)
+                {
+                    cell.isBusyLB.text = [NSString stringWithFormat:@"%d天后有空",date];
+                }
             }
         }
             break;
@@ -275,12 +306,53 @@
     [self.navigationController pushViewController:cooperationInfoVC animated:YES];
 }
 
-#pragma mark--按钮方法
+
+#pragma mark -- 有无货车按钮
 - (void)buttonClick:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-}
+    
+    [UIView animateWithDuration:0.5 animations:^{
+    _lineLabel.frame = CGRectMake(button.frame.origin.x, 40, button.frame.size.width, 2);
 
+    }];
+    
+    if (button.tag == 0)
+    {
+        self.isHaveTruck = YES;
+    }
+    if (button.tag == 1)
+    {
+        self.isHaveTruck = NO;
+    }
+    
+    [self.truckBtnArray replaceObjectAtIndex:0 withObject:button];
+    
+    NSLog(@"%d",button.tag);
+    
+    
+      NSLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
+
+
+    
+    if (self.isHaveTruck == YES)
+    {
+        _number = @1;
+    }
+    if (self.isHaveTruck == NO)
+    {
+        _number = @0;
+    }
+
+    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree andBlock:^(NSDictionary *responseDictionary) {
+        
+        self.factoryModelArray = nil;
+        self.factoryModelArray = responseDictionary[@"responseArray"];
+        [_tableView reloadData];
+    }];
+
+
+}
 
 
 #pragma mark - <JSDropDownMenuDataSource,JSDropDownMenuDelegate>
@@ -415,7 +487,7 @@
                 case 2:
                     _data2 = [NSMutableArray arrayWithObjects:@"不限规模", @"2-4人", @"4-10人", @"10-20人", @"20人以上", nil];
                     _data3 = [NSMutableArray arrayWithObjects:@"不限距离", @"10公里以内", @"10-50公里", @"50-100公里", @"100-200公里", @"200-300公里", @"300公里以外", nil];
-                      _data4 = [NSMutableArray arrayWithObjects:@"1-3天", @"3-5天", @"5-10天",@"10天以上",nil];
+                    _data4 = [@[@"时间筛选"] mutableCopy];
                     _currentData2Index = 0;
                     _currentData3Index = 0;
                     _currentData4Index = 0;
@@ -425,7 +497,7 @@
                 default:
                     _data2 = [NSMutableArray arrayWithObjects:@"不限规模", @"2-4人", @"4人以上", nil];
                     _data3 = [NSMutableArray arrayWithObjects:@"不限规模", @"1公里以内", @"1-5公里", @"5-10公里",@"10公里以外" , nil];
-                    _data4 =  [NSMutableArray arrayWithObjects:@"不限时间", nil];
+                    _data4 =   [NSMutableArray arrayWithObjects:@"空闲",@"忙碌", nil];
                     _currentData2Index = 0;
                     _currentData3Index = 0;
                     
@@ -451,10 +523,23 @@
     }
         
     NSLog(@"%d %d %d %d", indexPath.column, indexPath.leftOrRight, indexPath.leftRow, indexPath.row);
+    //787878
+    
+//    if (indexPath.column == 0 && indexPath.leftOrRight == 1 && indexPath.leftRow == 2)
+//    {
+//        self.isHaveTruck = YES;
+//    }else
+//    {
+//        self.isHaveTruck = NO;
+//    }
+    
+
 
     // 筛选工厂类型
     if (indexPath.column == 0 && indexPath.leftOrRight == 1 )
     {
+        
+        
         self.factoryServiceRange = nil;
 
         if (indexPath.leftRow == 0 )
@@ -464,6 +549,7 @@
 
         if (indexPath.leftRow == 1)
         {
+            self.isHaveTruck = NO;//787878
             self.factoryType = 100;
             if (indexPath.row == 1)
             {
@@ -478,6 +564,20 @@
 
         if (indexPath.leftRow == 2)
         {
+            self.isHaveTruck = YES;//787878
+            
+            for (UIButton *button in self.truckBtnArray)
+            {
+                if (button.tag == 0)
+                {
+                    self.isHaveTruck = YES;
+                }
+                if (button.tag == 1)
+                {
+                    self.isHaveTruck = NO;
+                }
+            }
+            
             self.factoryType = 1;
             if (indexPath.row == 1)
             {
@@ -491,12 +591,14 @@
 
         if (indexPath.leftRow == 3)
         {
+            self.isHaveTruck = NO;//787878
             self.factoryType = 2;
             self.factoryServiceRange = nil;
         }
 
         if (indexPath.leftRow ==4)
         {
+            self.isHaveTruck = NO;//787878
             self.factoryType = 3;
             self.factoryServiceRange = nil;
         }
@@ -712,21 +814,9 @@
                     self.factoryDistanceMin = @10000;
                     self.factoryDistanceMax = @1000000;
                 }
-
             }
-
         }
-
-
-        
     }
-    
-    
-    //12345
-    
-    
-    
-    
 
     if (self.factoryType == 100)
     {
@@ -944,35 +1034,158 @@
         }
         
         
+    
+    //加工厂
+    if (self.factoryType == 1 && indexPath.column == 3 && indexPath.row == 0)
+    {
+        if(!self.datePicker)
+            self.datePicker = [THDatePickerViewController datePicker];
+        self.datePicker.date = self.curDate;
+        self.datePicker.delegate = self;
+        [self.datePicker setAllowClearDate:NO];
+        [self.datePicker setAutoCloseOnSelectDate:YES];
+        [self.datePicker setSelectedBackgroundColor:[UIColor colorWithRed:125/255.0 green:208/255.0 blue:0/255.0 alpha:1.0]];
+        [self.datePicker setCurrentDateColor:[UIColor colorWithRed:242/255.0 green:121/255.0 blue:53/255.0 alpha:1.0]];
+        
+        [self.datePicker setDateHasItemsCallback:^BOOL(NSDate *date) {
+            int tmp = (arc4random() % 30)+1;
+            if(tmp % 5 == 0)
+                return YES;
+            return NO;
+        }];
+        UINavigationController*dateNav = [[UINavigationController alloc]initWithRootViewController:self.datePicker];
+        dateNav.title=@"选择空闲时间";
+        dateNav.navigationBar.barStyle=UIBarStyleBlack;
+        [self presentViewController:dateNav animated:NO completion:nil];
+
+        
+    }
+    
+    //代裁和锁眼钉扣
+    if ( self.factoryType == 2 && indexPath.column == 3)
+    {
+        if (indexPath.row == 0)
+        {
+            self.factoryFree = @"空闲";
+        }
+        if (indexPath.row == 1)
+        {
+            self.factoryFree = @"忙碌";
+        }
+    }
+    if ( self.factoryType == 3 && indexPath.column == 3)
+    {
+        if (indexPath.row == 0)
+        {
+            self.factoryFree = @"空闲";
+        }
+        if (indexPath.row == 1)
+        {
+            self.factoryFree = @"忙碌";
+        }
+    }
+    
+    //其他
+    if (self.factoryType == 100 || self.factoryType == 0)
+    {
+        self.factoryFree = @"";
+    }
+    
+
+    if (self.factoryType == 1)
+    {
+        if (self.dateArray.count == 0)
+        {
+          
+        }if (self.dateArray.count>0)
+        {
+            self.factoryFree = self.dateArray[0];
+         
+        }
         
 
+    }
+    
+       NSLog(@">>>>>>>>>>>self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
 
 
-    NSLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax);
 
 
-    if (indexPath.column == 0 && indexPath.leftOrRight == 1 && indexPath.leftRow == 1 && indexPath.row == 0)
+ //
+//    if (indexPath.column == 0 && indexPath.leftOrRight == 1 && indexPath.leftRow == 1 && indexPath.row == 0)
+//    {
+//        /*
+//        [HttpClient searchWithFactoryName:self.factoryName factoryType:100 factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax andBlock:^(NSDictionary *responseDictionary) {
+//            self.factoryModelArray = nil;
+//            self.factoryModelArray = responseDictionary[@"responseArray"];
+//            [_tableView reloadData];
+//        }];
+//         */
+//        
+//        [HttpClient searchWithFactoryName:self.factoryName factoryType:100 factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:nil factoryFree:nil andBlock:^(NSDictionary *responseDictionary) {
+//            
+//            self.factoryModelArray = nil;
+//            self.factoryModelArray = responseDictionary[@"responseArray"];
+//            [_tableView reloadData];
+//        }];
+//    }
+//    else
+ //   {
+//        [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax andBlock:^(NSDictionary *responseDictionary) {
+//            self.factoryModelArray = nil;
+//            self.factoryModelArray = responseDictionary[@"responseArray"];
+//            [_tableView reloadData];
+//        }];
+
+ //   }
+    
+    
+    
+    
+    
+    
+    //787878
+    
+//    NSLog(@">>>>>isHaveTruck=%d",self.isHaveTruck);
+
+    if (self.factoryType == 1)
     {
-        [HttpClient searchWithFactoryName:self.factoryName factoryType:100 factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax  Truck:nil factoryFree:nil andBlock:^(NSDictionary *responseDictionary) {
-            self.factoryModelArray = nil;
-            self.factoryModelArray = responseDictionary[@"responseArray"];
-            [_tableView reloadData];
-        }];
-
+        _tableView.tableHeaderView = _view;
     }
     else
     {
-        [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:nil factoryFree:nil andBlock:^(NSDictionary *responseDictionary) {
-            self.factoryModelArray = nil;
-            self.factoryModelArray = responseDictionary[@"responseArray"];
-            [_tableView reloadData];
-        }];
-
+        _tableView.tableHeaderView = nil;
     }
-
     
     
+    
+    if (self.isHaveTruck == YES)
+    {
+        _number = @1;
+    }
+    if (self.isHaveTruck == NO)
+    {
+        _number = @0;
+    }
+    
+    
+    
 
+    
+    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree andBlock:^(NSDictionary *responseDictionary) {
+        
+        self.factoryModelArray = nil;
+        self.factoryModelArray = responseDictionary[@"responseArray"];
+        [_tableView reloadData];
+    }];
+}
+
+- (void)dealloc
+{
+    _tableView.dataSource = nil;
+    _tableView.delegate = nil;
+    _datePicker=nil;
+    self.JSDropDownMenu.delegate = nil;
 }
 
 #pragma mark - <UISearchBarDelegate>
@@ -985,19 +1198,60 @@
 {
     [searchBar resignFirstResponder];
     NSLog(@"333%@",searchBar.text);
+
     [HttpClient searchWithFactoryName:searchBar.text factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil andBlock:^(NSDictionary *responseDictionary) {
+        
         self.factoryModelArray = nil;
         self.factoryModelArray = responseDictionary[@"responseArray"];
         [_tableView reloadData];
-
+        
         if (self.factoryModelArray.count == 0)
         {
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"搜索结果" message:@"您搜索的工厂暂时不存在" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
             [alertView show];
         }
-        
     }];
 
 }
+
+#pragma mark -- 日期选择器
+
+-(void)datePickerDonePressed:(THDatePickerViewController *)datePicker
+{
+    self.curDate = datePicker.date;
+    
+    NSString *string = [NSString stringWithFormat:@"%@",[_formatter stringFromDate:self.curDate]];
+    
+    
+    NSLog(@"+++++%@",string);
+    
+    self.factoryFree = string;
+    
+    if (self.dateArray.count == 0)
+    {
+        [self.dateArray addObject:self.factoryFree];
+    }
+    if (self.dateArray.count>0)
+    {
+        [self.dateArray replaceObjectAtIndex:0 withObject:self.factoryFree];
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    NSLog(@"++++++++++========self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
+
+    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree andBlock:^(NSDictionary *responseDictionary) {
+        
+        self.factoryModelArray = nil;
+        self.factoryModelArray = responseDictionary[@"responseArray"];
+        [_tableView reloadData];
+    }];
+}
+
+-(void)datePickerCancelPressed:(THDatePickerViewController *)datePicker
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 @end

@@ -484,7 +484,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *aImage = info[UIImagePickerControllerOriginalImage];
 
-    NSData*imageData = UIImageJPEGRepresentation(aImage, 0.2);
+    NSData*imageData = UIImageJPEGRepresentation(aImage, 0.4);
 
     UIImage*newImage = [[UIImage alloc]initWithData:imageData];
 

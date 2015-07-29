@@ -47,6 +47,10 @@ typedef NS_ENUM(NSInteger, CollectionViewCellDayType) {
 - (NSString *)toString;//返回当前天的NSString对象
 - (NSString *)getWeek; //返回星期
 
+//song
+- (NSString *)afterDays;//返回几天后
+
+
 
 //- (BOOL)isEqualTo:(CalendarDayModel *)day;//判断是不是同一天
 

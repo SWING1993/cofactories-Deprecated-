@@ -10,15 +10,14 @@
 #import "StatusViewController.h"
 
 #import "CalendarHomeViewController.h"
-#import "CalendarViewController.h"
-#import "Color.h"
+//#import "CalendarViewController.h"
+//#import "Color.h"
 
 
 #define CellIdentifier @"Cell"
 
 @interface StatusViewController ()
 @property (nonatomic,copy)NSArray * cellTitleArr;
-//@property (nonatomic, strong) THDatePickerViewController * datePicker;
 @property (nonatomic, strong) UILabel*timeLabel;
 
 
@@ -30,7 +29,6 @@
 @implementation StatusViewController {
 
     CalendarHomeViewController *chvc;
-
 
 }
 

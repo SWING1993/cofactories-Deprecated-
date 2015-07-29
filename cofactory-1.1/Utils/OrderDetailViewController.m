@@ -83,7 +83,7 @@
     orderImageLabel.font = [UIFont systemFontOfSize:14.0f];
     [tableHeaderView addSubview:orderImageLabel];
 
-    [[SDImageCache sharedImageCache]clearDisk];
+//    [[SDImageCache sharedImageCache]clearDisk];
     UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [imageButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/order/%d.png",self.model.oid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];//
 

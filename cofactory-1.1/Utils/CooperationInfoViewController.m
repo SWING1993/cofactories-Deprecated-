@@ -14,6 +14,8 @@
 #import "FactoryPhotoViewController.h"
 
 
+#import "CofactoryPhotoViewController.h"//图片浏览器
+
 
 @interface CooperationInfoViewController () <UIAlertViewDelegate>
 
@@ -129,11 +131,11 @@
     UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, ImageViewHeight-80, 60, 60)];
     headerImage.layer.cornerRadius=60/2.0f;
     headerImage.layer.masksToBounds=YES;
+    headerImage.contentMode=UIViewContentModeScaleAspectFill;
 
-    [[SDImageCache sharedImageCache]clearDisk];
+//    [[SDImageCache sharedImageCache]clearDisk];
 
     NSString* imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.factoryModel.uid];
-    //NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",self.factoryModel.uid];
     [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"消息头像"]];
     [headerView addSubview:headerImage];
 
@@ -457,7 +459,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section==1&&indexPath.row==5) {
         NSLog(@"相册");
-        FactoryPhotoViewController*factoryPhoto = [[FactoryPhotoViewController alloc]init];
+//        FactoryPhotoViewController*factoryPhoto = [[FactoryPhotoViewController alloc]init];
+        CofactoryPhotoViewController*factoryPhoto = [[CofactoryPhotoViewController alloc]init];
+
         factoryPhoto.employee=self.employee;
         factoryPhoto.environment=self.environment;
         factoryPhoto.equipment=self.equipment;

@@ -7,12 +7,17 @@
 //
 #import "Header.h"
 #import "AppDelegate.h"
+#import "ZWIntroductionViewController.h"
+
+
 #if TARGET_IPHONE_SIMULATOR
 #else
 #import "UMessage.h"
 #endif
 
 @interface AppDelegate ()
+@property (nonatomic, strong) ZWIntroductionViewController *introductionView;
+
 
 @end
 
@@ -21,7 +26,35 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
+
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = [UIColor whiteColor];
+    [_window makeKeyAndVisible];
+
+    if ([Tools isLogin]) {
+        ViewController *mainVC = [[ViewController alloc] init];
+        self.window.rootViewController = mainVC;
+    }else{
+//        NSArray *coverImageNames = @[@"img_index_01txt", @"img_index_02txt", @"img_index_03txt"];
+//        NSArray *backgroundImageNames = @[@"img_index_01bg", @"img_index_02bg", @"img_index_03bg"];
+//        self.introductionView = [[ZWIntroductionViewController alloc] initWithCoverImageNames:coverImageNames backgroundImageNames:backgroundImageNames];
+
+        NSArray *cofactoryImageNames = @[@"引导页1", @"引导页2", @"引导页3"];
+
+        self.introductionView = [[ZWIntroductionViewController alloc] initWithCoverImageNames:cofactoryImageNames backgroundImageNames:nil];
+        [self.window addSubview:self.introductionView.view];
+
+        __weak AppDelegate *weakSelf = self;
+        self.introductionView.didSelectedEnter = ^() {
+            [weakSelf.introductionView.view removeFromSuperview];
+            weakSelf.introductionView = nil;
+
+            // enter main view , write your code ...
+            ViewController *mainVC = [[ViewController alloc] init];
+            weakSelf.window.rootViewController = mainVC;
+        };
+    }
+
     // 注册友盟统计 SDK
     [MobClick startWithAppkey:@"55a0778367e58e452400710a" reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
     // Version 标识

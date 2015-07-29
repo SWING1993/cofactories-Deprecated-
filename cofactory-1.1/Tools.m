@@ -8,6 +8,9 @@
 
 #import "Tools.h"
 
+#define kBaseUrl @"http://app2.cofactories.com"
+
+
 @implementation Tools
 
 + (NSMutableArray *)RangeSizeWith:(NSString *)sizeString {
@@ -99,13 +102,61 @@
 }
 
 + (BOOL)isTourist {
-    NSString*Tourist=[[NSUserDefaults standardUserDefaults]objectForKey:@"toursit"];
-    if ([Tourist isEqualToString:@"YES"]) {
+//    NSString*Tourist=[[NSUserDefaults standardUserDefaults]objectForKey:@"toursit"];
+//    if ([Tourist isEqualToString:@"YES"]) {
+//        return YES;
+//    }else{
+//        return NO;
+//    }
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        return NO;//不是游客
+    }else{
+        return YES;//游客登录
+    }
+}
+
++ (BOOL)isLogin {
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
         return YES;
     }else{
         return NO;
     }
 }
+
+//判断几天后
++ (NSString *)compareIfTodayAfterDates:(NSDate *)comps
+{
+    NSDate *todate = [NSDate date];//今天
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSChineseCalendar];
+    NSDateComponents *comps_today= [calendar components:(NSYearCalendarUnit |
+                                                         NSMonthCalendarUnit |
+                                                         NSDayCalendarUnit |
+                                                         NSWeekdayCalendarUnit) fromDate:todate];
+
+
+    NSDateComponents *comps_other= [calendar components:(NSYearCalendarUnit |
+                                                         NSMonthCalendarUnit |
+                                                         NSDayCalendarUnit |
+                                                         NSWeekdayCalendarUnit) fromDate:comps];
+
+
+
+    long year = comps_other.year-comps_today.year;
+    long month = comps_other.month - comps_today.month;
+    long day = comps_other.day - comps_today.day;
+
+    long x = year*365 + month*30 + day;
+
+    return [NSString stringWithFormat:@"%ld天后",x];
+    
+}
+
 
 
 @end

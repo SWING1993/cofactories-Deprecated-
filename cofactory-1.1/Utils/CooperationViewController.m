@@ -91,7 +91,7 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
         FactoryModel*factoryModel=self.modelArray[indexPath.section];
-        [[SDImageCache sharedImageCache]clearDisk];
+//        [[SDImageCache sharedImageCache]clearDisk];
         UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 80, 80)];
         NSString* imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",factoryModel.uid];
         [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"消息头像"]];

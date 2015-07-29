@@ -105,7 +105,7 @@
 
             [CollectionView reloadData];
 
-            NSLog(@"self.imageArray=%@",self.imageArray);
+//            NSLog(@"self.imageArray=%@",self.imageArray);
         }
     }];
     dispatch_async([self serialQueue], ^{//把block中的任务放入串行队列中执行，这是第一个任务
@@ -132,7 +132,7 @@
                 
                 [CollectionView reloadData];
                 
-                NSLog(@"self.imageArray=%@",self.imageArray);
+//                NSLog(@"self.imageArray=%@",self.imageArray);
             }
         }];
 
@@ -182,7 +182,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *image = info[UIImagePickerControllerEditedImage];
 
-    NSData*imageData = UIImageJPEGRepresentation(image, 0.3);
+    NSData*imageData = UIImageJPEGRepresentation(image, 0.5);
 
     UIImage*newImage = [[UIImage alloc]initWithData:imageData];
 

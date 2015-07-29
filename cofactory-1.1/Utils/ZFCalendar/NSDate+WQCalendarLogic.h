@@ -49,4 +49,7 @@
 //通过数字返回星期几
 +(NSString *)getWeekStringFromInteger:(int)week;
 
+//判断几天后
+-(NSString *)compareIfTodayAfterDates;
+
 @end

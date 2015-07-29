@@ -23,5 +23,11 @@
 
 + (BOOL)isTourist;
 
+//song
++ (BOOL)isLogin;  //是否登录
+
++ (NSString *)compareIfTodayAfterDates:(NSDate *)comps;
+
+
 
 @end

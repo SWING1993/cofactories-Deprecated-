@@ -13,6 +13,10 @@
 #import "CalendarMonthHeaderView.h"
 #import "Color.h"
 
+//song
+#define kScreenW [[UIScreen mainScreen] bounds].size.width
+
+
 @interface CalendarMonthHeaderView ()
 @property (weak, nonatomic) UILabel *day1OfTheWeekLabel;
 @property (weak, nonatomic) UILabel *day2OfTheWeekLabel;
@@ -24,7 +28,7 @@
 @end
 
 
-#define CATDayLabelWidth  40.0f
+//#define CATDayLabelWidth  40.0f
 #define CATDayLabelHeight 20.0f
 
 @implementation CalendarMonthHeaderView
@@ -54,8 +58,10 @@
     
     self.clipsToBounds = YES;
     
+    //song
+    
     //月份
-    UILabel *masterLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.f, 10.0f, 300.0f, 30.f)];
+    UILabel *masterLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.f, 10.0f, kScreenW-20, 30.f)];
     [masterLabel setBackgroundColor:[UIColor clearColor]];
     [masterLabel setTextAlignment:NSTextAlignmentCenter];
     [masterLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:17.0f]];
@@ -63,9 +69,11 @@
     self.masterLabel.textColor = COLOR_THEME;
     [self addSubview:self.masterLabel];
     
+    CGFloat CATDayLabelWidth = (kScreenW-40)/7;
+    
     CGFloat xOffset = 5.0f;
     CGFloat yOffset = 45.0f;
-
+    
     //一，二，三，四，五，六，日
     UILabel *dayOfTheWeekLabel = [[UILabel alloc]initWithFrame:CGRectMake(xOffset,yOffset, CATDayLabelWidth, CATDayLabelHeight)];
     [dayOfTheWeekLabel setBackgroundColor:[UIColor clearColor]];
