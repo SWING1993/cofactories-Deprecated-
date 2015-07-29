@@ -6,9 +6,6 @@
 //  Copyright (c) 2014年 张凡. All rights reserved.
 //
 
-// 版权属于原作者
-// http://code4app.com (cn) http://code4app.net (en)
-// 发布代码于最专业的源码分享网站: Code4App.com
 
 #import "CalendarDayCell.h"
 
@@ -25,7 +22,7 @@
 
 - (void)initView{
     
-    //选中时显示的图片
+    //选中时显示的图片v
     imgview = [[UIImageView alloc]initWithFrame:CGRectMake(5, 15, self.bounds.size.width-10, self.bounds.size.width-10)];
     imgview.image = [UIImage imageNamed:@"chack.png"];
     [self addSubview:imgview];
@@ -42,7 +39,6 @@
     day_title.font = [UIFont boldSystemFontOfSize:10];
     day_title.textAlignment = NSTextAlignmentCenter;
     [self addSubview:day_title];
-    
 
 }
 
