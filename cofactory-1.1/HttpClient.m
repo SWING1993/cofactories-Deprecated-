@@ -765,23 +765,25 @@
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         NSString *url = [[NSString alloc] initWithFormat:@"%@/%d", API_interestOrder, oid];
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            block(@{@"statusCode": @([operation.response statusCode])});
+
+            NSLog(@"%@",responseObject);
+            int statusCode = [responseObject[@"code"] intValue];
+            block(statusCode);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             switch ([operation.response statusCode]) {
                 case 400:
-                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"未登录"});
+                    block(400);
                     break;
                 case 401:
-                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"access_token过期或者无效"});
+                    block(401);
                     break;
 
                 default:
-                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"网络错误"});
                     break;
             }
         }];
     } else {
-        block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
+        block(404);// access_token不存在
     }
 }
 
@@ -833,6 +835,7 @@
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         NSString *url = [[NSString alloc] initWithFormat:@"%@/%d", API_orderDetail, oid];
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSLog(@"-----------%@",responseObject);
             OrderModel *orderModel = [[OrderModel alloc] initWithDictionary:responseObject];
             block(@{@"statusCode": @([operation.response statusCode]), @"model": orderModel});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

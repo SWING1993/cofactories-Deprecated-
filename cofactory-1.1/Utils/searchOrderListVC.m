@@ -292,7 +292,7 @@
         OrderModel *model = self.dataArray [button.tag-1];
         SearchOrderListDetailsVC *vc = [[SearchOrderListDetailsVC alloc]init];
         vc.oid = model.oid;
-        vc.uid = self.uid;//gt123
+        vc.uid = self.uid;
         vc.model = model;
         UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
         backItem.title=@"";

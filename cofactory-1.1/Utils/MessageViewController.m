@@ -88,7 +88,7 @@
 
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
 
-        MessageModel*model = self.messageArray[indexPath.row];
+        MessageModel*model = self.messageArray[indexPath.section];
 
         UIImageView*headerImage=[[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 44, 44)];
         headerImage.image=[UIImage imageNamed:@"消息头像"];
@@ -101,9 +101,10 @@
         headerLabel.textAlignment=NSTextAlignmentCenter;
         [cell addSubview:headerLabel];
 
-        UILabel*timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(kScreenW-95, 5, 85, 20)];
+        UILabel*timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(kScreenW-135, 5, 125, 20)];
         timeLabel.font=[UIFont boldSystemFontOfSize:14];
         timeLabel.textColor=[UIColor lightGrayColor];
+        timeLabel.textAlignment = NSTextAlignmentRight;
         timeLabel.text = model.time1;
         [cell addSubview:timeLabel];
 
@@ -125,7 +126,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    MessageModel*model = self.messageArray[indexPath.row];
+    MessageModel*model = self.messageArray[indexPath.section];
     MessageDetailViewController*messageDetailVC = [[MessageDetailViewController alloc]init];
     messageDetailVC.hidesBottomBarWhenPushed=YES;
     messageDetailVC.timeString=model.time2;

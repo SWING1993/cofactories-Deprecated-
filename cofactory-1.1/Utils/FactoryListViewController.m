@@ -11,7 +11,7 @@
 #import "FactoryListTableViewCell.h"
 #import "THDatePickerViewController.h"
 
-@interface FactoryListViewController ()<UITableViewDataSource,UITableViewDelegate,JSDropDownMenuDataSource,JSDropDownMenuDelegate,UISearchBarDelegate,THDatePickerDelegate>
+@interface FactoryListViewController ()<UITableViewDataSource,UITableViewDelegate,JSDropDownMenuDataSource,JSDropDownMenuDelegate,UISearchBarDelegate,THDatePickerDelegate,UITextFieldDelegate>
 {
     UITableView *_tableView;
     UILabel *_lineLabel;//787878
@@ -203,8 +203,6 @@
     
     FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
 
-    //NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",factoryModel.uid];
-
     NSString* imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",factoryModel.uid];
     [cell.companyImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
 
@@ -299,13 +297,27 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
-    CooperationInfoViewController*cooperationInfoVC = [[CooperationInfoViewController alloc]init];
-    cooperationInfoVC.factoryModel=factoryModel;
-    cooperationInfoVC.hidesBottomBarWhenPushed=YES;
-    [self.navigationController pushViewController:cooperationInfoVC animated:YES];
-}
+    if ([Tools isTourist]) {
+        //游客
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您登录后才使用这项服务,是否登录？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alertView.tag=5;
 
+        [alertView show];
+    }else{
+        FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
+        CooperationInfoViewController*cooperationInfoVC = [[CooperationInfoViewController alloc]init];
+        cooperationInfoVC.factoryModel=factoryModel;
+        cooperationInfoVC.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:cooperationInfoVC animated:YES];
+    }
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex==1) {
+        if (alertView.tag==5) {
+            [ViewController goLogin];
+        }
+    }
+}
 
 #pragma mark -- 有无货车按钮
 - (void)buttonClick:(id)sender

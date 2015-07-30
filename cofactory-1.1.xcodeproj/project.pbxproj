@@ -103,7 +103,7 @@
 		04F60C691B58D17200CD3DEC /* SetMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C681B58D17200CD3DEC /* SetMapViewController.m */; };
 		04F60C6C1B58EC7F00CD3DEC /* FactoryRangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C6B1B58EC7F00CD3DEC /* FactoryRangeModel.m */; };
 		04F60C701B58EF8D00CD3DEC /* ModifySizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C6F1B58EF8D00CD3DEC /* ModifySizeViewController.m */; };
-		640485611B69EAA00057DB9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 640485601B69EAA00057DB9A /* Images.xcassets */; };
+		BD041A6B1B69D5DC00F9FC74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */; };
 		BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4311C61B4F41DE0097E4BC /* CooperationViewController.m */; };
 		BD4311CF1B4F41DE0097E4BC /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4311CA1B4F41DE0097E4BC /* MessageViewController.m */; };
 		BD4311D01B4F41DE0097E4BC /* MeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4311CC1B4F41DE0097E4BC /* MeViewController.m */; };
@@ -358,7 +358,7 @@
 		04F60C6B1B58EC7F00CD3DEC /* FactoryRangeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoryRangeModel.m; sourceTree = "<group>"; };
 		04F60C6E1B58EF8D00CD3DEC /* ModifySizeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifySizeViewController.h; sourceTree = "<group>"; };
 		04F60C6F1B58EF8D00CD3DEC /* ModifySizeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifySizeViewController.m; sourceTree = "<group>"; };
-		640485601B69EAA00057DB9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Utils/Images.xcassets; sourceTree = "<group>"; };
 		BD4311C51B4F41DE0097E4BC /* CooperationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CooperationViewController.h; sourceTree = "<group>"; };
 		BD4311C61B4F41DE0097E4BC /* CooperationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CooperationViewController.m; sourceTree = "<group>"; };
 		BD4311C91B4F41DE0097E4BC /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
@@ -1061,7 +1061,7 @@
 				BDC908F31B4E9B6B00856A32 /* Model */,
 				BDC909001B4E9B9600856A32 /* Controller */,
 				BD8AD7B01B50DE7900373E5E /* View */,
-				640485601B69EAA00057DB9A /* Images.xcassets */,
+				BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */,
 				BDC907C91B4E9A5700856A32 /* LaunchScreen.xib */,
 				BDC907BA1B4E9A5700856A32 /* Supporting Files */,
 			);
@@ -1367,7 +1367,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				045A26B71B6893D5002DE415 /* dialog_cancel.png in Resources */,
-				640485611B69EAA00057DB9A /* Images.xcassets in Resources */,
 				045A26B51B6893D5002DE415 /* calendar_ok-disabled.png in Resources */,
 				045A26AD1B6893D5002DE415 /* arrow_right.png in Resources */,
 				BDC907C61B4E9A5700856A32 /* Main.storyboard in Resources */,
@@ -1381,6 +1380,7 @@
 				047332FD1B60C4C400F684A2 /* OverlayView.xib in Resources */,
 				045A26AB1B6893D5002DE415 /* arrow_left.png in Resources */,
 				045A26BE1B6893D5002DE415 /* dialog_ok-disabled@2x.png in Resources */,
+				BD041A6B1B69D5DC00F9FC74 /* Images.xcassets in Resources */,
 				045A26BC1B6893D5002DE415 /* dialog_clear@2x.png in Resources */,
 				045A26BA1B6893D5002DE415 /* dialog_clear-disabled@2x.png in Resources */,
 				045A26C01B6893D5002DE415 /* dialog_ok@2x.png in Resources */,

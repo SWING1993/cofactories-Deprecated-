@@ -31,6 +31,7 @@
 @end
 
 @implementation FactoryAndOrderMessVC{
+
     UITextField*dateTextField;
     UITextField*scalTextField;
     UITextField*ServiceRangeTextField;
