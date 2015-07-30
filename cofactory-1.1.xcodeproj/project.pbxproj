@@ -103,6 +103,7 @@
 		04F60C691B58D17200CD3DEC /* SetMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C681B58D17200CD3DEC /* SetMapViewController.m */; };
 		04F60C6C1B58EC7F00CD3DEC /* FactoryRangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C6B1B58EC7F00CD3DEC /* FactoryRangeModel.m */; };
 		04F60C701B58EF8D00CD3DEC /* ModifySizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C6F1B58EF8D00CD3DEC /* ModifySizeViewController.m */; };
+		BD041A6B1B69D5DC00F9FC74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */; };
 		BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4311C61B4F41DE0097E4BC /* CooperationViewController.m */; };
 		BD4311CF1B4F41DE0097E4BC /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4311CA1B4F41DE0097E4BC /* MessageViewController.m */; };
 		BD4311D01B4F41DE0097E4BC /* MeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4311CC1B4F41DE0097E4BC /* MeViewController.m */; };
@@ -146,7 +147,6 @@
 		BDC907C01B4E9A5700856A32 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = BDC907BF1B4E9A5700856A32 /* AppDelegate.mm */; };
 		BDC907C31B4E9A5700856A32 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC907C21B4E9A5700856A32 /* ViewController.m */; };
 		BDC907C61B4E9A5700856A32 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDC907C41B4E9A5700856A32 /* Main.storyboard */; };
-		BDC907C81B4E9A5700856A32 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDC907C71B4E9A5700856A32 /* Images.xcassets */; };
 		BDC907CB1B4E9A5700856A32 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDC907C91B4E9A5700856A32 /* LaunchScreen.xib */; };
 		BDC907D71B4E9A5700856A32 /* cofactory_1_1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC907D61B4E9A5700856A32 /* cofactory_1_1Tests.m */; };
 		BDC908D41B4E9B3700856A32 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC907E41B4E9B3700856A32 /* AFHTTPRequestOperation.m */; };
@@ -358,6 +358,7 @@
 		04F60C6B1B58EC7F00CD3DEC /* FactoryRangeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoryRangeModel.m; sourceTree = "<group>"; };
 		04F60C6E1B58EF8D00CD3DEC /* ModifySizeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifySizeViewController.h; sourceTree = "<group>"; };
 		04F60C6F1B58EF8D00CD3DEC /* ModifySizeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifySizeViewController.m; sourceTree = "<group>"; };
+		BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Utils/Images.xcassets; sourceTree = "<group>"; };
 		BD4311C51B4F41DE0097E4BC /* CooperationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CooperationViewController.h; sourceTree = "<group>"; };
 		BD4311C61B4F41DE0097E4BC /* CooperationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CooperationViewController.m; sourceTree = "<group>"; };
 		BD4311C91B4F41DE0097E4BC /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
@@ -440,7 +441,6 @@
 		BDC907C11B4E9A5700856A32 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		BDC907C21B4E9A5700856A32 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		BDC907C51B4E9A5700856A32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		BDC907C71B4E9A5700856A32 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "/Users/tangjiacheng/Desktop/Cofactory_1.1_/cofactory-1.1/Images.xcassets"; sourceTree = "<absolute>"; };
 		BDC907CA1B4E9A5700856A32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		BDC907D01B4E9A5700856A32 /* cofactory-1.1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "cofactory-1.1Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDC907D51B4E9A5700856A32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1061,7 +1061,7 @@
 				BDC908F31B4E9B6B00856A32 /* Model */,
 				BDC909001B4E9B9600856A32 /* Controller */,
 				BD8AD7B01B50DE7900373E5E /* View */,
-				BDC907C71B4E9A5700856A32 /* Images.xcassets */,
+				BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */,
 				BDC907C91B4E9A5700856A32 /* LaunchScreen.xib */,
 				BDC907BA1B4E9A5700856A32 /* Supporting Files */,
 			);
@@ -1376,11 +1376,11 @@
 				045A26B31B6893D5002DE415 /* calendar_littledot.png in Resources */,
 				BD8AD8001B50FDBB00373E5E /* HomeFooterCell.xib in Resources */,
 				045A26BF1B6893D5002DE415 /* dialog_ok.png in Resources */,
-				BDC907C81B4E9A5700856A32 /* Images.xcassets in Resources */,
 				BDEDA4381B52254A000E5012 /* mapapi.bundle in Resources */,
 				047332FD1B60C4C400F684A2 /* OverlayView.xib in Resources */,
 				045A26AB1B6893D5002DE415 /* arrow_left.png in Resources */,
 				045A26BE1B6893D5002DE415 /* dialog_ok-disabled@2x.png in Resources */,
+				BD041A6B1B69D5DC00F9FC74 /* Images.xcassets in Resources */,
 				045A26BC1B6893D5002DE415 /* dialog_clear@2x.png in Resources */,
 				045A26BA1B6893D5002DE415 /* dialog_clear-disabled@2x.png in Resources */,
 				045A26C01B6893D5002DE415 /* dialog_ok@2x.png in Resources */,
