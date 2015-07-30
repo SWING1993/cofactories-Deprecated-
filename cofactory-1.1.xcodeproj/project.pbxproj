@@ -469,7 +469,7 @@
 		BDC907F81B4E9B3700856A32 /* AFHTTPRequestSerializer+OAuth2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AFHTTPRequestSerializer+OAuth2.m"; sourceTree = "<group>"; };
 		BDC907F91B4E9B3700856A32 /* AFOAuth2Manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOAuth2Manager.h; sourceTree = "<group>"; };
 		BDC907FA1B4E9B3700856A32 /* AFOAuth2Manager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFOAuth2Manager.m; sourceTree = "<group>"; };
-		BDC907FB1B4E9B3700856A32 /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI.framework; sourceTree = "<group>"; };
+		BDC907FB1B4E9B3700856A32 /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI.framework; path = ../BaiduMapAPI.framework; sourceTree = "<group>"; };
 		BDC908AD1B4E9B3700856A32 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		BDC908AE1B4E9B3700856A32 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		BDC908B31B4E9B3700856A32 /* SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPullToRefresh.h; sourceTree = "<group>"; };
@@ -545,7 +545,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0404F5461B54FE1B00B7004B /* Push */ = {
+		0404F5461B54FE1B00B7004B /* PushHelper */ = {
 			isa = PBXGroup;
 			children = (
 				0455E1181B61E4F8009C5CDA /* PushViewController.h */,
@@ -555,7 +555,7 @@
 				0455E1171B61E4F8009C5CDA /* PushTableViewCell.h */,
 				0455E11A1B61E4F8009C5CDA /* PushTableViewCell.m */,
 			);
-			name = Push;
+			name = PushHelper;
 			sourceTree = "<group>";
 		};
 		043257951B673D0400C3705D /* ODRefreshControl */ = {
@@ -694,7 +694,7 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
-		04822E171B62722500A370F6 /* searchOrder */ = {
+		04822E171B62722500A370F6 /* SearchOrder */ = {
 			isa = PBXGroup;
 			children = (
 				04822E1A1B62724200A370F6 /* searchOrderListVC.h */,
@@ -704,7 +704,7 @@
 				04822E181B62724200A370F6 /* SearchOrderListDetailsVC.h */,
 				04822E1B1B62724200A370F6 /* SearchOrderListDetailsVC.m */,
 			);
-			name = searchOrder;
+			name = SearchOrder;
 			sourceTree = "<group>";
 		};
 		04822E371B62E7A600A370F6 /* Base64 */ = {
@@ -821,6 +821,26 @@
 				047333031B60D2B600F684A2 /* OrderDetailViewController.m */,
 			);
 			name = Status;
+			sourceTree = "<group>";
+		};
+		04E644441B69C59000A3DF2E /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				BD8C4DF41B4FB2BA0065ECFA /* libz.dylib */,
+				BDC907FB1B4E9B3700856A32 /* BaiduMapAPI.framework */,
+				BDEDA4351B52234B000E5012 /* CoreGraphics.framework */,
+				BDEDA4331B521F42000E5012 /* MapKit.framework */,
+				BD8C4E041B4FB3340065ECFA /* QuartzCore.framework */,
+				BD8C4E021B4FB31B0065ECFA /* Foundation.framework */,
+				BD8C4E001B4FB30F0065ECFA /* UIKit.framework */,
+				BD8C4DFE1B4FB3060065ECFA /* SystemConfiguration.framework */,
+				BD8C4DFC1B4FB2EA0065ECFA /* CFNetwork.framework */,
+				BD8C4DFA1B4FB2E10065ECFA /* Security.framework */,
+				BD8C4DF81B4FB2D00065ECFA /* CoreLocation.framework */,
+				BD8C4DF61B4FB2C80065ECFA /* OpenGLES.framework */,
+			);
+			name = Framework;
+			path = Library;
 			sourceTree = "<group>";
 		};
 		04E81EED1B57F71A00B7CE7B /* Address */ = {
@@ -946,8 +966,8 @@
 				0455E10D1B61D62E009C5CDA /* WebViewController.m */,
 				0455E10F1B61D8D8009C5CDA /* ActivityViewController.h */,
 				0455E1101B61D8D8009C5CDA /* ActivityViewController.m */,
-				04822E171B62722500A370F6 /* searchOrder */,
-				0404F5461B54FE1B00B7004B /* Push */,
+				04822E171B62722500A370F6 /* SearchOrder */,
+				0404F5461B54FE1B00B7004B /* PushHelper */,
 				0451D64D1B574A1B007CCD59 /* FactoryList */,
 				04DE27831B55F86E0008DEED /* Status */,
 				04D462E91B5D14B600B9B4D8 /* Veify */,
@@ -1078,18 +1098,7 @@
 		BDC907E11B4E9B3700856A32 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				BD8C4DF41B4FB2BA0065ECFA /* libz.dylib */,
-				BDC907FB1B4E9B3700856A32 /* BaiduMapAPI.framework */,
-				BDEDA4351B52234B000E5012 /* CoreGraphics.framework */,
-				BDEDA4331B521F42000E5012 /* MapKit.framework */,
-				BD8C4E041B4FB3340065ECFA /* QuartzCore.framework */,
-				BD8C4E021B4FB31B0065ECFA /* Foundation.framework */,
-				BD8C4E001B4FB30F0065ECFA /* UIKit.framework */,
-				BD8C4DFE1B4FB3060065ECFA /* SystemConfiguration.framework */,
-				BD8C4DFC1B4FB2EA0065ECFA /* CFNetwork.framework */,
-				BD8C4DFA1B4FB2E10065ECFA /* Security.framework */,
-				BD8C4DF81B4FB2D00065ECFA /* CoreLocation.framework */,
-				BD8C4DF61B4FB2C80065ECFA /* OpenGLES.framework */,
+				04E644441B69C59000A3DF2E /* Framework */,
 				045A266F1B6866AE002DE415 /* Library */,
 				045A268D1B6893D4002DE415 /* THCalendarDatePicker */,
 				045A26531B686682002DE415 /* ZFCalendar */,

@@ -12,7 +12,7 @@
 #import "PushTableViewCell.h"
 
 
-@interface PushViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface PushViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 {
     UITableView *_tableView;
 }
