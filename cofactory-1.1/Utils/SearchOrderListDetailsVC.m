@@ -19,24 +19,12 @@
 
 @implementation SearchOrderListDetailsVC
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    self.navigationItem.title = @"订单详情";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19],NSForegroundColorAttributeName:[UIColor whiteColor]}];
-
-    [HttpClient getOrderDetailWithOid:self.oid andBlock:^(NSDictionary *responseDictionary) {
-
-//        self.model = responseDictionary[@"model"];
-        [self.tableView reloadData];
-
-    }];
-
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.navigationItem.title = @"订单详情";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19],NSForegroundColorAttributeName:[UIColor whiteColor]}];
     //设置返回按钮
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonClick)];
     self.navigationItem.leftBarButtonItem = backButton;
