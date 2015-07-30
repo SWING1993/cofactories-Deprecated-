@@ -243,6 +243,7 @@
     NSLog(@">>>>>>>>??????%@",model.serviceRange);
     if (self.orderListType == 1)
     {
+        cell.orderTypeLabel.hidden = NO;
         cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
     }
 
@@ -467,6 +468,7 @@
         if (indexPath.leftRow == 1)
         {
             self.role = 1;//加工厂
+            self.orderListType = 1;
             
             if (indexPath.row == 0)
             {
@@ -486,12 +488,14 @@
         if (indexPath.leftRow == 2)
         {
             self.role = 2; //代裁厂
+            self.orderListType = 2;
             self.factoryServiceRange = nil;
         }
         
         if (indexPath.leftRow ==3)
         {
             self.role = 3;//锁眼钉扣厂
+            self.orderListType = 3;
             self.factoryServiceRange = nil;
         }
     }
