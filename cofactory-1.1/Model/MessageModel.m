@@ -14,13 +14,15 @@
     self = [super init];
     if (self) {
         NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[dictionary objectForKey:@"time"] intValue]];
-        NSDateFormatter *dateFormatter1 = [[NSDateFormatter alloc] init];
-        dateFormatter1.dateFormat = @"yyyy-MM-DD";// 年月日
-        _time1 = [dateFormatter1 stringFromDate:date];
+        NSLog(@"%@",date);
 
-        NSDateFormatter *dateFormatter2 = [[NSDateFormatter alloc] init];
-        dateFormatter2.dateFormat = @"HH:mm:ss";// 年月日
-        _time2 = [dateFormatter2 stringFromDate:date];
+        NSDateFormatter*df1 = [[NSDateFormatter alloc]init];//格式化
+        [df1 setDateFormat:@"yyyy-MM-dd"];
+
+        NSDateFormatter*df2 = [[NSDateFormatter alloc]init];//格式化
+        [df2 setDateFormat:@"HH:mm:ss"];
+        _time1 = [df1 stringFromDate:date];
+        _time2 = [df2 stringFromDate:date];
 
         _message=[dictionary objectForKey:@"message"];
     }
