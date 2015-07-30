@@ -13,6 +13,8 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
+
+        NSLog(@"订单模型%@",dictionary);
         _oid = [[dictionary objectForKey:@"oid"] intValue];
         _uid = [[dictionary objectForKey:@"uid"] intValue];
         _type = [[dictionary objectForKey:@"type"] intValue];

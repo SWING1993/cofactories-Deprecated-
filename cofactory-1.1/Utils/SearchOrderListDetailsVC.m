@@ -41,7 +41,6 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonClick)];
     self.navigationItem.leftBarButtonItem = backButton;
 
-
     self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-80) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -64,23 +63,12 @@
     self.tableView.tableHeaderView = tableHeaderView;
 
     //表头试图添加UI
-//    UIImageView *companyImage = [[UIImageView alloc]initWithFrame:CGRectMake(5, 5, 50, 50)];
-//    [companyImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.oid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];    //gt123
-//    companyImage.layer.masksToBounds = YES;
-//    companyImage.layer.cornerRadius = 25;
-//    [tableHeaderView addSubview:companyImage];
 
     UILabel *comanyNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 15, 165, 30)];
     comanyNameLabel.text = self.model.facName;
     NSLog(@"*****+++%@",self.model.facName);
     comanyNameLabel.font = [UIFont systemFontOfSize:15.0f];
     [tableHeaderView addSubview:comanyNameLabel];
-
-//    UIButton *companyDetailsBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-//    companyDetailsBtn.frame = CGRectMake(kScreenW-50, 9, 15,15);
-//    [companyDetailsBtn setBackgroundImage:[UIImage imageNamed:@"箭头.png"] forState:UIControlStateNormal];
-//    [companyDetailsBtn addTarget:self action:@selector(goToCompanyDetailClick) forControlEvents:UIControlEventTouchUpInside];
-//    [tableHeaderView addSubview:companyDetailsBtn];
 
     UILabel *orderImageLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 70, kScreenW, 15)];
     orderImageLabel.backgroundColor = [UIColor colorWithRed:255/255.0 green:106/255.0 blue:106/255.0 alpha:1.0];
@@ -106,7 +94,6 @@
     _interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake((kScreenW-120)/2.0, 140, 20, 20)];
     _interestCountLabel.font = [UIFont systemFontOfSize:12.0f];
     _interestCountLabel.textColor = [UIColor orangeColor];
-    //    _interestCountLabel.backgroundColor = [UIColor redColor];
     [tableHeaderView addSubview:_interestCountLabel];
 
     _label= [[UILabel alloc]initWithFrame:CGRectMake(([UIScreen mainScreen].bounds.size.width-120)/2.0+25, 140,120 , 20)];
@@ -130,28 +117,12 @@
         _interestCountLabel.text = self.model.interest;
         _label.text = @"厂商对此订单感兴趣";
         NSLog(@"22");
-
     }
 
-    self.contactManufacturerView = [[UIView alloc]initWithFrame:CGRectMake(kScreenW-60, 10
-                                                                           , 40,40)];
+    self.contactManufacturerView = [[UIView alloc]initWithFrame:CGRectMake(kScreenW-60, 10, 40,40)];
     self.contactManufacturerView.backgroundColor=[UIColor clearColor];
-//    self.contactManufacturerView.layer.borderWidth = 1;
-//    self.contactManufacturerView.layer.borderColor = [UIColor colorWithRed:156/255.0 green:208/255.0 blue:131/255.0 alpha:1.0].CGColor;
-//    self.contactManufacturerView.layer.masksToBounds = YES;
-//    self.contactManufacturerView.layer.cornerRadius = 5;
     [tableHeaderView addSubview:self.contactManufacturerView];
 
-
-//    UIImageView *phongImageView = [[UIImageView alloc]initWithFrame:CGRectMake(7,3, 30, 50)];
-//    phongImageView.image = [UIImage imageNamed:@"PHONE.png"];
-//    [self.contactManufacturerView addSubview:phongImageView];
-//
-//    UILabel *lb = [[UILabel alloc]initWithFrame:CGRectMake(28, 3, 50, 50)];
-//    lb.text = @"联系厂商";
-//    lb.font = [UIFont systemFontOfSize:14.0f];
-//    [self.contactManufacturerView addSubview:lb];
-//
 //    //联系厂商按钮
     UIButton *contactManufacturerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     contactManufacturerButton .frame = CGRectMake(0, 0, 40,40);
@@ -333,6 +304,11 @@
     NSLog(@"%@",self.model.phone);
     NSString *str = [NSString stringWithFormat:@"telprompt://%@", self.model.phone];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+
+    //感兴趣
+    [HttpClient interestOrderWithOid:self.model.oid andBlock:^(int statusCode) {
+        NSLog(@"感兴趣状态码%d",statusCode);
+    }];
 
 }
 

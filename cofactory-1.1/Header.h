@@ -19,7 +19,7 @@
 #define kScreenBounds [UIScreen mainScreen].bounds
 #define kScreenSize [UIScreen mainScreen].bounds.size
 
-#define kBannerHeight 180
+#define kBannerHeight kScreenW*0.535
 #define kStatusBarHeight 20
 #define kNavigationBarHeight 44
 #define CellIdentifier @"Cell"
