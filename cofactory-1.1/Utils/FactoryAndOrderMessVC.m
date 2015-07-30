@@ -96,7 +96,7 @@
     
     
     ServiceRangeTextField=[[UITextField alloc]initWithFrame:CGRectMake(kScreenW/2-30, 7, kScreenW/2+  10, 30)];
-//    ServiceRangeTextField.text=@"不限类型";
+    ServiceRangeTextField.text=@"不限类型";
     ServiceRangeTextField.inputView = [self fecthSizePicker];
     ServiceRangeTextField.inputAccessoryView = [self fecthToolbar];
     ServiceRangeTextField.font=[UIFont systemFontOfSize:15.0f];
@@ -107,13 +107,13 @@
     dateTextField.inputView = [self fecthServicePicker];
     dateTextField.inputAccessoryView = [self fecthServiceToolbar];
     dateTextField.delegate =self;
-//    dateTextField.text=@"不限距离";
+    dateTextField.text=@"不限距离";
     dateTextField.font=[UIFont systemFontOfSize:15.0f];
     dateTextField.borderStyle=UITextBorderStyleRoundedRect;
     
     
     scalTextField=[[UITextField alloc]initWithFrame:CGRectMake(kScreenW/2-30, 7, kScreenW/2+10, 30)];
-//    scalTextField.text=@"不限规模";
+    scalTextField.text=@"不限规模";
     scalTextField.inputView = [self scalesPicker];
     scalTextField.inputAccessoryView = [self scalesToolbar];
     scalTextField.delegate=self;
@@ -142,7 +142,8 @@
 
 }
 
-- (void)clickTypeBtn:(UIButton *)sender {
+- (void)clickTypeBtn:(UIButton *)sender
+{
     UIButton*button=(UIButton *)sender;
     
     
@@ -158,9 +159,9 @@
             pushOrderBtn.frame=CGRectMake(30, 220, kScreenW-60, 40);
             self.pickList = self.pickList0;
             // 刷新数据
-            dateTextField.text = nil;
-            scalTextField.text = nil;
-            ServiceRangeTextField.text = nil;
+            dateTextField.text = @"不限距离";
+            scalTextField.text = @"不限规模";
+            ServiceRangeTextField.text = @"不限类型";
             [self.orderPicker reloadAllComponents];
             [self.servicePicker reloadAllComponents];
             [self.scalePicker reloadAllComponents];
@@ -173,8 +174,8 @@
            pushOrderBtn.frame=CGRectMake(30, 160, kScreenW-60, 40);
             self.pickList = self.pickList1;
             // 刷新数据
-            dateTextField.text = nil;
-            scalTextField.text = nil;
+            dateTextField.text = @"不限距离";
+            scalTextField.text = @"不限规模";
             ServiceRangeTextField.text = nil;
             [self.orderPicker reloadAllComponents];
             [self.servicePicker reloadAllComponents];
@@ -189,8 +190,8 @@
             pushOrderBtn.frame=CGRectMake(30, 160, kScreenW-60, 40);
             self.pickList = self.pickList1;
             // 刷新数据
-            dateTextField.text = nil;
-            scalTextField.text = nil;
+            dateTextField.text = @"不限距离";
+            scalTextField.text = @"不限规模";
             ServiceRangeTextField.text = nil;
             [self.orderPicker reloadAllComponents];
             [self.servicePicker reloadAllComponents];

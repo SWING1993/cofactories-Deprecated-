@@ -265,7 +265,7 @@
     cell.workingTimeLabel.text = [NSString stringWithFormat:@"期限 :  %@",model.workingTime];
     
     NSString *interestString = [NSString stringWithFormat:@"%@",model.interest];
-    if ([interestString isEqualToString:@"(null)"])
+    if ([interestString isEqualToString:@"0"])
     {
         cell.intersestLabelView.hidden = YES;
     }else
@@ -300,6 +300,7 @@
         self.navigationItem.backBarButtonItem = backItem;
         self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
         [self.navigationController pushViewController:vc animated:YES];
+        
     }
 }
 

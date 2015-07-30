@@ -127,6 +127,7 @@
     {
         _interestCountLabel.hidden = NO;
         _label.hidden = NO;
+        ////////////////////////////////////////////////////////////////////////
         _interestCountLabel.text = self.model.interest;
         _label.text = @"厂商对此订单感兴趣";
         NSLog(@"22");
@@ -314,18 +315,17 @@
     [self.view addSubview:_view];
 
     UIButton *cancleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    cancleBtn.frame = CGRectMake(40, kScreenH-110, kScreenW-80, 30);
+    cancleBtn.frame = _view.frame;
     [cancleBtn addTarget:self action:@selector(cancleBtn) forControlEvents:UIControlEventTouchUpInside];
-    [cancleBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
-    [cancleBtn setTitle:@"取消" forState:UIControlStateNormal];
-    cancleBtn.layer.masksToBounds = YES;
-    cancleBtn.layer.cornerRadius = 5;
     [_view addSubview:cancleBtn];
+    
 }
 -(void)cancleBtn//gt123
 {
     [_view removeFromSuperview];
 }
+
+
 
 - (void)contactManufacturerClick
 {

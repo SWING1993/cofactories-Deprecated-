@@ -90,7 +90,7 @@
     int type = [dic[@"facType"] intValue];
     switch (type) {
         case 0:
-            cell.typeLB.text = @"服装厂";
+            cell.typeLB.text = @"加工厂";
             cell.businessLB.text = [NSString stringWithFormat:@"业务类型: %@",dic[@"businessType"]];
             break;
         case 1:
