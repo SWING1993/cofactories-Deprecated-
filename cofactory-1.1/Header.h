@@ -106,7 +106,6 @@
 #import "UploadImageViewController.h"//上传图片
 #import "FavoriteViewController.h"//我的收藏
 #import "DescriptionViewController.h"//公司简介
-#import "FeedbackViewController.h"//意见反馈
 
 
 

@@ -8,8 +8,11 @@
 
 #import "Header.h"
 #import "SetViewController.h"
+#import "UMSocial.h"
+#import "UMFeedback.h"
 
-@interface SetViewController () <UIAlertViewDelegate>
+
+@interface SetViewController () <UIAlertViewDelegate,UMSocialUIDelegate>
 
 @end
 
@@ -54,7 +57,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -83,15 +86,20 @@
             }
                 break;
             case 2:{
+                cell.textLabel.text=@"分享给好友";
+            }
+                break;
+
+            case 3:{
                 [cell addSubview:inviteCodeTF];
-                UIButton*OKBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-70, 5, 60, 34)];
+                UIButton*OKBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-70, 7, 60, 30)];
                 [OKBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
                 [OKBtn setTitle:@"确定" forState:UIControlStateNormal];
                 [OKBtn addTarget:self action:@selector(OKBtn) forControlEvents:UIControlEventTouchUpInside];
                 [cell addSubview:OKBtn];
             }
                 break;
-                
+
             default:
                 break;
         }
@@ -106,12 +114,6 @@
     [HttpClient registerWithInviteCode:inviteCodeTF.text andBlock:^(NSDictionary *responseDictionary) {
         NSLog(@"%@",responseDictionary);
     }];
-    
-//    [HttpClient registerWithUsername:nil InviteCode:inviteCodeTF.text password:nil factoryType:nil verifyCode:nil factoryName:nil lon:nil lat:@000 factorySizeMin:@000 factorySizeMax:@000 factoryAddress:nil factoryServiceRange:nil andBlock:^(NSDictionary *responseDictionary) {
-//        NSLog(@"%@",responseDictionary);
-//    }];
-
-
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -129,32 +131,56 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.01f)];
-    //view.backgroundColor = [UIColor colorWithHex:0xf0efea];
     return view;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case 0:{
             RevisePasswordViewController*reviseVC = [[RevisePasswordViewController alloc]init];
-            [self.navigationController pushViewController:reviseVC animated:YES];
+            UINavigationController*reviseNav = [[UINavigationController alloc]initWithRootViewController:reviseVC];
+            reviseNav.navigationBar.barStyle=UIBarStyleBlack;
+            [self presentViewController:reviseNav animated:YES completion:nil];
+
 
         }
             break;
         case 1:{
-            FeedbackViewController*feedbackVC = [[FeedbackViewController alloc]init];
-            feedbackVC.hidesBottomBarWhenPushed=YES;
-            [self.navigationController pushViewController:feedbackVC animated:YES];
+
+            //导航push
+//            [self.navigationController pushViewController:[UMFeedback feedbackViewController]
+//                                                 animated:YES];
+
+            // 模态弹出
+            [self presentViewController:[UMFeedback feedbackModalViewController] animated:YES completion:nil];
         }
             break;
         case 2:{
-//            AboutViewController*aboutVC = [[AboutViewController alloc]init];
-//            aboutVC.hidesBottomBarWhenPushed=YES;
-//            [self.navigationController pushViewController:aboutVC animated:YES];
+            [UMSocialSnsService presentSnsIconSheetView:self
+                                                 appKey:@"55a0778367e58e452400710a"
+                                              shareText:@"你要分享的文字"
+                                             shareImage:[UIImage imageNamed:@"icon.png"]
+                                        shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToQQ,UMShareToRenren,UMShareToDouban,UMShareToEmail,UMShareToSms,UMShareToFacebook,UMShareToTwitter,nil]
+                                               delegate:self];
+        }
+            break;
+        case 3:{
+
         }
             break;
                     
         default:
             break;
+    }
+}
+
+//友盟实现回调方法（可选）：
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    //根据`responseCode`得到发送结果,如果分享成功
+    if(response.responseCode == UMSResponseCodeSuccess)
+    {
+        //得到分享到的微博平台名
+        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
     }
 }
 

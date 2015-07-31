@@ -8,6 +8,8 @@
 #import "Header.h"
 #import "AppDelegate.h"
 #import "ZWIntroductionViewController.h"
+#import "UMSocial.h"
+#import "UMFeedback.h"
 
 
 #if TARGET_IPHONE_SIMULATOR
@@ -35,6 +37,7 @@
         ViewController *mainVC = [[ViewController alloc] init];
         self.window.rootViewController = mainVC;
     }else{
+        
 //        NSArray *coverImageNames = @[@"img_index_01txt", @"img_index_02txt", @"img_index_03txt"];
 //        NSArray *backgroundImageNames = @[@"img_index_01bg", @"img_index_02bg", @"img_index_03bg"];
 //        self.introductionView = [[ZWIntroductionViewController alloc] initWithCoverImageNames:coverImageNames backgroundImageNames:backgroundImageNames];
@@ -54,6 +57,15 @@
             weakSelf.window.rootViewController = mainVC;
         };
     }
+
+    // 友盟分享
+    [UMSocialData setAppKey:@"55a0778367e58e452400710a"];
+//    [UMSocialData openLog:YES];
+
+
+    // 友盟用户反馈
+    [UMFeedback setAppkey:@"55a0778367e58e452400710a"];
+
 
     // 注册友盟统计 SDK
     [MobClick startWithAppkey:@"55a0778367e58e452400710a" reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道

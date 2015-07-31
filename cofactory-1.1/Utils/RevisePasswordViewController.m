@@ -24,6 +24,7 @@
     // Do any additional setup after loading the view.
     self.title=@"修改密码";
     self.view.backgroundColor=[UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
 
@@ -43,8 +44,15 @@
     [ReviseBtn addTarget:self action:@selector(RevisePasswordBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.tableView addSubview:ReviseBtn];
 
+
+    //设置Btn
+    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
+    self.navigationItem.rightBarButtonItem = setButton;
 }
 
+- (void)buttonClicked{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
