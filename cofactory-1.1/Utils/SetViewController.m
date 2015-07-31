@@ -27,7 +27,7 @@
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
     
-    inviteCodeTF=[[UITextField alloc]initWithFrame:CGRectMake(10, 5, kScreenW/2-10, 34)];
+    inviteCodeTF=[[UITextField alloc]initWithFrame:CGRectMake(10, 7, kScreenW/2-10, 30)];
     inviteCodeTF.borderStyle=UITextBorderStyleRoundedRect;
     inviteCodeTF.keyboardType=UIKeyboardTypeNumberPad;
     inviteCodeTF.placeholder=@"邀请码";
@@ -44,15 +44,33 @@
     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"确定退出" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alertView show];
 }
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.tableView endEditing:YES];
-}
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+
     if (buttonIndex==1) {
         [HttpClient logout];
         [ViewController goLogin];
     }
 }
+
+- (void)OKBtn {
+    if (inviteCodeTF.text.length!=0) {
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"邀请码提交成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+        [HttpClient registerWithInviteCode:inviteCodeTF.text andBlock:^(NSDictionary *responseDictionary) {
+            NSLog(@"%@",responseDictionary);
+        }];
+    }else{
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您填写邀请码后再提交" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }
+
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.tableView endEditing:YES];
+}
+
 
 #pragma mark - Table view data source
 
@@ -94,7 +112,7 @@
                 [cell addSubview:inviteCodeTF];
                 UIButton*OKBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-70, 7, 60, 30)];
                 [OKBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
-                [OKBtn setTitle:@"确定" forState:UIControlStateNormal];
+                [OKBtn setTitle:@"提交" forState:UIControlStateNormal];
                 [OKBtn addTarget:self action:@selector(OKBtn) forControlEvents:UIControlEventTouchUpInside];
                 [cell addSubview:OKBtn];
             }
@@ -106,14 +124,6 @@
 
     }
         return cell;
-}
-- (void)OKBtn {
-
-    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"邀请码提交成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-    [alertView show];
-    [HttpClient registerWithInviteCode:inviteCodeTF.text andBlock:^(NSDictionary *responseDictionary) {
-        NSLog(@"%@",responseDictionary);
-    }];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

@@ -139,7 +139,7 @@
 
         inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 270, kScreenW-20, 35)];
         inviteCodeTF.keyboardType=UIKeyboardTypeNumberPad;
-        inviteCodeTF.placeholder=@"邀请码";
+        inviteCodeTF.placeholder=@"请填写邀请码，没有可忽略。";
         [self.view addSubview:inviteCodeTF];
 
 
