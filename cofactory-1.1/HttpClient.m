@@ -1104,7 +1104,7 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_uploadFactory parameters:@{@"type": type} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"ok%@",responseObject);
+            NSLog(@"图片上传成功");
             UpYun *upYun = [[UpYun alloc] init];
             upYun.bucket = @"cofactories";
             upYun.expiresIn = 600;// 10分钟

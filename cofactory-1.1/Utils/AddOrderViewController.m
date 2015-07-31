@@ -219,7 +219,6 @@
         }
             break;
 
-
         default:
             break;
     }
@@ -236,6 +235,7 @@
     }
     return self.orderPicker;
 }
+
 - (UIToolbar *)fecthToolbar{
     if (!self.pickerToolbar) {
         self.pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 44)];
@@ -263,7 +263,7 @@
 }
 
 //service
-- (UIPickerView *)fecthServicePicker{
+- (UIPickerView *)fecthServicePicker {
     if (!self.servicePicker) {
         self.servicePicker = [[UIPickerView alloc] init];
         self.servicePicker.tag=2;
@@ -274,7 +274,7 @@
     return self.servicePicker;
 }
 
-- (UIToolbar *)fecthServiceToolbar{
+- (UIToolbar *)fecthServiceToolbar {
 
     if (!self.serviceToolbar) {
         self.serviceToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 44)];
@@ -286,13 +286,13 @@
     return self.serviceToolbar;
 }
 
--(void)serviceCancel{
+-(void)serviceCancel {
 
     numberString = nil;
     [dateTextField endEditing:YES];
 }
 
--(void)serviceEnsure{
+-(void)serviceEnsure {
 
     if (numberString) {
         dateTextField.text = numberString;
@@ -303,11 +303,10 @@
 
 #pragma mark - UIPickerView datasource
 
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
 }
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     if (pickerView.tag == 1) {
         return [self.pickList[0] count];
     }else{
@@ -355,7 +354,6 @@
         NSMutableArray*cellArr=[[NSMutableArray alloc]initWithCapacity:0];
         cellArr=self.listData[self.type];
         cell.textLabel.text=cellArr[indexPath.section];
-
 
         if (self.type==0) {
             switch (indexPath.section) {
@@ -413,18 +411,18 @@
                     break;
             }
         }
-
-
-
     }
     return cell;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 5.0f;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 0.1f;
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
@@ -439,10 +437,10 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
         if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                message:@"Device has no camera"
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误"
+                                                                message:@"设备没有相机"
                                                                delegate:nil
-                                                      cancelButtonTitle:@"OK"
+                                                      cancelButtonTitle:@"确定"
                                                       otherButtonTitles: nil];
 
             [alertView show];
@@ -574,10 +572,8 @@
 //    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
+
 #pragma mark - Button Method
-
-
-
 - (IBAction)cancelButtonClicked:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }

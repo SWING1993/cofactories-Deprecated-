@@ -20,10 +20,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
-    self.tableView.rowHeight = 200;
 
     self.title = @"公司图片";
-    NSLog(@"%@",self.employee);
+//    NSLog(@"%@",self.employee);
 }
 
 #pragma mark - Table view data source
@@ -166,6 +165,13 @@
     }
 
     return cell;
+}
+
+- (void)dealloc
+{
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
+    NSLog(@"公司相册释放内存");
 }
 
 

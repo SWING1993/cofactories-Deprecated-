@@ -8,25 +8,17 @@
 
 #define ImageViewHeight 250
 
-
 #import "Header.h"
 #import "CooperationInfoViewController.h"
-#import "FactoryPhotoViewController.h"
-
-
 #import "CofactoryPhotoViewController.h"//图片浏览器
 
-
 @interface CooperationInfoViewController () <UIAlertViewDelegate>
-
 
 //公司规模数组
 @property(nonatomic,retain)NSArray*sizeArray;
 
 //公司业务类型数组
 @property (nonatomic,retain)NSArray*serviceRangeArray;
-
-
 
 //单元格imageArray
 @property (nonatomic,retain)NSArray*cellImageArray1;

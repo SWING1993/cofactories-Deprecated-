@@ -182,39 +182,47 @@
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.factoryType==1 && indexPath.section==0) {
+        if (!chvc) {
 
-    if (!chvc) {
+            chvc = [[CalendarHomeViewController alloc]init];
 
-        chvc = [[CalendarHomeViewController alloc]init];
+            chvc.calendartitle = @"空闲日期";
 
-        chvc.calendartitle = @"空闲日期";
+            [chvc setAirPlaneToDay:365 ToDateforString:nil];//飞机初始化方法
 
-        [chvc setAirPlaneToDay:365 ToDateforString:nil];//飞机初始化方法
+        }
+        chvc.calendarblock = ^(CalendarDayModel *model){
 
+            NSLog(@"\n---------------------------");
+            NSLog(@"1星期 %@",[model getWeek]);
+            NSLog(@"2字符串 %@",[model toString]);
+            NSLog(@"3节日  %@",model.holiday);
+
+            self.timeLabel.text=[NSString stringWithFormat:@"%@",[model toString]];
+            [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryLon:nil factoryLat:nil factoryFree:[model toString] factoryDescription:nil andBlock:^(int statusCode) {
+                if (statusCode==200) {
+                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:[NSString stringWithFormat:@"空闲时间到%@",[model toString]] message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                    [alertView show];
+                }else{
+                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"空闲时间设置失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                    [alertView show];
+                }
+            }];
+
+        };
+        [self.navigationController pushViewController:chvc animated:YES];
     }
-    chvc.calendarblock = ^(CalendarDayModel *model){
-
-        NSLog(@"\n---------------------------");
-        NSLog(@"1星期 %@",[model getWeek]);
-        NSLog(@"2字符串 %@",[model toString]);
-        NSLog(@"3节日  %@",model.holiday);
-
-        self.timeLabel.text=[NSString stringWithFormat:@"%@",[model toString]];
-        [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryLon:nil factoryLat:nil factoryFree:[model toString] factoryDescription:nil andBlock:^(int statusCode) {
-            if (statusCode==200) {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:[NSString stringWithFormat:@"空闲时间到%@",[model toString]] message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
-            }else{
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"空闲时间设置失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
-            }
-        }];
-
-    };
-    [self.navigationController pushViewController:chvc animated:YES];
-
 }
 
+- (void)dealloc
+{
+    self.timeLabel = nil;
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
+    chvc=nil;
+    NSLog(@"设置状态释放内存");
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
