@@ -87,15 +87,15 @@
     UILabel*titleLB=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 20)];
     titleLB.textAlignment=NSTextAlignmentCenter;
     if (section==0) {
-        titleLB.text=@"公司员工相册";
+        titleLB.text=@"公司员工";
 
     }
     if (section==1) {
-        titleLB.text=@"公司环境相册";
+        titleLB.text=@"公司环境";
 
     }
     if (section==2) {
-        titleLB.text=@"公司设备相册";
+        titleLB.text=@"公司设备";
 
     }
     [view addSubview:titleLB];
