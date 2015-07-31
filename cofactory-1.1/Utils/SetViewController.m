@@ -102,6 +102,7 @@
                 cell.textLabel.text=@"意见反馈";
 
             }
+
                 break;
             case 2:{
                 cell.textLabel.text=@"分享给好友";
@@ -121,7 +122,6 @@
             default:
                 break;
         }
-
     }
         return cell;
 }
@@ -150,7 +150,6 @@
             UINavigationController*reviseNav = [[UINavigationController alloc]initWithRootViewController:reviseVC];
             reviseNav.navigationBar.barStyle=UIBarStyleBlack;
             [self presentViewController:reviseNav animated:YES completion:nil];
-
 
         }
             break;

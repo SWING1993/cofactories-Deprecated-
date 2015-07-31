@@ -97,15 +97,21 @@
 
     leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW/2+30, ImageViewHeight-50)];
     leftImage.contentMode=UIViewContentModeScaleAspectFill;
+    leftImage.layer.borderWidth=1.0f;
+    leftImage.layer.borderColor=[UIColor blackColor].CGColor;
     leftImage.clipsToBounds=YES;
 
     rightImage1 = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2+30, 0, kScreenW-kScreenW/2-30, (ImageViewHeight-50)/2)];
     rightImage1.contentMode=UIViewContentModeScaleAspectFill;
     rightImage1.clipsToBounds=YES;
-    rightImage2 = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2+30, (ImageViewHeight-50)/2, kScreenW-kScreenW/2-30, (ImageViewHeight-50)/2)];
+    rightImage1.layer.borderWidth=1.0f;
+    rightImage1.layer.borderColor=[UIColor blackColor].CGColor;
 
+    rightImage2 = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2+30, (ImageViewHeight-50)/2, kScreenW-kScreenW/2-30, (ImageViewHeight-50)/2)];
     rightImage2.contentMode=UIViewContentModeScaleAspectFill;
     rightImage2.clipsToBounds=YES;
+    rightImage2.layer.borderWidth=1.0f;
+    rightImage2.layer.borderColor=[UIColor blackColor].CGColor;
 
 
     UIImageView*BGImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, ImageViewHeight-50)];
@@ -258,7 +264,7 @@
             [callBtn addTarget:self action:@selector(callBtn) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:callBtn];
 
-            UIView*view=[[UIView alloc]initWithFrame:CGRectMake(kScreenW/2-1.5f, 0, 3.0f, 60)];
+            UIView*view=[[UIView alloc]initWithFrame:CGRectMake(kScreenW/2-1.5f, 0, 1.0f, 60)];
             view.backgroundColor=[UIColor lightGrayColor];
             [cell addSubview:view];
 
