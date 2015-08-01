@@ -482,14 +482,38 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *aImage = info[UIImagePickerControllerOriginalImage];
 
-    NSData*imageData = UIImageJPEGRepresentation(aImage, 0.4);
 
-    UIImage*newImage = [[UIImage alloc]initWithData:imageData];
 
-    [picker dismissViewControllerAnimated:YES completion:^{
-        self.image = newImage;
+    if (self.isBlur) {
+        // 高斯模糊
+        NSLog(@"高斯模糊=%d",self.isBlur);
+        CIContext *context = [CIContext contextWithOptions:nil];
+        CIImage *inputImage = [[CIImage alloc] initWithImage:aImage];
+        CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
+        [filter setValue:inputImage forKey:kCIInputImageKey];
+        [filter setValue:[NSNumber numberWithFloat:5.0] forKey:@"inputRadius"];
+        CIImage *result = [filter valueForKey:kCIOutputImageKey];
+        CGImageRef cgImageRef = [context createCGImage:result fromRect:result.extent];
+        UIImage*newImage = [UIImage imageWithCGImage:cgImageRef];
+        CGImageRelease(cgImageRef);
+        [picker dismissViewControllerAnimated:YES completion:^{
+            self.image = newImage;
             [self.tableView reloadData];
-    }];
+        }];
+    }else{
+
+        NSLog(@"没有高斯模糊=%d",self.isBlur);
+
+        NSData*imageData = UIImageJPEGRepresentation(aImage, 0.4);
+
+        UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+
+        [picker dismissViewControllerAnimated:YES completion:^{
+            self.image = newImage;
+            [self.tableView reloadData];
+        }];
+    }
+
 
 
 //    if (aImage.imageOrientation != UIImageOrientationUp) {
@@ -555,19 +579,7 @@
 //    } else {
 //        self.image = aImage;
 //    }
-//    if (self.isBlur) {
-//        // 高斯模糊
-//        CIContext *context = [CIContext contextWithOptions:nil];
-//        CIImage *inputImage = [[CIImage alloc] initWithImage:self.image];
 //
-//        CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
-//        [filter setValue:inputImage forKey:kCIInputImageKey];
-//        [filter setValue:[NSNumber numberWithFloat:5.0] forKey:@"inputRadius"];
-//        CIImage *result = [filter valueForKey:kCIOutputImageKey];
-//        CGImageRef cgImageRef = [context createCGImage:result fromRect:result.extent];
-//        self.image = [UIImage imageWithCGImage:cgImageRef];
-//        CGImageRelease(cgImageRef);
-//    }
 //    [self.tableView reloadData];
 //    [picker dismissViewControllerAnimated:YES completion:nil];
 }
