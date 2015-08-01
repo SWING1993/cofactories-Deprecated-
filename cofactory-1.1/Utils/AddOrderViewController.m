@@ -8,6 +8,7 @@
 
 #import "Header.h"
 #import "AddOrderViewController.h"
+#import <Accelerate/Accelerate.h>
 
 @interface AddOrderViewController () <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -130,6 +131,19 @@
                     [alertView show];
                     NSDictionary*data = responseDictionary[@"data"];
                     self.oid = data[@"oid"];
+                    if (self.image) {
+
+                        [HttpClient uploadOrderImageWithImage:self.image oid:self.oid andblock:^(NSDictionary *dictionary) {
+                            if ([dictionary[@"statusCode"] intValue]==200) {
+                                NSLog(@"图片上传成功");
+                            }else{
+                                NSLog(@"图片上传失败%@",dictionary);
+                            }
+                        }];
+                    }else{
+                        NSLog(@"没有图片");
+                    }
+
 
                 }else{
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
@@ -151,6 +165,19 @@
                     [alertView show];
                     NSDictionary*data = responseDictionary[@"data"];
                     self.oid = data[@"oid"];
+                    if (self.image) {
+
+                        [HttpClient uploadOrderImageWithImage:self.image oid:self.oid andblock:^(NSDictionary *dictionary) {
+                            if ([dictionary[@"statusCode"] intValue]==200) {
+                                NSLog(@"图片上传成功");
+                            }else{
+                                NSLog(@"图片上传失败%@",dictionary);
+                            }
+                        }];
+                    }else{
+                        NSLog(@"没有图片");
+                    }
+
                 }else{
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                     [alertView show];
@@ -163,26 +190,10 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 
     NSLog(@"oid=%@",self.oid);
-
-    if (self.image) {
-    
-        [HttpClient uploadOrderImageWithImage:self.image oid:self.oid andblock:^(NSDictionary *dictionary) {
-            if ([dictionary[@"statusCode"] intValue]==200) {
-                OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
-                orderListVC.HiddenJSDropDown=YES;
-                orderListVC.isHistory=NO;
-                [self.navigationController pushViewController:orderListVC animated:YES];
-            }else{
-                NSLog(@"图片上传失败%@",dictionary);
-            }
-        }];
-    }else{
-        NSLog(@"没有图片");
-        OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
-        orderListVC.HiddenJSDropDown=YES;
-        orderListVC.isHistory=NO;
-        [self.navigationController pushViewController:orderListVC animated:YES];
-    }
+    OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
+    orderListVC.HiddenJSDropDown=YES;
+    orderListVC.isHistory=NO;
+    [self.navigationController pushViewController:orderListVC animated:YES];
 }
 
 - (void)clickTypeBtn:(UIButton *)sender {
@@ -449,7 +460,6 @@
             imagePickerController.delegate = self;
             imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
             // 使用自定义 overlay
-            imagePickerController.showsCameraControls = YES;
             imagePickerController.showsCameraControls = NO;
             [[NSBundle mainBundle] loadNibNamed:@"OverlayView" owner:self options:nil];
             self.overlayView.frame = imagePickerController.cameraOverlayView.frame;
@@ -481,31 +491,105 @@
 #pragma mark <UIImagePickerControllerDelegate>
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *aImage = info[UIImagePickerControllerOriginalImage];
-
-
-
     if (self.isBlur) {
         // 高斯模糊
-        NSLog(@"高斯模糊=%d",self.isBlur);
-        CIContext *context = [CIContext contextWithOptions:nil];
-        CIImage *inputImage = [[CIImage alloc] initWithImage:aImage];
-        CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
-        [filter setValue:inputImage forKey:kCIInputImageKey];
-        [filter setValue:[NSNumber numberWithFloat:5.0] forKey:@"inputRadius"];
-        CIImage *result = [filter valueForKey:kCIOutputImageKey];
-        CGImageRef cgImageRef = [context createCGImage:result fromRect:result.extent];
-        UIImage*newImage = [UIImage imageWithCGImage:cgImageRef];
-        CGImageRelease(cgImageRef);
+
+        self.isBlur=!self.isBlur;
+        NSLog(@"高斯模糊");
+        //boxSize必须大于0
+        int boxSize = (int)(0.5f * 100);
+        boxSize -= (boxSize % 2) + 1;
+        NSLog(@"boxSize:%i",boxSize);
+        //图像处理
+        CGImageRef img = aImage.CGImage;
+        //需要引入
+        /*
+         This document describes the Accelerate Framework, which contains C APIs for vector and matrix math, digital signal processing, large number handling, and image processing.
+         本文档介绍了Accelerate Framework，其中包含C语言应用程序接口（API）的向量和矩阵数学，数字信号处理，大量处理和图像处理。
+         */
+
+        //图像缓存,输入缓存，输出缓存
+        vImage_Buffer inBuffer, outBuffer;
+        vImage_Error error;
+        //像素缓存
+        void *pixelBuffer;
+
+        //数据源提供者，Defines an opaque type that supplies Quartz with data.
+        CGDataProviderRef inProvider = CGImageGetDataProvider(img);
+        // provider’s data.
+        CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
+
+        //宽，高，字节/行，data
+        inBuffer.width = CGImageGetWidth(img);
+        inBuffer.height = CGImageGetHeight(img);
+        inBuffer.rowBytes = CGImageGetBytesPerRow(img);
+        inBuffer.data = (void*)CFDataGetBytePtr(inBitmapData);
+
+        //像数缓存，字节行*图片高
+        pixelBuffer = malloc(CGImageGetBytesPerRow(img) * CGImageGetHeight(img));
+
+        outBuffer.data = pixelBuffer;
+        outBuffer.width = CGImageGetWidth(img);
+        outBuffer.height = CGImageGetHeight(img);
+        outBuffer.rowBytes = CGImageGetBytesPerRow(img);
+
+
+        // 第三个中间的缓存区,抗锯齿的效果
+        void *pixelBuffer2 = malloc(CGImageGetBytesPerRow(img) * CGImageGetHeight(img));
+        vImage_Buffer outBuffer2;
+        outBuffer2.data = pixelBuffer2;
+        outBuffer2.width = CGImageGetWidth(img);
+        outBuffer2.height = CGImageGetHeight(img);
+        outBuffer2.rowBytes = CGImageGetBytesPerRow(img);
+
+
+        //Convolves a region of interest within an ARGB8888 source image by an implicit M x N kernel that has the effect of a box filter.
+        error = vImageBoxConvolve_ARGB8888(&inBuffer, &outBuffer2, NULL, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend);
+        error = vImageBoxConvolve_ARGB8888(&outBuffer2, &inBuffer, NULL, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend);
+        error = vImageBoxConvolve_ARGB8888(&inBuffer, &outBuffer, NULL, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend);
+
+
+        if (error) {
+            NSLog(@"error from convolution %ld", error);
+        }
+
+
+        //NSLog(@"字节组成部分：%zu",CGImageGetBitsPerComponent(img));
+        //颜色空间DeviceRGB
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        //用图片创建上下文,CGImageGetBitsPerComponent(img),7,8
+        CGContextRef ctx = CGBitmapContextCreate(
+                                                 outBuffer.data,
+                                                 outBuffer.width,
+                                                 outBuffer.height,
+                                                 8,
+                                                 outBuffer.rowBytes,
+                                                 colorSpace,
+                                                 CGImageGetBitmapInfo(aImage.CGImage));
+
+        //根据上下文，处理过的图片，重新组件
+        CGImageRef imageRef = CGBitmapContextCreateImage (ctx);
+        UIImage *returnImage = [UIImage imageWithCGImage:imageRef];
+
+        //clean up
+        CGContextRelease(ctx);
+        CGColorSpaceRelease(colorSpace);
+
+        free(pixelBuffer);
+        free(pixelBuffer2);
+        CFRelease(inBitmapData);
+
+        CGColorSpaceRelease(colorSpace);
+        CGImageRelease(imageRef);
+
         [picker dismissViewControllerAnimated:YES completion:^{
-            self.image = newImage;
+            self.image = returnImage;
             [self.tableView reloadData];
         }];
     }else{
 
-        NSLog(@"没有高斯模糊=%d",self.isBlur);
-
+        NSLog(@"不经过高斯模糊处理");
         NSData*imageData = UIImageJPEGRepresentation(aImage, 0.4);
-
         UIImage*newImage = [[UIImage alloc]initWithData:imageData];
 
         [picker dismissViewControllerAnimated:YES completion:^{
@@ -515,73 +599,6 @@
     }
 
 
-
-//    if (aImage.imageOrientation != UIImageOrientationUp) {
-//        CGAffineTransform transform = CGAffineTransformIdentity;
-//        switch (aImage.imageOrientation) {
-//            case UIImageOrientationDown:
-//            case UIImageOrientationDownMirrored:
-//                transform = CGAffineTransformTranslate(transform, aImage.size.width, aImage.size.height);
-//                transform = CGAffineTransformRotate(transform, M_PI);
-//                break;
-//            case UIImageOrientationLeft:
-//            case UIImageOrientationLeftMirrored:
-//                transform = CGAffineTransformTranslate(transform, aImage.size.width, 0);
-//                transform = CGAffineTransformRotate(transform, M_PI_2);
-//                break;
-//            case UIImageOrientationRight:
-//            case UIImageOrientationRightMirrored:
-//                transform = CGAffineTransformTranslate(transform, 0, aImage.size.height);
-//                transform = CGAffineTransformRotate(transform, -M_PI_2);
-//                break;
-//
-//            default:
-//                break;
-//        }
-//        switch (aImage.imageOrientation) {
-//            case UIImageOrientationUpMirrored:
-//            case UIImageOrientationDownMirrored:
-//                transform = CGAffineTransformTranslate(transform, aImage.size.width, 0);
-//                transform = CGAffineTransformScale(transform, -1, 1);
-//                break;
-//
-//            case UIImageOrientationLeftMirrored:
-//            case UIImageOrientationRightMirrored:
-//                transform = CGAffineTransformTranslate(transform, aImage.size.height, 0);
-//                transform = CGAffineTransformScale(transform, -1, 1);
-//                break;
-//            default:
-//                break;
-//        }
-//        CGContextRef ctx = CGBitmapContextCreate(NULL, aImage.size.width, aImage.size.height,
-//                                                 CGImageGetBitsPerComponent(aImage.CGImage), 0,
-//                                                 CGImageGetColorSpace(aImage.CGImage),
-//                                                 CGImageGetBitmapInfo(aImage.CGImage));
-//        CGContextConcatCTM(ctx, transform);
-//        switch (aImage.imageOrientation) {
-//            case UIImageOrientationLeft:
-//            case UIImageOrientationLeftMirrored:
-//            case UIImageOrientationRight:
-//            case UIImageOrientationRightMirrored:
-//                // Grr...
-//                CGContextDrawImage(ctx, CGRectMake(0,0,aImage.size.height,aImage.size.width), aImage.CGImage);
-//                break;
-//
-//            default:
-//                CGContextDrawImage(ctx, CGRectMake(0,0,aImage.size.width,aImage.size.height), aImage.CGImage);
-//                break;
-//        }
-//        CGImageRef cgimg = CGBitmapContextCreateImage(ctx);
-//        UIImage *img = [UIImage imageWithCGImage:cgimg];
-//        CGContextRelease(ctx);
-//        CGImageRelease(cgimg);
-//        self.image = img;
-//    } else {
-//        self.image = aImage;
-//    }
-//
-//    [self.tableView reloadData];
-//    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 
