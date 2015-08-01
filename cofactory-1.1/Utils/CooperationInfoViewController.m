@@ -97,20 +97,20 @@
 
     leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW/2+30, ImageViewHeight-50)];
     leftImage.contentMode=UIViewContentModeScaleAspectFill;
-    leftImage.layer.borderWidth=1.0f;
+    leftImage.layer.borderWidth=0.5f;
     leftImage.layer.borderColor=[UIColor blackColor].CGColor;
     leftImage.clipsToBounds=YES;
 
     rightImage1 = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2+30, 0, kScreenW-kScreenW/2-30, (ImageViewHeight-50)/2)];
     rightImage1.contentMode=UIViewContentModeScaleAspectFill;
     rightImage1.clipsToBounds=YES;
-    rightImage1.layer.borderWidth=1.0f;
+    rightImage1.layer.borderWidth=0.5f;
     rightImage1.layer.borderColor=[UIColor blackColor].CGColor;
 
     rightImage2 = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2+30, (ImageViewHeight-50)/2, kScreenW-kScreenW/2-30, (ImageViewHeight-50)/2)];
     rightImage2.contentMode=UIViewContentModeScaleAspectFill;
     rightImage2.clipsToBounds=YES;
-    rightImage2.layer.borderWidth=1.0f;
+    rightImage2.layer.borderWidth=0.5f;
     rightImage2.layer.borderColor=[UIColor blackColor].CGColor;
 
 
@@ -129,6 +129,8 @@
     UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, ImageViewHeight-80, 60, 60)];
     headerImage.layer.cornerRadius=60/2.0f;
     headerImage.layer.masksToBounds=YES;
+    headerImage.layer.borderWidth=0.3f;
+    headerImage.layer.borderColor=[UIColor blackColor].CGColor;
     headerImage.contentMode=UIViewContentModeScaleAspectFill;
 
 //    [[SDImageCache sharedImageCache]clearDisk];

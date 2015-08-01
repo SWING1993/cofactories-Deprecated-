@@ -93,6 +93,8 @@
         FactoryModel*factoryModel=self.modelArray[indexPath.section];
 //        [[SDImageCache sharedImageCache]clearDisk];
         UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 80, 80)];
+        headerImage.layer.borderWidth=0.3f;
+        headerImage.layer.borderColor=[UIColor blackColor].CGColor;
         NSString* imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",factoryModel.uid];
         [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"消息头像"]];
         headerImage.clipsToBounds=YES;

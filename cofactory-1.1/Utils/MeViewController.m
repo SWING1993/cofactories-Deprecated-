@@ -112,6 +112,8 @@
     headerButton.backgroundColor=[UIColor blueColor];
     headerButton.layer.cornerRadius=60/2.0f;
     headerButton.layer.masksToBounds=YES;
+    headerButton.layer.borderWidth=0.3f;
+    headerButton.layer.borderColor=[UIColor blackColor].CGColor;
     [headerButton addTarget:self action:@selector(uploadBtn) forControlEvents:UIControlEventTouchUpInside];
 
 
