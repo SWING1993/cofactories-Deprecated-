@@ -222,7 +222,6 @@
 		BDC908ED1B4E9B3700856A32 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC908C51B4E9B3700856A32 /* UIProgressView+AFNetworking.m */; };
 		BDC908EE1B4E9B3700856A32 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC908C71B4E9B3700856A32 /* UIRefreshControl+AFNetworking.m */; };
 		BDC908EF1B4E9B3700856A32 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC908C91B4E9B3700856A32 /* UIWebView+AFNetworking.m */; };
-		BDC908F11B4E9B3700856A32 /* libUMessage_Sdk_1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDC908CF1B4E9B3700856A32 /* libUMessage_Sdk_1.1.0.a */; };
 		BDC908F21B4E9B3800856A32 /* UpYun.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC908D31B4E9B3700856A32 /* UpYun.m */; };
 		BDC908FC1B4E9B6B00856A32 /* FactoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC908F51B4E9B6B00856A32 /* FactoryModel.m */; };
 		BDC908FD1B4E9B6B00856A32 /* MessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC908F71B4E9B6B00856A32 /* MessageModel.m */; };
@@ -629,8 +628,6 @@
 		BDC908C71B4E9B3700856A32 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		BDC908C81B4E9B3700856A32 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		BDC908C91B4E9B3700856A32 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
-		BDC908CF1B4E9B3700856A32 /* libUMessage_Sdk_1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.1.0.a; sourceTree = "<group>"; };
-		BDC908D01B4E9B3700856A32 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		BDC908D21B4E9B3700856A32 /* UpYun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpYun.h; sourceTree = "<group>"; };
 		BDC908D31B4E9B3700856A32 /* UpYun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpYun.m; sourceTree = "<group>"; };
 		BDC908F41B4E9B6B00856A32 /* FactoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactoryModel.h; sourceTree = "<group>"; };
@@ -667,7 +664,6 @@
 				04746D151B6B0FED00C3C45E /* libUMSocial_Sdk_4.2.1.a in Frameworks */,
 				BD8C4DFD1B4FB2EA0065ECFA /* CFNetwork.framework in Frameworks */,
 				BD8C4DF51B4FB2BA0065ECFA /* libz.dylib in Frameworks */,
-				BDC908F11B4E9B3700856A32 /* libUMessage_Sdk_1.1.0.a in Frameworks */,
 				BDC908DF1B4E9B3700856A32 /* BaiduMapAPI.framework in Frameworks */,
 				BD8C4DF31B4FB2640065ECFA /* libMobClickLibrary.a in Frameworks */,
 			);
@@ -1069,7 +1065,6 @@
 			isa = PBXGroup;
 			children = (
 				BD8C4DEF1B4FB2640065ECFA /* UMAnalytics_Sdk_3.5.9 */,
-				BDC908CE1B4E9B3700856A32 /* UMessage_Sdk_1.1.0 */,
 				04746CEC1B6B0FD500C3C45E /* UMSocial */,
 				04746D181B6B284E00C3C45E /* UMengFeedback_SDK_2.3.1 */,
 			);
@@ -1538,16 +1533,6 @@
 				BDC908C91B4E9B3700856A32 /* UIWebView+AFNetworking.m */,
 			);
 			path = "UIKit+AFNetworking";
-			sourceTree = "<group>";
-		};
-		BDC908CE1B4E9B3700856A32 /* UMessage_Sdk_1.1.0 */ = {
-			isa = PBXGroup;
-			children = (
-				BDC908CF1B4E9B3700856A32 /* libUMessage_Sdk_1.1.0.a */,
-				BDC908D01B4E9B3700856A32 /* UMessage.h */,
-			);
-			name = UMessage_Sdk_1.1.0;
-			path = ../UMessage_Sdk_1.1.0;
 			sourceTree = "<group>";
 		};
 		BDC908D11B4E9B3700856A32 /* UpYun */ = {
@@ -2120,8 +2105,8 @@
 					"$(PROJECT_DIR)/cofactory-1.1/Utils/GPUImage",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "-ObjC -framework QuartzCore";
+				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "cofactory-1.1";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2152,8 +2137,8 @@
 					"$(PROJECT_DIR)/cofactory-1.1/Utils/UMengFeedback_SDK_2.3.1/UMOpus",
 					"$(PROJECT_DIR)/cofactory-1.1/Utils/GPUImage",
 				);
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "-ObjC -framework QuartzCore";
+				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "cofactory-1.1";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;

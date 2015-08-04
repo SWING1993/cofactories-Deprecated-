@@ -29,7 +29,7 @@
 
 //第三方
 #import "MobClick.h"
-#import "UMessage.h"
+//#import "UMessage.h"
 #import "MBProgressHUD.h"
 #import "UIButton+WebCache.h"
 #import "UIImageView+WebCache.h"
