@@ -478,9 +478,10 @@
                 break;
             case 6:
             {
-                // 找代裁厂信息
+                // 找锁眼钉扣厂信息
                 FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-                searchViewController.factoryType = 3;
+
+                searchViewController.factoryType = 2;
                 searchViewController.currentData1Index = 4;
                 searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
                 [self.navigationController pushViewController:searchViewController animated:YES];
@@ -488,10 +489,12 @@
                 break;
             case 7:
             {
-                // 找锁眼钉扣厂信息
+
+
+
+                // 找代裁厂信息
                 FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-                
-                searchViewController.factoryType = 2;
+                searchViewController.factoryType = 3;
                 searchViewController.currentData1Index = 3;
                 searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
                 [self.navigationController pushViewController:searchViewController animated:YES];

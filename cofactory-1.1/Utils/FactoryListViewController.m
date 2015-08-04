@@ -224,8 +224,14 @@
     NSLog(@"???????????%d",_refrushCount);
 
     NSNumber *num = [NSNumber numberWithInt:_refrushCount];
+
+
+    NSNumber *carNum = [NSNumber numberWithInt:self.isHaveTruck];
+
+
+     NSLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
     
-    [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil page:num andBlock:^(NSDictionary *responseDictionary) {
+    [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:carNum factoryFree:self.factoryFree page:num andBlock:^(NSDictionary *responseDictionary) {
         
         NSArray *array = responseDictionary[@"responseArray"];
 
@@ -314,7 +320,7 @@
             }
         }
             break;
-        case 2:
+        case 3:
             cell.factoryNatureLB.text = @"锁眼钉扣厂";
             cell.isHaveCarLB.hidden = YES;
             if (factoryModel.otherTwoFactoryStatus == 0)
@@ -326,7 +332,7 @@
                 cell.isBusyLB.hidden = YES;
             }
             break;
-        case 3:
+        case 2:
             cell.factoryNatureLB.text = @"代裁厂";
             cell.isHaveCarLB.hidden = YES;
             if (factoryModel.otherTwoFactoryStatus == 0)
@@ -665,14 +671,17 @@
         if (indexPath.leftRow == 3)
         {
             self.isHaveTruck = NO;//787878
-            self.factoryType = 2;
+            self.factoryType = 3;
             self.factoryServiceRange = nil;
+
         }
 
         if (indexPath.leftRow ==4)
         {
+
+
             self.isHaveTruck = NO;//787878
-            self.factoryType = 3;
+            self.factoryType = 2;
             self.factoryServiceRange = nil;
         }
     }

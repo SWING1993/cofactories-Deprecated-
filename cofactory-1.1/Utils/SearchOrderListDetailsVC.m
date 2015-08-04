@@ -176,7 +176,7 @@
             cell.textLabel.textColor = [UIColor grayColor];
             break;
         case 4:
-            cell.textLabel.text = [NSString stringWithFormat:@"工期:   %@",self.model.workingTime];
+            cell.textLabel.text = [NSString stringWithFormat:@"工期:   %@天",self.model.workingTime];
             cell.textLabel.font = [UIFont systemFontOfSize:13];
             cell.textLabel.textColor = [UIColor grayColor];
             break;

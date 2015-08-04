@@ -169,7 +169,7 @@
             break;
         case 4:
 
-            cell.textLabel.text = [NSString stringWithFormat:@"工期:   %@",self.model.workingTime];
+            cell.textLabel.text = [NSString stringWithFormat:@"工期:   %@天",self.model.workingTime];
             break;
         case 5:{
             NSString*timeString =[[Tools WithTime:self.model.createTime] firstObject];

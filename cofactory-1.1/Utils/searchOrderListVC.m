@@ -10,13 +10,15 @@
 #import "searchOrderListTVC.h"
 #import "SearchOrderListDetailsVC.h"
 #import "Header.h"
+#import "MJRefresh.h"
 
 @interface searchOrderListVC ()<UITableViewDataSource,UITableViewDelegate, JSDropDownMenuDataSource, JSDropDownMenuDelegate>
 {
     UITableView *_tableView;
+    int _refrushCount;
 }
 @property (nonatomic,strong)JSDropDownMenu *JSDropDownMenu;
-@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *dataArray;
 
 @property (nonatomic,assign) int role;
 @property (nonatomic,strong) NSString *factoryServiceRange;
@@ -37,92 +39,25 @@
 
 @implementation searchOrderListVC
 
-/*
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-   // NSLog(@"+++++=====orderListType==%d",self.orderListType);
-   // NSLog(@"+++++=====userType==%d",self.userType);
-    
-    switch (self.orderListType) {
-        case 1:
-        {
-            [HttpClient searchOrderWithRole:1 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:nil andBlock:^(NSDictionary *responseDictionary) {
-                self.dataArray = responseDictionary[@"responseArray"];
-                self.role = 1;
-
-                [_tableView reloadData];
-                NSLog(@"+++++responseDictionary==%@",self.dataArray);
-            }];
-        }
-            break;
-        case 2:
-        {
-            [HttpClient searchOrderWithRole:2 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:nil andBlock:^(NSDictionary *responseDictionary) {
-                self.dataArray = responseDictionary[@"responseArray"];
-                self.role = 2;
-
-                [_tableView reloadData];
-                 NSLog(@"+++++responseDictionary==%@",self.dataArray);
-            }];
-        }
-            
-            break;
-        case 3:
-        {
-            [HttpClient searchOrderWithRole:3 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:nil andBlock:^(NSDictionary *responseDictionary) {
-                self.dataArray = responseDictionary[@"responseArray"];
-                self.role = 3;
-
-                [_tableView reloadData];
-
-                 NSLog(@"+++++responseDictionary==%@",self.dataArray);
-            }];
-        }
-            
-            break;
-            
-        default:
-            break;
-    }
-
-    NSLog(@"+++++++++======self.role=%d,self.factoryServiceRange=%@,self.time=%@,self.min=%@,self.max=%@",self.orderListType,self.factoryServiceRange,self.time,self.min,self.max);
-
-    
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [HttpClient searchOrderWithRole:self.role FactoryServiceRange:self.factoryServiceRange Time:self.time AmountMin:self.min AmountMax:self.max Page:nil andBlock:^(NSDictionary *responseDictionary) {
-        
-        self.dataArray = responseDictionary[@"responseArray"];
-        NSLog(@"222");
-        [_tableView reloadData];
-        //     NSLog(@"+++++responseDictionary==%@",self.dataArray);
-    }];
-}
-*/
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
+
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    
+
+
     /**创建三个选项栏标题数组，初始化时后两个为空
      */
     NSArray *processArray = @[@"加工厂不限类型", @"针织", @"梭织"];
     _data1 = [NSMutableArray arrayWithObjects:@{@"title": @"全部分类", @"data": @[@"订单类型"]}, @{@"title": @"加工厂", @"data": processArray}, @{@"title": @"代裁厂", @"data": @[@"代裁厂全部分类"]}, @{@"title": @"锁眼钉扣", @"data": @[@"锁眼钉扣全部分类"]}, nil];//数组里面的元素是字典
     _data2 = [NSMutableArray arrayWithObjects:@"订单数量", nil];
     _data3 = [NSMutableArray arrayWithObjects:@"订单期限", nil];
-    
-    
-    
-    
+
+
+
+
     /*创建选项栏，并进行一些设置*/
     self.JSDropDownMenu = [[JSDropDownMenu alloc] initWithOrigin:CGPointMake(0, 64) andHeight:44];
     self.JSDropDownMenu.indicatorColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:1.0];
@@ -131,8 +66,8 @@
     self.JSDropDownMenu.dataSource = self;
     self.JSDropDownMenu.delegate = self;
     [self.view addSubview:self.JSDropDownMenu];
-    
-    
+
+
     switch (_currentData1Index) {
         case 0:
             _currentData2Index = 0;
@@ -147,21 +82,21 @@
         case 2:
             _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"500-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
             _data3 = [NSMutableArray arrayWithObjects:@"1天", @"1-3天",@"3天以上", nil];
-            
+
             _currentData2Index = 0;
             _currentData3Index = 0;
             break;
-            
+
         default:
             _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"500-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
             _data3 = [NSMutableArray arrayWithObjects:@"1天", @"1-3天",@"3天以上", nil];
-            
+
             _currentData2Index = 0;
             _currentData3Index = 0;
             break;
     }
-    
-    
+
+
     _tableView= [[UITableView alloc]initWithFrame:CGRectMake(0, 64+44, kScreenW, kScreenH-110) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -172,10 +107,13 @@
     [_tableView registerClass:[searchOrderListTVC class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:_tableView];
 
+
+    self.dataArray = [[NSMutableArray alloc]initWithCapacity:0];
+
     switch (self.orderListType) {
         case 1:
         {
-            [HttpClient searchOrderWithRole:1 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:nil andBlock:^(NSDictionary *responseDictionary) {
+            [HttpClient searchOrderWithRole:1 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:@1 andBlock:^(NSDictionary *responseDictionary) {
                 self.dataArray = responseDictionary[@"responseArray"];
                 self.role = 1;
 
@@ -186,7 +124,7 @@
             break;
         case 2:
         {
-            [HttpClient searchOrderWithRole:2 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:nil andBlock:^(NSDictionary *responseDictionary) {
+            [HttpClient searchOrderWithRole:2 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:@1 andBlock:^(NSDictionary *responseDictionary) {
                 self.dataArray = responseDictionary[@"responseArray"];
                 self.role = 2;
 
@@ -198,7 +136,7 @@
             break;
         case 3:
         {
-            [HttpClient searchOrderWithRole:3 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:nil andBlock:^(NSDictionary *responseDictionary) {
+            [HttpClient searchOrderWithRole:3 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:@1 andBlock:^(NSDictionary *responseDictionary) {
                 self.dataArray = responseDictionary[@"responseArray"];
                 self.role = 3;
 
@@ -209,11 +147,65 @@
         }
 
             break;
-            
+
         default:
             break;
     }
+
+
+    _refrushCount = 1;
+    [self setupRefresh];
+
 }
+
+
+//开始刷新自定义方法
+- (void)setupRefresh
+{
+    [_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+
+    // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
+    _tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+    _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+    _tableView.footerRefreshingText = @"加载中。。。";
+}
+//上拉加载
+- (void)footerRereshing
+{
+    _refrushCount++;
+    NSLog(@"???????????%d",_refrushCount);
+    NSNumber *num = [NSNumber numberWithInt:_refrushCount];
+    [HttpClient searchOrderWithRole:self.role FactoryServiceRange:self.factoryServiceRange Time:self.time AmountMin:self.min AmountMax:self.max Page:num andBlock:^(NSDictionary *responseDictionary) {
+
+        NSArray *array = responseDictionary[@"responseArray"];
+
+        for (int i=0; i<array.count; i++)
+        {
+            OrderModel *model = array[i];
+
+            [self.dataArray addObject:model];
+        }
+        [_tableView reloadData];
+    }];
+
+
+    //
+    //        NSArray *array = responseDictionary[@"responseArray"];
+    //
+    //        for (int i=0; i<array.count; i++)
+    //        {
+    //            FactoryModel *model = array[i];
+    //
+    //            [self.factoryModelArray addObject:model];
+    //        }
+    //        [_tableView reloadData];
+    //
+    //    }];
+    //
+    //2,结束刷新
+    [_tableView footerEndRefreshing];
+}
+
 
 - (void)dealloc
 {
@@ -241,38 +233,74 @@
     OrderModel *model = self.dataArray[indexPath.row];
 
     NSLog(@">>>>>>>>??????%@",model.serviceRange);
+
+
+
     if (self.orderListType == 1)
     {
         cell.orderTypeLabel.hidden = NO;
         cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
+
+        cell.workingTimeLabel.hidden = NO;
+        cell.workingTimeLabel.text = [NSString stringWithFormat:@"期限 :  %@天",model.workingTime];
+
     }
 
-//    if (model.serviceRange == nil)
-//    {
-//        cell.orderTypeLabel.hidden = YES;
-//    }
+    //    if (model.serviceRange == nil)
+    //    {
+    //        cell.orderTypeLabel.hidden = YES;
+    //    }
     else
     {
         cell.orderTypeLabel.hidden = YES;
+        cell.workingTimeLabel.hidden = YES;
+
     }
-    
+
+
+    if (self.role == 0)
+    {
+
+        if (model.type == 1)
+        {
+            cell.orderTypeLabel.hidden = NO;
+            cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
+
+            cell.workingTimeLabel.hidden = NO;
+            cell.workingTimeLabel.text = [NSString stringWithFormat:@"期限 :  %@",model.workingTime];
+
+        }
+
+        //    if (model.serviceRange == nil)
+        //    {
+        //        cell.orderTypeLabel.hidden = YES;
+        //    }
+        else
+        {
+            cell.orderTypeLabel.hidden = YES;
+            cell.workingTimeLabel.hidden = YES;
+            
+        }
+        
+    }
+
+
     NSMutableArray *arr = [Tools WithTime:model.createTime];//gt123
     cell.timeLabel.text = arr[0];
     [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",model.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];//gt123
     self.uid = model.uid;
     cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
     cell.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"件"];
-    cell.workingTimeLabel.text = [NSString stringWithFormat:@"期限 :  %@",model.workingTime];
-    
+
     NSString *interestString = [NSString stringWithFormat:@"%@",model.interest];
-    if ([interestString isEqualToString:@"0"])
+    if ([interestString isEqualToString:@"(null)"])
     {
         cell.intersestLabelView.hidden = YES;
     }else
     {
         cell.interestCountLabel.text = [NSString stringWithFormat:@"%@%@",model.interest,@"家"];
     }
-    
+
     [cell.orderDetailsBtn addTarget:self action:@selector(orderDetailsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     cell.orderDetailsBtn.tag = indexPath.row+1;
     return cell;
@@ -300,7 +328,7 @@
         self.navigationItem.backBarButtonItem = backItem;
         self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
         [self.navigationController pushViewController:vc animated:YES];
-        
+
     }
 }
 
@@ -310,7 +338,7 @@
 }
 
 - (BOOL)displayByCollectionViewInColumn:(NSInteger)column {
-    
+
     return NO;
 }
 
@@ -329,7 +357,7 @@
 }
 
 - (NSInteger)currentLeftSelectedRow:(NSInteger)column {
-    
+
     if (column==0) {
         return _currentData1Index;
     }
@@ -339,7 +367,7 @@
     if (column==2) {
         return _currentData3Index;
     }
-    
+
     return 0;
 }
 
@@ -360,7 +388,7 @@
 }
 
 - (NSString *)menu:(JSDropDownMenu *)menu titleForColumn:(NSInteger)column{
-    
+
     switch (column) {
             //        case 0: return _data1[_currentData1Index];
         case 0: return [[_data1[_currentData1Index] objectForKey:@"data"] objectAtIndex:_currentData1SelectedIndex];
@@ -376,7 +404,7 @@
 }
 
 - (NSString *)menu:(JSDropDownMenu *)menu titleForRowAtIndexPath:(JSIndexPath *)indexPath {
-    
+
     if (indexPath.column == 0) {
         if (indexPath.leftOrRight == 0) {
             NSDictionary *menuDic = [_data1 objectAtIndex:indexPath.row];
@@ -392,7 +420,7 @@
     } else{
         return _data3[indexPath.row];
     }
-    
+
 }
 
 
@@ -415,27 +443,27 @@
                     _data3 = [NSMutableArray arrayWithObjects:@"3天", @"5天",@"5天以上", nil];
                     _currentData2Index = 0;
                     _currentData3Index = 0;
-                    
+
                     break;
                 case 2:
                     _data2 =[NSMutableArray arrayWithObjects: @"500件以内", @"500-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
                     _data3 = [NSMutableArray arrayWithObjects:@"1天", @"1-3天",@"3天以上", nil];
                     _currentData2Index = 0;
                     _currentData3Index = 0;
-                    
+
                     break;
-                    
+
                 default:
                     _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"500-1000件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
                     _data3 = [NSMutableArray arrayWithObjects:@"1天", @"1-3天",@"3天以上", nil];
                     _currentData2Index = 0;
                     _currentData3Index = 0;
-                    
+
                     break;
             }
             return;
         }
-        
+
         else {
             // 右边
             _currentData1SelectedIndex = indexPath.row;
@@ -448,29 +476,29 @@
         // 规模行
         _currentData3Index = indexPath.row;
     }
-    
-    
-  //  NSLog(@"%d %d %d %d", indexPath.column, indexPath.leftOrRight, indexPath.leftRow, indexPath.row);
-    
-    
+
+
+    //  NSLog(@"%d %d %d %d", indexPath.column, indexPath.leftOrRight, indexPath.leftRow, indexPath.row);
+
+
     // 筛选类型
     if (indexPath.column == 0 && indexPath.leftOrRight == 1 )
     {
-        
+
         if (indexPath.leftRow == 0 && indexPath.row ==0)
         {
-            self.role = nil; //所有订单
+            self.role = 0; //所有订单
             self.factoryServiceRange = @"";
             self.time = @"";
             self.min = nil;
             self.max = nil;
         }
-        
+
         if (indexPath.leftRow == 1)
         {
             self.role = 1;//加工厂
             self.orderListType = 1;
-            
+
             if (indexPath.row == 0)
             {
                 self.factoryServiceRange = @"";
@@ -483,16 +511,16 @@
             {
                 self.factoryServiceRange = @"梭织";
             }
-            
+
         }
-        
+
         if (indexPath.leftRow == 2)
         {
             self.role = 2; //代裁厂
             self.orderListType = 2;
             self.factoryServiceRange = nil;
         }
-        
+
         if (indexPath.leftRow ==3)
         {
             self.role = 3;//锁眼钉扣厂
@@ -500,8 +528,8 @@
             self.factoryServiceRange = nil;
         }
     }
-    
-    
+
+
     if (self.role == 0)
     {
         if (indexPath.column == 1 && indexPath.leftOrRight == 0 && indexPath.leftRow == 0 && indexPath.row == 0)
@@ -511,20 +539,20 @@
             self.time = @"";
             self.factoryServiceRange = @"";
         }
-        
+
         if (indexPath.column == 2 && indexPath.leftOrRight == 0 && indexPath.leftRow == 0 && indexPath.row == 0)
         {
             self.max = nil;
             self.min = nil;
             self.time = @"";
             self.factoryServiceRange = @"";
-            
+
         }
-        
-        
+
+
     }
-    
-    
+
+
     if (self.role == 1)
     {
         // 筛选工厂规模
@@ -536,34 +564,34 @@
                 self.min = @0;
                 self.max = @500;
             }
-            
-            
+
+
             if (indexPath.leftRow ==1 && indexPath.row ==1 )
             {
                 self.min = @500;
                 self.max = @1000;
             }
-            
+
             if (indexPath.leftRow ==2 && indexPath.row ==2 )
             {
                 self.min = @1000;
                 self.max = @2000;
             }
-            
+
             if (indexPath.leftRow ==3 && indexPath.row ==3 )
             {
                 self.min = @2000;
                 self.max = @5000;
             }
-            
+
             if (indexPath.leftRow ==4 && indexPath.row ==4 )
             {
                 self.min = @5000;
                 self.max = nil;
             }
-            
+
         }
-        
+
         // 筛选时间
         if (indexPath.column == 2 && indexPath.leftOrRight == 0)
         {
@@ -572,94 +600,98 @@
             {
                 self.time = @"3天";
             }
-            
+
             if (indexPath.leftRow ==1 && indexPath.row ==1 )
             {
                 self.time = @"5天";
             }
-            
+
             if (indexPath.leftRow ==2 && indexPath.row ==2 )
             {
                 self.time = @"5天以上";
-                
+
             }
-            
+
         }
     }
-    
-    
+
+
     if (self.role == 2 || self.role == 3)
     {
         // 筛选规模
         if (indexPath.column == 1 && indexPath.leftOrRight == 0)
         {
-            
+
             NSLog(@"21");
             if (indexPath.leftRow ==0 && indexPath.row ==0 )
             {
                 self.min = @0;
                 self.max = @500;
             }
-            
-            
+
+
             if (indexPath.leftRow ==1 && indexPath.row ==1 )
             {
                 self.min = @500;
                 self.max = @1000;
             }
-            
+
             if (indexPath.leftRow ==2 && indexPath.row ==2 )
             {
                 self.min = @1000;
                 self.max = @2000;
             }
-            
+
             if (indexPath.leftRow ==3 && indexPath.row ==3 )
             {
                 self.min = @2000;
                 self.max = @5000;
             }
-            
+
             if (indexPath.leftRow ==4 && indexPath.row ==4 )
             {
                 self.min = @5000;
                 self.max = nil;
             }
-            
+
         }
-        
+
         // 筛选时间
         if (indexPath.column == 2 && indexPath.leftOrRight == 0)
         {
-            
+
             NSLog(@"22");
             if (indexPath.leftRow ==0 && indexPath.row ==0 )
             {
                 self.time = @"1天";
             }
-            
+
             if (indexPath.leftRow ==1 && indexPath.row ==1 )
             {
                 self.time = @"1-3天";
             }
-            
+
             if (indexPath.leftRow ==2 && indexPath.row ==2 )
             {
                 self.time = @"3天以上";
             }
-            
+
         }
-        
-        
+
+
     }
-    
+
     NSLog(@"self.role=%d,self.factoryServiceRange=%@,self.time=%@,self.min=%@,self.max=%@",self.role,self.factoryServiceRange,self.time,self.min,self.max);
-    
-    [HttpClient searchOrderWithRole:self.role FactoryServiceRange:self.factoryServiceRange Time:self.time AmountMin:self.min AmountMax:self.max Page:nil andBlock:^(NSDictionary *responseDictionary) {
-        
+
+
+
+    _refrushCount = 1;
+    [HttpClient searchOrderWithRole:self.role FactoryServiceRange:self.factoryServiceRange Time:self.time AmountMin:self.min AmountMax:self.max Page:@1 andBlock:^(NSDictionary *responseDictionary) {
+
+        self.dataArray = nil;
         self.dataArray = responseDictionary[@"responseArray"];
         [_tableView reloadData];
-   //     NSLog(@"+++++responseDictionary==%@",self.dataArray);
+        //     NSLog(@"+++++responseDictionary==%@",self.dataArray);
     }];
     
     

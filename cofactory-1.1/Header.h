@@ -35,7 +35,6 @@
 #import "UIImageView+WebCache.h"
 #import "JSDropDownMenu.h"//筛选
 #import "ODRefreshControl.h"//下拉刷新
-#import "SVPullToRefresh.h"
 
 //工具类
 #import "HttpClient.h"

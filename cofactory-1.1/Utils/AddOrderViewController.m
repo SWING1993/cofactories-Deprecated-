@@ -76,7 +76,8 @@
     }
     self.tableView.tableHeaderView=headerView;
 
-    self.listData = @[@[@"订单类型", @"完成期限", @"订单数量", @"上传订单照片"], @[@"完成期限", @"订单数量", @"上传订单照片"], @[@"完成期限", @"订单数量", @"上传订单照片"]];
+    //@"完成期限",@"完成期限",
+    self.listData = @[@[@"订单类型", @"完成期限", @"订单数量", @"上传订单照片"], @[ @"订单数量", @"上传订单照片"], @[ @"订单数量", @"上传订单照片"]];
     self.pickList =@[@[@"针织", @"梭织"],@[@"3天", @"5天", @"5天以上"]];
     self.type = 0;
 
@@ -216,7 +217,7 @@
         {
             self.type=1;
             self.title=@"代裁厂订单";
-            pushOrderBtn.frame=CGRectMake(30, 210, kScreenW-60, 40);
+            pushOrderBtn.frame=CGRectMake(30, 160, kScreenW-60, 40);
 
             [self.tableView reloadData];
         }
@@ -225,7 +226,7 @@
         {
             self.type=2;
             self.title=@"锁眼钉扣订单";
-            pushOrderBtn.frame=CGRectMake(30, 210, kScreenW-60, 40);
+            pushOrderBtn.frame=CGRectMake(30, 160, kScreenW-60, 40);
             [self.tableView reloadData];
         }
             break;
@@ -400,20 +401,26 @@
             switch (indexPath.section) {
                 case 0:
                 {
-                    [cell addSubview:dateTextField];
+                    //[cell addSubview:dateTextField];
+                    [cell addSubview:numberTextField];
                 }
                     break;
                 case 1:
                 {
-                    [cell addSubview:numberTextField];
-                }
-                    break;
-                case 2:
-                {
+                    //[cell addSubview:numberTextField];
                     UIImageView*imageView = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-44-30, 0, 44, 44)];
                     imageView.image=self.image;
                     [cell addSubview:imageView];
                     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+
+                }
+                    break;
+                case 2:
+                {
+//                    UIImageView*imageView = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-44-30, 0, 44, 44)];
+//                    imageView.image=self.image;
+//                    [cell addSubview:imageView];
+//                    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 
                 }
                     break;
@@ -589,7 +596,7 @@
     }else{
 
         NSLog(@"不经过高斯模糊处理");
-        NSData*imageData = UIImageJPEGRepresentation(aImage, 0.4);
+        NSData*imageData = UIImageJPEGRepresentation(aImage, 0.3);
         UIImage*newImage = [[UIImage alloc]initWithData:imageData];
 
         [picker dismissViewControllerAnimated:YES completion:^{
