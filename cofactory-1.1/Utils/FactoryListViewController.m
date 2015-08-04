@@ -10,6 +10,7 @@
 #import "FactoryListViewController.h"
 #import "FactoryListTableViewCell.h"
 #import "THDatePickerViewController.h"
+#import "MJRefresh.h"
 
 @interface FactoryListViewController ()<UITableViewDataSource,UITableViewDelegate,JSDropDownMenuDataSource,JSDropDownMenuDelegate,UISearchBarDelegate,THDatePickerDelegate,UITextFieldDelegate>
 {
@@ -18,10 +19,11 @@
     UIView *_view;
     NSNumber *_number;
     NSDateFormatter *_dateFormatter;
+    int _refrushCount;
 }
 
 @property (nonatomic,strong)JSDropDownMenu *JSDropDownMenu;
-@property (nonatomic,strong)NSArray *factoryModelArray;
+@property (nonatomic,strong)NSMutableArray *factoryModelArray;
 /**创建三个选项栏
  */
 @property (nonatomic, strong) NSMutableArray *data1;
@@ -54,27 +56,28 @@
 
 @implementation FactoryListViewController
 
-- (void)addInfinite {
+////上拉加载
+//- (void)footerRereshing
+//{
+//    static int a = 0;
+//    a++;
+//    NSLog(@"++%d",a);
+//    
+//    
+//    
+//    [_tableView reloadData];
+//    //2,结束刷新
+//    [_tableView footerEndRefreshing];
+//    
+//    
+//}
 
-    [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil page:(@2)andBlock:^(NSDictionary *responseDictionary) {
-        self.factoryModelArray = nil;
-        self.factoryModelArray = responseDictionary[@"responseArray"];
-        [_tableView reloadData];
-
-    }];
-
-    [_tableView.infiniteScrollingView stopAnimating];
-
-}
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [_tableView addInfiniteScrollingWithActionHandler:^{
-        [self performSelector:@selector(addInfinite) withObject:self afterDelay:1.5];
-    }];
-
+ 
     self.title=@"";
     //创建表
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 45, self.view.frame.size.width, self.view.frame.size.height-45) style:UITableViewStylePlain];
@@ -84,6 +87,10 @@
     _tableView.rowHeight = 80;
     [_tableView registerClass:[FactoryListTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:_tableView];
+    
+    self.factoryModelArray = [[NSMutableArray alloc]initWithCapacity:0];
+
+    
     
     //787878根据条件判断是否有货车
     NSArray *btnTitleArray = @[@"有货车",@"无货车"];
@@ -193,10 +200,49 @@
 
     }];
 
-
+    _refrushCount = 1;
+    [self setupRefresh];
 
     
 }
+
+
+//开始刷新自定义方法
+- (void)setupRefresh
+{
+    [_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    
+    // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
+    _tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+    _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+    _tableView.footerRefreshingText = @"加载中。。。";
+}
+//上拉加载
+- (void)footerRereshing
+{
+    _refrushCount++;
+    NSLog(@"???????????%d",_refrushCount);
+
+    NSNumber *num = [NSNumber numberWithInt:_refrushCount];
+    
+    [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil page:num andBlock:^(NSDictionary *responseDictionary) {
+        
+        NSArray *array = responseDictionary[@"responseArray"];
+
+        for (int i=0; i<array.count; i++)
+        {
+            FactoryModel *model = array[i];
+            
+            [self.factoryModelArray addObject:model];
+        }
+        [_tableView reloadData];
+        
+    }];
+
+    //2,结束刷新
+    [_tableView footerEndRefreshing];
+}
+
 
 #pragma mark--表的协议方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -369,6 +415,8 @@
         _number = @0;
     }
 
+    
+    _refrushCount = 1;
     [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree  page:(@1) andBlock:^(NSDictionary *responseDictionary) {
         
         self.factoryModelArray = nil;
@@ -1196,7 +1244,7 @@
     
     
 
-    
+    _refrushCount = 1;
     [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree  page:(@1) andBlock:^(NSDictionary *responseDictionary) {
         
         self.factoryModelArray = nil;
@@ -1224,6 +1272,8 @@
     [searchBar resignFirstResponder];
     NSLog(@"333%@",searchBar.text);
 
+    
+    _refrushCount = 1;
     [HttpClient searchWithFactoryName:searchBar.text factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil page:(@1)andBlock:^(NSDictionary *responseDictionary) {
         
         self.factoryModelArray = nil;
@@ -1265,6 +1315,7 @@
     
     NSLog(@"++++++++++========self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
 
+    _refrushCount = 1;
     [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree page:(@1) andBlock:^(NSDictionary *responseDictionary) {
         
         self.factoryModelArray = nil;
