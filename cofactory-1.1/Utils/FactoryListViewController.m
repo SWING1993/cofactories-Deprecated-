@@ -54,11 +54,26 @@
 
 @implementation FactoryListViewController
 
+- (void)addInfinite {
 
+    [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil page:(@2)andBlock:^(NSDictionary *responseDictionary) {
+        self.factoryModelArray = nil;
+        self.factoryModelArray = responseDictionary[@"responseArray"];
+        [_tableView reloadData];
+
+    }];
+
+    [_tableView.infiniteScrollingView stopAnimating];
+
+}
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    [_tableView addInfiniteScrollingWithActionHandler:^{
+        [self performSelector:@selector(addInfinite) withObject:self afterDelay:1.5];
+    }];
 
     self.title=@"";
     //创建表
@@ -171,9 +186,7 @@
             break;
     }
 
-
-    
-    [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil andBlock:^(NSDictionary *responseDictionary) {
+    [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil page:(@1)andBlock:^(NSDictionary *responseDictionary) {
         self.factoryModelArray = nil;
         self.factoryModelArray = responseDictionary[@"responseArray"];
         [_tableView reloadData];
@@ -356,7 +369,7 @@
         _number = @0;
     }
 
-    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree andBlock:^(NSDictionary *responseDictionary) {
+    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree  page:(@1) andBlock:^(NSDictionary *responseDictionary) {
         
         self.factoryModelArray = nil;
         self.factoryModelArray = responseDictionary[@"responseArray"];
@@ -1184,7 +1197,7 @@
     
 
     
-    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree andBlock:^(NSDictionary *responseDictionary) {
+    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree  page:(@1) andBlock:^(NSDictionary *responseDictionary) {
         
         self.factoryModelArray = nil;
         self.factoryModelArray = responseDictionary[@"responseArray"];
@@ -1211,7 +1224,7 @@
     [searchBar resignFirstResponder];
     NSLog(@"333%@",searchBar.text);
 
-    [HttpClient searchWithFactoryName:searchBar.text factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil andBlock:^(NSDictionary *responseDictionary) {
+    [HttpClient searchWithFactoryName:searchBar.text factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil page:(@1)andBlock:^(NSDictionary *responseDictionary) {
         
         self.factoryModelArray = nil;
         self.factoryModelArray = responseDictionary[@"responseArray"];
@@ -1252,7 +1265,7 @@
     
     NSLog(@"++++++++++========self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
 
-    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree andBlock:^(NSDictionary *responseDictionary) {
+    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree page:(@1) andBlock:^(NSDictionary *responseDictionary) {
         
         self.factoryModelArray = nil;
         self.factoryModelArray = responseDictionary[@"responseArray"];

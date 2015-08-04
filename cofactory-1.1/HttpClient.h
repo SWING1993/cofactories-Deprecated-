@@ -185,7 +185,7 @@
  @param factoryDistanceMax  工厂距离最大值(必须是最大值,且用 NSNumber 包装)
  @param block               回调函数 会返回 @{@"statusCode": @200, @"model": FactoryModel对象数组}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误)
  */
-+ (void)searchWithFactoryName:(NSString *)factoryName factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax Truck:(id)hasTruck factoryFree:(id)factoryFree andBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)searchWithFactoryName:(NSString *)factoryName factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax Truck:(id)hasTruck factoryFree:(id)factoryFree page:(NSNumber *)page andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 //是否有货车
 + (void)updateFactoryProfileWithHasTruck:(id)hasTruck andBlock:(void (^)(int statusCode))block;

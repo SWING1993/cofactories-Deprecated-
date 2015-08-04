@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		043257981B673D0400C3705D /* ODRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 043257971B673D0400C3705D /* ODRefreshControl.m */; };
+		045171BB1B70B03800BAA6E8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 045171BA1B70B03800BAA6E8 /* CoreFoundation.framework */; };
 		0451D6581B574BCB007CCD59 /* ico_make.png in Resources */ = {isa = PBXBuildFile; fileRef = 0451D6551B574BCB007CCD59 /* ico_make.png */; };
 		0451D6591B574BCB007CCD59 /* JSDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D6571B574BCB007CCD59 /* JSDropDownMenu.m */; };
 		0451D6691B579A19007CCD59 /* RevisePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D6681B579A19007CCD59 /* RevisePasswordViewController.m */; };
@@ -246,6 +247,7 @@
 /* Begin PBXFileReference section */
 		043257961B673D0400C3705D /* ODRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODRefreshControl.h; sourceTree = "<group>"; };
 		043257971B673D0400C3705D /* ODRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODRefreshControl.m; sourceTree = "<group>"; };
+		045171BA1B70B03800BAA6E8 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		0451D6551B574BCB007CCD59 /* ico_make.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ico_make.png; sourceTree = "<group>"; };
 		0451D6561B574BCB007CCD59 /* JSDropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSDropDownMenu.h; sourceTree = "<group>"; };
 		0451D6571B574BCB007CCD59 /* JSDropDownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSDropDownMenu.m; sourceTree = "<group>"; };
@@ -652,6 +654,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				045171BB1B70B03800BAA6E8 /* CoreFoundation.framework in Frameworks */,
 				04746D431B6B284E00C3C45E /* libUMFeedback.a in Frameworks */,
 				BD8C4DFB1B4FB2E10065ECFA /* Security.framework in Frameworks */,
 				04746D541B6B284E00C3C45E /* libUMOpus.a in Frameworks */,
@@ -1360,6 +1363,7 @@
 		BDC907AE1B4E9A5600856A32 = {
 			isa = PBXGroup;
 			children = (
+				045171BA1B70B03800BAA6E8 /* CoreFoundation.framework */,
 				BDC907B91B4E9A5700856A32 /* cofactory-1.1 */,
 				BDC907D31B4E9A5700856A32 /* cofactory-1.1Tests */,
 				BDC907B81B4E9A5700856A32 /* Products */,

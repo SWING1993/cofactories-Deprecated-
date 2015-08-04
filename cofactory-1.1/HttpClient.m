@@ -499,7 +499,7 @@
     }
 }
 
-+ (void)searchWithFactoryName:(NSString *)factoryName factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax Truck:(id)hasTruck factoryFree:(id)factoryFree andBlock:(void (^)(NSDictionary *responseDictionary))block {
++ (void)searchWithFactoryName:(NSString *)factoryName factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax Truck:(id)hasTruck factoryFree:(id)factoryFree page:(NSNumber *)page andBlock:(void (^)(NSDictionary *responseDictionary))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
@@ -528,6 +528,9 @@
     }
     if (factoryFree) {
         [mutableDictionary setObject:factoryFree forKey:@"factoryFree"];
+    }
+    if (page) {
+        [mutableDictionary setObject:page forKey:@"page"];
     }
     [manager GET:API_search parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSArray *jsonArray = (NSArray *)responseObject;
