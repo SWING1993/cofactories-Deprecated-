@@ -10,4 +10,5 @@
 
 @interface FactoryAndOrderMessVC : UITableViewController
 @property (nonatomic,assign)int facType;
+@property (nonatomic,copy) NSString *types;
 @end

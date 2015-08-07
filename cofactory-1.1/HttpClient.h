@@ -264,15 +264,74 @@
  获取系统消息
 
  @param block 回调函数 会返回 @{@"statusCode": @200, @"responseArray": 消息模型数组}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误) @{@"statusCode": @400, @"message": @"未登录"}->(未登录) @{@"statusCode": @401, @"message": @"access_token过期或者无效"}->(access_token过期或者无效) @{@"statusCode": @404, @"message": @"access_token不存在"}
+
  */
 + (void)getSystemMessageWithBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*!
- 整体更新推送设置
+ 删除推送设置
+
+ @param parameters index ->需要删除的设置在设置数组中的索引
+ @param access_token
+ @param block      回调函数 会返回 0->(网络错误) 201->(更新成功) 400->(未登录) 401->(access_toke过期或者无效) 404->(access_token不存在)
+ */
++ (void)deletePushSettingWithIndex:(NSNumber *)index andBlock:(void (^)(int statusCode))block;
+
+/*!
+ 添加推送设置
 
  @param parameters 推送设置数组(具体项目看API文档)
  @param block      回调函数 会返回 0->(网络错误) 201->(更新成功) 400->(未登录) 401->(access_toke过期或者无效) 404->(access_token不存在)
  */
-+ (void)updatePushSettingWithParameters:(NSArray *)parameters andBlock:(void (^)(int statusCode))block;
++ (void)addPushSettingWithFactoryType:(FactoryType)factoryType  Type:(NSString *)type FactoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax andBlock:(void (^)(int code))block ;
+
+
+/*!
+ 获取推送设置
+
+ @param parameters 推送设置数组(具体项目看API文档)
+ @param block      回调函数 会返回 0->(网络错误) 201->(更新成功) 400->(未登录) 401->(access_toke过期或者无效) 404->(access_token不存在)
+ */
+
++ (void)getPushSettingWithBlock:(void(^)(NSDictionary *dictionary))block;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*!
  注册设备(推送助手)
 
@@ -280,12 +339,8 @@
  @param block    回调函数 会返回 0->(网络错误) 201->(注册成功) 400->(未登录) 401->(access_toke过期或者无效) 404->(access_token不存在)
  */
 + (void)registerDeviceWithDeviceId:(NSString *)deviceId andBlock:(void (^)(int statusCode))block;
-/*!
- 获取推送设定
 
- @param block 回调函数 会返回 @{@"statusCode": @200, @"responseArray": 推送设定数组}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误) @{@"statusCode": @400, @"message": @"未登录"}->(未登录) @{@"statusCode": @401, @"message": @"access_token过期或者无效"}->(access_token过期或者无效) @{@"statusCode": @404, @"message": @"access_token不存在"}
- */
-+ (void)getPushSettingWithBlock:(void (^)(NSDictionary *dictionary))block;
+
 /*!
  提交认证资料
 

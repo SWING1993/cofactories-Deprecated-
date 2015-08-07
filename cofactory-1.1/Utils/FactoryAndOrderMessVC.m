@@ -9,7 +9,7 @@
 #import "FactoryAndOrderMessVC.h"
 #import "Header.h"
 
-@interface FactoryAndOrderMessVC () <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface FactoryAndOrderMessVC () <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSArray *listData;
 @property (nonatomic, strong) NSArray *pickList;
@@ -28,9 +28,13 @@
 @property (nonatomic,strong) UIToolbar *scaleToolbar;
 
 
+
+
+
 @end
 
-@implementation FactoryAndOrderMessVC{
+@implementation FactoryAndOrderMessVC
+{
 
     UITextField*dateTextField;
     UITextField*scalTextField;
@@ -45,7 +49,17 @@
     UIButton *pushOrderBtn;
     
     NSMutableArray *_messArray;
-    
+
+
+    //发送推送数据
+
+    int *_pushFacYype;
+    NSNumber *_pushDistenceMin;
+    NSNumber *_pushDistenceMax;
+    NSNumber *_pushPeopleMin;
+    NSNumber *_pushPeopleMax;
+    NSString *_pushBusinessType;
+
 }
 
 
@@ -480,23 +494,113 @@
         ServiceRangeTextField.text = @"";
     }
     
-    NSLog(@"type=%d>>dateTextField=%@>>ServiceRangeTextField=%@>>ServiceRangeTextField=%@",self.type,dateTextField.text,scalTextField.text,ServiceRangeTextField.text);
-    
-    NSNumber *type = [NSNumber numberWithInt:self.type];
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithCapacity:0];
-    [dic setObject:type forKey:@"facType"];
-    [dic setObject:dateTextField.text forKey:@"distence"];
-    [dic setObject:scalTextField.text forKey:@"scale"];
-    [dic setObject:ServiceRangeTextField.text forKey:@"businessType"];
-    
-    
-    [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"dic"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+  //  NSLog(@"type=%d>>dateTextField=%@>>ServiceRangeTextField=%@>>ServiceRangeTextField=%@",self.type,dateTextField.text,scalTextField.text,ServiceRangeTextField.text);
 
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
+
+    switch (self.type) {
+        case 0:
+            _pushFacYype = 100;
+            break;
+        case 1:
+            _pushFacYype = 1;
+            break;
+        case 2:
+            _pushFacYype = 2;
+            break;
+
+        default:
+            break;
+    }
+
+
+    if ([dateTextField.text isEqualToString:@"不限距离"]) {
+
+        _pushDistenceMin = @0;
+        _pushDistenceMax = @50000000000;
+
+    }else if ([dateTextField.text isEqualToString:@"10公里以内"]){
+        _pushDistenceMin = @0;
+        _pushDistenceMax = @10000;
+
+    }else if ([dateTextField.text isEqualToString:@"10-50公里"]){
+        _pushDistenceMin = @10000;
+        _pushDistenceMax = @50000;
+    }else if ([dateTextField.text isEqualToString:@"50-100公里"]){
+        _pushDistenceMin = @50000;
+        _pushDistenceMax = @100000;
+    }else if ([dateTextField.text isEqualToString:@"100-200公里"]){
+        _pushDistenceMin = @100000;
+        _pushDistenceMax = @200000;
+    }else if ([dateTextField.text isEqualToString:@"200-300公里"]){
+        _pushDistenceMin = @200000;
+        _pushDistenceMax = @300000;
+    }else if ([dateTextField.text isEqualToString:@"300公里以上"]){
+        _pushDistenceMin = @300000;
+        _pushDistenceMax = @100000000000000000;
+    }else if ([dateTextField.text isEqualToString:@"1公里以内"]){
+        _pushDistenceMin = @0;
+        _pushDistenceMax = @1000;
+    }else if ([dateTextField.text isEqualToString:@"1-5公里"]){
+        _pushDistenceMin = @1000;
+        _pushDistenceMax = @5000;
+    }else if ([dateTextField.text isEqualToString:@"5-10公里"]){
+        _pushDistenceMin = @5000;
+        _pushDistenceMax = @10000;
+    }
+
+    if ([scalTextField.text isEqualToString:@"不限规模"]) {
+        _pushPeopleMin = @0;
+        _pushPeopleMax = @5000000000;
+    }else if ([scalTextField.text isEqualToString:@"2-4人"]){
+        _pushPeopleMin = @2;
+        _pushPeopleMax = @4;
+    }else if ([scalTextField.text isEqualToString:@"4-10人"]){
+        _pushPeopleMin = @4;
+        _pushPeopleMax = @10;
+    }else if ([scalTextField.text isEqualToString:@"10-20人"]){
+        _pushPeopleMin = @10;
+        _pushPeopleMax = @20;
+    }else if ([scalTextField.text isEqualToString:@"20人以上"]){
+        _pushPeopleMin = @20;
+        _pushPeopleMax = @40000000000000;
+    }else if ([scalTextField.text isEqualToString:@"4人以上"]){
+        _pushPeopleMin = @4;
+        _pushPeopleMax = @40000000000000;
+    }
+
+
+
+    NSLog(@"+==+++_pushFacYype=%d,,ServiceRangeTextField=%@,,_pushDistenceMin=%@,,_pushDistenceMax=%@,,_pushPeopleMin=%@,,_pushPeopleMax=%@,,self.types=%@",_pushFacYype,ServiceRangeTextField.text,_pushDistenceMin,_pushDistenceMax,_pushPeopleMin,_pushPeopleMax,self.types);
+
+    [HttpClient addPushSettingWithFactoryType:_pushFacYype Type:self.types FactoryServiceRange:ServiceRangeTextField.text factorySizeMin:_pushPeopleMin factorySizeMax:_pushPeopleMax factoryDistanceMin:_pushDistenceMin factoryDistanceMax:_pushDistenceMax andBlock:^(int code) {
+        NSLog(@"%d",code);
+        if (code == 200) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"添加推送成功"
+                                                                message:nil
+                                                               delegate:self
+                                                      cancelButtonTitle:@"确定"
+                                                      otherButtonTitles:nil];
+
+            [alertView show];
+        }else if (code == 400){
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"添加推送失败"
+                                                                message:nil
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"确定"
+                                                      otherButtonTitles:nil];
+
+            [alertView show];
+        }
+    }];
 
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+
+    [self dismissViewControllerAnimated:YES completion:nil];
+
+    }
+}
 
 @end

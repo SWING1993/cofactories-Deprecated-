@@ -10,6 +10,7 @@
 #import "Header.h"
 #import "FactoryAndOrderMessVC.h"
 #import "PushTableViewCell.h"
+#import "GetPushModel.h"
 
 
 @interface PushViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
@@ -23,33 +24,30 @@
 
 @implementation PushViewController
 
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"dic"] == nil)
-    {
-    }
-    else
-    {
-        NSMutableDictionary *dic = [[NSUserDefaults standardUserDefaults]objectForKey:@"dic"];
-        [self.cellArray addObject:dic];
-        [_tableView reloadData];
-        NSLog(@"-----%@",self.cellArray);
-    }
 
-}
+    self.cellArray= [[NSMutableArray alloc]initWithCapacity:0];
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
+    [HttpClient getPushSettingWithBlock:^(NSDictionary *dictionary) {
+        NSLog(@"++%@",dictionary[@"statusCode"]);
+
+        if ([dictionary[@"statusCode"] intValue] == 200) {
+            self.cellArray = dictionary[@"array"];
+            [_tableView reloadData];
+        }
+    }];
+
+
+
+     }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.cellArray= [[NSMutableArray alloc]initWithCapacity:0];
-    
+
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"推送助手";
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -86,12 +84,15 @@
 {
     PushTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
-    NSDictionary *dic = self.cellArray[indexPath.row];
-    int type = [dic[@"facType"] intValue];
-    switch (type) {
-        case 0:
+    GetPushModel *pushModel = self.cellArray[indexPath.row];
+
+    int facType = [pushModel.factoryTypes intValue];
+    switch (facType) {
+        case 100:
+        {
             cell.typeLB.text = @"加工厂";
-            cell.businessLB.text = [NSString stringWithFormat:@"业务类型: %@",dic[@"businessType"]];
+            cell.businessLB.text = [NSString stringWithFormat:@"业务类型: %@",pushModel.serviceRange];
+        }
             break;
         case 1:
             cell.typeLB.text = @"代裁厂";
@@ -104,25 +105,7 @@
         default:
             break;
     }
-    if ( [dic[@"distence"] isEqualToString:@""] )
-    {
-        cell.distenceLB.text = @"距离: 不限距离";
-    }
-    else
-    {
-        cell.distenceLB.text = [NSString stringWithFormat:@"距离: %@",dic[@"distence"]];
 
-    }
-    
-    if ( [dic[@"scale"] isEqualToString:@""] )
-    {
-        cell.scaleLB.text = @"规模: 不限规模";
-    }
-    else
-    {
-        cell.scaleLB.text = [NSString stringWithFormat:@"规模: %@",dic[@"scale"]];
-    }
-    
     cell.deletButton.tag = indexPath.row+1;
     [cell.deletButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -182,6 +165,7 @@
                 Nav.title=@"推送助手";
                 Nav.navigationBar.barStyle=UIBarStyleBlack;
                 VC.facType = 0;
+                VC.types = @"factory";
                 [self presentViewController:Nav animated:YES completion:nil];
             }
                 
@@ -193,6 +177,7 @@
                 Nav.navigationBar.barStyle=UIBarStyleBlack;
                 Nav.title=@"推送助手";
                 VC.facType = 1;
+                VC.types = @"order";
                 [self presentViewController:Nav animated:YES completion:nil];
             }
                 break;

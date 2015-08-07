@@ -10,8 +10,13 @@
 #import "AFHTTPRequestSerializer+OAuth2.h"
 #import "UpYun.h"
 #import "AFNetworking.h"
+#import "GetPushModel.h"
 
-#define kBaseUrl @"http://app2.cofactories.com"
+
+//#define kBaseUrl @"http://app2.cofactories.com"
+
+#define kBaseUrl @"http://192.168.100.2:3001"
+
 #define kClientID @"123"
 #define kSecret @"123"
 #define API_reset @"/user/reset"
@@ -947,15 +952,17 @@
     }
 }
 
-+ (void)updatePushSettingWithParameters:(NSArray *)parameters andBlock:(void (^)(int))block {
++ (void)deletePushSettingWithIndex:(NSNumber *)index andBlock:(void (^)(int statusCode))block{
+
+
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
     if (credential) {
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
-        manager.requestSerializer = [AFJSONRequestSerializer serializer];// 使用 JSON 上传
-        [manager PUT:API_pushSetting parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        [manager DELETE:API_pushSetting parameters:index success:^(AFHTTPRequestOperation *operation, id responseObject) {
             block((int)[operation.response statusCode]);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             block((int)[operation.response statusCode]);
@@ -963,7 +970,58 @@
     } else {
         block(404);// access_token不存在
     }
+
 }
+
+
+
++ (void)addPushSettingWithFactoryType:(FactoryType)factoryType  Type:(NSString *)type FactoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax andBlock:(void (^)(int code))block
+{
+
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+    if (credential) {
+        // 有 access_token
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
+
+        if (factoryType)
+            [mutableDictionary setObject:@(factoryType) forKey:@"factoryType"];
+        if (type) {
+            [mutableDictionary setObject:type forKey:@"type"];
+        }
+        if (factoryServiceRange)
+            [mutableDictionary setObject:factoryServiceRange forKey:@"serviceRange"];
+        if (factorySizeMin) {
+            NSArray *factorySize = [[NSArray alloc] initWithObjects:factorySizeMin, factorySizeMax, nil];
+            [mutableDictionary setObject:factorySize forKey:@"size"];
+        }
+        if (factoryDistanceMin) {
+            NSArray *factoryDistance = [[NSArray alloc] initWithObjects:factoryDistanceMin, factoryDistanceMax, nil];
+            [mutableDictionary setObject:factoryDistance forKey:@"distance"];
+        }
+
+        [manager POST:API_pushSetting parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
+
+             block(200);
+         }
+         
+              failure:^(AFHTTPRequestOperation *operation, NSError *error)
+         {
+
+             block(400);
+             
+         }];
+
+    }
+
+}
+
+
+
 
 + (void)registerDeviceWithDeviceId:(NSString *)deviceId andBlock:(void (^)(int))block {
     NSParameterAssert(deviceId);
@@ -984,7 +1042,7 @@
 }
 
 
-+ (void)getPushSettingWithBlock:(void (^)(NSDictionary *))block {
++ (void)getPushSettingWithBlock:(void(^)(NSDictionary *dictionary))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
@@ -992,7 +1050,19 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_pushSetting parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseObject});
+
+//            NSLog(@"===%@",responseObject);
+            NSArray *responseArray = responseObject;
+            NSMutableArray *mutableArr = [[NSMutableArray alloc]initWithCapacity:0];
+
+            [responseArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                NSDictionary *dic = responseArray[idx];
+                GetPushModel *model = [GetPushModel getPushModelWith:dic];
+                [mutableArr addObject:model];
+
+            }];
+
+        block(@{@"statusCode": @([operation.response statusCode]), @"array": mutableArr});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             switch ([operation.response statusCode]) {
                 case 400:

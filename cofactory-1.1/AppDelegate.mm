@@ -14,12 +14,8 @@
 
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-
 #define _IPHONE80_ 80000
-//#if TARGET_IPHONE_SIMULATOR
-////#else
-////#import "UMessage.h"
-////#endif
+
 
 @interface AppDelegate ()
 @property (nonatomic, strong) ZWIntroductionViewController *introductionView;
@@ -35,7 +31,6 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
-    [_window makeKeyAndVisible];
 
     if ([Tools isLogin]) {
         ViewController *mainVC = [[ViewController alloc] init];
@@ -76,28 +71,30 @@
     }
 
     // 友盟分享
-    [UMSocialData setAppKey:@"55a0778367e58e452400710a"];
-//    [UMSocialData openLog:YES];
+    [UMSocialData setAppKey:@"5566b5e767e58e0c4700aab0"];
+    //[UMSocialData openLog:YES];
 
 
     // 友盟用户反馈
-    [UMFeedback setAppkey:@"55a0778367e58e452400710a"];
+    [UMFeedback setAppkey:@"5566b5e767e58e0c4700aab0"];
 
 
     // 注册友盟统计 SDK
-    [MobClick startWithAppkey:@"55a0778367e58e452400710a" reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
+    [MobClick startWithAppkey:@"5566b5e767e58e0c4700aab0" reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
     // Version 标识
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     [MobClick setAppVersion:version];
 
-    // 注册友盟推送服务 SDK
-    //set AppKey and AppSecret
-    [UMessage startWithAppkey:@"your appkey" launchOptions:launchOptions];
 
+
+    // 注册友盟推送服务 SDK
+    //set AppKey and LaunchOptions
+    [UMessage startWithAppkey:@"5566b5e767e58e0c4700aab0" launchOptions:launchOptions];
+//    [UMessage setAutoAlert:NO];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
     if(UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
     {
-        //register remoteNotification types （iOS 8.0及其以上版本）
+        //register remoteNotification types
         UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];
         action1.identifier = @"action1_identifier";
         action1.title=@"Accept";
@@ -119,30 +116,32 @@
         [UMessage registerRemoteNotificationAndUserNotificationSettings:userSettings];
 
     } else{
-        //register remoteNotification types (iOS 8.0以下)
+        //register remoteNotification types
         [UMessage registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge
          |UIRemoteNotificationTypeSound
          |UIRemoteNotificationTypeAlert];
     }
 #else
 
-    //register remoteNotification types (iOS 8.0以下)
+    //register remoteNotification types
     [UMessage registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge
      |UIRemoteNotificationTypeSound
      |UIRemoteNotificationTypeAlert];
 
 #endif
+
     //for log
     [UMessage setLogEnabled:YES];
 
-    
+
+
+    [_window makeKeyAndVisible];
     return YES;
 }
 
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-
     //么么哒
     [HttpClient registerDeviceWithDeviceId:[NSString stringWithFormat:@"%@", deviceToken] andBlock:^(int statusCode) {
                 NSLog(@"deviceTokenStatus %d", statusCode);
@@ -153,6 +152,21 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     [UMessage didReceiveRemoteNotification:userInfo];
+//    NSLog(@"%@",userInfo);
+    [UMessage setAutoAlert:NO];
+
+    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
+    {
+        NSDictionary*aps = userInfo[@"aps"];
+        NSString*message = aps[@"alert"];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"通知消息"
+                                                            message:message
+                                                           delegate:self
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+
+        [alertView show];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

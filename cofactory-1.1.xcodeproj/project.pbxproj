@@ -150,6 +150,8 @@
 		04DFCAAD1B63D53A00356F4B /* PushHelperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DFCAAA1B63D53A00356F4B /* PushHelperModel.m */; };
 		04E81EF01B57F75700B7CE7B /* SetaddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E81EEF1B57F75700B7CE7B /* SetaddressViewController.m */; };
 		04F3B5F61B744839005C5369 /* libUMessage_Sdk_1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F3B5F51B744839005C5369 /* libUMessage_Sdk_1.1.0.a */; };
+		04F3B6021B7485EB005C5369 /* sound.caf in Resources */ = {isa = PBXBuildFile; fileRef = 04F3B6011B7485EB005C5369 /* sound.caf */; };
+		04F3B6051B74AA67005C5369 /* GetPushModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F3B6041B74AA67005C5369 /* GetPushModel.m */; };
 		04F60C621B58C07100CD3DEC /* ModifyJobViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C611B58C07100CD3DEC /* ModifyJobViewController.m */; };
 		04F60C661B58CB9700CD3DEC /* ModifyFactoryNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C651B58CB9700CD3DEC /* ModifyFactoryNameViewController.m */; };
 		04F60C691B58D17200CD3DEC /* SetMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C681B58D17200CD3DEC /* SetMapViewController.m */; };
@@ -493,6 +495,9 @@
 		04E81EEF1B57F75700B7CE7B /* SetaddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetaddressViewController.m; sourceTree = "<group>"; };
 		04F3B5F41B744839005C5369 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		04F3B5F51B744839005C5369 /* libUMessage_Sdk_1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.1.0.a; sourceTree = "<group>"; };
+		04F3B6011B7485EB005C5369 /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
+		04F3B6031B74AA67005C5369 /* GetPushModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetPushModel.h; sourceTree = "<group>"; };
+		04F3B6041B74AA67005C5369 /* GetPushModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetPushModel.m; sourceTree = "<group>"; };
 		04F60C601B58C07100CD3DEC /* ModifyJobViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyJobViewController.h; sourceTree = "<group>"; };
 		04F60C611B58C07100CD3DEC /* ModifyJobViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyJobViewController.m; sourceTree = "<group>"; };
 		04F60C641B58CB9700CD3DEC /* ModifyFactoryNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyFactoryNameViewController.h; sourceTree = "<group>"; };
@@ -1444,6 +1449,7 @@
 				BDC907C21B4E9A5700856A32 /* ViewController.m */,
 				04DFCA941B63BFE000356F4B /* HttpClient.h */,
 				04DFCA951B63BFE900356F4B /* HttpClient.m */,
+				04F3B6011B7485EB005C5369 /* sound.caf */,
 				04AE21841B535ABC007A3279 /* Tools.h */,
 				04AE21851B535ABC007A3279 /* Tools.m */,
 				BDC907E11B4E9B3700856A32 /* Utils */,
@@ -1595,9 +1601,9 @@
 			children = (
 				04DFCAA51B63D53A00356F4B /* HomeItemModel.h */,
 				04DFCAA61B63D53A00356F4B /* HomeItemModel.m */,
+				04DFCAA91B63D53A00356F4B /* PushHelperItemModel.h */,
 				04DFCAA71B63D53A00356F4B /* PushHelperItemModel.m */,
 				04DFCAA81B63D53A00356F4B /* PushHelperModel.h */,
-				04DFCAA91B63D53A00356F4B /* PushHelperItemModel.h */,
 				04DFCAAA1B63D53A00356F4B /* PushHelperModel.m */,
 				04F60C6A1B58EC7F00CD3DEC /* FactoryRangeModel.h */,
 				04F60C6B1B58EC7F00CD3DEC /* FactoryRangeModel.m */,
@@ -1609,6 +1615,8 @@
 				BDC908F91B4E9B6B00856A32 /* OrderModel.m */,
 				BDC908FA1B4E9B6B00856A32 /* UserModel.h */,
 				BDC908FB1B4E9B6B00856A32 /* UserModel.m */,
+				04F3B6031B74AA67005C5369 /* GetPushModel.h */,
+				04F3B6041B74AA67005C5369 /* GetPushModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1792,6 +1800,7 @@
 				04746D481B6B284E00C3C45E /* ToolViewInputText@2x.png in Resources */,
 				045A26C21B6893D5002DE415 /* THDateDay.xib in Resources */,
 				045A26BB1B6893D5002DE415 /* dialog_clear.png in Resources */,
+				04F3B6021B7485EB005C5369 /* sound.caf in Resources */,
 				045A26AC1B6893D5002DE415 /* arrow_left@2x.png in Resources */,
 				04746D491B6B284E00C3C45E /* ToolViewInputTextHL@2x.png in Resources */,
 				04746D0E1B6B0FED00C3C45E /* UMSCommentInputControlleriPad.xib in Resources */,
@@ -1954,6 +1963,7 @@
 				BD8AD7F11B50E62600373E5E /* UIImage+MultiFormat.m in Sources */,
 				04A20C321B5F3317001AADE9 /* VeifyingViewController.m in Sources */,
 				049582ED1B6B490F00A69E6D /* PhotoAlbumManager.m in Sources */,
+				04F3B6051B74AA67005C5369 /* GetPushModel.m in Sources */,
 				BD8AD7F31B50E62600373E5E /* UIImageView+HighlightedWebCache.m in Sources */,
 				BDEDA43B1B5229F6000E5012 /* MapViewController.m in Sources */,
 				0451D6691B579A19007CCD59 /* RevisePasswordViewController.m in Sources */,
