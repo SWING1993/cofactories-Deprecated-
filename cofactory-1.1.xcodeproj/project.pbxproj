@@ -149,6 +149,7 @@
 		04DFCAAC1B63D53A00356F4B /* PushHelperItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DFCAA71B63D53A00356F4B /* PushHelperItemModel.m */; };
 		04DFCAAD1B63D53A00356F4B /* PushHelperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DFCAAA1B63D53A00356F4B /* PushHelperModel.m */; };
 		04E81EF01B57F75700B7CE7B /* SetaddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E81EEF1B57F75700B7CE7B /* SetaddressViewController.m */; };
+		04F3B5F61B744839005C5369 /* libUMessage_Sdk_1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F3B5F51B744839005C5369 /* libUMessage_Sdk_1.1.0.a */; };
 		04F60C621B58C07100CD3DEC /* ModifyJobViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C611B58C07100CD3DEC /* ModifyJobViewController.m */; };
 		04F60C661B58CB9700CD3DEC /* ModifyFactoryNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C651B58CB9700CD3DEC /* ModifyFactoryNameViewController.m */; };
 		04F60C691B58D17200CD3DEC /* SetMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C681B58D17200CD3DEC /* SetMapViewController.m */; };
@@ -490,6 +491,8 @@
 		04DFCAAA1B63D53A00356F4B /* PushHelperModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushHelperModel.m; sourceTree = "<group>"; };
 		04E81EEE1B57F75700B7CE7B /* SetaddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetaddressViewController.h; sourceTree = "<group>"; };
 		04E81EEF1B57F75700B7CE7B /* SetaddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetaddressViewController.m; sourceTree = "<group>"; };
+		04F3B5F41B744839005C5369 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
+		04F3B5F51B744839005C5369 /* libUMessage_Sdk_1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.1.0.a; sourceTree = "<group>"; };
 		04F60C601B58C07100CD3DEC /* ModifyJobViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyJobViewController.h; sourceTree = "<group>"; };
 		04F60C611B58C07100CD3DEC /* ModifyJobViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyJobViewController.m; sourceTree = "<group>"; };
 		04F60C641B58CB9700CD3DEC /* ModifyFactoryNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyFactoryNameViewController.h; sourceTree = "<group>"; };
@@ -676,6 +679,7 @@
 				BD8C4DFB1B4FB2E10065ECFA /* Security.framework in Frameworks */,
 				04746D541B6B284E00C3C45E /* libUMOpus.a in Frameworks */,
 				BDEDA4361B52234B000E5012 /* CoreGraphics.framework in Frameworks */,
+				04F3B5F61B744839005C5369 /* libUMessage_Sdk_1.1.0.a in Frameworks */,
 				BD8C4DF71B4FB2C80065ECFA /* OpenGLES.framework in Frameworks */,
 				BD8C4DF91B4FB2D00065ECFA /* CoreLocation.framework in Frameworks */,
 				BD8C4E031B4FB31B0065ECFA /* Foundation.framework in Frameworks */,
@@ -1084,6 +1088,7 @@
 		049582F01B6B68EF00A69E6D /* UMeng */ = {
 			isa = PBXGroup;
 			children = (
+				04F3B5F31B7447FC005C5369 /* UMessage_Sdk_1.1.0 */,
 				BD8C4DEF1B4FB2640065ECFA /* UMAnalytics_Sdk_3.5.9 */,
 				04746CEC1B6B0FD500C3C45E /* UMSocial */,
 				04746D181B6B284E00C3C45E /* UMengFeedback_SDK_2.3.1 */,
@@ -1210,6 +1215,15 @@
 				04F60C681B58D17200CD3DEC /* SetMapViewController.m */,
 			);
 			name = Address;
+			sourceTree = "<group>";
+		};
+		04F3B5F31B7447FC005C5369 /* UMessage_Sdk_1.1.0 */ = {
+			isa = PBXGroup;
+			children = (
+				04F3B5F41B744839005C5369 /* UMessage.h */,
+				04F3B5F51B744839005C5369 /* libUMessage_Sdk_1.1.0.a */,
+			);
+			path = UMessage_Sdk_1.1.0;
 			sourceTree = "<group>";
 		};
 		04F60C5F1B58BF7C00CD3DEC /* Job */ = {
@@ -2141,6 +2155,8 @@
 					"$(PROJECT_DIR)/cofactory-1.1/Utils/UMengFeedback_SDK_2.3.1",
 					"$(PROJECT_DIR)/cofactory-1.1/Utils/UMengFeedback_SDK_2.3.1/UMOpus",
 					"$(PROJECT_DIR)/cofactory-1.1/Utils/GPUImage",
+					/Users/tangjiacheng/Desktop/UMessage_Sdk_1.1.0,
+					"$(PROJECT_DIR)/cofactory-1.1/Utils/SDPhotoBrowser/UMessage_Sdk_1.1.0",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -2174,6 +2190,8 @@
 					"$(PROJECT_DIR)/cofactory-1.1/Utils/UMengFeedback_SDK_2.3.1",
 					"$(PROJECT_DIR)/cofactory-1.1/Utils/UMengFeedback_SDK_2.3.1/UMOpus",
 					"$(PROJECT_DIR)/cofactory-1.1/Utils/GPUImage",
+					/Users/tangjiacheng/Desktop/UMessage_Sdk_1.1.0,
+					"$(PROJECT_DIR)/cofactory-1.1/Utils/SDPhotoBrowser/UMessage_Sdk_1.1.0",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
