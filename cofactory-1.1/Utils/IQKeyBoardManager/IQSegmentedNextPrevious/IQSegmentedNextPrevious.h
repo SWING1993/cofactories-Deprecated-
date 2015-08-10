@@ -1,7 +1,7 @@
 //
 //  IQSegmentedNextPrevious.h
 // https://github.com/hackiftekhar/IQKeyboardManager
-// Copyright (c) 2013-14 Iftekhar Qurashi.
+// Copyright (c) 2013-15 Iftekhar Qurashi.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,46 +21,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UISegmentedControl.h>
 #import "IQKeyboardManagerConstants.h"
 
-/*!
-    @class IQSegmentedNextPrevious
- 
-    @since iOS (5.0 and iOS 6.0)
- 
-    @abstract Custom SegmentedControl for Previous/Next button.
- */
+#import <Foundation/NSObjCRuntime.h>
 
-NS_CLASS_DEPRECATED_IOS(2_0, 7_0, "Deprecated for iOS 7")
+#import <UIKit/UISegmentedControl.h>
+
+#if !(__has_feature(objc_instancetype))
+    #define instancetype id
+#endif
+
+
+/**
+ Custom SegmentedControl for Previous/Next button.
+ 
+ @deprecated Deprecated in iOS 7
+ */
 @interface IQSegmentedNextPrevious : UISegmentedControl
 
-/*!
-    @method initWithTarget:previousAction:nextAction:
+/**
+ Initialization function for IQSegmentedNextPrevious.
  
-    @abstract initialization function for IQSegmentedNextPrevious.
- 
-    @param target: Target object for selector. Usually 'self'.
- 
-    @param previousAction: Previous button action name. Usually 'previousAction:(IQSegmentedNextPrevious*)segmentedControl'.
- 
-    @param nextAction: Next button action name. Usually 'nextAction:(IQSegmentedNextPrevious*)segmentedControl'.
+ @param target Target object for selector. Usually 'self'.
+ @param previousAction Previous button action name. Usually 'previousAction:(IQSegmentedNextPrevious*)segmentedControl'.
+ @param nextAction Next button action name. Usually 'nextAction:(IQSegmentedNextPrevious*)segmentedControl'.
  */
-- (id)initWithTarget:(id)target previousAction:(SEL)previousAction nextAction:(SEL)nextAction;
+- (instancetype)initWithTarget:(id)target previousAction:(SEL)previousAction nextAction:(SEL)nextAction NS_DESIGNATED_INITIALIZER;
 
-/*!
-    @method init
- 
-    @abstract initWithTarget:previousAction:nextAction should be used.
+/**
+ initWithTarget:previousAction:nextAction should be used.
  */
-- (id)init	__attribute__((unavailable("init is not available, should use initWithTarget:previousAction:nextAction instead")));
+- (instancetype)init	__attribute__((unavailable("init is not available, should use initWithTarget:previousAction:nextAction instead")));
 
-/*!
-    @method init
- 
-    @abstract initWithTarget:previousAction:nextAction should be used.
+/**
+ initWithTarget:previousAction:nextAction should be used.
  */
-+ (id)new	__attribute__((unavailable("new is not available, should use initWithTarget:previousAction:nextAction instead")));
++ (instancetype)new	__attribute__((unavailable("new is not available, should use initWithTarget:previousAction:nextAction instead")));
 
 @end
 

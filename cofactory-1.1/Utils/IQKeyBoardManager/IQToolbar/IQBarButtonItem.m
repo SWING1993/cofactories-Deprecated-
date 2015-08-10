@@ -1,7 +1,7 @@
 //
-//  NSArray+Sort.m
+//  IQBarButtonItem.m
 // https://github.com/hackiftekhar/IQKeyboardManager
-// Copyright (c) 2013-14 Iftekhar Qurashi.
+// Copyright (c) 2013-15 Iftekhar Qurashi.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,32 +21,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "NSArray+Sort.h"
+#import "IQBarButtonItem.h"
+#import "IQToolbar.h"
 
-#import <UIKit/UIView.h>
+@implementation IQBarButtonItem
 
-#import "IQKeyboardManagerConstantsInternal.h"
-
-IQ_LoadCategory(IQNSArraySort)
-
-
-@implementation NSArray (Sort)
-
-- (NSArray*)sortedArrayByTag
++(void)initialize
 {
-    return [self sortedArrayUsingComparator:^NSComparisonResult(UIView *obj1, UIView *obj2) {
-        
-        if ([obj1 respondsToSelector:@selector(tag)] && [obj2 respondsToSelector:@selector(tag)])
-        {
-            if ([obj1 tag] < [obj2 tag])	return NSOrderedAscending;
-            
-            else if ([obj1 tag] > [obj2 tag])	return NSOrderedDescending;
-            
-            else	return NSOrderedSame;
-        }
-        else
-            return NSOrderedSame;
-    }];
+    [super initialize];
+    
+    [[self appearance] setTintColor:nil];
+    [[self appearance] setTitleTextAttributes:nil forState:UIControlStateNormal];
+    [[self appearance] setTitleTextAttributes:nil forState:UIControlStateHighlighted];
+    [[self appearance] setTitleTextAttributes:nil forState:UIControlStateDisabled];
+    [[self appearance] setTitleTextAttributes:nil forState:UIControlStateSelected];
+    [[self appearance] setTitleTextAttributes:nil forState:UIControlStateApplication];
+    [[self appearance] setTitleTextAttributes:nil forState:UIControlStateReserved];
 }
 
 @end

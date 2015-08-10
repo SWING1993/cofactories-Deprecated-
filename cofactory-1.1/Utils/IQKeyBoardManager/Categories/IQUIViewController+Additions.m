@@ -1,7 +1,7 @@
 //
-//  IQTitleBarButtonItem.m
+//  IQUIViewController+Additions.m
 // https://github.com/hackiftekhar/IQKeyboardManager
-// Copyright (c) 2013-14 Iftekhar Qurashi.
+// Copyright (c) 2013-15 Iftekhar Qurashi.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,30 +21,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UILabel.h>
+#import "IQUIViewController+Additions.h"
+#import <objc/runtime.h>
 
-#import "IQTitleBarButtonItem.h"
-#import "IQKeyboardManagerConstants.h"
+@implementation UIViewController (Additions)
 
+#ifdef NSFoundationVersionNumber_iOS_5_1
 
-@implementation IQTitleBarButtonItem
-
--(id)initWithFrame:(CGRect)frame Title:(NSString *)title
+-(void)setIQLayoutGuideConstraint:(NSLayoutConstraint *)IQLayoutGuideConstraint
 {
-    self = [super initWithTitle:nil style:UIBarButtonItemStylePlain target:nil action:nil];
-    if (self)
-    {
-        UILabel *label = [[UILabel alloc] initWithFrame:frame];
-        [label setBackgroundColor:[UIColor clearColor]];
-        [label setTextAlignment:NSTextAlignmentCenter];
-        [label setText:title];
-        [label setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-        [label setFont:[UIFont boldSystemFontOfSize:12.0]];
-
-        self.customView = label;
-        self.enabled = NO;
-    }
-    return self;
+    objc_setAssociatedObject(self, @selector(IQLayoutGuideConstraint), IQLayoutGuideConstraint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
+
+-(NSLayoutConstraint *)IQLayoutGuideConstraint
+{
+    return objc_getAssociatedObject(self, @selector(IQLayoutGuideConstraint));
+}
+
+#endif
 
 @end

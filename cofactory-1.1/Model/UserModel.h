@@ -32,6 +32,8 @@ typedef enum {
 @property (nonatomic, copy) NSString *factoryAddress;
 @property (nonatomic, copy) NSString *factoryServiceRange;
 @property (nonatomic, copy) NSString *factoryDescription;
+@property (nonatomic, copy) NSString *tag;
+
 @property (nonatomic, assign) int factoryFinishedDegree;
 @property (nonatomic, assign) int hasTruck;
 

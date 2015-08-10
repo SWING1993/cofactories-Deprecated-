@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 gt. All rights reserved.
 //
 
+#import "Header.h"
 #import "FactoryListTableViewCell.h"
 
 @implementation FactoryListTableViewCell
@@ -41,27 +42,31 @@
         [self addSubview:self.isBusyLB];
         
         //787878
-        self.factoryNatureLB = [[UILabel alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width-100, 0, 85, 20)];
+        self.factoryNatureLB = [[UILabel alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width-100, 0, 90, 20)];
         self.factoryNatureLB.font = [UIFont systemFontOfSize:12];
         self.factoryNatureLB.textColor = [UIColor grayColor];
         self.factoryNatureLB.textAlignment = 2;
         [self addSubview:self.factoryNatureLB];
 
-        self.isHaveCarLB = [[UILabel alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width-65, 20, 50, 20)];
+        self.isHaveCarLB = [[UILabel alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width-65, 20, 55, 20)];
         self.isHaveCarLB.font = [UIFont systemFontOfSize:12];
         self.isHaveCarLB.textColor = [UIColor colorWithRed:52/255.0 green:88/255.0 blue:141/255.0 alpha:1.0];
-        self.isHaveCarLB.textAlignment = 2;
+        self.isHaveCarLB.textAlignment = NSTextAlignmentRight;
         self.isHaveCarLB.text = @"自备货车";
         [self addSubview:self.isHaveCarLB];
+
+        self.tagLB = [[UILabel alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width-75, 40, 65, 20)];
+        self.tagLB.font = [UIFont systemFontOfSize:12];
+        self.tagLB.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+        self.tagLB.textAlignment = NSTextAlignmentRight;
+        [self addSubview:self.tagLB];
         
         self.distenceLB = [[UILabel alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width-130, 60, 120, 20)];
         self.distenceLB.font = [UIFont systemFontOfSize:12];
         self.distenceLB.textAlignment = 2;
         self.distenceLB.textColor = [UIColor colorWithRed:0/255.0 green:191/255.0 blue:255/255.0 alpha:1.0];
         [self addSubview:self.distenceLB];
-        
-    
-        
+
     }
     return self;
 }

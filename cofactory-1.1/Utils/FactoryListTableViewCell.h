@@ -10,5 +10,5 @@
 
 @interface FactoryListTableViewCell : UITableViewCell
 @property (nonatomic,strong)UIImageView *companyImage;
-@property (nonatomic,strong)UILabel *companyNameLB,  *companyLocationLB,  *certifyUserLB,  *isBusyLB,  *factoryNatureLB,  *isHaveCarLB,  *distenceLB;
+@property (nonatomic,strong)UILabel *companyNameLB,  *companyLocationLB,  *certifyUserLB,  *isBusyLB,  *factoryNatureLB,  *isHaveCarLB,  *distenceLB, *tagLB;
 @end

@@ -357,6 +357,15 @@
     {
         cell.certifyUserLB.hidden = NO;
     }
+
+    if ([factoryModel.tag isEqualToString:@"0"]) {
+        cell.tagLB.hidden = YES;
+
+    }else{
+        cell.tagLB.hidden = NO;
+        cell.tagLB.text = factoryModel.tag;
+
+    }
     return cell;
 }
 

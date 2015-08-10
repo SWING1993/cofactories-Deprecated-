@@ -149,8 +149,6 @@
 
     NSString *str = [NSString stringWithFormat:@"telprompt://%@", factoryModel.phone];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-
-
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 5.0f;

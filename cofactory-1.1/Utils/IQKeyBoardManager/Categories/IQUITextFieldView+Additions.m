@@ -1,7 +1,7 @@
 //
-//  UIView+Hierarchy.h
+//  IQUITextFieldView+Additions.m
 // https://github.com/hackiftekhar/IQKeyboardManager
-// Copyright (c) 2013-14 Iftekhar Qurashi.
+// Copyright (c) 2013-15 Iftekhar Qurashi.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,41 +21,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIView.h>
+#import "IQUITextFieldView+Additions.h"
+#import <objc/runtime.h>
 
-@class UIScrollView, UITableView, NSArray;
+@implementation UIView (Additions)
 
-@interface UIView (Hierarchy)
+-(void)setKeyboardDistanceFromTextField:(CGFloat)keyboardDistanceFromTextField
+{
+    //Can't be less than zero. Minimum is zero.
+    keyboardDistanceFromTextField = MAX(keyboardDistanceFromTextField, 0);
+    
+    objc_setAssociatedObject(self, @selector(keyboardDistanceFromTextField), [NSNumber numberWithFloat:keyboardDistanceFromTextField], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
 
-/*!
-    @method superScrollView:
- 
-    @return Returns the UIScrollView object if any found in view's upper hierarchy.
- */
-- (UIScrollView*)superScrollView;
-
-/*!
-    @method superTableView:
- 
-    @return Returns the UITableView object if any found in view's upper hierarchy.
- */
-- (UITableView*)superTableView;
-
-/*!
-    @method responderSiblings:
- 
-    @return returns all siblings of the receiver which canBecomeFirstResponder.
- */
-- (NSArray*)responderSiblings;
-
-/*!
-    @method deepResponderViews:
- 
-    @return returns all deep subViews of the receiver which canBecomeFirstResponder.
- */
-- (NSArray*)deepResponderViews;
-
--(BOOL)isInsideSearchBar;
-//-(BOOL)isInsideAlertView;
+-(CGFloat)keyboardDistanceFromTextField
+{
+    NSNumber *keyboardDistanceFromTextField = objc_getAssociatedObject(self, @selector(keyboardDistanceFromTextField));
+    
+    return (keyboardDistanceFromTextField)?[keyboardDistanceFromTextField floatValue]:kIQUseDefaultKeyboardDistance;
+}
 
 @end
+
+///------------------------------------
+/// @name keyboardDistanceFromTextField
+///------------------------------------
+
+/**
+ Uses default keyboard distance for textField.
+ */
+CGFloat const kIQUseDefaultKeyboardDistance = CGFLOAT_MAX;
+

@@ -7,6 +7,7 @@
 //
 
 #import "Header.h"
+
 #import "SetaddressViewController.h"
 #define PROVINCE_COMPONENT  0
 #define CITY_COMPONENT      1
@@ -28,8 +29,6 @@
     self.view.backgroundColor=[UIColor colorWithWhite:0.952 alpha:1.000];
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
 
-//    self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
-//    self.tableView.showsVerticalScrollIndicator=NO;
 
     self.edgesForExtendedLayout = UIRectEdgeNone;
 

@@ -145,7 +145,7 @@
 
         photoGroup.photoItemArray = [temp copy];
         [cell.contentView addSubview:photoGroup];
-
+        
     }
     if (indexPath.section==2) {
         SDPhotoGroup *photoGroup = [[SDPhotoGroup alloc] init];

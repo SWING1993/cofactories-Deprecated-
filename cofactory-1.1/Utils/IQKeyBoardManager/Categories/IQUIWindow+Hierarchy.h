@@ -1,7 +1,7 @@
 //
-//  IQToolbar.h
+//  UIWindow+Hierarchy.h
 // https://github.com/hackiftekhar/IQKeyboardManager
-// Copyright (c) 2013-14 Iftekhar Qurashi.
+// Copyright (c) 2013-15 Iftekhar Qurashi.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,9 +21,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIToolbar.h>
+#import <UIKit/UIWindow.h>
 
-@interface IQToolbar : UIToolbar <UIInputViewAudioFeedback>
+@class UIViewController;
+
+/**
+ UIWindow hierarchy category.
+ */
+@interface UIWindow (IQ_UIWindow_Hierarchy)
+
+///----------------------
+/// @name viewControllers
+///----------------------
+
+/**
+ Returns the current Top Most ViewController in hierarchy.
+ */
+@property (nonatomic, readonly, strong) UIViewController *topMostController;
+
+/**
+ Returns the topViewController in stack of topMostController.
+ */
+@property (nonatomic, readonly, strong) UIViewController *currentViewController;
+
 
 @end
-

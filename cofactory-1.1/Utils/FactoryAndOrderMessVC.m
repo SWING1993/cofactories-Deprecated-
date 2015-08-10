@@ -516,7 +516,7 @@
     if ([dateTextField.text isEqualToString:@"不限距离"]) {
 
         _pushDistenceMin = @0;
-        _pushDistenceMax = @50000000000;
+        _pushDistenceMax = @5000000000000;
 
     }else if ([dateTextField.text isEqualToString:@"10公里以内"]){
         _pushDistenceMin = @0;

@@ -281,7 +281,7 @@
                 break;
             case 4:{
                 cellLabel.text=@"个性标签";
-
+                cell.detailTextLabel.text =  self.userModel.tag;
             }
                 break;
 

@@ -32,17 +32,13 @@
     self.cellArray= [[NSMutableArray alloc]initWithCapacity:0];
 
     [HttpClient getPushSettingWithBlock:^(NSDictionary *dictionary) {
-        NSLog(@"++%@",dictionary[@"statusCode"]);
-
+      //  NSLog(@"++%@",dictionary[@"array"]);
         if ([dictionary[@"statusCode"] intValue] == 200) {
             self.cellArray = dictionary[@"array"];
             [_tableView reloadData];
         }
     }];
-
-
-
-     }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -90,25 +86,68 @@
 
     int facType = [pushModel.factoryTypes intValue];
     switch (facType) {
-        case 100:
+        case 0:
         {
-            cell.typeLB.text = @"加工厂";
+            if ([pushModel.type isEqualToString:@"factory"]) {
+                cell.typeLB.text = @"加工厂信息";
+            }else{
+                cell.typeLB.text = @"加工厂订单";
+            }
+            cell.businessLB.hidden = NO;
             cell.businessLB.text = [NSString stringWithFormat:@"业务类型: %@",pushModel.serviceRange];
         }
             break;
         case 1:
-            cell.typeLB.text = @"代裁厂";
+            if ([pushModel.type isEqualToString:@"factory"]) {
+                cell.typeLB.text = @"代裁厂信息";
+            }else{
+                cell.typeLB.text = @"代裁厂订单";
+            }
             cell.businessLB.hidden = YES;
             break;
         case 2:
-            cell.typeLB.text = @"锁眼钉扣厂";
+            if ([pushModel.type isEqualToString:@"factory"]) {
+                cell.typeLB.text = @"锁眼钉扣厂信息";
+            }else{
+                cell.typeLB.text = @"锁眼钉扣厂订单";
+            }
             cell.businessLB.hidden = YES;
             break;
         default:
             break;
     }
 
-    cell.deletButton.tag = indexPath.row+1;
+    long long indexO = [pushModel.dictanceArray[0] longLongValue];
+    long long index1 = [pushModel.dictanceArray[1] longLongValue];
+    
+    if (indexO == 0 && index1 >=5000000000) {
+        cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"不限距离"];
+    }else if (indexO == 0 && index1 >=10000) {
+        cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"10公里以内"];
+    }else if (indexO == 300000 && index1 >=10000000000000000) {
+        cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"300公里以外"];
+    }else if (indexO == 0 && index1 ==1000) {
+        cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"1公里以内"];
+    }else{
+        long long left = indexO/1000;
+        long long right = index1/1000;
+        cell.distenceLB.text = [NSString stringWithFormat:@"距离:%lld-%lld公里",left,right];
+    }
+    long long index2 = [pushModel.sizeArray[0] longLongValue];
+    long long index3 = [pushModel.sizeArray[1] longLongValue];
+    if (index2 == 0 && index3 >= 500000000) {
+        cell.scaleLB.text = [NSString stringWithFormat:@"规模:%@",@"不限规模"];
+    }else if (index2 == 20 && index3 >= 400000000000){
+        cell.scaleLB.text = [NSString stringWithFormat:@"规模:%@",@"20人以上"];
+    }else if (index2 == 4 && index3 >= 400000000000){
+        cell.scaleLB.text = [NSString stringWithFormat:@"规模:%@",@"4人以上"];
+    }else{
+        cell.scaleLB.text = [NSString stringWithFormat:@"规模:%lld-%lld人",index2,index3];
+    }
+
+
+    cell.deletButton.tag = indexPath.row;
+//    cell.deletButton.backgroundColor = [UIColor redColor];
     [cell.deletButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
@@ -126,7 +165,7 @@
     [buttonImg setBackgroundImage:[UIImage imageNamed:@"添加.png"] forState:UIControlStateNormal];
     buttonImg.layer.masksToBounds = YES;
     buttonImg.layer.cornerRadius = 30;
-    [buttonImg addTarget:self action:@selector(buttonImgClick) forControlEvents:UIControlEventTouchUpInside];
+    [buttonImg addTarget:self action:@selector(buttonClick) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:buttonImg];
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0 , 90, kScreenW, 20)];
@@ -150,7 +189,7 @@
 
 #pragma mark--点击添加按钮
 
-- (void)buttonImgClick
+- (void)buttonClick
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"请选择类型" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加工厂信息",@"添加服装厂外发订单", nil];
     [actionSheet showInView:_tableView];
@@ -192,8 +231,11 @@
 - (void)buttonClick:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    
-    [self.cellArray removeObjectAtIndex:button.tag-1];
+    NSNumber *number = [NSNumber numberWithInt:button.tag];
+    [HttpClient deletePushSettingWithIndex:number andBlock:^(int statusCode) {
+        NSLog(@"statusCode==%d",statusCode);
+    }];
+    [self.cellArray removeObjectAtIndex:button.tag];
     [_tableView reloadData];
 }
 

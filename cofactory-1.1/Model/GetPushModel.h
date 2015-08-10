@@ -11,8 +11,8 @@
 @interface GetPushModel : NSObject
 
 @property (nonatomic,copy)NSArray *dictanceArray,   *sizeArray;
-@property (nonatomic,strong)NSNumber *factoryTypes,   *type;
-@property (nonatomic,copy)NSString * serviceRange;
+@property (nonatomic,strong)NSNumber *factoryTypes;
+@property (nonatomic,copy)NSString * serviceRange,   *type;
 
 - (instancetype)getPushModelWith:(NSDictionary *)dictionary;
 +(instancetype)getPushModelWith:(NSDictionary *)dictionary;

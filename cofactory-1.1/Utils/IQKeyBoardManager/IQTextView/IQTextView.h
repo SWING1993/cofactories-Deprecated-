@@ -1,5 +1,5 @@
 //
-//  KeyboardManager.h
+//  IQTextView.h
 // https://github.com/hackiftekhar/IQKeyboardManager
 // Copyright (c) 2013-15 Iftekhar Qurashi.
 //
@@ -21,20 +21,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-
-#ifndef KeyboardManager_h
-#define KeyboardManager_h
-
-#import "IQBarButtonItem.h"
-#import "IQKeyboardManager.h"
 #import "IQKeyboardManagerConstants.h"
-#import "IQKeyboardReturnKeyHandler.h"
-#import "IQSegmentedNextPrevious.h"
-#import "IQTextView.h"
-#import "IQTitleBarButtonItem.h"
-#import "IQToolbar.h"
-#import "IQUIView+Hierarchy.h"
-#import "IQUIView+IQKeyboardToolbar.h"
-#import "IQUIWindow+Hierarchy.h"
 
-#endif
+#import <UIKit/UITextView.h>
+
+/**
+ UITextView with placeholder support
+ */
+@interface IQTextView : UITextView
+
+/**
+ Set textView's placeholder text. Default is nil.
+ */
+@property(nonatomic,copy)   NSString    *placeholder;
+
+@end
+
+
+
+

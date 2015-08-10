@@ -1,5 +1,5 @@
 //
-//  KeyboardManager.h
+//  IQKeyboardManagerConstantsInternal.h
 // https://github.com/hackiftekhar/IQKeyboardManager
 // Copyright (c) 2013-15 Iftekhar Qurashi.
 //
@@ -21,20 +21,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#ifndef IQKeyboardManagerConstantsInternal_h
+#define IQKeyboardManagerConstantsInternal_h
 
-#ifndef KeyboardManager_h
-#define KeyboardManager_h
+//Xcode 5 compatibility check
+#ifdef NSFoundationVersionNumber_iOS_6_1
+    #define IQ_IS_IOS7_OR_GREATER (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)
+#else
+    #define IQ_IS_IOS7_OR_GREATER NO
+#endif
 
-#import "IQBarButtonItem.h"
-#import "IQKeyboardManager.h"
-#import "IQKeyboardManagerConstants.h"
-#import "IQKeyboardReturnKeyHandler.h"
-#import "IQSegmentedNextPrevious.h"
-#import "IQTextView.h"
-#import "IQTitleBarButtonItem.h"
-#import "IQToolbar.h"
-#import "IQUIView+Hierarchy.h"
-#import "IQUIView+IQKeyboardToolbar.h"
-#import "IQUIWindow+Hierarchy.h"
+//Xcode 6 compatibility check
+#ifdef NSFoundationVersionNumber_iOS_7_1
+    #define IQ_IS_IOS8_OR_GREATER (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1)
+#else
+    #define IQ_IS_IOS8_OR_GREATER NO
+#endif
 
 #endif

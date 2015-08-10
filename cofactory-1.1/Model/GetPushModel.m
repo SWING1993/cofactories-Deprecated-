@@ -26,4 +26,9 @@
 
     return [[self alloc]getPushModelWith:dictionary];
 }
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"self.dictanceArray=%@,self.factoryTypes=%@,self.serviceRange=%@,self.sizeArray=%@,self.type=%@",self.dictanceArray,self.factoryTypes,self.serviceRange,self.sizeArray,self.type];
+}
 @end

@@ -304,27 +304,6 @@
  */
 + (void)getPushSettingWithBlock:(void(^)(NSDictionary *dictionary))block;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*!
  注册设备(推送助手)
 

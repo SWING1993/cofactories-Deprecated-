@@ -1,7 +1,7 @@
 //
 //  IQKeyboardManagerConstants.h
 // https://github.com/hackiftekhar/IQKeyboardManager
-// Copyright (c) 2013-14 Iftekhar Qurashi.
+// Copyright (c) 2013-15 Iftekhar Qurashi.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,30 +24,62 @@
 #ifndef IQKeyboardManagerConstants_h
 #define IQKeyboardManagerConstants_h
 
-/* Set IQKEYBOARDMANAGER_DEBUG=1 in preprocessor macros under build settings to enable debugging.*/
-#if !IQKEYBOARDMANAGER_DEBUG
-#define DLog(...)
-#endif
+#import <Foundation/NSObjCRuntime.h>
 
+///----------------
+/// @name Debugging
+///----------------
 
-/*!
-    @enum IQAutoToolbarManageBehaviour
- 
-    @abstract AutoToolbar manage settings.
- 
-    @const IQAutoToolbarBySubviews Creates Toolbar according to subview's hirarchy of Textfield's in view.
- 
-    @const IQAutoToolbarByTag Creates Toolbar according to tag property of TextField's.
+/**
+ Set IQKEYBOARDMANAGER_DEBUG=1 in preprocessor macros under build settings to enable debugging.
  */
-typedef enum IQAutoToolbarManageBehaviour
-{
-	IQAutoToolbarBySubviews,
-	IQAutoToolbarByTag,
-	
-}IQAutoToolbarManageBehaviour;
 
+///-----------------------------------
+/// @name IQAutoToolbarManageBehaviour
+///-----------------------------------
+
+/**
+ `IQAutoToolbarBySubviews`
+ Creates Toolbar according to subview's hirarchy of Textfield's in view.
+ 
+ `IQAutoToolbarByTag`
+ Creates Toolbar according to tag property of TextField's.
+ 
+ `IQAutoToolbarByPosition`
+ Creates Toolbar according to the y,x position of textField in it's superview coordinate.
+ */
+#ifndef NS_ENUM
+typedef enum IQAutoToolbarManageBehaviour {
+    IQAutoToolbarBySubviews,
+    IQAutoToolbarByTag,
+    IQAutoToolbarByPosition,
+}IQAutoToolbarManageBehaviour;
+#else
+typedef NS_ENUM(NSInteger, IQAutoToolbarManageBehaviour) {
+    IQAutoToolbarBySubviews,
+    IQAutoToolbarByTag,
+    IQAutoToolbarByPosition,
+};
 #endif
 
+///-------------------
+/// @name Localization
+///-------------------
+
+#define IQLocalizedString(key, comment) [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"IQKeyboardManager" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:@"IQKeyboardManager"]
+
+
+/* XCode 5.0 Compatibility for NS_DESIGNATED_INITIALIZER*/
+#ifndef NS_DESIGNATED_INITIALIZER
+    #if __has_attribute(objc_designated_initializer)
+        #define NS_DESIGNATED_INITIALIZER __attribute__((objc_designated_initializer))
+    #else
+        #define NS_DESIGNATED_INITIALIZER
+    #endif
+#endif
+
+
+#endif
 
 /*
  
@@ -64,6 +96,8 @@ typedef enum IQAutoToolbarManageBehaviour
  
  
  ----------------------------------------------------------------------------------------------------------------------------------------------
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ ----------------------------------------------------------------------------------------------------------------------------------------------
  =============
  UITextField
  =============
@@ -79,7 +113,7 @@ typedef enum IQAutoToolbarManageBehaviour
  |                                               |
  |                                               |
  |                                               |
- --------------------------------------------           ----------------------------------           ---------------------------------
+ --------------------------------------------    |      ----------------------------------           ---------------------------------
  | UITextFieldTextDidEndEditingNotification | <-------- | UIKeyboardWillHideNotification | --------> | UIKeyboardDidHideNotification |
  --------------------------------------------           ----------------------------------           ---------------------------------
  |                    End Editing                                                             ^
@@ -87,6 +121,8 @@ typedef enum IQAutoToolbarManageBehaviour
  |--------------------End Editing-------------------------------------------------------------|
  
  
+ ----------------------------------------------------------------------------------------------------------------------------------------------
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  ----------------------------------------------------------------------------------------------------------------------------------------------
  =============
  UITextView
@@ -105,7 +141,7 @@ typedef enum IQAutoToolbarManageBehaviour
  |                                               |
  |                                               |
  |                                               |
- --------------------------------------------           ----------------------------------           ---------------------------------
+ --------------------------------------------    |      ----------------------------------           ---------------------------------
  | UITextViewTextDidEndEditingNotification  | <-------- | UIKeyboardWillHideNotification |           | UIKeyboardDidHideNotification |
  --------------------------------------------           ----------------------------------           ---------------------------------
  |                    End Editing                                                             ^
@@ -114,7 +150,6 @@ typedef enum IQAutoToolbarManageBehaviour
  
  
  ----------------------------------------------------------------------------------------------------------------------------------------------
- 
- /---------------------------------------------------------------------------------------------------\
- \---------------------------------------------------------------------------------------------------/
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ ----------------------------------------------------------------------------------------------------------------------------------------------
  */

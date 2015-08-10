@@ -13,9 +13,9 @@
 #import "GetPushModel.h"
 
 
-#define kBaseUrl @"http://app2.cofactories.com"
+//#define kBaseUrl @"http://app2.cofactories.com"
 
-//#define kBaseUrl @"http://192.168.100.2:3001"
+#define kBaseUrl @"http://192.168.100.2:3001"
 
 #define kClientID @"123"
 #define kSecret @"123"
@@ -985,8 +985,7 @@
     if (credential) {
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
-        manager.requestSerializer = [AFJSONRequestSerializer serializer];
-        [manager DELETE:API_pushSetting parameters:index success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [manager DELETE:API_pushSetting parameters:@{@"index":index} success:^(AFHTTPRequestOperation *operation, id responseObject) {
             block((int)[operation.response statusCode]);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             block((int)[operation.response statusCode]);
@@ -994,9 +993,8 @@
     } else {
         block(404);// access_token不存在
     }
-
+    
 }
-
 
 
 + (void)addPushSettingWithFactoryType:(FactoryType)factoryType  Type:(NSString *)type FactoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax andBlock:(void (^)(int code))block

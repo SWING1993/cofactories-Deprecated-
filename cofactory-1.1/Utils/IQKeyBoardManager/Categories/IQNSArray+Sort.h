@@ -1,7 +1,7 @@
 //
-//  IQTitleBarButtonItem.h
+//  NSArray+Sort.h
 // https://github.com/hackiftekhar/IQKeyboardManager
-// Copyright (c) 2013-14 Iftekhar Qurashi.
+// Copyright (c) 2013-15 Iftekhar Qurashi.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,10 +21,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIBarButtonItem.h>
+#import <Foundation/NSArray.h>
 
-@interface IQTitleBarButtonItem : UIBarButtonItem
+/**
+ UIView.subviews sorting category.
+ */
+@interface NSArray (IQ_NSArray_Sort)
 
--(id)initWithFrame:(CGRect)frame Title:(NSString *)title;
+///--------------
+/// @name Sorting
+///--------------
+
+/**
+ Returns the array by sorting the UIView's by their tag property.
+ */
+- (NSArray*)sortedArrayByTag;
+
+/**
+ Returns the array by sorting the UIView's by their tag property.
+ */
+- (NSArray*)sortedArrayByPosition;
 
 @end

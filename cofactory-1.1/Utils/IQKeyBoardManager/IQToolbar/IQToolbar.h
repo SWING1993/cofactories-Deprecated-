@@ -1,7 +1,7 @@
 //
-//  IQTextView.h
+//  IQToolbar.h
 // https://github.com/hackiftekhar/IQKeyboardManager
-// Copyright (c) 2013-14 Iftekhar Qurashi.
+// Copyright (c) 2013-15 Iftekhar Qurashi.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,29 +21,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UITextView.h>
-#import "IQKeyboardManagerConstants.h"
+#import <UIKit/UIToolbar.h>
 
-/*!
- @author Iftekhar Qurashi
- 
- @related hack.iftekhar@gmail.com
- 
- @class IQTextView
- 
- @abstract UITextView with placeholder support
+/**
+ IQToolbar for IQKeyboardManager.
  */
-NS_CLASS_AVAILABLE_IOS(7_0) @interface IQTextView : UITextView
+@interface IQToolbar : UIToolbar <UIInputViewAudioFeedback>
 
-/*!
- @property placeholder
- 
- @abstract To set textView's placeholder text. Default is ni.
+/**
+ Title font for toolbar.
  */
-@property(nonatomic,copy)   NSString    *placeholder;
+@property(nonatomic, strong) UIFont *titleFont;
+
+/**
+ Toolbar title
+ */
+@property(nonatomic, strong) NSString *title;
 
 @end
-
-
-
 

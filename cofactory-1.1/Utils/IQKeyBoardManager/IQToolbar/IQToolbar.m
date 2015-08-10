@@ -1,7 +1,7 @@
 //
 //  IQToolbar.m
 // https://github.com/hackiftekhar/IQKeyboardManager
-// Copyright (c) 2013-14 Iftekhar Qurashi.
+// Copyright (c) 2013-15 Iftekhar Qurashi.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,40 @@
 
 #import "IQToolbar.h"
 #import "IQKeyboardManagerConstantsInternal.h"
+#import "IQTitleBarButtonItem.h"
+#import "IQUIView+Hierarchy.h"
+
+#import <UIKit/UIViewController.h>
+
+#if !(__has_feature(objc_instancetype))
+    #define instancetype id
+#endif
 
 
 @implementation IQToolbar
+@synthesize titleFont = _titleFont;
+@synthesize title = _title;
+
++(void)initialize
+{
+    [super initialize];
+    
+    [[self appearance] setTintColor:nil];
+    
+#ifdef NSFoundationVersionNumber_iOS_6_1
+    if ([[self appearance] respondsToSelector:@selector(setBarTintColor:)])
+    {
+        [[self appearance] setBarTintColor:nil];
+    }
+#endif
+    
+    [[self appearance] setBackgroundColor:nil];
+}
 
 -(void)initialize
 {
     [self sizeToFit];
+    self.autoresizingMask = UIViewAutoresizingFlexibleWidth;// | UIViewAutoresizingFlexibleHeight;
     
      if (IQ_IS_IOS7_OR_GREATER)
     {
@@ -41,7 +68,7 @@
     }
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self)
@@ -51,7 +78,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)coder
+- (instancetype)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
     if (self)
@@ -61,15 +88,49 @@
     return self;
 }
 
-//To resize IQToolbar on device rotation.
-- (void) layoutSubviews
+-(CGSize)sizeThatFits:(CGSize)size
 {
-    [super layoutSubviews];
-    CGRect origFrame = self.frame;
-    [self sizeToFit];
-    CGRect newFrame = self.frame;
-    newFrame.origin.y += origFrame.size.height - newFrame.size.height;
-    self.frame = newFrame;
+    CGSize sizeThatFit = [super sizeThatFits:size];
+
+    sizeThatFit.height = 44;
+    
+    return sizeThatFit;
+}
+
+-(void)setTintColor:(UIColor *)tintColor
+{
+    [super setTintColor:tintColor];
+
+    for (UIBarButtonItem *item in self.items)
+    {
+        [item setTintColor:tintColor];
+    }
+}
+
+-(void)setTitleFont:(UIFont *)titleFont
+{
+    _titleFont = titleFont;
+    
+    for (UIBarButtonItem *item in self.items)
+    {
+        if ([item isKindOfClass:[IQTitleBarButtonItem class]])
+        {
+            [(IQTitleBarButtonItem*)item setFont:titleFont];
+        }
+    }
+}
+
+-(void)setTitle:(NSString *)title
+{
+    _title = title;
+    
+    for (UIBarButtonItem *item in self.items)
+    {
+        if ([item isKindOfClass:[IQTitleBarButtonItem class]])
+        {
+            [(IQTitleBarButtonItem*)item setTitle:title];
+        }
+    }
 }
 
 #pragma mark - UIInputViewAudioFeedback delegate

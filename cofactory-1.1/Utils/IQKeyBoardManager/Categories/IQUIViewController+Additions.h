@@ -1,7 +1,7 @@
 //
-//  UIWindow+Hierarchy.m
+//  IQUIViewController+Additions.h
 // https://github.com/hackiftekhar/IQKeyboardManager
-// Copyright (c) 2013-14 Iftekhar Qurashi.
+// Copyright (c) 2013-15 Iftekhar Qurashi.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,37 +21,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "UIWindow+Hierarchy.h"
+#import <UIKit/UIKit.h>
 
-#import <UIKit/UINavigationController.h>
+@interface UIViewController (Additions)
 
-#import "IQKeyboardManagerConstantsInternal.h"
-IQ_LoadCategory(IQUIWindowHierarchy)
+#ifdef NSFoundationVersionNumber_iOS_5_1
 
+/**
+ Top/Bottom Layout constraint which help library to manage keyboardTextField distance
+ */
+@property(nonatomic, strong) IBOutlet NSLayoutConstraint *IQLayoutGuideConstraint;
 
-@implementation UIWindow (Hierarchy)
-
-//  Function to get topMost ViewController object.
-- (UIViewController*) topMostController
-{
-    UIViewController *topController = [self rootViewController];
-    
-    //  Getting topMost ViewController
-    while ([topController presentedViewController])	topController = [topController presentedViewController];
-	
-    //  Returning topMost ViewController
-    return topController;
-}
-
-- (UIViewController*)currentViewController;
-{
-    UIViewController *currentViewController = [self topMostController];
-    
-    while ([currentViewController isKindOfClass:[UINavigationController class]] && [(UINavigationController*)currentViewController topViewController])
-        currentViewController = [(UINavigationController*)currentViewController topViewController];
-    
-    return currentViewController;
-}
-
+#endif
 
 @end

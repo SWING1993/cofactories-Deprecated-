@@ -1,7 +1,7 @@
 //
 //  IQSegmentedNextPrevious.m
 // https://github.com/hackiftekhar/IQKeyboardManager
-// Copyright (c) 2013-14 Iftekhar Qurashi.
+// Copyright (c) 2013-15 Iftekhar Qurashi.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 
 #import "IQSegmentedNextPrevious.h"
-
+#import "IQKeyboardManagerConstantsInternal.h"
 #import <Foundation/NSArray.h>
 
 @interface IQSegmentedNextPrevious ()
@@ -41,16 +41,19 @@
 }
 
 //  Initialize method
--(id)initWithTarget:(id)target previousAction:(SEL)previousAction nextAction:(SEL)nextAction
+-(instancetype)initWithTarget:(id)target previousAction:(SEL)previousAction nextAction:(SEL)nextAction
 {
     //  Creating it with two items, Previous/Next.
-    self = [super initWithItems:[NSArray arrayWithObjects:@"Previous",@"Next",nil]];
+    self = [super initWithItems:[NSArray arrayWithObjects:IQLocalizedString(@"Previous", nil),IQLocalizedString(@"Next", nil), nil]];
     
     if (self)
     {
-        if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
+        if (IQ_IS_IOS7_OR_GREATER == NO)
         {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
             [self setSegmentedControlStyle:UISegmentedControlStyleBar];
+#pragma GCC diagnostic pop
         }
         
 		[self setMomentary:YES];

@@ -22,6 +22,8 @@
         _job = [dictionary objectForKey:@"job"];
         _id_card = [dictionary objectForKey:@"id_card"];
         _factoryName = [dictionary objectForKey:@"factoryName"];
+        _tag = dictionary[@"tag"];
+        
         NSArray *factorySize = [dictionary objectForKey:@"factorySize"];
         if ([factorySize[1] intValue] == 2147483647) {
             // 最大的选项

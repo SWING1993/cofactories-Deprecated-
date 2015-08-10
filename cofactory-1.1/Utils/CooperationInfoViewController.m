@@ -152,7 +152,7 @@
     self.tableView.tableHeaderView = headerView;
 
     self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"]];
-    self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司业务类型"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_公司相册"]];
+    self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司业务类型"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_公司相册"],[UIImage imageNamed:@"set_标签"]];
     self.cellImageArray3=@[[UIImage imageNamed:@"空闲"],[UIImage imageNamed:@"货车2"],[UIImage imageNamed:@"认证2"],];
     self.cellImageArray4=@[[UIImage imageNamed:@"空闲2"],[UIImage imageNamed:@"货车"],[UIImage imageNamed:@"认证"]];
 }
@@ -195,22 +195,26 @@
         switch (statusCode) {
             case 201:
             {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"收藏成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
-//                [favoriteBtn setTitle:@"已收藏" forState:UIControlStateNormal];
+//                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"收藏成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                [alertView show];
 
+                [Tools showHudTipStr:@"收藏成功"];
             }
                 break;
             case 400:
             {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"未登录" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
+//                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"未登录" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                [alertView show];
+                [Tools showHudTipStr:@"未登录"];
+
             }
                 break;
             case 401:
             {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"需要重新登录" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
+//                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"需要重新登录" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                [alertView show];
+                [Tools showHudTipStr:@"需要重新登录"];
+
             }
                 break;
                 
@@ -231,13 +235,18 @@
         return 1;
     }
     if (section==1) {
-        return 6;
-    }else{
-        if (self.factoryModel.factoryType==GarmentFactory||self.factoryModel.factoryType==ProcessingFactory) {
-            return 1;
+        if (self.factoryModel.factoryType == GarmentFactory) {
+            return 6;
         }else{
-            return 1;
+            return 7;
         }
+    }else{
+//        if (self.factoryModel.factoryType==GarmentFactory||self.factoryModel.factoryType==ProcessingFactory) {
+//            return 1;
+//        }else{
+//            return 1;
+//        }
+        return 1;
     }
 }
 
@@ -329,6 +338,15 @@
                     cellLabel.text=@"公司相册";
                     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 
+                }
+                    break;
+                case 6:{
+                    cellLabel.text=@"公司标签";
+                    if ([self.factoryModel.tag isEqualToString:@"0"]) {
+                        cell.detailTextLabel.text=@"暂无标签";
+                    }else{
+                        cell.detailTextLabel.text=self.factoryModel.tag;
+                    }
                 }
                     break;
 

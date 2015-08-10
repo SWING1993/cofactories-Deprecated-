@@ -32,6 +32,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
 
+
     if ([Tools isLogin]) {
         ViewController *mainVC = [[ViewController alloc] init];
         self.window.rootViewController = mainVC;

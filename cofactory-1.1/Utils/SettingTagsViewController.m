@@ -88,11 +88,8 @@
 
     NSString *curTag = [_allTags objectAtIndex:indexPath.row];
 
-    [Tools showHudTipStr:[NSString stringWithFormat:@"您选择的标签为%@",curTag ]];
-
-    NSNumber*tag = [[NSNumber alloc]initWithInteger:indexPath.row];
     [HttpClient updateFactoryfactoryTag:curTag andBlock:^(int statusCode) {
-        NSLog(@"%d",statusCode);
+        [Tools showHudTipStr:[NSString stringWithFormat:@"您选择的标签为%@",curTag ]];
     }];
 }
 
