@@ -18,7 +18,7 @@
 		04459B381B784BAB00D74653 /* UIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 04459B2C1B784BAB00D74653 /* UIView+Hierarchy.m */; };
 		04459B391B784BAB00D74653 /* UIView+IQKeyboardToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 04459B2E1B784BAB00D74653 /* UIView+IQKeyboardToolbar.m */; };
 		04459B3A1B784BAB00D74653 /* UIWindow+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 04459B301B784BAB00D74653 /* UIWindow+Hierarchy.m */; };
-		0448E13F1B75C9F4002B78B8 /* SettingTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0448E13E1B75C9F4002B78B8 /* SettingTagsViewController.m */; };
+		04459B3C1B785BB500D74653 /* SettingTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04459B3B1B785BB500D74653 /* SettingTagsViewController.m */; };
 		0448E1421B75CA2E002B78B8 /* TagCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0448E1411B75CA2E002B78B8 /* TagCCell.m */; };
 		0448E1451B75CD78002B78B8 /* TagsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0448E1441B75CD78002B78B8 /* TagsManager.m */; };
 		0448E1491B75D7C2002B78B8 /* UIBarButtonItem+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 0448E1481B75D7C2002B78B8 /* UIBarButtonItem+Common.m */; };
@@ -295,8 +295,8 @@
 		04459B2E1B784BAB00D74653 /* UIView+IQKeyboardToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+IQKeyboardToolbar.m"; sourceTree = "<group>"; };
 		04459B2F1B784BAB00D74653 /* UIWindow+Hierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+Hierarchy.h"; sourceTree = "<group>"; };
 		04459B301B784BAB00D74653 /* UIWindow+Hierarchy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+Hierarchy.m"; sourceTree = "<group>"; };
+		04459B3B1B785BB500D74653 /* SettingTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTagsViewController.m; sourceTree = "<group>"; };
 		0448E13D1B75C9F4002B78B8 /* SettingTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTagsViewController.h; sourceTree = "<group>"; };
-		0448E13E1B75C9F4002B78B8 /* SettingTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTagsViewController.m; sourceTree = "<group>"; };
 		0448E1401B75CA2E002B78B8 /* TagCCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagCCell.h; sourceTree = "<group>"; };
 		0448E1411B75CA2E002B78B8 /* TagCCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagCCell.m; sourceTree = "<group>"; };
 		0448E1431B75CD78002B78B8 /* TagsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsManager.h; sourceTree = "<group>"; };
@@ -831,7 +831,7 @@
 			isa = PBXGroup;
 			children = (
 				0448E13D1B75C9F4002B78B8 /* SettingTagsViewController.h */,
-				0448E13E1B75C9F4002B78B8 /* SettingTagsViewController.m */,
+				04459B3B1B785BB500D74653 /* SettingTagsViewController.m */,
 				0448E1401B75CA2E002B78B8 /* TagCCell.h */,
 				0448E1411B75CA2E002B78B8 /* TagCCell.m */,
 				0448E1431B75CD78002B78B8 /* TagsManager.h */,
@@ -2018,8 +2018,8 @@
 				045A26C31B6893D5002DE415 /* THDatePickerViewController.m in Sources */,
 				049582EE1B6B490F00A69E6D /* UIView+JKPicker.m in Sources */,
 				045A26851B6876D1002DE415 /* SDPhotoBrowser.m in Sources */,
+				04459B3C1B785BB500D74653 /* SettingTagsViewController.m in Sources */,
 				BDC908D81B4E9B3700856A32 /* AFSecurityPolicy.m in Sources */,
-				0448E13F1B75C9F4002B78B8 /* SettingTagsViewController.m in Sources */,
 				04746D561B6B284E00C3C45E /* UMChatToolBar.m in Sources */,
 				BDC908D61B4E9B3700856A32 /* AFHTTPSessionManager.m in Sources */,
 				64F4C6741B70B31D00F52FF0 /* MJRefreshConst.m in Sources */,
