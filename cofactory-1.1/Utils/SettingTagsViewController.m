@@ -31,6 +31,8 @@
 //    self.allTags = [NSArray array];
 //    self.allTags = @[@"排版好",@"工期快",@"设备齐全",@"节省布料",@"自备货车"];
 
+    //分支
+
 
     self.title = @"个性标签";
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
