@@ -601,11 +601,16 @@
     }else{
 
         NSLog(@"不经过高斯模糊处理");
-        NSData*imageData = UIImageJPEGRepresentation(aImage, 0.1);
-        UIImage*newImage = [[UIImage alloc]initWithData:imageData];
 
+        CGSize size = {kScreenW,kScreenW};
+        UIGraphicsBeginImageContext(size);
+        [aImage drawInRect:CGRectMake(0,0,size.width,size.height)];
+        UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+
+        NSData*imageData = UIImageJPEGRepresentation(newImage, 0.6);
         [picker dismissViewControllerAnimated:YES completion:^{
-            self.image = newImage;
+            self.image = [[UIImage alloc]initWithData:imageData];
             [self.tableView reloadData];
         }];
     }
