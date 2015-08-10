@@ -122,25 +122,32 @@
             break;
         case 1:{
             if ([_passwordTF.text isEqualToString:@""]||[_usernameTF.text isEqualToString:@""]) {
-                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"请您填写账号以及密码后登陆" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
+//                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"请您填写账号以及密码后登陆" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                [alertView show];
+                [Tools showHudTipStr:@"请您填写账号以及密码后登陆"];
             }else{
                 [HttpClient loginWithUsername:_usernameTF.text password:_passwordTF.text andBlock:^(int statusCode) {
                     NSLog(@"%d",statusCode);
                     switch (statusCode) {
                         case 0:{
-                            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"网络错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                            [alertView show];
+//                            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"网络错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                            [alertView show];
+                            [Tools showHudTipStr:@"网络错误"];
+
                         }
                             break;
                         case 200:{
-                            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"登陆成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                            [alertView show];
+//                            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"登陆成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                            [alertView show];
+                            [ViewController goMain];
+
                         }
                             break;
                         case 400:{
-                            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"用户名密码错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                            [alertView show];
+//                            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"用户名密码错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                            [alertView show];
+                            [Tools showHudTipStr:@"用户名或密码错误"];
+
                         }
                             break;
                             

@@ -8,6 +8,7 @@
 #import "Header.h"
 #import "ModelsHeader.h"
 #import "MeViewController.h"
+#import "SettingTagsViewController.h"
 
 @interface MeViewController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate> {
 
@@ -118,7 +119,7 @@
 
 
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, kBannerHeight-45, kScreenW-100, 20)];
-    factoryNameLabel.font=[UIFont boldSystemFontOfSize:18];
+    factoryNameLabel.font=[UIFont boldSystemFontOfSize:17];
 
 //    [[SDImageCache sharedImageCache]clearDisk];
     //初始化用户model
@@ -134,13 +135,15 @@
     }];
 
     infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-150, kBannerHeight-25, 140, 20)];
+//    infoLabel.backgroundColor = [UIColor lightGrayColor];
+    infoLabel.textAlignment = NSTextAlignmentRight;
     infoLabel.font=[UIFont boldSystemFontOfSize:15.0f];
     infoLabel.textColor=[UIColor grayColor];
     [headerView addSubview:infoLabel];
 
     self.tableView.tableHeaderView = headerView;
 
-    self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"]];
+    self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"],[UIImage imageNamed:@"set_标签"]];
     self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司相册"],[UIImage imageNamed:@"set_公司业务类型"]];
 }
 
@@ -216,7 +219,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section==0) {
-        return 4;
+        if (self.userModel.factoryType == GarmentFactory) {
+            return 4;
+        }else{
+            return 5;
+        }
     }if (section==1) {
         if (self.userModel.factoryType==GarmentFactory||self.userModel.factoryType==ProcessingFactory) {
             return 5;
@@ -272,6 +279,11 @@
 
             }
                 break;
+            case 4:{
+                cellLabel.text=@"个性标签";
+
+            }
+                break;
 
             default:
                 break;
@@ -290,7 +302,16 @@
                 break;
             case 1:{
                 cellLabel.text=@"公司地址";
-                cell.detailTextLabel.text=self.userModel.factoryAddress;
+
+//                cell.detailTextLabel.text=self.userModel.factoryAddress;
+                UILabel*label = [[UILabel alloc]init];
+                label.frame = CGRectMake(110, 7, kScreenW-145, 30);
+                label.font=[UIFont systemFontOfSize:14.0f];
+
+                label.textAlignment = NSTextAlignmentRight;
+                label.text =  self.userModel.factoryAddress;
+                [cell addSubview:label];
+//                cell.detailTextLabel.sizeToFit;
 
             }
                 break;
@@ -418,6 +439,23 @@
                         FavoriteViewController*favoriteVC = [[FavoriteViewController alloc]init];
                         favoriteVC.hidesBottomBarWhenPushed=YES;
                         [self.navigationController pushViewController:favoriteVC animated:YES];
+                    }
+                        break;
+                    case 4:{
+                        SettingTagsViewController*tagsVC = [[SettingTagsViewController alloc]init];
+                        if (self.userModel.factoryType==ProcessingFactory) {
+                            //加工
+                            tagsVC.allTags = @[@"包工",@"包工包料",@"流水线生产",@"整件生产",@"工价低"];
+                        }else if (self.userModel.factoryType==CuttingFactory){
+                            //代裁厂
+                            tagsVC.allTags = @[@"排版好",@"工期快",@"设备齐全",@"节省布料"];
+                        }
+                        else{
+                            //锁眼钉扣
+                            tagsVC.allTags = @[@"时间短",@"钉扣类型多"];
+                        }
+                        tagsVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:tagsVC animated:YES];
                     }
                         break;
 

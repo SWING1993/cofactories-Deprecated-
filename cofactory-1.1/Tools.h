@@ -28,6 +28,12 @@
 
 + (NSString *)compareIfTodayAfterDates:(NSDate *)comps;
 
+/*!
+ 提示框
+
+ @param tipStr 提示框文本
+ */
++ (void)showHudTipStr:(NSString *)tipStr;
 
 
 @end

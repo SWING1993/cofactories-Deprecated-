@@ -209,7 +209,7 @@
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
     NSArray *factorySize = [[NSArray alloc] initWithObjects:factorySizeMin, factorySizeMax, nil];
     [manager POST:API_register parameters:@{@"phone": username,@"inviteCode": inviteCode, @"password": password, @"type": @(type), @"code": code, @"factoryName": factoryName, @"lon": @(lon), @"lat": @(lat), @"factorySize": factorySize, @"factoryAddress": factoryAddress, @"factoryServiceRange": (factoryServiceRange == nil ? @"" : factoryServiceRange)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        block(@{@"statusCode": @([operation.response statusCode]), @"responseObject": @"注册成功"});
+        block(@{@"statusCode": @([operation.response statusCode]), @"message": @"注册成功"});
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         switch ([operation.response statusCode]) {
             case 401:
@@ -239,7 +239,7 @@
         [self getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
 
             if ([[responseDictionary objectForKey:@"statusCode"] intValue] == 200) {
-                NSLog(@"登录信息字典模型%@",[responseDictionary objectForKey:@"model"] );
+                NSLog(@"登录信息:%@",[responseDictionary objectForKey:@"model"] );
             }
         }];
         block(200);// 登录成功
@@ -267,7 +267,7 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_userProfile parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//            NSLog(@"%@",responseObject);
+            NSLog(@"用户信息：%@",responseObject);
             UserModel *userModel = [[UserModel alloc] initWithDictionary:responseObject];
             block(@{@"statusCode": @([operation.response statusCode]), @"model": userModel});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -449,6 +449,30 @@
         block(404);// access_token不存在
     }
 }
+
++ (void)updateFactoryfactoryTag:(NSString *)factoryTag andBlock:(void (^)(int statusCode))block {
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
+
+        if (factoryTag)
+            [mutableDictionary setObject:factoryTag forKey:@"tag"];
+        [manager POST:API_factoryProfile parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block((int)[operation.response statusCode]);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            block((int)[operation.response statusCode]);
+        }];
+    } else {
+        block(404);// access_token不存在
+    }
+
+
+}
+
 
 + (void)getUserProfileWithUid:(NSString *)uid andBlock:(void (^)(NSDictionary *))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];

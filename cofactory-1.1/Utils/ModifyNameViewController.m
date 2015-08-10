@@ -23,7 +23,6 @@
     self.title=@"姓名";
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
-    //    self.navigationController.navigationBarHidden=YES;
 
     //确定Btn
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];

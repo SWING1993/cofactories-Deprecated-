@@ -36,8 +36,6 @@
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
     self.navigationItem.leftBarButtonItem = setButton;
 
-
-
     [self createUI];
 }
 
@@ -69,32 +67,32 @@
     _usernameTF.placeholder=@"请输入手机号";
     [TFView addSubview:_usernameTF];
 
-    UILabel*passwordLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 65, 40, 20)];
-    passwordLable.text=@"密 码";
+    UILabel*passwordLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 114, 60, 20)];
+    passwordLable.text=@"新密码";
     passwordLable.font=[UIFont boldSystemFontOfSize:16.0f];
     passwordLable.textColor=[UIColor blackColor];
     [TFView addSubview:passwordLable];
 
-    _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(60, 55, kScreenW-80, 40)];
+    _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(60, 105, kScreenW-190, 40)];
     _passwordTF.clearButtonMode=UITextFieldViewModeWhileEditing;
     _passwordTF.secureTextEntry=YES;
-    _passwordTF.placeholder=@"请填写密码";
+    _passwordTF.placeholder=@"请填写新密码";
     [TFView addSubview:_passwordTF];
 
 
-    UILabel*codeLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 114, 60, 20)];
+    UILabel*codeLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 65, 60, 20)];
     codeLable.text=@"验证码";
     codeLable.font=[UIFont boldSystemFontOfSize:15];
     codeLable.textColor=[UIColor blackColor];
     [TFView addSubview:codeLable];
 
-    _codeTF = [[UITextField alloc]initWithFrame:CGRectMake(60, 105, kScreenW-190, 40)];
+    _codeTF = [[UITextField alloc]initWithFrame:CGRectMake(60, 55, kScreenW-80, 40)];
     _codeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
     _codeTF.keyboardType = UIKeyboardTypeNumberPad;
     _codeTF.placeholder=@"请填写验证码";
     [TFView addSubview:_codeTF];
 
-    _codeBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW-130, 107, 100, 35)];
+    _codeBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW-130, 57, 100, 35)];
     [_codeBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
     _codeBtn.layer.cornerRadius=5.0f;
     _codeBtn.layer.masksToBounds=YES;

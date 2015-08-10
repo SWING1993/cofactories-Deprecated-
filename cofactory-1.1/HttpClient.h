@@ -158,6 +158,14 @@
 + (void)updateFactoryProfileWithFactoryName:(NSString *)factoryName factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryLon:(NSNumber *)factoryLon factoryLat:(NSNumber *)factoryLat factoryFree:(id)factoryFree factoryDescription:(NSString *)factoryDescription andBlock:(void (^)(int statusCode))block;
 
 /*!
+ 设置工厂标签
+
+ @param factoryTag 工厂标签
+ @param block      回调函数 会返回 0->(网络错误) 200->(更新成功) 400->(未登录) 401->(access_token过期或无效) 404->(access_token不存在)
+ */
++ (void)updateFactoryfactoryTag:(NSString *)factoryTag andBlock:(void (^)(int statusCode))block;
+
+/*!
  获取任意用户资料
 
  @param uid   用户uid
@@ -308,7 +316,6 @@
  @param parameters 推送设置数组(具体项目看API文档)
  @param block      回调函数 会返回 0->(网络错误) 201->(更新成功) 400->(未登录) 401->(access_toke过期或者无效) 404->(access_token不存在)
  */
-
 + (void)getPushSettingWithBlock:(void(^)(NSDictionary *dictionary))block;
 
 

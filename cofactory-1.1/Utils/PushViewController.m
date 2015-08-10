@@ -86,6 +86,8 @@
     
     GetPushModel *pushModel = self.cellArray[indexPath.row];
 
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
     int facType = [pushModel.factoryTypes intValue];
     switch (facType) {
         case 100:
@@ -105,6 +107,11 @@
         default:
             break;
     }
+
+
+
+
+
 
     cell.deletButton.tag = indexPath.row+1;
     [cell.deletButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -136,10 +143,10 @@
     return view;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 110;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+//{
+//    return 110;
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -25,34 +25,41 @@
 #define CellIdentifier @"Cell"
 
 
-//gt123  song
 
-//第三方
+#import "AppDelegate.h"
+
+/*!
+ Category
+ */
+#import "UIBarButtonItem+Common.h"
+#import "UIColor+Expanded.h"
+#import "UIImage+Common.h"
+#import "UIImageView+Common.h"
+
+
+/*!
+ Utils
+ */
+#import "HttpClient.h"
+#import "Tools.h"
 #import "MobClick.h"
-//#import "UMessage.h"
 #import "MBProgressHUD.h"
 #import "UIButton+WebCache.h"
 #import "UIImageView+WebCache.h"
 #import "JSDropDownMenu.h"//筛选
 #import "ODRefreshControl.h"//下拉刷新
 
-//工具类
-#import "HttpClient.h"
-#import "Tools.h"
 
-
-
-#import "AppDelegate.h"
+/*!
+ Controller
+ */
 #import "ViewController.h"
-
-//登录注册VC
 #import "LoginViewController.h"//登录
 #import "RegisterViewController.h"//注册
 #import "ResetPasswordViewController.h" //找回密码
 #import "TouristViewController.h" //游客身份
 
-//HomeVC
-#import "HomeViewController.h"
+#import "HomeViewController.h"//HomeVC
 #import "HomeEditViewController.h"//主页编辑
 
 //推送助手
@@ -72,14 +79,10 @@
 #import "OrderListTableViewCell.h"
 #import "OrderDetailViewController.h"
 
-
-
 //认证服务
 #import "VeifyViewController.h"//认证
 #import "VeifyingViewController.h"//认证中
 #import "VeifyEndViewController.h"//认证成功
-
-
 #import "ActivityViewController.h"//营销活动
 #import "WebViewController.h"//抽奖
 
@@ -106,11 +109,4 @@
 #import "UploadImageViewController.h"//上传图片
 #import "FavoriteViewController.h"//我的收藏
 #import "DescriptionViewController.h"//公司简介
-
-
-
-
-
-
-
 

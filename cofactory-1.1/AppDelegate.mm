@@ -63,29 +63,16 @@
     if (!ret) {
         NSLog(@"百度地图SDK错误");
     }
-
-    //推送助手模型
-    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"dic"] != nil)
-    {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"dic"];
-    }
-
     // 友盟分享
     [UMSocialData setAppKey:@"5566b5e767e58e0c4700aab0"];
     //[UMSocialData openLog:YES];
-
-
     // 友盟用户反馈
     [UMFeedback setAppkey:@"5566b5e767e58e0c4700aab0"];
-
-
     // 注册友盟统计 SDK
     [MobClick startWithAppkey:@"5566b5e767e58e0c4700aab0" reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
     // Version 标识
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     [MobClick setAppVersion:version];
-
-
 
     // 注册友盟推送服务 SDK
     //set AppKey and LaunchOptions
@@ -142,7 +129,6 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    //么么哒
     [HttpClient registerDeviceWithDeviceId:[NSString stringWithFormat:@"%@", deviceToken] andBlock:^(int statusCode) {
                 NSLog(@"deviceTokenStatus %d", statusCode);
     }];
