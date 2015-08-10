@@ -49,7 +49,7 @@
         };
     }];
     
-    self.tabBarItem.badgeValue = nil;
+    self.tabBarItem.badgeValue = nil;//22
 
 }
 
