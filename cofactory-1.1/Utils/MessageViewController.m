@@ -23,10 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
-
     self.messageArray = [[NSMutableArray alloc]initWithCapacity:0];
-    
     self.view.backgroundColor=[UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets=NO;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -51,6 +48,8 @@
             [refreshControl endRefreshing];
         };
     }];
+    
+    self.tabBarItem.badgeValue = nil;
 
 }
 
