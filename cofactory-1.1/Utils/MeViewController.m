@@ -311,7 +311,6 @@
                 label.textAlignment = NSTextAlignmentRight;
                 label.text =  self.userModel.factoryAddress;
                 [cell addSubview:label];
-//                cell.detailTextLabel.sizeToFit;
 
             }
                 break;
@@ -475,7 +474,7 @@
                         break;
                     case 1:{
                         SetaddressViewController*setaddressVC = [[SetaddressViewController alloc]init];
-                        setaddressVC.placeholder=self.userModel.factoryAddress;
+//                        setaddressVC.placeholder=self.userModel.factoryAddress;
                         setaddressVC.hidesBottomBarWhenPushed=YES;
                         [self.navigationController pushViewController:setaddressVC animated:YES];
                     }

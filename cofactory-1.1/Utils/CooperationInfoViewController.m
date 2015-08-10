@@ -294,7 +294,13 @@
                     break;
                 case 1:{
                     cellLabel.text=@"公司地址";
-                    cell.detailTextLabel.text=self.factoryModel.factoryAddress;
+                    UILabel*label = [[UILabel alloc]init];
+                    label.frame = CGRectMake(110, 7, kScreenW-125, 30);
+                    label.font=[UIFont systemFontOfSize:14.0f];
+
+                    label.textAlignment = NSTextAlignmentRight;
+                    label.text =  self.factoryModel.factoryAddress;
+                    [cell addSubview:label];
 
                 }
                     break;
