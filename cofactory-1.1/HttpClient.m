@@ -13,9 +13,9 @@
 #import "GetPushModel.h"
 
 
-//#define kBaseUrl @"http://app2.cofactories.com"
+#define kBaseUrl @"http://app2.cofactories.com"
 
-#define kBaseUrl @"http://192.168.100.2:3001"
+//#define kBaseUrl @"http://192.168.100.2:3001"
 
 #define kClientID @"123"
 #define kSecret @"123"

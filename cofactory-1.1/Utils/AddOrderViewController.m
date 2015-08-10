@@ -577,6 +577,7 @@
         //根据上下文，处理过的图片，重新组件
         CGImageRef imageRef = CGBitmapContextCreateImage (ctx);
         UIImage *returnImage = [UIImage imageWithCGImage:imageRef];
+        
 
         //clean up
         CGContextRelease(ctx);
@@ -589,14 +590,18 @@
         CGColorSpaceRelease(colorSpace);
         CGImageRelease(imageRef);
 
+        NSData*imageData = UIImageJPEGRepresentation(returnImage, 0.7);
+        UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+
         [picker dismissViewControllerAnimated:YES completion:^{
-            self.image = returnImage;
+            self.image = newImage;
             [self.tableView reloadData];
         }];
+
     }else{
 
         NSLog(@"不经过高斯模糊处理");
-        NSData*imageData = UIImageJPEGRepresentation(aImage, 0.3);
+        NSData*imageData = UIImageJPEGRepresentation(aImage, 0.1);
         UIImage*newImage = [[UIImage alloc]initWithData:imageData];
 
         [picker dismissViewControllerAnimated:YES completion:^{

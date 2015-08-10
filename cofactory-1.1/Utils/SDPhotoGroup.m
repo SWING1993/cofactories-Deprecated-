@@ -36,6 +36,7 @@
     _photoItemArray = photoItemArray;
     [photoItemArray enumerateObjectsUsingBlock:^(SDPhotoItem *obj, NSUInteger idx, BOOL *stop) {
         UIButton *btn = [[UIButton alloc] init];
+        [btn.imageView setContentMode:UIViewContentModeScaleAspectFill];
         [btn sd_setImageWithURL:[NSURL URLWithString:obj.thumbnail_pic] forState:UIControlStateNormal];
         btn.tag = idx;
         [btn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];

@@ -82,54 +82,6 @@
         [_tableView registerClass:[OrderListTableViewCell class] forCellReuseIdentifier:@"cell"];
         [self.view addSubview:_tableView];
 
-
-//    }else{
-//
-//        /*创建选项栏，并进行一些设置*/
-//        self.JSDropDownMenu = [[JSDropDownMenu alloc] initWithOrigin:CGPointMake(0, 64) andHeight:44];
-//        self.JSDropDownMenu.indicatorColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:1.0];
-//        self.JSDropDownMenu.separatorColor = [UIColor colorWithRed:210.0f/255.0f green:210.0f/255.0f blue:210.0f/255.0f alpha:1.0];
-//        self.JSDropDownMenu.textColor = [UIColor colorWithRed:83.f/255.0f green:83.f/255.0f blue:83.f/255.0f alpha:1.0f];
-//        self.JSDropDownMenu.dataSource = self;
-//        self.JSDropDownMenu.delegate = self;
-//        [self.view addSubview:self.JSDropDownMenu];
-//
-//        switch (_currentData1Index) {
-//            case 0:
-//                _currentData2Index = 0;
-//                _currentData3Index = 0;
-//                break;
-//            case 1:
-//                _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"5000-1000万件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
-//                _data3 = [NSMutableArray arrayWithObjects:@"3天", @"5天",@"5天以上", nil];
-//                _currentData2Index = 0;
-//                _currentData3Index = 0;
-//                break;
-//            case 2:
-//                _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"5000-1000万件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
-//                _data3 = [NSMutableArray arrayWithObjects:@"1天", @"1-3天",@"3天以上", nil];
-//
-//                _currentData2Index = 0;
-//                _currentData3Index = 0;
-//                break;
-//
-//            default:
-//                _data2 = [NSMutableArray arrayWithObjects: @"500件以内", @"5000-1000万件", @"1000-2000件", @"2000-5000件", @"5000件以上", nil];
-//                _data3 = [NSMutableArray arrayWithObjects:@"1天", @"1-3天",@"3天以上", nil];
-//
-//                _currentData2Index = 0;
-//                _currentData3Index = 0;
-//                break;
-//
-//        }
-        _tableView= [[UITableView alloc]initWithFrame:CGRectMake(0, 64+44, kScreenW, kScreenH-64-44) style:UITableViewStylePlain];
-        _tableView.delegate = self;
-        _tableView.dataSource = self;
-        _tableView.rowHeight = 130.0f;
-        _tableView.showsVerticalScrollIndicator = NO;
-        [_tableView registerClass:[OrderListTableViewCell class] forCellReuseIdentifier:@"cell"];
-        [self.view addSubview:_tableView];
-
     }
 }
 

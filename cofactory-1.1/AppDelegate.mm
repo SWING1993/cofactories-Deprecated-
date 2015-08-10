@@ -64,7 +64,7 @@
     if (!ret) {
         NSLog(@"百度地图SDK错误");
     }
-    // 友盟分享
+    // 友盟分享  
     [UMSocialData setAppKey:@"55a0778367e58e452400710a"];
     //[UMSocialData openLog:YES];
     // 友盟用户反馈

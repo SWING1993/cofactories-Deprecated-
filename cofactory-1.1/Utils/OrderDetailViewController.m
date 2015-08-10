@@ -222,8 +222,8 @@
     {
         //确认订单按钮
         self.confirmOrderButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.confirmOrderButton .frame = CGRectMake((kScreenW-140)/2.0, 10, 140, 35);
-        self.confirmOrderButton .backgroundColor = [UIColor colorWithRed:0/255.0 green:191/255.0 blue:255/255.0 alpha:1.0];
+        self.confirmOrderButton .frame = CGRectMake(20, 10, kScreenW-40, 35);
+        self.confirmOrderButton .backgroundColor = [UIColor colorWithHexString:@"0x3bbd79"];
         self.confirmOrderButton .layer.masksToBounds = YES;
         self.confirmOrderButton .layer.cornerRadius = 3;
         [self.confirmOrderButton  setTitle:@"确认订单" forState:UIControlStateNormal];

@@ -45,9 +45,6 @@
 
 - (void)didMoveToSuperview
 {
-
-    NSLog(@"didMoveToSuperview");
-
     [self setupScrollView];
     
     [self setupToolbars];
@@ -85,7 +82,6 @@
 
 - (void)saveImage
 {
-    NSLog(@"saveImage");
     int index = _scrollView.contentOffset.x / _scrollView.bounds.size.width;
     UIImageView *currentImageView = _scrollView.subviews[index];
     
@@ -101,8 +97,6 @@
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
 {
-    NSLog(@"(void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo");
-
     [_indicatorView removeFromSuperview];
     
     UILabel *label = [[UILabel alloc] init];
@@ -126,8 +120,6 @@
 
 - (void)setupScrollView
 {
-
-    NSLog(@"setupScrollView");
     _scrollView = [[UIScrollView alloc] init];
     _scrollView.delegate = self;
     _scrollView.showsHorizontalScrollIndicator = NO;
@@ -151,8 +143,6 @@
 // 加载图片
 - (void)setupImageOfImageViewForIndex:(NSInteger)index
 {
-
-    NSLog(@"加载图片");
     SDBrowserImageView *imageView = _scrollView.subviews[index];
     if (imageView.hasLoadedImage) return;
     if ([self highQualityImageURLForIndex:index]) {
@@ -165,8 +155,6 @@
 
 - (void)photoClick:(UITapGestureRecognizer *)recognizer
 {
-    NSLog(@")photoClick:");
-
     _scrollView.hidden = YES;
     
     SDBrowserImageView *currentImageView = (SDBrowserImageView *)recognizer.view;
@@ -200,8 +188,6 @@
 
 - (void)layoutSubviews
 {
-    NSLog(@"layoutSubviews:");
-
     [super layoutSubviews];
 
     CGRect rect = self.bounds;
@@ -242,8 +228,6 @@
 
 - (void)showFirstImage
 {
-    
-    NSLog(@"showFirstImage");
     UIView *sourceView = self.sourceImagesContainerView.subviews[self.currentImageIndex];
     CGRect rect = [self.sourceImagesContainerView convertRect:sourceView.frame toView:self];
     
@@ -275,9 +259,6 @@
 
 - (UIImage *)placeholderImageForIndex:(NSInteger)index
 {
-
-    NSLog(@"placeholderImageForIndex");
-
     if ([self.delegate respondsToSelector:@selector(photoBrowser:placeholderImageForIndex:)]) {
         return [self.delegate photoBrowser:self placeholderImageForIndex:index];
     }
@@ -298,7 +279,6 @@
 {
     int index = (scrollView.contentOffset.x + _scrollView.bounds.size.width * 0.5) / _scrollView.bounds.size.width;
 
-    NSLog(@"滑动");
     // 有过缩放的图片在拖动100后清除缩放
     CGFloat margin = 100.0;
     CGFloat x = scrollView.contentOffset.x;
