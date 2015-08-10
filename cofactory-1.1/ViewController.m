@@ -28,7 +28,7 @@ static NSString *badgeValue;
             if ([responseDictionary[@"statusCode"] intValue]==200) {
                 NSArray *array=responseDictionary[@"responseArray"];
                 NSInteger messageCount = array.count;
-                badgeValue = [NSString stringWithFormat:@"%d",messageCount];
+                badgeValue = [NSString stringWithFormat:@"%ld",(long)messageCount];
                 NSLog(@"badgeValue==%@",badgeValue);
                 [ViewController goMain];
             };
@@ -73,7 +73,7 @@ static NSString *badgeValue;
     messageNavigationController.navigationBar.barStyle=UIBarStyleBlack;
     messageViewController.tabBarItem.image =[UIImage imageNamed:@"tabmes"];
     messageViewController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabmesSelected"];
-    if (badgeValue ==nil ) {
+    if ([badgeValue isEqualToString:@"0"] ) {
         messageViewController.tabBarItem.badgeValue = nil;
     }else{
         messageViewController.tabBarItem.badgeValue = badgeValue;

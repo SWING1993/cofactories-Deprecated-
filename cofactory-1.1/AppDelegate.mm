@@ -65,7 +65,7 @@
         NSLog(@"百度地图SDK错误");
     }
     // 友盟分享
-    [UMSocialData setAppKey:@"5566b5e767e58e0c4700aab0"];
+    [UMSocialData setAppKey:@"55a0778367e58e452400710a"];
     //[UMSocialData openLog:YES];
     // 友盟用户反馈
     [UMFeedback setAppkey:@"5566b5e767e58e0c4700aab0"];

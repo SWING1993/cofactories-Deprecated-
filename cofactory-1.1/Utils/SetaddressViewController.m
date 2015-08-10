@@ -9,6 +9,7 @@
 #import "Header.h"
 
 #import "SetaddressViewController.h"
+
 #define PROVINCE_COMPONENT  0
 #define CITY_COMPONENT      1
 #define DISTRICT_COMPONENT  2
@@ -151,8 +152,10 @@
         mapVC.centerLocation = result.location;
         [self.navigationController pushViewController:mapVC animated:YES];
     } else {
-        UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"抱歉，未找到结果" message:@"请重新填写地址" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
+//        UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"抱歉，未找到结果" message:@"请重新填写地址" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//        [alertView show];
+        [Tools showHudTipStr:@"抱歉，未找到结果。"];
+
     }
 }
 
@@ -272,21 +275,21 @@
     UILabel *myView = nil;
 
     if (component == PROVINCE_COMPONENT) {
-        myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 78, 30)];
+        myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, kScreenW/3-15, 30)];
         myView.textAlignment = NSTextAlignmentCenter;
         myView.text = [province objectAtIndex:row];
         myView.font = [UIFont systemFontOfSize:14];
         myView.backgroundColor = [UIColor clearColor];
     }
     else if (component == CITY_COMPONENT) {
-        myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 95, 30)];
+        myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, kScreenW/3, 30)];
         myView.textAlignment = NSTextAlignmentCenter;
         myView.text = [city objectAtIndex:row];
         myView.font = [UIFont systemFontOfSize:14];
         myView.backgroundColor = [UIColor clearColor];
     }
     else {
-        myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 110, 30)];
+        myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, kScreenW/3+15, 30)];
         myView.textAlignment = NSTextAlignmentCenter;
         myView.text = [district objectAtIndex:row];
         myView.font = [UIFont systemFontOfSize:14];
