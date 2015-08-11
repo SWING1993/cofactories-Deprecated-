@@ -234,10 +234,24 @@
     searchOrderListTVC *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     OrderModel *model = self.dataArray[indexPath.row];
 
-    NSLog(@">>>>>>>>??????%@",model.serviceRange);
+    NSLog(@"interest==%d,status==%d",model.interest,model.status);
 
+    if (model.interest == 0) {
+        cell.labels.hidden = YES;
+        cell.interestCountLabel.hidden = YES;
+    }if (model.interest > 0) {
+        cell.labels.hidden = NO;
+        cell.interestCountLabel.hidden = NO;
+        cell.interestCountLabel.text = [NSString stringWithFormat:@"%d",model.interest];
+    }
+    
+    if (model.status == 0) {
+        cell.statusImage.hidden = YES;
+    }if (model.status == 1) {
+        cell.statusImage.hidden = NO;
+    }
 
-
+    
     if (self.orderListType == 1)
     {
         cell.orderTypeLabel.hidden = NO;
@@ -248,10 +262,6 @@
 
     }
 
-    //    if (model.serviceRange == nil)
-    //    {
-    //        cell.orderTypeLabel.hidden = YES;
-    //    }
     else
     {
         cell.orderTypeLabel.hidden = YES;
@@ -273,10 +283,6 @@
 
         }
 
-        //    if (model.serviceRange == nil)
-        //    {
-        //        cell.orderTypeLabel.hidden = YES;
-        //    }
         else
         {
             cell.orderTypeLabel.hidden = YES;
@@ -294,15 +300,7 @@
     cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
     cell.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"件"];
 
-    NSString *interestString = [NSString stringWithFormat:@"%@",model.interest];
-    if ([interestString isEqualToString:@"(null)"])
-    {
-        cell.intersestLabelView.hidden = YES;
-    }else
-    {
-        cell.interestCountLabel.text = [NSString stringWithFormat:@"%@%@",model.interest,@"家"];
-    }
-
+    
     [cell.orderDetailsBtn addTarget:self action:@selector(orderDetailsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     cell.orderDetailsBtn.tag = indexPath.row+1;
     return cell;

@@ -21,8 +21,11 @@
 @property (nonatomic, copy) NSString *createTime;//订单创建时间
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *phone;
-@property (nonatomic, copy) NSString *interest;
 @property (nonatomic, copy) NSString *facName;
+@property (nonatomic, assign) int status;
+@property (nonatomic, assign) int interest;
+
+
 
 
 

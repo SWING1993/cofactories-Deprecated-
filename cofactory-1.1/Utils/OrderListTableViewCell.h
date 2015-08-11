@@ -9,15 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface OrderListTableViewCell : UITableViewCell
-/*@property (weak, nonatomic) IBOutlet UILabel *time;
- @property (weak, nonatomic) IBOutlet UIImageView *orderImage;
- @property (weak, nonatomic) IBOutlet UILabel *orderType;
- @property (weak, nonatomic) IBOutlet UILabel *workingTime;
- @property (weak, nonatomic) IBOutlet UILabel *amount;
- @property (weak, nonatomic) IBOutlet UIButton *acceptOrder;
- */
-@property (nonatomic,strong) UILabel *timeLabel,  *orderTypeLabel, *workingTimeLabel,  *amountLabel,  *interestCountLabel,  *label;
-@property (nonatomic,strong) UIImageView *orderImage;
+@property (nonatomic,strong) UILabel *timeLabel,  *orderTypeLabel, *workingTimeLabel,  *amountLabel,  *interestCountLabel,  *labels;
+@property (nonatomic,strong) UIImageView *orderImage,  *statusImage;
 @property (nonatomic,strong) UIView *intersestLabelView;
 @property (nonatomic,strong) UIButton *confirmOrderBtn,  *orderDetailsBtn;
 @end

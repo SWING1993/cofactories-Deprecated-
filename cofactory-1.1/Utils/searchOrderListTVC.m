@@ -45,20 +45,26 @@
         self.workingTimeLabel.font = [UIFont systemFontOfSize:14.0f];
         [self addSubview:self.workingTimeLabel];
         
-        self.intersestLabelView = [[UIView alloc]initWithFrame:CGRectMake(170, 60, [UIScreen mainScreen].bounds.size.width-180, 20)];
-        self.intersestLabelView.userInteractionEnabled = YES;
-        [self addSubview:self.intersestLabelView];
+//        self.intersestLabelView = [[UIView alloc]initWithFrame:CGRectMake(170, 60, [UIScreen mainScreen].bounds.size.width-180, 20)];
+//        self.intersestLabelView.userInteractionEnabled = YES;
+//        [self addSubview:self.intersestLabelView];
+//
         
-        self.interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
+        self.interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 92, (kScreenW-140)/2.0, 22)];
         self.interestCountLabel.font = [UIFont systemFontOfSize:14.0f];
         self.interestCountLabel.textColor = [UIColor orangeColor];
-        [self.intersestLabelView addSubview:self.interestCountLabel];
+        self.interestCountLabel.textAlignment = 2;
+        [self addSubview:self.interestCountLabel];
         
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(30, 0, [UIScreen mainScreen].bounds.size.width-180-50, 20)];
-        label.font = [UIFont systemFontOfSize:14.0f];
-        label.text = @"厂商对此订单感兴趣";
-        [self.intersestLabelView addSubview:label];
         
+        self.labels = [[UILabel alloc]initWithFrame:CGRectMake((kScreenW-140)/2.0, 92, 140, 22)];
+        self.labels.font = [UIFont systemFontOfSize:14.0f];
+        self.labels.text = @"家厂商对此订单感兴趣";
+        [self addSubview:self.labels];
+        
+        self.statusImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-75, 15, 65, 65)];
+        self.statusImage.image = [UIImage imageNamed:@"章.jpg"];
+        [self addSubview:self.statusImage];
         
         UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 87, [UIScreen mainScreen].bounds.size.width-20, 1)];
         lineLabel.backgroundColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:0.3];

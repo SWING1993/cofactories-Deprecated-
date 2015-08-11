@@ -91,22 +91,22 @@
     NSLog(@"=====%@",self.model.interest);
     NSLog(@"=====%@",self.model.facName);
 
-
-    if (self.model.interest == nil)
-    {
-        _interestCountLabel.hidden = YES;
-        _label.hidden = YES;
-        NSLog(@"11");
-    }
-    else
-    {
-        _interestCountLabel.hidden = NO;
-        _label.hidden = NO;
-        ////////////////////////////////////////////////////////////////////////
-        _interestCountLabel.text = self.model.interest;
-        _label.text = @"厂商对此订单感兴趣";
-        NSLog(@"22");
-    }
+//
+//    if (self.model.interest == nil)
+//    {
+//        _interestCountLabel.hidden = YES;
+//        _label.hidden = YES;
+//        NSLog(@"11");
+//    }
+//    else
+//    {
+//        _interestCountLabel.hidden = NO;
+//        _label.hidden = NO;
+//        ////////////////////////////////////////////////////////////////////////
+//        _interestCountLabel.text = self.model.interest;
+//        _label.text = @"厂商对此订单感兴趣";
+//        NSLog(@"22");
+//    }
 
     self.contactManufacturerView = [[UIView alloc]initWithFrame:CGRectMake(kScreenW-60, 10, 40,40)];
     self.contactManufacturerView.backgroundColor=[UIColor clearColor];

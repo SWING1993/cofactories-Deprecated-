@@ -105,20 +105,20 @@
 }
 
 + (BOOL)isTourist {
-//    NSString*Tourist=[[NSUserDefaults standardUserDefaults]objectForKey:@"toursit"];
-//    if ([Tourist isEqualToString:@"YES"]) {
-//        return YES;
-//    }else{
-//        return NO;
-//    }
-    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
-    NSString *serviceProviderIdentifier = [baseUrl host];
-    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
-    if (credential) {
-        return NO;//不是游客
+    NSString*Tourist=[[NSUserDefaults standardUserDefaults]objectForKey:@"toursit"];
+    if ([Tourist isEqualToString:@"YES"]) {
+        return YES;
     }else{
-        return YES;//游客登录
+        return NO;
     }
+//    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+//    NSString *serviceProviderIdentifier = [baseUrl host];
+//    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+//    if (credential) {
+//        return NO;//不是游客
+//    }else{
+//        return YES;//游客登录
+//    }
 }
 
 + (BOOL)isLogin {

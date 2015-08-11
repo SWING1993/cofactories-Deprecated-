@@ -29,7 +29,8 @@
         _workingTime=dictionary[@"workingTime"];
         _name = dictionary[@"name"];
         _phone = dictionary[@"phone"];
-        _interest = dictionary[@"interest"];
+        _interest = [dictionary[@"interest"] intValue];
+        _status = [dictionary[@"status"] intValue];
         _facName = dictionary[@"factoryName"];
     }
     return self;

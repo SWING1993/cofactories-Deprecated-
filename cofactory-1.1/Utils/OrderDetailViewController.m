@@ -110,14 +110,14 @@
     label.text = @"家厂商对此订单感兴趣";
     [tableHeaderView addSubview:label];
 
-    if (self.model.interest == nil)
-    {
-        label.hidden = YES;
-    }else
-    {
-        interestCountLabel.text = self.model.interest;
-        label.hidden = NO;
-    }
+//    if (self.model.interest == nil)
+//    {
+//        label.hidden = YES;
+//    }else
+//    {
+//        interestCountLabel.text = self.model.interest;
+//        label.hidden = NO;
+//    }
 
 
     UILabel *labels = [[UILabel alloc]initWithFrame:CGRectMake(0, 60, [UIScreen mainScreen].bounds.size.width, 10)];
