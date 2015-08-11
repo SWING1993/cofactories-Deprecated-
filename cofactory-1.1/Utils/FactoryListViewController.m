@@ -1199,43 +1199,6 @@
     
        NSLog(@">>>>>>>>>>>self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
 
-
-
-
- //
-//    if (indexPath.column == 0 && indexPath.leftOrRight == 1 && indexPath.leftRow == 1 && indexPath.row == 0)
-//    {
-//        /*
-//        [HttpClient searchWithFactoryName:self.factoryName factoryType:100 factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax andBlock:^(NSDictionary *responseDictionary) {
-//            self.factoryModelArray = nil;
-//            self.factoryModelArray = responseDictionary[@"responseArray"];
-//            [_tableView reloadData];
-//        }];
-//         */
-//        
-//        [HttpClient searchWithFactoryName:self.factoryName factoryType:100 factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:nil factoryFree:nil andBlock:^(NSDictionary *responseDictionary) {
-//            
-//            self.factoryModelArray = nil;
-//            self.factoryModelArray = responseDictionary[@"responseArray"];
-//            [_tableView reloadData];
-//        }];
-//    }
-//    else
- //   {
-//        [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax andBlock:^(NSDictionary *responseDictionary) {
-//            self.factoryModelArray = nil;
-//            self.factoryModelArray = responseDictionary[@"responseArray"];
-//            [_tableView reloadData];
-//        }];
-
- //   }
-    
-    
-    
-    
-    
-    
-    //787878
     
 //    NSLog(@">>>>>isHaveTruck=%d",self.isHaveTruck);
 

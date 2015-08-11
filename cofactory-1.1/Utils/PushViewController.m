@@ -239,4 +239,12 @@
     [_tableView reloadData];
 }
 
+- (void)dealloc
+{
+    NSLog(@"释放内存");
+    _tableView.dataSource = nil;
+    _tableView.delegate = nil;
+
+}
+
 @end

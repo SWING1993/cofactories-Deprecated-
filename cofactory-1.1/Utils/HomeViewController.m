@@ -61,7 +61,7 @@
         self.factoryFreeStatus=userModel.factoryFreeStatus;
         self.hasTruck=userModel.hasTruck;
         self.factoryFreeTime=userModel.factoryFreeTime;
-        NSLog(@"刷新工厂=%@  自备货车%d  空闲时间%@",userModel.factoryFreeStatus,self.hasTruck,self.factoryFreeTime);
+//        NSLog(@"刷新工厂=%@  自备货车%d  空闲时间%@",userModel.factoryFreeStatus,self.hasTruck,self.factoryFreeTime);
     }];
 
     [super viewWillAppear:animated];
@@ -72,7 +72,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    NSLog(@"游客=%d",[Tools isTourist]);
+//    NSLog(@"游客=%d",[Tools isTourist]);
 
     //抽奖
     [HttpClient drawAccessWithBlock:^(int statusCode) {
@@ -413,7 +413,7 @@
                 // 各类营销活动
                 NSString*accessToken = [[NSUserDefaults standardUserDefaults]objectForKey:@"accessToken"];
                 ActivityViewController *webViewController = [[ActivityViewController alloc] init];
-                webViewController.url = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/activity/draw.html#%@",accessToken ];
+                webViewController.url = [NSString stringWithFormat:@"http://app2.cofactories.com/activity/draw.html#%@",accessToken ];
                 webViewController.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:webViewController animated:YES];
 
@@ -516,6 +516,19 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+
+//    if ([self.view window] == nil)// 是否是正在使用的视图
+//    {
+//        NSLog(@"self.view = nil");
+//        self.view = nil;// 目的是再次进入时能够重新加载调用viewDidLoad函数。
+//    }
+}
+
+- (void)dealloc {
+
+    NSLog(@"释放内存");
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
 }
 
 /*

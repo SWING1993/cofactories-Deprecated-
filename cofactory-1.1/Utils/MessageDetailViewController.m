@@ -85,6 +85,13 @@
     return size.height+80.0f;
 }
 
+- (void)dealloc
+{
+    NSLog(@"释放内存");
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

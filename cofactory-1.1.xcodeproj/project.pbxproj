@@ -1372,6 +1372,7 @@
 		04E644441B69C59000A3DF2E /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				045171BA1B70B03800BAA6E8 /* CoreFoundation.framework */,
 				BD8C4DF41B4FB2BA0065ECFA /* libz.dylib */,
 				BDC907FB1B4E9B3700856A32 /* BaiduMapAPI.framework */,
 				BDEDA4351B52234B000E5012 /* CoreGraphics.framework */,
@@ -1601,7 +1602,6 @@
 		BDC907AE1B4E9A5600856A32 = {
 			isa = PBXGroup;
 			children = (
-				045171BA1B70B03800BAA6E8 /* CoreFoundation.framework */,
 				BDC907B91B4E9A5700856A32 /* cofactory-1.1 */,
 				BDC907D31B4E9A5700856A32 /* cofactory-1.1Tests */,
 				BDC907B81B4E9A5700856A32 /* Products */,

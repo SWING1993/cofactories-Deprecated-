@@ -26,9 +26,9 @@
 @property (nonatomic,retain)NSArray*cellImageArray3;
 @property (nonatomic,retain)NSArray*cellImageArray4;
 
-@property (nonatomic, strong) UIView *markView;
-@property (nonatomic, strong) UIView *scrollPanel;
-@property (nonatomic, strong) UIScrollView *myScrollViews;
+//@property (nonatomic, strong) UIView *markView;
+//@property (nonatomic, strong) UIView *scrollPanel;
+//@property (nonatomic, strong) UIScrollView *myScrollViews;
 
 @property (nonatomic,retain)NSMutableArray*employee;
 @property (nonatomic,retain)NSMutableArray*environment;
@@ -37,10 +37,9 @@
 @end
 
 @implementation CooperationInfoViewController {
+
     UILabel*factoryNameLabel;
-
     UILabel*infoLabel;
-
     UIButton*favoriteBtn;
 
     UIImageView*leftImage;
@@ -177,11 +176,15 @@
     if (buttonIndex==1) {
         [HttpClient addPartnerWithUid:self.factoryModel.uid andBlock:^(int statusCode) {
             if (statusCode==201) {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"添加成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
+//                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"添加成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                [alertView show];
+                [Tools showHudTipStr:@"添加成功"];
+
             }else{
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"添加失败" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
+//                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"添加失败" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                [alertView show];
+                [Tools showHudTipStr:@"添加失败"];
+
             }
         }];
     }
@@ -241,11 +244,6 @@
             return 7;
         }
     }else{
-//        if (self.factoryModel.factoryType==GarmentFactory||self.factoryModel.factoryType==ProcessingFactory) {
-//            return 1;
-//        }else{
-//            return 1;
-//        }
         return 1;
     }
 }
@@ -492,6 +490,13 @@
         [self.navigationController pushViewController:factoryPhoto animated:YES];
     }
 
+}
+
+- (void)dealloc
+{
+    NSLog(@"释放内存");
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

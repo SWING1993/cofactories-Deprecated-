@@ -12,7 +12,7 @@
 @interface ViewController ()
 
 @end
-static NSString *badgeValue;
+//static 
 
 @implementation ViewController
 
@@ -23,16 +23,9 @@ static NSString *badgeValue;
         NSLog(@"未登录");
         [ViewController goLogin];
     }else{
+        [ViewController goMain];
+
         NSLog(@"已登录");
-        [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {
-            if ([responseDictionary[@"statusCode"] intValue]==200) {
-                NSArray *array=responseDictionary[@"responseArray"];
-                NSInteger messageCount = array.count;
-                badgeValue = [NSString stringWithFormat:@"%ld",(long)messageCount];
-                NSLog(@"badgeValue==%@",badgeValue);
-                [ViewController goMain];
-            };
-        }];
     }
 }
 //加载注册界面
@@ -66,6 +59,8 @@ static NSString *badgeValue;
     cooperationNavigationController.tabBarItem.image =[UIImage imageNamed:@"tabpat"];
     cooperationNavigationController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabpatSelected"];
 
+
+
     // MessageViewController 初始化
     MessageViewController *messageViewController = [[MessageViewController alloc] init];
     UINavigationController *messageNavigationController = [[UINavigationController alloc] initWithRootViewController:messageViewController];
@@ -73,11 +68,20 @@ static NSString *badgeValue;
     messageNavigationController.navigationBar.barStyle=UIBarStyleBlack;
     messageViewController.tabBarItem.image =[UIImage imageNamed:@"tabmes"];
     messageViewController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabmesSelected"];
-    if ([badgeValue isEqualToString:@"0"] ) {
-        messageViewController.tabBarItem.badgeValue = nil;
-    }else{
-        messageViewController.tabBarItem.badgeValue = badgeValue;
-    }
+    //获取消息
+    [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {
+        if ([responseDictionary[@"statusCode"] intValue]==200) {
+            NSArray *array=responseDictionary[@"responseArray"];
+            NSInteger messageCount = array.count;
+            NSString *badgeValue = [NSString stringWithFormat:@"%ld",(long)messageCount];
+            NSLog(@"badgeValue==%@",badgeValue);
+            if ([badgeValue isEqualToString:@"0"] ) {
+                messageViewController.tabBarItem.badgeValue = nil;
+            }else{
+                messageViewController.tabBarItem.badgeValue = badgeValue;
+            }
+        };
+    }];
 
     // MeViewController 初始化
     MeViewController *meViewController = [[MeViewController alloc] init];

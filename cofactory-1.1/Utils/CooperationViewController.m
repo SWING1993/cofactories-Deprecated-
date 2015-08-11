@@ -167,6 +167,13 @@
     [self.navigationController pushViewController:infoVC animated:YES];
 }
 
+- (void)dealloc
+{
+    NSLog(@"释放内存");
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
+
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

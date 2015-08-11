@@ -13,9 +13,9 @@
 #import "GetPushModel.h"
 
 
-#define kBaseUrl @"http://app2.cofactories.com"
+//#define kBaseUrl @"http://app2.cofactories.com"
 
-//#define kBaseUrl @"http://192.168.100.2:3001"
+#define kBaseUrl @"http://192.168.100.2:3001"
 
 #define kClientID @"123"
 #define kSecret @"123"
@@ -267,7 +267,7 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_userProfile parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"用户信息：%@",responseObject);
+//            NSLog(@"用户信息：%@",responseObject);
             UserModel *userModel = [[UserModel alloc] initWithDictionary:responseObject];
             block(@{@"statusCode": @([operation.response statusCode]), @"model": userModel});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
