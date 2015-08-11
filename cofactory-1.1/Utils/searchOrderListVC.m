@@ -211,7 +211,9 @@
 {
     _tableView.delegate = nil;
     _tableView.dataSource = nil;
-    self.JSDropDownMenu = nil;
+//    self.JSDropDownMenu = nil;
+    self.JSDropDownMenu.dataSource = nil;
+    self.JSDropDownMenu.delegate = nil;
     NSLog(@"找订单释放内存");
 }
 
@@ -696,6 +698,7 @@
     
     
 }
+
 
 
 

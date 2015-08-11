@@ -1239,8 +1239,9 @@
     _tableView.dataSource = nil;
     _tableView.delegate = nil;
     _datePicker=nil;
-    self.JSDropDownMenu.delegate = nil;
-}
+
+    self.JSDropDownMenu.dataSource = nil;
+    self.JSDropDownMenu.delegate = nil;}
 
 #pragma mark - <UISearchBarDelegate>
 
