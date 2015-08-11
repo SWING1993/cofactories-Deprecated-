@@ -33,14 +33,10 @@
     self.window.backgroundColor = [UIColor whiteColor];
 
 
-    if ([Tools isLogin]) {
-        ViewController *mainVC = [[ViewController alloc] init];
-        self.window.rootViewController = mainVC;
-    }else{
-        
-//        NSArray *coverImageNames = @[@"img_index_01txt", @"img_index_02txt", @"img_index_03txt"];
-//        NSArray *backgroundImageNames = @[@"img_index_01bg", @"img_index_02bg", @"img_index_03bg"];
-//        self.introductionView = [[ZWIntroductionViewController alloc] initWithCoverImageNames:coverImageNames backgroundImageNames:backgroundImageNames];
+    if ([Tools isTourist]) {
+        NSArray *coverImageNames = @[@"img_index_01txt", @"img_index_02txt", @"img_index_03txt"];
+        NSArray *backgroundImageNames = @[@"img_index_01bg", @"img_index_02bg", @"img_index_03bg"];
+        self.introductionView = [[ZWIntroductionViewController alloc] initWithCoverImageNames:coverImageNames backgroundImageNames:backgroundImageNames];
 
         NSArray *cofactoryImageNames = @[@"引导页1", @"引导页2", @"引导页3"];
 
@@ -56,6 +52,9 @@
             ViewController *mainVC = [[ViewController alloc] init];
             weakSelf.window.rootViewController = mainVC;
         };
+    }else{
+        ViewController *mainVC = [[ViewController alloc] init];
+        self.window.rootViewController = mainVC;
     }
 
     // 初始化百度地图 SDK

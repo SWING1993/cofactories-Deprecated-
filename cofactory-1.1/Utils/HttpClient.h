@@ -357,5 +357,21 @@
 + (void)uploadOrderImageWithImage:(UIImage *)image oid:(NSString *)oid andblock:(void (^)(NSDictionary *dictionary))block;
 
 
+/*!
+ 登记投标
+
+ @param oid   订单oid
+ @param block 回调函数block
+ */
++ (void)bidOrderWithOid:(int)oid andBlock:(void (^)(int statusCode))block ;
+
+/*!
+ 获取投标工厂
+
+ @param oid   oid
+ @param block 回调函数block
+ */
++ (void)getBidOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block ;
+
 
 @end

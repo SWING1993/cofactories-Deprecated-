@@ -14,17 +14,25 @@
 //分割字符串
 + (NSMutableArray *)RangeSizeWith:(NSString *)sizeString;
 
+
 + (NSMutableArray *)WithTime:(NSString *)timeString;
+
 
 
 + (MBProgressHUD *)createHUD;
 
+
 + (NSString *)SizeWith:(NSString *)sizeString;
 
+
+/*!
+ 身份是不是游客
+
+ @return YES=游客  NO=已登录
+ */
 + (BOOL)isTourist;
 
-//song
-+ (BOOL)isLogin;  //是否登录
+
 
 + (NSString *)compareIfTodayAfterDates:(NSDate *)comps;
 
