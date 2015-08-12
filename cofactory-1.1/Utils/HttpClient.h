@@ -240,6 +240,9 @@
 //关闭订单
 + (void)closeOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
++ (void)closeOrderWithOid:(int)oid Uid:(int)uid andBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
 //订单搜索
 + (void)searchOrderWithRole:(FactoryType)role FactoryServiceRange:(NSString *)factoryServiceRange Time:(NSString *)time AmountMin:(NSNumber *)amountMin AmountMax:(NSNumber *)amountMax  Page:(NSNumber *)page andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
