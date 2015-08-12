@@ -129,7 +129,6 @@
 		0479EAE61B5A5714007FE48E /* UploadImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0479EAE51B5A5714007FE48E /* UploadImageViewController.m */; };
 		0479EAE91B5A8F61007FE48E /* CooperationInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0479EAE81B5A8F61007FE48E /* CooperationInfoViewController.m */; };
 		047EF0E31B6085A0007DD2AE /* AddOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047EF0E21B6085A0007DD2AE /* AddOrderViewController.m */; };
-		04822E1E1B62724200A370F6 /* SearchOrderListDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 04822E1B1B62724200A370F6 /* SearchOrderListDetailsVC.m */; };
 		04822E1F1B62724200A370F6 /* searchOrderListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 04822E1C1B62724200A370F6 /* searchOrderListTVC.m */; };
 		04822E201B62724200A370F6 /* searchOrderListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 04822E1D1B62724200A370F6 /* searchOrderListVC.m */; };
 		04822E331B62B54C00A370F6 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04822E321B62B54C00A370F6 /* PhotoViewController.m */; };
@@ -178,6 +177,7 @@
 		04F60C691B58D17200CD3DEC /* SetMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C681B58D17200CD3DEC /* SetMapViewController.m */; };
 		04F60C6C1B58EC7F00CD3DEC /* FactoryRangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C6B1B58EC7F00CD3DEC /* FactoryRangeModel.m */; };
 		04F60C701B58EF8D00CD3DEC /* ModifySizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C6F1B58EF8D00CD3DEC /* ModifySizeViewController.m */; };
+		649BA0841B7B15E5008EDE31 /* SearchOrderDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 649BA0831B7B15E5008EDE31 /* SearchOrderDetailsVC.m */; };
 		64F4C6721B70B31D00F52FF0 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 64F4C6621B70B31D00F52FF0 /* MJRefresh.bundle */; };
 		64F4C6731B70B31D00F52FF0 /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C6651B70B31D00F52FF0 /* MJRefreshBaseView.m */; };
 		64F4C6741B70B31D00F52FF0 /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C6671B70B31D00F52FF0 /* MJRefreshConst.m */; };
@@ -481,10 +481,8 @@
 		0479EAE81B5A8F61007FE48E /* CooperationInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CooperationInfoViewController.m; sourceTree = "<group>"; };
 		047EF0E11B6085A0007DD2AE /* AddOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddOrderViewController.h; sourceTree = "<group>"; };
 		047EF0E21B6085A0007DD2AE /* AddOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddOrderViewController.m; sourceTree = "<group>"; };
-		04822E181B62724200A370F6 /* SearchOrderListDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchOrderListDetailsVC.h; sourceTree = "<group>"; };
 		04822E191B62724200A370F6 /* searchOrderListTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = searchOrderListTVC.h; sourceTree = "<group>"; };
 		04822E1A1B62724200A370F6 /* searchOrderListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = searchOrderListVC.h; sourceTree = "<group>"; };
-		04822E1B1B62724200A370F6 /* SearchOrderListDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchOrderListDetailsVC.m; sourceTree = "<group>"; };
 		04822E1C1B62724200A370F6 /* searchOrderListTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchOrderListTVC.m; sourceTree = "<group>"; };
 		04822E1D1B62724200A370F6 /* searchOrderListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchOrderListVC.m; sourceTree = "<group>"; };
 		04822E311B62B54C00A370F6 /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
@@ -573,6 +571,8 @@
 		04F60C6B1B58EC7F00CD3DEC /* FactoryRangeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoryRangeModel.m; sourceTree = "<group>"; };
 		04F60C6E1B58EF8D00CD3DEC /* ModifySizeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifySizeViewController.h; sourceTree = "<group>"; };
 		04F60C6F1B58EF8D00CD3DEC /* ModifySizeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifySizeViewController.m; sourceTree = "<group>"; };
+		649BA0821B7B15E5008EDE31 /* SearchOrderDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchOrderDetailsVC.h; sourceTree = "<group>"; };
+		649BA0831B7B15E5008EDE31 /* SearchOrderDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchOrderDetailsVC.m; sourceTree = "<group>"; };
 		64F4C6621B70B31D00F52FF0 /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
 		64F4C6631B70B31D00F52FF0 /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
 		64F4C6641B70B31D00F52FF0 /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
@@ -1172,8 +1172,8 @@
 				04822E1D1B62724200A370F6 /* searchOrderListVC.m */,
 				04822E191B62724200A370F6 /* searchOrderListTVC.h */,
 				04822E1C1B62724200A370F6 /* searchOrderListTVC.m */,
-				04822E181B62724200A370F6 /* SearchOrderListDetailsVC.h */,
-				04822E1B1B62724200A370F6 /* SearchOrderListDetailsVC.m */,
+				649BA0821B7B15E5008EDE31 /* SearchOrderDetailsVC.h */,
+				649BA0831B7B15E5008EDE31 /* SearchOrderDetailsVC.m */,
 			);
 			name = SearchOrder;
 			sourceTree = "<group>";
@@ -2031,6 +2031,7 @@
 				0455E10E1B61D62E009C5CDA /* WebViewController.m in Sources */,
 				049582EB1B6B490F00A69E6D /* JKPromptView.m in Sources */,
 				BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */,
+				649BA0841B7B15E5008EDE31 /* SearchOrderDetailsVC.m in Sources */,
 				04746D571B6B284E00C3C45E /* UMFullScreenPhotoView.m in Sources */,
 				BDC909051B4EB77000856A32 /* LoginViewController.m in Sources */,
 				0473330A1B60D2B700F684A2 /* OrderListViewController.m in Sources */,
@@ -2177,7 +2178,6 @@
 				045A26661B686682002DE415 /* CalendarDayCell.m in Sources */,
 				04F60C691B58D17200CD3DEC /* SetMapViewController.m in Sources */,
 				045A266B1B686682002DE415 /* CalendarMonthHeaderView.m in Sources */,
-				04822E1E1B62724200A370F6 /* SearchOrderListDetailsVC.m in Sources */,
 				BD8AD7E91B50E62600373E5E /* SDWebImageCompat.m in Sources */,
 				045A266A1B686682002DE415 /* CalendarMonthCollectionViewLayout.m in Sources */,
 				04746D581B6B284E00C3C45E /* UMPostTableViewCell.m in Sources */,

@@ -8,7 +8,7 @@
 
 #import "searchOrderListVC.h"
 #import "searchOrderListTVC.h"
-#import "SearchOrderListDetailsVC.h"
+#import "SearchOrderDetailsVC.h"
 #import "Header.h"
 #import "MJRefresh.h"
 
@@ -312,15 +312,15 @@
 
 - (void)orderDetailsBtnClick:(id)sender
 {
+    UIButton *button = (UIButton *)sender;
     if ([Tools isTourist]) {
         UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您登录后查看订单详情" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alertView show];
     }else{
-        UIButton *button = (UIButton *)sender;
         OrderModel *model = self.dataArray [button.tag-1];
-        SearchOrderListDetailsVC *vc = [[SearchOrderListDetailsVC alloc]init];
-        vc.oid = model.oid;
-        vc.uid = self.uid;
+        SearchOrderDetailsVC *vc = [[SearchOrderDetailsVC alloc]init];
+      //  vc.oid = model.oid;
+       // vc.uid = self.uid;
         vc.model = model;
         UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
         backItem.title=@"";
