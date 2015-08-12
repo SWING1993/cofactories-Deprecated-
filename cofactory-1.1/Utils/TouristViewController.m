@@ -25,7 +25,7 @@
     bgView.image=[UIImage imageNamed:@"登录bg"];
     [self.view addSubview:bgView];
     
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(30, 64+10, kScreenW-60, 50)];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(30, 10, kScreenW-60, 50)];
     label.text = @"请选择您的游客身份";
     label.textColor = [UIColor whiteColor];
     label.font=[UIFont boldSystemFontOfSize:24.0f];
@@ -37,7 +37,7 @@
     for (int i=0; i<_array.count; i++)
     {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-170)/2.0, 64+20+50*(i+1), 170, 40);
+        button.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-170)/2.0, 20+50*(i+1), 170, 40);
         button.backgroundColor = [UIColor whiteColor];
         button.tag= i;
         button.alpha=0.8f;
@@ -50,7 +50,7 @@
     }
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(30, 364, kScreenW-60, 40);
+    button.frame = CGRectMake(30, 300, kScreenW-60, 40);
     [button setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
     [button setTitle:@"上一步" forState:UIControlStateNormal];
     [button addTarget:self action:@selector(goBackClick) forControlEvents:UIControlEventTouchUpInside];

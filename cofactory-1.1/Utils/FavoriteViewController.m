@@ -35,7 +35,7 @@
     self.automaticallyAdjustsScrollViewInsets=NO;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor=[UIColor whiteColor];
-    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 64, kScreenW, kScreenH-64) style:UITableViewStyleGrouped];
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64)  style:UITableViewStyleGrouped];
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.showsVerticalScrollIndicator=NO;
@@ -45,7 +45,6 @@
     //下拉刷新
     ODRefreshControl *refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
     [refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
-
 }
 
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
@@ -79,14 +78,15 @@
         FactoryModel*factoryModel=self.modelArray[indexPath.section];
 
         UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 80, 80)];
-        //NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",factoryModel.uid];
-
         NSString* imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",factoryModel.uid];
         [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"placeholder232"]];
         headerImage.clipsToBounds=YES;
         headerImage.contentMode=UIViewContentModeScaleAspectFill;
         headerImage.layer.cornerRadius=80/2.0f;
         headerImage.layer.masksToBounds=YES;
+        headerImage.layer.borderWidth=0.3f;
+        headerImage.layer.borderColor=[UIColor blackColor].CGColor;
+
         [cell addSubview:headerImage];
 
         for (int i=0; i<3; i++) {

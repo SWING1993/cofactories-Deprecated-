@@ -14,24 +14,16 @@
 {
     UITableView *_tableView;
 }
-
-
 @property (nonatomic, retain)NSMutableArray*orderModerArr;
-
-
 @end
 
 @implementation OrderListViewController {
-    
     int oid;
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    //   NSLog(@"+++++=====self++==%d",self.userType);
-    
     self.view.backgroundColor = [UIColor whiteColor];
     if (self.isHistory==YES) {
         self.title=@"历史订单";
@@ -58,7 +50,7 @@
     [super viewDidLoad];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
-    _tableView= [[UITableView alloc]initWithFrame:CGRectMake(0, 64, kScreenW, kScreenH-64) style:UITableViewStylePlain];
+    _tableView= [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64)  style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.rowHeight = 130.0f;

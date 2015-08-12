@@ -33,7 +33,7 @@
     bgView.image=[UIImage imageNamed:@"登录bg"];
     [self.view addSubview:bgView];
 
-    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100, kScreenW-20, 100)];
+    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100-64, kScreenW-20, 100)];
     TFView.alpha=0.9f;
     TFView.backgroundColor=[UIColor whiteColor];
     TFView.layer.borderWidth=2.0f;
@@ -68,7 +68,7 @@
     [TFView addSubview:_passwordTF];
     
     //button
-    UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 220, (kScreenW-20)/2-20, 35)];
+    UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 220-64, (kScreenW-20)/2-20, 35)];
     registerBtn.backgroundColor=[UIColor whiteColor];
     registerBtn.alpha=0.9f;
     registerBtn.layer.cornerRadius=5.0f;
@@ -79,7 +79,7 @@
     [registerBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:registerBtn];
     
-    UIButton*loginBtn=[[UIButton alloc]initWithFrame:CGRectMake((kScreenW-20)/2+30, 220, (kScreenW-20)/2-20, 35)];
+    UIButton*loginBtn=[[UIButton alloc]initWithFrame:CGRectMake((kScreenW-20)/2+30, 220-64, (kScreenW-20)/2-20, 35)];
     loginBtn.layer.cornerRadius=5.0f;
     loginBtn.tag=1;
     loginBtn.layer.masksToBounds=YES;
@@ -91,7 +91,7 @@
     [self.view addSubview:loginBtn];
 
     
-    UIButton*touristBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 270, kScreenW-20, 40)];
+    UIButton*touristBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 270-64, kScreenW-20, 40)];
 //    touristBtn.alpha=0.8f;
     touristBtn.tag=2;
     touristBtn.layer.cornerRadius=5.0f;
@@ -102,7 +102,7 @@
     [touristBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:touristBtn];
     
-    UIButton*forgetBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-80, 315, 70, 20)];
+    UIButton*forgetBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-80, 315-64, 70, 20)];
     forgetBtn.tag=3;
     forgetBtn.titleLabel.font=[UIFont systemFontOfSize:15];
     [forgetBtn setTitle:@"忘记密码" forState:UIControlStateNormal];

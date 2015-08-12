@@ -94,7 +94,7 @@
     selectedProvince = [province objectAtIndex: 0];
 
     
-    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 225, kScreenW-20, 50)];
+    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 230, kScreenW-20, 50)];
     TFView.alpha=0.9f;
     TFView.backgroundColor=[UIColor whiteColor];
     TFView.layer.borderWidth=2.0f;
@@ -115,7 +115,7 @@
     _addressTF.placeholder=@"请输入公司详细地址";
     [TFView addSubview:_addressTF];
     
-    UIButton*mapBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 295, kScreenW-20, 35)];
+    UIButton*mapBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 300, kScreenW-20, 35)];
     [mapBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
     mapBtn.layer.cornerRadius=5.0f;
     mapBtn.layer.masksToBounds=YES;

@@ -45,7 +45,7 @@
     bgView.image=[UIImage imageNamed:@"登录bg"];
     [self.view addSubview:bgView];
 
-    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100, kScreenW-20, 150)];
+    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100-64, kScreenW-20, 150)];
     TFView.alpha=0.9f;
     TFView.backgroundColor=[UIColor whiteColor];
     TFView.layer.borderWidth=2.0f;
@@ -102,7 +102,7 @@
     [_codeBtn addTarget:self action:@selector(sendCodeBtn) forControlEvents:UIControlEventTouchUpInside];
     [TFView addSubview:_codeBtn];
 
-    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 270, kScreenW-20, 35)];
+    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 270-64, kScreenW-20, 35)];
     [nextBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
     nextBtn.layer.cornerRadius=5.0f;
     nextBtn.layer.masksToBounds=YES;

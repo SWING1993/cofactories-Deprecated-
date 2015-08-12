@@ -87,7 +87,7 @@
 
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"] || [[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"加工厂"]) {
 
-        UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100, kScreenW-20, 150)];
+        UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100-64, kScreenW-20, 150)];
         TFView.alpha=0.9f;
         TFView.backgroundColor=[UIColor whiteColor];
         TFView.layer.borderWidth=2.0f;
@@ -137,7 +137,7 @@
         _factoryServiceRangeTF.delegate =self;
         [TFView addSubview:_factoryServiceRangeTF];
 
-        inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 270, kScreenW-20, 35)];
+        inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 270-64, kScreenW-20, 35)];
         inviteCodeTF.keyboardType=UIKeyboardTypeNumberPad;
         inviteCodeTF.placeholder=@"请填写邀请码，没有可忽略。";
         inviteCodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
@@ -146,7 +146,7 @@
         [self.view addSubview:inviteCodeTF];
 
 
-        UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 320, kScreenW-20, 35)];
+        UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 320-64, kScreenW-20, 35)];
         [registerBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
         registerBtn.layer.cornerRadius=5.0f;
         registerBtn.layer.masksToBounds=YES;
@@ -157,7 +157,7 @@
 
     }else{
 
-        UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100, kScreenW-20, 100)];
+        UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100-64, kScreenW-20, 100)];
         TFView.alpha=0.9f;
         TFView.backgroundColor=[UIColor whiteColor];
         TFView.layer.borderWidth=2.0f;
@@ -191,7 +191,7 @@
         _factorySizeTF.delegate =self;
         [TFView addSubview:_factorySizeTF];
 
-        inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 220, kScreenW-20, 35)];
+        inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 220-64, kScreenW-20, 35)];
         inviteCodeTF.keyboardType=UIKeyboardTypeNumberPad;
         inviteCodeTF.placeholder=@"请填写邀请码，没有可忽略。";
         inviteCodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
@@ -201,7 +201,7 @@
 
 
 
-        UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 270, kScreenW-20, 35)];
+        UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 270-64, kScreenW-20, 35)];
         [registerBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
         registerBtn.layer.cornerRadius=5.0f;
         registerBtn.layer.masksToBounds=YES;

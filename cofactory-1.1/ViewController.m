@@ -24,7 +24,6 @@
         [ViewController goLogin];
     }else{
         [ViewController goMain];
-
         NSLog(@"已登录");
     }
 }
@@ -59,8 +58,6 @@
     cooperationNavigationController.tabBarItem.image =[UIImage imageNamed:@"tabpat"];
     cooperationNavigationController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabpatSelected"];
 
-
-
     // MessageViewController 初始化
     MessageViewController *messageViewController = [[MessageViewController alloc] init];
     UINavigationController *messageNavigationController = [[UINavigationController alloc] initWithRootViewController:messageViewController];
@@ -94,10 +91,10 @@
     // tabbarcontroller
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.viewControllers = @[homeNavigationController, cooperationNavigationController, messageNavigationController, meNavigationController];
-    tabBarController.selectedIndex=0;
-    //tabBarController.tabBar.tintColor=[UIColor colorWithRed:60.0/255 green:255.0/255 blue:109.0/255 alpha:1];
+    tabBarController.selectedIndex = 0;
+    tabBarController.tabBar.tintColor = [UIColor colorWithHexString:@"0x28303b"];
     AppDelegate *app =[UIApplication sharedApplication].delegate;
-    app.window.rootViewController =tabBarController;
+    app.window.rootViewController = tabBarController;
 }
 
 // 游客登录 加载主界面
@@ -139,7 +136,7 @@
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.viewControllers = @[homeNavigationController, cooperationNavigationController, messageNavigationController, meNavigationController];
     tabBarController.selectedIndex=0;
-    //tabBarController.tabBar.tintColor=[UIColor colorWithRed:60.0/255 green:255.0/255 blue:109.0/255 alpha:1];
+    tabBarController.tabBar.tintColor = [UIColor colorWithHexString:@"0x28303b"];
     AppDelegate *app =[UIApplication sharedApplication].delegate;
     app.window.rootViewController =tabBarController;
 }

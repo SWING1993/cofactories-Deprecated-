@@ -33,7 +33,7 @@ static  NSString *const cellIdentifier1 = @"cell1";
 
 - (void)creatTableViewAndTableViewHeaderView{
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, kScreenW, kScreenH-64) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;

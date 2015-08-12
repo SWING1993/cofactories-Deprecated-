@@ -56,31 +56,13 @@
 
 @implementation FactoryListViewController
 
-////上拉加载
-//- (void)footerRereshing
-//{
-//    static int a = 0;
-//    a++;
-//    NSLog(@"++%d",a);
-//    
-//    
-//    
-//    [_tableView reloadData];
-//    //2,结束刷新
-//    [_tableView footerEndRefreshing];
-//    
-//    
-//}
-
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
  
     self.title=@"";
     //创建表
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 45, self.view.frame.size.width, self.view.frame.size.height-45) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height-44-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;
@@ -151,7 +133,7 @@
     
     
     /*创建选项栏，并进行一些设置*/
-    self.JSDropDownMenu = [[JSDropDownMenu alloc] initWithOrigin:CGPointMake(0, 64) andHeight:44];
+    self.JSDropDownMenu = [[JSDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
     self.JSDropDownMenu.indicatorColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:1.0];
     self.JSDropDownMenu.separatorColor = [UIColor colorWithRed:210.0f/255.0f green:210.0f/255.0f blue:210.0f/255.0f alpha:1.0];
     self.JSDropDownMenu.textColor = [UIColor colorWithRed:83.f/255.0f green:83.f/255.0f blue:83.f/255.0f alpha:1.0f];

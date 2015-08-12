@@ -59,7 +59,7 @@
 
 
     /*创建选项栏，并进行一些设置*/
-    self.JSDropDownMenu = [[JSDropDownMenu alloc] initWithOrigin:CGPointMake(0, 64) andHeight:44];
+    self.JSDropDownMenu = [[JSDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
     self.JSDropDownMenu.indicatorColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:1.0];
     self.JSDropDownMenu.separatorColor = [UIColor colorWithRed:210.0f/255.0f green:210.0f/255.0f blue:210.0f/255.0f alpha:1.0];
     self.JSDropDownMenu.textColor = [UIColor colorWithRed:83.f/255.0f green:83.f/255.0f blue:83.f/255.0f alpha:1.0f];
@@ -97,7 +97,7 @@
     }
 
 
-    _tableView= [[UITableView alloc]initWithFrame:CGRectMake(0, 64+44, kScreenW, kScreenH-110) style:UITableViewStylePlain];
+    _tableView= [[UITableView alloc]initWithFrame:CGRectMake(0, 44, kScreenW, kScreenH-44-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.rowHeight = 130.0f;
@@ -118,7 +118,7 @@
                 self.role = 1;
 
                 [_tableView reloadData];
-                NSLog(@"+++++responseDictionary==%@",self.dataArray);
+//                NSLog(@"+++++responseDictionary==%@",self.dataArray);
             }];
         }
             break;
@@ -693,8 +693,6 @@
         [_tableView reloadData];
         //     NSLog(@"+++++responseDictionary==%@",self.dataArray);
     }];
-    
-    
 }
 
 

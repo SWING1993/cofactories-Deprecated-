@@ -30,7 +30,7 @@
     bgView.image=[UIImage imageNamed:@"登录bg"];
     [self.view addSubview:bgView];
     
-    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100, kScreenW-20, 100)];
+    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100-64, kScreenW-20, 100)];
     TFView.alpha=0.9f;
     TFView.backgroundColor=[UIColor whiteColor];
     TFView.layer.borderWidth=2.0f;
@@ -65,7 +65,7 @@
     [TFView addSubview:_passwordTF2];
 
 
-    UIButton* showBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-120, 210, 100, 30)];
+    UIButton* showBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-120, 210-64, 100, 30)];
     showBtn.titleLabel.font=[UIFont boldSystemFontOfSize:13.0f];
 //    [showBtn setImage:[UIImage imageNamed:@"select"] forState:UIControlStateNormal];
 //    [showBtn setImage:[UIImage imageNamed:@"select_highlight"] forState:UIControlStateSelected];
@@ -75,7 +75,7 @@
     [showBtn addTarget:self action:@selector(showPasswordBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:showBtn];
     
-    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 245, kScreenW-20, 35)];
+    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 245-64, kScreenW-20, 35)];
     [nextBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
     nextBtn.layer.cornerRadius=5.0f;
     nextBtn.layer.masksToBounds=YES;
