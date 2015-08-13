@@ -55,6 +55,7 @@
     _tableView.dataSource = self;
     _tableView.rowHeight = 130.0f;
     _tableView.showsVerticalScrollIndicator = NO;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [_tableView registerClass:[OrderListTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:_tableView];
 }
@@ -94,8 +95,6 @@
     [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",model.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];//gt123
     cell.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"件"];
     
-//    NSLog(@"%d",model.interest);
-    
     if (model.interest == 0) {
         cell.labels.hidden = YES;
         cell.interestCountLabel.hidden = YES;
@@ -111,8 +110,6 @@
         cell.statusImage.hidden = YES;
     }
     
-    [cell.confirmOrderBtn addTarget:self action:@selector(confirmOrderBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    cell.confirmOrderBtn.tag = indexPath.row;
     [cell.orderDetailsBtn addTarget:self action:@selector(orderDetailsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     cell.orderDetailsBtn.tag = indexPath.row;
     return cell;
@@ -120,29 +117,19 @@
 
 
 
-#pragma mark--确认订单按钮与订单详情按钮绑定方法
-- (void)confirmOrderBtnClick:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    FactoryModel*model = self.orderModerArr[button.tag];
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"是否确认订单" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles: @"确定",nil];
-    [alertView show];
-    oid=model.oid;
-}
+#pragma mark--订单详情按钮绑定方法
 
 - (void)orderDetailsBtnClick:(id)sender
 {
     UIButton *button = (UIButton *)sender;
     OrderModel*model = self.orderModerArr[button.tag];
-    
-    NSLog(@"oid--%ld",button.tag);
-    
     OrderDetailViewController *VC = [[OrderDetailViewController alloc]init];
     VC.model=model;
-    //gt123
     if (self.isHistory==YES)
     {
         VC.isHistory =YES;
+    }else{
+        VC.isHistory = NO;
     }
     UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
     backItem.title=@"";
@@ -152,28 +139,6 @@
     [self.navigationController pushViewController:VC animated:YES];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1)
-    {
-        
-        [HttpClient closeOrderWithOid:oid andBlock:^(NSDictionary *responseDictionary) {
-            NSLog(@"oid==%d==%@",oid,responseDictionary);
-            
-            if ([responseDictionary[@"statusCode"] intValue]==200) {
-                self.isHistory = YES;
-                self.title=@"历史订单";
-                self.orderModerArr=[[NSMutableArray alloc]initWithCapacity:0];
-                [HttpClient listHistoryOrderWithBlock:^(NSDictionary *responseDictionary) {
-                    if ([responseDictionary[@"statusCode"] intValue]==200) {
-                        self.orderModerArr=responseDictionary[@"responseArray"];
-                        [_tableView reloadData];
-                    }
-                }];
-            }
-        }];
-    }
-}
 
 
 @end

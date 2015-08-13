@@ -11,14 +11,8 @@
 @interface OrderListViewController : UIViewController
 @property (nonatomic,assign)int userType;
 
-@property (nonatomic, assign) NSInteger currentData1Index;
-@property (nonatomic, assign) NSInteger currentData2Index;
-@property (nonatomic, assign) NSInteger currentData3Index;
-@property (nonatomic, assign) NSInteger currentData1SelectedIndex;
-
 @property (nonatomic, assign) BOOL isHistory;
 
-@property (nonatomic, assign) BOOL HiddenJSDropDown;
 
 
 @end

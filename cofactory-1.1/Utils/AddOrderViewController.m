@@ -192,7 +192,6 @@
 
     NSLog(@"oid=%@",self.oid);
     OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
-    orderListVC.HiddenJSDropDown=YES;
     orderListVC.isHistory=NO;
     [self.navigationController pushViewController:orderListVC animated:YES];
 }

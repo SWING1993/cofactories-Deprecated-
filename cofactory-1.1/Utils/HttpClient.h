@@ -238,9 +238,9 @@
 + (void)listOrderWithBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 //关闭订单
-+ (void)closeOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
+//+ (void)closeOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
-+ (void)closeOrderWithOid:(int)oid Uid:(int)uid andBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)closeOrderWithOid:(int)oid Uid:(int)uid andBlock:(void (^)(int statusCode))block;
 
 
 //订单搜索

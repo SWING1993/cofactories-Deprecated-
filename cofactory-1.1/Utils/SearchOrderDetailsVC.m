@@ -30,7 +30,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"订单详情";
-    self.automaticallyAdjustsScrollViewInsets = NO;
+//    self.automaticallyAdjustsScrollViewInsets = NO;
     [self creatTableViewAndTableViewHeaderView];
 }
 

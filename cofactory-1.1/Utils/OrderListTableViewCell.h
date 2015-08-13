@@ -12,5 +12,5 @@
 @property (nonatomic,strong) UILabel *timeLabel,  *orderTypeLabel, *workingTimeLabel,  *amountLabel,  *interestCountLabel,  *labels;
 @property (nonatomic,strong) UIImageView *orderImage,  *statusImage;
 @property (nonatomic,strong) UIView *intersestLabelView;
-@property (nonatomic,strong) UIButton *confirmOrderBtn,  *orderDetailsBtn;
+@property (nonatomic,strong) UIButton  *orderDetailsBtn;
 @end

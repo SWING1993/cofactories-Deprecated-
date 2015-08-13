@@ -788,7 +788,7 @@
     }
 }
 
-+ (void)closeOrderWithOid:(int)oid Uid:(int)uid andBlock:(void (^)(NSDictionary *responseDictionary))block {
++ (void)closeOrderWithOid:(int)oid Uid:(int)uid andBlock:(void (^)(int statusCode))block {
     NSParameterAssert(oid);
     NSParameterAssert(uid);
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
@@ -799,27 +799,25 @@
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         NSString *url = [[NSString alloc] initWithFormat:@"%@/%d", API_closeOrder, oid];
         [manager GET:url parameters:@{@"uid":@(uid)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"--%@",responseObject);
-            OrderModel *orderModel = [[OrderModel alloc] initWithDictionary:responseObject];
-            block(@{@"statusCode": @([operation.response statusCode]), @"model": orderModel});
+            block(200);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"++%@",error);
 
             switch ([operation.response statusCode]) {
                 case 400:
-                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"未登录"});
+                    block(400);
                     break;
                 case 401:
-                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"access_token过期或者无效"});
+                    block(401);
                     break;
 
                 default:
-                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"网络错误"});
+                    block(402);
                     break;
             }
         }];
     } else {
-        block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
+        block(404);// access_token不存在
     }
 }
 

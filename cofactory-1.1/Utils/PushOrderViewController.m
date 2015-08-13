@@ -75,7 +75,6 @@
         {
             OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
             orderListVC.isHistory=NO;
-            orderListVC.HiddenJSDropDown=YES;
             [self.navigationController pushViewController:orderListVC animated:YES];
         }
             break;
@@ -83,7 +82,6 @@
         {
             OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
             orderListVC.isHistory=YES;
-            orderListVC.HiddenJSDropDown=YES;
             [self.navigationController pushViewController:orderListVC animated:YES];
         }
             break;
