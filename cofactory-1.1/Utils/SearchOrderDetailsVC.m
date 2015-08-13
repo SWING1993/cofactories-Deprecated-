@@ -43,7 +43,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
     _tableView.backgroundColor = [UIColor whiteColor];
     [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier1];
     [_tableView registerClass:[CompeteTableViewCell class] forCellReuseIdentifier:cellIdentifier2];
-
+    
     [self.view addSubview:_tableView];
     
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 150)];
@@ -61,7 +61,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
     [backgroundView addSubview:companyName];
     
     UIButton *contactManufacturerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    contactManufacturerButton.frame = CGRectMake(10, 65, 80, 30);
+    contactManufacturerButton.frame = CGRectMake(10, 65, 70, 25);
     [contactManufacturerButton setBackgroundImage:[UIImage imageNamed:@"联系厂商"] forState:UIControlStateNormal];
     [contactManufacturerButton addTarget:self action:@selector(contactManufacturerButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [backgroundView addSubview:contactManufacturerButton];
@@ -86,7 +86,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
     
     
     UIButton *orderImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    orderImageButton.frame = CGRectMake(kScreenW-20-70, 65, 70, 30);
+    orderImageButton.frame = CGRectMake(kScreenW-20-70, 105, 70, 30);
     orderImageButton.backgroundColor = [UIColor colorWithRed:59/255.0 green:141/255.0 blue:191/255.0 alpha:1.0];
     orderImageButton.layer.masksToBounds = YES;
     orderImageButton.layer.cornerRadius = 5;
@@ -101,10 +101,9 @@ static  NSString *const cellIdentifier2 = @"cell2";
 - (void)layoutCompeteData{
     
     [HttpClient getBidOrderWithOid:self.model.oid andBlock:^(NSDictionary *responseDictionary) {
-        
         _competeFactoryArray = responseDictionary[@"responseArray"];
-        
-      NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"selfuid"];
+        //       NSLog(@"_competeFactoryArray==%@",_competeFactoryArray);
+        NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"selfuid"];
         NSLog(@"+++++%@",number);
         int myUid = [number intValue];
         
@@ -125,7 +124,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
         
         [_tableView reloadData];
     }];
-
+    
 }
 
 #pragma mark -- table
@@ -147,12 +146,12 @@ static  NSString *const cellIdentifier2 = @"cell2";
     
     
     if (indexPath.section == 0) {
-
+        
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier1 forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
         cell.textLabel.textColor = [UIColor grayColor];
-
+        
         switch (indexPath.row) {
             case 0:
                 cell.textLabel.text = [NSString stringWithFormat:@"联系人:  %@",self.model.name];
@@ -195,13 +194,13 @@ static  NSString *const cellIdentifier2 = @"cell2";
         }
         
         return cell;
-
+        
     }
     
-//    if (indexPath.section == 1) {
-//        FactoryModel *model = _competeFactoryArray[indexPath.row];
-//        cell.textLabel.text = model.factoryName;
-//    }
+    //    if (indexPath.section == 1) {
+    //        FactoryModel *model = _competeFactoryArray[indexPath.row];
+    //        cell.textLabel.text = model.factoryName;
+    //    }
     
     CompeteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier2 forIndexPath:indexPath];
     FactoryModel *model = _competeFactoryArray[indexPath.row];
@@ -262,7 +261,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
         label1.text = @"家";
         label.font = [UIFont systemFontOfSize:16.0f];
         [view addSubview:label1];
-
+        
         return view;
     }
 }
@@ -296,11 +295,11 @@ static  NSString *const cellIdentifier2 = @"cell2";
             
             [competeButton setTitle:@"订单完成" forState:UIControlStateNormal];
             competeButton.enabled = NO;
-//            NSLog(@"bidWinner==%d",self.model.bidWinner);
+            //            NSLog(@"bidWinner==%d",self.model.bidWinner);
         }
         
         
-       
+        
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 74, kScreenW, 15)];
         label.backgroundColor = [UIColor colorWithRed:213/255.0 green:213/255.0 blue:213/255.0 alpha:1.0];
         [view addSubview:label];
@@ -334,7 +333,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
 }
 
 - (void)orderImageButtonClick{
-
+    
     _view=[[UIView alloc]initWithFrame:kScreenBounds];
     _view.backgroundColor=[UIColor clearColor];
     
@@ -344,7 +343,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
     photoView.clipsToBounds=YES;
     [_view addSubview:photoView];
     [self.view addSubview:_view];
-
+    
     
 }
 
