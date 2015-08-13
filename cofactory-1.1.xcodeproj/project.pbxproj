@@ -186,6 +186,7 @@
 		64F4C6771B70B31D00F52FF0 /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C66D1B70B31D00F52FF0 /* UIScrollView+MJExtension.m */; };
 		64F4C6781B70B31D00F52FF0 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C66F1B70B31D00F52FF0 /* UIScrollView+MJRefresh.m */; };
 		64F4C6791B70B31D00F52FF0 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C6711B70B31D00F52FF0 /* UIView+MJExtension.m */; };
+		64F9C3731B7C40CB009989D9 /* CompeteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F9C3721B7C40CB009989D9 /* CompeteTableViewCell.m */; };
 		BD041A6B1B69D5DC00F9FC74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */; };
 		BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4311C61B4F41DE0097E4BC /* CooperationViewController.m */; };
 		BD4311CF1B4F41DE0097E4BC /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4311CA1B4F41DE0097E4BC /* MessageViewController.m */; };
@@ -589,6 +590,8 @@
 		64F4C66F1B70B31D00F52FF0 /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		64F4C6701B70B31D00F52FF0 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		64F4C6711B70B31D00F52FF0 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
+		64F9C3711B7C40CB009989D9 /* CompeteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompeteTableViewCell.h; sourceTree = "<group>"; };
+		64F9C3721B7C40CB009989D9 /* CompeteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompeteTableViewCell.m; sourceTree = "<group>"; };
 		BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Utils/Images.xcassets; sourceTree = "<group>"; };
 		BD4311C51B4F41DE0097E4BC /* CooperationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CooperationViewController.h; sourceTree = "<group>"; };
 		BD4311C61B4F41DE0097E4BC /* CooperationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CooperationViewController.m; sourceTree = "<group>"; };
@@ -1174,6 +1177,8 @@
 				04822E1C1B62724200A370F6 /* searchOrderListTVC.m */,
 				649BA0821B7B15E5008EDE31 /* SearchOrderDetailsVC.h */,
 				649BA0831B7B15E5008EDE31 /* SearchOrderDetailsVC.m */,
+				64F9C3711B7C40CB009989D9 /* CompeteTableViewCell.h */,
+				64F9C3721B7C40CB009989D9 /* CompeteTableViewCell.m */,
 			);
 			name = SearchOrder;
 			sourceTree = "<group>";
@@ -2029,6 +2034,7 @@
 				BD8AD7EE1B50E62600373E5E /* SDWebImagePrefetcher.m in Sources */,
 				04F60C6C1B58EC7F00CD3DEC /* FactoryRangeModel.m in Sources */,
 				0455E10E1B61D62E009C5CDA /* WebViewController.m in Sources */,
+				64F9C3731B7C40CB009989D9 /* CompeteTableViewCell.m in Sources */,
 				049582EB1B6B490F00A69E6D /* JKPromptView.m in Sources */,
 				BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */,
 				649BA0841B7B15E5008EDE31 /* SearchOrderDetailsVC.m in Sources */,

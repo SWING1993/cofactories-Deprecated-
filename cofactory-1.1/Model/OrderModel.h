@@ -24,6 +24,8 @@
 @property (nonatomic, copy) NSString *facName;
 @property (nonatomic, assign) int status;
 @property (nonatomic, assign) int interest;
+@property (nonatomic, assign) int bidWinner;
+
 
 
 

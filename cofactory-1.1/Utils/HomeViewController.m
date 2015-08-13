@@ -114,6 +114,12 @@
     //工厂类型
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         UserModel*userModel=responseDictionary[@"model"];
+        
+        
+        NSNumber *MyUid = [NSNumber numberWithInt:userModel.uid];
+        NSLog(@"user.uid=%@",MyUid);
+        [[NSUserDefaults standardUserDefaults] setObject:MyUid forKey:@"selfuid"];
+
         self.factoryFreeStatus=userModel.factoryFreeStatus;
         self.factoryType =userModel.factoryType;
         if (self.factoryType==0) {

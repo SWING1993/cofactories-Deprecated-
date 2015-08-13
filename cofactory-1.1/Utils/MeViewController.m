@@ -53,8 +53,7 @@
 
         self.userModel=responseDictionary[@"model"];
 
-        NSLog(@"user.uid=%d",self.userModel.uid);
-
+        
         //更新公司名称label.text
         factoryNameLabel.text=self.userModel.factoryName;
 

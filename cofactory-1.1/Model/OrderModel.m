@@ -32,6 +32,12 @@
         _interest = [dictionary[@"interest"] intValue];
         _status = [dictionary[@"status"] intValue];
         _facName = dictionary[@"factoryName"];
+        
+        if (_status == 1) {
+            _bidWinner = [dictionary[@"bidWinner"] intValue];
+        }else{
+            _bidWinner = 0;
+        }
     }
     return self;
 }

@@ -7,6 +7,7 @@
 //
 
 #import "SearchOrderDetailsVC.h"
+#import "CompeteTableViewCell.h"
 #import "Header.h"
 @interface SearchOrderDetailsVC ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
@@ -17,6 +18,8 @@
 @property (nonatomic,assign) BOOL isCompete;
 @end
 static  NSString *const cellIdentifier1 = @"cell1";
+static  NSString *const cellIdentifier2 = @"cell2";
+
 @implementation SearchOrderDetailsVC
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -33,12 +36,14 @@ static  NSString *const cellIdentifier1 = @"cell1";
 
 - (void)creatTableViewAndTableViewHeaderView{
     
-    _tableView = [[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-44) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;
     _tableView.backgroundColor = [UIColor whiteColor];
     [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier1];
+    [_tableView registerClass:[CompeteTableViewCell class] forCellReuseIdentifier:cellIdentifier2];
+
     [self.view addSubview:_tableView];
     
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 150)];
@@ -99,10 +104,14 @@ static  NSString *const cellIdentifier1 = @"cell1";
         
         _competeFactoryArray = responseDictionary[@"responseArray"];
         
+      NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"selfuid"];
+        NSLog(@"+++++%@",number);
+        int myUid = [number intValue];
+        
         [_competeFactoryArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             FactoryModel *model = _competeFactoryArray[idx];
             
-            if (model.uid == self.model.uid) {
+            if (model.uid == myUid) {
                 self.isCompete = YES;
             }else{
                 self.isCompete = NO;
@@ -136,12 +145,13 @@ static  NSString *const cellIdentifier1 = @"cell1";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier1 forIndexPath:indexPath];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
-    cell.textLabel.textColor = [UIColor grayColor];
     
     if (indexPath.section == 0) {
+
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier1 forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
+        cell.textLabel.textColor = [UIColor grayColor];
 
         switch (indexPath.row) {
             case 0:
@@ -183,14 +193,35 @@ static  NSString *const cellIdentifier1 = @"cell1";
             default:
                 break;
         }
+        
+        return cell;
+
     }
     
-    if (indexPath.section == 1) {
-        FactoryModel *model = _competeFactoryArray[indexPath.row];
-        cell.textLabel.text = model.factoryName;
+//    if (indexPath.section == 1) {
+//        FactoryModel *model = _competeFactoryArray[indexPath.row];
+//        cell.textLabel.text = model.factoryName;
+//    }
+    
+    CompeteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier2 forIndexPath:indexPath];
+    FactoryModel *model = _competeFactoryArray[indexPath.row];
+    cell.companyNameLabel.text = model.factoryName;
+    
+    if (self.model.status == 1) {
+        cell.competeImage.hidden = NO;
+        if (self.model.bidWinner == model.uid ) {
+            cell.competeImage.text = @"已中标";
+            cell.competeImage.backgroundColor = [UIColor colorWithRed:205/255.0 green:17/255.0 blue:23/255.0 alpha:1.0];
+        }else{
+            cell.competeImage.text = @"未中标";
+            cell.competeImage.backgroundColor = [UIColor colorWithRed:154/255.0 green:154/255.0 blue:154/255.0 alpha:1.0];
+        }
+    }else{
+        cell.competeImage.hidden = YES;
     }
     
     return cell;
+    
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -249,15 +280,25 @@ static  NSString *const cellIdentifier1 = @"cell1";
         [competeButton addTarget:self action:@selector(competeButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:competeButton];
         
-        if (self.isCompete == YES) {
+        if (self.model.status == 0) {
             
-        [competeButton setTitle:@"已投标" forState:UIControlStateNormal];
+            if (self.isCompete == YES) {
+                
+                [competeButton setTitle:@"已投标" forState:UIControlStateNormal];
+                competeButton.enabled = NO;
+            }
+            if (self.isCompete == NO) {
+                [competeButton setTitle:@"参与竞标" forState:UIControlStateNormal];
+                competeButton.enabled = YES;
+            }
+        }
+        if (self.model.status == 1) {
+            
+            [competeButton setTitle:@"订单完成" forState:UIControlStateNormal];
             competeButton.enabled = NO;
+//            NSLog(@"bidWinner==%d",self.model.bidWinner);
         }
-        if (self.isCompete == NO) {
-            [competeButton setTitle:@"参与竞标" forState:UIControlStateNormal];
-            competeButton.enabled = YES;
-        }
+        
         
        
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 74, kScreenW, 15)];
