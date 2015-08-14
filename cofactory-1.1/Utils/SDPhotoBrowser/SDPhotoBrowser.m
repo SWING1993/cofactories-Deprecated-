@@ -247,13 +247,11 @@
     [UIView animateWithDuration:SDPhotoBrowserShowImageAnimationDuration animations:^{
         tempView.center = self.center;
         tempView.bounds = (CGRect){CGPointZero, targetTemp.size};
-        NSLog(@"开始");
 
     } completion:^(BOOL finished) {
         _hasShowedFistView = YES;
         [tempView removeFromSuperview];
         _scrollView.hidden = NO;
-        NSLog(@"结束");
     }];
 }
 

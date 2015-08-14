@@ -182,12 +182,14 @@ static  NSString *const cellIdentifier2 = @"cell2";
                 break;
             case 4:
             {
-                NSMutableArray *array = [Tools WithTime:self.model.createTime];
-                cell.textLabel.text = [NSString stringWithFormat:@"工期:  %@",array[0]];
+                cell.textLabel.text = [NSString stringWithFormat:@"工期:  %@天",self.model.workingTime];
             }
                 break;
             case 5:
-                cell.textLabel.text = [NSString stringWithFormat:@"下单时间:  %@天",self.model.workingTime];
+            {
+                 NSMutableArray *array = [Tools WithTime:self.model.createTime];
+                cell.textLabel.text = [NSString stringWithFormat:@"下单时间:  %@",array[0]];
+            }
                 break;
             default:
                 break;

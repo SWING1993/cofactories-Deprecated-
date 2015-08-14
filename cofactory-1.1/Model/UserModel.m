@@ -22,8 +22,8 @@
         _job = [dictionary objectForKey:@"job"];
         _id_card = [dictionary objectForKey:@"id_card"];
         _factoryName = [dictionary objectForKey:@"factoryName"];
-        if (dictionary[@"tag"]) {
-            _tag = dictionary[@"tag"];
+        if ((NSNull*)dictionary[@"tag"]!=[NSNull null]) {
+            _tag = [NSString stringWithFormat:@"%@",dictionary[@"tag"]];
         }
 
         NSArray *factorySize = [dictionary objectForKey:@"factorySize"];

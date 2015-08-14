@@ -69,8 +69,6 @@
 
 - (void)buttonClick:(UIButton *)button
 {
-
-    NSLog(@"点击按钮");
     SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
     browser.sourceImagesContainerView = self; // 原图的父控件
     browser.imageCount = self.photoItemArray.count; // 图片总数

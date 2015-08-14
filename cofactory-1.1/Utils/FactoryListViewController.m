@@ -278,6 +278,7 @@
 
             if ([dateString isEqualToString:@"0"])
             {
+                cell.isBusyLB.hidden = NO;
                 cell.isBusyLB.text = @"忙碌中";
             }
             if (![dateString isEqualToString:@"0"])
@@ -289,14 +290,17 @@
                 int date = [array1[0] intValue];
                 if (date < 0)
                 {
+                    cell.isBusyLB.hidden = NO;
                     cell.isBusyLB.text = @"空闲中";
                 }
                 if (date == 0)
                 {
+                    cell.isBusyLB.hidden = NO;
                     cell.isBusyLB.text = @"今天有空";
                 }
                 if (date > 0)
                 {
+                    cell.isBusyLB.hidden = NO;
                     cell.isBusyLB.text = [NSString stringWithFormat:@"%d天后有空",date];
                 }
             }
@@ -1259,11 +1263,23 @@
 {
     self.curDate = datePicker.date;
     
-    NSString *string = [NSString stringWithFormat:@"%@",[_formatter stringFromDate:self.curDate]];
-    
-    
-    DLog(@"+++++%@",string);
-    
+    NSString *string1 = [NSString stringWithFormat:@"%@",[_formatter stringFromDate:self.curDate]];
+
+    DLog(@"+++++%@",string1);
+    NSArray *array1 = [string1 componentsSeparatedByString:@"年"];
+    DLog(@"+++++%@",array1[0]);
+    NSString *string2 = array1[1];
+    DLog(@"+++++%@",array1[1]);
+    NSArray *array2 = [string2 componentsSeparatedByString:@"月"];
+    DLog(@"+++++%@",array2[0]);
+    NSString *string3 = array2[1];
+    NSArray *array3 = [string3 componentsSeparatedByString:@"日"];
+
+    NSString *string = [NSString stringWithFormat:@"%@-%@-%@",array1[0],array2[0],array3[0]];
+
+    DLog(@"string===+++++%@",string);
+
+
     self.factoryFree = string;
     
     if (self.dateArray.count == 0)
@@ -1277,7 +1293,7 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
-//    DLog(@"++++++++++========self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
+    DLog(@"++++++++++========self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
 
     _refrushCount = 1;
     [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree page:(@1) andBlock:^(NSDictionary *responseDictionary) {

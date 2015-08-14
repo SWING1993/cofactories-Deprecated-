@@ -280,9 +280,13 @@
                 break;
             case 4:{
                 cellLabel.text=@"个性标签";
-                if (self.userModel.tag) {
+                if ([self.userModel.tag isEqualToString:@"0"]) {
+                    cell.detailTextLabel.text = @"暂无标签";
+                }else{
                     cell.detailTextLabel.text =  self.userModel.tag;
                 }
+
+
             }
                 break;
 

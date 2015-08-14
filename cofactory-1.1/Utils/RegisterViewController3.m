@@ -370,7 +370,7 @@
     NSNumber*sizeMin=[[Tools RangeSizeWith:_factorySizeTF.text] firstObject];
     NSNumber*sizeMax=[[Tools RangeSizeWith:_factorySizeTF.text] lastObject];
 
-    NSLog(@"Size=(%@-%@) range = %d",sizeMin,sizeMax,factoryType);
+    DLog(@"Size=(%@-%@) range = %d",sizeMin,sizeMax,factoryType);
 
     if ([factoryName isEqualToString:@""]||[factoryServiceRange isEqualToString:@""]||[_factorySizeTF.text isEqualToString:@""]) {
 
@@ -390,7 +390,7 @@
 //注册成功 登录
 - (void)login{
     [HttpClient loginWithUsername:[[NSUserDefaults standardUserDefaults] objectForKey:@"phone"] password:[[NSUserDefaults standardUserDefaults] objectForKey:@"phone"] andBlock:^(int statusCode) {
-        NSLog(@"%d",statusCode);
+        DLog(@"%d",statusCode);
         switch (statusCode) {
             case 0:{
 //                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"网络错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];

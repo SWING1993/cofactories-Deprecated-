@@ -114,8 +114,6 @@
 
 - (void)zoomImage:(UIPinchGestureRecognizer *)recognizer
 {
-
-    NSLog(@"手势缩放");
     if (!_zoomingScroolView) {
         _zoomingScroolView = [[UIScrollView alloc] initWithFrame:self.bounds];
         _zoomingScroolView.backgroundColor = SDPhotoBrowserBackgrounColor;

@@ -84,7 +84,7 @@
     [userDefaults synchronize];
     //NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
     
-    NSLog(@"%@",[userDefaults stringForKey:@"type"]);
+    DLog(@"%@",[userDefaults stringForKey:@"type"]);
     if (![[userDefaults stringForKey:@"type"]isEqualToString:@""]) {
         AddressViewController*addressVC3 = [[AddressViewController alloc]init];
         [self.navigationController pushViewController:addressVC3 animated:YES];

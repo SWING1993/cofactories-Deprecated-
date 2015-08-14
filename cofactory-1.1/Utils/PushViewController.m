@@ -147,7 +147,6 @@
 
 
     cell.deletButton.tag = indexPath.row;
-//    cell.deletButton.backgroundColor = [UIColor redColor];
     [cell.deletButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
@@ -233,7 +232,7 @@
     UIButton *button = (UIButton *)sender;
     NSNumber *number = [NSNumber numberWithInt:button.tag];
     [HttpClient deletePushSettingWithIndex:number andBlock:^(int statusCode) {
-        NSLog(@"statusCode==%d",statusCode);
+        DLog(@"statusCode==%d",statusCode);
     }];
     [self.cellArray removeObjectAtIndex:button.tag];
     [_tableView reloadData];
@@ -241,7 +240,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"释放内存");
+    DLog(@"释放内存");
     _tableView.dataSource = nil;
     _tableView.delegate = nil;
 
