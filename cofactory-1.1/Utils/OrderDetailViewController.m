@@ -27,7 +27,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
     
     [HttpClient getBidOrderWithOid:self.model.oid andBlock:^(NSDictionary *responseDictionary) {
         _competeFactoryArray = responseDictionary[@"responseArray"];
-        NSLog(@"_competeFactoryArray==%@",_competeFactoryArray);
+        DLog(@"_competeFactoryArray==%@",_competeFactoryArray);
         [_tableView reloadData];
     }];
 
@@ -55,23 +55,23 @@ static  NSString *const cellIdentifier2 = @"cell2";
     
     [self.view addSubview:_tableView];
     
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 150)];
+    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
     headerView.backgroundColor = [UIColor whiteColor];
     _tableView.tableHeaderView = headerView;
     
-    UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 150)];
+    UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
     backgroundView.backgroundColor = [UIColor colorWithRed:98/255.0 green:190/255.0 blue:181/255.0 alpha:1.0];
     [headerView addSubview:backgroundView];
     
     NSString *facName = [[NSUserDefaults standardUserDefaults] objectForKey:@"factoryName"];
-    UILabel *companyName = [[UILabel alloc]initWithFrame:CGRectMake(10, 20, backgroundView.frame.size.width-30, 40)];
+    UILabel *companyName = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, backgroundView.frame.size.width-30, 40)];
     companyName.textColor = [UIColor whiteColor];
     companyName.text = facName;
     companyName.font = [UIFont systemFontOfSize:18.0f];
     [backgroundView addSubview:companyName];
     
     UIButton *orderImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    orderImageButton.frame = CGRectMake(10, 60, 70, 30);
+    orderImageButton.frame = CGRectMake(10, 50, 70, 30);
     orderImageButton.backgroundColor = [UIColor colorWithRed:59/255.0 green:141/255.0 blue:191/255.0 alpha:1.0];
     orderImageButton.layer.masksToBounds = YES;
     orderImageButton.layer.cornerRadius = 5;
@@ -87,12 +87,12 @@ static  NSString *const cellIdentifier2 = @"cell2";
         interestCount.textColor = [UIColor orangeColor];
         interestCount.font = font;
         CGSize size = [[NSString stringWithFormat:@"%d",self.model.interest] sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
-        interestCount.frame = CGRectMake(10, 100, size.width, 20);
+        interestCount.frame = CGRectMake(10, 90, size.width, 20);
         interestCount.textAlignment = 2;
         interestCount.text = [NSString stringWithFormat:@"%d",self.model.interest];
         [backgroundView addSubview:interestCount];
         
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(interestCount.frame.size.width+15, 100, 160, 20)];
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(interestCount.frame.size.width+15, 90, 160, 20)];
         label.font = [UIFont systemFontOfSize:14.0f];
         label.text = @"家厂商对此订单感兴趣";
         [backgroundView addSubview:label];
@@ -292,7 +292,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
     _view=[[UIView alloc]initWithFrame:kScreenBounds];
     _view.backgroundColor=[UIColor clearColor];
     
-    UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, kScreenH/4, kScreenW, kScreenW)];
+    UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, kScreenH/4-64, kScreenW, kScreenW)];
     [photoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/order/%d.png",self.model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
     photoView.contentMode=UIViewContentModeScaleAspectFill;
     photoView.clipsToBounds=YES;
@@ -327,7 +327,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
 //        NSLog(@"tag=%ld",button.tag);
         
         [HttpClient closeOrderWithOid:self.model.oid Uid:button.tag andBlock:^(int statusCode) {
-            NSLog(@"statusCode==%d",statusCode);
+            DLog(@"statusCode==%d",statusCode);
             
             if (statusCode == 200) {
                 [Tools showHudTipStr:@"选择成功"];

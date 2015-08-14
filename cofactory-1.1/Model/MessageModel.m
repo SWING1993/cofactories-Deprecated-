@@ -14,7 +14,7 @@
     self = [super init];
     if (self) {
         NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[dictionary objectForKey:@"time"] intValue]];
-        NSLog(@"%@",date);
+        DLog(@"%@",date);
 
         NSDateFormatter*df1 = [[NSDateFormatter alloc]init];//格式化
         [df1 setDateFormat:@"yyyy-MM-dd"];

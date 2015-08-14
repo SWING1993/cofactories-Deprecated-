@@ -20,11 +20,11 @@
     [super viewDidLoad];
 
     if (![HttpClient getToken]) {
-        NSLog(@"未登录");
+        DLog(@"未登录");
         [ViewController goLogin];
     }else{
         [ViewController goMain];
-        NSLog(@"已登录");
+        DLog(@"已登录");
     }
 }
 //加载注册界面

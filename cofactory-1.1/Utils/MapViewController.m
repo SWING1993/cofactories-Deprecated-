@@ -38,7 +38,7 @@
 
     self.edgesForExtendedLayout = UIRectEdgeNone;
 
-    NSLog(@"位置：%@",self.addressStr);
+    DLog(@"位置：%@",self.addressStr);
     _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-150)];
     [_mapView setCenterCoordinate:self.centerLocation];
     [self.view addSubview:_mapView];
@@ -69,7 +69,7 @@
     [userDefaults setDouble:self.longitude forKey:@"lon"];
     [userDefaults setDouble:self.latitude forKey:@"lat"];
     [userDefaults synchronize];
-    NSLog(@"%@-%lf-%lf",self.addressStr,self.longitude,self.latitude);
+    DLog(@"%@-%lf-%lf",self.addressStr,self.longitude,self.latitude);
     RegisterViewController3*registerVC3=[[RegisterViewController3 alloc]init];
     [self.navigationController pushViewController:registerVC3 animated:YES];
 }
@@ -102,7 +102,7 @@
 }
 
 - (void)mapView:(BMKMapView *)mapView onClickedMapBlank:(CLLocationCoordinate2D)coordinate {
-    NSLog(@"%lf %lf", coordinate.longitude, coordinate.latitude);
+    DLog(@"%lf %lf", coordinate.longitude, coordinate.latitude);
     self.longitude=coordinate.longitude;
     self.latitude=coordinate.latitude;
     self.centerLocation = coordinate;

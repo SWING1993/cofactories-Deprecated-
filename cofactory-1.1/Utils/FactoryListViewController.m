@@ -203,7 +203,7 @@
 - (void)footerRereshing
 {
     _refrushCount++;
-    NSLog(@"???????????%d",_refrushCount);
+    DLog(@"???????????%d",_refrushCount);
 
     NSNumber *num = [NSNumber numberWithInt:_refrushCount];
 
@@ -211,7 +211,7 @@
     NSNumber *carNum = [NSNumber numberWithInt:self.isHaveTruck];
 
 
-     NSLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
+     DLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
     
     [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:carNum factoryFree:self.factoryFree page:num andBlock:^(NSDictionary *responseDictionary) {
         
@@ -396,10 +396,10 @@
     
     [self.truckBtnArray replaceObjectAtIndex:0 withObject:button];
     
-    NSLog(@"%d",button.tag);
+    DLog(@"%d",button.tag);
     
     
-      NSLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
+      DLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
 
 
     
@@ -592,7 +592,7 @@
         _currentData4Index = indexPath.row;
     }
         
-    NSLog(@"%d %d %d %d", indexPath.column, indexPath.leftOrRight, indexPath.leftRow, indexPath.row);
+    DLog(@"%d %d %d %d", indexPath.column, indexPath.leftOrRight, indexPath.leftRow, indexPath.row);
     //787878
     
 //    if (indexPath.column == 0 && indexPath.leftOrRight == 1 && indexPath.leftRow == 2)
@@ -1179,10 +1179,10 @@
 
     }
     
-       NSLog(@">>>>>>>>>>>self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
+//       DLog(@">>>>>>>>>>>self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
 
     
-//    NSLog(@">>>>>isHaveTruck=%d",self.isHaveTruck);
+//    DLog(@">>>>>isHaveTruck=%d",self.isHaveTruck);
 
     if (self.factoryType == 1)
     {
@@ -1234,7 +1234,7 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
-    NSLog(@"333%@",searchBar.text);
+    DLog(@"333%@",searchBar.text);
 
     
     _refrushCount = 1;
@@ -1262,7 +1262,7 @@
     NSString *string = [NSString stringWithFormat:@"%@",[_formatter stringFromDate:self.curDate]];
     
     
-    NSLog(@"+++++%@",string);
+    DLog(@"+++++%@",string);
     
     self.factoryFree = string;
     
@@ -1277,7 +1277,7 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
-    NSLog(@"++++++++++========self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
+//    DLog(@"++++++++++========self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
 
     _refrushCount = 1;
     [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree page:(@1) andBlock:^(NSDictionary *responseDictionary) {

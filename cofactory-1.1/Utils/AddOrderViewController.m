@@ -136,13 +136,13 @@
 
                         [HttpClient uploadOrderImageWithImage:self.image oid:self.oid andblock:^(NSDictionary *dictionary) {
                             if ([dictionary[@"statusCode"] intValue]==200) {
-                                NSLog(@"图片上传成功");
+                                DLog(@"图片上传成功");
                             }else{
-                                NSLog(@"图片上传失败%@",dictionary);
+                                DLog(@"图片上传失败%@",dictionary);
                             }
                         }];
                     }else{
-                        NSLog(@"没有图片");
+                        DLog(@"没有图片");
                     }
 
 
@@ -170,13 +170,13 @@
 
                         [HttpClient uploadOrderImageWithImage:self.image oid:self.oid andblock:^(NSDictionary *dictionary) {
                             if ([dictionary[@"statusCode"] intValue]==200) {
-                                NSLog(@"图片上传成功");
+                                DLog(@"图片上传成功");
                             }else{
-                                NSLog(@"图片上传失败%@",dictionary);
+                                DLog(@"图片上传失败%@",dictionary);
                             }
                         }];
                     }else{
-                        NSLog(@"没有图片");
+                        DLog(@"没有图片");
                     }
 
                 }else{
@@ -190,7 +190,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 
-    NSLog(@"oid=%@",self.oid);
+    DLog(@"oid=%@",self.oid);
     OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
     orderListVC.isHistory=NO;
     [self.navigationController pushViewController:orderListVC animated:YES];
@@ -501,11 +501,11 @@
         // 高斯模糊
 
         self.isBlur=!self.isBlur;
-        NSLog(@"高斯模糊");
+        DLog(@"高斯模糊");
         //boxSize必须大于0
         int boxSize = (int)(0.5f * 100);
         boxSize -= (boxSize % 2) + 1;
-        NSLog(@"boxSize:%i",boxSize);
+        DLog(@"boxSize:%i",boxSize);
         //图像处理
         CGImageRef img = aImage.CGImage;
         //需要引入
@@ -556,7 +556,7 @@
 
 
         if (error) {
-            NSLog(@"error from convolution %ld", error);
+            DLog(@"error from convolution %ld", error);
         }
 
 
@@ -599,7 +599,7 @@
 
     }else{
 
-        NSLog(@"不经过高斯模糊处理");
+        DLog(@"不经过高斯模糊处理");
 
         CGSize size = {kScreenW,kScreenW};
         UIGraphicsBeginImageContext(size);

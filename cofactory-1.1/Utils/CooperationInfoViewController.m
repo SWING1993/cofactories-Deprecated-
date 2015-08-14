@@ -192,7 +192,7 @@
 
 - (void)favoriteBtn {
 
-    NSLog(@"添加收藏");
+    DLog(@"添加收藏");
     NSString * Uid = [NSString stringWithFormat:@"%d",self.factoryModel.uid];
     [HttpClient addFavoriteWithUid:Uid andBlock:^(int statusCode) {
         switch (statusCode) {
@@ -480,7 +480,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section==1&&indexPath.row==5) {
-        NSLog(@"相册");
+        DLog(@"相册");
 //        FactoryPhotoViewController*factoryPhoto = [[FactoryPhotoViewController alloc]init];
         CofactoryPhotoViewController*factoryPhoto = [[CofactoryPhotoViewController alloc]init];
 
@@ -494,7 +494,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"释放内存");
+    DLog(@"释放内存");
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;
 }

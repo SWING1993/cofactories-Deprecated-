@@ -143,10 +143,10 @@
         BMKGeoCodeSearchOption *geoCodeSearchOption = [[BMKGeoCodeSearchOption alloc] init];
         geoCodeSearchOption.address = addressString;
         if ([_searcher geoCode:geoCodeSearchOption]) {
-            NSLog(@"geo检索发送正常");
+            DLog(@"geo检索发送正常");
 
         } else {
-            NSLog(@"geo检索发送失败");
+            DLog(@"geo检索发送失败");
             UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"检索发送失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             [alertView show];
         }
@@ -161,7 +161,7 @@
     if (error == BMK_SEARCH_NO_ERROR) {
         // 正常结果
     
-        //NSLog(@"%lf %lf", result.location.latitude, result.location.longitude);
+        //DLog(@"%lf %lf", result.location.latitude, result.location.longitude);
         MapViewController*mapVC = [[MapViewController alloc]init];
         mapVC.addressStr=addressString;
         mapVC.centerLocation = result.location;

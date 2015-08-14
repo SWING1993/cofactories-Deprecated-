@@ -70,7 +70,7 @@
 
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        NSLog(@"下拉刷新结束");
+        DLog(@"下拉刷新结束");
         [self.tableView reloadData];
         [refreshControl endRefreshing];
     });
@@ -169,7 +169,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"释放内存");
+    DLog(@"释放内存");
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;
 

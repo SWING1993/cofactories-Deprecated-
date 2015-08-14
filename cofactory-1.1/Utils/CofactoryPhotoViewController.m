@@ -171,7 +171,7 @@
 {
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;
-    NSLog(@"公司相册释放内存");
+    DLog(@"公司相册释放内存");
 }
 
 

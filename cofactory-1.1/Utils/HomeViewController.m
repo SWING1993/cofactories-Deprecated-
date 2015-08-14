@@ -57,11 +57,11 @@
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
 
         UserModel*userModel=responseDictionary[@"model"];
-        //        NSLog(@"%@",userModel);
+        //        DLog(@"%@",userModel);
         self.factoryFreeStatus=userModel.factoryFreeStatus;
         self.hasTruck=userModel.hasTruck;
         self.factoryFreeTime=userModel.factoryFreeTime;
-//        NSLog(@"刷新工厂=%@  自备货车%d  空闲时间%@",userModel.factoryFreeStatus,self.hasTruck,self.factoryFreeTime);
+        DLog(@"刷新工厂=%@  自备货车%d  空闲时间%@",userModel.factoryFreeStatus,self.hasTruck,self.factoryFreeTime);
     }];
 
     [super viewWillAppear:animated];
@@ -72,11 +72,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-//    NSLog(@"游客=%d",[Tools isTourist]);
+//    DLog(@"游客=%d",[Tools isTourist]);
 
     //抽奖
     [HttpClient drawAccessWithBlock:^(int statusCode) {
-        NSLog(@"%d",statusCode);
+        DLog(@"%d",statusCode);
         if (statusCode==200) {
             UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"您已达到抽奖资格，您想要抽奖吗" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             alertView.tag=100;
@@ -117,7 +117,7 @@
         
         
         NSNumber *MyUid = [NSNumber numberWithInt:userModel.uid];
-        NSLog(@"user.uid=%@",MyUid);
+        DLog(@"user.uid=%@",MyUid);
         [[NSUserDefaults standardUserDefaults] setObject:MyUid forKey:@"selfuid"];
         [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -149,7 +149,7 @@
 
 - (void)getListMenu {
 
-    NSLog(@"ListMenu为0，初始化");
+//    DLog(@"ListMenu为0，初始化");
 
     if ([Tools isTourist]) {
         int toursitTag = [[[NSUserDefaults standardUserDefaults]objectForKey:@"toursitTag"] intValue];
@@ -315,7 +315,7 @@
         [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
             NSDictionary*VeifyDic=dictionary[@"responseDictionary"];
             self.status = [VeifyDic[@"status"] intValue];
-            NSLog(@"认证状态%d", self.status);
+//            DLog(@"认证状态%d", self.status);
 
             //未认证
             if ( self.status==0) {
@@ -414,7 +414,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-//    NSLog(@"%d",self.homeItemModel.itemArray.count);
+//    DLog(@"%d",self.homeItemModel.itemArray.count);
     if (indexPath.section != self.homeItemModel.itemArray.count) {
         NSInteger index = [self.homeItemModel.allItemArray indexOfObject:self.homeItemModel.itemArray[indexPath.section]];
         switch (index) {
@@ -529,14 +529,14 @@
 
 //    if ([self.view window] == nil)// 是否是正在使用的视图
 //    {
-//        NSLog(@"self.view = nil");
+//        DLog(@"self.view = nil");
 //        self.view = nil;// 目的是再次进入时能够重新加载调用viewDidLoad函数。
 //    }
 }
 
 - (void)dealloc {
 
-    NSLog(@"释放内存");
+    DLog(@"释放内存");
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;
 }

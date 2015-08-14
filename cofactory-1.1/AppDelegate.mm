@@ -63,7 +63,7 @@
     _mapManager = [[BMKMapManager alloc] init];
     BOOL ret = [_mapManager start:@"ijDoxrS8H8lrgD9GDbLQpjNR"  generalDelegate:nil];
     if (!ret) {
-        NSLog(@"百度地图SDK错误");
+        DLog(@"百度地图SDK错误");
     }
     // 友盟分享  
     [UMSocialData setAppKey:@"55a0778367e58e452400710a"];
@@ -132,7 +132,7 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     [HttpClient registerDeviceWithDeviceId:[NSString stringWithFormat:@"%@", deviceToken] andBlock:^(int statusCode) {
-                NSLog(@"deviceTokenStatus %d", statusCode);
+                DLog(@"deviceTokenStatus %d", statusCode);
     }];
     [UMessage registerDeviceToken:deviceToken];
 }
@@ -140,7 +140,7 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     [UMessage didReceiveRemoteNotification:userInfo];
-//    NSLog(@"%@",userInfo);
+//    DLog(@"%@",userInfo);
     [UMessage setAutoAlert:NO];
 
     if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)

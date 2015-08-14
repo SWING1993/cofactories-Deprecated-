@@ -63,22 +63,22 @@
         infoLabel.text = [NSString stringWithFormat:@"信息完整度为%d%s",FinishedDegree,"%"];
 
         if (self.userModel.factoryType==GarmentFactory) {
-            NSLog(@"---服装厂");
+            DLog(@"---服装厂");
             self.sizeArray=rangeModel.allFactorySize[0];
             self.serviceRangeArray=rangeModel.allServiceRange[0];
         }
         if (self.userModel.factoryType==ProcessingFactory) {
-            NSLog(@"---加工厂");
+            DLog(@"---加工厂");
             self.sizeArray=rangeModel.allFactorySize[1];
             self.serviceRangeArray=rangeModel.allServiceRange[1];
 
         }
         if (self.userModel.factoryType==CuttingFactory) {
-            NSLog(@"---代裁厂");
+            DLog(@"---代裁厂");
             self.sizeArray=rangeModel.allFactorySize[2];
         }
         if (self.userModel.factoryType==LockButtonFactory) {
-            NSLog(@"---锁眼厂");
+            DLog(@"---锁眼厂");
             self.sizeArray=rangeModel.allFactorySize[3];
         }
 
@@ -280,7 +280,9 @@
                 break;
             case 4:{
                 cellLabel.text=@"个性标签";
-                cell.detailTextLabel.text =  self.userModel.tag;
+                if (self.userModel.tag) {
+                    cell.detailTextLabel.text =  self.userModel.tag;
+                }
             }
                 break;
 
@@ -526,7 +528,7 @@
 }
 //- (void)dealloc
 //{
-//    NSLog(@"释放内存");
+//    DLog(@"释放内存");
 //    self.tableView.dataSource = nil;
 //    self.tableView.delegate = nil;
 //

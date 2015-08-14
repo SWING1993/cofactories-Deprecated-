@@ -46,22 +46,22 @@ static  NSString *const cellIdentifier2 = @"cell2";
     
     [self.view addSubview:_tableView];
     
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 150)];
+    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
     headerView.backgroundColor = [UIColor whiteColor];
     _tableView.tableHeaderView = headerView;
     
-    UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 150)];
+    UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
     backgroundView.backgroundColor = [UIColor colorWithRed:98/255.0 green:190/255.0 blue:181/255.0 alpha:1.0];
     [headerView addSubview:backgroundView];
     
-    UILabel *companyName = [[UILabel alloc]initWithFrame:CGRectMake(10, 20, backgroundView.frame.size.width-30, 40)];
+    UILabel *companyName = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, backgroundView.frame.size.width-30, 40)];
     companyName.textColor = [UIColor whiteColor];
     companyName.text = self.model.facName;
     companyName.font = [UIFont systemFontOfSize:18.0f];
     [backgroundView addSubview:companyName];
     
     UIButton *contactManufacturerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    contactManufacturerButton.frame = CGRectMake(10, 65, 70, 25);
+    contactManufacturerButton.frame = CGRectMake(10, 55, 70, 25);
     [contactManufacturerButton setBackgroundImage:[UIImage imageNamed:@"联系厂商"] forState:UIControlStateNormal];
     [contactManufacturerButton addTarget:self action:@selector(contactManufacturerButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [backgroundView addSubview:contactManufacturerButton];
@@ -73,12 +73,12 @@ static  NSString *const cellIdentifier2 = @"cell2";
         interestCount.textColor = [UIColor orangeColor];
         interestCount.font = font;
         CGSize size = [[NSString stringWithFormat:@"%d",self.model.interest] sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
-        interestCount.frame = CGRectMake(10, 110, size.width, 20);
+        interestCount.frame = CGRectMake(10, 90, size.width, 20);
         interestCount.textAlignment = 2;
         interestCount.text = [NSString stringWithFormat:@"%d",self.model.interest];
         [backgroundView addSubview:interestCount];
         
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(interestCount.frame.size.width+15, 110, 160, 20)];
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(interestCount.frame.size.width+15, 90, 160, 20)];
         label.font = [UIFont systemFontOfSize:14.0f];
         label.text = @"家厂商对此订单感兴趣";
         [backgroundView addSubview:label];
@@ -86,7 +86,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
     
     
     UIButton *orderImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    orderImageButton.frame = CGRectMake(kScreenW-20-70, 105, 70, 30);
+    orderImageButton.frame = CGRectMake(kScreenW-20-70, 85, 70, 30);
     orderImageButton.backgroundColor = [UIColor colorWithRed:59/255.0 green:141/255.0 blue:191/255.0 alpha:1.0];
     orderImageButton.layer.masksToBounds = YES;
     orderImageButton.layer.cornerRadius = 5;
@@ -337,7 +337,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
     _view=[[UIView alloc]initWithFrame:kScreenBounds];
     _view.backgroundColor=[UIColor clearColor];
     
-    UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, kScreenH/4, kScreenW, kScreenW)];
+    UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, kScreenH/4-64, kScreenW, kScreenW)];
     [photoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/order/%d.png",self.model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
     photoView.contentMode=UIViewContentModeScaleAspectFill;
     photoView.clipsToBounds=YES;

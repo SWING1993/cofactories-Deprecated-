@@ -87,7 +87,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"释放内存");
+    DLog(@"释放内存");
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;
 }

@@ -570,10 +570,10 @@
 
 
 
-    NSLog(@"+==+++_pushFacYype=%d,,ServiceRangeTextField=%@,,_pushDistenceMin=%@,,_pushDistenceMax=%@,,_pushPeopleMin=%@,,_pushPeopleMax=%@,,self.types=%@",_pushFacYype,ServiceRangeTextField.text,_pushDistenceMin,_pushDistenceMax,_pushPeopleMin,_pushPeopleMax,self.types);
+    DLog(@"+==+++_pushFacYype=%d,,ServiceRangeTextField=%@,,_pushDistenceMin=%@,,_pushDistenceMax=%@,,_pushPeopleMin=%@,,_pushPeopleMax=%@,,self.types=%@",_pushFacYype,ServiceRangeTextField.text,_pushDistenceMin,_pushDistenceMax,_pushPeopleMin,_pushPeopleMax,self.types);
 
     [HttpClient addPushSettingWithFactoryType:_pushFacYype Type:self.types FactoryServiceRange:ServiceRangeTextField.text factorySizeMin:_pushPeopleMin factorySizeMax:_pushPeopleMax factoryDistanceMin:_pushDistenceMin factoryDistanceMax:_pushDistenceMax andBlock:^(int code) {
-        NSLog(@"%d",code);
+        DLog(@"%d",code);
         if (code == 200) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"添加推送成功"
                                                                 message:nil

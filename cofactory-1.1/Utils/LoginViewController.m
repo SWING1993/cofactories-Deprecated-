@@ -127,7 +127,7 @@
                 [Tools showHudTipStr:@"请您填写账号以及密码后登陆"];
             }else{
                 [HttpClient loginWithUsername:_usernameTF.text password:_passwordTF.text andBlock:^(int statusCode) {
-                    NSLog(@"%d",statusCode);
+                    DLog(@"%d",statusCode);
                     switch (statusCode) {
                         case 0:{
 //                            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"网络错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
@@ -168,7 +168,7 @@
         }
             break;
         case 3:{
-            NSLog(@"忘记密码");
+            DLog(@"忘记密码");
             ResetPasswordViewController*resetVC = [[ResetPasswordViewController alloc]init];
             UINavigationController*resetNav = [[UINavigationController alloc]initWithRootViewController:resetVC];
             resetNav.navigationBar.barStyle=UIBarStyleBlack;

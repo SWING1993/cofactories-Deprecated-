@@ -56,7 +56,7 @@
     }];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        NSLog(@"下拉刷新结束");
+        DLog(@"下拉刷新结束");
         [self.tableView reloadData];
         [refreshControl endRefreshing];
     });
@@ -151,15 +151,15 @@
 
         FactoryModel*factoryModel=self.modelArray[indexPath.section];
 
-        NSLog(@"%d",factoryModel.uid);
+        DLog(@"%d",factoryModel.uid);
         [HttpClient deleteFavoriteWithUid:[NSString stringWithFormat:@"%d",factoryModel.uid] andBlock:^(int statusCode) {
-            NSLog(@"%d",statusCode);
+            DLog(@"%d",statusCode);
             if (statusCode==200) {
                 self.modelArray = [[NSMutableArray alloc]initWithCapacity:0];
                 [HttpClient listFavoriteWithBlock:^(NSDictionary *responseDictionary) {
                     self.modelArray=responseDictionary[@"responseArray"];
                     [self.tableView reloadData];
-                    NSLog(@"%@",responseDictionary);
+                    DLog(@"%@",responseDictionary);
                 }];
             }else{
                 UIAlertView*alertVierw = [[UIAlertView alloc]initWithTitle:@"删除出错" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];

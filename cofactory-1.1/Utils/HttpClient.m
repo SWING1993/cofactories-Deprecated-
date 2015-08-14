@@ -240,7 +240,7 @@
         [self getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
 
             if ([[responseDictionary objectForKey:@"statusCode"] intValue] == 200) {
-                NSLog(@"登录信息:%@",[responseDictionary objectForKey:@"model"] );
+                DLog(@"登录信息:%@",[responseDictionary objectForKey:@"model"] );
             }
         }];
         block(200);// 登录成功
@@ -268,7 +268,7 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_userProfile parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//            NSLog(@"用户信息：%@",responseObject);
+//            DLog(@"用户信息：%@",responseObject);
             UserModel *userModel = [[UserModel alloc] initWithDictionary:responseObject];
             block(@{@"statusCode": @([operation.response statusCode]), @"model": userModel});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -601,7 +601,7 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager POST:API_updateMenu parameters:@{@"menu": menuArray} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//            NSLog(@"更新MenuList=%@ 数组%@",responseObject,menuArray);
+//            DLog(@"更新MenuList=%@ 数组%@",responseObject,menuArray);
 //            block([operation.response statusCode]);
             block(200);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -692,7 +692,7 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_historyOrder parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"%@",responseObject);
+            DLog(@"%@",responseObject);
             NSArray *jsonArray = (NSArray *)responseObject;
             NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
             for (NSDictionary *dictionary in jsonArray) {
@@ -729,7 +729,7 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_orderDoing parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"%@",responseObject);
+            DLog(@"%@",responseObject);
             NSArray *jsonArray = (NSArray *)responseObject;
             NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
             for (NSDictionary *dictionary in jsonArray) {
@@ -801,7 +801,7 @@
         [manager GET:url parameters:@{@"uid":@(uid)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
             block(200);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"++%@",error);
+            DLog(@"++%@",error);
 
             switch ([operation.response statusCode]) {
                 case 400:
@@ -834,7 +834,7 @@
         NSString *url = [[NSString alloc] initWithFormat:@"%@/%d", API_interestOrder, oid];
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
 
-//            NSLog(@"%@",responseObject);
+//            DLog(@"%@",responseObject);
 //            int statusCode = [responseObject[@"code"] intValue];
             block(200);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -879,7 +879,7 @@
         [mutableDictionary setObject:page forKey:@"page"];
 
     [manager GET:API_searchOrder parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"订单搜索=%@",responseObject);
+//        DLog(@"订单搜索=%@",responseObject);
         NSArray *jsonArray = (NSArray *)responseObject;
         NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
         for (NSDictionary *dictionary in jsonArray) {
@@ -903,7 +903,7 @@
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         NSString *url = [[NSString alloc] initWithFormat:@"%@/%d", API_orderDetail, oid];
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"-----------%@",responseObject);
+            DLog(@"-----------%@",responseObject);
             OrderModel *orderModel = [[OrderModel alloc] initWithDictionary:responseObject];
             block(@{@"statusCode": @([operation.response statusCode]), @"model": orderModel});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -985,7 +985,7 @@
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_message parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
 
-//            NSLog(@"消息%@",responseObject);
+//            DLog(@"消息%@",responseObject);
             NSArray *responseArray = (NSArray *)responseObject;
             NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:0];
             for (NSDictionary *dictionary in responseArray) {
@@ -1109,7 +1109,7 @@
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_pushSetting parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
 
-//            NSLog(@"===%@",responseObject);
+//            DLog(@"===%@",responseObject);
             NSArray *responseArray = responseObject;
             NSMutableArray *mutableArr = [[NSMutableArray alloc]initWithCapacity:0];
 
@@ -1169,10 +1169,10 @@
         [manager GET:API_verifyInfo parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             block(@{@"statusCode": @([operation.response statusCode]), @"responseDictionary": responseObject});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"===%@", operation.responseString);
+            DLog(@"===%@", operation.responseString);
 
-            NSLog(@"%@",error);
-            NSLog(@"======%d",[operation.response statusCode]);
+            DLog(@"%@",error);
+            DLog(@"======%d",[operation.response statusCode]);
             switch ([operation.response statusCode]) {
                 case 400:
                     block(@{@"statusCode": @([operation.response statusCode]), @"message": @"未登录"});
@@ -1235,14 +1235,14 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_uploadFactory parameters:@{@"type": type} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"图片上传成功");
+            DLog(@"图片上传成功");
             UpYun *upYun = [[UpYun alloc] init];
             upYun.bucket = @"cofactories";
             upYun.expiresIn = 600;// 10分钟
             [upYun uploadImage:image policy:[responseObject objectForKey:@"policy"] signature:[responseObject objectForKey:@"signature"]];
             block(@{@"statusCode": @([operation.response statusCode]), @"responseDictionary": responseObject});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"NOok%@",error);
+            DLog(@"NOok%@",error);
 
             switch ([operation.response statusCode]) {
                 case 400:
