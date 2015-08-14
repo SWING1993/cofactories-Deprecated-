@@ -1033,7 +1033,7 @@
 }
 
 
-+ (void)addPushSettingWithFactoryType:(FactoryType)factoryType  Type:(NSString *)type FactoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax andBlock:(void (^)(int code))block
++ (void)addPushSettingWithFactoryType:(FactoryType)factoryType  Type:(NSString *)type FactoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax factoryWorkingTimeMin:(NSNumber *)factoryWorkingTimeMin factoryWorkingTimeMax:(NSNumber *)factoryWorkingTimeMax andBlock:(void (^)(int code))block
 {
 
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
@@ -1060,6 +1060,10 @@
             NSArray *factoryDistance = [[NSArray alloc] initWithObjects:factoryDistanceMin, factoryDistanceMax, nil];
             [mutableDictionary setObject:factoryDistance forKey:@"distance"];
         }
+        if (factoryWorkingTimeMin) {
+            NSArray *factoryWorkingTime = [[NSArray alloc] initWithObjects:factoryWorkingTimeMin, factoryWorkingTimeMax, nil];
+            [mutableDictionary setObject:factoryWorkingTime forKey:@"workingTime"];
+        }
 
         [manager POST:API_pushSetting parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject)
          {
@@ -1070,6 +1074,7 @@
               failure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
 
+             DLog(@"error=%@",error);
              block(400);
              
          }];

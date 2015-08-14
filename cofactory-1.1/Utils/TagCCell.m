@@ -42,14 +42,15 @@
 - (void)setHasBeenSelected:(BOOL)hasBeenSelected{
     _hasBeenSelected = hasBeenSelected;
     if (_hasBeenSelected) {
-        self.backgroundColor = [UIColor colorWithHexString:@"0x3bbd79"];
-        _contentLabel.textColor = [UIColor whiteColor];
-    }else{
         self.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
         _contentLabel.textColor = [UIColor blackColor];
+
+    }else{
+
+        self.backgroundColor = [UIColor colorWithHexString:@"0x3bbd79"];
+        _contentLabel.textColor = [UIColor whiteColor];
     }
 }
-
 + (CGSize)ccellSizeWithObj:(id)obj{
     CGSize ccellSize = CGSizeZero;
     if ([obj isKindOfClass:[NSString class]]) {

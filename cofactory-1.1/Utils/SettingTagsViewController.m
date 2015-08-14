@@ -16,8 +16,7 @@
 //#import "TagsManager.h"
 @interface SettingTagsViewController ()
 @property (strong, nonatomic) UICollectionView *tagsView;
-//@property (strong, nonatomic) NSMutableArray *mySelectedTags;
-
+@property (nonatomic,retain)NSMutableArray*mySelectedTagsArr;
 @end
 
 @implementation SettingTagsViewController
@@ -31,6 +30,8 @@
 //    self.allTags = [NSArray array];
 //    self.allTags = @[@"排版好",@"工期快",@"设备齐全",@"节省布料",@"自备货车"];
 
+
+    self.mySelectedTagsArr = [[NSMutableArray alloc]initWithCapacity:0];
 
     self.title = @"个性标签";
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -67,6 +68,7 @@
     NSString *curTag = [_allTags objectAtIndex:indexPath.row];
     ccell.curTag = curTag;
     ccell.hasBeenSelected = YES;
+    [self.mySelectedTagsArr addObject:ccell];
     return ccell;
 }
 
@@ -85,6 +87,12 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+
+    for (TagCCell *ccell in self.mySelectedTagsArr) {
+        ccell.hasBeenSelected = YES;
+    }
+    TagCCell *ccell = self.mySelectedTagsArr[indexPath.row];
+    ccell.hasBeenSelected = NO;
 
     NSString *curTag = [_allTags objectAtIndex:indexPath.row];
 
