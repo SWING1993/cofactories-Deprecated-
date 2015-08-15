@@ -197,13 +197,33 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section==0) {
         if ([self.imageArray count]<5) {
-            return 100;
+            if (iphone6Plus_5_5) {
+                return 110;
+            }if (iphone5x_4_0||iphone4x_3_5) {
+                return 90;
+            }
+            else{
+                return 100;
+            }
         }
         if ([self.imageArray count]<9) {
-            return 200;
-
+            if (iphone6Plus_5_5) {
+                return 210;
+            }if (iphone5x_4_0||iphone4x_3_5) {
+                return 170;
+            }
+            else{
+                return 200;
+            }
         }if ([self.imageArray count]<11) {
-            return 300;
+            if (iphone6Plus_5_5) {
+                return 320;
+            }if (iphone5x_4_0||iphone4x_3_5) {
+                return 250;
+            }
+            else{
+                return 300;
+            }
         }
     }
     return 0;

@@ -24,8 +24,13 @@
 #define kNavigationBarHeight 44
 #define CellIdentifier @"Cell"
 
-//#define PhotoAPI @"http://cdn.cofactories.com"
-#define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
+#define PhotoAPI @"http://cdn.cofactories.com"
+#define bucketAPI @"cofactories"
+
+
+//#define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
+//#define bucketAPI @"cofactories-test"
+
 
 
 #import "AppDelegate.h"
