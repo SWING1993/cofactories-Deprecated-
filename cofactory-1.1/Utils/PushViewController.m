@@ -86,7 +86,7 @@
 
     int facType = [pushModel.factoryTypes intValue];
     switch (facType) {
-        case 0:
+        case 1:
         {
             if ([pushModel.type isEqualToString:@"factory"]) {
                 cell.typeLB.text = @"加工厂信息";
@@ -97,7 +97,7 @@
             cell.businessLB.text = [NSString stringWithFormat:@"业务类型: %@",pushModel.serviceRange];
         }
             break;
-        case 1:
+        case 2:
             if ([pushModel.type isEqualToString:@"factory"]) {
                 cell.typeLB.text = @"代裁厂信息";
             }else{
@@ -105,7 +105,7 @@
             }
             cell.businessLB.hidden = YES;
             break;
-        case 2:
+        case 3:
             if ([pushModel.type isEqualToString:@"factory"]) {
                 cell.typeLB.text = @"锁眼钉扣厂信息";
             }else{
@@ -117,32 +117,71 @@
             break;
     }
 
-    long long indexO = [pushModel.dictanceArray[0] longLongValue];
-    long long index1 = [pushModel.dictanceArray[1] longLongValue];
-    
-    if (indexO == 0 && index1 >=5000000000) {
-        cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"不限距离"];
-    }else if (indexO == 0 && index1 >=10000) {
-        cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"10公里以内"];
-    }else if (indexO == 300000 && index1 >=10000000000000000) {
-        cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"300公里以外"];
-    }else if (indexO == 0 && index1 ==1000) {
-        cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"1公里以内"];
+    if ([pushModel.type isEqualToString:@"factory"]) {
+
+        long long indexO = [pushModel.dictanceArray[0] longLongValue];
+        long long index1 = [pushModel.dictanceArray[1] longLongValue];
+
+        if (indexO == 0 && index1 ==50000000) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"不限距离"];
+        }else if (indexO == 0 && index1 ==10000) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"10公里以内"];
+        }else if (indexO == 300000 && index1 == 100000000) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"300公里以外"];
+        }else if (indexO == 0 && index1 ==1000) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"1公里以内"];
+        }else{
+            long long left = indexO/1000;
+            long long right = index1/1000;
+            cell.distenceLB.text = [NSString stringWithFormat:@"距离:%lld-%lld公里",left,right];
+        }
+
+        long long index2 = [pushModel.sizeArray[0] longLongValue];
+        long long index3 = [pushModel.sizeArray[1] longLongValue];
+        if (index2 == 0 && index3 == 500) {
+            cell.scaleLB.text = [NSString stringWithFormat:@"规模:%@",@"不限规模"];
+        }else if (index2 == 20 && index3 == 400){
+            cell.scaleLB.text = [NSString stringWithFormat:@"规模:%@",@"20人以上"];
+        }else if (index2 == 4 && index3 == 400){
+            cell.scaleLB.text = [NSString stringWithFormat:@"规模:%@",@"4人以上"];
+        }else{
+            cell.scaleLB.text = [NSString stringWithFormat:@"规模:%lld-%lld人",index2,index3];
+        }
+
     }else{
-        long long left = indexO/1000;
-        long long right = index1/1000;
-        cell.distenceLB.text = [NSString stringWithFormat:@"距离:%lld-%lld公里",left,right];
-    }
-    long long index2 = [pushModel.sizeArray[0] longLongValue];
-    long long index3 = [pushModel.sizeArray[1] longLongValue];
-    if (index2 == 0 && index3 >= 500000000) {
-        cell.scaleLB.text = [NSString stringWithFormat:@"规模:%@",@"不限规模"];
-    }else if (index2 == 20 && index3 >= 400000000000){
-        cell.scaleLB.text = [NSString stringWithFormat:@"规模:%@",@"20人以上"];
-    }else if (index2 == 4 && index3 >= 400000000000){
-        cell.scaleLB.text = [NSString stringWithFormat:@"规模:%@",@"4人以上"];
-    }else{
-        cell.scaleLB.text = [NSString stringWithFormat:@"规模:%lld-%lld人",index2,index3];
+
+        NSLog(@"%@",pushModel);
+        long long indexO = [pushModel.workingTimeArray[0] longLongValue];
+        long long index1 = [pushModel.workingTimeArray[1] longLongValue];
+
+        if (indexO == 0 && index1 ==5000000) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"期限:%@",@"不限期限"];
+        }else if (indexO == 3 && index1 ==3) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"期限:%@",@"3天"];
+        }else if (indexO == 5 && index1 == 5) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"期限:%@",@"5天"];
+        }else if (indexO == 1 && index1 ==1) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"期限:%@",@"1天"];
+        }else if (indexO == 5 && index1 ==50000) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"期限:%@",@"5天以上"];
+        }else if (indexO == 3 && index1 ==500000) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"期限:%@",@"3天以上"];
+        }else if (indexO == 1 && index1 ==3) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"期限:%@",@"1-3天"];
+        }
+
+        long long index2 = [pushModel.sizeArray[0] longLongValue];
+        long long index3 = [pushModel.sizeArray[1] longLongValue];
+        if (index2 == 0 && index3 == 5000000) {
+            cell.scaleLB.text = [NSString stringWithFormat:@"数量:%@",@"不限数量"];
+        }else if (index2 == 0 && index3 == 500){
+            cell.scaleLB.text = [NSString stringWithFormat:@"数量:%@",@"500件以内"];
+        }else if (index2 == 5000 && index3 == 500000){
+            cell.scaleLB.text = [NSString stringWithFormat:@"数量:%@",@"5000件以上"];
+        }else{
+            cell.scaleLB.text = [NSString stringWithFormat:@"数量:%lld-%lld件",index2,index3];
+        }
+
     }
 
 

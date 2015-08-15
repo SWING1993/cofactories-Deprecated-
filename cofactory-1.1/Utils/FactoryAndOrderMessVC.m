@@ -565,13 +565,13 @@
 
     switch (self.type) {
         case 0:
-            _pushFacYype = 100;
-            break;
-        case 1:
             _pushFacYype = 1;
             break;
-        case 2:
+        case 1:
             _pushFacYype = 2;
+            break;
+        case 2:
+            _pushFacYype = 3;
             break;
 
         default:
@@ -622,7 +622,7 @@
 
         if ([scalTextField.text isEqualToString:@"不限规模"]) {
             _pushPeopleMin = @0;
-            _pushPeopleMax = @500000000;
+            _pushPeopleMax = @500;
         }else if ([scalTextField.text isEqualToString:@"2-4人"]){
             _pushPeopleMin = @2;
             _pushPeopleMax = @4;
@@ -634,10 +634,10 @@
             _pushPeopleMax = @20;
         }else if ([scalTextField.text isEqualToString:@"20人以上"]){
             _pushPeopleMin = @20;
-            _pushPeopleMax = @40000000;
+            _pushPeopleMax = @400;
         }else if ([scalTextField.text isEqualToString:@"4人以上"]){
             _pushPeopleMin = @4;
-            _pushPeopleMax = @40000000;
+            _pushPeopleMax = @400;
         }
 
 

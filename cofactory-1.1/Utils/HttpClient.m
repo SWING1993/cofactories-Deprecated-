@@ -15,7 +15,9 @@
 
 //#define kBaseUrl @"http://app2.cofactories.com"
 
-#define kBaseUrl @"http://192.168.100.2:3001"
+#define kBaseUrl @"http://test.cofactories.com"
+
+//#define kBaseUrl @"http://192.168.100.2:3001"
 
 #define kClientID @"123"
 #define kSecret @"123"
@@ -1242,7 +1244,9 @@
         [manager GET:API_uploadFactory parameters:@{@"type": type} success:^(AFHTTPRequestOperation *operation, id responseObject) {
             DLog(@"图片上传成功");
             UpYun *upYun = [[UpYun alloc] init];
-            upYun.bucket = @"cofactories";
+//            upYun.bucket = @"cofactories";
+            upYun.bucket = @"cofactories-test";//图片测试
+
             upYun.expiresIn = 600;// 10分钟
             [upYun uploadImage:image policy:[responseObject objectForKey:@"policy"] signature:[responseObject objectForKey:@"signature"]];
             block(@{@"statusCode": @([operation.response statusCode]), @"responseDictionary": responseObject});
@@ -1278,7 +1282,9 @@
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_uploadVerify parameters:@{@"type": type} success:^(AFHTTPRequestOperation *operation, id responseObject) {
                         UpYun *upYun = [[UpYun alloc] init];
-                        upYun.bucket = @"cofactories";
+//                        upYun.bucket = @"cofactories";
+            upYun.bucket = @"cofactories-test";//图片测试
+
                         upYun.expiresIn = 600;// 10分钟
                         [upYun uploadImage:image policy:[responseObject objectForKey:@"policy"] signature:[responseObject objectForKey:@"signature"]];
             block(@{@"statusCode": @([operation.response statusCode]), @"responseDictionary": responseObject});
@@ -1312,7 +1318,9 @@
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_uploadOrder parameters:@{@"oid": oid} success:^(AFHTTPRequestOperation *operation, id responseObject) {
             UpYun *upYun = [[UpYun alloc] init];
-            upYun.bucket = @"cofactories";
+//            upYun.bucket = @"cofactories";
+
+            upYun.bucket = @"cofactories-test";//图片测试
             upYun.expiresIn = 600;// 10分钟
             [upYun uploadImage:image policy:[responseObject objectForKey:@"policy"] signature:[responseObject objectForKey:@"signature"]];
             block(@{@"statusCode": @([operation.response statusCode]), @"responseDictionary": responseObject});

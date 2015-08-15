@@ -54,7 +54,9 @@
             NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
             NSDictionary*factory=responseDictionary[@"factory"];
             self.employee=factory[@"employee"];
-            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.employee firstObject]];
+//            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.employee firstObject]];
+            NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,[self.employee firstObject]];//图片测试
+
             [leftImage sd_setImageWithURL:[NSURL URLWithString:urlString]];
         }
     }];
@@ -63,7 +65,9 @@
             NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
             NSDictionary*factory=responseDictionary[@"factory"];
             self.environment=factory[@"environment"];
-            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.environment firstObject]];
+//            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.environment firstObject]];
+            NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,[self.environment firstObject]];//图片测试
+
             [rightImage1 sd_setImageWithURL:[NSURL URLWithString:urlString]];
         }
     }];
@@ -72,7 +76,9 @@
             NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
             NSDictionary*factory=responseDictionary[@"factory"];
             self.equipment=factory[@"equipment"];
-            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.equipment firstObject]];
+//            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.equipment firstObject]];
+            NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,[self.equipment firstObject]];//图片测试
+
             [rightImage2 sd_setImageWithURL:[NSURL URLWithString:urlString]];
         }
     }];
@@ -134,7 +140,8 @@
 
 //    [[SDImageCache sharedImageCache]clearDisk];
 
-    NSString* imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.factoryModel.uid];
+    NSString* imageUrlString = [NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.factoryModel.uid];
+
     [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"消息头像"]];
     [headerView addSubview:headerImage];
 
@@ -340,7 +347,7 @@
                     break;
                 case 6:{
                     cellLabel.text=@"公司标签";
-                    if ([self.factoryModel.tag isEqualToString:@"0"]) {
+                    if ([self.factoryModel.tag isEqualToString:@"0"]||[self.factoryModel.tag isEqualToString:@"(null)"]) {
                         cell.detailTextLabel.text=@"暂无标签";
                     }else{
                         cell.detailTextLabel.text=self.factoryModel.tag;

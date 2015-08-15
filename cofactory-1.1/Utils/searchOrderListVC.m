@@ -295,7 +295,7 @@
 
     NSMutableArray *arr = [Tools WithTime:model.createTime];//gt123
     cell.timeLabel.text = arr[0];
-    [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",model.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];//gt123
+    [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,model.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];//gt123
     self.uid = model.uid;
     cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
     cell.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"件"];
@@ -587,7 +587,7 @@
             if (indexPath.leftRow ==4 && indexPath.row ==4 )
             {
                 self.min = @5000;
-                self.max = nil;
+                self.max = @1000000;
             }
 
         }
@@ -651,7 +651,7 @@
             if (indexPath.leftRow ==4 && indexPath.row ==4 )
             {
                 self.min = @5000;
-                self.max = nil;
+                self.max = @1000000;
             }
 
         }

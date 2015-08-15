@@ -231,7 +231,9 @@
 
     [self.imageArray enumerateObjectsUsingBlock:^(NSString *src, NSUInteger idx, BOOL *stop) {
         SDPhotoItem *item = [[SDPhotoItem alloc] init];
-        NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[idx]];
+//        NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[idx]];
+                NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,self.imageArray[idx]];
+
         item.thumbnail_pic = urlString;
         [temp addObject:item];
     }];

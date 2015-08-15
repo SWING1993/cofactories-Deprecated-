@@ -129,7 +129,7 @@
         [headerView addSubview:factoryNameLabel];
         [self.tableView reloadData];
 
-        [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
+        [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
         [headerView addSubview:headerButton];
     }];
 
@@ -203,7 +203,7 @@
             if ([dictionary[@"statusCode"] intValue]==200) {
                 UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"头像上传成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                 [alertView show];
-                [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
+                [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
                 [headerButton setBackgroundImage:image forState:UIControlStateNormal];
             }
         }];
@@ -280,13 +280,11 @@
                 break;
             case 4:{
                 cellLabel.text=@"个性标签";
-                if ([self.userModel.tag isEqualToString:@"0"]) {
+                if ([self.userModel.tag isEqualToString:@"0"]||[self.userModel.tag isEqualToString:@"(null)"]) {
                     cell.detailTextLabel.text = @"暂无标签";
                 }else{
                     cell.detailTextLabel.text =  self.userModel.tag;
                 }
-
-
             }
                 break;
 

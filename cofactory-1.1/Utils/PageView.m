@@ -24,7 +24,7 @@
         scrollView.contentSize = CGSizeMake(frame.size.width * 3, frame.size.height);
         // 添加图片
         for (int i = 1; i <= 3; ++i) {
-            NSString *url = [NSString stringWithFormat:@"http://app2.cofactories.com/images/banner/banner%d.png", i];
+            NSString *url = [NSString stringWithFormat:@"http://cdn.cofactories.com/banner/banner%d.png", i];
             UIImageView *imageView = [[UIImageView alloc] init];
             [imageView sd_setImageWithURL:[NSURL URLWithString:url]];
             [imageView setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];

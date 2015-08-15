@@ -122,7 +122,9 @@
 
         [self.employee enumerateObjectsUsingBlock:^(NSString *src, NSUInteger idx, BOOL *stop) {
             SDPhotoItem *item = [[SDPhotoItem alloc] init];
-            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.employee[idx]];
+            NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,self.employee[idx]];
+//            NSString*urlString =[NSString stringWithFormat:@"%@%@",testPhotoAPI,self.employee[idx]];//图片测试
+            DLog(@"%@",urlString);
             item.thumbnail_pic = urlString;
             [temp addObject:item];
         }];
@@ -138,7 +140,8 @@
 
         [self.environment enumerateObjectsUsingBlock:^(NSString *src, NSUInteger idx, BOOL *stop) {
             SDPhotoItem *item = [[SDPhotoItem alloc] init];
-            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.environment[idx]];
+//            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.environment[idx]];
+            NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,self.environment[idx]];//图片测试
             item.thumbnail_pic = urlString;
             [temp addObject:item];
         }];
@@ -154,7 +157,9 @@
 
         [self.equipment enumerateObjectsUsingBlock:^(NSString *src, NSUInteger idx, BOOL *stop) {
             SDPhotoItem *item = [[SDPhotoItem alloc] init];
-            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.equipment[idx]];
+//            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.equipment[idx]];
+            NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,self.equipment[idx]];//图片测试
+
             item.thumbnail_pic = urlString;
             [temp addObject:item];
         }];

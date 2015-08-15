@@ -13,11 +13,17 @@
 
     if (self == [super init]) {
 
-        self.dictanceArray = dictionary[@"distance"];
         self.factoryTypes = dictionary[@"factoryType"];
         self.serviceRange = dictionary[@"serviceRange"];
         self.sizeArray = dictionary[@"size"];
         self.type = dictionary[@"type"];
+
+        if ([self.type isEqualToString:@"order"]) {
+            self.workingTimeArray = dictionary[@"workingTime"];
+        }
+        if ([self.type isEqualToString:@"factory"]) {
+            self.dictanceArray = dictionary[@"distance"];
+        }
     }
     return self;
 }

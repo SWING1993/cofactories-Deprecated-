@@ -10,7 +10,7 @@
 
 @interface GetPushModel : NSObject
 
-@property (nonatomic,copy)NSArray *dictanceArray,   *sizeArray;
+@property (nonatomic,copy)NSArray *dictanceArray,   *sizeArray,    *workingTimeArray;
 @property (nonatomic,strong)NSNumber *factoryTypes;
 @property (nonatomic,copy)NSString * serviceRange,   *type;
 

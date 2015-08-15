@@ -132,7 +132,7 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     [HttpClient registerDeviceWithDeviceId:[NSString stringWithFormat:@"%@", deviceToken] andBlock:^(int statusCode) {
-                DLog(@"deviceTokenStatus %d", statusCode);
+                DLog(@"deviceTokenStatus %d  deviceToken = %@", statusCode,deviceToken);
     }];
     [UMessage registerDeviceToken:deviceToken];
 }

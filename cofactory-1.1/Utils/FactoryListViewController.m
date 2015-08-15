@@ -250,7 +250,7 @@
     
     FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
 
-    NSString* imageUrlString = [NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",factoryModel.uid];
+    NSString* imageUrlString = [NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,factoryModel.uid];
     [cell.companyImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
 
     cell.companyNameLB.text = factoryModel.factoryName;
@@ -344,7 +344,7 @@
         cell.certifyUserLB.hidden = NO;
     }
 
-    if ([factoryModel.tag isEqualToString:@"0"]) {
+    if ([factoryModel.tag isEqualToString:@"0"]||[factoryModel.tag isEqualToString:@"(null)"]) {
         cell.tagLB.hidden = YES;
 
     }else{
