@@ -8,15 +8,11 @@
 
 #define ImageViewHeight 250
 
-
 #import "Header.h"
 #import "CooperationInfoViewController.h"
-#import "FactoryPhotoViewController.h"
-
-
+#import "CofactoryPhotoViewController.h"//图片浏览器
 
 @interface CooperationInfoViewController () <UIAlertViewDelegate>
-
 
 //公司规模数组
 @property(nonatomic,retain)NSArray*sizeArray;
@@ -24,17 +20,15 @@
 //公司业务类型数组
 @property (nonatomic,retain)NSArray*serviceRangeArray;
 
-
-
 //单元格imageArray
 @property (nonatomic,retain)NSArray*cellImageArray1;
 @property (nonatomic,retain)NSArray*cellImageArray2;
 @property (nonatomic,retain)NSArray*cellImageArray3;
 @property (nonatomic,retain)NSArray*cellImageArray4;
 
-@property (nonatomic, strong) UIView *markView;
-@property (nonatomic, strong) UIView *scrollPanel;
-@property (nonatomic, strong) UIScrollView *myScrollViews;
+//@property (nonatomic, strong) UIView *markView;
+//@property (nonatomic, strong) UIView *scrollPanel;
+//@property (nonatomic, strong) UIScrollView *myScrollViews;
 
 @property (nonatomic,retain)NSMutableArray*employee;
 @property (nonatomic,retain)NSMutableArray*environment;
@@ -43,10 +37,9 @@
 @end
 
 @implementation CooperationInfoViewController {
+
     UILabel*factoryNameLabel;
-
     UILabel*infoLabel;
-
     UIButton*favoriteBtn;
 
     UIImageView*leftImage;
@@ -61,7 +54,9 @@
             NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
             NSDictionary*factory=responseDictionary[@"factory"];
             self.employee=factory[@"employee"];
-            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.employee firstObject]];
+//            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.employee firstObject]];
+            NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,[self.employee firstObject]];//图片测试
+
             [leftImage sd_setImageWithURL:[NSURL URLWithString:urlString]];
         }
     }];
@@ -70,7 +65,9 @@
             NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
             NSDictionary*factory=responseDictionary[@"factory"];
             self.environment=factory[@"environment"];
-            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.environment firstObject]];
+//            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.environment firstObject]];
+            NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,[self.environment firstObject]];//图片测试
+
             [rightImage1 sd_setImageWithURL:[NSURL URLWithString:urlString]];
         }
     }];
@@ -79,7 +76,9 @@
             NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
             NSDictionary*factory=responseDictionary[@"factory"];
             self.equipment=factory[@"equipment"];
-            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.equipment firstObject]];
+//            NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",[self.equipment firstObject]];
+            NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,[self.equipment firstObject]];//图片测试
+
             [rightImage2 sd_setImageWithURL:[NSURL URLWithString:urlString]];
         }
     }];
@@ -103,15 +102,21 @@
 
     leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW/2+30, ImageViewHeight-50)];
     leftImage.contentMode=UIViewContentModeScaleAspectFill;
+    leftImage.layer.borderWidth=0.5f;
+    leftImage.layer.borderColor=[UIColor blackColor].CGColor;
     leftImage.clipsToBounds=YES;
 
     rightImage1 = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2+30, 0, kScreenW-kScreenW/2-30, (ImageViewHeight-50)/2)];
     rightImage1.contentMode=UIViewContentModeScaleAspectFill;
     rightImage1.clipsToBounds=YES;
-    rightImage2 = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2+30, (ImageViewHeight-50)/2, kScreenW-kScreenW/2-30, (ImageViewHeight-50)/2)];
+    rightImage1.layer.borderWidth=0.5f;
+    rightImage1.layer.borderColor=[UIColor blackColor].CGColor;
 
+    rightImage2 = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2+30, (ImageViewHeight-50)/2, kScreenW-kScreenW/2-30, (ImageViewHeight-50)/2)];
     rightImage2.contentMode=UIViewContentModeScaleAspectFill;
     rightImage2.clipsToBounds=YES;
+    rightImage2.layer.borderWidth=0.5f;
+    rightImage2.layer.borderColor=[UIColor blackColor].CGColor;
 
 
     UIImageView*BGImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, ImageViewHeight-50)];
@@ -129,18 +134,21 @@
     UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, ImageViewHeight-80, 60, 60)];
     headerImage.layer.cornerRadius=60/2.0f;
     headerImage.layer.masksToBounds=YES;
-    NSString *imageUrlString = [NSString stringWithFormat:@"http://cofactories.bangbang93.com/storage_path/factory_avatar/%d",self.factoryModel.uid];
-    [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
+    headerImage.layer.borderWidth=0.3f;
+    headerImage.layer.borderColor=[UIColor blackColor].CGColor;
+    headerImage.contentMode=UIViewContentModeScaleAspectFill;
+
+//    [[SDImageCache sharedImageCache]clearDisk];
+
+    NSString* imageUrlString = [NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.factoryModel.uid];
+
+    [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"消息头像"]];
     [headerView addSubview:headerImage];
-
-
 
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, ImageViewHeight-45, kScreenW-100, 20)];
     factoryNameLabel.font=[UIFont boldSystemFontOfSize:18];
     factoryNameLabel.text=self.factoryModel.factoryName;
     [headerView addSubview:factoryNameLabel];
-
-
 
 
     infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-140, ImageViewHeight-25, 130, 20)];
@@ -150,14 +158,11 @@
     self.tableView.tableHeaderView = headerView;
 
     self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"]];
-    self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司业务类型"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_公司相册"]];
+    self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司业务类型"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_公司相册"],[UIImage imageNamed:@"set_标签"]];
     self.cellImageArray3=@[[UIImage imageNamed:@"空闲"],[UIImage imageNamed:@"货车2"],[UIImage imageNamed:@"认证2"],];
     self.cellImageArray4=@[[UIImage imageNamed:@"空闲2"],[UIImage imageNamed:@"货车"],[UIImage imageNamed:@"认证"]];
 }
 
-- (void)tappedImageView:(id)sender {
-
-}
 
 - (void)callBtn {
 //    NSLog(@"拨打电话");
@@ -178,11 +183,15 @@
     if (buttonIndex==1) {
         [HttpClient addPartnerWithUid:self.factoryModel.uid andBlock:^(int statusCode) {
             if (statusCode==201) {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"添加成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
+//                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"添加成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                [alertView show];
+                [Tools showHudTipStr:@"添加成功"];
+
             }else{
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"添加失败" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
+//                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"添加失败" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                [alertView show];
+                [Tools showHudTipStr:@"添加失败"];
+
             }
         }];
     }
@@ -190,28 +199,32 @@
 
 - (void)favoriteBtn {
 
-    NSLog(@"添加收藏");
+    DLog(@"添加收藏");
     NSString * Uid = [NSString stringWithFormat:@"%d",self.factoryModel.uid];
     [HttpClient addFavoriteWithUid:Uid andBlock:^(int statusCode) {
         switch (statusCode) {
             case 201:
             {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"收藏成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
-//                [favoriteBtn setTitle:@"已收藏" forState:UIControlStateNormal];
+//                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"收藏成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                [alertView show];
 
+                [Tools showHudTipStr:@"收藏成功"];
             }
                 break;
             case 400:
             {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"未登录" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
+//                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"未登录" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                [alertView show];
+                [Tools showHudTipStr:@"未登录"];
+
             }
                 break;
             case 401:
             {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"需要重新登录" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
+//                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"需要重新登录" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                [alertView show];
+                [Tools showHudTipStr:@"需要重新登录"];
+
             }
                 break;
                 
@@ -232,13 +245,13 @@
         return 1;
     }
     if (section==1) {
-        return 6;
-    }else{
-        if (self.factoryModel.factoryType==GarmentFactory||self.factoryModel.factoryType==ProcessingFactory) {
-            return 1;
+        if (self.factoryModel.factoryType == GarmentFactory) {
+            return 6;
         }else{
-            return 1;
+            return 7;
         }
+    }else{
+        return 1;
     }
 }
 
@@ -267,7 +280,7 @@
             [callBtn addTarget:self action:@selector(callBtn) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:callBtn];
 
-            UIView*view=[[UIView alloc]initWithFrame:CGRectMake(kScreenW/2-1.5f, 0, 3.0f, 60)];
+            UIView*view=[[UIView alloc]initWithFrame:CGRectMake(kScreenW/2-1.5f, 0, 1.0f, 60)];
             view.backgroundColor=[UIColor lightGrayColor];
             [cell addSubview:view];
 
@@ -295,7 +308,13 @@
                     break;
                 case 1:{
                     cellLabel.text=@"公司地址";
-                    cell.detailTextLabel.text=self.factoryModel.factoryAddress;
+                    UILabel*label = [[UILabel alloc]init];
+                    label.frame = CGRectMake(110, 7, kScreenW-125, 30);
+                    label.font=[UIFont systemFontOfSize:14.0f];
+
+                    label.textAlignment = NSTextAlignmentRight;
+                    label.text =  self.factoryModel.factoryAddress;
+                    [cell addSubview:label];
 
                 }
                     break;
@@ -324,6 +343,15 @@
                     cellLabel.text=@"公司相册";
                     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 
+                }
+                    break;
+                case 6:{
+                    cellLabel.text=@"公司标签";
+                    if ([self.factoryModel.tag isEqualToString:@"0"]||[self.factoryModel.tag isEqualToString:@"(null)"]) {
+                        cell.detailTextLabel.text=@"暂无标签";
+                    }else{
+                        cell.detailTextLabel.text=self.factoryModel.tag;
+                    }
                 }
                     break;
 
@@ -459,14 +487,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section==1&&indexPath.row==5) {
-        NSLog(@"相册");
-        FactoryPhotoViewController*factoryPhoto = [[FactoryPhotoViewController alloc]init];
+        DLog(@"相册");
+//        FactoryPhotoViewController*factoryPhoto = [[FactoryPhotoViewController alloc]init];
+        CofactoryPhotoViewController*factoryPhoto = [[CofactoryPhotoViewController alloc]init];
+
         factoryPhoto.employee=self.employee;
         factoryPhoto.environment=self.environment;
         factoryPhoto.equipment=self.equipment;
         [self.navigationController pushViewController:factoryPhoto animated:YES];
     }
 
+}
+
+- (void)dealloc
+{
+    DLog(@"释放内存");
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -14,11 +14,34 @@
 //分割字符串
 + (NSMutableArray *)RangeSizeWith:(NSString *)sizeString;
 
+
 + (NSMutableArray *)WithTime:(NSString *)timeString;
+
 
 
 + (MBProgressHUD *)createHUD;
 
+
 + (NSString *)SizeWith:(NSString *)sizeString;
+
+
+/*!
+ 身份是不是游客
+
+ @return YES=游客  NO=已登录
+ */
++ (BOOL)isTourist;
+
+
+
++ (NSString *)compareIfTodayAfterDates:(NSDate *)comps;
+
+/*!
+ 提示框
+
+ @param tipStr 提示框文本
+ */
++ (void)showHudTipStr:(NSString *)tipStr;
+
 
 @end

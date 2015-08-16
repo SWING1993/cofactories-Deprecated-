@@ -13,6 +13,8 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
+
+//        NSLog(@"订单模型%@",dictionary);
         _oid = [[dictionary objectForKey:@"oid"] intValue];
         _uid = [[dictionary objectForKey:@"uid"] intValue];
         _type = [[dictionary objectForKey:@"type"] intValue];
@@ -27,8 +29,15 @@
         _workingTime=dictionary[@"workingTime"];
         _name = dictionary[@"name"];
         _phone = dictionary[@"phone"];
-        _interest = dictionary[@"interest"];
+        _interest = [dictionary[@"interest"] intValue];
+        _status = [dictionary[@"status"] intValue];
         _facName = dictionary[@"factoryName"];
+        
+        if (_status == 1) {
+            _bidWinner = [dictionary[@"bidWinner"] intValue];
+        }else{
+            _bidWinner = 0;
+        }
     }
     return self;
 }

@@ -9,9 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface searchOrderListTVC : UITableViewCell
-@property (nonatomic,strong) UILabel *timeLabel,  *orderTypeLabel, *workingTimeLabel,  *amountLabel,  *interestCountLabel;
-@property (nonatomic,strong) UIImageView *orderImage;
-@property (nonatomic,strong) UIView *intersestLabelView;
+@property (nonatomic,strong) UILabel *timeLabel,  *orderTypeLabel, *workingTimeLabel,  *amountLabel,  *interestCountLabel,  *labels;
+@property (nonatomic,strong) UIImageView *orderImage,  *statusImage;
 @property (nonatomic,strong) UIButton *confirmOrderBtn,  *orderDetailsBtn;
 
 @end

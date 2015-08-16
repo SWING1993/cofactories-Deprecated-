@@ -8,6 +8,12 @@
 
 #import "Tools.h"
 
+#define kKeyWindow [UIApplication sharedApplication].keyWindow
+
+
+#define kBaseUrl @"http://app2.cofactories.com"
+
+
 @implementation Tools
 
 + (NSMutableArray *)RangeSizeWith:(NSString *)sizeString {
@@ -97,5 +103,62 @@
     }
     return string;
 }
+
++ (BOOL)isTourist {
+//    NSString*Tourist=[[NSUserDefaults standardUserDefaults]objectForKey:@"toursit"];
+//    if ([Tourist isEqualToString:@"YES"]) {
+//        return YES;
+//    }else{
+//        return NO;
+//    }
+    if ([HttpClient getToken]) {
+        return NO;
+    }else{
+        return YES;
+    }
+}
+
+//判断几天后
++ (NSString *)compareIfTodayAfterDates:(NSDate *)comps
+{
+    NSDate *todate = [NSDate date];//今天
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSChineseCalendar];
+    NSDateComponents *comps_today= [calendar components:(NSYearCalendarUnit |
+                                                         NSMonthCalendarUnit |
+                                                         NSDayCalendarUnit |
+                                                         NSWeekdayCalendarUnit) fromDate:todate];
+
+
+    NSDateComponents *comps_other= [calendar components:(NSYearCalendarUnit |
+                                                         NSMonthCalendarUnit |
+                                                         NSDayCalendarUnit |
+                                                         NSWeekdayCalendarUnit) fromDate:comps];
+
+
+
+    long year = comps_other.year-comps_today.year;
+    long month = comps_other.month - comps_today.month;
+    long day = comps_other.day - comps_today.day;
+
+    long x = year*365 + month*30 + day;
+
+    return [NSString stringWithFormat:@"%ld天后",x];
+    
+}
+
+
++ (void)showHudTipStr:(NSString *)tipStr{
+    if (tipStr && tipStr.length > 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:15.0];
+        hud.detailsLabelText = tipStr;
+        hud.margin = 10.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:1.0];
+    }
+}
+
+
 
 @end

@@ -83,7 +83,13 @@
  @param factoryServiceRange 业务类型
  @param block               回调函数 会返回 @{@"statusCode": @201, @"responseObject": 字典}->(注册成功) @{@"statusCode": @401, @"message": @"验证码错误"}->(验证码错误) @{@"statusCode": @409, @"message": @"该手机已经注册过""}->(手机已经注册过) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误)
  */
-+ (void)registerWithUsername:(NSString *)username password:(NSString *)password factoryType:(int)type verifyCode:(NSString *)code factoryName:(NSString *)factoryName lon:(double)lon lat:(double)lat factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange andBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)registerWithUsername:(NSString *)username InviteCode:(NSString *)inviteCode password:(NSString *)password factoryType:(int)type verifyCode:(NSString *)code factoryName:(NSString *)factoryName lon:(double)lon lat:(double)lat factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange andBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
+//邀请码
++ (void)registerWithInviteCode:(NSString *)inviteCode andBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
 /*!
  登录账号
 
@@ -112,7 +118,9 @@
  @param id_card 身份证号
  @param block   回调函数 会返回 0->(网络错误) 200->(更新成功) 400->(未登录) 401->(access_toke过期或者无效) 404->(access_token不存在)
  */
+
 + (void)modifyUserProfileWithName:(NSString *)name job:(NSString *)job id_card:(NSString *)id_card andBlock:(void (^)(int statusCode))block;
+
 /*!
  添加收藏
 
@@ -149,10 +157,13 @@
  */
 + (void)updateFactoryProfileWithFactoryName:(NSString *)factoryName factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryLon:(NSNumber *)factoryLon factoryLat:(NSNumber *)factoryLat factoryFree:(id)factoryFree factoryDescription:(NSString *)factoryDescription andBlock:(void (^)(int statusCode))block;
 
+/*!
+ 设置工厂标签
 
-//是否有货车
-+ (void)updateFactoryProfileWithHasTruck:(id)hasTruck andBlock:(void (^)(int statusCode))block;
-
+ @param factoryTag 工厂标签
+ @param block      回调函数 会返回 0->(网络错误) 200->(更新成功) 400->(未登录) 401->(access_token过期或无效) 404->(access_token不存在)
+ */
++ (void)updateFactoryfactoryTag:(NSString *)factoryTag andBlock:(void (^)(int statusCode))block;
 
 /*!
  获取任意用户资料
@@ -182,7 +193,11 @@
  @param factoryDistanceMax  工厂距离最大值(必须是最大值,且用 NSNumber 包装)
  @param block               回调函数 会返回 @{@"statusCode": @200, @"model": FactoryModel对象数组}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误)
  */
-+ (void)searchWithFactoryName:(NSString *)factoryName factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax andBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)searchWithFactoryName:(NSString *)factoryName factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax Truck:(id)hasTruck factoryFree:(id)factoryFree page:(NSNumber *)page andBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+//是否有货车
++ (void)updateFactoryProfileWithHasTruck:(id)hasTruck andBlock:(void (^)(int statusCode))block;
+
 /*!
  抽奖验证接口
 
@@ -223,10 +238,18 @@
 + (void)listOrderWithBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 //关闭订单
-+ (void)closeOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
+//+ (void)closeOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
+
++ (void)closeOrderWithOid:(int)oid Uid:(int)uid andBlock:(void (^)(int statusCode))block;
+
 
 //订单搜索
 + (void)searchOrderWithRole:(FactoryType)role FactoryServiceRange:(NSString *)factoryServiceRange Time:(NSString *)time AmountMin:(NSNumber *)amountMin AmountMax:(NSNumber *)amountMax  Page:(NSNumber *)page andBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+//感兴趣
++ (void)interestOrderWithOid:(int)oid andBlock:(void (^)(int statusCode))block ;
+
+
 
 /*!
  订单详情接口
@@ -252,15 +275,38 @@
  获取系统消息
 
  @param block 回调函数 会返回 @{@"statusCode": @200, @"responseArray": 消息模型数组}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误) @{@"statusCode": @400, @"message": @"未登录"}->(未登录) @{@"statusCode": @401, @"message": @"access_token过期或者无效"}->(access_token过期或者无效) @{@"statusCode": @404, @"message": @"access_token不存在"}
+
  */
 + (void)getSystemMessageWithBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
+
 /*!
- 整体更新推送设置
+ 删除推送设置
+
+ @param parameters index ->需要删除的设置在设置数组中的索引
+ @param access_token
+ @param block      回调函数 会返回 0->(网络错误) 201->(更新成功) 400->(未登录) 401->(access_toke过期或者无效) 404->(access_token不存在)
+ */
++ (void)deletePushSettingWithIndex:(NSNumber *)index andBlock:(void (^)(int statusCode))block;
+
+/*!
+ 添加推送设置
 
  @param parameters 推送设置数组(具体项目看API文档)
  @param block      回调函数 会返回 0->(网络错误) 201->(更新成功) 400->(未登录) 401->(access_toke过期或者无效) 404->(access_token不存在)
  */
-+ (void)updatePushSettingWithParameters:(NSArray *)parameters andBlock:(void (^)(int statusCode))block;
++ (void)addPushSettingWithFactoryType:(FactoryType)factoryType  Type:(NSString *)type FactoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax factoryWorkingTimeMin:(NSNumber *)factoryWorkingTimeMin factoryWorkingTimeMax:(NSNumber *)factoryWorkingTimeMax andBlock:(void (^)(int code))block ;
+
+
+/*!
+ 获取推送设置
+
+ @param parameters 推送设置数组(具体项目看API文档)
+ @param block      回调函数 会返回 0->(网络错误) 201->(更新成功) 400->(未登录) 401->(access_toke过期或者无效) 404->(access_token不存在)
+ */
++ (void)getPushSettingWithBlock:(void(^)(NSDictionary *dictionary))block;
+
 /*!
  注册设备(推送助手)
 
@@ -268,12 +314,8 @@
  @param block    回调函数 会返回 0->(网络错误) 201->(注册成功) 400->(未登录) 401->(access_toke过期或者无效) 404->(access_token不存在)
  */
 + (void)registerDeviceWithDeviceId:(NSString *)deviceId andBlock:(void (^)(int statusCode))block;
-/*!
- 获取推送设定
 
- @param block 回调函数 会返回 @{@"statusCode": @200, @"responseArray": 推送设定数组}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误) @{@"statusCode": @400, @"message": @"未登录"}->(未登录) @{@"statusCode": @401, @"message": @"access_token过期或者无效"}->(access_token过期或者无效) @{@"statusCode": @404, @"message": @"access_token不存在"}
- */
-+ (void)getPushSettingWithBlock:(void (^)(NSDictionary *dictionary))block;
+
 /*!
  提交认证资料
 
@@ -312,5 +354,27 @@
  @param block 回调函数 会返回 @{@"statusCode": @200, @"responseDictionary": 字典}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误) @{@"statusCode": @400, @"message": @"未登录"}->(未登录) @{@"statusCode": @401, @"message": @"access_token过期或者无效"}->(access_token过期或者无效) @{@"statusCode": @404, @"message": @"access_token不存在"}
  */
 + (void)uploadVerifyImage:(UIImage *)image type:(NSString *)type andblock:(void (^)(NSDictionary *dictionary))block;
+
+
+//订单图片上传
++ (void)uploadOrderImageWithImage:(UIImage *)image oid:(NSString *)oid andblock:(void (^)(NSDictionary *dictionary))block;
+
+
+/*!
+ 登记投标
+
+ @param oid   订单oid
+ @param block 回调函数block
+ */
++ (void)bidOrderWithOid:(int)oid andBlock:(void (^)(int statusCode))block ;
+
+/*!
+ 获取投标工厂
+
+ @param oid   oid
+ @param block 回调函数block
+ */
++ (void)getBidOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block ;
+
 
 @end

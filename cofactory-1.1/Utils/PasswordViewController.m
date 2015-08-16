@@ -30,7 +30,7 @@
     bgView.image=[UIImage imageNamed:@"登录bg"];
     [self.view addSubview:bgView];
     
-    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100, kScreenW-20, 100)];
+    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100-64, kScreenW-20, 100)];
     TFView.alpha=0.9f;
     TFView.backgroundColor=[UIColor whiteColor];
     TFView.layer.borderWidth=2.0f;
@@ -65,17 +65,17 @@
     [TFView addSubview:_passwordTF2];
 
 
-    UIButton* showBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-120, 210, 100, 30)];
+    UIButton* showBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-120, 210-64, 100, 30)];
     showBtn.titleLabel.font=[UIFont boldSystemFontOfSize:13.0f];
-    [showBtn setImage:[UIImage imageNamed:@"select"] forState:UIControlStateNormal];
-    [showBtn setImage:[UIImage imageNamed:@"select_highlight"] forState:UIControlStateSelected];
+//    [showBtn setImage:[UIImage imageNamed:@"select"] forState:UIControlStateNormal];
+//    [showBtn setImage:[UIImage imageNamed:@"select_highlight"] forState:UIControlStateSelected];
     [showBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [showBtn setTitle:@"显示密码" forState:UIControlStateNormal];
     [showBtn setTitle:@"隐藏密码" forState:UIControlStateSelected];
     [showBtn addTarget:self action:@selector(showPasswordBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:showBtn];
     
-    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 245, kScreenW-20, 35)];
+    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 245-64, kScreenW-20, 35)];
     [nextBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
     nextBtn.layer.cornerRadius=5.0f;
     nextBtn.layer.masksToBounds=YES;
@@ -94,14 +94,18 @@
 
 - (void)nextBtn{
         if (_passwordTF1.text.length==0||_passwordTF2.text.length==0) {
-            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"请填写密码" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alertView show];
+//            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"请填写密码" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//            [alertView show];
+            [Tools showHudTipStr:@"请填写密码"];
         }else if(_passwordTF1.text.length<6||_passwordTF2.text.length<6) {
-            UIAlertView*passwordAlert=[[UIAlertView alloc]initWithTitle:@"密码长度错误" message:@"密码应该大于6位" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [passwordAlert show];
+//            UIAlertView*passwordAlert=[[UIAlertView alloc]initWithTitle:@"密码长度错误" message:@"密码应该大于6位" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//            [passwordAlert show];
+            [Tools showHudTipStr:@"密码长度应该大于6位"];
+
         }else if (![_passwordTF1.text isEqualToString:_passwordTF2.text]){
-            UIAlertView*passwordAlert=[[UIAlertView alloc]initWithTitle:@"两次输入密码不一致" message:@"请重新输入" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [passwordAlert show];
+//            UIAlertView*passwordAlert=[[UIAlertView alloc]initWithTitle:@"两次输入密码不一致" message:@"请重新输入" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//            [passwordAlert show];
+            [Tools showHudTipStr:@"两次输入密码不一致"];
         }
         else{
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

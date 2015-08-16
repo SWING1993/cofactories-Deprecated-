@@ -9,7 +9,7 @@
 #import "FactoryAndOrderMessVC.h"
 #import "Header.h"
 
-@interface FactoryAndOrderMessVC () <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface FactoryAndOrderMessVC () <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSArray *listData;
 @property (nonatomic, strong) NSArray *pickList;
@@ -28,30 +28,47 @@
 @property (nonatomic,strong) UIToolbar *scaleToolbar;
 
 
+
+
+
 @end
 
-@implementation FactoryAndOrderMessVC{
+@implementation FactoryAndOrderMessVC
+{
+
     UITextField*dateTextField;
     UITextField*scalTextField;
     UITextField*ServiceRangeTextField;
-    
+
     NSString*ServiceRangeString;
     NSString*numberString;
     NSString*scalString;
-    
+
     UILabel *_lineLabel;
-    
+
     UIButton *pushOrderBtn;
-    
+
     NSMutableArray *_messArray;
-    
+
+
+    //发送推送数据
+
+    int *_pushFacYype;
+    NSNumber *_pushDistenceMin;
+    NSNumber *_pushDistenceMax;
+    NSNumber *_pushPeopleMin;
+    NSNumber *_pushPeopleMax;
+    NSString *_pushBusinessType;
+    NSNumber *_pushWorkingTimeMin;
+    NSNumber *_pushWorkingTimeMax;
+
 }
 
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     if (self.facType == 0)
     {
         self.navigationItem.title = @"添加工厂信息";
@@ -60,17 +77,17 @@
     {
         self.navigationItem.title = @"添加服装厂外发订单";
     }
-    
+
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
-    
-    
+
+
     NSArray*btnTitleArray = @[@"加工厂",@"代裁厂",@"锁眼钉扣厂"];
     UIView*headerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 50)];
     headerView.backgroundColor = [UIColor whiteColor];
     for (int i=0; i<3; i++) {
-        
+
         UIButton*typeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         typeBtn.frame = CGRectMake((kScreenW-240)/4+i*((kScreenW-240)/4+80), 10, 80 , 30);
         [typeBtn setTitleColor: [UIColor grayColor] forState:UIControlStateNormal];
@@ -81,45 +98,75 @@
             [headerView addSubview:_lineLabel];
         }
         typeBtn.tag=i;
-        typeBtn.titleLabel.font=[UIFont systemFontOfSize:14.0f];
+        typeBtn.titleLabel.font=[UIFont systemFontOfSize:15.0f];
         [typeBtn setTitle:btnTitleArray[i] forState:UIControlStateNormal];
         [typeBtn addTarget:self action:@selector(clickTypeBtn:) forControlEvents:UIControlEventTouchUpInside];
         [headerView addSubview:typeBtn];
     }
     self.tableView.tableHeaderView=headerView;
-    
-    self.listData = @[@[@"业务类型(选择器)", @"距离(选择器)", @"规模(选择器)"], @[@"距离(选择器)", @"规模(选择器)"], @[@"距离(选择器)", @"规模(选择器)"]];
-    self.pickList =@[@[@"不限类型",@"针织", @"梭织"],@[@"不限距离",@"10公里以内", @"10-50公里", @"50-100公里",@"100-200公里",@"200-300公里",@"300公里以上"],@[@"不限规模",@"2-4人", @"4-10人", @"10-20人",@"20人以上"]];
-    self.pickList0 =@[@[@"不限类型",@"针织", @"梭织"],@[@"不限距离",@"10公里以内", @"10-50公里", @"50-100公里",@"100-200公里",@"200-300公里",@"300公里以上"],@[@"不限规模",@"2-4人", @"4-10人", @"10-20人",@"20人以上"]];
-    self.pickList1 =@[@[@"不限类型",@"针织", @"梭织"],@[@"不限距离",@"1公里以内", @"1-5公里", @"5-10公里"],@[@"不限规模",@"2-4人", @"4人以上"]];
+
+    if ([self.types isEqualToString:@"factory"]) {
+
+        self.listData = @[@[@"业务类型", @"距离", @"规模"], @[@"距离", @"规模"], @[@"距离", @"规模"]];
+
+        self.pickList =@[@[@"不限类型",@"针织", @"梭织"],@[@"不限距离",@"10公里以内", @"10-50公里", @"50-100公里",@"100-200公里",@"200-300公里",@"300公里以上"],@[@"不限规模",@"2-4人", @"4-10人", @"10-20人",@"20人以上"]];
+
+        self.pickList0 =@[@[@"不限类型",@"针织", @"梭织"],@[@"不限距离",@"10公里以内", @"10-50公里", @"50-100公里",@"100-200公里",@"200-300公里",@"300公里以上"],@[@"不限规模",@"2-4人", @"4-10人", @"10-20人",@"20人以上"]];
+
+        self.pickList1 =@[@[@"不限类型",@"针织", @"梭织"],@[@"不限距离",@"1公里以内", @"1-5公里", @"5-10公里"],@[@"不限规模",@"2-4人", @"4人以上"]];
+    }
+
+    if ([self.types isEqualToString:@"order"]) {
+
+        self.listData = @[@[@"业务类型", @"数量", @"期限"], @[ @"数量", @"期限"], @[ @"数量", @"期限"]];
+        self.pickList =@[@[@"不限类型",@"针织", @"梭织"],@[@"不限数量",@"500件以内", @"500-1000件", @"1000-2000件",@"2000-5000件",@"5000件以上"],@[@"不限期限",@"3天", @"5天", @"5天以上"]];
+       self.pickList0 =@[@[@"不限类型",@"针织", @"梭织"],@[@"不限数量",@"500件以内", @"500-1000件", @"1000-2000件",@"2000-5000件",@"5000件以上"],@[@"不限期限",@"3天", @"5天", @"5天以上"]];
+        self.pickList1 =@[@[@"不限类型",@"针织", @"梭织"],@[@"不限数量",@"500件以内", @"500-1000件", @"1000-2000件",@"2000-5000件",@"5000件以上"],@[@"不限期限",@"1天", @"1-3天", @"3天以上"]];
+    }
+
+
+
+
     self.type = 0;
-    
-    
+
+
     ServiceRangeTextField=[[UITextField alloc]initWithFrame:CGRectMake(kScreenW/2-30, 7, kScreenW/2+  10, 30)];
-//    ServiceRangeTextField.text=@"不限类型";
+    ServiceRangeTextField.text=@"不限类型";
     ServiceRangeTextField.inputView = [self fecthSizePicker];
     ServiceRangeTextField.inputAccessoryView = [self fecthToolbar];
     ServiceRangeTextField.font=[UIFont systemFontOfSize:15.0f];
     ServiceRangeTextField.delegate=self;
     ServiceRangeTextField.borderStyle=UITextBorderStyleRoundedRect;
-    
+
     dateTextField=[[UITextField alloc]initWithFrame:CGRectMake(kScreenW/2-30, 7, kScreenW/2+10, 30)];
     dateTextField.inputView = [self fecthServicePicker];
     dateTextField.inputAccessoryView = [self fecthServiceToolbar];
     dateTextField.delegate =self;
-//    dateTextField.text=@"不限距离";
     dateTextField.font=[UIFont systemFontOfSize:15.0f];
     dateTextField.borderStyle=UITextBorderStyleRoundedRect;
-    
-    
+
+
+
     scalTextField=[[UITextField alloc]initWithFrame:CGRectMake(kScreenW/2-30, 7, kScreenW/2+10, 30)];
-//    scalTextField.text=@"不限规模";
     scalTextField.inputView = [self scalesPicker];
     scalTextField.inputAccessoryView = [self scalesToolbar];
     scalTextField.delegate=self;
     scalTextField.font=[UIFont systemFontOfSize:15.0f];
     scalTextField.borderStyle=UITextBorderStyleRoundedRect;
-    
+
+    if ([self.types isEqualToString:@"factory"]) {
+
+        dateTextField.text=@"不限距离";
+        scalTextField.text=@"不限规模";
+
+    }
+
+    if ([self.types isEqualToString:@"order"]) {
+
+        dateTextField.text=@"不限数量";
+        scalTextField.text=@"不限期限";
+    }
+
     pushOrderBtn = [[UIButton alloc]init];
     pushOrderBtn.frame=CGRectMake(30, 220, kScreenW-60, 40);
     [pushOrderBtn setTitle:@"确定" forState:UIControlStateNormal];
@@ -142,10 +189,11 @@
 
 }
 
-- (void)clickTypeBtn:(UIButton *)sender {
+- (void)clickTypeBtn:(UIButton *)sender
+{
     UIButton*button=(UIButton *)sender;
-    
-    
+
+
     // 控制下划线Label与按钮的同步
     [UIView animateWithDuration:0.2 animations:^{
         _lineLabel.frame = CGRectMake(button.frame.origin.x, 40, button.frame.size.width, 2);
@@ -158,9 +206,20 @@
             pushOrderBtn.frame=CGRectMake(30, 220, kScreenW-60, 40);
             self.pickList = self.pickList0;
             // 刷新数据
-            dateTextField.text = nil;
-            scalTextField.text = nil;
-            ServiceRangeTextField.text = nil;
+            if ([self.types isEqualToString:@"factory"]) {
+
+                dateTextField.text=@"不限距离";
+                scalTextField.text=@"不限规模";
+
+            }
+
+            if ([self.types isEqualToString:@"order"]) {
+
+                dateTextField.text=@"不限数量";
+                scalTextField.text=@"不限期限";
+            }
+
+            ServiceRangeTextField.text = @"不限类型";
             [self.orderPicker reloadAllComponents];
             [self.servicePicker reloadAllComponents];
             [self.scalePicker reloadAllComponents];
@@ -170,11 +229,22 @@
         case 1:
         {
             self.type=1;
-           pushOrderBtn.frame=CGRectMake(30, 160, kScreenW-60, 40);
+            pushOrderBtn.frame=CGRectMake(30, 160, kScreenW-60, 40);
             self.pickList = self.pickList1;
             // 刷新数据
-            dateTextField.text = nil;
-            scalTextField.text = nil;
+            if ([self.types isEqualToString:@"factory"]) {
+
+                dateTextField.text=@"不限距离";
+                scalTextField.text=@"不限规模";
+
+            }
+
+            if ([self.types isEqualToString:@"order"]) {
+
+                dateTextField.text=@"不限数量";
+                scalTextField.text=@"不限期限";
+            }
+
             ServiceRangeTextField.text = nil;
             [self.orderPicker reloadAllComponents];
             [self.servicePicker reloadAllComponents];
@@ -189,8 +259,19 @@
             pushOrderBtn.frame=CGRectMake(30, 160, kScreenW-60, 40);
             self.pickList = self.pickList1;
             // 刷新数据
-            dateTextField.text = nil;
-            scalTextField.text = nil;
+            if ([self.types isEqualToString:@"factory"]) {
+
+                dateTextField.text=@"不限距离";
+                scalTextField.text=@"不限规模";
+
+            }
+
+            if ([self.types isEqualToString:@"order"]) {
+
+                dateTextField.text=@"不限数量";
+                scalTextField.text=@"不限期限";
+            }
+
             ServiceRangeTextField.text = nil;
             [self.orderPicker reloadAllComponents];
             [self.servicePicker reloadAllComponents];
@@ -198,8 +279,8 @@
             [self.tableView reloadData];
         }
             break;
-            
-            
+
+
         default:
             break;
     }
@@ -227,13 +308,13 @@
 }
 
 -(void)cancel{
-    
+
     ServiceRangeString = nil;
     [ServiceRangeTextField endEditing:YES];
 }
 
 -(void)ensure{
-    
+
     if (ServiceRangeString) {
         ServiceRangeTextField.text = ServiceRangeString;
         ServiceRangeString = nil;
@@ -254,7 +335,7 @@
 }
 
 - (UIToolbar *)fecthServiceToolbar{
-    
+
     if (!self.serviceToolbar) {
         self.serviceToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 44)];
         UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(serviceCancel)];
@@ -266,13 +347,13 @@
 }
 
 -(void)serviceCancel{
-    
+
     numberString = nil;
     [dateTextField endEditing:YES];
 }
 
 -(void)serviceEnsure{
-    
+
     if (numberString) {
         dateTextField.text = numberString;
         numberString = nil;
@@ -293,7 +374,7 @@
 }
 
 - (UIToolbar *)scalesToolbar{
-    
+
     if (!self.scaleToolbar) {
         self.scaleToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 44)];
         UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(scalesCancel)];
@@ -305,13 +386,13 @@
 }
 
 -(void)scalesCancel{
-    
+
     scalString = nil;
     [scalTextField endEditing:YES];
 }
 
 -(void)scalesEnsure{
-    
+
     if (scalString) {
         scalTextField.text = scalString;
         scalString = nil;
@@ -348,7 +429,7 @@
     if (pickerView.tag==1)
     {
         return [self.pickList[0] objectAtIndex:row];
-        
+
     }
     else if (pickerView.tag==2)
     {
@@ -392,8 +473,8 @@
         NSMutableArray*cellArr=[[NSMutableArray alloc]initWithCapacity:0];
         cellArr=self.listData[self.type];
         cell.textLabel.text=cellArr[indexPath.section];
-        
-        
+
+
         if (self.type==0) {
             switch (indexPath.section) {
                 case 0:
@@ -414,10 +495,10 @@
                 case 3:
                 {
                     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-                    
+
                 }
                     break;
-                    
+
                 default:
                     break;
             }
@@ -427,29 +508,29 @@
                 case 0:
                 {
                     [cell addSubview:dateTextField];
-                    
+
                 }
                     break;
                 case 1:
                 {
                     [cell addSubview:scalTextField];
-                    
+
                 }
                     break;
                 case 2:
                 {
                     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-                    
+
                 }
                     break;
-                    
+
                 default:
                     break;
             }
         }
-        
-        
-        
+
+
+
     }
     return cell;
 }
@@ -468,33 +549,221 @@
 
 - (void)pushOrderBtn
 {
-    
+    DLog(@"types=%@",self.types);
+
     if (self.type == 0)
     {
-        
+
     }
     if (!self.type == 0)
     {
         ServiceRangeTextField.text = @"";
     }
-    
-    NSLog(@"type=%d>>dateTextField=%@>>ServiceRangeTextField=%@>>ServiceRangeTextField=%@",self.type,dateTextField.text,scalTextField.text,ServiceRangeTextField.text);
-    
-    NSNumber *type = [NSNumber numberWithInt:self.type];
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithCapacity:0];
-    [dic setObject:type forKey:@"facType"];
-    [dic setObject:dateTextField.text forKey:@"distence"];
-    [dic setObject:scalTextField.text forKey:@"scale"];
-    [dic setObject:ServiceRangeTextField.text forKey:@"businessType"];
-    
-    
-    [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"dic"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 
-    [self dismissViewControllerAnimated:YES completion:nil];
+    //  NSLog(@"type=%d>>dateTextField=%@>>ServiceRangeTextField=%@>>ServiceRangeTextField=%@",self.type,dateTextField.text,scalTextField.text,ServiceRangeTextField.text);
+
+
+    switch (self.type) {
+        case 0:
+            _pushFacYype = 1;
+            break;
+        case 1:
+            _pushFacYype = 2;
+            break;
+        case 2:
+            _pushFacYype = 3;
+            break;
+
+        default:
+            break;
+    }
+
+
+    if ([self.types isEqualToString:@"factory"])
+    {
+
+        _pushWorkingTimeMin = nil;
+        _pushWorkingTimeMax = nil;
+
+        if ([dateTextField.text isEqualToString:@"不限距离"]) {
+
+            _pushDistenceMin = @0;
+            _pushDistenceMax = @50000000;
+
+        }else if ([dateTextField.text isEqualToString:@"10公里以内"]){
+            _pushDistenceMin = @0;
+            _pushDistenceMax = @10000;
+
+        }else if ([dateTextField.text isEqualToString:@"10-50公里"]){
+            _pushDistenceMin = @10000;
+            _pushDistenceMax = @50000;
+        }else if ([dateTextField.text isEqualToString:@"50-100公里"]){
+            _pushDistenceMin = @50000;
+            _pushDistenceMax = @100000;
+        }else if ([dateTextField.text isEqualToString:@"100-200公里"]){
+            _pushDistenceMin = @100000;
+            _pushDistenceMax = @200000;
+        }else if ([dateTextField.text isEqualToString:@"200-300公里"]){
+            _pushDistenceMin = @200000;
+            _pushDistenceMax = @300000;
+        }else if ([dateTextField.text isEqualToString:@"300公里以上"]){
+            _pushDistenceMin = @300000;
+            _pushDistenceMax = @100000000;
+        }else if ([dateTextField.text isEqualToString:@"1公里以内"]){
+            _pushDistenceMin = @0;
+            _pushDistenceMax = @1000;
+        }else if ([dateTextField.text isEqualToString:@"1-5公里"]){
+            _pushDistenceMin = @1000;
+            _pushDistenceMax = @5000;
+        }else if ([dateTextField.text isEqualToString:@"5-10公里"]){
+            _pushDistenceMin = @5000;
+            _pushDistenceMax = @10000;
+        }
+
+        if ([scalTextField.text isEqualToString:@"不限规模"]) {
+            _pushPeopleMin = @0;
+            _pushPeopleMax = @500;
+        }else if ([scalTextField.text isEqualToString:@"2-4人"]){
+            _pushPeopleMin = @2;
+            _pushPeopleMax = @4;
+        }else if ([scalTextField.text isEqualToString:@"4-10人"]){
+            _pushPeopleMin = @4;
+            _pushPeopleMax = @10;
+        }else if ([scalTextField.text isEqualToString:@"10-20人"]){
+            _pushPeopleMin = @10;
+            _pushPeopleMax = @20;
+        }else if ([scalTextField.text isEqualToString:@"20人以上"]){
+            _pushPeopleMin = @20;
+            _pushPeopleMax = @400;
+        }else if ([scalTextField.text isEqualToString:@"4人以上"]){
+            _pushPeopleMin = @4;
+            _pushPeopleMax = @400;
+        }
+
+
+    }
+
+
+    else
+    {
+
+        _pushDistenceMin = nil;
+        _pushDistenceMax = nil;
+
+
+        if ([dateTextField.text isEqualToString:@"不限数量"])
+        {
+
+            _pushPeopleMin = @0;
+            _pushPeopleMax = @5000000;
+
+        }else if ([dateTextField.text isEqualToString:@"500件以内"]){
+            _pushPeopleMin = @0;
+            _pushPeopleMax = @500;
+        }else if ([dateTextField.text isEqualToString:@"500-1000件"]){
+            _pushPeopleMin = @500;
+            _pushPeopleMax = @1000;
+        }else if ([dateTextField.text isEqualToString:@"1000-2000件"]){
+            _pushPeopleMin = @1000;
+            _pushPeopleMax = @2000;
+        }else if ([dateTextField.text isEqualToString:@"2000-5000件"]){
+            _pushPeopleMin = @2000;
+            _pushPeopleMax = @5000;
+        }else if ([dateTextField.text isEqualToString:@"5000件以上"]){
+            _pushPeopleMin = @5000;
+            _pushPeopleMax = @500000;
+        }
+
+
+
+
+        if ([scalTextField.text isEqualToString:@"不限期限"]) {
+
+
+            _pushWorkingTimeMin = @0;
+            _pushWorkingTimeMax = @5000000;
+        }
+        else if ([scalTextField.text isEqualToString:@"3天"]){
+            _pushWorkingTimeMin = @3;
+            _pushWorkingTimeMax = @3;
+
+        }else if ([scalTextField.text isEqualToString:@"5天"]){
+            _pushWorkingTimeMin = @5;
+            _pushWorkingTimeMax = @5;
+        }
+        else if ([scalTextField.text isEqualToString:@"5天以上"]){
+            _pushWorkingTimeMin = @5;
+            _pushWorkingTimeMax = @50000;
+        }else if ([scalTextField.text isEqualToString:@"1天"]){
+            _pushWorkingTimeMin = @1;
+            _pushWorkingTimeMax = @1;
+        }else if ([scalTextField.text isEqualToString:@"3天以上"]){
+            _pushWorkingTimeMin = @3;
+            _pushWorkingTimeMax = @500000;
+        }else if ([scalTextField.text isEqualToString:@"1-3天"]){
+            _pushWorkingTimeMin = @1;
+            _pushWorkingTimeMax = @3;
+        }
+
+
+    }
+
+
+
+
+    DLog(@"+==+++_pushFacYype=%d,,ServiceRangeTextField=%@,,_pushDistenceMin=%@,,_pushDistenceMax=%@,,_pushPeopleMin=%@,,_pushPeopleMax=%@,,self.types=%@,,_pushWorkingTimeMin=%@,_pushWorkingTimeMax=%@",_pushFacYype,ServiceRangeTextField.text,_pushDistenceMin,_pushDistenceMax,_pushPeopleMin,_pushPeopleMax,self.types,_pushWorkingTimeMin,_pushWorkingTimeMax);
+
+    [HttpClient addPushSettingWithFactoryType:_pushFacYype Type:self.types FactoryServiceRange:ServiceRangeTextField.text factorySizeMin:_pushPeopleMin factorySizeMax:_pushPeopleMax factoryDistanceMin:_pushDistenceMin factoryDistanceMax:_pushDistenceMax factoryWorkingTimeMin:_pushWorkingTimeMin factoryWorkingTimeMax:_pushWorkingTimeMax andBlock:^(int code) {
+        DLog(@"%d",code);
+                if (code == 200) {
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"添加推送成功"
+                                                                        message:nil
+                                                                       delegate:self
+                                                              cancelButtonTitle:@"确定"
+                                                              otherButtonTitles:nil];
+        
+                    [alertView show];
+                }else if (code == 400){
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"添加推送失败"
+                                                                        message:nil
+                                                                       delegate:nil
+                                                              cancelButtonTitle:@"确定"
+                                                              otherButtonTitles:nil];
+        
+                    [alertView show];
+                }
+
+    }];
     
+ //   [HttpClient addPushSettingWithFactoryType:_pushFacYype Type:self.types FactoryServiceRange:ServiceRangeTextField.text factorySizeMin:_pushPeopleMin factorySizeMax:_pushPeopleMax factoryDistanceMin:_pushDistenceMin factoryDistanceMax:_pushDistenceMax andBlock:^(int code) {
+//        DLog(@"%d",code);
+//        if (code == 200) {
+//            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"添加推送成功"
+//                                                                message:nil
+//                                                               delegate:self
+//                                                      cancelButtonTitle:@"确定"
+//                                                      otherButtonTitles:nil];
+//
+//            [alertView show];
+//        }else if (code == 400){
+//            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"添加推送失败"
+//                                                                message:nil
+//                                                               delegate:nil
+//                                                      cancelButtonTitle:@"确定"
+//                                                      otherButtonTitles:nil];
+//
+//            [alertView show];
+//        }
+//    }];
 
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    }
+}
 
 @end

@@ -10,9 +10,10 @@
 #import "Header.h"
 #import "FactoryAndOrderMessVC.h"
 #import "PushTableViewCell.h"
+#import "GetPushModel.h"
 
 
-@interface PushViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface PushViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 {
     UITableView *_tableView;
 }
@@ -23,38 +24,31 @@
 
 @implementation PushViewController
 
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"dic"] == nil)
-    {
-    }
-    else
-    {
-        NSMutableDictionary *dic = [[NSUserDefaults standardUserDefaults]objectForKey:@"dic"];
-        [self.cellArray addObject:dic];
-        [_tableView reloadData];
-        NSLog(@"-----%@",self.cellArray);
-    }
 
-}
+    self.cellArray= [[NSMutableArray alloc]initWithCapacity:0];
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
+    [HttpClient getPushSettingWithBlock:^(NSDictionary *dictionary) {
+      //  NSLog(@"++%@",dictionary[@"array"]);
+        if ([dictionary[@"statusCode"] intValue] == 200) {
+            self.cellArray = dictionary[@"array"];
+            [_tableView reloadData];
+        }
+    }];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.cellArray= [[NSMutableArray alloc]initWithCapacity:0];
-    
+
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"推送助手";
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, kScreenW, kScreenH-64) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-110) style:UITableViewStyleGrouped];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.showsVerticalScrollIndicator = NO;
@@ -86,44 +80,112 @@
 {
     PushTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
-    NSDictionary *dic = self.cellArray[indexPath.row];
-    int type = [dic[@"facType"] intValue];
-    switch (type) {
-        case 0:
-            cell.typeLB.text = @"服装厂";
-            cell.businessLB.text = [NSString stringWithFormat:@"业务类型: %@",dic[@"businessType"]];
-            break;
+    GetPushModel *pushModel = self.cellArray[indexPath.row];
+
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    int facType = [pushModel.factoryTypes intValue];
+    switch (facType) {
         case 1:
-            cell.typeLB.text = @"代裁厂";
-            cell.businessLB.hidden = YES;
+        {
+            if ([pushModel.type isEqualToString:@"factory"]) {
+                cell.typeLB.text = @"加工厂信息";
+            }else{
+                cell.typeLB.text = @"加工厂订单";
+            }
+            cell.businessLB.hidden = NO;
+            cell.businessLB.text = [NSString stringWithFormat:@"业务类型: %@",pushModel.serviceRange];
+        }
             break;
         case 2:
-            cell.typeLB.text = @"锁眼钉扣厂";
+            if ([pushModel.type isEqualToString:@"factory"]) {
+                cell.typeLB.text = @"代裁厂信息";
+            }else{
+                cell.typeLB.text = @"代裁厂订单";
+            }
+            cell.businessLB.hidden = YES;
+            break;
+        case 3:
+            if ([pushModel.type isEqualToString:@"factory"]) {
+                cell.typeLB.text = @"锁眼钉扣厂信息";
+            }else{
+                cell.typeLB.text = @"锁眼钉扣厂订单";
+            }
             cell.businessLB.hidden = YES;
             break;
         default:
             break;
     }
-    if ( [dic[@"distence"] isEqualToString:@""] )
-    {
-        cell.distenceLB.text = @"距离: 不限距离";
-    }
-    else
-    {
-        cell.distenceLB.text = [NSString stringWithFormat:@"距离: %@",dic[@"distence"]];
+
+    if ([pushModel.type isEqualToString:@"factory"]) {
+
+        long long indexO = [pushModel.dictanceArray[0] longLongValue];
+        long long index1 = [pushModel.dictanceArray[1] longLongValue];
+
+        if (indexO == 0 && index1 ==50000000) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"不限距离"];
+        }else if (indexO == 0 && index1 ==10000) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"10公里以内"];
+        }else if (indexO == 300000 && index1 == 100000000) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"300公里以外"];
+        }else if (indexO == 0 && index1 ==1000) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"距离:%@",@"1公里以内"];
+        }else{
+            long long left = indexO/1000;
+            long long right = index1/1000;
+            cell.distenceLB.text = [NSString stringWithFormat:@"距离:%lld-%lld公里",left,right];
+        }
+
+        long long index2 = [pushModel.sizeArray[0] longLongValue];
+        long long index3 = [pushModel.sizeArray[1] longLongValue];
+        if (index2 == 0 && index3 == 500) {
+            cell.scaleLB.text = [NSString stringWithFormat:@"规模:%@",@"不限规模"];
+        }else if (index2 == 20 && index3 == 400){
+            cell.scaleLB.text = [NSString stringWithFormat:@"规模:%@",@"20人以上"];
+        }else if (index2 == 4 && index3 == 400){
+            cell.scaleLB.text = [NSString stringWithFormat:@"规模:%@",@"4人以上"];
+        }else{
+            cell.scaleLB.text = [NSString stringWithFormat:@"规模:%lld-%lld人",index2,index3];
+        }
+
+    }else{
+
+        NSLog(@"%@",pushModel);
+        long long indexO = [pushModel.workingTimeArray[0] longLongValue];
+        long long index1 = [pushModel.workingTimeArray[1] longLongValue];
+
+        if (indexO == 0 && index1 ==5000000) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"期限:%@",@"不限期限"];
+        }else if (indexO == 3 && index1 ==3) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"期限:%@",@"3天"];
+        }else if (indexO == 5 && index1 == 5) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"期限:%@",@"5天"];
+        }else if (indexO == 1 && index1 ==1) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"期限:%@",@"1天"];
+        }else if (indexO == 5 && index1 ==50000) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"期限:%@",@"5天以上"];
+        }else if (indexO == 3 && index1 ==500000) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"期限:%@",@"3天以上"];
+        }else if (indexO == 1 && index1 ==3) {
+            cell.distenceLB.text = [NSString stringWithFormat:@"期限:%@",@"1-3天"];
+        }
+
+        long long index2 = [pushModel.sizeArray[0] longLongValue];
+        long long index3 = [pushModel.sizeArray[1] longLongValue];
+        if (index2 == 0 && index3 == 5000000) {
+            cell.scaleLB.text = [NSString stringWithFormat:@"数量:%@",@"不限数量"];
+        }else if (index2 == 0 && index3 == 500){
+            cell.scaleLB.text = [NSString stringWithFormat:@"数量:%@",@"500件以内"];
+        }else if (index2 == 5000 && index3 == 500000){
+            cell.scaleLB.text = [NSString stringWithFormat:@"数量:%@",@"5000件以上"];
+        }else{
+            cell.scaleLB.text = [NSString stringWithFormat:@"数量:%lld-%lld件",index2,index3];
+        }
 
     }
-    
-    if ( [dic[@"scale"] isEqualToString:@""] )
-    {
-        cell.scaleLB.text = @"规模: 不限规模";
-    }
-    else
-    {
-        cell.scaleLB.text = [NSString stringWithFormat:@"规模: %@",dic[@"scale"]];
-    }
-    
-    cell.deletButton.tag = indexPath.row+1;
+
+
+    cell.deletButton.tag = indexPath.row;
     [cell.deletButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
@@ -141,7 +203,7 @@
     [buttonImg setBackgroundImage:[UIImage imageNamed:@"添加.png"] forState:UIControlStateNormal];
     buttonImg.layer.masksToBounds = YES;
     buttonImg.layer.cornerRadius = 30;
-    [buttonImg addTarget:self action:@selector(buttonImgClick) forControlEvents:UIControlEventTouchUpInside];
+    [buttonImg addTarget:self action:@selector(buttonClick) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:buttonImg];
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0 , 90, kScreenW, 20)];
@@ -165,7 +227,7 @@
 
 #pragma mark--点击添加按钮
 
-- (void)buttonImgClick
+- (void)buttonClick
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"请选择类型" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"添加工厂信息",@"添加服装厂外发订单", nil];
     [actionSheet showInView:_tableView];
@@ -182,6 +244,7 @@
                 Nav.title=@"推送助手";
                 Nav.navigationBar.barStyle=UIBarStyleBlack;
                 VC.facType = 0;
+                VC.types = @"factory";
                 [self presentViewController:Nav animated:YES completion:nil];
             }
                 
@@ -193,6 +256,7 @@
                 Nav.navigationBar.barStyle=UIBarStyleBlack;
                 Nav.title=@"推送助手";
                 VC.facType = 1;
+                VC.types = @"order";
                 [self presentViewController:Nav animated:YES completion:nil];
             }
                 break;
@@ -205,9 +269,20 @@
 - (void)buttonClick:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    
-    [self.cellArray removeObjectAtIndex:button.tag-1];
+    NSNumber *number = [NSNumber numberWithInt:button.tag];
+    [HttpClient deletePushSettingWithIndex:number andBlock:^(int statusCode) {
+        DLog(@"statusCode==%d",statusCode);
+    }];
+    [self.cellArray removeObjectAtIndex:button.tag];
     [_tableView reloadData];
+}
+
+- (void)dealloc
+{
+    DLog(@"释放内存");
+    _tableView.dataSource = nil;
+    _tableView.delegate = nil;
+
 }
 
 @end

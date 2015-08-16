@@ -8,8 +8,9 @@
 #import "Header.h"
 #import "ModelsHeader.h"
 #import "MeViewController.h"
+#import "SettingTagsViewController.h"
 
-@interface MeViewController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate> {
+@interface MeViewController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate> {
 
     UILabel*factoryNameLabel;
 
@@ -52,36 +53,37 @@
 
         self.userModel=responseDictionary[@"model"];
 
+        
         //更新公司名称label.text
         factoryNameLabel.text=self.userModel.factoryName;
 
         //更新信息完整度
         int FinishedDegree = self.userModel.factoryFinishedDegree;
+
         infoLabel.text = [NSString stringWithFormat:@"信息完整度为%d%s",FinishedDegree,"%"];
 
         if (self.userModel.factoryType==GarmentFactory) {
-            NSLog(@"---服装厂");
+            DLog(@"---服装厂");
             self.sizeArray=rangeModel.allFactorySize[0];
             self.serviceRangeArray=rangeModel.allServiceRange[0];
         }
         if (self.userModel.factoryType==ProcessingFactory) {
-            NSLog(@"---加工厂");
+            DLog(@"---加工厂");
             self.sizeArray=rangeModel.allFactorySize[1];
             self.serviceRangeArray=rangeModel.allServiceRange[1];
 
         }
         if (self.userModel.factoryType==CuttingFactory) {
-            NSLog(@"---代裁厂");
+            DLog(@"---代裁厂");
             self.sizeArray=rangeModel.allFactorySize[2];
         }
         if (self.userModel.factoryType==LockButtonFactory) {
-            NSLog(@"---锁眼厂");
+            DLog(@"---锁眼厂");
             self.sizeArray=rangeModel.allFactorySize[3];
         }
 
         //刷新tableview
         [self.tableView reloadData];
-
     }];
 }
 
@@ -90,7 +92,6 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
-
 
     //设置Btn
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStylePlain target:self action:@selector(saetButtonClicked)];
@@ -111,39 +112,38 @@
     headerButton.backgroundColor=[UIColor blueColor];
     headerButton.layer.cornerRadius=60/2.0f;
     headerButton.layer.masksToBounds=YES;
+    headerButton.layer.borderWidth=0.3f;
+    headerButton.layer.borderColor=[UIColor blackColor].CGColor;
     [headerButton addTarget:self action:@selector(uploadBtn) forControlEvents:UIControlEventTouchUpInside];
 
 
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, kBannerHeight-45, kScreenW-100, 20)];
-    factoryNameLabel.font=[UIFont boldSystemFontOfSize:18];
+    factoryNameLabel.font=[UIFont boldSystemFontOfSize:17];
 
-
-    [[SDImageCache sharedImageCache]clearDisk];
+//    [[SDImageCache sharedImageCache]clearDisk];
     //初始化用户model
     self.userModel=[[UserModel alloc]init];
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         self.userModel=responseDictionary[@"model"];
         factoryNameLabel.text=self.userModel.factoryName;
-        NSLog(@"%d",self.userModel.uid);
         [headerView addSubview:factoryNameLabel];
         [self.tableView reloadData];
 
-        [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
+        [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
         [headerView addSubview:headerButton];
     }];
 
-    infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-140, kBannerHeight-25, 130, 20)];
+    infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-150, kBannerHeight-25, 140, 20)];
+//    infoLabel.backgroundColor = [UIColor lightGrayColor];
+    infoLabel.textAlignment = NSTextAlignmentRight;
     infoLabel.font=[UIFont boldSystemFontOfSize:15.0f];
     infoLabel.textColor=[UIColor grayColor];
     [headerView addSubview:infoLabel];
 
     self.tableView.tableHeaderView = headerView;
 
-
-
-    self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"]];
+    self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"],[UIImage imageNamed:@"set_标签"]];
     self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司相册"],[UIImage imageNamed:@"set_公司业务类型"]];
-
 }
 
 //设置
@@ -161,6 +161,7 @@
 }
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
+        
         if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误"
                                                                 message:@"设备没有相机"
@@ -202,7 +203,7 @@
             if ([dictionary[@"statusCode"] intValue]==200) {
                 UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"头像上传成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                 [alertView show];
-                [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/factory/%d.png",self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
+                [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
                 [headerButton setBackgroundImage:image forState:UIControlStateNormal];
             }
         }];
@@ -217,7 +218,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section==0) {
-        return 4;
+        if (self.userModel.factoryType == GarmentFactory) {
+            return 4;
+        }else{
+            return 5;
+        }
     }if (section==1) {
         if (self.userModel.factoryType==GarmentFactory||self.userModel.factoryType==ProcessingFactory) {
             return 5;
@@ -273,6 +278,15 @@
 
             }
                 break;
+            case 4:{
+                cellLabel.text=@"个性标签";
+                if ([self.userModel.tag isEqualToString:@"0"]||[self.userModel.tag isEqualToString:@"(null)"]) {
+                    cell.detailTextLabel.text = @"暂无标签";
+                }else{
+                    cell.detailTextLabel.text =  self.userModel.tag;
+                }
+            }
+                break;
 
             default:
                 break;
@@ -291,7 +305,15 @@
                 break;
             case 1:{
                 cellLabel.text=@"公司地址";
-                cell.detailTextLabel.text=self.userModel.factoryAddress;
+
+//                cell.detailTextLabel.text=self.userModel.factoryAddress;
+                UILabel*label = [[UILabel alloc]init];
+                label.frame = CGRectMake(110, 7, kScreenW-145, 30);
+                label.font=[UIFont systemFontOfSize:14.0f];
+
+                label.textAlignment = NSTextAlignmentRight;
+                label.text =  self.userModel.factoryAddress;
+                [cell addSubview:label];
 
             }
                 break;
@@ -370,129 +392,152 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     if (indexPath.section==2) {
-
         UIFont*font=[UIFont systemFontOfSize:14];
-
         CGSize size = [self.userModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
         return size.height+40;
     }else{
         return 44;
     }
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    switch (indexPath.section) {
-        case 0:{
-            switch (indexPath.row) {
-                case 0:{
-                    ModifyNameViewController*modifyNameVC = [[ModifyNameViewController alloc]init];
-                    modifyNameVC.placeholder=self.userModel.name;
-                    modifyNameVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:modifyNameVC animated:YES];
-
-                }
-                    break;
-                case 1:{
-
-                    //电话 账号
-
-                }
-                    break;
-                case 2:{
-                    ModifyJobViewController*modifyJobVC = [[ModifyJobViewController alloc]init];
-                    modifyJobVC.placeholder=self.userModel.job;
-                    modifyJobVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:modifyJobVC animated:YES];
-
-                }
-                    break;
-                case 3:{
-                    FavoriteViewController*favoriteVC = [[FavoriteViewController alloc]init];
-                    favoriteVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:favoriteVC animated:YES];
-
-                }
-                    break;
-                    
-                default:
-                    break;
-            }
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex==1) {
+        if (alertView.tag==99) {
+            [ViewController goLogin];
         }
-            break;
-        case 1:{
-            switch (indexPath.row) {
-                case 0:{
-                    ModifyFactoryNameViewController*modifyFactoryNameVC = [[ModifyFactoryNameViewController alloc]init];
-                    modifyFactoryNameVC.placeholder=self.userModel.factoryName;
-                    modifyFactoryNameVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:modifyFactoryNameVC animated:YES];
-
-                }
-                    break;
-                case 1:{
-                    SetaddressViewController*setaddressVC = [[SetaddressViewController alloc]init];
-                    setaddressVC.placeholder=self.userModel.factoryAddress;
-                    setaddressVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:setaddressVC animated:YES];
-
-                }
-                    break;
-                case 2:{
-                    ModifySizeViewController*sizeVC = [[ModifySizeViewController alloc]init];
-
-                    if (self.userModel.factoryType==GarmentFactory) {
-                        sizeVC.placeholder=[Tools SizeWith:self.userModel.factorySize];
-                    }else {
-                        sizeVC.placeholder=self.userModel.factorySize;
-                    }
-                    sizeVC.cellPickList=self.sizeArray;
-                    sizeVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:sizeVC animated:YES];
-
-                }
-                    break;
-                case 3:{
-                    PhotoViewController*photoVC = [[PhotoViewController alloc]init];
-                    photoVC.userUid=[NSString stringWithFormat:@"%d",self.userModel.uid];
-                    photoVC.hidesBottomBarWhenPushed = YES;
-                    [self.navigationController pushViewController:photoVC animated:YES];
-                }
-                    break;
-
-                case 4:{
-                    ModifyServiceRangeViewController*rangeVC = [[ModifyServiceRangeViewController alloc]init];
-                    rangeVC.cellPickList=self.serviceRangeArray;
-                    rangeVC.placeholder=self.userModel.factoryServiceRange;
-                    rangeVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:rangeVC animated:YES];
-                }
-                    break;
-
-                default:
-                    break;
-            }
-
-        }
-            break;
-        case 2:{
-            DescriptionViewController*descriptionVC = [[DescriptionViewController alloc]init];
-            descriptionVC.placeholder = self.userModel.factoryDescription;
-            descriptionVC.hidesBottomBarWhenPushed=YES;
-            [self.navigationController pushViewController:descriptionVC animated:YES];
-
-        }
-            break;
-
-        default:
-            break;
     }
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if ([Tools isTourist]) {
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"您目前的身份是游客，是否进行登录注册" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alertView.tag=99;
+        [alertView show];
+    }else{
+        switch (indexPath.section) {
+            case 0:{
+                switch (indexPath.row) {
+                    case 0:{
+                        ModifyNameViewController*modifyNameVC = [[ModifyNameViewController alloc]init];
+                        modifyNameVC.placeholder=self.userModel.name;
+                        modifyNameVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:modifyNameVC animated:YES];
+                    }
+                        break;
+                    case 1:{
+
+                        //电话 账号
+
+                    }
+                        break;
+                    case 2:{
+                        ModifyJobViewController*modifyJobVC = [[ModifyJobViewController alloc]init];
+                        modifyJobVC.placeholder=self.userModel.job;
+                        modifyJobVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:modifyJobVC animated:YES];
+                    }
+                        break;
+                    case 3:{
+                        FavoriteViewController*favoriteVC = [[FavoriteViewController alloc]init];
+                        favoriteVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:favoriteVC animated:YES];
+                    }
+                        break;
+                    case 4:{
+                        SettingTagsViewController*tagsVC = [[SettingTagsViewController alloc]init];
+                        if (self.userModel.factoryType==ProcessingFactory) {
+                            //加工
+                            tagsVC.allTags = @[@"包工",@"包工包料",@"流水线生产",@"整件生产",@"工价低"];
+                        }else if (self.userModel.factoryType==CuttingFactory){
+                            //代裁厂
+                            tagsVC.allTags = @[@"排版好",@"工期快",@"设备齐全",@"节省布料"];
+                        }
+                        else{
+                            //锁眼钉扣
+                            tagsVC.allTags = @[@"时间短",@"钉扣类型多"];
+                        }
+                        tagsVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:tagsVC animated:YES];
+                    }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+                break;
+            case 1:{
+                switch (indexPath.row) {
+                    case 0:{
+                        ModifyFactoryNameViewController*modifyFactoryNameVC = [[ModifyFactoryNameViewController alloc]init];
+                        modifyFactoryNameVC.placeholder=self.userModel.factoryName;
+                        modifyFactoryNameVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:modifyFactoryNameVC animated:YES];
+                    }
+                        break;
+                    case 1:{
+                        SetaddressViewController*setaddressVC = [[SetaddressViewController alloc]init];
+//                        setaddressVC.placeholder=self.userModel.factoryAddress;
+                        setaddressVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:setaddressVC animated:YES];
+                    }
+                        break;
+                    case 2:{
+                        ModifySizeViewController*sizeVC = [[ModifySizeViewController alloc]init];
+                        if (self.userModel.factoryType==GarmentFactory) {
+                            sizeVC.placeholder=[Tools SizeWith:self.userModel.factorySize];
+                        }else {
+                            sizeVC.placeholder=self.userModel.factorySize;
+                        }
+                        sizeVC.cellPickList=self.sizeArray;
+                        sizeVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:sizeVC animated:YES];
+                    }
+                        break;
+                    case 3:{
+                        PhotoViewController*photoVC = [[PhotoViewController alloc]init];
+                        photoVC.userUid=[NSString stringWithFormat:@"%d",self.userModel.uid];
+                        photoVC.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:photoVC animated:YES];
+                    }
+                        break;
+                    case 4:{
+                        ModifyServiceRangeViewController*rangeVC = [[ModifyServiceRangeViewController alloc]init];
+                        rangeVC.cellPickList=self.serviceRangeArray;
+                        rangeVC.placeholder=self.userModel.factoryServiceRange;
+                        rangeVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:rangeVC animated:YES];
+                    }
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+                break;
+            case 2:{
+                DescriptionViewController*descriptionVC = [[DescriptionViewController alloc]init];
+                descriptionVC.placeholder = self.userModel.factoryDescription;
+                descriptionVC.hidesBottomBarWhenPushed=YES;
+                [self.navigationController pushViewController:descriptionVC animated:YES];
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+//- (void)dealloc
+//{
+//    DLog(@"释放内存");
+//    self.tableView.dataSource = nil;
+//    self.tableView.delegate = nil;
+//
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
-
     // Dispose of any resources that can be recreated.
 }
 

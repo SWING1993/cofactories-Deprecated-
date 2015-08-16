@@ -23,7 +23,7 @@
         labelBGView.userInteractionEnabled = YES;
         [self addSubview:labelBGView];
         
-        self.timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 100, 15)];
+        self.timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, kScreenW, 15)];
         self.timeLabel.font = [UIFont systemFontOfSize:14.0f];
         self.timeLabel.textColor = [UIColor whiteColor];
         [labelBGView addSubview:self.timeLabel];
@@ -33,7 +33,7 @@
         self.orderImage.layer.cornerRadius = 5;
         [self addSubview:self.orderImage];
         
-        self.orderTypeLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 20, 100, 20)];
+        self.orderTypeLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 20, 140, 20)];
         self.orderTypeLabel.font = [UIFont systemFontOfSize:14.0f];
         [self addSubview:self.orderTypeLabel];
         
@@ -45,35 +45,31 @@
         self.workingTimeLabel.font = [UIFont systemFontOfSize:14.0f];
         [self addSubview:self.workingTimeLabel];
         
-        self.intersestLabelView = [[UIView alloc]initWithFrame:CGRectMake(170, 60, [UIScreen mainScreen].bounds.size.width-180, 20)];
-        self.intersestLabelView.userInteractionEnabled = YES;
-        [self addSubview:self.intersestLabelView];
+//        self.intersestLabelView = [[UIView alloc]initWithFrame:CGRectMake(170, 60, [UIScreen mainScreen].bounds.size.width-180, 20)];
+//        self.intersestLabelView.userInteractionEnabled = YES;
+//        [self addSubview:self.intersestLabelView];
+//
         
-        self.interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
+        self.interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 92, (kScreenW-140)/2.0, 22)];
         self.interestCountLabel.font = [UIFont systemFontOfSize:14.0f];
         self.interestCountLabel.textColor = [UIColor orangeColor];
-        [self.intersestLabelView addSubview:self.interestCountLabel];
+        self.interestCountLabel.textAlignment = 2;
+        [self addSubview:self.interestCountLabel];
         
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(30, 0, [UIScreen mainScreen].bounds.size.width-180-50, 20)];
-        label.font = [UIFont systemFontOfSize:14.0f];
-        label.text = @"厂商对此订单感兴趣";
-        [self.intersestLabelView addSubview:label];
         
+        self.labels = [[UILabel alloc]initWithFrame:CGRectMake((kScreenW-140)/2.0, 92, 140, 22)];
+        self.labels.font = [UIFont systemFontOfSize:14.0f];
+        self.labels.text = @"家厂商对此订单感兴趣";
+        [self addSubview:self.labels];
+        
+        self.statusImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-75, 15, 65, 65)];
+        self.statusImage.image = [UIImage imageNamed:@"章.jpg"];
+        [self addSubview:self.statusImage];
         
         UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 87, [UIScreen mainScreen].bounds.size.width-20, 1)];
         lineLabel.backgroundColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:0.3];
         [self addSubview:lineLabel];
         
-        //        self.confirmOrderBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        //        self.confirmOrderBtn.frame = CGRectMake(kScreenW-135
-        //                                                , 92, 60, 22);
-        //        [self.confirmOrderBtn setTitle:@"确认订单" forState:UIControlStateNormal];
-        //        self.confirmOrderBtn.titleLabel.font = [UIFont systemFontOfSize:10.0f];
-        //        [self.confirmOrderBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        //        self.confirmOrderBtn.layer.masksToBounds = YES;
-        //        self.confirmOrderBtn.layer.cornerRadius = 3;
-        //        self.confirmOrderBtn.backgroundColor = [UIColor colorWithRed:190.0f/255.0f green:190.0f/255.0f blue:190.0f/255.0f alpha:0.3];
-        //        [self addSubview:self.confirmOrderBtn];
         
         self.orderDetailsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         self.orderDetailsBtn.frame = CGRectMake(kScreenW-70, 92, 60, 22);

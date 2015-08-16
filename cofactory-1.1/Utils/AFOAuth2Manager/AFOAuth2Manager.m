@@ -380,7 +380,7 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
     }
 
     if (status != errSecSuccess) {
-        NSLog(@"Unable to %@ credential with identifier \"%@\" (Error %li)", exists ? @"update" : @"add", identifier, (long int)status);
+        DLog(@"Unable to %@ credential with identifier \"%@\" (Error %li)", exists ? @"update" : @"add", identifier, (long int)status);
     }
 
     return (status == errSecSuccess);
@@ -392,7 +392,7 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
     OSStatus status = SecItemDelete((__bridge CFDictionaryRef)queryDictionary);
 
     if (status != errSecSuccess) {
-        NSLog(@"Unable to delete credential with identifier \"%@\" (Error %li)", identifier, (long int)status);
+        DLog(@"Unable to delete credential with identifier \"%@\" (Error %li)", identifier, (long int)status);
     }
 
     return (status == errSecSuccess);
@@ -407,7 +407,7 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
     OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)queryDictionary, (CFTypeRef *)&result);
 
     if (status != errSecSuccess) {
-        NSLog(@"Unable to fetch credential with identifier \"%@\" (Error %li)", identifier, (long int)status);
+        DLog(@"Unable to fetch credential with identifier \"%@\" (Error %li)", identifier, (long int)status);
         return nil;
     }
 

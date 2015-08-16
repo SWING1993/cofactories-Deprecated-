@@ -36,18 +36,31 @@
     bgView.image=[UIImage imageNamed:@"登录bg"];
     [self.view addSubview:bgView];
 
-    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(20, 84, kScreenW-40, kScreenH-284)];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+
+    DLog(@"位置：%@",self.addressStr);
+    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-150)];
     [_mapView setCenterCoordinate:self.centerLocation];
     [self.view addSubview:_mapView];
-    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, kScreenH-164, kScreenW-20, 35)];
+
+    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, kScreenH-130, kScreenW-20, 35)];
     [nextBtn setTitle:@"确定位置" forState:UIControlStateNormal];
     [nextBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
-//    nextBtn.alpha=0.9f;
     nextBtn.layer.cornerRadius=5.0f;
     nextBtn.layer.masksToBounds=YES;
     [nextBtn addTarget:self action:@selector(clickNextBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:nextBtn];
-    
+
+
+//    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, kScreenH-164, kScreenW-20, 35)];
+//    [nextBtn setTitle:@"确定位置" forState:UIControlStateNormal];
+//    [nextBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
+////    nextBtn.alpha=0.9f;
+//    nextBtn.layer.cornerRadius=5.0f;
+//    nextBtn.layer.masksToBounds=YES;
+//    [nextBtn addTarget:self action:@selector(clickNextBtn) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:nextBtn];
+
 }
 
 - (void)clickNextBtn {
@@ -56,7 +69,7 @@
     [userDefaults setDouble:self.longitude forKey:@"lon"];
     [userDefaults setDouble:self.latitude forKey:@"lat"];
     [userDefaults synchronize];
-    NSLog(@"%@-%lf-%lf",self.addressStr,self.longitude,self.latitude);
+    DLog(@"%@-%lf-%lf",self.addressStr,self.longitude,self.latitude);
     RegisterViewController3*registerVC3=[[RegisterViewController3 alloc]init];
     [self.navigationController pushViewController:registerVC3 animated:YES];
 }
@@ -89,7 +102,7 @@
 }
 
 - (void)mapView:(BMKMapView *)mapView onClickedMapBlank:(CLLocationCoordinate2D)coordinate {
-    NSLog(@"%lf %lf", coordinate.longitude, coordinate.latitude);
+    DLog(@"%lf %lf", coordinate.longitude, coordinate.latitude);
     self.longitude=coordinate.longitude;
     self.latitude=coordinate.latitude;
     self.centerLocation = coordinate;

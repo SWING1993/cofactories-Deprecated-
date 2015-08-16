@@ -23,7 +23,7 @@
 
     UITextField*_factoryServiceRangeTF;//业务类型
 
-
+    UITextField*inviteCodeTF;
 }
 @property(nonatomic,retain)NSArray*cellPickList;
 @property(nonatomic,retain)NSArray*cellServicePickList;
@@ -87,7 +87,7 @@
 
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"] || [[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"加工厂"]) {
 
-        UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100, kScreenW-20, 150)];
+        UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100-64, kScreenW-20, 150)];
         TFView.alpha=0.9f;
         TFView.backgroundColor=[UIColor whiteColor];
         TFView.layer.borderWidth=2.0f;
@@ -137,7 +137,16 @@
         _factoryServiceRangeTF.delegate =self;
         [TFView addSubview:_factoryServiceRangeTF];
 
-        UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 270, kScreenW-20, 35)];
+        inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 270-64, kScreenW-20, 35)];
+        inviteCodeTF.keyboardType=UIKeyboardTypeNumberPad;
+        inviteCodeTF.placeholder=@"请填写邀请码，没有可忽略。";
+        inviteCodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+        inviteCodeTF.borderStyle=UITextBorderStyleRoundedRect;
+        inviteCodeTF.backgroundColor=[UIColor whiteColor];
+        [self.view addSubview:inviteCodeTF];
+
+
+        UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 320-64, kScreenW-20, 35)];
         [registerBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
         registerBtn.layer.cornerRadius=5.0f;
         registerBtn.layer.masksToBounds=YES;
@@ -148,7 +157,7 @@
 
     }else{
 
-        UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100, kScreenW-20, 100)];
+        UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100-64, kScreenW-20, 100)];
         TFView.alpha=0.9f;
         TFView.backgroundColor=[UIColor whiteColor];
         TFView.layer.borderWidth=2.0f;
@@ -182,7 +191,17 @@
         _factorySizeTF.delegate =self;
         [TFView addSubview:_factorySizeTF];
 
-        UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 220, kScreenW-20, 35)];
+        inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 220-64, kScreenW-20, 35)];
+        inviteCodeTF.keyboardType=UIKeyboardTypeNumberPad;
+        inviteCodeTF.placeholder=@"请填写邀请码，没有可忽略。";
+        inviteCodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+        inviteCodeTF.borderStyle=UITextBorderStyleRoundedRect;
+        inviteCodeTF.backgroundColor=[UIColor whiteColor];
+        [self.view addSubview:inviteCodeTF];
+
+
+
+        UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 270-64, kScreenW-20, 35)];
         [registerBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
         registerBtn.layer.cornerRadius=5.0f;
         registerBtn.layer.masksToBounds=YES;
@@ -190,7 +209,6 @@
         [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
         [registerBtn addTarget:self action:@selector(clickRegisterBtn) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:registerBtn];
-
     }
 }
 
@@ -352,7 +370,7 @@
     NSNumber*sizeMin=[[Tools RangeSizeWith:_factorySizeTF.text] firstObject];
     NSNumber*sizeMax=[[Tools RangeSizeWith:_factorySizeTF.text] lastObject];
 
-    NSLog(@"Size=(%@-%@)",sizeMin,sizeMax);
+    DLog(@"Size=(%@-%@) range = %d",sizeMin,sizeMax,factoryType);
 
     if ([factoryName isEqualToString:@""]||[factoryServiceRange isEqualToString:@""]||[_factorySizeTF.text isEqualToString:@""]) {
 
@@ -360,13 +378,11 @@
         [alertView show];
     }else{
         //注册
-//        NSLog(@"%@-%@-%d-%@-%@-%d-%f-%f-%@-%@",phone,password,factoryType,verifyCode,factoryAddress,factoryType,lon,lat,factoryName,factoryServiceRange);
-        [HttpClient registerWithUsername:phone password:password factoryType:factoryType verifyCode:verifyCode factoryName:factoryName lon:lon lat:lat factorySizeMin:[[Tools RangeSizeWith:_factorySizeTF.text] firstObject] factorySizeMax:[[Tools RangeSizeWith:_factorySizeTF.text] lastObject] factoryAddress:factoryAddress factoryServiceRange:factoryServiceRange andBlock:^(NSDictionary *responseDictionary) {
+        [HttpClient registerWithUsername:phone  InviteCode:inviteCodeTF.text password:password factoryType:factoryType verifyCode:verifyCode factoryName:factoryName lon:lon lat:lat factorySizeMin:[[Tools RangeSizeWith:_factorySizeTF.text] firstObject] factorySizeMax:[[Tools RangeSizeWith:_factorySizeTF.text] lastObject] factoryAddress:factoryAddress factoryServiceRange:factoryServiceRange andBlock:^(NSDictionary *responseDictionary) {
             NSString*message=responseDictionary[@"message"];
             UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             [alertView show];
         }];
-
     }
 }
 
@@ -374,7 +390,7 @@
 //注册成功 登录
 - (void)login{
     [HttpClient loginWithUsername:[[NSUserDefaults standardUserDefaults] objectForKey:@"phone"] password:[[NSUserDefaults standardUserDefaults] objectForKey:@"phone"] andBlock:^(int statusCode) {
-        NSLog(@"%d",statusCode);
+        DLog(@"%d",statusCode);
         switch (statusCode) {
             case 0:{
 //                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"网络错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];

@@ -21,6 +21,7 @@
         _factoryFreeStatus=[dictionary objectForKey:@"factoryFreeStatus"];
         _hasTruck =[[dictionary objectForKey:@"hasTruck"] intValue];
         _factoryFreeTime = dictionary[@"factoryFreeTime"];
+        _tag = [NSString stringWithFormat:@"%@",dictionary[@"tag"]];
 
         NSArray *factorySize = [dictionary objectForKey:@"factorySize"];
         if ([factorySize[1] intValue] == 2147483647) {

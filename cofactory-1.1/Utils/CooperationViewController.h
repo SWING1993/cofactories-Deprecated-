@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CooperationViewController : UITableViewController
+@interface CooperationViewController : UIViewController
 
 @end

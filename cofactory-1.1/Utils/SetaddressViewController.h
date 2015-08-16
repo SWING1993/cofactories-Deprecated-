@@ -8,7 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SetaddressViewController : UITableViewController
+@interface SetaddressViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>{
+
+    UIPickerView *picker;
+    UIButton *button;
+
+    NSDictionary *areaDic;
+    NSArray *province;
+    NSArray *city;
+    NSArray *district;
+
+    NSString *selectedProvince;
+
+    NSString *addressString;
+
+
+}
 
 @property (nonatomic,copy) NSString*placeholder;
 

@@ -6,24 +6,33 @@
 //  Copyright (c) 2015年 聚工科技. All rights reserved.
 //
 
+#import "SDPhotoGroup.h"
+#import "SDPhotoItem.h"
+
+#import "JKPhotoBrowser.h"
+#import "JKImagePickerController.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+
 #import "Header.h"
 #import "UploadImageViewController.h"
 
-@interface UploadImageViewController () <UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate,UICollectionViewDataSource, UICollectionViewDelegate> {
 
-    UICollectionView *CollectionView;
+@interface UploadImageViewController () <UIImagePickerControllerDelegate, UICollectionViewDelegate,JKImagePickerControllerDelegate> {
+
+//    UICollectionView *CollectionView;
 
     UIView*view;
-
 }
 
 @property (nonatomic,retain)NSMutableArray*imageArray;
+
+@property (nonatomic, strong) JKAssets  *asset;
+
 
 @end
 
 @implementation UploadImageViewController {
     dispatch_queue_t _serialQueue;
-
 }
 
 //get
@@ -45,38 +54,12 @@
 
     [super viewDidLoad];
 
-    //cdn.cofactories.com
-
-
     self.view.backgroundColor = [UIColor whiteColor];
 
+    self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
 
-    UIButton*uploadBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, 74, kScreenW-40, 35)];
-    [uploadBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
-    uploadBtn.titleLabel.font=[UIFont systemFontOfSize:16.0f];
-    [uploadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [uploadBtn setTitle:@"上传图片" forState:UIControlStateNormal];
-    [uploadBtn addTarget:self action:@selector(uploadBtn) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:uploadBtn];
-
-    UILabel*titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 120, kScreenW-40, 20)];
-    titleLabel.font=[UIFont systemFontOfSize:15.0f];
-    titleLabel.text=@"温馨提示：请上传3到10张图片以完成信息完整度";
-    titleLabel.textAlignment=NSTextAlignmentCenter;
-    [self.view addSubview:titleLabel];
-
-
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.itemSize = CGSizeMake(kScreenW/4-10, kScreenW/4-10);
-    layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
-
-    CollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 140, kScreenW, kScreenH-140) collectionViewLayout:layout];
-    CollectionView.backgroundColor=[UIColor clearColor];
-    CollectionView.delegate=self;
-    CollectionView.dataSource=self;
-    CollectionView.showsHorizontalScrollIndicator=NO;
-    [CollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
-    [self.view addSubview:CollectionView];
+    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"上传图片" style:UIBarButtonItemStylePlain target:self action:@selector(uploadBtn)];
+    self.navigationItem.rightBarButtonItem = setButton;
 
     [self getImage];
 }
@@ -90,22 +73,23 @@
             self.imageArray = [[NSMutableArray alloc]initWithCapacity:0];
 
             NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
-
             NSDictionary*factory=responseDictionary[@"factory"];
 
             if ([self.type isEqualToString:@"employee"]) {
                 self.imageArray=factory[@"employee"];
+                self.title = @"公司员工";
             }
             if ([self.type isEqualToString:@"environment"]) {
                 self.imageArray=factory[@"environment"];
+                self.title = @"公司环境";
+
             }
             if ([self.type isEqualToString:@"equipment"]) {
                 self.imageArray=factory[@"equipment"];
+                self.title = @"公司设备";
+
             }
-
-            [CollectionView reloadData];
-
-            NSLog(@"self.imageArray=%@",self.imageArray);
+            [self.tableView reloadData];
         }
     }];
     dispatch_async([self serialQueue], ^{//把block中的任务放入串行队列中执行，这是第一个任务
@@ -129,121 +113,160 @@
                 if ([self.type isEqualToString:@"equipment"]) {
                     self.imageArray=factory[@"equipment"];
                 }
-                
-                [CollectionView reloadData];
-                
-                NSLog(@"self.imageArray=%@",self.imageArray);
+
+                [self.tableView reloadData];
             }
         }];
-
       });
 }
 
+- (void)uploadBtn {
 
-- (void)uploadBtn{
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"相册", nil];
-    [actionSheet showFromTabBar:self.tabBarController.tabBar];
-}
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-        if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                message:@"Device has no camera"
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles: nil];
-
-            [alertView show];
-        } else {
-            UIImagePickerController *imagePickerController = [UIImagePickerController new];
-            imagePickerController.delegate = self;
-            imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-            imagePickerController.allowsEditing = YES;
-            imagePickerController.showsCameraControls = YES;
-            imagePickerController.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-            imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
-            [self presentViewController:imagePickerController animated:YES completion:nil];
-        }
-        return;
-    }
-    if (buttonIndex == 1) {
-        // 相册
-        UIImagePickerController *imagePickerController = [UIImagePickerController new];
-        imagePickerController.delegate = self;
-        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        imagePickerController.allowsEditing = YES;
-        imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
-
-        [self presentViewController:imagePickerController animated:YES completion:nil];
-    }
+    JKImagePickerController *imagePickerController = [[JKImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.showsCancelButton = YES;
+    imagePickerController.allowsMultipleSelection = YES;
+    imagePickerController.minimumNumberOfSelection = 1;
+    imagePickerController.maximumNumberOfSelection = 10;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
+    [self presentViewController:navigationController animated:YES completion:NULL];
 }
 
-#pragma mark <UIImagePickerControllerDelegate>
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *image = info[UIImagePickerControllerEditedImage];
+#pragma mark - JKImagePickerControllerDelegate
+- (void)imagePickerController:(JKImagePickerController *)imagePicker didSelectAsset:(JKAssets *)asset isSource:(BOOL)source
+{
+    [imagePicker dismissViewControllerAnimated:YES completion:^{
 
-    NSData*imageData = UIImageJPEGRepresentation(image, 0.3);
-
-    UIImage*newImage = [[UIImage alloc]initWithData:imageData];
-
-    [picker dismissViewControllerAnimated:YES completion:^{
-
-        [HttpClient uploadImageWithImage:newImage type:self.type andblock:^(NSDictionary *dictionary) {
-            if ([dictionary[@"statusCode"] intValue]==200) {
-                [self getImage];
-            }else{
-                NSLog(@"失败%@",dictionary);
-            }
-        }];
-
+        NSLog(@"1");
     }];
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath{
+//下一步
+- (void)imagePickerController:(JKImagePickerController *)imagePicker didSelectAssets:(NSArray *)assets isSource:(BOOL)source
+{
 
-    NSLog(@"%d",indexPath.row);
+    [imagePicker dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"2");
 
-    view=[[UIView alloc]initWithFrame:CGRectMake(0, kScreenH/4, kScreenW, kScreenW)];
+        [assets enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            self.asset=assets[idx];
+            ALAssetsLibrary   *lib = [[ALAssetsLibrary alloc] init];
+            [lib assetForURL:_asset.assetPropertyURL resultBlock:^(ALAsset *asset) {
+                if (asset) {
+                    UIImage*image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]];
+                    NSData*imageData = UIImageJPEGRepresentation(image, 0.5);
+                    UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+                    [HttpClient uploadImageWithImage:newImage type:self.type andblock:^(NSDictionary *dictionary) {
+                        if ([dictionary[@"statusCode"] intValue]==200) {
+                            //最后一张图片上传成功  刷新collectionView
+                            if (idx == [assets count] - 1) {
+                                [self getImage];
+                            }
+                        }else{
+                            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"图片上传失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                            [alertView show];
+                        }
+                    }];
+                }
+            } failureBlock:^(NSError *error) {
+                
+            }];
 
-    UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW)];
-    NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[indexPath.row]];
-    [photoView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
-    photoView.contentMode=UIViewContentModeScaleAspectFill;
-    photoView.clipsToBounds=YES;
-    [view addSubview:photoView];
-    [self.view addSubview:view];
+        }];
+    }];
 }
 
-#pragma mark <UICollectionViewDataSource>
+//取消
+- (void)imagePickerControllerDidCancel:(JKImagePickerController *)imagePicker
+{
+    [imagePicker dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"3");
+    }];
+}
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self.imageArray count];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-    UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW/4-10, kScreenW/4-10)];
-    NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[indexPath.row]];
-    [photoView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
-    photoView.contentMode=UIViewContentModeScaleAspectFill;
-    photoView.clipsToBounds=YES;
-    [cell addSubview:photoView];
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section==0) {
+        if ([self.imageArray count]<5) {
+            if (iphone6Plus_5_5) {
+                return 110;
+            }if (iphone5x_4_0||iphone4x_3_5) {
+                return 90;
+            }
+            else{
+                return 100;
+            }
+        }
+        if ([self.imageArray count]<9) {
+            if (iphone6Plus_5_5) {
+                return 210;
+            }if (iphone5x_4_0||iphone4x_3_5) {
+                return 170;
+            }
+            else{
+                return 200;
+            }
+        }if ([self.imageArray count]<11) {
+            if (iphone6Plus_5_5) {
+                return 320;
+            }if (iphone5x_4_0||iphone4x_3_5) {
+                return 250;
+            }
+            else{
+                return 300;
+            }
+        }
+    }
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 20.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.01f;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *ID = @"photo";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    SDPhotoGroup *photoGroup = [[SDPhotoGroup alloc] init];
+
+    NSMutableArray *temp = [NSMutableArray array];
+
+    [self.imageArray enumerateObjectsUsingBlock:^(NSString *src, NSUInteger idx, BOOL *stop) {
+        SDPhotoItem *item = [[SDPhotoItem alloc] init];
+//        NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[idx]];
+                NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,self.imageArray[idx]];
+
+        item.thumbnail_pic = urlString;
+        [temp addObject:item];
+    }];
+    photoGroup.photoItemArray = [temp copy];
+    [cell.contentView addSubview:photoGroup];
     return cell;
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [view removeFromSuperview];
-}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 @end

@@ -10,9 +10,11 @@
 #import "MessageViewController.h"
 #import "MessageDetailViewController.h"
 
-@interface MessageViewController ()
+@interface MessageViewController () <UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,retain)NSMutableArray*messageArray;
+@property (nonatomic, retain) UITableView *tableView;
+
 
 @end
 
@@ -21,25 +23,51 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
     self.messageArray = [[NSMutableArray alloc]initWithCapacity:0];
     self.view.backgroundColor=[UIColor whiteColor];
+    self.automaticallyAdjustsScrollViewInsets=NO;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, kScreenW, kScreenH-(kNavigationBarHeight+kStatusBarHeight)) style:UITableViewStyleGrouped];
+    self.view.backgroundColor=[UIColor whiteColor];
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64-44) style:UITableViewStyleGrouped];
+    self.tableView.dataSource=self;
+    self.tableView.delegate=self;
+    self.tableView.showsVerticalScrollIndicator=NO;
     self.tableView.rowHeight=60;
-    self.automaticallyAdjustsScrollViewInsets = YES;// 自动调整视图关闭
+    [self.view addSubview:self.tableView];
+
+    //下拉刷新
+    ODRefreshControl *refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
+    [refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
+
+    [refreshControl beginRefreshing];
 
     [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {
         if ([responseDictionary[@"statusCode"] intValue]==200) {
-
-//            NSLog(@"%@",responseDictionary);
-
             self.messageArray=responseDictionary[@"responseArray"];
-
             [self.tableView reloadData];
-
+            [refreshControl endRefreshing];
         };
     }];
+    
+    self.tabBarItem.badgeValue = nil;//22
+
+}
+
+- (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
+{
+    double delayInSeconds = 2.0;
+    //列出合作商
+    [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {
+        if ([responseDictionary[@"statusCode"] intValue]==200) {
+            self.messageArray=responseDictionary[@"responseArray"];
+        };
+    }];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        DLog(@"下拉刷新结束");
+        [self.tableView reloadData];
+        [refreshControl endRefreshing];
+    });
 }
 
 
@@ -56,46 +84,48 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+
+        MessageModel*model = self.messageArray[indexPath.section];
+
+        UIImageView*headerImage=[[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 44, 44)];
+        headerImage.image=[UIImage imageNamed:@"消息头像"];
+        headerImage.layer.cornerRadius=44/2.0f;
+        [cell addSubview:headerImage];
+
+        UILabel*headerLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
+        headerLabel.font=[UIFont boldSystemFontOfSize:14];
+        headerLabel.text = @"消息";
+        headerLabel.textAlignment=NSTextAlignmentCenter;
+        [cell addSubview:headerLabel];
+
+        UILabel*timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(kScreenW-135, 5, 125, 20)];
+        timeLabel.font=[UIFont boldSystemFontOfSize:14];
+        timeLabel.textColor=[UIColor lightGrayColor];
+        timeLabel.textAlignment = NSTextAlignmentRight;
+        timeLabel.text = model.time1;
+        [cell addSubview:timeLabel];
+
+        UILabel*messageLabel=[[UILabel alloc]initWithFrame:CGRectMake(64, 30, kScreenW-70, 20)];
+        messageLabel.font=[UIFont boldSystemFontOfSize:14];
+        messageLabel.textColor=[UIColor lightGrayColor];
+        messageLabel.text = model.message;
+        [cell addSubview:messageLabel];
     }
-
-    MessageModel*model = self.messageArray[indexPath.row];
-
-    UIImageView*headerImage=[[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 44, 44)];
-    headerImage.image=[UIImage imageNamed:@"消息头像"];
-    headerImage.layer.cornerRadius=44/2.0f;
-    [cell addSubview:headerImage];
-
-    UILabel*headerLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
-    //headerLabel.backgroundColor=[UIColor greenColor];
-    headerLabel.font=[UIFont boldSystemFontOfSize:14];
-    headerLabel.text = @"消息";
-    headerLabel.textAlignment=NSTextAlignmentCenter;
-    [cell addSubview:headerLabel];
-    
-    UILabel*timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(kScreenW-95, 5, 85, 20)];
-//    timeLabel.backgroundColor=[UIColor redColor];
-    timeLabel.font=[UIFont boldSystemFontOfSize:14];
-    timeLabel.textColor=[UIColor lightGrayColor];
-    timeLabel.text = model.time1;
-    [cell addSubview:timeLabel];
-    
-    UILabel*messageLabel=[[UILabel alloc]initWithFrame:CGRectMake(64, 30, kScreenW-70, 20)];
-    //messageLabel.backgroundColor=[UIColor greenColor];
-    messageLabel.font=[UIFont boldSystemFontOfSize:14];
-    messageLabel.textColor=[UIColor lightGrayColor];
-    messageLabel.text = model.message;
-    [cell addSubview:messageLabel];
-    
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 5.0f;
 }
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.1;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    MessageModel*model = self.messageArray[indexPath.row];
+    MessageModel*model = self.messageArray[indexPath.section];
     MessageDetailViewController*messageDetailVC = [[MessageDetailViewController alloc]init];
     messageDetailVC.hidesBottomBarWhenPushed=YES;
     messageDetailVC.timeString=model.time2;

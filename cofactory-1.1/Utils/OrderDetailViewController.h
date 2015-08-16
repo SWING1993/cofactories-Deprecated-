@@ -9,9 +9,7 @@
 #import "Header.h"
 #import <UIKit/UIKit.h>
 
-@interface OrderDetailViewController : UITableViewController
-@property (nonatomic,strong) UIButton *confirmOrderButton;
-@property (nonatomic,strong) UIView   *contactManufacturerView;
+@interface OrderDetailViewController : UIViewController
 @property (nonatomic,retain)OrderModel*model;
-@property (nonatomic,assign) BOOL isHistory;//gt123
+@property (nonatomic,assign) BOOL isHistory;
 @end

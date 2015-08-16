@@ -44,7 +44,7 @@
     bgView.image=[UIImage imageNamed:@"登录bg"];
     [self.view addSubview:bgView];
     
-    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100, kScreenW-20, 50)];
+    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100-64, kScreenW-20, 50)];
     TFView.alpha=0.9f;
     TFView.backgroundColor=[UIColor whiteColor];
     TFView.layer.borderWidth=2.0f;
@@ -68,7 +68,7 @@
     _typeTF.delegate =self;
     [TFView addSubview:_typeTF];
     
-    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 170, kScreenW-20, 35)];
+    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 170-64, kScreenW-20, 35)];
     [nextBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
     nextBtn.layer.cornerRadius=5.0f;
     nextBtn.layer.masksToBounds=YES;
@@ -84,7 +84,7 @@
     [userDefaults synchronize];
     //NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
     
-    NSLog(@"%@",[userDefaults stringForKey:@"type"]);
+    DLog(@"%@",[userDefaults stringForKey:@"type"]);
     if (![[userDefaults stringForKey:@"type"]isEqualToString:@""]) {
         AddressViewController*addressVC3 = [[AddressViewController alloc]init];
         [self.navigationController pushViewController:addressVC3 animated:YES];
@@ -108,7 +108,7 @@
 - (UIToolbar *)fecthToolbar{
     
     if (!self.pickerToolbar) {
-        self.pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+        self.pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 44)];
         UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
         UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(ensure)];

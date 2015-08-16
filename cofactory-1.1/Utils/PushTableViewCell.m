@@ -50,7 +50,7 @@
         [view addSubview:self.businessLB];
         
         self.deletButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.deletButton.frame = CGRectMake(260-30, 0, 30, 30);
+        self.deletButton.frame = CGRectMake(260-40, 0, 40, 30);
         [self.deletButton setBackgroundImage:[UIImage imageNamed:@"DeleteButton.png"] forState:UIControlStateNormal];
         [view addSubview:self.deletButton];
 

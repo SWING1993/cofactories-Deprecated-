@@ -15,8 +15,9 @@
 @property (nonatomic, assign) NSInteger currentData3Index;
 @property (nonatomic, assign) NSInteger currentData4Index;
 @property (nonatomic, assign) NSInteger currentData1SelectedIndex;
-@property (nonatomic,assign)int factoryType;
 
+
+@property (nonatomic,assign)int factoryType;
 @property (nonatomic,assign)BOOL isOK;
 
 @end

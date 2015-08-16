@@ -53,7 +53,7 @@
         MBProgressHUD *hud = [Tools createHUD];
         hud.labelText = @"正在修改";
 
-        NSLog(@"%@===%@",[[Tools RangeSizeWith:SizeTF.text] firstObject],[[Tools RangeSizeWith:SizeTF.text] lastObject]);
+        DLog(@"%@===%@",[[Tools RangeSizeWith:SizeTF.text] firstObject],[[Tools RangeSizeWith:SizeTF.text] lastObject]);
 
         [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:[[Tools RangeSizeWith:SizeTF.text] firstObject] factorySizeMax:[[Tools RangeSizeWith:SizeTF.text] lastObject] factoryLon:nil factoryLat:nil factoryFree:nil  factoryDescription:nil andBlock:^(int statusCode) {
             if (statusCode == 200) {
@@ -75,6 +75,14 @@
 
 
 #pragma mark - Table view data source
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 10.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.01f;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
@@ -109,7 +117,7 @@
 - (UIToolbar *)fecthToolbar{
 
     if (!self.pickerToolbar) {
-        self.pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+        self.pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 44)];
         UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
         UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(ensure)];
@@ -146,16 +154,6 @@
         _tmpPickerName = nil;
     }
     [SizeTF endEditing:YES];
-
-//    if (![SizeTF.text isEqualToString:@""]) {
-//        SizeTF.text = _tmpPickerName;
-//        _tmpPickerName = nil;
-//    }else{
-//        SizeTF.text = self.cellPickList[0];
-//        _tmpPickerName = nil;
-//    }
-//
-//    [SizeTF endEditing:YES];
 }
 -(void)cancel{
 

@@ -18,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor=[UIColor whiteColor];
     UIWebView *webView = [[UIWebView alloc] initWithFrame:kScreenBounds];
     NSURL *url = [NSURL URLWithString:self.url];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];

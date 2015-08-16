@@ -8,12 +8,17 @@
 
 #import "Header.h"
 #import "SetViewController.h"
+#import "UMSocial.h"
+#import "UMFeedback.h"
 
-@interface SetViewController () <UIAlertViewDelegate>
+
+@interface SetViewController () <UIAlertViewDelegate,UMSocialUIDelegate>
 
 @end
 
-@implementation SetViewController
+@implementation SetViewController {
+    UITextField*inviteCodeTF;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -21,7 +26,11 @@
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
-
+    
+    inviteCodeTF=[[UITextField alloc]initWithFrame:CGRectMake(10, 7, kScreenW/2-10, 30)];
+    inviteCodeTF.borderStyle=UITextBorderStyleRoundedRect;
+    inviteCodeTF.keyboardType=UIKeyboardTypeNumberPad;
+    inviteCodeTF.placeholder=@"邀请码";
     //设置Btn
     UIBarButtonItem *quitButton = [[UIBarButtonItem alloc] initWithTitle:@"退出登录" style:UIBarButtonItemStylePlain target:self action:@selector(quitButtonClicked)];
     self.navigationItem.rightBarButtonItem = quitButton;
@@ -33,22 +42,40 @@
 - (void)quitButtonClicked{
 
     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"确定退出" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-
     [alertView show];
-
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+
     if (buttonIndex==1) {
         [HttpClient logout];
         [ViewController goLogin];
     }
 }
 
+- (void)OKBtn {
+    if (inviteCodeTF.text.length!=0) {
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"邀请码提交成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+        [HttpClient registerWithInviteCode:inviteCodeTF.text andBlock:^(NSDictionary *responseDictionary) {
+            NSLog(@"%@",responseDictionary);
+        }];
+    }else{
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您填写邀请码后再提交" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }
+
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.tableView endEditing:YES];
+}
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -62,6 +89,7 @@
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         cell.textLabel.font=[UIFont systemFontOfSize:16];
         cell.detailTextLabel.textColor=[UIColor blackColor];
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
 
         switch (indexPath.section) {
             case 0:{
@@ -74,17 +102,26 @@
                 cell.textLabel.text=@"意见反馈";
 
             }
+
                 break;
             case 2:{
-                cell.textLabel.text=@"关于聚工厂";
-                
+                cell.textLabel.text=@"分享给好友";
             }
                 break;
-                
+
+            case 3:{
+                [cell addSubview:inviteCodeTF];
+                UIButton*OKBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-70, 7, 60, 30)];
+                [OKBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
+                [OKBtn setTitle:@"提交" forState:UIControlStateNormal];
+                [OKBtn addTarget:self action:@selector(OKBtn) forControlEvents:UIControlEventTouchUpInside];
+                [cell addSubview:OKBtn];
+            }
+                break;
+
             default:
                 break;
         }
-
     }
         return cell;
 }
@@ -104,32 +141,55 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.01f)];
-    //view.backgroundColor = [UIColor colorWithHex:0xf0efea];
     return view;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case 0:{
             RevisePasswordViewController*reviseVC = [[RevisePasswordViewController alloc]init];
-            [self.navigationController pushViewController:reviseVC animated:YES];
+            UINavigationController*reviseNav = [[UINavigationController alloc]initWithRootViewController:reviseVC];
+            reviseNav.navigationBar.barStyle=UIBarStyleBlack;
+            [self presentViewController:reviseNav animated:YES completion:nil];
 
         }
             break;
         case 1:{
-            FeedbackViewController*feedbackVC = [[FeedbackViewController alloc]init];
-            feedbackVC.hidesBottomBarWhenPushed=YES;
-            [self.navigationController pushViewController:feedbackVC animated:YES];
+
+            //导航push
+//            [self.navigationController pushViewController:[UMFeedback feedbackViewController]
+//                                                 animated:YES];
+
+            // 模态弹出
+            [self presentViewController:[UMFeedback feedbackModalViewController] animated:YES completion:nil];
         }
             break;
         case 2:{
-            AboutViewController*aboutVC = [[AboutViewController alloc]init];
-            aboutVC.hidesBottomBarWhenPushed=YES;
-            [self.navigationController pushViewController:aboutVC animated:YES];
+            [UMSocialSnsService presentSnsIconSheetView:self
+                                                 appKey:@"55a0778367e58e452400710a"
+                                              shareText:@"推荐一款非常好用的app——聚工厂，大家快来试试。下载链接：https://itunes.apple.com/cn/app/ju-gong-chang/id1015359842?mt=8"
+                                             shareImage:[UIImage imageNamed:@"icon.png"]
+                                        shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToQQ,UMShareToRenren,UMShareToDouban,UMShareToEmail,UMShareToSms,UMShareToFacebook,UMShareToTwitter,nil]
+                                               delegate:self];
+        }
+            break;
+        case 3:{
+
         }
             break;
                     
         default:
             break;
+    }
+}
+
+//友盟实现回调方法（可选）：
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    //根据`responseCode`得到发送结果,如果分享成功
+    if(response.responseCode == UMSResponseCodeSuccess)
+    {
+        //得到分享到的微博平台名
+        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
     }
 }
 

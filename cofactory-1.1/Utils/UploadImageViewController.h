@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UploadImageViewController : UIViewController
+@interface UploadImageViewController : UITableViewController
 
 @property (nonatomic,copy)NSString*userUid;
 

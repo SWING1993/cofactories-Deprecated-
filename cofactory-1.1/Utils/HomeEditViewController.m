@@ -86,7 +86,7 @@
     MBProgressHUD *hud = [Tools createHUD];
     hud.labelText = @"正在添加模块";
     [HttpClient updateMenuWithMenuArray:parameters andBlock:^(int statusCode) {
-        NSLog(@"%d",statusCode);
+        DLog(@"%d",statusCode);
         if (statusCode == 200) {
             hud.labelText = @"模块更新成功";
             [hud hide:YES];

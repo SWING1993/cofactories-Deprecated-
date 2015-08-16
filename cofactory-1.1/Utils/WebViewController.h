@@ -10,7 +10,7 @@
 
 @interface WebViewController : UIViewController
 
-@property (nonatomic, weak) UIWebView *webView;
-@property (nonatomic, strong) NSString *url;
+//@property (nonatomic, weak) UIWebView *webView;
+//@property (nonatomic, strong) NSString *url;
 
 @end
