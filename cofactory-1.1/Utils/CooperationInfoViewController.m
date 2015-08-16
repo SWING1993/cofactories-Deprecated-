@@ -93,6 +93,7 @@
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
     self.title=@"公司信息";
 
+
     self.employee = [[NSMutableArray alloc]initWithCapacity:0];
     self.environment = [[NSMutableArray alloc]initWithCapacity:0];
     self.equipment = [[NSMutableArray alloc]initWithCapacity:0];
@@ -156,6 +157,7 @@
     infoLabel.textColor=[UIColor grayColor];
     [headerView addSubview:infoLabel];
     self.tableView.tableHeaderView = headerView;
+    self.tableView.showsVerticalScrollIndicator=NO;
 
     self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"]];
     self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司业务类型"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_公司相册"],[UIImage imageNamed:@"set_标签"]];
