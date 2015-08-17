@@ -58,8 +58,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
- 
+    
+    
     self.title=@"";
     //创建表
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height-44-64) style:UITableViewStylePlain];
@@ -71,7 +71,7 @@
     [self.view addSubview:_tableView];
     
     self.factoryModelArray = [[NSMutableArray alloc]initWithCapacity:0];
-
+    
     
     
     //787878根据条件判断是否有货车
@@ -86,7 +86,7 @@
         UIButton*typeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         typeBtn.frame = CGRectMake((kScreenW-160)/3+i*((kScreenW-160)/3*2), 5, 80 , 30);
         [typeBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
-//        [typeBtn setTitleColor: [UIColor grayColor] forState:UIControlStateNormal];
+        //        [typeBtn setTitleColor: [UIColor grayColor] forState:UIControlStateNormal];
         typeBtn.titleLabel.font=[UIFont systemFontOfSize:14.0f];
         [typeBtn setTitle:btnTitleArray[i] forState:UIControlStateNormal];
         typeBtn.tag = i;
@@ -106,21 +106,21 @@
     self.curDate = [NSDate date];
     self.formatter = [[NSDateFormatter alloc] init];
     [_formatter setDateFormat:@"yyyy年MM月dd日"];
-
-
+    
+    
     _number = nil;
     
     
     _dateFormatter = [[NSDateFormatter alloc] init];
     [_dateFormatter setDateFormat:@"yyyy-MM-dd"];
-
+    
     
     // 搜索栏
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
     searchBar.delegate = self;
     searchBar.placeholder = @"请输入工厂名称";
     self.navigationItem.titleView = searchBar;
-
+    
     
     /**创建三个选项栏标题数组，初始化时后两个为空
      */
@@ -174,17 +174,17 @@
             _currentData4Index = 0;
             break;
     }
-
+    
     [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil page:(@1)andBlock:^(NSDictionary *responseDictionary) {
         self.factoryModelArray = nil;
         self.factoryModelArray = responseDictionary[@"responseArray"];
         [_tableView reloadData];
-
+        
     }];
-
+    
     _refrushCount = 1;
     [self setupRefresh];
-
+    
     
 }
 
@@ -204,19 +204,19 @@
 {
     _refrushCount++;
     DLog(@"???????????%d",_refrushCount);
-
+    
     NSNumber *num = [NSNumber numberWithInt:_refrushCount];
-
-
+    
+    
     NSNumber *carNum = [NSNumber numberWithInt:self.isHaveTruck];
-
-
-     DLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
+    
+    
+    //  DLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
     
     [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:carNum factoryFree:self.factoryFree page:num andBlock:^(NSDictionary *responseDictionary) {
         
         NSArray *array = responseDictionary[@"responseArray"];
-
+        
         for (int i=0; i<array.count; i++)
         {
             FactoryModel *model = array[i];
@@ -226,7 +226,7 @@
         [_tableView reloadData];
         
     }];
-
+    
     //2,结束刷新
     [_tableView footerEndRefreshing];
 }
@@ -249,15 +249,16 @@
     FactoryListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
     FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
-
+    
     NSString* imageUrlString = [NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,factoryModel.uid];
     [cell.companyImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
-
+    
     cell.companyNameLB.text = factoryModel.factoryName;
     cell.companyLocationLB.text = factoryModel.factoryAddress;
     
     switch (factoryModel.factoryType) {
         case 0:
+            //            DLog(@"111111");
             cell.factoryNatureLB.text = @"服装厂";
             cell.isBusyLB.hidden = YES;
             cell.isHaveCarLB.hidden = YES;
@@ -265,6 +266,7 @@
             
         case 1:{
             cell.factoryNatureLB.text = @"加工厂";
+            cell.isBusyLB.hidden = NO;
             if (factoryModel.hasTruck == 0)
             {
                 cell.isHaveCarLB.hidden = YES;
@@ -273,16 +275,16 @@
             {
                 cell.isHaveCarLB.hidden = NO;
             }
+            
+            // DLog(@"factoryFreeTime==%@",factoryModel.factoryFreeTime);
+            
+            if (factoryModel.factoryFreeTime == nil) {
+                DLog(@"234");
+                cell.isBusyLB.text = @"空闲";
 
-            NSString *dateString = factoryModel.facTypeOneStatus;
-
-            if ([dateString isEqualToString:@"0"])
-            {
-                cell.isBusyLB.hidden = NO;
-                cell.isBusyLB.text = @"忙碌中";
-            }
-            if (![dateString isEqualToString:@"0"])
-            {
+            }else{
+                DLog(@"678");
+                NSString *dateString = factoryModel.factoryFreeTime;
                 NSArray *array = [dateString componentsSeparatedByString:@"T"];
                 NSDate *dateForCell = [_dateFormatter dateFromString:array[0]];
                 NSString *dateStrings = [Tools compareIfTodayAfterDates:dateForCell];
@@ -290,480 +292,718 @@
                 int date = [array1[0] intValue];
                 if (date < 0)
                 {
-                    cell.isBusyLB.hidden = NO;
-                    cell.isBusyLB.text = @"空闲中";
+                    cell.isBusyLB.text = @"空闲";
                 }
                 if (date == 0)
                 {
-                    cell.isBusyLB.hidden = NO;
                     cell.isBusyLB.text = @"今天有空";
                 }
                 if (date > 0)
                 {
-                    cell.isBusyLB.hidden = NO;
                     cell.isBusyLB.text = [NSString stringWithFormat:@"%d天后有空",date];
                 }
             }
-        }
-            break;
-        case 3:
-            cell.factoryNatureLB.text = @"锁眼钉扣厂";
-            cell.isHaveCarLB.hidden = YES;
-            if (factoryModel.otherTwoFactoryStatus == 0)
-            {
-                cell.isBusyLB.hidden = NO;
+                /*
+                 NSString *dateString = factoryModel.facTypeOneStatus;
+                 if ([dateString isEqualToString:@"0"])
+                 {
+                 cell.isBusyLB.hidden = NO;
+                 cell.isBusyLB.text = @"忙碌中";
+                 }
+                 if (![dateString isEqualToString:@"0"])
+                 {
+                 NSArray *array = [dateString componentsSeparatedByString:@"T"];
+                 NSDate *dateForCell = [_dateFormatter dateFromString:array[0]];
+                 NSString *dateStrings = [Tools compareIfTodayAfterDates:dateForCell];
+                 NSArray *array1 = [dateStrings componentsSeparatedByString:@"天"];
+                 int date = [array1[0] intValue];
+                 if (date < 0)
+                 {
+                 cell.isBusyLB.hidden = NO;
+                 cell.isBusyLB.text = @"空闲中";
+                 }
+                 if (date == 0)
+                 {
+                 cell.isBusyLB.hidden = NO;
+                 cell.isBusyLB.text = @"今天有空";
+                 }
+                 if (date > 0)
+                 {
+                 cell.isBusyLB.hidden = NO;
+                 cell.isBusyLB.text = [NSString stringWithFormat:@"%d天后有空",date];
+                 }
+                 }
+                 */
+                
+                
             }
-            if (factoryModel.otherTwoFactoryStatus == 1)
-            {
-                cell.isBusyLB.hidden = YES;
-            }
             break;
+            
         case 2:
+            // DLog(@"factoryFreeStatus==%@",factoryModel.factoryFreeStatus);
             cell.factoryNatureLB.text = @"代裁厂";
             cell.isHaveCarLB.hidden = YES;
-            if (factoryModel.otherTwoFactoryStatus == 0)
-            {
-                cell.isBusyLB.hidden = NO;
-            }
-            if (factoryModel.otherTwoFactoryStatus == 1)
-            {
-                cell.isBusyLB.hidden = YES;
-            }
+            cell.isBusyLB.hidden = NO;
+            cell.isBusyLB.text = factoryModel.factoryFreeStatus;
             break;
+            
+        case 3:
+            // DLog(@"factoryFreeStatus==%@",factoryModel.factoryFreeStatus);
+            cell.factoryNatureLB.text = @"锁眼钉扣厂";
+            cell.isHaveCarLB.hidden = YES;
+            cell.isBusyLB.hidden = NO;
+            cell.isBusyLB.text = factoryModel.factoryFreeStatus;
+            
+            break;
+            
         default:
             break;
+        }
+            
+            cell.distenceLB.text = [NSString stringWithFormat:@"相距%d公里",factoryModel.distance/1000];
+            if (factoryModel.verifyStatus == 0 ||factoryModel.verifyStatus == 1)
+            {
+                cell.certifyUserLB.hidden = YES;
+            }
+            if (factoryModel.verifyStatus == 2)
+            {
+                cell.certifyUserLB.hidden = NO;
+            }
+            
+            if ([factoryModel.tag isEqualToString:@"0"]||[factoryModel.tag isEqualToString:@"(null)"]) {
+                cell.tagLB.hidden = YES;
+                
+            }else{
+                cell.tagLB.hidden = NO;
+                cell.tagLB.text = factoryModel.tag;
+                
+            }
+            return cell;
     }
     
-    cell.distenceLB.text = [NSString stringWithFormat:@"相距%d公里",factoryModel.distance/1000];
-    if (factoryModel.verifyStatus == 0 ||factoryModel.verifyStatus == 1)
-    {
-        cell.certifyUserLB.hidden = YES;
-    }
-    if (factoryModel.verifyStatus == 2)
-    {
-        cell.certifyUserLB.hidden = NO;
-    }
-
-    if ([factoryModel.tag isEqualToString:@"0"]||[factoryModel.tag isEqualToString:@"(null)"]) {
-        cell.tagLB.hidden = YES;
-
-    }else{
-        cell.tagLB.hidden = NO;
-        cell.tagLB.text = factoryModel.tag;
-
-    }
-    return cell;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([Tools isTourist]) {
-        //游客
-        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您登录后才使用这项服务,是否登录？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        alertView.tag=5;
-
-        [alertView show];
-    }else{
-        FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
-        CooperationInfoViewController*cooperationInfoVC = [[CooperationInfoViewController alloc]init];
-        cooperationInfoVC.factoryModel=factoryModel;
-        cooperationInfoVC.hidesBottomBarWhenPushed=YES;
-        [self.navigationController pushViewController:cooperationInfoVC animated:YES];
-    }
-}
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex==1) {
-        if (alertView.tag==5) {
-            [ViewController goLogin];
+    {
+        if ([Tools isTourist]) {
+            //游客
+            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您登录后才使用这项服务,是否登录？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            alertView.tag=5;
+            
+            [alertView show];
+        }else{
+            FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
+            CooperationInfoViewController*cooperationInfoVC = [[CooperationInfoViewController alloc]init];
+            cooperationInfoVC.factoryModel=factoryModel;
+            cooperationInfoVC.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:cooperationInfoVC animated:YES];
         }
     }
-}
-
+    - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+        if (buttonIndex==1) {
+            if (alertView.tag==5) {
+                [ViewController goLogin];
+            }
+        }
+    }
+    
 #pragma mark -- 有无货车按钮
-- (void)buttonClick:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    
-    [UIView animateWithDuration:0.5 animations:^{
-    _lineLabel.frame = CGRectMake(button.frame.origin.x, 40, button.frame.size.width, 2);
-
-    }];
-    
-    if (button.tag == 0)
+    - (void)buttonClick:(id)sender
     {
-        self.isHaveTruck = YES;
-    }
-    if (button.tag == 1)
-    {
-        self.isHaveTruck = NO;
-    }
-    
-    [self.truckBtnArray replaceObjectAtIndex:0 withObject:button];
-    
-    DLog(@"%d",button.tag);
-    
-    
-      DLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
-
-
-    
-    if (self.isHaveTruck == YES)
-    {
-        _number = @1;
-    }
-    if (self.isHaveTruck == NO)
-    {
-        _number = @0;
-    }
-
-    
-    _refrushCount = 1;
-    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree  page:(@1) andBlock:^(NSDictionary *responseDictionary) {
+        UIButton *button = (UIButton *)sender;
         
-        self.factoryModelArray = nil;
-        self.factoryModelArray = responseDictionary[@"responseArray"];
-        [_tableView reloadData];
-    }];
-
-
-}
-
-
+        [UIView animateWithDuration:0.5 animations:^{
+            _lineLabel.frame = CGRectMake(button.frame.origin.x, 40, button.frame.size.width, 2);
+            
+        }];
+        
+        if (button.tag == 0)
+        {
+            self.isHaveTruck = YES;
+        }
+        if (button.tag == 1)
+        {
+            self.isHaveTruck = NO;
+        }
+        
+        [self.truckBtnArray replaceObjectAtIndex:0 withObject:button];
+        
+        DLog(@"%d",button.tag);
+        
+        
+      //  DLog(@"self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
+        
+        
+        
+        if (self.isHaveTruck == YES)
+        {
+            _number = @1;
+        }
+        if (self.isHaveTruck == NO)
+        {
+            _number = @0;
+        }
+        
+        
+        _refrushCount = 1;
+        [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree  page:(@1) andBlock:^(NSDictionary *responseDictionary) {
+            
+            self.factoryModelArray = nil;
+            self.factoryModelArray = responseDictionary[@"responseArray"];
+            [_tableView reloadData];
+        }];
+        
+        
+    }
+    
+    
 #pragma mark - <JSDropDownMenuDataSource,JSDropDownMenuDelegate>
-- (NSInteger)numberOfColumnsInMenu:(JSDropDownMenu *)menu {
-    return 4;
-}
-
-- (BOOL)displayByCollectionViewInColumn:(NSInteger)column {
-    
-    return NO;
-}
-
-- (BOOL)haveRightTableViewInColumn:(NSInteger)column {
-    if (column == 0) {
-        return YES;
-    }
-    return NO;
-}
-
-- (CGFloat)widthRatioOfLeftColumn:(NSInteger)column {
-    if (column == 0) {
-        return 0.3;
-    }
-    return 1;
-}
-
-- (NSInteger)currentLeftSelectedRow:(NSInteger)column {
-    
-    if (column==0) {
-        return _currentData1Index;
-    }
-    if (column==1) {
-        return _currentData2Index;
-    }
-    if (column==2) {
-        return _currentData3Index;
-    }
-    if (column==3) {
-        return _currentData4Index;
+    - (NSInteger)numberOfColumnsInMenu:(JSDropDownMenu *)menu {
+        return 4;
     }
     
-    return 0;
-}
-
-- (NSInteger)menu:(JSDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column leftOrRight:(NSInteger)leftOrRight leftRow:(NSInteger)leftRow {
-    if (column == 0) {
-        if (leftOrRight == 0) {
-            return _data1.count;
-        } else {
-            NSDictionary *menuDic = [_data1 objectAtIndex:leftRow];
-            return [[menuDic objectForKey:@"data"] count];
+    - (BOOL)displayByCollectionViewInColumn:(NSInteger)column {
+        
+        return NO;
+    }
+    
+    - (BOOL)haveRightTableViewInColumn:(NSInteger)column {
+        if (column == 0) {
+            return YES;
         }
-    } else if (column == 1) {
-        return _data2.count;
-    } else if (column == 2) {
-        return _data3.count;
+        return NO;
     }
-    else if (column == 3) {
-        return _data4.count;
-    }
-    return 0;
-}
-
-- (NSString *)menu:(JSDropDownMenu *)menu titleForColumn:(NSInteger)column{
     
-    switch (column) {
-            //        case 0: return _data1[_currentData1Index];
-        case 0: return [[_data1[_currentData1Index] objectForKey:@"data"] objectAtIndex:_currentData1SelectedIndex];
-            break;
-        case 1: return _data2[_currentData2Index];
-            break;
-        case 2: return _data3[_currentData3Index];
-            break;
-        case 3: return _data4[_currentData4Index];
-            break;
-        default:
-            return nil;
-            break;
-    }
-}
-
-- (NSString *)menu:(JSDropDownMenu *)menu titleForRowAtIndexPath:(JSIndexPath *)indexPath {
-    
-    if (indexPath.column == 0) {
-        if (indexPath.leftOrRight == 0) {
-            NSDictionary *menuDic = [_data1 objectAtIndex:indexPath.row];
-            return [menuDic objectForKey:@"title"];
-        } else {
-            NSInteger leftRow = indexPath.leftRow;
-            NSDictionary *menuDic = [_data1 objectAtIndex:leftRow];
-            return [[menuDic objectForKey:@"data"] objectAtIndex:indexPath.row];
+    - (CGFloat)widthRatioOfLeftColumn:(NSInteger)column {
+        if (column == 0) {
+            return 0.3;
         }
-        return _data1[indexPath.row];
-    } else if (indexPath.column == 1) {
-        return _data2[indexPath.row];
-    } else if(indexPath.column == 2){
-        return _data3[indexPath.row];
+        return 1;
     }
-    else {
-        return _data4[indexPath.row];
-    }
-}
-
-
-- (void)menu:(JSDropDownMenu *)menu didSelectRowAtIndexPath:(JSIndexPath *)indexPath
-{
     
-    if (indexPath.column == 0) {
-        // 类型列
-        if (indexPath.leftOrRight == 0) {
-            // 左边
-            _currentData1Index = indexPath.row;
-            switch (indexPath.row) {
-                case 0:
-                    _data2 = [NSMutableArray arrayWithObjects:@"不限规模", nil];
-                    _data3 = [NSMutableArray arrayWithObjects:@"不限距离", nil];
-                    _data4 = [NSMutableArray arrayWithObjects:@"不限时间", nil];
-                    _currentData2Index = 0;
-                    _currentData3Index = 0;
-                    _currentData4Index = 0;
-                    break;
-                case 1:
-                    _data2 = [NSMutableArray arrayWithObjects:@"不限规模", @"0万件-10万件", @"10万件-30万件", @"30万件-50万件", @"50万件-100万件", @"100万件以上",nil];
-                    _data3 = [NSMutableArray arrayWithObjects:@"不限距离", @"10公里以内", @"10-50公里", @"50-100公里", @"100-200公里", @"200-300公里", @"300公里以外", nil];
-                    _data4 =  [NSMutableArray arrayWithObjects:@"不限时间", nil];
-                    
-                    _currentData2Index = 0;
-                    _currentData3Index = 0;
-                    _currentData4Index = 0;
-                    
-                    break;
-                case 2:
-                    _data2 = [NSMutableArray arrayWithObjects:@"不限规模", @"2-4人", @"4-10人", @"10-20人", @"20人以上", nil];
-                    _data3 = [NSMutableArray arrayWithObjects:@"不限距离", @"10公里以内", @"10-50公里", @"50-100公里", @"100-200公里", @"200-300公里", @"300公里以外", nil];
-                    _data4 = [@[@"时间筛选"] mutableCopy];
-                    _currentData2Index = 0;
-                    _currentData3Index = 0;
-                    _currentData4Index = 0;
-                    
-                    break;
-                    
-                default:
-                    _data2 = [NSMutableArray arrayWithObjects:@"不限规模", @"2-4人", @"4人以上", nil];
-                    _data3 = [NSMutableArray arrayWithObjects:@"不限规模", @"1公里以内", @"1-5公里", @"5-10公里",@"10公里以外" , nil];
-                    _data4 =   [NSMutableArray arrayWithObjects:@"空闲",@"忙碌", nil];
-                    _currentData2Index = 0;
-                    _currentData3Index = 0;
-                    
-                    break;
-            }
-            return;
+    - (NSInteger)currentLeftSelectedRow:(NSInteger)column {
+        
+        if (column==0) {
+            return _currentData1Index;
+        }
+        if (column==1) {
+            return _currentData2Index;
+        }
+        if (column==2) {
+            return _currentData3Index;
+        }
+        if (column==3) {
+            return _currentData4Index;
         }
         
+        return 0;
+    }
+    
+    - (NSInteger)menu:(JSDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column leftOrRight:(NSInteger)leftOrRight leftRow:(NSInteger)leftRow {
+        if (column == 0) {
+            if (leftOrRight == 0) {
+                return _data1.count;
+            } else {
+                NSDictionary *menuDic = [_data1 objectAtIndex:leftRow];
+                return [[menuDic objectForKey:@"data"] count];
+            }
+        } else if (column == 1) {
+            return _data2.count;
+        } else if (column == 2) {
+            return _data3.count;
+        }
+        else if (column == 3) {
+            return _data4.count;
+        }
+        return 0;
+    }
+    
+    - (NSString *)menu:(JSDropDownMenu *)menu titleForColumn:(NSInteger)column{
+        
+        switch (column) {
+                //        case 0: return _data1[_currentData1Index];
+            case 0: return [[_data1[_currentData1Index] objectForKey:@"data"] objectAtIndex:_currentData1SelectedIndex];
+                break;
+            case 1: return _data2[_currentData2Index];
+                break;
+            case 2: return _data3[_currentData3Index];
+                break;
+            case 3: return _data4[_currentData4Index];
+                break;
+            default:
+                return nil;
+                break;
+        }
+    }
+    
+    - (NSString *)menu:(JSDropDownMenu *)menu titleForRowAtIndexPath:(JSIndexPath *)indexPath {
+        
+        if (indexPath.column == 0) {
+            if (indexPath.leftOrRight == 0) {
+                NSDictionary *menuDic = [_data1 objectAtIndex:indexPath.row];
+                return [menuDic objectForKey:@"title"];
+            } else {
+                NSInteger leftRow = indexPath.leftRow;
+                NSDictionary *menuDic = [_data1 objectAtIndex:leftRow];
+                return [[menuDic objectForKey:@"data"] objectAtIndex:indexPath.row];
+            }
+            return _data1[indexPath.row];
+        } else if (indexPath.column == 1) {
+            return _data2[indexPath.row];
+        } else if(indexPath.column == 2){
+            return _data3[indexPath.row];
+        }
         else {
-            // 右边
-            _currentData1SelectedIndex = indexPath.row;
+            return _data4[indexPath.row];
         }
-    } else if (indexPath.column == 1) {
-        // 规模行
-        _currentData2Index = indexPath.row;
     }
-    else if (indexPath.column == 2) {
-        // 规模行
-        _currentData3Index = indexPath.row;
-    }
-    else {
-        _currentData4Index = indexPath.row;
-    }
-        
-    DLog(@"%d %d %d %d", indexPath.column, indexPath.leftOrRight, indexPath.leftRow, indexPath.row);
-    //787878
     
-//    if (indexPath.column == 0 && indexPath.leftOrRight == 1 && indexPath.leftRow == 2)
-//    {
-//        self.isHaveTruck = YES;
-//    }else
-//    {
-//        self.isHaveTruck = NO;
-//    }
     
-
-
-    // 筛选工厂类型
-    if (indexPath.column == 0 && indexPath.leftOrRight == 1 )
+    - (void)menu:(JSDropDownMenu *)menu didSelectRowAtIndexPath:(JSIndexPath *)indexPath
     {
         
+        if (indexPath.column == 0) {
+            // 类型列
+            if (indexPath.leftOrRight == 0) {
+                // 左边
+                _currentData1Index = indexPath.row;
+                switch (indexPath.row) {
+                    case 0:
+                        _data2 = [NSMutableArray arrayWithObjects:@"不限规模", nil];
+                        _data3 = [NSMutableArray arrayWithObjects:@"不限距离", nil];
+                        _data4 = [NSMutableArray arrayWithObjects:@"不限时间", nil];
+                        _currentData2Index = 0;
+                        _currentData3Index = 0;
+                        _currentData4Index = 0;
+                        break;
+                    case 1:
+                        _data2 = [NSMutableArray arrayWithObjects:@"不限规模", @"0万件-10万件", @"10万件-30万件", @"30万件-50万件", @"50万件-100万件", @"100万件以上",nil];
+                        _data3 = [NSMutableArray arrayWithObjects:@"不限距离", @"10公里以内", @"10-50公里", @"50-100公里", @"100-200公里", @"200-300公里", @"300公里以外", nil];
+                        _data4 =  [NSMutableArray arrayWithObjects:@"不限时间", nil];
+                        
+                        _currentData2Index = 0;
+                        _currentData3Index = 0;
+                        _currentData4Index = 0;
+                        
+                        break;
+                    case 2:
+                        _data2 = [NSMutableArray arrayWithObjects:@"不限规模", @"2-4人", @"4-10人", @"10-20人", @"20人以上", nil];
+                        _data3 = [NSMutableArray arrayWithObjects:@"不限距离", @"10公里以内", @"10-50公里", @"50-100公里", @"100-200公里", @"200-300公里", @"300公里以外", nil];
+                        _data4 = [@[@"时间筛选"] mutableCopy];
+                        _currentData2Index = 0;
+                        _currentData3Index = 0;
+                        _currentData4Index = 0;
+                        
+                        break;
+                        
+                    default:
+                        _data2 = [NSMutableArray arrayWithObjects:@"不限规模", @"2-4人", @"4人以上", nil];
+                        _data3 = [NSMutableArray arrayWithObjects:@"不限距离", @"1公里以内", @"1-5公里", @"5-10公里",@"10公里以外" , nil];
+                        _data4 =   [NSMutableArray arrayWithObjects:@"空闲",@"忙碌", nil];
+                        _currentData2Index = 0;
+                        _currentData3Index = 0;
+                        
+                        break;
+                }
+                return;
+            }
+            
+            else {
+                // 右边
+                _currentData1SelectedIndex = indexPath.row;
+            }
+        } else if (indexPath.column == 1) {
+            // 规模行
+            _currentData2Index = indexPath.row;
+        }
+        else if (indexPath.column == 2) {
+            // 规模行
+            _currentData3Index = indexPath.row;
+        }
+        else {
+            _currentData4Index = indexPath.row;
+        }
         
-        self.factoryServiceRange = nil;
-
-        if (indexPath.leftRow == 0 )
+        DLog(@"%d %d %d %d", indexPath.column, indexPath.leftOrRight, indexPath.leftRow, indexPath.row);
+        //787878
+        
+        //    if (indexPath.column == 0 && indexPath.leftOrRight == 1 && indexPath.leftRow == 2)
+        //    {
+        //        self.isHaveTruck = YES;
+        //    }else
+        //    {
+        //        self.isHaveTruck = NO;
+        //    }
+        
+        
+        
+        // 筛选工厂类型
+        if (indexPath.column == 0 && indexPath.leftOrRight == 1 )
         {
-            self.factoryType = nil;
-        }
-
-        if (indexPath.leftRow == 1)
-        {
-            self.isHaveTruck = NO;//787878
-            self.factoryType = 100;
-            if (indexPath.row == 1)
-            {
-                self.factoryServiceRange = @"童装";
-            }
-            if (indexPath.row == 2)
-            {
-                self.factoryServiceRange = @"成人装";
-            }
-
-        }
-
-        if (indexPath.leftRow == 2)
-        {
-            self.isHaveTruck = YES;//787878
             
-            for (UIButton *button in self.truckBtnArray)
+            
+            self.factoryServiceRange = nil;
+            
+            if (indexPath.leftRow == 0 )
             {
-                if (button.tag == 0)
-                {
-                    self.isHaveTruck = YES;
-                }
-                if (button.tag == 1)
-                {
-                    self.isHaveTruck = NO;
-                }
+                self.factoryType = nil;
             }
             
-            self.factoryType = 1;
-            if (indexPath.row == 1)
+            if (indexPath.leftRow == 1)
             {
-                self.factoryServiceRange = @"针织";
+                self.isHaveTruck = NO;//787878
+                self.factoryType = 100;
+                if (indexPath.row == 1)
+                {
+                    self.factoryServiceRange = @"童装";
+                }
+                if (indexPath.row == 2)
+                {
+                    self.factoryServiceRange = @"成人装";
+                }
+                
             }
-            if (indexPath.row == 2)
+            
+            if (indexPath.leftRow == 2)
             {
-                self.factoryServiceRange = @"梭织";
+                self.isHaveTruck = YES;//787878
+                
+                for (UIButton *button in self.truckBtnArray)
+                {
+                    if (button.tag == 0)
+                    {
+                        self.isHaveTruck = YES;
+                    }
+                    if (button.tag == 1)
+                    {
+                        self.isHaveTruck = NO;
+                    }
+                }
+                
+                self.factoryType = 1;
+                if (indexPath.row == 1)
+                {
+                    self.factoryServiceRange = @"针织";
+                }
+                if (indexPath.row == 2)
+                {
+                    self.factoryServiceRange = @"梭织";
+                }
+            }
+            
+            if (indexPath.leftRow == 3)
+            {
+                self.isHaveTruck = NO;//787878
+                self.factoryType = 3;
+                self.factoryServiceRange = nil;
+                
+            }
+            
+            if (indexPath.leftRow ==4)
+            {
+                
+                
+                self.isHaveTruck = NO;//787878
+                self.factoryType = 2;
+                self.factoryServiceRange = nil;
             }
         }
-
-        if (indexPath.leftRow == 3)
+        
+        
+        
+        if (self.factoryType == 100)
         {
-            self.isHaveTruck = NO;//787878
-            self.factoryType = 3;
-            self.factoryServiceRange = nil;
-
+            // 筛选工厂规模
+            if (indexPath.column == 1 && indexPath.leftOrRight == 0)
+            {
+                self.factorySizeMin = nil;
+                self.factorySizeMax = nil;
+                
+                if (indexPath.leftRow ==1 && indexPath.row ==1 )
+                {
+                    self.factorySizeMin = @0;
+                    self.factorySizeMax = @100000;
+                }
+                
+                if (indexPath.leftRow ==2 && indexPath.row ==2 )
+                {
+                    self.factorySizeMin = @100000;
+                    self.factorySizeMax = @300000;
+                }
+                
+                if (indexPath.leftRow ==3 && indexPath.row ==3 )
+                {
+                    self.factorySizeMin = @300000;
+                    self.factorySizeMax = @500000;
+                }
+                
+                if (indexPath.leftRow ==4 && indexPath.row ==4 )
+                {
+                    self.factorySizeMin = @500000;
+                    self.factorySizeMax = @1000000;
+                }
+                if (indexPath.leftRow ==5 && indexPath.row ==5 )
+                {
+                    self.factorySizeMin = @1000000;
+                    self.factoryDistanceMax = @2000000;
+                }
+            }
+            
+            // 筛选工厂距离
+            if (indexPath.column == 2 && indexPath.leftOrRight == 0)
+            {
+                self.factoryDistanceMin = nil;
+                self.factoryDistanceMax = nil;
+                
+                if (indexPath.leftRow ==1 && indexPath.row ==1 )
+                {
+                    self.factoryDistanceMin = @0;
+                    self.factoryDistanceMax = @10000;
+                }
+                
+                if (indexPath.leftRow ==2 && indexPath.row ==2 )
+                {
+                    self.factoryDistanceMin = @10000;
+                    self.factoryDistanceMax = @50000;
+                }
+                
+                if (indexPath.leftRow ==3 && indexPath.row ==3 )
+                {
+                    self.factoryDistanceMin = @50000;
+                    self.factoryDistanceMax = @100000;
+                }
+                
+                if (indexPath.leftRow ==4 && indexPath.row ==4 )
+                {
+                    self.factoryDistanceMin = @100000;
+                    self.factoryDistanceMax = @200000;
+                }
+                if (indexPath.leftRow ==5 && indexPath.row ==5 )
+                {
+                    self.factoryDistanceMin = @200000;
+                    self.factoryDistanceMax = @300000;
+                }
+                if (indexPath.leftRow ==6 && indexPath.row ==6 )
+                {
+                    self.factoryDistanceMin = @300000;
+                    self.factoryDistanceMax = @2000000000;
+                    
+                    
+                }
+            }
+            
+            if (self.factoryType == 1)
+            {
+                // 筛选工厂规模
+                if (indexPath.column == 1 && indexPath.leftOrRight == 0)
+                {
+                    self.factorySizeMin = nil;
+                    self.factorySizeMax = nil;
+                    
+                    if (indexPath.leftRow ==1 && indexPath.row ==1 )
+                    {
+                        self.factorySizeMin = @2;
+                        self.factorySizeMax = @4;
+                    }
+                    
+                    if (indexPath.leftRow ==2 && indexPath.row ==2 )
+                    {
+                        self.factorySizeMin = @4;
+                        self.factorySizeMax = @10;
+                    }
+                    
+                    if (indexPath.leftRow ==3 && indexPath.row ==3 )
+                    {
+                        self.factorySizeMin = @10;
+                        self.factorySizeMax = @20;
+                    }
+                    
+                    if (indexPath.leftRow ==4 && indexPath.row ==4 )
+                    {
+                        self.factorySizeMin = @20;
+                        self.factorySizeMax = @10000;
+                        
+                    }
+                }
+                
+                // 筛选工厂距离
+                if (indexPath.column == 2 && indexPath.leftOrRight == 0)
+                    
+                {
+                    self.factoryDistanceMin = nil;
+                    self.factoryDistanceMax = nil;
+                    
+                    if (indexPath.leftRow ==1 && indexPath.row ==1 )
+                    {
+                        self.factoryDistanceMin = @0;
+                        self.factoryDistanceMax = @10000;
+                    }
+                    
+                    if (indexPath.leftRow ==2 && indexPath.row ==2 )
+                    {
+                        self.factoryDistanceMin = @10000;
+                        self.factoryDistanceMax = @50000;
+                    }
+                    
+                    if (indexPath.leftRow ==3 && indexPath.row ==3 )
+                    {
+                        self.factoryDistanceMin = @50000;
+                        self.factoryDistanceMax = @100000;
+                    }
+                    
+                    if (indexPath.leftRow ==4 && indexPath.row ==4 )
+                    {
+                        self.factoryDistanceMin = @100000;
+                        self.factoryDistanceMax = @200000;
+                    }
+                    if (indexPath.leftRow ==5 && indexPath.row ==5 )
+                    {
+                        self.factoryDistanceMin = @200000;
+                        self.factoryDistanceMax = @300000;
+                    }
+                    if (indexPath.leftRow ==6 && indexPath.row ==6 )
+                    {
+                        self.factoryDistanceMin = @300000;
+                        self.factoryDistanceMax = @10000000000;
+                    }
+                }
+            }
+            
+            if (self.factoryType == 2 || self.factoryType == 3)
+            {
+                // 筛选工厂规模
+                if (indexPath.column == 1 && indexPath.leftOrRight == 0)
+                {
+                    self.factorySizeMin = nil;
+                    self.factorySizeMax = nil;
+                    
+                    if (indexPath.leftRow ==1 && indexPath.row ==1 )
+                    {
+                        self.factorySizeMin = @2;
+                        self.factorySizeMax = @4;
+                    }
+                    
+                    if (indexPath.leftRow ==2 && indexPath.row ==2 )
+                    {
+                        self.factorySizeMin = @4;
+                        self.factorySizeMax = @10000;
+                    }
+                }
+                
+                // 筛选工厂距离
+                if (indexPath.column == 2 && indexPath.leftOrRight == 0)
+                {
+                    self.factoryDistanceMin = nil;
+                    self.factoryDistanceMax = nil;
+                    
+                    if (indexPath.leftRow ==1 && indexPath.row ==1 )
+                    {
+                        self.factoryDistanceMin = @0;
+                        self.factoryDistanceMax = @1000;
+                    }
+                    
+                    if (indexPath.leftRow ==2 && indexPath.row ==2 )
+                    {
+                        self.factoryDistanceMin = @1000;
+                        self.factoryDistanceMax = @5000;
+                    }
+                    
+                    if (indexPath.leftRow ==3 && indexPath.row ==3 )
+                    {
+                        self.factoryDistanceMin = @5000;
+                        self.factoryDistanceMax = @10000;
+                    }
+                    
+                    if (indexPath.leftRow ==4 && indexPath.row ==4 )
+                    {
+                        self.factoryDistanceMin = @10000;
+                        self.factoryDistanceMax = @1000000;
+                    }
+                }
+            }
         }
-
-        if (indexPath.leftRow ==4)
+        
+        if (self.factoryType == 100)
         {
-
-
-            self.isHaveTruck = NO;//787878
-            self.factoryType = 2;
-            self.factoryServiceRange = nil;
-        }
-    }
-
-
-
-    if (self.factoryType == 100)
-    {
-        // 筛选工厂规模
-        if (indexPath.column == 1 && indexPath.leftOrRight == 0)
-        {
-            self.factorySizeMin = nil;
-            self.factorySizeMax = nil;
-
-            if (indexPath.leftRow ==1 && indexPath.row ==1 )
+            // 筛选工厂规模
+            if (indexPath.column == 1 && indexPath.leftOrRight == 0)
             {
-                self.factorySizeMin = @0;
-                self.factorySizeMax = @100000;
+                self.factorySizeMin = nil;
+                self.factorySizeMax = nil;
+                
+                if (indexPath.leftRow ==1 && indexPath.row ==1 )
+                {
+                    self.factorySizeMin = @0;
+                    self.factorySizeMax = @100000;
+                }
+                
+                if (indexPath.leftRow ==2 && indexPath.row ==2 )
+                {
+                    self.factorySizeMin = @100000;
+                    self.factorySizeMax = @300000;
+                }
+                
+                if (indexPath.leftRow ==3 && indexPath.row ==3 )
+                {
+                    self.factorySizeMin = @300000;
+                    self.factorySizeMax = @500000;
+                }
+                
+                if (indexPath.leftRow ==4 && indexPath.row ==4 )
+                {
+                    self.factorySizeMin = @500000;
+                    self.factorySizeMax = @1000000;
+                }
+                if (indexPath.leftRow ==5 && indexPath.row ==5 )
+                {
+                    self.factorySizeMin = @1000000;
+                    self.factoryDistanceMax = @2000000;
+                }
             }
-
-            if (indexPath.leftRow ==2 && indexPath.row ==2 )
+            
+            // 筛选工厂距离
+            if (indexPath.column == 2 && indexPath.leftOrRight == 0)
             {
-                self.factorySizeMin = @100000;
-                self.factorySizeMax = @300000;
-            }
-
-            if (indexPath.leftRow ==3 && indexPath.row ==3 )
-            {
-                self.factorySizeMin = @300000;
-                self.factorySizeMax = @500000;
-            }
-
-            if (indexPath.leftRow ==4 && indexPath.row ==4 )
-            {
-                self.factorySizeMin = @500000;
-                self.factorySizeMax = @1000000;
-            }
-            if (indexPath.leftRow ==5 && indexPath.row ==5 )
-            {
-                self.factorySizeMin = @1000000;
-                self.factoryDistanceMax = @2000000;
-            }
-        }
-
-        // 筛选工厂距离
-        if (indexPath.column == 2 && indexPath.leftOrRight == 0)
-        {
-            self.factoryDistanceMin = nil;
-            self.factoryDistanceMax = nil;
-
-            if (indexPath.leftRow ==1 && indexPath.row ==1 )
-            {
-                self.factoryDistanceMin = @0;
-                self.factoryDistanceMax = @10000;
-            }
-
-            if (indexPath.leftRow ==2 && indexPath.row ==2 )
-            {
-                self.factoryDistanceMin = @10000;
-                self.factoryDistanceMax = @50000;
-            }
-
-            if (indexPath.leftRow ==3 && indexPath.row ==3 )
-            {
-                self.factoryDistanceMin = @50000;
-                self.factoryDistanceMax = @100000;
-            }
-
-            if (indexPath.leftRow ==4 && indexPath.row ==4 )
-            {
-                self.factoryDistanceMin = @100000;
-                self.factoryDistanceMax = @200000;
-            }
-            if (indexPath.leftRow ==5 && indexPath.row ==5 )
-            {
-                self.factoryDistanceMin = @200000;
-                self.factoryDistanceMax = @300000;
-            }
-            if (indexPath.leftRow ==6 && indexPath.row ==6 )
-            {
-                self.factoryDistanceMin = @300000;
-                self.factoryDistanceMax = @2000000000;
-
-
+                self.factoryDistanceMin = nil;
+                self.factoryDistanceMax = nil;
+                
+                if (indexPath.leftRow ==1 && indexPath.row ==1 )
+                {
+                    self.factoryDistanceMin = @0;
+                    self.factoryDistanceMax = @10000;
+                }
+                
+                if (indexPath.leftRow ==2 && indexPath.row ==2 )
+                {
+                    self.factoryDistanceMin = @10000;
+                    self.factoryDistanceMax = @50000;
+                }
+                
+                if (indexPath.leftRow ==3 && indexPath.row ==3 )
+                {
+                    self.factoryDistanceMin = @50000;
+                    self.factoryDistanceMax = @100000;
+                }
+                
+                if (indexPath.leftRow ==4 && indexPath.row ==4 )
+                {
+                    self.factoryDistanceMin = @100000;
+                    self.factoryDistanceMax = @200000;
+                }
+                if (indexPath.leftRow ==5 && indexPath.row ==5 )
+                {
+                    self.factoryDistanceMin = @200000;
+                    self.factoryDistanceMax = @300000;
+                }
+                if (indexPath.leftRow ==6 && indexPath.row ==6 )
+                {
+                    self.factoryDistanceMin = @300000;
+                    self.factoryDistanceMax = @2000000000;
+                    
+                    
+                }
+                
             }
         }
-
+        
         if (self.factoryType == 1)
         {
             // 筛选工厂规模
@@ -771,58 +1011,58 @@
             {
                 self.factorySizeMin = nil;
                 self.factorySizeMax = nil;
-
+                
                 if (indexPath.leftRow ==1 && indexPath.row ==1 )
                 {
                     self.factorySizeMin = @2;
                     self.factorySizeMax = @4;
                 }
-
+                
                 if (indexPath.leftRow ==2 && indexPath.row ==2 )
                 {
                     self.factorySizeMin = @4;
                     self.factorySizeMax = @10;
                 }
-
+                
                 if (indexPath.leftRow ==3 && indexPath.row ==3 )
                 {
                     self.factorySizeMin = @10;
                     self.factorySizeMax = @20;
                 }
-
+                
                 if (indexPath.leftRow ==4 && indexPath.row ==4 )
                 {
                     self.factorySizeMin = @20;
                     self.factorySizeMax = @10000;
-
+                    
                 }
             }
-
+            
             // 筛选工厂距离
             if (indexPath.column == 2 && indexPath.leftOrRight == 0)
-
+                
             {
                 self.factoryDistanceMin = nil;
                 self.factoryDistanceMax = nil;
-
+                
                 if (indexPath.leftRow ==1 && indexPath.row ==1 )
                 {
                     self.factoryDistanceMin = @0;
                     self.factoryDistanceMax = @10000;
                 }
-
+                
                 if (indexPath.leftRow ==2 && indexPath.row ==2 )
                 {
                     self.factoryDistanceMin = @10000;
                     self.factoryDistanceMax = @50000;
                 }
-
+                
                 if (indexPath.leftRow ==3 && indexPath.row ==3 )
                 {
                     self.factoryDistanceMin = @50000;
                     self.factoryDistanceMax = @100000;
                 }
-
+                
                 if (indexPath.leftRow ==4 && indexPath.row ==4 )
                 {
                     self.factoryDistanceMin = @100000;
@@ -840,7 +1080,7 @@
                 }
             }
         }
-
+        
         if (self.factoryType == 2 || self.factoryType == 3)
         {
             // 筛选工厂规模
@@ -848,252 +1088,38 @@
             {
                 self.factorySizeMin = nil;
                 self.factorySizeMax = nil;
-
+                
                 if (indexPath.leftRow ==1 && indexPath.row ==1 )
                 {
                     self.factorySizeMin = @2;
                     self.factorySizeMax = @4;
                 }
-
+                
                 if (indexPath.leftRow ==2 && indexPath.row ==2 )
                 {
                     self.factorySizeMin = @4;
                     self.factorySizeMax = @10000;
                 }
             }
-
+            
             // 筛选工厂距离
             if (indexPath.column == 2 && indexPath.leftOrRight == 0)
             {
                 self.factoryDistanceMin = nil;
                 self.factoryDistanceMax = nil;
-
+                
                 if (indexPath.leftRow ==1 && indexPath.row ==1 )
                 {
                     self.factoryDistanceMin = @0;
                     self.factoryDistanceMax = @1000;
                 }
-
+                
                 if (indexPath.leftRow ==2 && indexPath.row ==2 )
                 {
                     self.factoryDistanceMin = @1000;
                     self.factoryDistanceMax = @5000;
                 }
-
-                if (indexPath.leftRow ==3 && indexPath.row ==3 )
-                {
-                    self.factoryDistanceMin = @5000;
-                    self.factoryDistanceMax = @10000;
-                }
-
-                if (indexPath.leftRow ==4 && indexPath.row ==4 )
-                {
-                    self.factoryDistanceMin = @10000;
-                    self.factoryDistanceMax = @1000000;
-                }
-            }
-        }
-    }
-
-    if (self.factoryType == 100)
-    {
-        // 筛选工厂规模
-        if (indexPath.column == 1 && indexPath.leftOrRight == 0)
-        {
-            self.factorySizeMin = nil;
-            self.factorySizeMax = nil;
-
-            if (indexPath.leftRow ==1 && indexPath.row ==1 )
-            {
-                self.factorySizeMin = @0;
-                self.factorySizeMax = @100000;
-            }
-
-            if (indexPath.leftRow ==2 && indexPath.row ==2 )
-            {
-                self.factorySizeMin = @100000;
-                self.factorySizeMax = @300000;
-            }
-
-            if (indexPath.leftRow ==3 && indexPath.row ==3 )
-            {
-                self.factorySizeMin = @300000;
-                self.factorySizeMax = @500000;
-            }
-
-            if (indexPath.leftRow ==4 && indexPath.row ==4 )
-            {
-                self.factorySizeMin = @500000;
-                self.factorySizeMax = @1000000;
-            }
-            if (indexPath.leftRow ==5 && indexPath.row ==5 )
-            {
-                self.factorySizeMin = @1000000;
-                self.factoryDistanceMax = @2000000;
-            }
-        }
-
-        // 筛选工厂距离
-        if (indexPath.column == 2 && indexPath.leftOrRight == 0)
-        {
-            self.factoryDistanceMin = nil;
-            self.factoryDistanceMax = nil;
-
-            if (indexPath.leftRow ==1 && indexPath.row ==1 )
-            {
-                self.factoryDistanceMin = @0;
-                self.factoryDistanceMax = @10000;
-            }
-
-            if (indexPath.leftRow ==2 && indexPath.row ==2 )
-            {
-                self.factoryDistanceMin = @10000;
-                self.factoryDistanceMax = @50000;
-            }
-
-            if (indexPath.leftRow ==3 && indexPath.row ==3 )
-            {
-                self.factoryDistanceMin = @50000;
-                self.factoryDistanceMax = @100000;
-            }
-
-            if (indexPath.leftRow ==4 && indexPath.row ==4 )
-            {
-                self.factoryDistanceMin = @100000;
-                self.factoryDistanceMax = @200000;
-            }
-            if (indexPath.leftRow ==5 && indexPath.row ==5 )
-            {
-                self.factoryDistanceMin = @200000;
-                self.factoryDistanceMax = @300000;
-            }
-            if (indexPath.leftRow ==6 && indexPath.row ==6 )
-            {
-                self.factoryDistanceMin = @300000;
-                self.factoryDistanceMax = @2000000000;
-
-
-            }
-
-        }
-    }
-
-        if (self.factoryType == 1)
-        {
-            // 筛选工厂规模
-            if (indexPath.column == 1 && indexPath.leftOrRight == 0)
-            {
-                self.factorySizeMin = nil;
-                self.factorySizeMax = nil;
-
-                if (indexPath.leftRow ==1 && indexPath.row ==1 )
-                {
-                    self.factorySizeMin = @2;
-                    self.factorySizeMax = @4;
-                }
-
-                if (indexPath.leftRow ==2 && indexPath.row ==2 )
-                {
-                    self.factorySizeMin = @4;
-                    self.factorySizeMax = @10;
-                }
-
-                if (indexPath.leftRow ==3 && indexPath.row ==3 )
-                {
-                    self.factorySizeMin = @10;
-                    self.factorySizeMax = @20;
-                }
-
-                if (indexPath.leftRow ==4 && indexPath.row ==4 )
-                {
-                    self.factorySizeMin = @20;
-                    self.factorySizeMax = @10000;
-
-                }
-            }
-
-            // 筛选工厂距离
-            if (indexPath.column == 2 && indexPath.leftOrRight == 0)
-
-            {
-                self.factoryDistanceMin = nil;
-                self.factoryDistanceMax = nil;
-
-                if (indexPath.leftRow ==1 && indexPath.row ==1 )
-                {
-                    self.factoryDistanceMin = @0;
-                    self.factoryDistanceMax = @10000;
-                }
-
-                if (indexPath.leftRow ==2 && indexPath.row ==2 )
-                {
-                    self.factoryDistanceMin = @10000;
-                    self.factoryDistanceMax = @50000;
-                }
-
-                if (indexPath.leftRow ==3 && indexPath.row ==3 )
-                {
-                    self.factoryDistanceMin = @50000;
-                    self.factoryDistanceMax = @100000;
-                }
-
-                if (indexPath.leftRow ==4 && indexPath.row ==4 )
-                {
-                    self.factoryDistanceMin = @100000;
-                    self.factoryDistanceMax = @200000;
-                }
-                if (indexPath.leftRow ==5 && indexPath.row ==5 )
-                {
-                    self.factoryDistanceMin = @200000;
-                    self.factoryDistanceMax = @300000;
-                }
-                if (indexPath.leftRow ==6 && indexPath.row ==6 )
-                {
-                    self.factoryDistanceMin = @300000;
-                    self.factoryDistanceMax = @10000000000;
-                }
-            }
-        }
-
-        if (self.factoryType == 2 || self.factoryType == 3)
-        {
-            // 筛选工厂规模
-            if (indexPath.column == 1 && indexPath.leftOrRight == 0)
-            {
-                self.factorySizeMin = nil;
-                self.factorySizeMax = nil;
-
-                if (indexPath.leftRow ==1 && indexPath.row ==1 )
-                {
-                    self.factorySizeMin = @2;
-                    self.factorySizeMax = @4;
-                }
-
-                if (indexPath.leftRow ==2 && indexPath.row ==2 )
-                {
-                    self.factorySizeMin = @4;
-                    self.factorySizeMax = @10000;
-                }
-            }
-
-            // 筛选工厂距离
-            if (indexPath.column == 2 && indexPath.leftOrRight == 0)
-            {
-                self.factoryDistanceMin = nil;
-                self.factoryDistanceMax = nil;
-
-                if (indexPath.leftRow ==1 && indexPath.row ==1 )
-                {
-                    self.factoryDistanceMin = @0;
-                    self.factoryDistanceMax = @1000;
-                }
-
-                if (indexPath.leftRow ==2 && indexPath.row ==2 )
-                {
-                    self.factoryDistanceMin = @1000;
-                    self.factoryDistanceMax = @5000;
-                }
-
+                
                 if (indexPath.leftRow ==3 && indexPath.row ==3 )
                 {
                     self.factoryDistanceMin = @5000;
@@ -1111,203 +1137,203 @@
         }
         
         
-    
-    //加工厂
-    if (self.factoryType == 1 && indexPath.column == 3 && indexPath.row == 0)
-    {
-        if(!self.datePicker)
-            self.datePicker = [THDatePickerViewController datePicker];
-        self.datePicker.date = self.curDate;
-        self.datePicker.delegate = self;
-        [self.datePicker setAllowClearDate:NO];
-        [self.datePicker setAutoCloseOnSelectDate:YES];
-        [self.datePicker setSelectedBackgroundColor:[UIColor colorWithRed:125/255.0 green:208/255.0 blue:0/255.0 alpha:1.0]];
-        [self.datePicker setCurrentDateColor:[UIColor colorWithRed:242/255.0 green:121/255.0 blue:53/255.0 alpha:1.0]];
         
-        [self.datePicker setDateHasItemsCallback:^BOOL(NSDate *date) {
-            int tmp = (arc4random() % 30)+1;
-            if(tmp % 5 == 0)
-                return YES;
-            return NO;
+        //加工厂
+        if (self.factoryType == 1 && indexPath.column == 3 && indexPath.row == 0)
+        {
+            if(!self.datePicker)
+                self.datePicker = [THDatePickerViewController datePicker];
+            self.datePicker.date = self.curDate;
+            self.datePicker.delegate = self;
+            [self.datePicker setAllowClearDate:NO];
+            [self.datePicker setAutoCloseOnSelectDate:YES];
+            [self.datePicker setSelectedBackgroundColor:[UIColor colorWithRed:125/255.0 green:208/255.0 blue:0/255.0 alpha:1.0]];
+            [self.datePicker setCurrentDateColor:[UIColor colorWithRed:242/255.0 green:121/255.0 blue:53/255.0 alpha:1.0]];
+            
+            [self.datePicker setDateHasItemsCallback:^BOOL(NSDate *date) {
+                int tmp = (arc4random() % 30)+1;
+                if(tmp % 5 == 0)
+                    return YES;
+                return NO;
+            }];
+            UINavigationController*dateNav = [[UINavigationController alloc]initWithRootViewController:self.datePicker];
+            dateNav.title=@"选择空闲时间";
+            dateNav.navigationBar.barStyle=UIBarStyleBlack;
+            [self presentViewController:dateNav animated:NO completion:nil];
+            
+            
+        }
+        
+        //代裁和锁眼钉扣
+        if ( self.factoryType == 2 && indexPath.column == 3)
+        {
+            if (indexPath.row == 0)
+            {
+                self.factoryFree = @"空闲";
+            }
+            if (indexPath.row == 1)
+            {
+                self.factoryFree = @"忙碌";
+            }
+        }
+        if ( self.factoryType == 3 && indexPath.column == 3)
+        {
+            if (indexPath.row == 0)
+            {
+                self.factoryFree = @"空闲";
+            }
+            if (indexPath.row == 1)
+            {
+                self.factoryFree = @"忙碌";
+            }
+        }
+        
+        //其他
+        if (self.factoryType == 100 || self.factoryType == 0)
+        {
+            self.factoryFree = @"";
+        }
+        
+        
+        if (self.factoryType == 1)
+        {
+            if (self.dateArray.count == 0)
+            {
+                
+            }if (self.dateArray.count>0)
+            {
+                self.factoryFree = self.dateArray[0];
+                
+            }
+            
+            
+        }
+        
+        //       DLog(@">>>>>>>>>>>self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
+        
+        
+        //    DLog(@">>>>>isHaveTruck=%d",self.isHaveTruck);
+        
+        if (self.factoryType == 1)
+        {
+            _tableView.tableHeaderView = _view;
+        }
+        else
+        {
+            _tableView.tableHeaderView = nil;
+        }
+        
+        
+        
+        if (self.isHaveTruck == YES)
+        {
+            _number = @1;
+        }
+        if (self.isHaveTruck == NO)
+        {
+            _number = @0;
+        }
+        
+        
+        _refrushCount = 1;
+        
+        [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree  page:(@1) andBlock:^(NSDictionary *responseDictionary) {
+            
+            self.factoryModelArray = nil;
+            self.factoryModelArray = responseDictionary[@"responseArray"];
+            [_tableView reloadData];
         }];
-        UINavigationController*dateNav = [[UINavigationController alloc]initWithRootViewController:self.datePicker];
-        dateNav.title=@"选择空闲时间";
-        dateNav.navigationBar.barStyle=UIBarStyleBlack;
-        [self presentViewController:dateNav animated:NO completion:nil];
-
+    }
+    
+    - (void)dealloc
+    {
+        _tableView.dataSource = nil;
+        _tableView.delegate = nil;
+        _datePicker=nil;
+        
+        self.JSDropDownMenu.dataSource = nil;
+        self.JSDropDownMenu.delegate = nil;}
+    
+#pragma mark - <UISearchBarDelegate>
+    
+    - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+        [self.navigationItem.titleView endEditing:YES];
+    }
+    
+    - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+    {
+        [searchBar resignFirstResponder];
+        DLog(@"333%@",searchBar.text);
+        
+        
+        _refrushCount = 1;
+        [HttpClient searchWithFactoryName:searchBar.text factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil page:(@1)andBlock:^(NSDictionary *responseDictionary) {
+            
+            self.factoryModelArray = nil;
+            self.factoryModelArray = responseDictionary[@"responseArray"];
+            [_tableView reloadData];
+            
+            if (self.factoryModelArray.count == 0)
+            {
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"搜索结果" message:@"您搜索的工厂暂时不存在" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [alertView show];
+            }
+        }];
         
     }
     
-    //代裁和锁眼钉扣
-    if ( self.factoryType == 2 && indexPath.column == 3)
-    {
-        if (indexPath.row == 0)
-        {
-            self.factoryFree = @"空闲";
-        }
-        if (indexPath.row == 1)
-        {
-            self.factoryFree = @"忙碌";
-        }
-    }
-    if ( self.factoryType == 3 && indexPath.column == 3)
-    {
-        if (indexPath.row == 0)
-        {
-            self.factoryFree = @"空闲";
-        }
-        if (indexPath.row == 1)
-        {
-            self.factoryFree = @"忙碌";
-        }
-    }
+#pragma mark -- 日期选择器
     
-    //其他
-    if (self.factoryType == 100 || self.factoryType == 0)
+    -(void)datePickerDonePressed:(THDatePickerViewController *)datePicker
     {
-        self.factoryFree = @"";
-    }
-    
-
-    if (self.factoryType == 1)
-    {
+        self.curDate = datePicker.date;
+        
+        NSString *string1 = [NSString stringWithFormat:@"%@",[_formatter stringFromDate:self.curDate]];
+        
+        DLog(@"+++++%@",string1);
+        NSArray *array1 = [string1 componentsSeparatedByString:@"年"];
+        DLog(@"+++++%@",array1[0]);
+        NSString *string2 = array1[1];
+        DLog(@"+++++%@",array1[1]);
+        NSArray *array2 = [string2 componentsSeparatedByString:@"月"];
+        DLog(@"+++++%@",array2[0]);
+        NSString *string3 = array2[1];
+        NSArray *array3 = [string3 componentsSeparatedByString:@"日"];
+        
+        NSString *string = [NSString stringWithFormat:@"%@-%@-%@",array1[0],array2[0],array3[0]];
+        
+        DLog(@"string===+++++%@",string);
+        
+        
+        self.factoryFree = string;
+        
         if (self.dateArray.count == 0)
         {
-          
-        }if (self.dateArray.count>0)
+            [self.dateArray addObject:self.factoryFree];
+        }
+        if (self.dateArray.count>0)
         {
-            self.factoryFree = self.dateArray[0];
-         
+            [self.dateArray replaceObjectAtIndex:0 withObject:self.factoryFree];
         }
         
-
-    }
-    
-//       DLog(@">>>>>>>>>>>self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
-
-    
-//    DLog(@">>>>>isHaveTruck=%d",self.isHaveTruck);
-
-    if (self.factoryType == 1)
-    {
-        _tableView.tableHeaderView = _view;
-    }
-    else
-    {
-        _tableView.tableHeaderView = nil;
-    }
-    
-    
-    
-    if (self.isHaveTruck == YES)
-    {
-        _number = @1;
-    }
-    if (self.isHaveTruck == NO)
-    {
-        _number = @0;
-    }
-    
-
-    _refrushCount = 1;
-
-    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree  page:(@1) andBlock:^(NSDictionary *responseDictionary) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        //    [self dismissViewControllerAnimated:YES completion:nil];
         
-        self.factoryModelArray = nil;
-        self.factoryModelArray = responseDictionary[@"responseArray"];
-        [_tableView reloadData];
-    }];
-}
-
-- (void)dealloc
-{
-    _tableView.dataSource = nil;
-    _tableView.delegate = nil;
-    _datePicker=nil;
-
-    self.JSDropDownMenu.dataSource = nil;
-    self.JSDropDownMenu.delegate = nil;}
-
-#pragma mark - <UISearchBarDelegate>
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.navigationItem.titleView endEditing:YES];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    [searchBar resignFirstResponder];
-    DLog(@"333%@",searchBar.text);
-
-    
-    _refrushCount = 1;
-    [HttpClient searchWithFactoryName:searchBar.text factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil page:(@1)andBlock:^(NSDictionary *responseDictionary) {
+            DLog(@"++++++++++========self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
         
-        self.factoryModelArray = nil;
-        self.factoryModelArray = responseDictionary[@"responseArray"];
-        [_tableView reloadData];
-        
-        if (self.factoryModelArray.count == 0)
-        {
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"搜索结果" message:@"您搜索的工厂暂时不存在" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-            [alertView show];
-        }
-    }];
-
-}
-
-#pragma mark -- 日期选择器
-
--(void)datePickerDonePressed:(THDatePickerViewController *)datePicker
-{
-    self.curDate = datePicker.date;
-    
-    NSString *string1 = [NSString stringWithFormat:@"%@",[_formatter stringFromDate:self.curDate]];
-
-    DLog(@"+++++%@",string1);
-    NSArray *array1 = [string1 componentsSeparatedByString:@"年"];
-    DLog(@"+++++%@",array1[0]);
-    NSString *string2 = array1[1];
-    DLog(@"+++++%@",array1[1]);
-    NSArray *array2 = [string2 componentsSeparatedByString:@"月"];
-    DLog(@"+++++%@",array2[0]);
-    NSString *string3 = array2[1];
-    NSArray *array3 = [string3 componentsSeparatedByString:@"日"];
-
-    NSString *string = [NSString stringWithFormat:@"%@-%@-%@",array1[0],array2[0],array3[0]];
-
-    DLog(@"string===+++++%@",string);
-
-
-    self.factoryFree = string;
-    
-    if (self.dateArray.count == 0)
-    {
-        [self.dateArray addObject:self.factoryFree];
-    }
-    if (self.dateArray.count>0)
-    {
-        [self.dateArray replaceObjectAtIndex:0 withObject:self.factoryFree];
+        _refrushCount = 1;
+        [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree page:(@1) andBlock:^(NSDictionary *responseDictionary) {
+            
+            self.factoryModelArray = nil;
+            self.factoryModelArray = responseDictionary[@"responseArray"];
+            [_tableView reloadData];
+        }];
     }
     
-    [self dismissViewControllerAnimated:YES completion:nil];
-//    [self dismissViewControllerAnimated:YES completion:nil];
-
-//    DLog(@"++++++++++========self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
-
-    _refrushCount = 1;
-    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree page:(@1) andBlock:^(NSDictionary *responseDictionary) {
-        
-        self.factoryModelArray = nil;
-        self.factoryModelArray = responseDictionary[@"responseArray"];
-        [_tableView reloadData];
-    }];
-}
-
--(void)datePickerCancelPressed:(THDatePickerViewController *)datePicker
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-
-@end
+    -(void)datePickerCancelPressed:(THDatePickerViewController *)datePicker
+    {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    
+    
+    @end
