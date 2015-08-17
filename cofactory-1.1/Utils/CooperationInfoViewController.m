@@ -366,23 +366,23 @@
             for (int i = 0; i<3; i++) {
                 UIImageView*imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10+i*((kScreenW-90)/3+30), 5, 30 , 30)];
                 UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(40+i*((kScreenW-90)/3+30), 5, 80 , 30)];
-                cellLabel.font = [UIFont systemFontOfSize:14.0f];
+                cellLabel.font = [UIFont systemFontOfSize:13.0f];
                 if (i==0) {
 
                     if (self.factoryModel.factoryType==1) {
                         imageView.image = self.cellImageArray3[0];
                         if (self.factoryModel.factoryFreeTime) {
                             NSString*timeString=[[Tools WithTime:self.factoryModel.factoryFreeTime] firstObject];
-                            cellLabel.text = timeString;
+                            cellLabel.text = [NSString stringWithFormat:@" %@",timeString];
                         }
                     }else{
                         if ([self.factoryModel.factoryFreeStatus isEqualToString:@"空闲"]) {
                             imageView.image = self.cellImageArray3[0];
-                            cellLabel.text = @"空闲";
+                            cellLabel.text = @" 空闲";
 
                         }else{
                             imageView.image = self.cellImageArray4[0];
-                            cellLabel.text = @"忙碌";
+                            cellLabel.text = @" 忙碌";
                         }
                     }
                 }
@@ -391,11 +391,11 @@
                     if (self.factoryModel.factoryType==1) {
                         if (self.factoryModel.hasTruck==0) {
                             imageView.image = self.cellImageArray3[1];
-                            cellLabel.text = @"不自备货车";
+                            cellLabel.text = @" 有货车";
 
                         }else{
                             imageView.image = self.cellImageArray4[1];
-                            cellLabel.text = @"自备货车";
+                            cellLabel.text = @" 无货车";
                             
                         }
                     }else{
@@ -408,11 +408,11 @@
                 if (i==2) {
                     if (self.factoryModel.authStatus==2) {
                         imageView.image = self.cellImageArray4[2];
-                        cellLabel.text = @"已认证";
+                        cellLabel.text = @" 已认证";
 
                     }else{
                         imageView.image = self.cellImageArray3[2];
-                        cellLabel.text = @"未认证";
+                        cellLabel.text = @" 未认证";
 
                     }
                 }
