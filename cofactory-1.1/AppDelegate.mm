@@ -17,6 +17,9 @@
 #define _IPHONE80_ 80000
 
 
+#define  kNavTitleFontSize 18
+
+
 @interface AppDelegate ()
 @property (nonatomic, strong) ZWIntroductionViewController *introductionView;
 
@@ -187,15 +190,21 @@
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
     [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
     [navigationBarAppearance setTintColor:[UIColor whiteColor]];//返回按钮的箭头颜色
-//    NSDictionary *textAttributes = @{
-//                                     NSFontAttributeName: [UIFont boldSystemFontOfSize:kNavTitleFontSize],
-//                                     NSForegroundColorAttributeName: [UIColor whiteColor],
-//                                     };
-//    [navigationBarAppearance setTitleTextAttributes:textAttributes];
-    
+    NSDictionary *textAttributes = @{
+                                     NSFontAttributeName: [UIFont boldSystemFontOfSize:kNavTitleFontSize],
+                                     NSForegroundColorAttributeName: [UIColor whiteColor],
+                                     };
+    [navigationBarAppearance setTitleTextAttributes:textAttributes];
+
     [[UITextField appearance] setTintColor:[UIColor colorWithHexString:@"0x3bbc79"]];//设置UITextField的光标颜色
     [[UITextView appearance] setTintColor:[UIColor colorWithHexString:@"0x3bbc79"]];//设置UITextView的光标颜色
 //    [[UISearchBar appearance] setBackgroundImage:[UIImage imageWithColor:kColorTableSectionBg] forBarPosition:0 barMetrics:UIBarMetricsDefault];
+}
+
+//禁止横屏
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 

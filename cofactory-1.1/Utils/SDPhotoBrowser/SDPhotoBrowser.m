@@ -10,6 +10,9 @@
 #import "UIImageView+WebCache.h"
 #import "SDBrowserImageView.h"
 
+#import "UIColor+Expanded.h"
+
+
 #define kScreenW [[UIScreen mainScreen] bounds].size.width
  
 //  ============在这里方便配置样式相关设置===========
@@ -70,8 +73,7 @@
     UIButton *saveButton = [[UIButton alloc] init];
     [saveButton setTitle:@"保存" forState:UIControlStateNormal];
     [saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [saveButton setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
-    saveButton.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:0.90f];
+    saveButton.backgroundColor = [UIColor colorWithHexString:@"0x3bbc79"];
     saveButton.frame = CGRectMake(30, self.bounds.size.height - 70, 50, 25);
     saveButton.layer.cornerRadius = 5;
     saveButton.clipsToBounds = YES;

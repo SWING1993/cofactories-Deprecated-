@@ -75,7 +75,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -97,7 +97,8 @@
 
             }
                 break;
-                
+
+
             case 1:{
                 cell.textLabel.text=@"意见反馈";
 
@@ -110,6 +111,13 @@
                 break;
 
             case 3:{
+                cell.textLabel.text=@"关于聚工厂";
+
+            }
+                break;
+
+
+            case 4:{
                 [cell addSubview:inviteCodeTF];
                 UIButton*OKBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-70, 7, 60, 30)];
                 [OKBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
@@ -127,7 +135,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 10.0f;
+    return 7.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -153,12 +161,8 @@
 
         }
             break;
+
         case 1:{
-
-            //导航push
-//            [self.navigationController pushViewController:[UMFeedback feedbackViewController]
-//                                                 animated:YES];
-
             // 模态弹出
             [self presentViewController:[UMFeedback feedbackModalViewController] animated:YES completion:nil];
         }
@@ -172,10 +176,15 @@
                                                delegate:self];
         }
             break;
+
         case 3:{
+            AboutViewController*aboutVC = [[AboutViewController alloc]init];
+            [self.navigationController pushViewController:aboutVC animated:YES];
 
         }
             break;
+
+
                     
         default:
             break;
@@ -192,6 +201,8 @@
         NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
     }
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

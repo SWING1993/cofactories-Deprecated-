@@ -11,7 +11,7 @@
 #import "UIButton+WebCache.h"
 #import "SDPhotoBrowser.h"
 
-#define SDPhotoGroupImageMargin 15
+#define SDPhotoGroupImageMargin 2
 #define kScreenW [[UIScreen mainScreen] bounds].size.width
 
 @interface SDPhotoGroup () <SDPhotoBrowserDelegate>
@@ -48,12 +48,12 @@
 {
     [super layoutSubviews];
     int imageCount = self.photoItemArray.count;
-    int perRowImageCount = ((imageCount == 5) ? 3 : 4);
+    int perRowImageCount = ((imageCount == 4) ? 3 : 4);
     
 //    int totalRowCount = imageCount / perRowImageCount + 0.99999; // ((imageCount + perRowImageCount - 1) / perRowImageCount)
     int totalRowCount =  ((imageCount + perRowImageCount - 1) / perRowImageCount);
-    CGFloat w = kScreenW/4-15;
-    CGFloat h = kScreenW/4-15;
+    CGFloat w = kScreenW/4-3;
+    CGFloat h = kScreenW/4-3;
     
     [self.subviews enumerateObjectsUsingBlock:^(UIButton *btn, NSUInteger idx, BOOL *stop) {
         
@@ -64,7 +64,7 @@
         btn.frame = CGRectMake(x, y, w, h);
     }];
 
-    self.frame = CGRectMake(10, 10, kScreenW, totalRowCount * (SDPhotoGroupImageMargin + h));
+    self.frame = CGRectMake(3, 12, kScreenW, totalRowCount * (SDPhotoGroupImageMargin + h));
 }
 
 - (void)buttonClick:(UIButton *)button

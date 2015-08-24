@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MeViewController : UITableViewController
+//用户模型
+@property (nonatomic, strong) UserModel*userModel;
 
 @end

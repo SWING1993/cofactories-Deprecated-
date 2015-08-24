@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>45069F6D-65B9-4B0C-A9DF-A29A53F2FC2E</string>
 	<key>IDESourceControlProjectName</key>
-	<string>cofactory-1.1</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>839D11C8AB14986D45CED414A52F5D7DD8182FCE</key>
 		<string>https://git.coding.net/song104466/Cofactory_1.1.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>cofactory-1.1.xcodeproj</string>
+	<string>cofactory-1.1.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>839D11C8AB14986D45CED414A52F5D7DD8182FCE</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>839D11C8AB14986D45CED414A52F5D7DD8182FCE</string>
 			<key>IDESourceControlWCCName</key>
-			<string>%E8%81%9A%E5%B7%A5%E5%8E%821.1</string>
+			<string>dev123</string>
 		</dict>
 	</array>
 </dict>

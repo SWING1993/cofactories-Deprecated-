@@ -38,93 +38,38 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section==0) {
         if ([self.employee count]<5) {
-            if (iphone6Plus_5_5) {
-                return 110;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 90;
-            }
-            else{
-                return 100;
-            }
+            return kScreenW/4+20;
         }
         if ([self.employee count]<9) {
-            if (iphone6Plus_5_5) {
-                return 210;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 170;
-            }
-            else{
-                return 200;
-            }
+            return kScreenW/2+20;
+
         }if ([self.employee count]<11) {
-            if (iphone6Plus_5_5) {
-                return 320;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 250;
-            }
-            else{
-                return 300;
-            }
+            return 3*kScreenW/4+20;
+
         }
     }if (indexPath.section==1) {
         if ([self.environment count]<5) {
-            if (iphone6Plus_5_5) {
-                return 110;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 90;
-            }
-            else{
-                return 100;
-            }
+            return kScreenW/4+20;
+
         }
         if ([self.environment count]<9) {
-            if (iphone6Plus_5_5) {
-                return 210;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 170;
-            }
-            else{
-                return 200;
-            }
+            return kScreenW/2+20;
+
         }if ([self.environment count]<11) {
-            if (iphone6Plus_5_5) {
-                return 320;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 250;
-            }
-            else{
-                return 300;
-            }
+            return 3*kScreenW/4+20;
+
         }
     }if (indexPath.section==2) {
         if ([self.equipment count]<5) {
-            if (iphone6Plus_5_5) {
-                return 110;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 90;
-            }
-            else{
-                return 100;
-            }
+            return kScreenW/4+20;
+
         }
         if ([self.equipment count]<9) {
-            if (iphone6Plus_5_5) {
-                return 210;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 170;
-            }
-            else{
-                return 200;
-            }
+            return kScreenW/2+20;
+
         }if ([self.equipment count]<11) {
-            if (iphone6Plus_5_5) {
-                return 320;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 250;
-            }
-            else{
-                return 300;
-            }
+            return 3*kScreenW/4+20;
+
         }
 
     }

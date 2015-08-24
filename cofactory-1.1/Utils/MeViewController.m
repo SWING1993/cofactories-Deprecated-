@@ -10,18 +10,8 @@
 #import "MeViewController.h"
 #import "SettingTagsViewController.h"
 
-@interface MeViewController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate> {
+@interface MeViewController ()<UIAlertViewDelegate>
 
-    UILabel*factoryNameLabel;
-
-    UILabel*infoLabel;
-
-    UIButton*headerButton;
-
-}
-
-//用户模型
-@property (nonatomic, strong) UserModel*userModel;
 
 //公司规模数组
 @property(nonatomic,retain)NSArray*sizeArray;
@@ -53,15 +43,6 @@
 
         self.userModel=responseDictionary[@"model"];
 
-        
-        //更新公司名称label.text
-        factoryNameLabel.text=self.userModel.factoryName;
-
-        //更新信息完整度
-        int FinishedDegree = self.userModel.factoryFinishedDegree;
-
-        infoLabel.text = [NSString stringWithFormat:@"信息完整度为%d%s",FinishedDegree,"%"];
-
         if (self.userModel.factoryType==GarmentFactory) {
             DLog(@"---服装厂");
             self.sizeArray=rangeModel.allFactorySize[0];
@@ -90,124 +71,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor=[UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
+//    self.view.backgroundColor=[UIColor whiteColor];
+//    self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
 
-    //设置Btn
-    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStylePlain target:self action:@selector(saetButtonClicked)];
-    self.navigationItem.rightBarButtonItem = setButton;
-
-    self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
+    
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH+240) style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
-
-    // 表头视图
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight)];
-
-    UIImageView*BGImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight-50)];
-    BGImage.image=[UIImage imageNamed:@"bb"];
-    headerView.backgroundColor=[UIColor whiteColor];
-    [headerView addSubview:BGImage];
-
-    headerButton=[[UIButton alloc]initWithFrame:CGRectMake(10, kBannerHeight-80, 60, 60)];
-    headerButton.backgroundColor=[UIColor blueColor];
-    headerButton.layer.cornerRadius=60/2.0f;
-    headerButton.layer.masksToBounds=YES;
-    headerButton.layer.borderWidth=0.3f;
-    headerButton.layer.borderColor=[UIColor blackColor].CGColor;
-    [headerButton addTarget:self action:@selector(uploadBtn) forControlEvents:UIControlEventTouchUpInside];
-
-
-    factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, kBannerHeight-45, kScreenW-100, 20)];
-    factoryNameLabel.font=[UIFont boldSystemFontOfSize:17];
-
-//    [[SDImageCache sharedImageCache]clearDisk];
-    //初始化用户model
-    self.userModel=[[UserModel alloc]init];
-    [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
-        self.userModel=responseDictionary[@"model"];
-        factoryNameLabel.text=self.userModel.factoryName;
-        [headerView addSubview:factoryNameLabel];
-        [self.tableView reloadData];
-
-        [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
-        [headerView addSubview:headerButton];
-    }];
-
-    infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-150, kBannerHeight-25, 140, 20)];
-//    infoLabel.backgroundColor = [UIColor lightGrayColor];
-    infoLabel.textAlignment = NSTextAlignmentRight;
-    infoLabel.font=[UIFont boldSystemFontOfSize:15.0f];
-    infoLabel.textColor=[UIColor grayColor];
-    [headerView addSubview:infoLabel];
-
-    self.tableView.tableHeaderView = headerView;
 
     self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"],[UIImage imageNamed:@"set_标签"]];
     self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司相册"],[UIImage imageNamed:@"set_公司业务类型"]];
-}
-
-//设置
-- (void)saetButtonClicked {
-
-    SetViewController*setVC = [[SetViewController alloc]init];
-    setVC.hidesBottomBarWhenPushed=YES;
-    [self.navigationController pushViewController:setVC animated:YES];
-
-}
-
-- (void)uploadBtn{
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"相册", nil];
-    [actionSheet showFromTabBar:self.tabBarController.tabBar];
-}
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-        
-        if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误"
-                                                                message:@"设备没有相机"
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles: nil];
-
-            [alertView show];
-        } else {
-            UIImagePickerController *imagePickerController = [UIImagePickerController new];
-            imagePickerController.delegate = self;
-            imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-            imagePickerController.allowsEditing = YES;
-            imagePickerController.showsCameraControls = YES;
-            imagePickerController.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-            imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
-
-            [self presentViewController:imagePickerController animated:YES completion:nil];
-        }
-        return;
-    }
-    if (buttonIndex == 1) {
-        // 相册
-        UIImagePickerController *imagePickerController = [UIImagePickerController new];
-        imagePickerController.delegate = self;
-        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        imagePickerController.allowsEditing = YES;
-        imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
-
-        [self presentViewController:imagePickerController animated:YES completion:nil];
-    }
-}
-
-#pragma mark <UIImagePickerControllerDelegate>
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *image = info[UIImagePickerControllerEditedImage];
-    [picker dismissViewControllerAnimated:YES completion:^{
-        [HttpClient uploadImageWithImage:image type:@"avatar" andblock:^(NSDictionary *dictionary) {
-            if ([dictionary[@"statusCode"] intValue]==200) {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"头像上传成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
-                [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
-                [headerButton setBackgroundImage:image forState:UIControlStateNormal];
-            }
-        }];
-    }];
 }
 
 #pragma mark - Table view data source

@@ -30,10 +30,13 @@
     tableHeaderView.backgroundColor=[UIColor whiteColor];
     UIImageView*logoImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2-40, 10, 80, 80)];
     logoImage.image=[UIImage imageNamed:@"logo"];
+    logoImage.layer.cornerRadius = 15;
+    logoImage.layer.masksToBounds = YES;
     [tableHeaderView addSubview:logoImage];
 
     UILabel*logoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, kScreenW, 20)];
-    logoLabel.text=@"聚工厂 cofactories";
+    logoLabel.font = [UIFont boldSystemFontOfSize:16];
+    logoLabel.text=@"聚工厂 cofactories 1.3";
     logoLabel.textAlignment = NSTextAlignmentCenter;
     [tableHeaderView addSubview:logoLabel];
 
@@ -47,7 +50,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -70,12 +73,6 @@
 
         }
             break;
-        case 2:{
-            cell.textLabel.text=@"关于我们";
-
-        }
-            break;
-
         default:
             break;
     }
@@ -83,7 +80,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 15.0f;
+    return 0.01f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -93,15 +90,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0:{
-
+            NSString *str = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id1015359842"];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 
         }
             break;
         case 1:{
-
-        }
-            break;
-        case 2:{
 
         }
             break;

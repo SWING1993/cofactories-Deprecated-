@@ -160,11 +160,11 @@
                         if ([dictionary[@"statusCode"] intValue]==200) {
                             //最后一张图片上传成功  刷新collectionView
                             if (idx == [assets count] - 1) {
+                                [Tools showHudTipStr:@"图片上传成功！"];
                                 [self getImage];
                             }
                         }else{
-                            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"图片上传失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                            [alertView show];
+                            [Tools showHudTipStr:@"图片上传失败！"];
                         }
                     }];
                 }
@@ -197,33 +197,15 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section==0) {
         if ([self.imageArray count]<5) {
-            if (iphone6Plus_5_5) {
-                return 110;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 90;
-            }
-            else{
-                return 100;
-            }
+
+            return kScreenW/4+20;
         }
         if ([self.imageArray count]<9) {
-            if (iphone6Plus_5_5) {
-                return 210;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 170;
-            }
-            else{
-                return 200;
-            }
+
+            return kScreenW/2+20;
         }if ([self.imageArray count]<11) {
-            if (iphone6Plus_5_5) {
-                return 320;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 250;
-            }
-            else{
-                return 300;
-            }
+
+            return 3*kScreenW/4+20;
         }
     }
     return 0;
