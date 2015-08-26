@@ -13,7 +13,9 @@
 #import "TYTitlePageTabBar.h"
 #import "UINavigationBar+Awesome.h"
 
-@interface MeController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,TYSlidePageScrollViewDataSource,TYSlidePageScrollViewDelegate>
+#import "HeaderViewController.h"
+
+@interface MeController ()<TYSlidePageScrollViewDataSource,TYSlidePageScrollViewDelegate>
 
 @property (nonatomic, weak) TYSlidePageScrollView *slidePageScrollView;
 
@@ -31,11 +33,16 @@
     UILabel*infoLabel;
 
     UIButton*headerButton;
+
+//    UIView*bgView;
+//
+//    UIImageView*headerView;
 }
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    //    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+//    [self.navigationController.navigationBar lt_reset];
+//    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
 //    self.userModel=[[UserModel alloc]init];
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
 
@@ -55,7 +62,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    //    [self.navigationController.navigationBar lt_reset];
+//    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -66,17 +73,11 @@
     //设置Btn
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStylePlain target:self action:@selector(saetButtonClicked)];
     self.navigationItem.rightBarButtonItem = setButton;
-
-
     [self addSlidePageScrollView];
 
     [self addHeaderView];
 
-
-
     [self addTableViewWithPage:0 itemNum:0];
-
-
 
     [_slidePageScrollView reloadData];
 }
@@ -92,7 +93,7 @@
 
 - (void)addSlidePageScrollView
 {
-    TYSlidePageScrollView *slidePageScrollView = [[TYSlidePageScrollView alloc]initWithFrame:self.view.bounds];
+    TYSlidePageScrollView *slidePageScrollView = [[TYSlidePageScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-44-64)];
     //CGRectMake(0, 64, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)-64)];
     slidePageScrollView.pageTabBarIsStopOnTop = NO;
     slidePageScrollView.pageTabBarStopOnTopHeight = kNavBarHeight;
@@ -105,13 +106,13 @@
 
 - (void)addHeaderView
 {
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_slidePageScrollView.frame), 200)];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_slidePageScrollView.frame), 180)];
     imageView.image = [UIImage imageNamed:@"headerView"];
     imageView.clipsToBounds=YES;
     imageView.contentMode = UIViewContentModeScaleAspectFill;
 
 
-    headerButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2-40, 30, 80, 80)];
+    headerButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2-40, 80-64, 80, 80)];
     headerButton.layer.cornerRadius=80/2.0f;
     headerButton.layer.masksToBounds=YES;
     headerButton.layer.borderWidth=0.3f;
@@ -119,14 +120,14 @@
     [headerButton addTarget:self action:@selector(uploadBtn) forControlEvents:UIControlEventTouchUpInside];
 
 
-    factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 130, kScreenW, 20)];
-    factoryNameLabel.font=[UIFont boldSystemFontOfSize:17];
+    factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 180-60, kScreenW, 20)];
+    factoryNameLabel.font=[UIFont boldSystemFontOfSize:16];
     factoryNameLabel.textAlignment = NSTextAlignmentCenter;
     factoryNameLabel.textColor = [UIColor whiteColor];
     
-    infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 160, kScreenW, 20)];
+    infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 180-30, kScreenW, 20)];
     infoLabel.textAlignment = NSTextAlignmentCenter;
-    infoLabel.font=[UIFont boldSystemFontOfSize:15.0f];
+    infoLabel.font=[UIFont systemFontOfSize:14.0f];
     infoLabel.textColor=[UIColor whiteColor];
 
     [imageView addSubview:factoryNameLabel];
@@ -188,60 +189,12 @@
 }
 
 - (void)uploadBtn{
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"相册", nil];
-    [actionSheet showFromTabBar:self.tabBarController.tabBar];
+
+    HeaderViewController*headerVC = [[HeaderViewController alloc]init];
+    headerVC.uid=self.userModel.uid;
+    [self presentViewController:headerVC animated:YES completion:nil];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-
-        if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"设备没有相机"
-                                                                message:nil
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"确定"
-                                                      otherButtonTitles: nil];
-
-            [alertView show];
-        } else {
-            UIImagePickerController *imagePickerController = [UIImagePickerController new];
-            imagePickerController.delegate = self;
-            imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-            imagePickerController.allowsEditing = YES;
-            imagePickerController.showsCameraControls = YES;
-            imagePickerController.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-            imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
-
-            [self presentViewController:imagePickerController animated:YES completion:nil];
-        }
-        return;
-    }
-    if (buttonIndex == 1) {
-        // 相册
-        UIImagePickerController *imagePickerController = [UIImagePickerController new];
-        imagePickerController.delegate = self;
-        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        imagePickerController.allowsEditing = YES;
-        imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
-
-        [self presentViewController:imagePickerController animated:YES completion:nil];
-    }
-}
-
-#pragma mark <UIImagePickerControllerDelegate>
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *image = info[UIImagePickerControllerEditedImage];
-    [picker dismissViewControllerAnimated:YES completion:^{
-        [HttpClient uploadImageWithImage:image type:@"avatar" andblock:^(NSDictionary *dictionary) {
-            if ([dictionary[@"statusCode"] intValue]==200) {
-                [Tools showHudTipStr:@"头像上传成功,但是头像显示会略有延迟。"];
-
-                [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
-                [headerButton setBackgroundImage:image forState:UIControlStateNormal];
-            }
-        }];
-    }];
-}
 
 
 @end

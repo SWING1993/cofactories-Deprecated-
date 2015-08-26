@@ -26,9 +26,9 @@
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
-    self.tableView.rowHeight=100.0f;
+    self.tableView.rowHeight=200.0f;
 
-    descriptionTV=[[UITextView alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 100)];
+    descriptionTV=[[UITextView alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 200)];
     descriptionTV.font=[UIFont systemFontOfSize:15.0f];
     descriptionTV.text=self.placeholder;
 
@@ -40,8 +40,7 @@
 - (void)buttonClicked{
 
     if ([descriptionTV.text isEqualToString:@""]) {
-        UIAlertView*alertView =[[UIAlertView alloc]initWithTitle:@"公司简介不能为空" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
+        [Tools showHudTipStr:@"公司简介不能为空！"];
     }else{
         MBProgressHUD *hud = [Tools createHUD];
         hud.labelText = @"正在修改姓名";

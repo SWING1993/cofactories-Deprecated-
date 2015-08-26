@@ -93,7 +93,6 @@
 		04724E751B8870C000F820EF /* UIScrollView+ty_swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E701B8870C000F820EF /* UIScrollView+ty_swizzle.m */; };
 		04724E781B8870D000F820EF /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E771B8870D000F820EF /* UINavigationBar+Awesome.m */; };
 		04724E7B1B8870EF00F820EF /* MeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E7A1B8870EF00F820EF /* MeController.m */; };
-		04724E7F1B88758500F820EF /* headerView.png in Resources */ = {isa = PBXBuildFile; fileRef = 04724E7E1B88758500F820EF /* headerView.png */; };
 		047332FD1B60C4C400F684A2 /* OverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047332FC1B60C4C400F684A2 /* OverlayView.xib */; };
 		047333081B60D2B700F684A2 /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047333031B60D2B600F684A2 /* OrderDetailViewController.m */; };
 		047333091B60D2B700F684A2 /* OrderListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 047333041B60D2B600F684A2 /* OrderListTableViewCell.m */; };
@@ -148,6 +147,7 @@
 		04822E431B62E85F00A370F6 /* MF_Base64Additions.h in Sources */ = {isa = PBXBuildFile; fileRef = 04822E381B62E7A600A370F6 /* MF_Base64Additions.h */; };
 		04822E441B62E86900A370F6 /* NSData+Utils.h in Sources */ = {isa = PBXBuildFile; fileRef = 04822E3B1B62E7A600A370F6 /* NSData+Utils.h */; };
 		04822E471B635F3F00A370F6 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04822E461B635F3F00A370F6 /* HomeViewController.m */; };
+		048330911B8B376A00219F72 /* HeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048330901B8B376A00219F72 /* HeaderViewController.m */; };
 		049582E01B6B490F00A69E6D /* JKImagePickerController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 049582C11B6B490F00A69E6D /* JKImagePickerController.strings */; };
 		049582E11B6B490F00A69E6D /* ImagesPicker.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 049582C31B6B490F00A69E6D /* ImagesPicker.xcassets */; };
 		049582E21B6B490F00A69E6D /* JKAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 049582C71B6B490F00A69E6D /* JKAssets.m */; };
@@ -431,11 +431,10 @@
 		04724E6E1B8870C000F820EF /* TYTitlePageTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYTitlePageTabBar.m; sourceTree = "<group>"; };
 		04724E6F1B8870C000F820EF /* UIScrollView+ty_swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+ty_swizzle.h"; sourceTree = "<group>"; };
 		04724E701B8870C000F820EF /* UIScrollView+ty_swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+ty_swizzle.m"; sourceTree = "<group>"; };
-		04724E761B8870D000F820EF /* UINavigationBar+Awesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Awesome.h"; sourceTree = "<group>"; };
-		04724E771B8870D000F820EF /* UINavigationBar+Awesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Awesome.m"; sourceTree = "<group>"; };
+		04724E761B8870D000F820EF /* UINavigationBar+Awesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationBar+Awesome.h"; path = "Utils/UINavigationBar+Awesome.h"; sourceTree = "<group>"; };
+		04724E771B8870D000F820EF /* UINavigationBar+Awesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+Awesome.m"; path = "Utils/UINavigationBar+Awesome.m"; sourceTree = "<group>"; };
 		04724E791B8870EF00F820EF /* MeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeController.h; sourceTree = "<group>"; };
 		04724E7A1B8870EF00F820EF /* MeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeController.m; sourceTree = "<group>"; };
-		04724E7E1B88758500F820EF /* headerView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = headerView.png; sourceTree = "<group>"; };
 		047332FC1B60C4C400F684A2 /* OverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayView.xib; sourceTree = "<group>"; };
 		047333001B60D2B600F684A2 /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailViewController.h; sourceTree = "<group>"; };
 		047333011B60D2B600F684A2 /* OrderListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderListTableViewCell.h; sourceTree = "<group>"; };
@@ -525,6 +524,8 @@
 		04822E3F1B62E7A600A370F6 /* NSData+MD5Digest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5Digest.m"; sourceTree = "<group>"; };
 		04822E451B635F3A00A370F6 /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		04822E461B635F3F00A370F6 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		0483308F1B8B376A00219F72 /* HeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderViewController.h; sourceTree = "<group>"; };
+		048330901B8B376A00219F72 /* HeaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderViewController.m; sourceTree = "<group>"; };
 		049582C21B6B490F00A69E6D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/JKImagePickerController.strings; sourceTree = "<group>"; };
 		049582C31B6B490F00A69E6D /* ImagesPicker.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ImagesPicker.xcassets; sourceTree = "<group>"; };
 		049582C41B6B490F00A69E6D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/JKImagePickerController.strings"; sourceTree = "<group>"; };
@@ -816,6 +817,15 @@
 			name = PushHelper;
 			sourceTree = "<group>";
 		};
+		040C9B1D1B8C6E7A00B90BE6 /* HeaderImageView */ = {
+			isa = PBXGroup;
+			children = (
+				0483308F1B8B376A00219F72 /* HeaderViewController.h */,
+				048330901B8B376A00219F72 /* HeaderViewController.m */,
+			);
+			name = HeaderImageView;
+			sourceTree = "<group>";
+		};
 		043257951B673D0400C3705D /* ODRefreshControl */ = {
 			isa = PBXGroup;
 			children = (
@@ -828,6 +838,8 @@
 		0448E1461B75D78D002B78B8 /* OC_Category */ = {
 			isa = PBXGroup;
 			children = (
+				04724E761B8870D000F820EF /* UINavigationBar+Awesome.h */,
+				04724E771B8870D000F820EF /* UINavigationBar+Awesome.m */,
 				0448E1471B75D7C2002B78B8 /* UIBarButtonItem+Common.h */,
 				0448E1481B75D7C2002B78B8 /* UIBarButtonItem+Common.m */,
 				0448E14A1B75DE84002B78B8 /* UIColor+expanded.h */,
@@ -1062,17 +1074,6 @@
 				045A26A41B6893D5002DE415 /* dialog_ok@2x.png */,
 			);
 			path = Images;
-			sourceTree = "<group>";
-		};
-		04724E651B8870B200F820EF /* TYSlidePage */ = {
-			isa = PBXGroup;
-			children = (
-				04724E7E1B88758500F820EF /* headerView.png */,
-				04724E761B8870D000F820EF /* UINavigationBar+Awesome.h */,
-				04724E771B8870D000F820EF /* UINavigationBar+Awesome.m */,
-				04724E661B8870C000F820EF /* TYSlidePageScrollView */,
-			);
-			name = TYSlidePage;
 			sourceTree = "<group>";
 		};
 		04724E661B8870C000F820EF /* TYSlidePageScrollView */ = {
@@ -1648,6 +1649,7 @@
 				04724E7A1B8870EF00F820EF /* MeController.m */,
 				BD4311CB1B4F41DE0097E4BC /* MeViewController.h */,
 				BD4311CC1B4F41DE0097E4BC /* MeViewController.m */,
+				040C9B1D1B8C6E7A00B90BE6 /* HeaderImageView */,
 				0451D65F1B578E37007CCD59 /* Set */,
 				0448E14D1B75DF6D002B78B8 /* SettingTag */,
 				04D7D02C1B5A492D0054861E /* Description */,
@@ -1737,7 +1739,7 @@
 				042A0EE71B7B588100ECE841 /* HttpClient.m */,
 				04AE21841B535ABC007A3279 /* Tools.h */,
 				04AE21851B535ABC007A3279 /* Tools.m */,
-				04724E651B8870B200F820EF /* TYSlidePage */,
+				04724E661B8870C000F820EF /* TYSlidePageScrollView */,
 				045939341B787089004DA7D6 /* IQKeyBoardManager */,
 				64F4C6611B70B31D00F52FF0 /* MJRefresh */,
 				049582F01B6B68EF00A69E6D /* UMeng */,
@@ -2038,7 +2040,6 @@
 				045A26BD1B6893D5002DE415 /* dialog_ok-disabled.png in Resources */,
 				045A266D1B686682002DE415 /* chack.png in Resources */,
 				045A26B21B6893D5002DE415 /* calendar_littledot-disabled@2x.png in Resources */,
-				04724E7F1B88758500F820EF /* headerView.png in Resources */,
 				04746D4D1B6B284E00C3C45E /* umeng_fb_audio_dialog_cancel@2x.png in Resources */,
 				04746D511B6B284E00C3C45E /* umeng_fb_audio_play_03@2x.png in Resources */,
 				0451D6581B574BCB007CCD59 /* ico_make.png in Resources */,
@@ -2227,6 +2228,7 @@
 				043257981B673D0400C3705D /* ODRefreshControl.m in Sources */,
 				0448E1421B75CA2E002B78B8 /* TagCCell.m in Sources */,
 				04822E361B62E5C200A370F6 /* TouristViewController.m in Sources */,
+				048330911B8B376A00219F72 /* HeaderViewController.m in Sources */,
 				BDC908E91B4E9B3700856A32 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				BD8AD7F21B50E62600373E5E /* UIImage+WebP.m in Sources */,
 				BD8AD7C31B50E59700373E5E /* PageView.m in Sources */,
@@ -2452,7 +2454,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "cofactory-1.1";
-				PROVISIONING_PROFILE = "23c19a86-34f7-4890-bb64-1f719f2494b9";
+				PROVISIONING_PROFILE = "5f18d005-4e8d-4bf4-96c8-0e845775165a";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -2487,7 +2489,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "cofactory-1.1";
-				PROVISIONING_PROFILE = "23c19a86-34f7-4890-bb64-1f719f2494b9";
+				PROVISIONING_PROFILE = "5f18d005-4e8d-4bf4-96c8-0e845775165a";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 armv7s arm64";
