@@ -127,7 +127,7 @@
     messageViewController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabmesSelected"];
 
     // MeViewController 初始化
-    MeViewController *meViewController = [[MeViewController alloc] init];
+    MeController *meViewController = [[MeController alloc] init];
     UINavigationController *meNavigationController = [[UINavigationController alloc] initWithRootViewController:meViewController];
     [meViewController setTitle:@"我"];
     meNavigationController.navigationBar.barStyle=UIBarStyleBlack;

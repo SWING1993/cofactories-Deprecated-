@@ -1956,7 +1956,7 @@
 				TargetAttributes = {
 					BDC907B61B4E9A5700856A32 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 23L882L49W;
+						DevelopmentTeam = 3AFPZD3ZQ9;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 0;
@@ -2454,7 +2454,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "cofactory-1.1";
-				PROVISIONING_PROFILE = "5f18d005-4e8d-4bf4-96c8-0e845775165a";
+				PROVISIONING_PROFILE = "a2a65999-78eb-4402-a433-dc05fdcb3d25";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -2489,7 +2489,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "cofactory-1.1";
-				PROVISIONING_PROFILE = "5f18d005-4e8d-4bf4-96c8-0e845775165a";
+				PROVISIONING_PROFILE = "a2a65999-78eb-4402-a433-dc05fdcb3d25";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 armv7s arm64";

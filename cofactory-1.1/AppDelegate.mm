@@ -64,7 +64,13 @@
 
     // 初始化百度地图 SDK
     _mapManager = [[BMKMapManager alloc] init];
-    BOOL ret = [_mapManager start:@"ijDoxrS8H8lrgD9GDbLQpjNR"  generalDelegate:nil];
+
+    //appStore版
+    //BOOL ret = [_mapManager start:@"ijDoxrS8H8lrgD9GDbLQpjNR"  generalDelegate:nil];
+
+    //企业版
+    BOOL ret = [_mapManager start:@"pnnhXGR5g1cLReulX6fOQxMQ"  generalDelegate:nil];
+
     if (!ret) {
         DLog(@"百度地图SDK错误");
     }
