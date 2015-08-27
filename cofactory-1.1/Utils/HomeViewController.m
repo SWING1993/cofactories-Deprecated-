@@ -72,7 +72,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-//    DLog(@"游客=%d",[Tools isTourist]);
+    DLog(@"游客=%d",[Tools isTourist]);
 
 
 
