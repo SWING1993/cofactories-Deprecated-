@@ -47,17 +47,17 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    int imageCount = self.photoItemArray.count;
+    NSUInteger imageCount = self.photoItemArray.count;
     int perRowImageCount = ((imageCount == 4) ? 3 : 4);
     
 //    int totalRowCount = imageCount / perRowImageCount + 0.99999; // ((imageCount + perRowImageCount - 1) / perRowImageCount)
-    int totalRowCount =  ((imageCount + perRowImageCount - 1) / perRowImageCount);
+    NSUInteger totalRowCount =  ((imageCount + perRowImageCount - 1) / perRowImageCount);
     CGFloat w = kScreenW/4-3;
     CGFloat h = kScreenW/4-3;
     
     [self.subviews enumerateObjectsUsingBlock:^(UIButton *btn, NSUInteger idx, BOOL *stop) {
         
-        int rowIndex = idx / perRowImageCount;
+        NSUInteger rowIndex = idx / perRowImageCount;
         int columnIndex = idx % perRowImageCount;
         CGFloat x = columnIndex * (w + SDPhotoGroupImageMargin);
         CGFloat y = rowIndex * (h + SDPhotoGroupImageMargin);

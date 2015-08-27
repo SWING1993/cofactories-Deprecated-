@@ -57,6 +57,8 @@
 #import "ODRefreshControl.h"//下拉刷新
 #import <PgySDK/PgyManager.h>
 
+#import "MJPhotoBrowser.h"
+
 
 /*!
  Controller

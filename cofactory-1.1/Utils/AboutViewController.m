@@ -50,7 +50,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -101,8 +101,14 @@
 
         }
             break;
-        case 1:{
+        case 3:{
+            MJPhoto *photo = [[MJPhoto alloc] init];
+            photo.url = [NSURL URLWithString:@"http://cdn.cofactories.com/banner/banner3.png"];
 
+            MJPhotoBrowser *browser = [[MJPhotoBrowser alloc] init];
+            browser.currentPhotoIndex = 0;
+            browser.photos = [NSArray arrayWithObject:photo];
+            [browser show];
         }
             break;
         case 2:{

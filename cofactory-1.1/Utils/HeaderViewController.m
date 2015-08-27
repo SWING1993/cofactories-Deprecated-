@@ -9,6 +9,7 @@
 #import "Header.h"
 #import "HeaderViewController.h"
 
+
 @interface HeaderViewController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate> {
 
     UIImageView*headerView;
@@ -40,8 +41,6 @@
         [UIView setAnimationDelegate:self];
         headerView.frame = CGRectMake(0, 0, kScreenW, kScreenW);
         headerView.layer.cornerRadius = 0;
-
-//        headerView.layer.masksToBounds = YES;
         [UIView commitAnimations];
 
     });
@@ -130,8 +129,10 @@
 #pragma mark <UIImagePickerControllerDelegate>
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *image = info[UIImagePickerControllerEditedImage];
+    NSData*imageData = UIImageJPEGRepresentation(image, 0.2);
+    UIImage*newImage = [[UIImage alloc]initWithData:imageData];
     [picker dismissViewControllerAnimated:YES completion:^{
-        [HttpClient uploadImageWithImage:image type:@"avatar" andblock:^(NSDictionary *dictionary) {
+        [HttpClient uploadImageWithImage:newImage type:@"avatar" andblock:^(NSDictionary *dictionary) {
             if ([dictionary[@"statusCode"] intValue]==200) {
                 [Tools showHudTipStr:@"头像上传成功,但是头像显示会略有延迟。"];
                 headerView.image = image;

@@ -10,7 +10,12 @@
 #import "AddOrderViewController.h"
 #import <Accelerate/Accelerate.h>
 
-@interface AddOrderViewController () <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+#import "JKPhotoBrowser.h"
+#import "JKImagePickerController.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+
+
+@interface AddOrderViewController () <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,JKImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UIView *overlayView;
 
@@ -31,6 +36,13 @@
 
 @property (nonatomic,copy) NSString*oid;
 
+@property (nonatomic, strong) JKAssets  *asset;
+
+@property (nonatomic, strong) UICollectionView   *collectionView;
+
+@property (nonatomic, strong) NSMutableArray *collectionImage;
+
+
 @end
 
 @implementation AddOrderViewController {
@@ -43,12 +55,18 @@
 
     UILabel *_lineLabel;
 
-    UIButton*pushOrderBtn;
+    UIButton*addImageBtn;
+
+//    UIButton*pushOrderBtn;
 
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"发布订单" style:UIBarButtonItemStylePlain target:self action:@selector(pushOrderBtn)];
+    self.navigationItem.rightBarButtonItem = setButton;
+
     self.title=@"加工厂订单";
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
@@ -105,14 +123,15 @@
     numberTextField.font=[UIFont systemFontOfSize:15.0f];
     numberTextField.borderStyle=UITextBorderStyleRoundedRect;
 
-    pushOrderBtn = [[UIButton alloc]init];
-    pushOrderBtn.frame=CGRectMake(30, 260, kScreenW-60, 40);
-    [pushOrderBtn setTitle:@"发布订单" forState:UIControlStateNormal];
-    [pushOrderBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
-    [pushOrderBtn addTarget:self action:@selector(pushOrderBtn) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView addSubview:pushOrderBtn];
+    addImageBtn = [[UIButton alloc]init];
+    addImageBtn.frame=CGRectMake(30, 5, kScreenW-60, 35);
+    [addImageBtn setTitle:@"添加图片" forState:UIControlStateNormal];
+    [addImageBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
+    [addImageBtn addTarget:self action:@selector(addImageBtn) forControlEvents:UIControlEventTouchUpInside];
 
     self.isBlur = NO;
+
+    self.collectionImage = [[NSMutableArray alloc]initWithCapacity:9];
 }
 
 - (void)pushOrderBtn {
@@ -208,7 +227,7 @@
         {
             self.type=0;
             self.title=@"加工厂订单";
-            pushOrderBtn.frame=CGRectMake(30, 260, kScreenW-60, 40);
+//            pushOrderBtn.frame=CGRectMake(30, 260, kScreenW-60, 40);
             [self.tableView reloadData];
         }
             break;
@@ -216,7 +235,7 @@
         {
             self.type=1;
             self.title=@"代裁厂订单";
-            pushOrderBtn.frame=CGRectMake(30, 160, kScreenW-60, 40);
+//            pushOrderBtn.frame=CGRectMake(30, 160, kScreenW-60, 40);
 
             [self.tableView reloadData];
         }
@@ -225,7 +244,7 @@
         {
             self.type=2;
             self.title=@"锁眼钉扣订单";
-            pushOrderBtn.frame=CGRectMake(30, 160, kScreenW-60, 40);
+//            pushOrderBtn.frame=CGRectMake(30, 160, kScreenW-60, 40);
             [self.tableView reloadData];
         }
             break;
@@ -385,13 +404,19 @@
                     break;
                 case 3:
                 {
-                    UIImageView*imageView = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-44-30, 0, 44, 44)];
-                    imageView.image=self.image;
-                    [cell addSubview:imageView];
-                    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+
+                    cell.textLabel.text = nil;
+                    [cell addSubview:addImageBtn];
+
+                    if ([self.collectionImage count]==0) {
+
+                    }else {
+                        [cell addSubview:self.collectionView];
+                    }
+
                 }
                     break;
-                    
+
                 default:
                     break;
             }
@@ -400,26 +425,18 @@
             switch (indexPath.section) {
                 case 0:
                 {
-                    //[cell addSubview:dateTextField];
                     [cell addSubview:numberTextField];
                 }
                     break;
                 case 1:
                 {
-                    //[cell addSubview:numberTextField];
-                    UIImageView*imageView = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-44-30, 0, 44, 44)];
-                    imageView.image=self.image;
-                    [cell addSubview:imageView];
-                    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+                    [cell addSubview:addImageBtn];
 
-                }
-                    break;
-                case 2:
-                {
-//                    UIImageView*imageView = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-44-30, 0, 44, 44)];
-//                    imageView.image=self.image;
-//                    [cell addSubview:imageView];
-//                    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+                    if ([self.collectionImage count]==0) {
+
+                    }else {
+                        [cell addSubview:self.collectionView];
+                    }
 
                 }
                     break;
@@ -440,16 +457,47 @@
     return 0.1f;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.type==0) {
+        if (indexPath.section==3) {
+            if ([self.collectionImage count]==0) {
+                return 44;
+            }
+            if ([self.collectionImage count]<5) {
+                return kScreenW/4+50;
+            }
+            if ([self.collectionImage count]<9) {
+                return kScreenW/2+50;
+            }
+            if ([self.collectionImage count]==9) {
+                return 3*kScreenW/4+50;
+            }
+        }
+    }
+    if (self.type==1 || self.type==2) {
+        if (indexPath.section==1) {
+            if ([self.collectionImage count]==0) {
+                return 44;
+            }
+            if ([self.collectionImage count]<5) {
+                return kScreenW/4+50;
+            }
+            if ([self.collectionImage count]<9) {
+                return kScreenW/2+50;
+            }
+            if ([self.collectionImage count]==9) {
+                return 3*kScreenW/4+50;
+            }
+        }
+    }
+    return 44;
+}
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    if (indexPath.section == [self.listData[self.type] count] - 1) {
-        [self.tableView endEditing:YES];
-
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"相册", nil];
-        [actionSheet showFromTabBar:self.tabBarController.tabBar];
-    }
 }
+
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
@@ -637,4 +685,121 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)addImageBtn {
+    JKImagePickerController *imagePickerController = [[JKImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.showsCancelButton = YES;
+    imagePickerController.allowsMultipleSelection = YES;
+    imagePickerController.minimumNumberOfSelection = 0;
+    imagePickerController.maximumNumberOfSelection = 9-[self.collectionImage count];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
+    [self presentViewController:navigationController animated:YES completion:NULL];
+
+}
+
+
+#pragma mark - JKImagePickerControllerDelegate
+- (void)imagePickerController:(JKImagePickerController *)imagePicker didSelectAsset:(JKAssets *)asset isSource:(BOOL)source
+{
+    [imagePicker dismissViewControllerAnimated:YES completion:^{
+
+        NSLog(@"1");
+    }];
+}
+
+//下一步
+- (void)imagePickerController:(JKImagePickerController *)imagePicker didSelectAssets:(NSArray *)assets isSource:(BOOL)source
+{
+
+    if ([self.collectionImage count]>=9) {
+        [Tools showHudTipStr:@"订单图片最多能上传9张"];
+        [self.collectionImage removeAllObjects];
+    }
+    [imagePicker dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"2");
+
+        [assets enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            self.asset=assets[idx];
+            ALAssetsLibrary   *lib = [[ALAssetsLibrary alloc] init];
+            [lib assetForURL:_asset.assetPropertyURL resultBlock:^(ALAsset *asset) {
+                if (asset) {
+                    UIImage*image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]];
+                    [self.collectionImage addObject:image];
+                    if (idx == [assets count] - 1) {
+                        [self collectionView];
+                        [self.collectionView reloadData];
+                        [self.tableView reloadData];
+                        DLog(@"self.collectionImage %lu",(unsigned long)[self.collectionImage count]);
+
+                    }
+
+                }
+            } failureBlock:^(NSError *error) {
+
+            }];
+
+        }];
+    }];
+}
+
+//取消
+- (void)imagePickerControllerDidCancel:(JKImagePickerController *)imagePicker
+{
+    [imagePicker dismissViewControllerAnimated:YES completion:^{
+        DLog(@"取消");
+    }];
+}
+
+#define kSizeThumbnailCollectionView  ([UIScreen mainScreen].bounds.size.width-10)/4
+
+#pragma mark - UICollectionViewDelegateFlowLayout
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(kSizeThumbnailCollectionView, kSizeThumbnailCollectionView);
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(2, 2, 2, 2);
+}
+
+
+- (UICollectionView *)collectionView{
+    if (!_collectionView) {
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.minimumLineSpacing = 2.0;
+        layout.minimumInteritemSpacing = 2.0;
+        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 45, kScreenW, 3*kScreenW/4) collectionViewLayout:layout];
+        _collectionView.backgroundColor = [UIColor clearColor];
+
+        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
+        _collectionView.showsHorizontalScrollIndicator = NO;
+        _collectionView.showsVerticalScrollIndicator = NO;
+        [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"UICollectionViewCell"];
+
+//        [self.view addSubview:_collectionView];
+
+    }
+    return _collectionView;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return [self.collectionImage count];
+
+}
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UICollectionViewCell" forIndexPath:indexPath];
+    UIImageView*imageView = [[UIImageView alloc]init];
+    imageView.frame = CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height);
+    DLog(@"%@",NSStringFromCGRect(cell.frame));
+    imageView.image = self.collectionImage[indexPath.row];
+    [cell addSubview:imageView];
+    return cell;
+}
+
+
 @end

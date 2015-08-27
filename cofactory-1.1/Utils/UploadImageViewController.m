@@ -19,8 +19,6 @@
 
 @interface UploadImageViewController () <UIImagePickerControllerDelegate, UICollectionViewDelegate,JKImagePickerControllerDelegate> {
 
-//    UICollectionView *CollectionView;
-
     UIView*view;
 }
 
@@ -154,7 +152,7 @@
             [lib assetForURL:_asset.assetPropertyURL resultBlock:^(ALAsset *asset) {
                 if (asset) {
                     UIImage*image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]];
-                    NSData*imageData = UIImageJPEGRepresentation(image, 0.5);
+                    NSData*imageData = UIImageJPEGRepresentation(image, 0.2);
                     UIImage*newImage = [[UIImage alloc]initWithData:imageData];
                     [HttpClient uploadImageWithImage:newImage type:self.type andblock:^(NSDictionary *dictionary) {
                         if ([dictionary[@"statusCode"] intValue]==200) {
@@ -180,7 +178,7 @@
 - (void)imagePickerControllerDidCancel:(JKImagePickerController *)imagePicker
 {
     [imagePicker dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"3");
+        DLog(@"取消");
     }];
 }
 
@@ -233,9 +231,7 @@
 
     [self.imageArray enumerateObjectsUsingBlock:^(NSString *src, NSUInteger idx, BOOL *stop) {
         SDPhotoItem *item = [[SDPhotoItem alloc] init];
-//        NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[idx]];
-                NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,self.imageArray[idx]];
-
+        NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,self.imageArray[idx]];
         item.thumbnail_pic = urlString;
         [temp addObject:item];
     }];
