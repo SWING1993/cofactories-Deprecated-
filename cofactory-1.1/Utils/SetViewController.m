@@ -164,8 +164,12 @@
             break;
 
         case 1:{
-            // 模态弹出
+            // 模态弹出友盟反馈
             [self presentViewController:[UMFeedback feedbackModalViewController] animated:YES completion:nil];
+
+            //蒲公英反馈
+            //[self showFeedbackView];
+
         }
             break;
         case 2:{
@@ -201,6 +205,15 @@
         //得到分享到的微博平台名
         NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
     }
+}
+
+
+/**
+ *  通过代码调用来显示用户反馈界面
+ */
+- (void)showFeedbackView
+{
+    [[PgyManager sharedPgyManager] showFeedbackView];
 }
 
 

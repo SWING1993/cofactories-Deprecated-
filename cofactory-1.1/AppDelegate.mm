@@ -16,9 +16,7 @@
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define _IPHONE80_ 80000
 
-
 #define  kNavTitleFontSize 18
-
 
 @interface AppDelegate ()
 @property (nonatomic, strong) ZWIntroductionViewController *introductionView;
@@ -52,7 +50,6 @@
         self.introductionView.didSelectedEnter = ^() {
             [weakSelf.introductionView.view removeFromSuperview];
             weakSelf.introductionView = nil;
-
             // enter main view , write your code ...
             ViewController *mainVC = [[ViewController alloc] init];
             weakSelf.window.rootViewController = mainVC;
@@ -87,7 +84,13 @@
 
     // 注册友盟推送服务 SDK
     //set AppKey and LaunchOptions
-    [UMessage startWithAppkey:@"5566b5e767e58e0c4700aab0" launchOptions:launchOptions];
+
+    //AppStore版本推送
+    //[UMessage startWithAppkey:@"5566b5e767e58e0c4700aab0" launchOptions:launchOptions];
+
+    //企业版推送
+    [UMessage startWithAppkey:@"55dd4afce0f55aa780001d20" launchOptions:launchOptions];
+
 //    [UMessage setAutoAlert:NO];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
     if(UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
@@ -132,6 +135,25 @@
     [UMessage setLogEnabled:YES];
 
 
+    //蒲公英SDK
+    //  关闭用户手势反馈，默认为开启。
+    [[PgyManager sharedPgyManager] setEnableFeedback:NO];
+
+    //  设置用户反馈激活模式为三指拖动，默认为摇一摇。
+    //  [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeThreeFingersPan];
+
+    //  设置用户反馈界面的颜色，颜色会影响到Title以及工具栏的背景颜色和录音按钮的边框颜色，默认为黑色。
+    [[PgyManager sharedPgyManager] setThemeColor:[UIColor colorWithHexString:@"0x28303b"]];
+
+    //  设置摇一摇灵敏度，数字越小，灵敏度越高，默认为2.3。
+    //  [[PgyManager sharedPgyManager] setShakingThreshold:3.0];
+
+    //  是否显示蒲公英SDK的Debug Log，如果遇到SDK无法正常工作的情况可以开启此标志以确认原因，默认为关闭。
+    //  [[PgyManager sharedPgyManager] setEnableDebugLog:YES];
+
+    //  启动SDK
+    //  设置三指拖动激活摇一摇需在此调用之前
+    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
 
     [_window makeKeyAndVisible];
     return YES;

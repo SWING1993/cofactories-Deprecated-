@@ -179,6 +179,10 @@
 		04DFCAAC1B63D53A00356F4B /* PushHelperItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DFCAA71B63D53A00356F4B /* PushHelperItemModel.m */; };
 		04DFCAAD1B63D53A00356F4B /* PushHelperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DFCAAA1B63D53A00356F4B /* PushHelperModel.m */; };
 		04E81EF01B57F75700B7CE7B /* SetaddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E81EEF1B57F75700B7CE7B /* SetaddressViewController.m */; };
+		04E94E121B8EA32200EE911E /* PgySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E94E111B8EA32200EE911E /* PgySDK.framework */; };
+		04E94E141B8EB41600EE911E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E94E131B8EB41600EE911E /* AVFoundation.framework */; };
+		04E94E161B8EB45700EE911E /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E94E151B8EB45700EE911E /* CoreMotion.framework */; };
+		04E94E181B8EB49000EE911E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E94E171B8EB49000EE911E /* AudioToolbox.framework */; };
 		04F3B5F61B744839005C5369 /* libUMessage_Sdk_1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F3B5F51B744839005C5369 /* libUMessage_Sdk_1.1.0.a */; };
 		04F60C621B58C07100CD3DEC /* ModifyJobViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C611B58C07100CD3DEC /* ModifyJobViewController.m */; };
 		04F60C661B58CB9700CD3DEC /* ModifyFactoryNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C651B58CB9700CD3DEC /* ModifyFactoryNameViewController.m */; };
@@ -231,7 +235,7 @@
 		BD8C4DF51B4FB2BA0065ECFA /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4DF41B4FB2BA0065ECFA /* libz.dylib */; };
 		BD8C4DF71B4FB2C80065ECFA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4DF61B4FB2C80065ECFA /* OpenGLES.framework */; };
 		BD8C4DF91B4FB2D00065ECFA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4DF81B4FB2D00065ECFA /* CoreLocation.framework */; };
-		BD8C4DFB1B4FB2E10065ECFA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4DFA1B4FB2E10065ECFA /* Security.framework */; };
+		BD8C4DFB1B4FB2E10065ECFA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4DFA1B4FB2E10065ECFA /* Security.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		BD8C4DFD1B4FB2EA0065ECFA /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4DFC1B4FB2EA0065ECFA /* CFNetwork.framework */; };
 		BD8C4DFF1B4FB3060065ECFA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4DFE1B4FB3060065ECFA /* SystemConfiguration.framework */; };
 		BD8C4E011B4FB30F0065ECFA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4E001B4FB30F0065ECFA /* UIKit.framework */; };
@@ -586,6 +590,10 @@
 		04DFCAAA1B63D53A00356F4B /* PushHelperModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushHelperModel.m; sourceTree = "<group>"; };
 		04E81EEE1B57F75700B7CE7B /* SetaddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetaddressViewController.h; sourceTree = "<group>"; };
 		04E81EEF1B57F75700B7CE7B /* SetaddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetaddressViewController.m; sourceTree = "<group>"; };
+		04E94E111B8EA32200EE911E /* PgySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PgySDK.framework; sourceTree = "<group>"; };
+		04E94E131B8EB41600EE911E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		04E94E151B8EB45700EE911E /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		04E94E171B8EB49000EE911E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		04F3B5F41B744839005C5369 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		04F3B5F51B744839005C5369 /* libUMessage_Sdk_1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.1.0.a; sourceTree = "<group>"; };
 		04F60C601B58C07100CD3DEC /* ModifyJobViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyJobViewController.h; sourceTree = "<group>"; };
@@ -775,9 +783,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04E94E161B8EB45700EE911E /* CoreMotion.framework in Frameworks */,
+				04E94E181B8EB49000EE911E /* AudioToolbox.framework in Frameworks */,
+				BD8C4DFF1B4FB3060065ECFA /* SystemConfiguration.framework in Frameworks */,
+				04E94E141B8EB41600EE911E /* AVFoundation.framework in Frameworks */,
+				BD8C4DFB1B4FB2E10065ECFA /* Security.framework in Frameworks */,
 				045171BB1B70B03800BAA6E8 /* CoreFoundation.framework in Frameworks */,
 				04746D431B6B284E00C3C45E /* libUMFeedback.a in Frameworks */,
-				BD8C4DFB1B4FB2E10065ECFA /* Security.framework in Frameworks */,
 				04746D541B6B284E00C3C45E /* libUMOpus.a in Frameworks */,
 				BDEDA4361B52234B000E5012 /* CoreGraphics.framework in Frameworks */,
 				04F3B5F61B744839005C5369 /* libUMessage_Sdk_1.1.0.a in Frameworks */,
@@ -785,7 +797,7 @@
 				BD8C4DF91B4FB2D00065ECFA /* CoreLocation.framework in Frameworks */,
 				BD8C4E031B4FB31B0065ECFA /* Foundation.framework in Frameworks */,
 				BD8C4E011B4FB30F0065ECFA /* UIKit.framework in Frameworks */,
-				BD8C4DFF1B4FB3060065ECFA /* SystemConfiguration.framework in Frameworks */,
+				04E94E121B8EA32200EE911E /* PgySDK.framework in Frameworks */,
 				04746D151B6B0FED00C3C45E /* libUMSocial_Sdk_4.2.1.a in Frameworks */,
 				BD8C4DFD1B4FB2EA0065ECFA /* CFNetwork.framework in Frameworks */,
 				BD8C4DF51B4FB2BA0065ECFA /* libz.dylib in Frameworks */,
@@ -1435,6 +1447,9 @@
 		04E644441B69C59000A3DF2E /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				04E94E151B8EB45700EE911E /* CoreMotion.framework */,
+				04E94E171B8EB49000EE911E /* AudioToolbox.framework */,
+				04E94E131B8EB41600EE911E /* AVFoundation.framework */,
 				045171BA1B70B03800BAA6E8 /* CoreFoundation.framework */,
 				BD8C4DF41B4FB2BA0065ECFA /* libz.dylib */,
 				BDC907FB1B4E9B3700856A32 /* BaiduMapAPI.framework */,
@@ -1739,6 +1754,7 @@
 				042A0EE71B7B588100ECE841 /* HttpClient.m */,
 				04AE21841B535ABC007A3279 /* Tools.h */,
 				04AE21851B535ABC007A3279 /* Tools.m */,
+				04E94E111B8EA32200EE911E /* PgySDK.framework */,
 				04724E661B8870C000F820EF /* TYSlidePageScrollView */,
 				045939341B787089004DA7D6 /* IQKeyBoardManager */,
 				64F4C6611B70B31D00F52FF0 /* MJRefresh */,
@@ -2454,7 +2470,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "cofactory-1.1";
-				PROVISIONING_PROFILE = "a2a65999-78eb-4402-a433-dc05fdcb3d25";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -2489,7 +2505,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "cofactory-1.1";
-				PROVISIONING_PROFILE = "a2a65999-78eb-4402-a433-dc05fdcb3d25";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 armv7s arm64";

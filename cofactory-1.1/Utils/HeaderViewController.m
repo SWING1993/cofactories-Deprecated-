@@ -40,6 +40,7 @@
         [UIView setAnimationDelegate:self];
         headerView.frame = CGRectMake(0, 0, kScreenW, kScreenW);
         headerView.layer.cornerRadius = 0;
+
 //        headerView.layer.masksToBounds = YES;
         [UIView commitAnimations];
 

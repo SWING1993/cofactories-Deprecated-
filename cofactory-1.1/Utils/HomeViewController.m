@@ -74,6 +74,11 @@
 
 //    DLog(@"游客=%d",[Tools isTourist]);
 
+
+
+    //检测更新
+    [[PgyManager sharedPgyManager] checkUpdate];
+
     //抽奖
     [HttpClient drawAccessWithBlock:^(int statusCode) {
         DLog(@"%d",statusCode);

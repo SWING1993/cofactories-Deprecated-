@@ -35,7 +35,7 @@
     [tableHeaderView addSubview:logoImage];
 
     UILabel*logoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, kScreenW, 20)];
-    logoLabel.font = [UIFont boldSystemFontOfSize:16];
+    logoLabel.font = [UIFont systemFontOfSize:16];
     logoLabel.text=@"聚工厂 cofactories 1.3";
     logoLabel.textAlignment = NSTextAlignmentCenter;
     [tableHeaderView addSubview:logoLabel];
@@ -50,7 +50,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -61,6 +61,7 @@
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     cell.textLabel.font=[UIFont systemFontOfSize:16];
     cell.detailTextLabel.textColor=[UIColor blackColor];
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
 
     switch (indexPath.row) {
         case 0:{
@@ -70,6 +71,11 @@
             break;
         case 1:{
             cell.textLabel.text=@"服务条款";
+
+        }
+            break;
+        case 2:{
+            cell.textLabel.text=@"检测更新";
 
         }
             break;
@@ -99,11 +105,18 @@
 
         }
             break;
+        case 2:{
+            [self checkUpdate];
+
+        }
+            break;
 
         default:
             break;
     }
 }
+
+
 
 
 - (void)didReceiveMemoryWarning {
@@ -120,5 +133,54 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+/**
+ *  检查更新
+ */
+- (void)checkUpdate
+{
+    //  有回调的检查更新
+    [[PgyManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(updateMethod:)];
+
+}
+
+/**
+ *  检查更新回调
+ *
+ *  @param response 检查更新的返回结果
+ */
+- (void)updateMethod:(NSDictionary *)response
+{
+    if (response[@"downloadURL"]) {
+
+        //    无回调的检查更新，如果有新版本，则会提示用户更新，确认更新后会自动安装新版本
+        [[PgyManager sharedPgyManager] checkUpdate];
+
+//        NSString *message = response[@"releaseNote"];
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"发现新版本"
+//                                                            message:message
+//                                                           delegate:self
+//                                                  cancelButtonTitle:@"好的"
+//                                                  otherButtonTitles:"",
+//                                  nil];
+//
+//        [alertView show];
+    }
+    else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"当前版本为最新版本"
+                                                            message:nil
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"好的"
+                                                  otherButtonTitles:nil,
+                                  nil];
+
+        [alertView show];
+
+    }
+
+    //    调用checkUpdateWithDelegete后可用此方法来更新本地的版本号，如果有更新的话，在调用了此方法后再次调用将不提示更新信息。
+    //    [[PgyManager sharedPgyManager] updateLocalBuildNumber];
+}
+
 
 @end
