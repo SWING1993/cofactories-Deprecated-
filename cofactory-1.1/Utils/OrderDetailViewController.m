@@ -38,6 +38,9 @@ static  NSString *const cellIdentifier2 = @"cell2";
     [super viewDidLoad];
     
     self.navigationItem.title = @"订单详情";
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"删除订单" style:UIBarButtonItemStylePlain target:self action:@selector(deleteOrderClick)];
+    
     _buttonArray = [[NSMutableArray alloc]init];
     [self creatTableViewAndTableViewHeaderView];
    
@@ -317,48 +320,74 @@ static  NSString *const cellIdentifier2 = @"cell2";
     [_buttonArray addObject:button];
 
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确定该用户中标?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alert.tag = 1;
     [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
-    if (buttonIndex == 0) {
-        [_buttonArray removeObjectAtIndex:0];
+    if (alertView.tag == 1) {
+        if (buttonIndex == 0) {
+            [_buttonArray removeObjectAtIndex:0];
+        }
+        
+        if (buttonIndex == 1) {
+            UIButton *button = _buttonArray[0];
+            [HttpClient closeOrderWithOid:self.model.oid Uid:button.tag andBlock:^(int statusCode) {
+                DLog(@"statusCode==%d",statusCode);
+                
+                if (statusCode == 200) {
+                    [Tools showHudTipStr:@"选择成功"];
+                    NSArray *navArray = self.navigationController.viewControllers;
+                    [self.navigationController popToViewController:navArray[1] animated:YES];
+                    
+                }else{
+                    [Tools showHudTipStr:@"选择失败"];
+                }
+            }];
+            
+            
+        }
+
     }
     
-    if (buttonIndex == 1) {
-        
-        
-        UIButton *button = _buttonArray[0];
-//        NSLog(@"tag=%ld",button.tag);
-        
-        [HttpClient closeOrderWithOid:self.model.oid Uid:button.tag andBlock:^(int statusCode) {
-            DLog(@"statusCode==%d",statusCode);
-            
-            if (statusCode == 200) {
-                [Tools showHudTipStr:@"选择成功"];
-                NSArray *navArray = self.navigationController.viewControllers;
-                [self.navigationController popToViewController:navArray[1] animated:YES];
+    if (alertView.tag == 2) {
+       
+        if (buttonIndex == 1) {
+            [HttpClient deleteOrderWithOrderOid:self.model.oid completionBlock:^(int statusCode) {
                 
-//                double delayInSeconds = 1.5;
-//                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-//                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//                   
-//                });
-                
-            }else{
-                [Tools showHudTipStr:@"选择失败"];
-            }
-        }];
-            
-        
+                if (statusCode == 200) {
+                    
+                    [Tools showHudTipStr:@"删除订单成功"];
+                    
+                    [self.navigationController popViewControllerAnimated:YES];
+                    
+                }else{
+                    
+                    [Tools showHudTipStr:@"删除订单失败"];
+                    
+                }
+            }];
+        }
     }
+    
+    
 }
 
 - (void)dealloc{
     _tableView.delegate = nil;
     _tableView.dataSource = nil;
 }
+
+
+- (void)deleteOrderClick{
+    
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"是否取消订单" message:@"订单一旦取消不可恢复，是否取消订单?" delegate:self cancelButtonTitle:@"不取消订单" otherButtonTitles:@"取消订单", nil];
+    alert.tag = 2;
+    [alert show];
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

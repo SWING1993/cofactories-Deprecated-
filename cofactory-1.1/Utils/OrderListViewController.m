@@ -13,6 +13,7 @@
 @interface OrderListViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
     UITableView *_tableView;
+    NSInteger _deleteOrderIndex;
 }
 @property (nonatomic, retain)NSMutableArray*orderModerArr;
 @end
@@ -112,12 +113,21 @@
     
     [cell.orderDetailsBtn addTarget:self action:@selector(orderDetailsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     cell.orderDetailsBtn.tag = indexPath.row;
+    
+    if (self.isHistory == YES) {
+        cell.deleteButton.hidden = YES;
+    }if (self.isHistory == NO) {
+        cell.deleteButton.hidden = NO;
+        [cell.deleteButton addTarget:self action:@selector(deleteOrderClick:) forControlEvents:UIControlEventTouchUpInside];
+        cell.deleteButton.tag = indexPath.row;
+    }
+    
     return cell;
 }
 
 
 
-#pragma mark--订单详情按钮绑定方法
+#pragma mark--订单详情按钮绑、删除按钮定方法
 
 - (void)orderDetailsBtnClick:(id)sender
 {
@@ -137,6 +147,46 @@
     self.navigationItem.backBarButtonItem = backItem;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController pushViewController:VC animated:YES];
+}
+
+
+- (void)deleteOrderClick:(id)sender{
+    
+    UIButton *button = (UIButton *)sender;
+    
+    _deleteOrderIndex = button.tag;
+    
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"是否取消订单" message:@"订单一旦取消不可恢复，是否取消订单?" delegate:self cancelButtonTitle:@"不取消订单" otherButtonTitles:@"取消订单", nil];
+    [alert show];
+    
+    
+
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if (buttonIndex == 1) {
+       
+        OrderModel*model = self.orderModerArr[_deleteOrderIndex];
+
+        [HttpClient deleteOrderWithOrderOid:model.oid completionBlock:^(int statusCode) {
+            
+            if (statusCode == 200) {
+                
+                [Tools showHudTipStr:@"删除订单成功"];
+                [HttpClient listOrderWithBlock:^(NSDictionary *responseDictionary) {
+                    if ([responseDictionary[@"statusCode"] intValue]==200) {
+                        self.orderModerArr=responseDictionary[@"responseArray"];
+                        [_tableView reloadData];
+                    }
+                }];
+            }else{
+                
+                [Tools showHudTipStr:@"删除订单失败"];
+ 
+            }
+        }];
+    }
 }
 
 

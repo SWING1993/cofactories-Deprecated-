@@ -47,6 +47,8 @@
 #define API_historyOrder @"/order/history"
 #define API_interestOrder @"/order/interest"
 #define API_bidOrder @"/order/bid"
+#define API_deleteOrder @"/order/"
+
 
 #define API_partnerList @"/partner/list"
 #define API_addPartner @"/partner/add"
@@ -392,6 +394,7 @@
 }
 
 + (void)deleteFavoriteWithUid:(NSString *)uid andBlock:(void (^)(int))block {
+    
     NSParameterAssert(uid);
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
@@ -1411,5 +1414,31 @@
     }
 }
 
++ (void)deleteOrderWithOrderOid:(int)oid completionBlock:(void(^)(int statusCode))block{
+    
+    //NSParameterAssert(oid);
+    
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        
+        NSString *url = [[NSString alloc] initWithFormat:@"%@%d", API_deleteOrder, oid];
+
+        [manager DELETE:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block((int)[operation.response statusCode]);
+        }
+            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                
+                DLog(@"error%@",error);
+        }];
+    }
+    else {
+        block(404);// access_token不存在
+    }
+ 
+}
 
 @end

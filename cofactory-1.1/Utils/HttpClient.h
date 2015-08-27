@@ -377,4 +377,8 @@
 + (void)getBidOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block ;
 
 
+/**删除订单
+ * @param oid   订单oid
+ */
++ (void)deleteOrderWithOrderOid:(int)oid completionBlock:(void(^)(int statusCode))block;
 @end

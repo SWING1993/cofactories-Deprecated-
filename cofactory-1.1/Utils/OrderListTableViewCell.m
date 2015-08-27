@@ -66,16 +66,15 @@
         lineLabel.backgroundColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:0.3];
         [self addSubview:lineLabel];
         
-//        self.confirmOrderBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        self.confirmOrderBtn.frame = CGRectMake(kScreenW-135
-//                                                , 92, 60, 22);
-//        [self.confirmOrderBtn setTitle:@"确认订单" forState:UIControlStateNormal];
-//        self.confirmOrderBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-//        [self.confirmOrderBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//        self.confirmOrderBtn.layer.masksToBounds = YES;
-//        self.confirmOrderBtn.layer.cornerRadius = 3;
-//        self.confirmOrderBtn.backgroundColor = [UIColor colorWithRed:190.0f/255.0f green:190.0f/255.0f blue:190.0f/255.0f alpha:0.3];
-//        [self addSubview:self.confirmOrderBtn];
+        self.deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.deleteButton.frame = CGRectMake(10, 92, 60, 22);
+        [self.deleteButton setTitle:@"删除订单" forState:UIControlStateNormal];
+        self.deleteButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+        [self.deleteButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        self.deleteButton.layer.masksToBounds = YES;
+        self.deleteButton.layer.cornerRadius = 3;
+        self.deleteButton.backgroundColor = [UIColor colorWithRed:190.0f/255.0f green:190.0f/255.0f blue:190.0f/255.0f alpha:0.3];
+        [self addSubview:self.deleteButton];
 
         self.orderDetailsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         self.orderDetailsBtn.frame = CGRectMake(kScreenW-70, 92, 60, 22);
