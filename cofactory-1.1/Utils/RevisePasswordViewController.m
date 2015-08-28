@@ -54,10 +54,10 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-
-    [self.tableView endEditing:YES];
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//
+//    [self.tableView endEditing:YES];
+//}
 
 
 - (void)RevisePasswordBtn {

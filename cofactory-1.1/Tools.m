@@ -165,7 +165,7 @@
 
     DLog(@"高斯模糊");
     //boxSize必须大于0
-    int boxSize = (int)(0.5f * 100);
+    int boxSize = (int)(0.2f * 100);
     boxSize -= (boxSize % 2) + 1;
     DLog(@"boxSize:%i",boxSize);
     //图像处理

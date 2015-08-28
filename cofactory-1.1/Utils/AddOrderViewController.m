@@ -118,6 +118,7 @@
     numberTextField.borderStyle=UITextBorderStyleRoundedRect;
 
     commentTextField=[[UITextField alloc]initWithFrame:CGRectMake(kScreenW/2-60, 7, kScreenW/2+50, 30)];
+    commentTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     commentTextField.placeholder=@"输入订单备注";
     commentTextField.font=[UIFont systemFontOfSize:15.0f];
     commentTextField.borderStyle=UITextBorderStyleRoundedRect;

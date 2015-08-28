@@ -18,6 +18,13 @@
 
 #define  kNavTitleFontSize 18
 
+//企业版
+#define UMENGAppKey @"55e03514e0f55a390f003db7"
+
+//个人开发者版
+//#define UMENGAppKey @"5566b5e767e58e0c4700aab0"
+
+
 @interface AppDelegate ()
 @property (nonatomic, strong) ZWIntroductionViewController *introductionView;
 
@@ -72,24 +79,19 @@
         DLog(@"百度地图SDK错误");
     }
     // 友盟分享  
-    [UMSocialData setAppKey:@"55a0778367e58e452400710a"];
+    [UMSocialData setAppKey:UMENGAppKey];
     //[UMSocialData openLog:YES];
     // 友盟用户反馈
-    [UMFeedback setAppkey:@"5566b5e767e58e0c4700aab0"];
+    [UMFeedback setAppkey:UMENGAppKey];
     // 注册友盟统计 SDK
-    [MobClick startWithAppkey:@"5566b5e767e58e0c4700aab0" reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
+    [MobClick startWithAppkey:UMENGAppKey reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
     // Version 标识
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     [MobClick setAppVersion:version];
 
     // 注册友盟推送服务 SDK
     //set AppKey and LaunchOptions
-
-    //AppStore版本推送
-    //[UMessage startWithAppkey:@"5566b5e767e58e0c4700aab0" launchOptions:launchOptions];
-
-    //企业版推送
-    [UMessage startWithAppkey:@"55dd4afce0f55aa780001d20" launchOptions:launchOptions];
+    [UMessage startWithAppkey:UMENGAppKey launchOptions:launchOptions];
 
 //    [UMessage setAutoAlert:NO];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
@@ -139,17 +141,8 @@
     //  关闭用户手势反馈，默认为开启。
     [[PgyManager sharedPgyManager] setEnableFeedback:NO];
 
-    //  设置用户反馈激活模式为三指拖动，默认为摇一摇。
-    //  [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeThreeFingersPan];
-
     //  设置用户反馈界面的颜色，颜色会影响到Title以及工具栏的背景颜色和录音按钮的边框颜色，默认为黑色。
     [[PgyManager sharedPgyManager] setThemeColor:[UIColor colorWithHexString:@"0x28303b"]];
-
-    //  设置摇一摇灵敏度，数字越小，灵敏度越高，默认为2.3。
-    //  [[PgyManager sharedPgyManager] setShakingThreshold:3.0];
-
-    //  是否显示蒲公英SDK的Debug Log，如果遇到SDK无法正常工作的情况可以开启此标志以确认原因，默认为关闭。
-    //  [[PgyManager sharedPgyManager] setEnableDebugLog:YES];
 
     //  启动SDK
     //  设置三指拖动激活摇一摇需在此调用之前

@@ -35,11 +35,11 @@
     self.navigationItem.title = @"订单图片";
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    
-    layout.itemSize = CGSizeMake(60, 60);
-    
-    layout.sectionInset = UIEdgeInsetsMake(20, 35, 20, 35);
-    
+    layout.minimumLineSpacing = 2.0;
+    layout.minimumInteritemSpacing = 2.0;
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+
+
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64) collectionViewLayout:layout];
     
     collectionView.backgroundColor = [UIColor whiteColor];
@@ -51,6 +51,19 @@
     
     [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
 
+}
+
+#define kSizeThumbnailCollectionView  ([UIScreen mainScreen].bounds.size.width-10)/4
+
+#pragma mark - UICollectionViewDelegateFlowLayout
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(kSizeThumbnailCollectionView, kSizeThumbnailCollectionView);
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(2, 2, 2, 2);
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -67,7 +80,9 @@
     
     UIImageView*imageView = [[UIImageView alloc]init];
     [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",PhotoAPI,self.photoArray[indexPath.item]]] placeholderImage:[UIImage imageNamed:@"placeholder232"]];
-    imageView.frame = CGRectMake(0, 0, 60, 60);
+    imageView.frame = CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height);
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.clipsToBounds = YES;
     [cell addSubview:imageView];
     
     return cell;

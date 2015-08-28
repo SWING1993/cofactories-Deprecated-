@@ -152,8 +152,6 @@
         mapVC.centerLocation = result.location;
         [self.navigationController pushViewController:mapVC animated:YES];
     } else {
-//        UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"抱歉，未找到结果" message:@"请重新填写地址" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//        [alertView show];
         [Tools showHudTipStr:@"抱歉，未找到结果。"];
 
     }

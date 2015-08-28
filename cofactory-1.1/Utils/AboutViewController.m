@@ -36,7 +36,7 @@
 
     UILabel*logoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, kScreenW, 20)];
     logoLabel.font = [UIFont systemFontOfSize:16];
-    logoLabel.text=@"聚工厂 cofactories 1.3";
+    logoLabel.text=@"聚工厂 cofactories 1.4";
     logoLabel.textAlignment = NSTextAlignmentCenter;
     [tableHeaderView addSubview:logoLabel];
 
@@ -50,7 +50,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -99,16 +99,6 @@
             NSString *str = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id1015359842"];
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 
-        }
-            break;
-        case 3:{
-            MJPhoto *photo = [[MJPhoto alloc] init];
-            photo.url = [NSURL URLWithString:@"http://cdn.cofactories.com/banner/banner3.png"];
-
-            MJPhotoBrowser *browser = [[MJPhotoBrowser alloc] init];
-            browser.currentPhotoIndex = 0;
-            browser.photos = [NSArray arrayWithObject:photo];
-            [browser show];
         }
             break;
         case 2:{

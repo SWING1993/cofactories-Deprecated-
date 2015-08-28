@@ -69,9 +69,9 @@
     }
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.tableView endEditing:YES];
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    [self.tableView endEditing:YES];
+//}
 
 
 #pragma mark - Table view data source

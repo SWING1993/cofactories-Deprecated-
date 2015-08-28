@@ -1256,10 +1256,10 @@
     
 #pragma mark - <UISearchBarDelegate>
     
-    - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-        [self.navigationItem.titleView endEditing:YES];
-    }
-    
+//    - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//        [self.navigationItem.titleView endEditing:YES];
+//    }
+//    
     - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
     {
         [searchBar resignFirstResponder];
