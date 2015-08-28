@@ -9,11 +9,13 @@
 #import "SearchOrderDetailsVC.h"
 #import "CompeteTableViewCell.h"
 #import "Header.h"
+#import "OrderPhotoViewController.h"
+
 @interface SearchOrderDetailsVC ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
     UITableView *_tableView;
-    UIView *_view;
     NSArray *_competeFactoryArray;
+    UIView *_view;
 }
 @property (nonatomic,assign) BOOL isCompete;
 @end
@@ -86,7 +88,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
     
     
     UIButton *orderImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    orderImageButton.frame = CGRectMake(kScreenW-20-70, 85, 70, 30);
+    orderImageButton.frame = CGRectMake(kScreenW-20-70, 55, 70, 30);
     orderImageButton.backgroundColor = [UIColor colorWithRed:59/255.0 green:141/255.0 blue:191/255.0 alpha:1.0];
     orderImageButton.layer.masksToBounds = YES;
     orderImageButton.layer.cornerRadius = 5;
@@ -135,7 +137,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
-        return 6;
+        return 7;
     }if (section == 1) {
         return _competeFactoryArray.count;
     }
@@ -189,6 +191,16 @@ static  NSString *const cellIdentifier2 = @"cell2";
             {
                  NSMutableArray *array = [Tools WithTime:self.model.createTime];
                 cell.textLabel.text = [NSString stringWithFormat:@"下单时间:  %@",array[0]];
+            }
+                break;
+            case 6:
+            {
+                if (self.model.comment == nil) {
+                    cell.textLabel.text = [NSString stringWithFormat:@"备注:  暂无备注"];
+                }else{
+                 cell.textLabel.text = [NSString stringWithFormat:@"备注:  %@",self.model.comment];
+                }
+                
             }
                 break;
             default:
@@ -313,6 +325,37 @@ static  NSString *const cellIdentifier2 = @"cell2";
     
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (indexPath.section == 0 && indexPath.row == 6) {
+        DLog(@"34");
+//        _view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH)];
+//        _view.backgroundColor = [UIColor whiteColor];
+//        [self.view addSubview:_view];
+//        
+//        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, _view.frame.size.height/3.0-64, kScreenW, _view.frame.size.height/3.0)];
+//        label.backgroundColor = [UIColor redColor];
+//        [_view addSubview:label];
+        
+        if (self.model.comment == nil) {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"备注" message:@"暂无备注" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            alert.tag = 3;
+            [alert show];
+        }else{
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"备注" message:self.model.comment delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            alert.tag = 3;
+            [alert show];
+        }
+       
+        
+        
+    }
+}
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+    //[_view removeFromSuperview];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 44;
 }
@@ -330,24 +373,25 @@ static  NSString *const cellIdentifier2 = @"cell2";
     NSLog(@"competeButtonClick");
     
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确定投标?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alert.tag = 3;
     [alert show];
     
 }
 
 - (void)orderImageButtonClick{
-    
-    _view=[[UIView alloc]initWithFrame:kScreenBounds];
-    _view.backgroundColor=[UIColor clearColor];
-    
-    UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, kScreenH/4-64, kScreenW, kScreenW)];
-//    [photoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.cofactories.com/order/%d.png",self.model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
-    [photoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,self.model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];//图片测试
 
-    photoView.contentMode=UIViewContentModeScaleAspectFill;
-    photoView.clipsToBounds=YES;
-    [_view addSubview:photoView];
-    [self.view addSubview:_view];
-    
+    if (self.model.photoArray.count > 0) {
+        DLog(@"123");
+        OrderPhotoViewController *VC = [[OrderPhotoViewController alloc]initWithPhotoArray:self.model.photoArray];
+        
+        [self.navigationController pushViewController:VC animated:YES];
+
+    }if (self.model.photoArray.count == 0) {
+        
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"厂家未上传订单图片" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alert.tag = 2;
+        [alert show];
+    }
     
 }
 
@@ -362,23 +406,24 @@ static  NSString *const cellIdentifier2 = @"cell2";
     }];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [_view removeFromSuperview];
-    
-}
+
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 1) {
-        
-        [HttpClient bidOrderWithOid:self.model.oid andBlock:^(int statusCode) {
-            if (statusCode == 200) {
-                [Tools showHudTipStr:@"投标成功"];
-                [self layoutCompeteData];
-            }else{
-                [Tools showHudTipStr:@"投标失败"];
-            }
-        }];
+    
+    if (alertView.tag == 1) {
+        if (buttonIndex == 1) {
+            
+            [HttpClient bidOrderWithOid:self.model.oid andBlock:^(int statusCode) {
+                if (statusCode == 200) {
+                    [Tools showHudTipStr:@"投标成功"];
+                    [self layoutCompeteData];
+                }else{
+                    [Tools showHudTipStr:@"投标失败"];
+                }
+            }];
+        }
     }
+   
 }
 
 

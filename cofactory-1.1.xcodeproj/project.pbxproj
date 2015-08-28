@@ -209,6 +209,7 @@
 		64F4C6771B70B31D00F52FF0 /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C66D1B70B31D00F52FF0 /* UIScrollView+MJExtension.m */; };
 		64F4C6781B70B31D00F52FF0 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C66F1B70B31D00F52FF0 /* UIScrollView+MJRefresh.m */; };
 		64F4C6791B70B31D00F52FF0 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C6711B70B31D00F52FF0 /* UIView+MJExtension.m */; };
+		64F607061B904B5900AA7F22 /* OrderPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F607051B904B5900AA7F22 /* OrderPhotoViewController.m */; };
 		64F9C3731B7C40CB009989D9 /* CompeteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F9C3721B7C40CB009989D9 /* CompeteTableViewCell.m */; };
 		64F9C3761B7C6BC6009989D9 /* BidTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F9C3751B7C6BC6009989D9 /* BidTableViewCell.m */; };
 		BD041A6B1B69D5DC00F9FC74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */; };
@@ -657,6 +658,8 @@
 		64F4C66F1B70B31D00F52FF0 /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		64F4C6701B70B31D00F52FF0 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		64F4C6711B70B31D00F52FF0 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
+		64F607041B904B5900AA7F22 /* OrderPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderPhotoViewController.h; sourceTree = "<group>"; };
+		64F607051B904B5900AA7F22 /* OrderPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderPhotoViewController.m; sourceTree = "<group>"; };
 		64F9C3711B7C40CB009989D9 /* CompeteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompeteTableViewCell.h; sourceTree = "<group>"; };
 		64F9C3721B7C40CB009989D9 /* CompeteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompeteTableViewCell.m; sourceTree = "<group>"; };
 		64F9C3741B7C6BC6009989D9 /* BidTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidTableViewCell.h; sourceTree = "<group>"; };
@@ -1316,6 +1319,8 @@
 				04822E1C1B62724200A370F6 /* searchOrderListTVC.m */,
 				649BA0821B7B15E5008EDE31 /* SearchOrderDetailsVC.h */,
 				649BA0831B7B15E5008EDE31 /* SearchOrderDetailsVC.m */,
+				64F607041B904B5900AA7F22 /* OrderPhotoViewController.h */,
+				64F607051B904B5900AA7F22 /* OrderPhotoViewController.m */,
 				64F9C3711B7C40CB009989D9 /* CompeteTableViewCell.h */,
 				64F9C3721B7C40CB009989D9 /* CompeteTableViewCell.m */,
 			);
@@ -2260,6 +2265,7 @@
 				BD8AD7F51B50E62600373E5E /* UIView+WebCacheOperation.m in Sources */,
 				0459395E1B787089004DA7D6 /* IQKeyboardManager.m in Sources */,
 				0459395A1B787089004DA7D6 /* IQUITextFieldView+Additions.m in Sources */,
+				64F607061B904B5900AA7F22 /* OrderPhotoViewController.m in Sources */,
 				04746D5A1B6B284E00C3C45E /* UMTextView.m in Sources */,
 				BDC908F21B4E9B3800856A32 /* UpYun.m in Sources */,
 				0457E3F31B8EE57100F38881 /* MJPhotoLoadingView.m in Sources */,

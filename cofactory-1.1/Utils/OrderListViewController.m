@@ -100,7 +100,7 @@
     //gt123
     NSMutableArray *arr = [Tools WithTime:model.createTime];
     cell.timeLabel.text = arr[0];
-    [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,model.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];//gt123
+   [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,model.oid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];//gt123
     cell.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"件"];
     
     if (model.interest == 0) {
