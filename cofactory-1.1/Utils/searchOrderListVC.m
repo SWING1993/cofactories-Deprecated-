@@ -233,8 +233,10 @@
 
     searchOrderListTVC *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     OrderModel *model = self.dataArray[indexPath.row];
+    
+    DLog(@"comment===%@",model.comment);
 
-    NSLog(@"interest==%d,status==%d",model.interest,model.status);
+    //NSLog(@"interest==%d,status==%d",model.interest,model.status);
 
     if (model.interest == 0) {
         cell.labels.hidden = YES;
@@ -295,7 +297,7 @@
 
     NSMutableArray *arr = [Tools WithTime:model.createTime];//gt123
     cell.timeLabel.text = arr[0];
-    [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,model.oid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];//gt123
+    [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"]];//gt123
     self.uid = model.uid;
     cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
     cell.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"件"];
