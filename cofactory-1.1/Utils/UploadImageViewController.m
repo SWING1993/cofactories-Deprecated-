@@ -152,7 +152,7 @@
             [lib assetForURL:_asset.assetPropertyURL resultBlock:^(ALAsset *asset) {
                 if (asset) {
                     UIImage*image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]];
-                    NSData*imageData = UIImageJPEGRepresentation(image, 0.2);
+                    NSData*imageData = UIImageJPEGRepresentation(image, 0.1);
                     UIImage*newImage = [[UIImage alloc]initWithData:imageData];
                     [HttpClient uploadImageWithImage:newImage type:self.type andblock:^(NSDictionary *dictionary) {
                         if ([dictionary[@"statusCode"] intValue]==200) {

@@ -14,15 +14,6 @@
 #import "GetPushModel.h"
 
 
-//外网
-//#define kBaseUrl @"http://app2.cofactories.com"
-
-//测试服务器
-//#define kBaseUrl @"http://test.cofactories.com"
-
-//内网服务器
-#define kBaseUrl @"http://192.168.100.2:3001"
-
 #define kClientID @"123"
 #define kSecret @"123"
 #define API_reset @"/user/reset"
@@ -652,7 +643,7 @@
     }
 }
 
-+ (void)addOrderWithAmount:(int)amount factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange workingTime:(NSString *)workingTime andBlock:(void (^)(NSDictionary *))block {
++ (void)addOrderWithAmount:(int)amount factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange workingTime:(NSString *)workingTime comment:(NSString *)comment andBlock:(void (^)(NSDictionary *responseDictionary))block {
     NSParameterAssert(amount);
     NSParameterAssert(factoryType);
     NSDictionary *parameters = nil;
@@ -660,9 +651,9 @@
         // 加工订单
         NSParameterAssert(factoryServiceRange);
         NSParameterAssert(workingTime);
-        parameters = @{@"amount": @(amount), @"factoryType": @(factoryType), @"factoryServiceRange": factoryServiceRange, @"workingTime": workingTime};
+        parameters = @{@"amount": @(amount), @"factoryType": @(factoryType), @"factoryServiceRange": factoryServiceRange, @"workingTime": workingTime ,@"comment":comment};
     } else {
-        parameters = @{@"amount": @(amount), @"factoryType": @(factoryType)};
+        parameters = @{@"amount": @(amount), @"factoryType": @(factoryType) ,@"comment":comment};
     }
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
@@ -1122,8 +1113,6 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_pushSetting parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-
-//            DLog(@"===%@",responseObject);
             NSArray *responseArray = responseObject;
             NSMutableArray *mutableArr = [[NSMutableArray alloc]initWithCapacity:0];
 
@@ -1311,16 +1300,25 @@
     }
 }
 
-+ (void)uploadOrderImageWithImage:(UIImage *)image oid:(NSString *)oid andblock:(void (^)(NSDictionary *dictionary))block {
++ (void)uploadOrderImageWithImage:(UIImage *)image oid:(NSString *)oid type:(NSString *)type andblock:(void (^)(NSDictionary *dictionary))block {
     NSParameterAssert(image);
     NSParameterAssert(oid);
+    NSParameterAssert(type);
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
     if (credential) {
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
-        [manager GET:API_uploadOrder parameters:@{@"oid": oid} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+
+        NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
+
+        if (oid)
+            [mutableDictionary setObject:oid forKey:@"oid"];
+        if (type) {
+            [mutableDictionary setObject:type forKey:@"type"];
+        }
+        [manager GET:API_uploadOrder parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
             UpYun *upYun = [[UpYun alloc] init];
             upYun.bucket = bucketAPI;//图片测试
             upYun.expiresIn = 600;// 10分钟

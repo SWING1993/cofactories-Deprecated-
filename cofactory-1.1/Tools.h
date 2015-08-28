@@ -8,6 +8,7 @@
 #import "Header.h"
 #import "MBProgressHUD.h"
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface Tools : NSObject
 
@@ -42,6 +43,15 @@
  @param tipStr 提示框文本
  */
 + (void)showHudTipStr:(NSString *)tipStr;
+
+/*!
+ 图片模糊
+
+ @param image 需要模糊的图片
+
+ @return 模糊过的图片
+ */
++ (UIImage *)imageBlur:(UIImage *)aImage;
 
 
 @end

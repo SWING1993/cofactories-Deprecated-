@@ -300,7 +300,6 @@ static  NSString *const cellIdentifier2 = @"cell2";
     _view.backgroundColor=[UIColor clearColor];
     
     UIImageView*photoView = [[UIImageView alloc]initWithFrame:CGRectMake(0, kScreenH/4-64, kScreenW, kScreenW)];
-//    [photoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://cofactories-test.p0.upaiyun.com/order/%d.png",self.model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];
     [photoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,self.model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"] ];//图片测试
 
     photoView.contentMode=UIViewContentModeScaleAspectFill;
@@ -361,7 +360,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
                     [Tools showHudTipStr:@"删除订单成功"];
                     
                     [self.navigationController popViewControllerAnimated:YES];
-                    
+
                 }else{
                     
                     [Tools showHudTipStr:@"删除订单失败"];

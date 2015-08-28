@@ -24,13 +24,21 @@
 #define kNavigationBarHeight 44
 #define CellIdentifier @"Cell"
 
-#define PhotoAPI @"http://cdn.cofactories.com"
-#define bucketAPI @"cofactories"
+//#define PhotoAPI @"http://cdn.cofactories.com"
+//#define bucketAPI @"cofactories"
 
 
-//#define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
-//#define bucketAPI @"cofactories-test"
+#define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
+#define bucketAPI @"cofactories-test"
 
+//外网
+//#define kBaseUrl @"http://app2.cofactories.com"
+
+//测试服务器
+//#define kBaseUrl @"http://test.cofactories.com"
+
+//内网服务器
+#define kBaseUrl @"http://192.168.100.2:3001"
 
 
 #import "AppDelegate.h"

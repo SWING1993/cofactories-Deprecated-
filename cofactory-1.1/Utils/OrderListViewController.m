@@ -59,8 +59,15 @@
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [_tableView registerClass:[OrderListTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:_tableView];
+
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(goBack)];
+    self.navigationItem.leftBarButtonItem = backButton;
 }
 
+- (void)goBack {
+    NSArray *navArray = self.navigationController.viewControllers;
+    [self.navigationController popToViewController:navArray[1] animated:YES];
+}
 
 #pragma mark--表的协议方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

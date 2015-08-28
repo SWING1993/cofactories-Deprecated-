@@ -105,7 +105,6 @@
 		04724E751B8870C000F820EF /* UIScrollView+ty_swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E701B8870C000F820EF /* UIScrollView+ty_swizzle.m */; };
 		04724E781B8870D000F820EF /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E771B8870D000F820EF /* UINavigationBar+Awesome.m */; };
 		04724E7B1B8870EF00F820EF /* MeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E7A1B8870EF00F820EF /* MeController.m */; };
-		047332FD1B60C4C400F684A2 /* OverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047332FC1B60C4C400F684A2 /* OverlayView.xib */; };
 		047333081B60D2B700F684A2 /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047333031B60D2B600F684A2 /* OrderDetailViewController.m */; };
 		047333091B60D2B700F684A2 /* OrderListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 047333041B60D2B600F684A2 /* OrderListTableViewCell.m */; };
 		0473330A1B60D2B700F684A2 /* OrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047333051B60D2B700F684A2 /* OrderListViewController.m */; };
@@ -474,7 +473,6 @@
 		04724E771B8870D000F820EF /* UINavigationBar+Awesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+Awesome.m"; path = "Utils/UINavigationBar+Awesome.m"; sourceTree = "<group>"; };
 		04724E791B8870EF00F820EF /* MeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeController.h; sourceTree = "<group>"; };
 		04724E7A1B8870EF00F820EF /* MeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeController.m; sourceTree = "<group>"; };
-		047332FC1B60C4C400F684A2 /* OverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayView.xib; sourceTree = "<group>"; };
 		047333001B60D2B600F684A2 /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailViewController.h; sourceTree = "<group>"; };
 		047333011B60D2B600F684A2 /* OrderListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderListTableViewCell.h; sourceTree = "<group>"; };
 		047333021B60D2B600F684A2 /* OrderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderListViewController.h; sourceTree = "<group>"; };
@@ -1504,7 +1502,6 @@
 				04A20C3D1B5FBDB7001AADE9 /* PushOrderViewController.m */,
 				047EF0E11B6085A0007DD2AE /* AddOrderViewController.h */,
 				047EF0E21B6085A0007DD2AE /* AddOrderViewController.m */,
-				047332FC1B60C4C400F684A2 /* OverlayView.xib */,
 				047333021B60D2B600F684A2 /* OrderListViewController.h */,
 				047333051B60D2B700F684A2 /* OrderListViewController.m */,
 				047333011B60D2B600F684A2 /* OrderListTableViewCell.h */,
@@ -2109,7 +2106,6 @@
 				BD8AD8001B50FDBB00373E5E /* HomeFooterCell.xib in Resources */,
 				045A26BF1B6893D5002DE415 /* dialog_ok.png in Resources */,
 				BDEDA4381B52254A000E5012 /* mapapi.bundle in Resources */,
-				047332FD1B60C4C400F684A2 /* OverlayView.xib in Resources */,
 				045A26AB1B6893D5002DE415 /* arrow_left.png in Resources */,
 				04746D461B6B284E00C3C45E /* microphone@2x.png in Resources */,
 				045A26BE1B6893D5002DE415 /* dialog_ok-disabled@2x.png in Resources */,
