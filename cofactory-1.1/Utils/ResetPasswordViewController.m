@@ -208,7 +208,6 @@
         [theTimer invalidate];
         seconds = 60;
         [_codeBtn setTitle:@"重新获取" forState: UIControlStateNormal];
-        [_codeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_codeBtn setEnabled:YES];
     }else{
         seconds--;

@@ -103,7 +103,6 @@
         [theTimer invalidate];
         seconds = 60;
         [authcodeBtn setTitle:@"重新获取" forState: UIControlStateNormal];
-        [authcodeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [authcodeBtn setEnabled:YES];
     }else{
         seconds--;
@@ -129,31 +128,57 @@
     if (_usernameTF.text.length==11) {
 
         [HttpClient postVerifyCodeWithPhone:_usernameTF.text andBlock:^(int statusCode) {
+
+            switch (statusCode) {
+                case 0:{
+                    [Tools showHudTipStr:@"网络错误"];
+                }
+
+                case 200:{
+                    [Tools showHudTipStr:@"发送成功，十分钟内有效"];
+
+                    seconds = 60;
+                    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+                }
+                    break;
+                case 400:{
+                    [Tools showHudTipStr:@"手机格式不正确"];
+
+                }
+                    break;
+                case 409:{
+
+                    [Tools showHudTipStr:@"需要等待冷却"];
+
+                }
+                    break;
+                case 502:{
+                    [Tools showHudTipStr:@"发送错误"];
+
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+
             DLog(@"验证码code%d",statusCode);
-            if (statusCode==200) {
-                [Tools showHudTipStr:@"发送成功，十分钟内有效"];
-                seconds = 60;
-                timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
-            }
-
-            if (statusCode == 400) {
-                [Tools showHudTipStr:@"手机格式不正确"];
-            }
-
-            if (statusCode == 409) {
-                [Tools showHudTipStr:@"需要等待冷却"];
-            }
-
-            if (statusCode == 502) {
-                [Tools showHudTipStr:@"发送错误"];
-            }
-            if (statusCode == 400) {
-                [Tools showHudTipStr:@"网络错误"];
-            }
-
-            else {
-                [Tools showHudTipStr:@"网络错误"];
-            }
+//            if (statusCode==200) {
+//                [Tools showHudTipStr:@"发送成功，十分钟内有效"];
+//                seconds = 60;
+//                timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+//            }
+//
+//            if (statusCode == 400) {
+//                [Tools showHudTipStr:@"手机格式不正确"];
+//            }
+//
+//            if (statusCode == 409) {
+//                [Tools showHudTipStr:@"需要等待冷却"];
+//            }
+//            else {
+//                [Tools showHudTipStr:@"网络错误"];
+//            }
         }];
 
     }else{
@@ -187,12 +212,6 @@
             [hud hide:YES];
             PasswordViewController*passwordVC =[[PasswordViewController alloc]init];
             [self.navigationController pushViewController:passwordVC animated:YES];
-
-        }
-        if (statusCode == 401) {
-            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"验证码过期或者无效" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alertView show];
-            [hud hide:YES];
 
         }
         else {
