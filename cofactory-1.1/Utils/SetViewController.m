@@ -18,6 +18,7 @@
 
 @implementation SetViewController {
     UITextField*inviteCodeTF;
+    UIButton*quitButton;
 }
 
 - (void)viewDidLoad {
@@ -32,11 +33,25 @@
     inviteCodeTF.borderStyle=UITextBorderStyleRoundedRect;
     inviteCodeTF.keyboardType=UIKeyboardTypeNumberPad;
     inviteCodeTF.placeholder=@"邀请码";
+
     //设置Btn
-    UIBarButtonItem *quitButton = [[UIBarButtonItem alloc] initWithTitle:@"退出登录" style:UIBarButtonItemStylePlain target:self action:@selector(quitButtonClicked)];
-    self.navigationItem.rightBarButtonItem = quitButton;
+//    UIBarButtonItem *quitButton = [[UIBarButtonItem alloc] initWithTitle:@"退出登录" style:UIBarButtonItemStylePlain target:self action:@selector(quitButtonClicked)];
+//    self.navigationItem.rightBarButtonItem = quitButton;
+
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
+
+    quitButton=[[UIButton alloc]initWithFrame:CGRectMake(50, 7, kScreenW-100, 30)];
+//    quitButton.layer.cornerRadius=5.0f;
+//    quitButton.tag=1;
+//    quitButton.layer.masksToBounds=YES;
+//    [quitButton setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
+    [quitButton setTitle:@"退出登录" forState:UIControlStateNormal];
+    [quitButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    //loginBtn.alpha=0.8f;
+    [quitButton addTarget:self action:@selector(quitButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:loginBtn];
+
 
 }
 
@@ -76,7 +91,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 5;
+    return 6;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -125,6 +140,12 @@
                 [OKBtn setTitle:@"提交" forState:UIControlStateNormal];
                 [OKBtn addTarget:self action:@selector(OKBtn) forControlEvents:UIControlEventTouchUpInside];
                 [cell addSubview:OKBtn];
+            }
+                break;
+
+            case 5:{
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
+                [cell addSubview:quitButton];
             }
                 break;
 

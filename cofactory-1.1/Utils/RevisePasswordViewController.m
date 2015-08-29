@@ -133,7 +133,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 25)];
     UILabel*titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, kScreenW-20, 25)];
-    titleLabel.font=[UIFont boldSystemFontOfSize:16.0f];
+    titleLabel.font=[UIFont systemFontOfSize:15.0f];
     switch (section) {
         case 0:
         {

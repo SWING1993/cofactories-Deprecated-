@@ -36,7 +36,7 @@
 
     UILabel*logoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, kScreenW, 20)];
     logoLabel.font = [UIFont systemFontOfSize:16];
-    logoLabel.text=@"聚工厂 cofactories 1.4";
+    logoLabel.text=@"聚工厂 cofactories 1.3";
     logoLabel.textAlignment = NSTextAlignmentCenter;
     [tableHeaderView addSubview:logoLabel];
 
@@ -50,7 +50,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -69,12 +69,12 @@
 
         }
             break;
+//        case 1:{
+//            cell.textLabel.text=@"服务条款";
+//
+//        }
+//            break;
         case 1:{
-            cell.textLabel.text=@"服务条款";
-
-        }
-            break;
-        case 2:{
             cell.textLabel.text=@"检测更新";
 
         }
@@ -101,7 +101,7 @@
 
         }
             break;
-        case 2:{
+        case 1:{
             [self checkUpdate];
 
         }
@@ -152,15 +152,6 @@
         //    无回调的检查更新，如果有新版本，则会提示用户更新，确认更新后会自动安装新版本
         [[PgyManager sharedPgyManager] checkUpdate];
 
-//        NSString *message = response[@"releaseNote"];
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"发现新版本"
-//                                                            message:message
-//                                                           delegate:self
-//                                                  cancelButtonTitle:@"好的"
-//                                                  otherButtonTitles:"",
-//                                  nil];
-//
-//        [alertView show];
     }
     else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"当前版本为最新版本"

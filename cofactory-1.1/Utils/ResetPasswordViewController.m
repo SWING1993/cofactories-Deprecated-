@@ -159,28 +159,31 @@
 
         [HttpClient postVerifyCodeWithPhone:_usernameTF.text andBlock:^(int statusCode) {
             switch (statusCode) {
+                case 0:{
+                    [Tools showHudTipStr:@"网络错误"];
+                }
+
                 case 200:{
-                    UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"发送成功，十分钟内有效" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
+                    [Tools showHudTipStr:@"发送成功，十分钟内有效"];
 
                     seconds = 60;
                     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
-
                 }
                     break;
                 case 400:{
-                    UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"手机格式不正确" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
+                    [Tools showHudTipStr:@"手机格式不正确"];
+
                 }
                     break;
                 case 409:{
-                    UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"需要等待冷却" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
+
+                    [Tools showHudTipStr:@"需要等待冷却"];
+
                 }
                     break;
                 case 502:{
-                    UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"发送错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
+                    [Tools showHudTipStr:@"发送错误"];
+
                 }
                     break;
 
