@@ -359,9 +359,18 @@ static  NSString *const cellIdentifier2 = @"cell2";
 - (void)competeButtonClick{
     NSLog(@"competeButtonClick");
     
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确定投标?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    alert.tag = 3;
-    [alert show];
+    NSNumber *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"selfuid"];
+    if (self.model.uid == [uid intValue]) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"这是贵公司发布的订单，贵公司不可投标" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        alert.tag = 4;
+        [alert show];
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确定投标?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alert.tag = 1;
+        [alert show];
+    }
+    
+    
     
 }
 
