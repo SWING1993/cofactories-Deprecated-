@@ -305,7 +305,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
     }
     
     if (indexPath.section == 0 && indexPath.row == 4) {
-        if ([self.model.comment isEqualToString:@""]) {
+        if ([self.model.comment isEqualToString:@""] || self.model.comment== nil ) {
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"备注" message:@"暂无备注" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             alert.tag = 3;
             [alert show];
