@@ -168,7 +168,7 @@
                 case 0:{
                     [Tools showHudTipStr:@"网络错误"];
                 }
-
+                    break;
                 case 200:{
                     [Tools showHudTipStr:@"发送成功，十分钟内有效"];
 

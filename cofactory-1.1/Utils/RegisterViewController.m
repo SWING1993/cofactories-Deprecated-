@@ -133,28 +133,27 @@
                 case 0:{
                     [Tools showHudTipStr:@"网络错误"];
                 }
+                    break;
 
                 case 200:{
                     [Tools showHudTipStr:@"发送成功，十分钟内有效"];
-
                     seconds = 60;
                     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
                 }
                     break;
+                    
                 case 400:{
                     [Tools showHudTipStr:@"手机格式不正确"];
 
                 }
                     break;
                 case 409:{
-
                     [Tools showHudTipStr:@"需要等待冷却"];
-
                 }
                     break;
+                    
                 case 502:{
                     [Tools showHudTipStr:@"发送错误"];
-
                 }
                     break;
                     
