@@ -29,6 +29,7 @@
     headerView.layer.cornerRadius = 80/2.0f;
     headerView.layer.masksToBounds = YES;
     [headerView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];
+    DLog(@"头像地址：%@",[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.uid]);
     [self.view addSubview:headerView];
 
 

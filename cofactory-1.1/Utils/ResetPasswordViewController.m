@@ -73,7 +73,7 @@
     passwordLable.textColor=[UIColor blackColor];
     [TFView addSubview:passwordLable];
 
-    _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(60, 105, kScreenW-190, 40)];
+    _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(60, 105, kScreenW-80, 40)];
     _passwordTF.clearButtonMode=UITextFieldViewModeWhileEditing;
     _passwordTF.secureTextEntry=YES;
     _passwordTF.placeholder=@"请填写新密码";
@@ -86,7 +86,7 @@
     codeLable.textColor=[UIColor blackColor];
     [TFView addSubview:codeLable];
 
-    _codeTF = [[UITextField alloc]initWithFrame:CGRectMake(60, 55, kScreenW-80, 40)];
+    _codeTF = [[UITextField alloc]initWithFrame:CGRectMake(60, 55, kScreenW-190, 40)];
     _codeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
     _codeTF.keyboardType = UIKeyboardTypeNumberPad;
     _codeTF.placeholder=@"请填写验证码";
@@ -118,40 +118,46 @@
 }
 
 - (void)nextBtn {
+    if (_passwordTF.text.length<6) {
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"密码长度应该大于5位" message:nil
+                                                         delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }
+    else{
+        [HttpClient postResetPasswordWithPhone:_usernameTF.text code:_codeTF.text password:_passwordTF.text andBlock:^(int statusCode) {
+            switch (statusCode) {
+                case 200:
+                {
+                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"密码重置成功" message:nil
+                                                                     delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                    alertView.tag = 10086;
+                    [alertView show];
 
-    [HttpClient postResetPasswordWithPhone:_usernameTF.text code:_codeTF.text password:_passwordTF.text andBlock:^(int statusCode) {
-        switch (statusCode) {
-            case 200:
-            {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"密码重置成功" message:nil
-                                                                 delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
+                }
+                    break;
+                case 400:
+                {
+                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"没有这个用户" message:nil
+                                                                     delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                    [alertView show];
 
+                }
+                    break;
+                case 403:
+                {
+                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"验证码错误" message:nil
+                                                                     delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                    [alertView show];
+                    
+                }
+                    break;
+                    
+                    
+                default:
+                    break;
             }
-                break;
-            case 400:
-            {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"没有这个用户" message:nil
-                                                                 delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
-
-            }
-                break;
-            case 403:
-            {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"验证码错误" message:nil
-                                                                 delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
-
-            }
-                break;
-
-                
-            default:
-                break;
-        }
-    }];
-    
+        }];
+    }
 }
 
 - (void)sendCodeBtn{
@@ -230,6 +236,14 @@
     }
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 10086) {
+        if (buttonIndex == 0) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    }
+
+}
 
 
 //- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
