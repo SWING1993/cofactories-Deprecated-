@@ -194,7 +194,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
                 break;
             case 6:
             {
-                if ([self.model.comment isEqualToString:@""]) {
+                if ([self.model.comment isEqualToString:@""] || self.model.comment== nil) {
                     cell.textLabel.text = [NSString stringWithFormat:@"备注:  暂无备注"];
                 }else{
                  cell.textLabel.text = [NSString stringWithFormat:@"备注:  %@",self.model.comment];
