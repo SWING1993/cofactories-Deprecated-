@@ -162,7 +162,6 @@
 
 - (void)sendCodeBtn{
     if (_usernameTF.text.length==11) {
-
         [HttpClient postVerifyCodeWithPhone:_usernameTF.text andBlock:^(int statusCode) {
             switch (statusCode) {
                 case 0:{

@@ -428,33 +428,35 @@
                     [cell addSubview:ServiceRangeTextField];
                 }
                     break;
+                    
                 case 1:
                 {
                     [cell addSubview:dateTextField];
                 }
                     break;
+                    
                 case 2:
                 {
                     [cell addSubview:numberTextField];
                 }
                     break;
+                    
                 case 3:
                 {
                     [cell addSubview:commentTextField];
                 }
                     break;
+                    
                 case 4:
                 {
-
                     cell.textLabel.text = nil;
                     [cell addSubview:addImageBtn];
                     [cell addSubview:blurBtn];
                     if ([self.collectionImage count]==0) {
-
+                        
                     }else {
                         [cell addSubview:self.collectionView];
                     }
-
                 }
                     break;
 
@@ -485,7 +487,6 @@
                     }else {
                         [cell addSubview:self.collectionView];
                     }
-
                 }
                     break;
 
@@ -511,14 +512,14 @@
             if ([self.collectionImage count]==0) {
                 return 44;
             }
-            if ([self.collectionImage count]<5) {
-                return kScreenW/4+50;
+            if (0<[self.collectionImage count] && [self.collectionImage count]<4) {
+                return kScreenW/3+50;
             }
-            if ([self.collectionImage count]<9) {
-                return kScreenW/2+50;
+            if (3<[self.collectionImage count] && [self.collectionImage count]<7) {
+                return 2*kScreenW/3+50;
             }
-            if ([self.collectionImage count]==9) {
-                return 3*kScreenW/4+50;
+            if (6<[self.collectionImage count] && [self.collectionImage count]<10) {
+                return kScreenW+50;
             }
         }
     }
@@ -527,14 +528,14 @@
             if ([self.collectionImage count]==0) {
                 return 44;
             }
-            if ([self.collectionImage count]<5) {
-                return kScreenW/4+50;
+            if (0<[self.collectionImage count] && [self.collectionImage count]<4) {
+                return kScreenW/3+50;
             }
-            if ([self.collectionImage count]<9) {
-                return kScreenW/2+50;
+            if (3<[self.collectionImage count] && [self.collectionImage count]<7) {
+                return 2*kScreenW/3+50;
             }
-            if ([self.collectionImage count]==9) {
-                return 3*kScreenW/4+50;
+            if (6<[self.collectionImage count] && [self.collectionImage count]<10) {
+                return kScreenW+50;
             }
         }
     }
@@ -621,7 +622,7 @@
     }];
 }
 
-#define kSizeThumbnailCollectionView  ([UIScreen mainScreen].bounds.size.width-10)/4
+#define kSizeThumbnailCollectionView  ([UIScreen mainScreen].bounds.size.width-10)/3
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -642,7 +643,7 @@
         layout.minimumInteritemSpacing = 2.0;
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
 
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 45, kScreenW, 3*kScreenW/4) collectionViewLayout:layout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 45, kScreenW, kScreenW) collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor clearColor];
 
         _collectionView.delegate = self;
