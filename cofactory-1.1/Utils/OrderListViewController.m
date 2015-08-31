@@ -120,14 +120,14 @@
     }
     
     [cell.orderDetailsBtn addTarget:self action:@selector(orderDetailsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    cell.orderDetailsBtn.tag = indexPath.row;
+    cell.orderDetailsBtn.tag = indexPath.row+1;
     
     if (self.isHistory == YES) {
         cell.deleteButton.hidden = YES;
     }if (self.isHistory == NO) {
         cell.deleteButton.hidden = NO;
         [cell.deleteButton addTarget:self action:@selector(deleteOrderClick:) forControlEvents:UIControlEventTouchUpInside];
-        cell.deleteButton.tag = indexPath.row;
+        cell.deleteButton.tag = indexPath.row+1;
     }
     
     return cell;
@@ -140,7 +140,7 @@
 - (void)orderDetailsBtnClick:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    OrderModel*model = self.orderModerArr[button.tag];
+    OrderModel*model = self.orderModerArr[button.tag-1];
     OrderDetailViewController *VC = [[OrderDetailViewController alloc]init];
     VC.model=model;
     if (self.isHistory==YES)
@@ -162,7 +162,7 @@
     
     UIButton *button = (UIButton *)sender;
     
-    _deleteOrderIndex = button.tag;
+    _deleteOrderIndex = button.tag-1;
     
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"是否取消订单" message:@"订单一旦取消不可恢复，是否取消订单?" delegate:self cancelButtonTitle:@"不取消订单" otherButtonTitles:@"取消订单", nil];
     [alert show];
