@@ -139,7 +139,6 @@
     _slidePageScrollView.headerView.userInteractionEnabled = YES;
 
     DLog(@"%@--%@--%@",NSStringFromCGRect(_slidePageScrollView.frame),NSStringFromCGRect(imageView.frame),NSStringFromCGRect(headerButton.frame));
-
 }
 
 - (void)addTableViewWithPage:(NSInteger)page itemNum:(NSInteger)num

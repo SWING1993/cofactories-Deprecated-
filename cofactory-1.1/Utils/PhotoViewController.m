@@ -30,7 +30,7 @@
 {
     if (!_serialQueue) {
 
-        NSLog(@"创建窜行队列");
+        DLog(@"创建窜行队列");
         _serialQueue = dispatch_queue_create("serialQueue", DISPATCH_QUEUE_SERIAL);//创建串行队列
     }
     return _serialQueue;
@@ -61,7 +61,7 @@
 
     dispatch_async([self serialQueue], ^{//把block中的任务放入串行队列中执行，这是第一个任务
         //        sleep(2);//假装这个viewController创建起来很花时间。。其实view都还没加载，根本不花时间。
-        NSLog(@"prepared");
+        DLog(@"prepared");
         [HttpClient getFactoryPhotoWithUid:self.userUid type:@"employee" andBlock:^(NSDictionary *dictionary) {
 
             if ([dictionary[@"statusCode"] intValue]== 200) {
@@ -106,7 +106,7 @@
                 int Section = 2;
                 NSIndexPath *indexPaths=[NSIndexPath indexPathForRow:0 inSection:Section];
                 [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPaths,nil] withRowAnimation:UITableViewRowAnimationNone];
-                NSLog(@"2");
+                DLog(@"2");
             }
         }];
     });

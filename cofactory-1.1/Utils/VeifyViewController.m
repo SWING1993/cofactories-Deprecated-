@@ -81,7 +81,7 @@
         }else{
 
             [HttpClient submitVerifyDetailWithLegalPerson:textField2.text idCard:textField3.text andBlock:^(int statusCode) {
-                NSLog(@"%d",statusCode);
+                DLog(@"%d",statusCode);
                 switch (statusCode) {
                     case 200:
                     {

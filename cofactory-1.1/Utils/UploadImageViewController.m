@@ -35,7 +35,7 @@
 {
     if (!_serialQueue) {
 
-        NSLog(@"创建窜行队列");
+        DLog(@"创建窜行队列");
         _serialQueue = dispatch_queue_create("serialQueue", DISPATCH_QUEUE_SERIAL);//创建串行队列
     }
     return _serialQueue;
@@ -144,7 +144,7 @@ static NSString * const reuseIdentifier = @"collectionViewCell";
 {
     [imagePicker dismissViewControllerAnimated:YES completion:^{
 
-        NSLog(@"1");
+        DLog(@"1");
     }];
 }
 
@@ -153,7 +153,7 @@ static NSString * const reuseIdentifier = @"collectionViewCell";
 {
 
     [imagePicker dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"2");
+        DLog(@"2");
 
         [assets enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             self.asset=assets[idx];
@@ -229,8 +229,6 @@ static NSString * const reuseIdentifier = @"collectionViewCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 
-    NSLog(@"11");
-
     NSMutableArray *photos = [NSMutableArray arrayWithCapacity:[self.imageArray count]];
     [self.imageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 
@@ -244,7 +242,6 @@ static NSString * const reuseIdentifier = @"collectionViewCell";
     browser.currentPhotoIndex = indexPath.row;
     browser.photos = photos;
     [browser show];
-
 }
 
 

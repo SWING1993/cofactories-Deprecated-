@@ -462,7 +462,6 @@
         [self.navigationController pushViewController:factoryPhotoVC animated:YES];
 
     }
-
 }
 
 - (void)dealloc

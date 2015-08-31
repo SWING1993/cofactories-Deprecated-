@@ -105,7 +105,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
         _competeFactoryArray = responseDictionary[@"responseArray"];
         //       NSLog(@"_competeFactoryArray==%@",_competeFactoryArray);
         NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"selfuid"];
-        NSLog(@"+++++%@",number);
+        DLog(@"+++++%@",number);
         int myUid = [number intValue];
         
         [_competeFactoryArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -120,7 +120,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
             if (self.isCompete == YES) {
                 *stop = YES;
             }
-            NSLog(@"isCompete==%d",self.isCompete);
+            DLog(@"isCompete==%d",self.isCompete);
         }];
         
         [_tableView reloadData];
@@ -357,7 +357,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
 
 #pragma mark -- ButtonClick
 - (void)competeButtonClick{
-    NSLog(@"competeButtonClick");
+    DLog(@"competeButtonClick");
     
     NSNumber *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"selfuid"];
     if (self.model.uid == [uid intValue]) {
@@ -398,7 +398,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
     
     //感兴趣
     [HttpClient interestOrderWithOid:self.model.oid andBlock:^(int statusCode) {
-        NSLog(@"感兴趣状态码%d",statusCode);
+        DLog(@"感兴趣状态码%d",statusCode);
     }];
 }
 

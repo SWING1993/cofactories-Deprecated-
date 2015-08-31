@@ -579,7 +579,7 @@
 {
     [imagePicker dismissViewControllerAnimated:YES completion:^{
 
-        NSLog(@"1");
+        DLog(@"1");
     }];
 }
 
@@ -587,7 +587,7 @@
 - (void)imagePickerController:(JKImagePickerController *)imagePicker didSelectAssets:(NSArray *)assets isSource:(BOOL)source
 {
     [imagePicker dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"2");
+        DLog(@"2");
 
         [assets enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             self.asset=assets[idx];

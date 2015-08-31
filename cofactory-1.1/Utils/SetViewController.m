@@ -74,7 +74,7 @@
         UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"邀请码提交成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alertView show];
         [HttpClient registerWithInviteCode:inviteCodeTF.text andBlock:^(NSDictionary *responseDictionary) {
-            NSLog(@"%@",responseDictionary);
+            DLog(@"%@",responseDictionary);
         }];
     }else{
         UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您填写邀请码后再提交" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
@@ -224,7 +224,7 @@
     if(response.responseCode == UMSResponseCodeSuccess)
     {
         //得到分享到的微博平台名
-        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+        DLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
     }
 }
 

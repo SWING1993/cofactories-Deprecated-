@@ -89,7 +89,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSLog(@"11");
+    DLog(@"11");
     
     NSMutableArray *photos = [NSMutableArray arrayWithCapacity:[self.photoArray count]];
     [self.photoArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {

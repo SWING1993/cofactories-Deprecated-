@@ -28,7 +28,7 @@
     [VeifyBtn addTarget:self action:@selector(VeifyBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.tableView addSubview:VeifyBtn];
 
-    NSLog(@"%@",self.VeifyDic);
+    DLog(@"%@",self.VeifyDic);
 
 }
 - (void)VeifyBtn {
