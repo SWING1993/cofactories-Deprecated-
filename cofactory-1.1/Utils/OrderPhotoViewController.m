@@ -40,7 +40,7 @@
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
 
 
-    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64) collectionViewLayout:layout];
+    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64-44) collectionViewLayout:layout];
     
     collectionView.backgroundColor = [UIColor whiteColor];
     collectionView.dataSource = self;
@@ -53,7 +53,7 @@
 
 }
 
-#define kSizeThumbnailCollectionView  ([UIScreen mainScreen].bounds.size.width-10)/4
+#define kSizeThumbnailCollectionView  ([UIScreen mainScreen].bounds.size.width-10)/3
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -74,8 +74,6 @@
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     
     UIImageView*imageView = [[UIImageView alloc]init];

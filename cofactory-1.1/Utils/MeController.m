@@ -72,8 +72,6 @@
 
     //设置Btn
     UIBarButtonItem*setButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"settingBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(saetButtonClicked)];
-//    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:nil style:UIBarButtonItemStylePlain target:self action:@selector(saetButtonClicked)];
-//    [setButton setBackgroundImage:[UIImage imageNamed:@"settingBtn_Nav"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     self.navigationItem.rightBarButtonItem = setButton;
     [self addSlidePageScrollView];
 

@@ -369,6 +369,7 @@
                     case 3:{
                         PhotoViewController*photoVC = [[PhotoViewController alloc]init];
                         photoVC.userUid=[NSString stringWithFormat:@"%d",self.userModel.uid];
+                        photoVC.isMySelf = YES;
                         photoVC.hidesBottomBarWhenPushed = YES;
                         [self.navigationController pushViewController:photoVC animated:YES];
                     }

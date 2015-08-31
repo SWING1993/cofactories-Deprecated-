@@ -57,7 +57,6 @@
         [self.tableView reloadData];
         [refreshControl endRefreshing];
     }];
-
 }
 
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl

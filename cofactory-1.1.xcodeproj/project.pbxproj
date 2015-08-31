@@ -64,12 +64,6 @@
 		045A266D1B686682002DE415 /* chack.png in Resources */ = {isa = PBXBuildFile; fileRef = 045A26621B686682002DE415 /* chack.png */; };
 		045A266E1B686682002DE415 /* NSDate+WQCalendarLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26651B686682002DE415 /* NSDate+WQCalendarLogic.m */; };
 		045A26721B6866AE002DE415 /* ZWIntroductionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26711B6866AE002DE415 /* ZWIntroductionViewController.m */; };
-		045A26751B6875BA002DE415 /* CofactoryPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26741B6875BA002DE415 /* CofactoryPhotoViewController.m */; };
-		045A26781B6876AE002DE415 /* SDPhotoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26771B6876AE002DE415 /* SDPhotoItem.m */; };
-		045A267B1B6876BF002DE415 /* SDPhotoGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A267A1B6876BF002DE415 /* SDPhotoGroup.m */; };
-		045A26841B6876D1002DE415 /* SDBrowserImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A267E1B6876D1002DE415 /* SDBrowserImageView.m */; };
-		045A26851B6876D1002DE415 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26801B6876D1002DE415 /* SDPhotoBrowser.m */; };
-		045A26861B6876D1002DE415 /* SDWaitingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26831B6876D1002DE415 /* SDWaitingView.m */; };
 		045A268B1B68937A002DE415 /* FactoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26881B68937A002DE415 /* FactoryListViewController.m */; };
 		045A268C1B68937A002DE415 /* FactoryListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A268A1B68937A002DE415 /* FactoryListTableViewCell.m */; };
 		045A26AB1B6893D5002DE415 /* arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 045A268F1B6893D4002DE415 /* arrow_left.png */; };
@@ -415,19 +409,6 @@
 		045A26651B686682002DE415 /* NSDate+WQCalendarLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+WQCalendarLogic.m"; sourceTree = "<group>"; };
 		045A26701B6866AE002DE415 /* ZWIntroductionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWIntroductionViewController.h; sourceTree = "<group>"; };
 		045A26711B6866AE002DE415 /* ZWIntroductionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWIntroductionViewController.m; sourceTree = "<group>"; };
-		045A26731B6875BA002DE415 /* CofactoryPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CofactoryPhotoViewController.h; sourceTree = "<group>"; };
-		045A26741B6875BA002DE415 /* CofactoryPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CofactoryPhotoViewController.m; sourceTree = "<group>"; };
-		045A26761B6876AE002DE415 /* SDPhotoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDPhotoItem.h; path = ../SDPhotoItem.h; sourceTree = "<group>"; };
-		045A26771B6876AE002DE415 /* SDPhotoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDPhotoItem.m; path = ../SDPhotoItem.m; sourceTree = "<group>"; };
-		045A26791B6876BF002DE415 /* SDPhotoGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDPhotoGroup.h; path = ../SDPhotoGroup.h; sourceTree = "<group>"; };
-		045A267A1B6876BF002DE415 /* SDPhotoGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDPhotoGroup.m; path = ../SDPhotoGroup.m; sourceTree = "<group>"; };
-		045A267D1B6876D1002DE415 /* SDBrowserImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDBrowserImageView.h; sourceTree = "<group>"; };
-		045A267E1B6876D1002DE415 /* SDBrowserImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDBrowserImageView.m; sourceTree = "<group>"; };
-		045A267F1B6876D1002DE415 /* SDPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowser.h; sourceTree = "<group>"; };
-		045A26801B6876D1002DE415 /* SDPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPhotoBrowser.m; sourceTree = "<group>"; };
-		045A26811B6876D1002DE415 /* SDPhotoBrowserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowserConfig.h; sourceTree = "<group>"; };
-		045A26821B6876D1002DE415 /* SDWaitingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWaitingView.h; sourceTree = "<group>"; };
-		045A26831B6876D1002DE415 /* SDWaitingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWaitingView.m; sourceTree = "<group>"; };
 		045A26871B68937A002DE415 /* FactoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactoryListViewController.h; sourceTree = "<group>"; };
 		045A26881B68937A002DE415 /* FactoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoryListViewController.m; sourceTree = "<group>"; };
 		045A26891B68937A002DE415 /* FactoryListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactoryListTableViewCell.h; sourceTree = "<group>"; };
@@ -1104,21 +1085,6 @@
 			path = Library;
 			sourceTree = "<group>";
 		};
-		045A267C1B6876D1002DE415 /* SDPhotoBrowser */ = {
-			isa = PBXGroup;
-			children = (
-				049582EF1B6B68CB00A69E6D /* CellView */,
-				045A26811B6876D1002DE415 /* SDPhotoBrowserConfig.h */,
-				045A267F1B6876D1002DE415 /* SDPhotoBrowser.h */,
-				045A26801B6876D1002DE415 /* SDPhotoBrowser.m */,
-				045A267D1B6876D1002DE415 /* SDBrowserImageView.h */,
-				045A267E1B6876D1002DE415 /* SDBrowserImageView.m */,
-				045A26821B6876D1002DE415 /* SDWaitingView.h */,
-				045A26831B6876D1002DE415 /* SDWaitingView.m */,
-			);
-			path = SDPhotoBrowser;
-			sourceTree = "<group>";
-		};
 		045A268D1B6893D4002DE415 /* THCalendarDatePicker */ = {
 			isa = PBXGroup;
 			children = (
@@ -1404,17 +1370,6 @@
 				049582DF1B6B490F00A69E6D /* UIView+JKPicker.m */,
 			);
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		049582EF1B6B68CB00A69E6D /* CellView */ = {
-			isa = PBXGroup;
-			children = (
-				045A26761B6876AE002DE415 /* SDPhotoItem.h */,
-				045A26771B6876AE002DE415 /* SDPhotoItem.m */,
-				045A26791B6876BF002DE415 /* SDPhotoGroup.h */,
-				045A267A1B6876BF002DE415 /* SDPhotoGroup.m */,
-			);
-			name = CellView;
 			sourceTree = "<group>";
 		};
 		049582F01B6B68EF00A69E6D /* UMeng */ = {
@@ -1715,8 +1670,6 @@
 				BD4311C61B4F41DE0097E4BC /* CooperationViewController.m */,
 				0479EAE71B5A8F61007FE48E /* CooperationInfoViewController.h */,
 				0479EAE81B5A8F61007FE48E /* CooperationInfoViewController.m */,
-				045A26731B6875BA002DE415 /* CofactoryPhotoViewController.h */,
-				045A26741B6875BA002DE415 /* CofactoryPhotoViewController.m */,
 			);
 			name = Cooperation;
 			sourceTree = "<group>";
@@ -1835,7 +1788,6 @@
 				64F4C6611B70B31D00F52FF0 /* MJRefresh */,
 				049582F01B6B68EF00A69E6D /* UMeng */,
 				049582BF1B6B490F00A69E6D /* SinaImagePicker */,
-				045A267C1B6876D1002DE415 /* SDPhotoBrowser */,
 				0457E3DB1B8EE57100F38881 /* MJPhotoBrowser */,
 				04E644441B69C59000A3DF2E /* Framework */,
 				045A266F1B6866AE002DE415 /* Library */,
@@ -2183,7 +2135,6 @@
 				049582EC1B6B490F00A69E6D /* JKUtil.m in Sources */,
 				047333091B60D2B700F684A2 /* OrderListTableViewCell.m in Sources */,
 				04724E721B8870C000F820EF /* TYSlidePageScrollView.m in Sources */,
-				045A26751B6875BA002DE415 /* CofactoryPhotoViewController.m in Sources */,
 				04746D531B6B284E00C3C45E /* UMFeedbackViewController.m in Sources */,
 				049582EA1B6B490F00A69E6D /* JKPhotoBrowserCell.m in Sources */,
 				04F60C661B58CB9700CD3DEC /* ModifyFactoryNameViewController.m in Sources */,
@@ -2236,7 +2187,6 @@
 				0455E11E1B61E4F8009C5CDA /* PushTableViewCell.m in Sources */,
 				64F4C6771B70B31D00F52FF0 /* UIScrollView+MJExtension.m in Sources */,
 				04A20C351B5F332C001AADE9 /* VeifyEndViewController.m in Sources */,
-				045A26861B6876D1002DE415 /* SDWaitingView.m in Sources */,
 				045939631B787089004DA7D6 /* IQTitleBarButtonItem.m in Sources */,
 				BDC908DD1B4E9B3700856A32 /* AFHTTPRequestSerializer+OAuth2.m in Sources */,
 				04822E331B62B54C00A370F6 /* PhotoViewController.m in Sources */,
@@ -2255,13 +2205,11 @@
 				BDC908D91B4E9B3700856A32 /* AFURLConnectionOperation.m in Sources */,
 				045A26C31B6893D5002DE415 /* THDatePickerViewController.m in Sources */,
 				049582EE1B6B490F00A69E6D /* UIView+JKPicker.m in Sources */,
-				045A26851B6876D1002DE415 /* SDPhotoBrowser.m in Sources */,
 				04459B3C1B785BB500D74653 /* SettingTagsViewController.m in Sources */,
 				BDC908D81B4E9B3700856A32 /* AFSecurityPolicy.m in Sources */,
 				04746D561B6B284E00C3C45E /* UMChatToolBar.m in Sources */,
 				BDC908D61B4E9B3700856A32 /* AFHTTPSessionManager.m in Sources */,
 				64F4C6741B70B31D00F52FF0 /* MJRefreshConst.m in Sources */,
-				045A26841B6876D1002DE415 /* SDBrowserImageView.m in Sources */,
 				BD8AD7F51B50E62600373E5E /* UIView+WebCacheOperation.m in Sources */,
 				0459395E1B787089004DA7D6 /* IQKeyboardManager.m in Sources */,
 				0459395A1B787089004DA7D6 /* IQUITextFieldView+Additions.m in Sources */,
@@ -2285,7 +2233,6 @@
 				0448E1451B75CD78002B78B8 /* TagsManager.m in Sources */,
 				BD8AD7FF1B50FDBB00373E5E /* HomeFooterCell.m in Sources */,
 				04F60C621B58C07100CD3DEC /* ModifyJobViewController.m in Sources */,
-				045A26781B6876AE002DE415 /* SDPhotoItem.m in Sources */,
 				0448E1581B75E763002B78B8 /* UIImage+Common.m in Sources */,
 				049582E31B6B490F00A69E6D /* JKAssetsCollectionFooterView.m in Sources */,
 				0451D66C1B57AB4A007CCD59 /* AboutViewController.m in Sources */,
@@ -2306,7 +2253,6 @@
 				BD8AD8031B5102C200373E5E /* HomeEditViewController.m in Sources */,
 				0457E3F71B8EE57100F38881 /* SDWebImageManager+MJ.m in Sources */,
 				BDC908E41B4E9B3700856A32 /* MBProgressHUD.m in Sources */,
-				045A267B1B6876BF002DE415 /* SDPhotoGroup.m in Sources */,
 				045A26671B686682002DE415 /* CalendarDayModel.m in Sources */,
 				04D462E81B5CD21000B9B4D8 /* ResetPasswordViewController.m in Sources */,
 				BDC908DC1B4E9B3700856A32 /* AFURLSessionManager.m in Sources */,

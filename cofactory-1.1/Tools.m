@@ -11,10 +11,6 @@
 
 #define kKeyWindow [UIApplication sharedApplication].keyWindow
 
-
-#define kBaseUrl @"http://app2.cofactories.com"
-
-
 @implementation Tools
 
 + (NSMutableArray *)RangeSizeWith:(NSString *)sizeString {
@@ -106,12 +102,7 @@
 }
 
 + (BOOL)isTourist {
-//    NSString*Tourist=[[NSUserDefaults standardUserDefaults]objectForKey:@"toursit"];
-//    if ([Tourist isEqualToString:@"YES"]) {
-//        return YES;
-//    }else{
-//        return NO;
-//    }
+    
     if ([HttpClient getToken]) {
         return NO;
     }else{

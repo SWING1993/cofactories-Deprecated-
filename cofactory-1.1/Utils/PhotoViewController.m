@@ -14,78 +14,32 @@
 
 @property (nonatomic,retain)NSArray*cellArray;
 
-@property (nonatomic,retain)NSMutableArray*employeeArray;
-@property (nonatomic,retain)NSMutableArray*environmentArray;
-@property (nonatomic,retain)NSMutableArray*equipmentArray;
+@property (nonatomic,assign)NSUInteger employeeCount;
+@property (nonatomic,assign)NSUInteger environmentCount;
+@property (nonatomic,assign)NSUInteger equipmentCount;
 
 
 @end
 
 @implementation PhotoViewController {
-//    dispatch_queue_t _serialQueue;
-
+    dispatch_queue_t _serialQueue;
 }
 
-////get
-//- (dispatch_queue_t)serialQueue
-//{
-//    if (!_serialQueue) {
-//
-//        NSLog(@"创建窜行队列");
-//        _serialQueue = dispatch_queue_create("serialQueue", DISPATCH_QUEUE_SERIAL);//创建串行队列
-//    }
-//    return _serialQueue;
-//}
-//
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//
-//
-//
-//    _serialQueue = dispatch_queue_create("serialQueue", DISPATCH_QUEUE_SERIAL);//创建串行队列
-//
-//    dispatch_async([self serialQueue], ^{//把block中的任务放入串行队列中执行，这是第一个任务
-////        sleep(2);//假装这个viewController创建起来很花时间。。其实view都还没加载，根本不花时间。
-//        NSLog(@"prepared");
-//        [HttpClient getFactoryPhotoWithUid:self.userUid type:@"employee" andBlock:^(NSDictionary *dictionary) {
-//
-//            if ([dictionary[@"statusCode"] intValue]== 200) {
-//                self.employeeArray = [[NSMutableArray alloc]initWithCapacity:0];
-//                NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
-//                NSDictionary*factory=responseDictionary[@"factory"];
-//                self.employeeArray = factory[@"employee"];
-//
-//                NSLog(@"1");
-//            }
-//        }];
-//        [HttpClient getFactoryPhotoWithUid:self.userUid type:@"environment" andBlock:^(NSDictionary *dictionary) {
-//
-//            if ([dictionary[@"statusCode"] intValue]== 200) {
-//                self.environmentArray = [[NSMutableArray alloc]initWithCapacity:0];
-//                NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
-//                NSDictionary*factory=responseDictionary[@"factory"];
-//                self.environmentArray=factory[@"environment"];
-//
-//                NSLog(@"2");
-//
-//            }
-//        }];
-//
-//        [HttpClient getFactoryPhotoWithUid:self.userUid type:@"equipment" andBlock:^(NSDictionary *dictionary) {
-//            if ([dictionary[@"statusCode"] intValue]== 200) {
-//                self.equipmentArray = [[NSMutableArray alloc]initWithCapacity:0];
-//                NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
-//                NSDictionary*factory=responseDictionary[@"factory"];
-//                self.equipmentArray=factory[@"equipment"];
-//                [self.tableView reloadData];
-//
-//                NSLog(@"3");
-//
-////                NSLog(@"%lu--%lu--%lu",self.employeeArray.count,self.environmentArray.count,self.equipmentArray.count);
-//            }
-//        }];
-//    });
-//}
+//get
+- (dispatch_queue_t)serialQueue
+{
+    if (!_serialQueue) {
+
+        NSLog(@"创建窜行队列");
+        _serialQueue = dispatch_queue_create("serialQueue", DISPATCH_QUEUE_SERIAL);//创建串行队列
+    }
+    return _serialQueue;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+}
 
 
 - (void)viewDidLoad {
@@ -97,6 +51,65 @@
     self.tableView.showsVerticalScrollIndicator=NO;
 
     self.cellArray=@[@"员工",@"公司环境",@"公司设备"];
+
+    [self getImageCount];
+}
+
+- (void)getImageCount {
+
+    _serialQueue = dispatch_queue_create("serialQueue", DISPATCH_QUEUE_SERIAL);//创建串行队列
+
+    dispatch_async([self serialQueue], ^{//把block中的任务放入串行队列中执行，这是第一个任务
+        //        sleep(2);//假装这个viewController创建起来很花时间。。其实view都还没加载，根本不花时间。
+        NSLog(@"prepared");
+        [HttpClient getFactoryPhotoWithUid:self.userUid type:@"employee" andBlock:^(NSDictionary *dictionary) {
+
+            if ([dictionary[@"statusCode"] intValue]== 200) {
+                NSMutableArray*employeeArray = [[NSMutableArray alloc]initWithCapacity:10];
+                NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
+                NSDictionary*factory=responseDictionary[@"factory"];
+                employeeArray = factory[@"employee"];
+                self.employeeCount = [employeeArray count];
+
+                int Section = 0;
+                NSIndexPath *indexPaths=[NSIndexPath indexPathForRow:0 inSection:Section];
+                [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPaths,nil] withRowAnimation:UITableViewRowAnimationNone];
+
+                DLog(@"0");
+            }
+        }];
+        [HttpClient getFactoryPhotoWithUid:self.userUid type:@"environment" andBlock:^(NSDictionary *dictionary) {
+
+            if ([dictionary[@"statusCode"] intValue]== 200) {
+                NSMutableArray*environmentArray = [[NSMutableArray alloc]initWithCapacity:10];
+                NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
+                NSDictionary*factory=responseDictionary[@"factory"];
+                environmentArray=factory[@"environment"];
+                self.environmentCount = [environmentArray count];
+
+                int Section = 1;
+                NSIndexPath *indexPaths=[NSIndexPath indexPathForRow:0 inSection:Section];
+                [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPaths,nil] withRowAnimation:UITableViewRowAnimationNone];
+                DLog(@"1");
+
+            }
+        }];
+
+        [HttpClient getFactoryPhotoWithUid:self.userUid type:@"equipment" andBlock:^(NSDictionary *dictionary) {
+            if ([dictionary[@"statusCode"] intValue]== 200) {
+                NSMutableArray*equipmentArray = [[NSMutableArray alloc]initWithCapacity:10];
+                NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
+                NSDictionary*factory=responseDictionary[@"factory"];
+                equipmentArray=factory[@"equipment"];
+                self.equipmentCount = [equipmentArray count];
+
+                int Section = 2;
+                NSIndexPath *indexPaths=[NSIndexPath indexPathForRow:0 inSection:Section];
+                [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPaths,nil] withRowAnimation:UITableViewRowAnimationNone];
+                NSLog(@"2");
+            }
+        }];
+    });
 }
 
 #pragma mark - Table view data source
@@ -110,7 +123,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
@@ -118,17 +131,29 @@
     switch (indexPath.section) {
         case 0:
         {
-//            cell.detailTextLabel.text=[NSString stringWithFormat:@"%lu/10",(unsigned long)[self.employeeArray count]];
+            if (self.employeeCount) {
+                cell.detailTextLabel.text=[NSString stringWithFormat:@"%lu/10",(unsigned long)self.employeeCount];
+            }else{
+                cell.detailTextLabel.text = @"暂无照片";
+            }
         }
             break;
         case 1:
         {
-//            cell.detailTextLabel.text=[NSString stringWithFormat:@"%lu/10",(unsigned long)[self.environmentArray count]];
+            if (self.environmentCount) {
+                cell.detailTextLabel.text=[NSString stringWithFormat:@"%lu/10",(unsigned long)self.environmentCount];
+            }else{
+                cell.detailTextLabel.text = @"暂无照片";
+            }
         }
             break;
         case 2:
         {
-//            cell.detailTextLabel.text=[NSString stringWithFormat:@"%lu/10",(unsigned long)[self.equipmentArray count]];
+            if (self.equipmentCount) {
+                cell.detailTextLabel.text=[NSString stringWithFormat:@"%lu/10",(unsigned long)self.equipmentCount];
+            }else{
+                cell.detailTextLabel.text = @"暂无照片";
+            }
         }
             break;
 
@@ -153,6 +178,7 @@
         case 0:{
             UploadImageViewController*uploadVC = [[UploadImageViewController alloc]init];
             uploadVC.userUid=self.userUid;
+            uploadVC.isMySelf = self.isMySelf;
             uploadVC.type=@"employee";
             uploadVC.title=@"员工相册";
             [self.navigationController pushViewController:uploadVC animated:YES];
@@ -161,6 +187,7 @@
         case 1:{
             UploadImageViewController*uploadVC = [[UploadImageViewController alloc]init];
             uploadVC.userUid=self.userUid;
+            uploadVC.isMySelf = self.isMySelf;
             uploadVC.type=@"environment";
             uploadVC.title=@"环境相册";
             [self.navigationController pushViewController:uploadVC animated:YES];
@@ -170,6 +197,7 @@
         case 2:{
             UploadImageViewController*uploadVC = [[UploadImageViewController alloc]init];
             uploadVC.userUid=self.userUid;
+            uploadVC.isMySelf = self.isMySelf;
             uploadVC.type=@"equipment";
             uploadVC.title=@"设备相册";
             [self.navigationController pushViewController:uploadVC animated:YES];
