@@ -76,8 +76,8 @@
 
 
 
-    //检测更新
-    [[PgyManager sharedPgyManager] checkUpdate];
+    //个人开发者 检测更新 
+//    [[PgyManager sharedPgyManager] checkUpdate];
 
     //抽奖
     [HttpClient drawAccessWithBlock:^(int statusCode) {

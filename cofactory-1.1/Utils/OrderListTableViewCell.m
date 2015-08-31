@@ -28,6 +28,7 @@
         [labelBGView addSubview:self.timeLabel];
         
         self.orderImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 20, 60, 60)];
+        self.orderImage.contentMode = UIViewContentModeScaleAspectFill;
         self.orderImage.layer.masksToBounds = YES;
         self.orderImage.layer.cornerRadius = 5;
         [self addSubview:self.orderImage];

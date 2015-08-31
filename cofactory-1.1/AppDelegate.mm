@@ -19,15 +19,16 @@
 #define  kNavTitleFontSize 18
 
 //企业版
-#define UMENGAppKey @"55e03514e0f55a390f003db7"
+//#define UMENGAppKey @"55e03514e0f55a390f003db7"
+//#define mapApi @"pnnhXGR5g1cLReulX6fOQxMQ"
 
 //个人开发者版
-//#define UMENGAppKey @"5566b5e767e58e0c4700aab0"
+#define UMENGAppKey @"5566b5e767e58e0c4700aab0"
+#define mapApi @"ijDoxrS8H8lrgD9GDbLQpjNR"
 
 
 @interface AppDelegate ()
 @property (nonatomic, strong) ZWIntroductionViewController *introductionView;
-
 
 @end
 
@@ -68,12 +69,7 @@
 
     // 初始化百度地图 SDK
     _mapManager = [[BMKMapManager alloc] init];
-
-    //appStore版
-    //BOOL ret = [_mapManager start:@"ijDoxrS8H8lrgD9GDbLQpjNR"  generalDelegate:nil];
-
-    //企业版
-    BOOL ret = [_mapManager start:@"pnnhXGR5g1cLReulX6fOQxMQ"  generalDelegate:nil];
+    BOOL ret = [_mapManager start:mapApi  generalDelegate:nil];
 
     if (!ret) {
         DLog(@"百度地图SDK错误");
@@ -137,16 +133,17 @@
     [UMessage setLogEnabled:YES];
 
 
-    //蒲公英SDK
-    //  关闭用户手势反馈，默认为开启。
-    [[PgyManager sharedPgyManager] setEnableFeedback:NO];
+    //个人开发者 蒲公英SDK
 
-    //  设置用户反馈界面的颜色，颜色会影响到Title以及工具栏的背景颜色和录音按钮的边框颜色，默认为黑色。
-    [[PgyManager sharedPgyManager] setThemeColor:[UIColor colorWithHexString:@"0x28303b"]];
-
-    //  启动SDK
-    //  设置三指拖动激活摇一摇需在此调用之前
-    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
+//    //  关闭用户手势反馈，默认为开启。
+//    [[PgyManager sharedPgyManager] setEnableFeedback:NO];
+//
+//    //  设置用户反馈界面的颜色，颜色会影响到Title以及工具栏的背景颜色和录音按钮的边框颜色，默认为黑色。
+//    [[PgyManager sharedPgyManager] setThemeColor:[UIColor colorWithHexString:@"0x28303b"]];
+//
+//    //  启动SDK
+//    //  设置三指拖动激活摇一摇需在此调用之前
+//    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
 
     [_window makeKeyAndVisible];
     return YES;

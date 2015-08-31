@@ -50,7 +50,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+
+    //个人开发者
+    return 1;
+
+    //企业账号
+    //return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -69,11 +74,7 @@
 
         }
             break;
-//        case 1:{
-//            cell.textLabel.text=@"服务条款";
-//
-//        }
-//            break;
+            
         case 1:{
             cell.textLabel.text=@"检测更新";
 

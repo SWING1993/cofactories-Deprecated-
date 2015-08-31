@@ -366,11 +366,7 @@
     //业务类型
     NSString*factoryServiceRange=_factoryServiceRangeTF.text;
 
-
-    NSNumber*sizeMin=[[Tools RangeSizeWith:_factorySizeTF.text] firstObject];
-    NSNumber*sizeMax=[[Tools RangeSizeWith:_factorySizeTF.text] lastObject];
-
-    DLog(@"Size=(%@-%@) range = %d",sizeMin,sizeMax,factoryType);
+//    DLog(@"Size=(%@-%@) range = %d",sizeMin,sizeMax,factoryType);
 
     if ([factoryName isEqualToString:@""]||[factoryServiceRange isEqualToString:@""]||[_factorySizeTF.text isEqualToString:@""]) {
 
