@@ -103,7 +103,6 @@
         [theTimer invalidate];
         seconds = 60;
         [authcodeBtn setTitle:@"重新获取" forState: UIControlStateNormal];
-        [authcodeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [authcodeBtn setEnabled:YES];
     }else{
         seconds--;
@@ -124,39 +123,61 @@
         }
     }
 }
+
 - (void)sendCodeBtn{
     if (_usernameTF.text.length==11) {
 
         [HttpClient postVerifyCodeWithPhone:_usernameTF.text andBlock:^(int statusCode) {
+
             switch (statusCode) {
-                case 200:{
-                    UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"发送成功，十分钟内有效" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
-
-                    seconds = 60;
-                    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
-
+                case 0:{
+                    [Tools showHudTipStr:@"网络错误"];
                 }
                     break;
+
+                case 200:{
+                    [Tools showHudTipStr:@"发送成功，十分钟内有效"];
+                    seconds = 60;
+                    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+                }
+                    break;
+                    
                 case 400:{
-                    UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"手机格式不正确" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
+                    [Tools showHudTipStr:@"手机格式不正确"];
+
                 }
                     break;
                 case 409:{
-                    UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"需要等待冷却" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
+                    [Tools showHudTipStr:@"需要等待冷却"];
                 }
                     break;
+                    
                 case 502:{
-                    UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"发送错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
+                    [Tools showHudTipStr:@"发送错误"];
                 }
                     break;
                     
                 default:
                     break;
             }
+
+            DLog(@"验证码code%d",statusCode);
+//            if (statusCode==200) {
+//                [Tools showHudTipStr:@"发送成功，十分钟内有效"];
+//                seconds = 60;
+//                timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+//            }
+//
+//            if (statusCode == 400) {
+//                [Tools showHudTipStr:@"手机格式不正确"];
+//            }
+//
+//            if (statusCode == 409) {
+//                [Tools showHudTipStr:@"需要等待冷却"];
+//            }
+//            else {
+//                [Tools showHudTipStr:@"网络错误"];
+//            }
         }];
 
     }else{
@@ -174,95 +195,37 @@
     MBProgressHUD *hud = [Tools createHUD];
     hud.labelText = @"正在验证...";
     [HttpClient validateCodeWithPhone:_usernameTF.text code:_authcodeTF.text andBlock:^(int statusCode) {
-        switch (statusCode) {
-            case 0:{
-                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"网络错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
-                [hud hide:YES];
+        DLog(@"验证码code%d",statusCode);
 
-            }
-                break;
-            case 200:{
-                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                [userDefaults setObject:_usernameTF.text forKey:@"phone"];
-                [userDefaults setObject:_authcodeTF.text forKey:@"code"];
-                [userDefaults synchronize];
-                hud.labelText = @"验证成功";
-                [hud hide:YES];
-                PasswordViewController*passwordVC =[[PasswordViewController alloc]init];
-                [self.navigationController pushViewController:passwordVC animated:YES];
-            }
-                break;
-            case 401:{
-                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"验证码过期或者无效" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
-                [hud hide:YES];
+        if (statusCode == 0) {
+            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"网络错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alertView show];
+            [hud hide:YES];
+        }
+        if (statusCode == 200) {
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setObject:_usernameTF.text forKey:@"phone"];
+            [userDefaults setObject:_authcodeTF.text forKey:@"code"];
+            [userDefaults synchronize];
+            hud.labelText = @"验证成功";
+            [hud hide:YES];
+            PasswordViewController*passwordVC =[[PasswordViewController alloc]init];
+            [self.navigationController pushViewController:passwordVC animated:YES];
 
-            }
-                break;
-            default:
-                break;
+        }
+        else {
+            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"验证码过期或者无效" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alertView show];
+            [hud hide:YES];
         }
     }];
 
-
-//    NSLog(@"下一步");
-//    if (_usernameTF.text.length!=11) {
-//        UIAlertView*userAlert=[[UIAlertView alloc]initWithTitle:@"手机号码错误" message:@"您输入的是一个无效的手机号码" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//        [userAlert show];
-//    }else{
-//        [HttpClient postVerifyCodeWithPhone:_usernameTF.text andBlock:^(int statusCode) {
-//            self.statusCode=[NSString stringWithFormat:@"%d",statusCode];
-//            NSLog(@"%d",statusCode);
-//            switch (statusCode) {
-//                case 200:{
-//                    UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"发送成功，十分钟内有效" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//                    [alertView show];
-//                }
-//                    break;
-//                case 400:{
-//                    UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"手机格式不正确" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//                    [alertView show];
-//                }
-//                    break;
-//                case 409:{
-//                    UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"需要等待冷却" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//                    [alertView show];
-//                }
-//                    break;
-//                case 502:{
-//                    UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"发送错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//                    [alertView show];
-//                }
-//                    break;
-//                    
-//                default:
-//                    break;
-//            }
-//        }];
-//    }
 }
 
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
 //
-////    CodeViewController*codeVC = [[CodeViewController alloc]init];
-////    codeVC.phoneStr=_usernameTF.text;
-////    codeVC.statusCode=self.statusCode;
-////    [self.view endEditing:YES];
-////    [self.navigationController pushViewController:codeVC animated:YES];
-//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//    [userDefaults setObject:_usernameTF.text forKey:@"phone"];
-//    [userDefaults setObject:_authcodeTF.text forKey:@"code"];
-//    [userDefaults synchronize];
-//
-//    PasswordViewController*passwordVC =[[PasswordViewController alloc]init];
-//    [self.navigationController pushViewController:passwordVC animated:YES];
+//    [self.view endEditing:YES];
 //}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-
-    [self.view endEditing:YES];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

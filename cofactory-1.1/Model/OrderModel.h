@@ -25,8 +25,8 @@
 @property (nonatomic, assign) int status;
 @property (nonatomic, assign) int interest;
 @property (nonatomic, assign) int bidWinner;
-
-
+@property (nonatomic, copy) NSArray *photoArray;
+@property (nonatomic, copy) NSString *comment;
 
 
 

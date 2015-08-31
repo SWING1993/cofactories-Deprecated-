@@ -8,6 +8,8 @@
 #import "Header.h"
 #import "HttpClient.h"
 #import "ViewController.h"
+#import "MeController.h"
+
 
 @interface ViewController ()
 
@@ -81,7 +83,7 @@
     }];
 
     // MeViewController 初始化
-    MeViewController *meViewController = [[MeViewController alloc] init];
+    MeController *meViewController = [[MeController alloc] init];
     UINavigationController *meNavigationController = [[UINavigationController alloc] initWithRootViewController:meViewController];
     [meViewController setTitle:@"我"];
     meNavigationController.navigationBar.barStyle=UIBarStyleBlack;
@@ -125,7 +127,7 @@
     messageViewController.tabBarItem.selectedImage =[UIImage imageNamed:@"tabmesSelected"];
 
     // MeViewController 初始化
-    MeViewController *meViewController = [[MeViewController alloc] init];
+    MeController *meViewController = [[MeController alloc] init];
     UINavigationController *meNavigationController = [[UINavigationController alloc] initWithRootViewController:meViewController];
     [meViewController setTitle:@"我"];
     meNavigationController.navigationBar.barStyle=UIBarStyleBlack;

@@ -16,6 +16,9 @@
 #import "JKPhotoBrowser.h"
 #import "PhotoAlbumManager.h"
 
+#import "UIColor+Expanded.h"
+
+
 ALAssetsFilter * ALAssetsFilterFromJKImagePickerControllerFilterType(JKImagePickerControllerFilterType type) {
     switch (type) {
         case JKImagePickerControllerFilterTypeNone:
@@ -113,9 +116,9 @@ ALAssetsFilter * ALAssetsFilterFromJKImagePickerControllerFilterType(JKImagePick
     UIButton *preBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     preBtn.frame = CGRectMake(0, 0, 50, 30);
     [preBtn setTitle:@"预览" forState:UIControlStateNormal];
-    [preBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-    [preBtn setTitleColor:[JKUtil getColor:@"828689"] forState:UIControlStateHighlighted];
-    [preBtn setTitleColor:[JKUtil getColor:@"828689"] forState:UIControlStateDisabled];
+    [preBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbc79"] forState:UIControlStateNormal];
+    [preBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [preBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
     [preBtn addTarget:self action:@selector(previewPhotoesSelected) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *preItem = [[UIBarButtonItem alloc] initWithCustomView:preBtn];
     [self.navigationItem setRightBarButtonItem:preItem animated:NO];
@@ -424,8 +427,8 @@ ALAssetsFilter * ALAssetsFilterFromJKImagePickerControllerFilterType(JKImagePick
         cancelBtn.frame = CGRectMake(0, 0, 50, 30);
         [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
         [cancelBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-        [cancelBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-        [cancelBtn setTitleColor:[JKUtil getColor:@"828689"] forState:UIControlStateHighlighted];
+        [cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [cancelBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbc79"] forState:UIControlStateHighlighted];
         [cancelBtn addTarget:self action:@selector(cancelEventDidTouched) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithCustomView:cancelBtn];
         [self.navigationItem setLeftBarButtonItem:cancelItem animated:NO];
@@ -785,7 +788,7 @@ static NSString *kJKAssetsFooterViewIdentifier = @"kJKAssetsFooterViewIdentifier
         
         UILabel  *label = [[UILabel alloc] init];
         label.backgroundColor = [UIColor clearColor];
-        label.textColor = [JKUtil getColor:@"828689"];
+        label.textColor = [UIColor colorWithHexString:@"0x3bbc79"];
         label.font = [UIFont systemFontOfSize:11];
         label.text = @"原图";
         [label sizeToFit];
@@ -801,9 +804,13 @@ static NSString *kJKAssetsFooterViewIdentifier = @"kJKAssetsFooterViewIdentifier
         [_finishLabel sizeToFit];
         
         _finishButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _finishButton.layer.cornerRadius = 5.0f;
+        _finishButton.layer.masksToBounds = YES;
         _finishButton.frame = CGRectMake(0, 0, _finishLabel.width+10, _selectButton.height);
-        [_finishButton setBackgroundImage:[JKUtil stretchImage:[UIImage imageNamed:@"picker_button_orange"] capInsets:UIEdgeInsetsMake(5, 5, 5, 5) resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
-        [_finishButton setBackgroundImage:[JKUtil stretchImage:[UIImage imageNamed:@"picker_button_orange_highlighted"] capInsets:UIEdgeInsetsMake(5, 5, 5, 5) resizingMode:UIImageResizingModeStretch] forState:UIControlStateHighlighted];
+
+        [_finishButton setBackgroundColor:[UIColor colorWithHexString:@"0x3bbc79"]];
+//        [_finishButton setBackgroundImage:[JKUtil stretchImage:[UIImage imageNamed:@"picker_button_orange"] capInsets:UIEdgeInsetsMake(5, 5, 5, 5) resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
+//        [_finishButton setBackgroundImage:[JKUtil stretchImage:[UIImage imageNamed:@"picker_button_orange_highlighted"] capInsets:UIEdgeInsetsMake(5, 5, 5, 5) resizingMode:UIImageResizingModeStretch] forState:UIControlStateHighlighted];
         _finishButton.right = self.view.width-10;
         _finishButton.centerY = _selectButton.centerY;
         _finishButton.hidden = YES;

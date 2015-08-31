@@ -4,10 +4,7 @@
 //
 //  Created by 唐佳诚 on 15/7/18.
 //  Copyright (c) 2015年 聚工科技. All rights reserved.
-//
 
-#import "SDPhotoGroup.h"
-#import "SDPhotoItem.h"
 
 #import "JKPhotoBrowser.h"
 #import "JKImagePickerController.h"
@@ -17,17 +14,15 @@
 #import "UploadImageViewController.h"
 
 
-@interface UploadImageViewController () <UIImagePickerControllerDelegate, UICollectionViewDelegate,JKImagePickerControllerDelegate> {
-
-//    UICollectionView *CollectionView;
+@interface UploadImageViewController () <UIImagePickerControllerDelegate, UICollectionViewDelegate,JKImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate> {
 
     UIView*view;
 }
-
 @property (nonatomic,retain)NSMutableArray*imageArray;
 
 @property (nonatomic, strong) JKAssets  *asset;
 
+@property (nonatomic, strong) UICollectionView *collectionView;
 
 @end
 
@@ -40,7 +35,7 @@
 {
     if (!_serialQueue) {
 
-        NSLog(@"创建窜行队列");
+        DLog(@"创建窜行队列");
         _serialQueue = dispatch_queue_create("serialQueue", DISPATCH_QUEUE_SERIAL);//创建串行队列
     }
     return _serialQueue;
@@ -48,7 +43,7 @@
 
 
 
-//static NSString * const reuseIdentifier = @"Cell";
+static NSString * const reuseIdentifier = @"collectionViewCell";
 
 - (void)viewDidLoad {
 
@@ -56,12 +51,24 @@
 
     self.view.backgroundColor = [UIColor whiteColor];
 
-    self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
-
-    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"上传图片" style:UIBarButtonItemStylePlain target:self action:@selector(uploadBtn)];
-    self.navigationItem.rightBarButtonItem = setButton;
-
+    if (self.isMySelf) {
+        UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"上传图片" style:UIBarButtonItemStylePlain target:self action:@selector(uploadBtn)];
+        self.navigationItem.rightBarButtonItem = setButton;
+    }
     [self getImage];
+
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.minimumLineSpacing = 2.0;
+    layout.minimumInteritemSpacing = 2.0;
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64-44) collectionViewLayout:layout];
+    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.dataSource = self;
+    self.collectionView.delegate = self;
+    self.collectionView.scrollEnabled = YES;
+    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    [self.view addSubview:self.collectionView];
 }
 
 - (void)getImage {
@@ -89,7 +96,7 @@
                 self.title = @"公司设备";
 
             }
-            [self.tableView reloadData];
+            [self.collectionView reloadData];
         }
     }];
     dispatch_async([self serialQueue], ^{//把block中的任务放入串行队列中执行，这是第一个任务
@@ -114,7 +121,7 @@
                     self.imageArray=factory[@"equipment"];
                 }
 
-                [self.tableView reloadData];
+                [self.collectionView reloadData];
             }
         }];
       });
@@ -137,7 +144,7 @@
 {
     [imagePicker dismissViewControllerAnimated:YES completion:^{
 
-        NSLog(@"1");
+        DLog(@"1");
     }];
 }
 
@@ -146,7 +153,7 @@
 {
 
     [imagePicker dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"2");
+        DLog(@"2");
 
         [assets enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             self.asset=assets[idx];
@@ -154,17 +161,17 @@
             [lib assetForURL:_asset.assetPropertyURL resultBlock:^(ALAsset *asset) {
                 if (asset) {
                     UIImage*image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]];
-                    NSData*imageData = UIImageJPEGRepresentation(image, 0.5);
+                    NSData*imageData = UIImageJPEGRepresentation(image, 0.1);
                     UIImage*newImage = [[UIImage alloc]initWithData:imageData];
                     [HttpClient uploadImageWithImage:newImage type:self.type andblock:^(NSDictionary *dictionary) {
                         if ([dictionary[@"statusCode"] intValue]==200) {
                             //最后一张图片上传成功  刷新collectionView
                             if (idx == [assets count] - 1) {
+                                [Tools showHudTipStr:@"图片上传成功,但是图片显示要略有延迟，请耐心等待！"];
                                 [self getImage];
                             }
                         }else{
-                            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"图片上传失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                            [alertView show];
+                            [Tools showHudTipStr:@"图片上传失败！"];
                         }
                     }];
                 }
@@ -180,86 +187,61 @@
 - (void)imagePickerControllerDidCancel:(JKImagePickerController *)imagePicker
 {
     [imagePicker dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"3");
+        DLog(@"取消");
     }];
 }
 
-#pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
-}
+#define kSizeThumbnailCollectionView  ([UIScreen mainScreen].bounds.size.width-10)/4
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section==0) {
-        if ([self.imageArray count]<5) {
-            if (iphone6Plus_5_5) {
-                return 110;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 90;
-            }
-            else{
-                return 100;
-            }
-        }
-        if ([self.imageArray count]<9) {
-            if (iphone6Plus_5_5) {
-                return 210;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 170;
-            }
-            else{
-                return 200;
-            }
-        }if ([self.imageArray count]<11) {
-            if (iphone6Plus_5_5) {
-                return 320;
-            }if (iphone5x_4_0||iphone4x_3_5) {
-                return 250;
-            }
-            else{
-                return 300;
-            }
-        }
-    }
-    return 0;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 20.0f;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.01f;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - UICollectionViewDelegateFlowLayout
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *ID = @"photo";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    SDPhotoGroup *photoGroup = [[SDPhotoGroup alloc] init];
+    return CGSizeMake(kSizeThumbnailCollectionView, kSizeThumbnailCollectionView);
+}
 
-    NSMutableArray *temp = [NSMutableArray array];
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(2, 2, 2, 2);
+}
 
-    [self.imageArray enumerateObjectsUsingBlock:^(NSString *src, NSUInteger idx, BOOL *stop) {
-        SDPhotoItem *item = [[SDPhotoItem alloc] init];
-//        NSString*urlString =[NSString stringWithFormat:@"http://cdn.cofactories.com%@",self.imageArray[idx]];
-                NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,self.imageArray[idx]];
+#pragma mark - UICollectionViewDataSource
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
 
-        item.thumbnail_pic = urlString;
-        [temp addObject:item];
-    }];
-    photoGroup.photoItemArray = [temp copy];
-    [cell.contentView addSubview:photoGroup];
+    return self.imageArray.count;
+}
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+
+    UIImageView*imageView = [[UIImageView alloc]init];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",PhotoAPI,self.imageArray[indexPath.item]]] placeholderImage:[UIImage imageNamed:@"placeholder232"]];
+    imageView.frame = CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height);
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.clipsToBounds = YES;
+    [cell addSubview:imageView];
+
     return cell;
+}
+
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+
+    NSMutableArray *photos = [NSMutableArray arrayWithCapacity:[self.imageArray count]];
+    [self.imageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+
+        MJPhoto *photo = [[MJPhoto alloc] init];
+        // photo.image = self.collectionImage[idx]; // 图片
+        photo.url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",PhotoAPI,self.imageArray[idx]]];
+        [photos addObject:photo];
+    }];
+
+    MJPhotoBrowser *browser = [[MJPhotoBrowser alloc] init];
+    browser.currentPhotoIndex = indexPath.row;
+    browser.photos = photos;
+    [browser show];
 }
 
 

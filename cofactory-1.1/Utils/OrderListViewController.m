@@ -13,6 +13,7 @@
 @interface OrderListViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
     UITableView *_tableView;
+    NSInteger _deleteOrderIndex;
 }
 @property (nonatomic, retain)NSMutableArray*orderModerArr;
 @end
@@ -58,8 +59,15 @@
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [_tableView registerClass:[OrderListTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:_tableView];
+
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(goBack)];
+    self.navigationItem.leftBarButtonItem = backButton;
 }
 
+- (void)goBack {
+    NSArray *navArray = self.navigationController.viewControllers;
+    [self.navigationController popToViewController:navArray[1] animated:YES];
+}
 
 #pragma mark--表的协议方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -92,7 +100,8 @@
     //gt123
     NSMutableArray *arr = [Tools WithTime:model.createTime];
     cell.timeLabel.text = arr[0];
-    [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,model.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];//gt123
+   [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"]];//gt123
+    NSLog(@">>%@",[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,model.oid]);
     cell.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"件"];
     
     if (model.interest == 0) {
@@ -111,18 +120,27 @@
     }
     
     [cell.orderDetailsBtn addTarget:self action:@selector(orderDetailsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    cell.orderDetailsBtn.tag = indexPath.row;
+    cell.orderDetailsBtn.tag = indexPath.row+1;
+    
+    if (self.isHistory == YES) {
+        cell.deleteButton.hidden = YES;
+    }if (self.isHistory == NO) {
+        cell.deleteButton.hidden = NO;
+        [cell.deleteButton addTarget:self action:@selector(deleteOrderClick:) forControlEvents:UIControlEventTouchUpInside];
+        cell.deleteButton.tag = indexPath.row+1;
+    }
+    
     return cell;
 }
 
 
 
-#pragma mark--订单详情按钮绑定方法
+#pragma mark--订单详情按钮绑、删除按钮定方法
 
 - (void)orderDetailsBtnClick:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    OrderModel*model = self.orderModerArr[button.tag];
+    OrderModel*model = self.orderModerArr[button.tag-1];
     OrderDetailViewController *VC = [[OrderDetailViewController alloc]init];
     VC.model=model;
     if (self.isHistory==YES)
@@ -137,6 +155,46 @@
     self.navigationItem.backBarButtonItem = backItem;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController pushViewController:VC animated:YES];
+}
+
+
+- (void)deleteOrderClick:(id)sender{
+    
+    UIButton *button = (UIButton *)sender;
+    
+    _deleteOrderIndex = button.tag-1;
+    
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"是否取消订单" message:@"订单一旦取消不可恢复，是否取消订单?" delegate:self cancelButtonTitle:@"不取消订单" otherButtonTitles:@"取消订单", nil];
+    [alert show];
+    
+    
+
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if (buttonIndex == 1) {
+       
+        OrderModel*model = self.orderModerArr[_deleteOrderIndex];
+
+        [HttpClient deleteOrderWithOrderOid:model.oid completionBlock:^(int statusCode) {
+            
+            if (statusCode == 200) {
+                
+                [Tools showHudTipStr:@"删除订单成功"];
+                [HttpClient listOrderWithBlock:^(NSDictionary *responseDictionary) {
+                    if ([responseDictionary[@"statusCode"] intValue]==200) {
+                        self.orderModerArr=responseDictionary[@"responseArray"];
+                        [_tableView reloadData];
+                    }
+                }];
+            }else{
+                
+                [Tools showHudTipStr:@"删除订单失败"];
+ 
+            }
+        }];
+    }
 }
 
 

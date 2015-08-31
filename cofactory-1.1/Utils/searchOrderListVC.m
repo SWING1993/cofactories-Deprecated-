@@ -129,7 +129,7 @@
                 self.role = 2;
 
                 [_tableView reloadData];
-                NSLog(@"+++++responseDictionary==%@",self.dataArray);
+                DLog(@"+++++responseDictionary==%@",self.dataArray);
             }];
         }
 
@@ -142,7 +142,7 @@
 
                 [_tableView reloadData];
 
-                NSLog(@"+++++responseDictionary==%@",self.dataArray);
+                DLog(@"+++++responseDictionary==%@",self.dataArray);
             }];
         }
 
@@ -173,7 +173,7 @@
 - (void)footerRereshing
 {
     _refrushCount++;
-    NSLog(@"???????????%d",_refrushCount);
+    DLog(@"???????????%d",_refrushCount);
     NSNumber *num = [NSNumber numberWithInt:_refrushCount];
     [HttpClient searchOrderWithRole:self.role FactoryServiceRange:self.factoryServiceRange Time:self.time AmountMin:self.min AmountMax:self.max Page:num andBlock:^(NSDictionary *responseDictionary) {
 
@@ -214,7 +214,7 @@
 //    self.JSDropDownMenu = nil;
     self.JSDropDownMenu.dataSource = nil;
     self.JSDropDownMenu.delegate = nil;
-    NSLog(@"找订单释放内存");
+    DLog(@"找订单释放内存");
 }
 
 #pragma mark--表的协议方法
@@ -233,8 +233,10 @@
 
     searchOrderListTVC *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     OrderModel *model = self.dataArray[indexPath.row];
+    
+    DLog(@"comment===%@",model.comment);
 
-    NSLog(@"interest==%d,status==%d",model.interest,model.status);
+    //NSLog(@"interest==%d,status==%d",model.interest,model.status);
 
     if (model.interest == 0) {
         cell.labels.hidden = YES;
@@ -295,7 +297,7 @@
 
     NSMutableArray *arr = [Tools WithTime:model.createTime];//gt123
     cell.timeLabel.text = arr[0];
-    [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,model.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];//gt123
+    [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"]];//gt123
     self.uid = model.uid;
     cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
     cell.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"件"];
@@ -558,7 +560,7 @@
         // 筛选工厂规模
         if (indexPath.column == 1 && indexPath.leftOrRight == 0)
         {
-            NSLog(@"11");
+            DLog(@"11");
             if (indexPath.leftRow ==0 && indexPath.row ==0 )
             {
                 self.min = @0;
@@ -595,7 +597,7 @@
         // 筛选时间
         if (indexPath.column == 2 && indexPath.leftOrRight == 0)
         {
-            NSLog(@"12");
+            DLog(@"12");
             if (indexPath.leftRow ==0 && indexPath.row ==0 )
             {
                 self.time = @"3天";
@@ -622,7 +624,7 @@
         if (indexPath.column == 1 && indexPath.leftOrRight == 0)
         {
 
-            NSLog(@"21");
+            DLog(@"21");
             if (indexPath.leftRow ==0 && indexPath.row ==0 )
             {
                 self.min = @0;
@@ -660,7 +662,7 @@
         if (indexPath.column == 2 && indexPath.leftOrRight == 0)
         {
 
-            NSLog(@"22");
+            DLog(@"22");
             if (indexPath.leftRow ==0 && indexPath.row ==0 )
             {
                 self.time = @"1天";
@@ -681,7 +683,7 @@
 
     }
 
-    NSLog(@"self.role=%d,self.factoryServiceRange=%@,self.time=%@,self.min=%@,self.max=%@",self.role,self.factoryServiceRange,self.time,self.min,self.max);
+    DLog(@"self.role=%d,self.factoryServiceRange=%@,self.time=%@,self.min=%@,self.max=%@",self.role,self.factoryServiceRange,self.time,self.min,self.max);
 
 
 

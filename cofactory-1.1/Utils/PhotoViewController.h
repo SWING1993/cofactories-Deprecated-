@@ -12,4 +12,6 @@
 
 @property (nonatomic,copy)NSString*userUid;
 
+@property (nonatomic,assign)BOOL isMySelf;
+
 @end

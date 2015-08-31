@@ -14,15 +14,6 @@
 #import "GetPushModel.h"
 
 
-//外网
-#define kBaseUrl @"http://app2.cofactories.com"
-
-//测试服务器
-//#define kBaseUrl @"http://test.cofactories.com"
-
-//内网服务器
-//#define kBaseUrl @"http://192.168.100.2:3001"
-
 #define kClientID @"123"
 #define kSecret @"123"
 #define API_reset @"/user/reset"
@@ -47,6 +38,8 @@
 #define API_historyOrder @"/order/history"
 #define API_interestOrder @"/order/interest"
 #define API_bidOrder @"/order/bid"
+#define API_deleteOrder @"/order/"
+
 
 #define API_partnerList @"/partner/list"
 #define API_addPartner @"/partner/add"
@@ -71,6 +64,11 @@
     NSParameterAssert(code);
 
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
+    // 设置超时时间
+    [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+    manager.requestSerializer.timeoutInterval = 8.f;
+    [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+
     [manager POST:API_reset parameters:@{@"phone": phoneNumber, @"password": password, @"code": code} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         block((int)[operation.response statusCode]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -156,6 +154,12 @@
         return;
     }
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
+
+    // 设置超时时间
+    [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+    manager.requestSerializer.timeoutInterval = 8.f;
+    [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+
     [manager POST:API_verify parameters:@{@"phone": phoneNumber} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         block((int)[operation.response statusCode]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -168,6 +172,11 @@
     NSParameterAssert(phoneNumber);
     NSParameterAssert(code);
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
+    // 设置超时时间
+    [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+    manager.requestSerializer.timeoutInterval = 8.f;
+    [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+
     [manager GET:API_checkCode parameters:@{@"phone": phoneNumber, @"code": code} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         block((int)[operation.response statusCode]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -392,6 +401,7 @@
 }
 
 + (void)deleteFavoriteWithUid:(NSString *)uid andBlock:(void (^)(int))block {
+    
     NSParameterAssert(uid);
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
@@ -649,23 +659,29 @@
     }
 }
 
-+ (void)addOrderWithAmount:(int)amount factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange workingTime:(NSString *)workingTime andBlock:(void (^)(NSDictionary *))block {
-    NSParameterAssert(amount);
-    NSParameterAssert(factoryType);
++ (void)addOrderWithAmount:(int)amount factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange workingTime:(NSString *)workingTime comment:(NSString *)comment andBlock:(void (^)(NSDictionary *responseDictionary))block {
+//    NSParameterAssert(amount);
+//    NSParameterAssert(factoryType);
     NSDictionary *parameters = nil;
     if (factoryType == 1) {
         // 加工订单
-        NSParameterAssert(factoryServiceRange);
-        NSParameterAssert(workingTime);
-        parameters = @{@"amount": @(amount), @"factoryType": @(factoryType), @"factoryServiceRange": factoryServiceRange, @"workingTime": workingTime};
+//        NSParameterAssert(factoryServiceRange);
+//        NSParameterAssert(workingTime);
+        parameters = @{@"amount": @(amount), @"factoryType": @(factoryType), @"factoryServiceRange": factoryServiceRange, @"workingTime": workingTime ,@"comment":comment};
     } else {
-        parameters = @{@"amount": @(amount), @"factoryType": @(factoryType)};
+        parameters = @{@"amount": @(amount), @"factoryType": @(factoryType) ,@"comment":comment};
     }
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
     if (credential) {
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        
+        // 设置超时时间
+        [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+        manager.requestSerializer.timeoutInterval = 8.f;
+        [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager POST:API_addOrder parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             block(@{@"statusCode": @([operation.response statusCode]), @"data": [responseObject objectForKey:@"data"]});
@@ -1119,8 +1135,6 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_pushSetting parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-
-//            DLog(@"===%@",responseObject);
             NSArray *responseArray = responseObject;
             NSMutableArray *mutableArr = [[NSMutableArray alloc]initWithCapacity:0];
 
@@ -1308,16 +1322,25 @@
     }
 }
 
-+ (void)uploadOrderImageWithImage:(UIImage *)image oid:(NSString *)oid andblock:(void (^)(NSDictionary *dictionary))block {
++ (void)uploadOrderImageWithImage:(UIImage *)image oid:(NSString *)oid type:(NSString *)type andblock:(void (^)(NSDictionary *dictionary))block {
     NSParameterAssert(image);
     NSParameterAssert(oid);
+    NSParameterAssert(type);
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
     if (credential) {
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
-        [manager GET:API_uploadOrder parameters:@{@"oid": oid} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+
+        NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
+
+        if (oid)
+            [mutableDictionary setObject:oid forKey:@"oid"];
+        if (type) {
+            [mutableDictionary setObject:type forKey:@"type"];
+        }
+        [manager GET:API_uploadOrder parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
             UpYun *upYun = [[UpYun alloc] init];
             upYun.bucket = bucketAPI;//图片测试
             upYun.expiresIn = 600;// 10分钟
@@ -1411,5 +1434,31 @@
     }
 }
 
++ (void)deleteOrderWithOrderOid:(int)oid completionBlock:(void(^)(int statusCode))block{
+    
+    //NSParameterAssert(oid);
+    
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        
+        NSString *url = [[NSString alloc] initWithFormat:@"%@%d", API_deleteOrder, oid];
+
+        [manager DELETE:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block((int)[operation.response statusCode]);
+        }
+            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                
+                DLog(@"error%@",error);
+        }];
+    }
+    else {
+        block(404);// access_token不存在
+    }
+ 
+}
 
 @end

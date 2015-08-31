@@ -150,7 +150,7 @@
 
     }else{
 
-        NSLog(@"%@",pushModel);
+        DLog(@"%@",pushModel);
         long long indexO = [pushModel.workingTimeArray[0] longLongValue];
         long long index1 = [pushModel.workingTimeArray[1] longLongValue];
 

@@ -61,7 +61,7 @@
 - (void)buttonClick:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    NSLog(@"%ld",(long)button.tag);
+    DLog(@"%ld",(long)button.tag);
     [[NSUserDefaults standardUserDefaults]setInteger:button.tag forKey:@"toursitTag"];
 //    [[NSUserDefaults standardUserDefaults]setObject:@"YES" forKey:@"toursit"];
     [[NSUserDefaults standardUserDefaults]synchronize];
@@ -70,7 +70,7 @@
 
 - (void)goBackClick
 {    
-    NSLog(@"toursitTag%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"toursitTag"]);
+    DLog(@"toursitTag%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"toursitTag"]);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

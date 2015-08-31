@@ -129,12 +129,10 @@
         BMKGeoCodeSearchOption *geoCodeSearchOption = [[BMKGeoCodeSearchOption alloc] init];
         geoCodeSearchOption.address = addressString;
         if ([_searcher geoCode:geoCodeSearchOption]) {
-            NSLog(@"geo检索发送正常");
+            DLog(@"geo检索发送正常");
 
         } else {
-            NSLog(@"geo检索发送失败");
-//            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"检索发送失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//            [alertView show];
+            DLog(@"geo检索发送失败");
             [Tools showHudTipStr:@"检索发送失败"];
         }
 
@@ -152,8 +150,6 @@
         mapVC.centerLocation = result.location;
         [self.navigationController pushViewController:mapVC animated:YES];
     } else {
-//        UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"抱歉，未找到结果" message:@"请重新填写地址" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//        [alertView show];
         [Tools showHudTipStr:@"抱歉，未找到结果。"];
 
     }

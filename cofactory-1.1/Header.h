@@ -24,13 +24,19 @@
 #define kNavigationBarHeight 44
 #define CellIdentifier @"Cell"
 
+
+//正式服务器
+#define kBaseUrl @"http://app2.cofactories.com"
 #define PhotoAPI @"http://cdn.cofactories.com"
 #define bucketAPI @"cofactories"
 
-
+//测试服务器
+//#define kBaseUrl @"http://test.cofactories.com"
 //#define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
 //#define bucketAPI @"cofactories-test"
 
+//内网服务器
+//#define kBaseUrl @"http://192.168.100.2:3001"
 
 
 #import "AppDelegate.h"
@@ -55,6 +61,9 @@
 #import "UIImageView+WebCache.h"
 #import "JSDropDownMenu.h"//筛选
 #import "ODRefreshControl.h"//下拉刷新
+#import <PgySDK/PgyManager.h>
+
+#import "MJPhotoBrowser.h"
 
 
 /*!

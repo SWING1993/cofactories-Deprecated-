@@ -18,11 +18,13 @@
 
 @implementation SetViewController {
     UITextField*inviteCodeTF;
+    UIButton*quitButton;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"设置";
+
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
@@ -31,11 +33,25 @@
     inviteCodeTF.borderStyle=UITextBorderStyleRoundedRect;
     inviteCodeTF.keyboardType=UIKeyboardTypeNumberPad;
     inviteCodeTF.placeholder=@"邀请码";
+
     //设置Btn
-    UIBarButtonItem *quitButton = [[UIBarButtonItem alloc] initWithTitle:@"退出登录" style:UIBarButtonItemStylePlain target:self action:@selector(quitButtonClicked)];
-    self.navigationItem.rightBarButtonItem = quitButton;
+//    UIBarButtonItem *quitButton = [[UIBarButtonItem alloc] initWithTitle:@"退出登录" style:UIBarButtonItemStylePlain target:self action:@selector(quitButtonClicked)];
+//    self.navigationItem.rightBarButtonItem = quitButton;
+
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
+
+    quitButton=[[UIButton alloc]initWithFrame:CGRectMake(50, 7, kScreenW-100, 30)];
+//    quitButton.layer.cornerRadius=5.0f;
+//    quitButton.tag=1;
+//    quitButton.layer.masksToBounds=YES;
+//    [quitButton setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
+    [quitButton setTitle:@"退出登录" forState:UIControlStateNormal];
+    [quitButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    //loginBtn.alpha=0.8f;
+    [quitButton addTarget:self action:@selector(quitButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:loginBtn];
+
 
 }
 
@@ -58,7 +74,7 @@
         UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"邀请码提交成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alertView show];
         [HttpClient registerWithInviteCode:inviteCodeTF.text andBlock:^(NSDictionary *responseDictionary) {
-            NSLog(@"%@",responseDictionary);
+            DLog(@"%@",responseDictionary);
         }];
     }else{
         UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您填写邀请码后再提交" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
@@ -67,15 +83,15 @@
 
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.tableView endEditing:YES];
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    [self.tableView endEditing:YES];
+//}
 
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return 6;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -97,7 +113,8 @@
 
             }
                 break;
-                
+
+
             case 1:{
                 cell.textLabel.text=@"意见反馈";
 
@@ -110,12 +127,25 @@
                 break;
 
             case 3:{
+                cell.textLabel.text=@"关于聚工厂";
+
+            }
+                break;
+
+
+            case 4:{
                 [cell addSubview:inviteCodeTF];
                 UIButton*OKBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-70, 7, 60, 30)];
                 [OKBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
                 [OKBtn setTitle:@"提交" forState:UIControlStateNormal];
                 [OKBtn addTarget:self action:@selector(OKBtn) forControlEvents:UIControlEventTouchUpInside];
                 [cell addSubview:OKBtn];
+            }
+                break;
+
+            case 5:{
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
+                [cell addSubview:quitButton];
             }
                 break;
 
@@ -127,7 +157,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 10.0f;
+    return 7.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -153,14 +183,14 @@
 
         }
             break;
+
         case 1:{
-
-            //导航push
-//            [self.navigationController pushViewController:[UMFeedback feedbackViewController]
-//                                                 animated:YES];
-
-            // 模态弹出
+            // 模态弹出友盟反馈
             [self presentViewController:[UMFeedback feedbackModalViewController] animated:YES completion:nil];
+
+            //蒲公英反馈
+            //[self showFeedbackView];
+
         }
             break;
         case 2:{
@@ -172,10 +202,15 @@
                                                delegate:self];
         }
             break;
+
         case 3:{
+            AboutViewController*aboutVC = [[AboutViewController alloc]init];
+            [self.navigationController pushViewController:aboutVC animated:YES];
 
         }
             break;
+
+
                     
         default:
             break;
@@ -189,9 +224,20 @@
     if(response.responseCode == UMSResponseCodeSuccess)
     {
         //得到分享到的微博平台名
-        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+        DLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
     }
 }
+
+
+/**
+ *  通过代码调用来显示用户反馈界面
+ */
+- (void)showFeedbackView
+{
+    [[PgyManager sharedPgyManager] showFeedbackView];
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

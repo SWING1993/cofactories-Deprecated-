@@ -30,10 +30,13 @@
     tableHeaderView.backgroundColor=[UIColor whiteColor];
     UIImageView*logoImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2-40, 10, 80, 80)];
     logoImage.image=[UIImage imageNamed:@"logo"];
+    logoImage.layer.cornerRadius = 15;
+    logoImage.layer.masksToBounds = YES;
     [tableHeaderView addSubview:logoImage];
 
     UILabel*logoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, kScreenW, 20)];
-    logoLabel.text=@"聚工厂 cofactories";
+    logoLabel.font = [UIFont systemFontOfSize:16];
+    logoLabel.text=@"聚工厂 cofactories 1.3";
     logoLabel.textAlignment = NSTextAlignmentCenter;
     [tableHeaderView addSubview:logoLabel];
 
@@ -47,7 +50,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+
+    //个人开发者
+    return 1;
+
+    //企业账号
+    //return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -58,6 +66,7 @@
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     cell.textLabel.font=[UIFont systemFontOfSize:16];
     cell.detailTextLabel.textColor=[UIColor blackColor];
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
 
     switch (indexPath.row) {
         case 0:{
@@ -65,17 +74,12 @@
 
         }
             break;
+            
         case 1:{
-            cell.textLabel.text=@"服务条款";
+            cell.textLabel.text=@"检测更新";
 
         }
             break;
-        case 2:{
-            cell.textLabel.text=@"关于我们";
-
-        }
-            break;
-
         default:
             break;
     }
@@ -83,7 +87,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 15.0f;
+    return 0.01f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -93,15 +97,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0:{
-
+            NSString *str = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id1015359842"];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 
         }
             break;
         case 1:{
-
-        }
-            break;
-        case 2:{
+            [self checkUpdate];
 
         }
             break;
@@ -110,6 +112,8 @@
             break;
     }
 }
+
+
 
 
 - (void)didReceiveMemoryWarning {
@@ -126,5 +130,45 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+/**
+ *  检查更新
+ */
+- (void)checkUpdate
+{
+    //  有回调的检查更新
+    [[PgyManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(updateMethod:)];
+
+}
+
+/**
+ *  检查更新回调
+ *
+ *  @param response 检查更新的返回结果
+ */
+- (void)updateMethod:(NSDictionary *)response
+{
+    if (response[@"downloadURL"]) {
+
+        //    无回调的检查更新，如果有新版本，则会提示用户更新，确认更新后会自动安装新版本
+        [[PgyManager sharedPgyManager] checkUpdate];
+
+    }
+    else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"当前版本为最新版本"
+                                                            message:nil
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"好的"
+                                                  otherButtonTitles:nil,
+                                  nil];
+
+        [alertView show];
+
+    }
+
+    //    调用checkUpdateWithDelegete后可用此方法来更新本地的版本号，如果有更新的话，在调用了此方法后再次调用将不提示更新信息。
+    //    [[PgyManager sharedPgyManager] updateLocalBuildNumber];
+}
+
 
 @end

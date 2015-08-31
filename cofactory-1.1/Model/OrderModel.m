@@ -32,7 +32,8 @@
         _interest = [dictionary[@"interest"] intValue];
         _status = [dictionary[@"status"] intValue];
         _facName = dictionary[@"factoryName"];
-        
+        _photoArray = dictionary[@"photo"];
+        _comment = dictionary[@"comment"];
         if (_status == 1) {
             _bidWinner = [dictionary[@"bidWinner"] intValue];
         }else{

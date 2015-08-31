@@ -18,6 +18,8 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         self.companyImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 1, 78, 78)];
+        self.companyImage.contentMode = UIViewContentModeScaleAspectFill;
+        self.companyImage.clipsToBounds = YES;
         [self addSubview:self.companyImage];
         
         self.companyNameLB = [[UILabel alloc]initWithFrame:CGRectMake(82, 0, 140, 20)];

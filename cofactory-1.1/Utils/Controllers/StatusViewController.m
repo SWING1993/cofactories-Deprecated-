@@ -119,7 +119,7 @@
 
 - (void)switchAction:(UISwitch *)sender {
     UISwitch* switchBtn = (UISwitch *)sender;
-    NSLog(@"%d",switchBtn.on);
+    DLog(@"%d",switchBtn.on);
     switch (switchBtn.tag) {
         case 0:{
             if (switchBtn.on==YES) {
@@ -149,7 +149,7 @@
         }
             break;
         case 1:{
-            NSLog(@"自备货车");
+            DLog(@"自备货车");
             if (switchBtn.on==YES) {
                 [HttpClient updateFactoryProfileWithHasTruck:@1 andBlock:^(int statusCode) {
                     if (statusCode==200) {
@@ -194,10 +194,10 @@
         }
         chvc.calendarblock = ^(CalendarDayModel *model){
 
-            NSLog(@"\n---------------------------");
-            NSLog(@"1星期 %@",[model getWeek]);
-            NSLog(@"2字符串 %@",[model toString]);
-            NSLog(@"3节日  %@",model.holiday);
+            DLog(@"\n---------------------------");
+            DLog(@"1星期 %@",[model getWeek]);
+            DLog(@"2字符串 %@",[model toString]);
+            DLog(@"3节日  %@",model.holiday);
 
             self.timeLabel.text=[NSString stringWithFormat:@"%@",[model toString]];
             [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryLon:nil factoryLat:nil factoryFree:[model toString] factoryDescription:nil andBlock:^(int statusCode) {
@@ -221,7 +221,7 @@
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;
     chvc=nil;
-    NSLog(@"设置状态释放内存");
+    DLog(@"设置状态释放内存");
 }
 
 - (void)didReceiveMemoryWarning {

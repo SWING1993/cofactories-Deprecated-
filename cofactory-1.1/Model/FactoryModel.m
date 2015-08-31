@@ -18,9 +18,35 @@
         _oid = [[dictionary objectForKey:@"oid"] intValue];
         _factoryName = [dictionary objectForKey:@"factoryName"];
         _factoryType = [[dictionary objectForKey:@"factoryType"] intValue];
-        _factoryFreeStatus=[dictionary objectForKey:@"factoryFreeStatus"];
         _hasTruck =[[dictionary objectForKey:@"hasTruck"] intValue];
-        _factoryFreeTime = dictionary[@"factoryFreeTime"];
+        
+        switch (_factoryType) {
+            case 0:
+                _factoryFreeTime = nil;
+                _factoryFreeStatus = nil;
+   
+                break;
+            case 1:
+                _factoryFreeTime = dictionary[@"factoryFreeTime"];
+                _factoryFreeStatus = nil;
+
+                break;
+            case 2:
+                _factoryFreeTime = nil;
+                _factoryFreeStatus=[dictionary objectForKey:@"factoryFreeStatus"];
+
+                break;
+            case 3:
+                _factoryFreeTime = nil;
+                _factoryFreeStatus=[dictionary objectForKey:@"factoryFreeStatus"];
+
+                break;
+
+            default:
+                break;
+        }
+        
+        
         _tag = [NSString stringWithFormat:@"%@",dictionary[@"tag"]];
 
         NSArray *factorySize = [dictionary objectForKey:@"factorySize"];

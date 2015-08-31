@@ -28,6 +28,7 @@
         [labelBGView addSubview:self.timeLabel];
         
         self.orderImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 20, 60, 60)];
+        self.orderImage.contentMode = UIViewContentModeScaleAspectFill;
         self.orderImage.layer.masksToBounds = YES;
         self.orderImage.layer.cornerRadius = 5;
         [self addSubview:self.orderImage];
@@ -46,17 +47,7 @@
         
         
         
-        self.labels = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-135-140-20, 92, 140, 22)];
-        self.labels.font = [UIFont systemFontOfSize:14.0f];
-        self.labels.text = @"家厂商对此订单感兴趣";
-        [self addSubview:self.labels];
-
-        
-        self.interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 92,kScreenW-135-140-20 , 22)];
-        self.interestCountLabel.font = [UIFont systemFontOfSize:14.0f];
-        self.interestCountLabel.textColor = [UIColor orangeColor];
-        self.interestCountLabel.textAlignment = 2;
-        [self addSubview:self.interestCountLabel];
+       
 
         self.statusImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-75, 15, 65, 65)];
         self.statusImage.image = [UIImage imageNamed:@"章.jpg"];
@@ -66,16 +57,15 @@
         lineLabel.backgroundColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:0.3];
         [self addSubview:lineLabel];
         
-//        self.confirmOrderBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        self.confirmOrderBtn.frame = CGRectMake(kScreenW-135
-//                                                , 92, 60, 22);
-//        [self.confirmOrderBtn setTitle:@"确认订单" forState:UIControlStateNormal];
-//        self.confirmOrderBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-//        [self.confirmOrderBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//        self.confirmOrderBtn.layer.masksToBounds = YES;
-//        self.confirmOrderBtn.layer.cornerRadius = 3;
-//        self.confirmOrderBtn.backgroundColor = [UIColor colorWithRed:190.0f/255.0f green:190.0f/255.0f blue:190.0f/255.0f alpha:0.3];
-//        [self addSubview:self.confirmOrderBtn];
+        self.deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.deleteButton.frame = CGRectMake(10, 92, 60, 22);
+        [self.deleteButton setTitle:@"删除订单" forState:UIControlStateNormal];
+        self.deleteButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+        [self.deleteButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        self.deleteButton.layer.masksToBounds = YES;
+        self.deleteButton.layer.cornerRadius = 3;
+        self.deleteButton.backgroundColor = [UIColor colorWithRed:190.0f/255.0f green:190.0f/255.0f blue:190.0f/255.0f alpha:0.3];
+        [self addSubview:self.deleteButton];
 
         self.orderDetailsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         self.orderDetailsBtn.frame = CGRectMake(kScreenW-70, 92, 60, 22);
@@ -89,6 +79,17 @@
         UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 120, [UIScreen mainScreen].bounds.size.width, 10)];
         backgroundView.backgroundColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:0.3];
         [self addSubview:backgroundView];
+        
+        self.interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.deleteButton.frame.origin.x+60, 92,30 , 22)];
+        self.interestCountLabel.font = [UIFont systemFontOfSize:14.0f];
+        self.interestCountLabel.textColor = [UIColor orangeColor];
+        self.interestCountLabel.textAlignment = 2;
+        [self addSubview:self.interestCountLabel];
+        
+        self.labels = [[UILabel alloc]initWithFrame:CGRectMake(self.interestCountLabel.frame.origin.x+30, 92, 140, 22)];
+        self.labels.font = [UIFont systemFontOfSize:14.0f];
+        self.labels.text = @"家厂商对此订单感兴趣";
+        [self addSubview:self.labels];
     
     }
     return self;
