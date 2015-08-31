@@ -46,17 +46,7 @@
         
         
         
-        self.labels = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-135-140-20, 92, 140, 22)];
-        self.labels.font = [UIFont systemFontOfSize:14.0f];
-        self.labels.text = @"家厂商对此订单感兴趣";
-        [self addSubview:self.labels];
-
-        
-        self.interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 92,kScreenW-135-140-20 , 22)];
-        self.interestCountLabel.font = [UIFont systemFontOfSize:14.0f];
-        self.interestCountLabel.textColor = [UIColor orangeColor];
-        self.interestCountLabel.textAlignment = 2;
-        [self addSubview:self.interestCountLabel];
+       
 
         self.statusImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-75, 15, 65, 65)];
         self.statusImage.image = [UIImage imageNamed:@"章.jpg"];
@@ -88,6 +78,17 @@
         UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 120, [UIScreen mainScreen].bounds.size.width, 10)];
         backgroundView.backgroundColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:0.3];
         [self addSubview:backgroundView];
+        
+        self.interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.deleteButton.frame.origin.x+60, 92,30 , 22)];
+        self.interestCountLabel.font = [UIFont systemFontOfSize:14.0f];
+        self.interestCountLabel.textColor = [UIColor orangeColor];
+        self.interestCountLabel.textAlignment = 2;
+        [self addSubview:self.interestCountLabel];
+        
+        self.labels = [[UILabel alloc]initWithFrame:CGRectMake(self.interestCountLabel.frame.origin.x+30, 92, 140, 22)];
+        self.labels.font = [UIFont systemFontOfSize:14.0f];
+        self.labels.text = @"家厂商对此订单感兴趣";
+        [self addSubview:self.labels];
     
     }
     return self;

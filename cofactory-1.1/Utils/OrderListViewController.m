@@ -101,6 +101,7 @@
     NSMutableArray *arr = [Tools WithTime:model.createTime];
     cell.timeLabel.text = arr[0];
    [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"]];//gt123
+    NSLog(@">>%@",[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,model.oid]);
     cell.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"件"];
     
     if (model.interest == 0) {
