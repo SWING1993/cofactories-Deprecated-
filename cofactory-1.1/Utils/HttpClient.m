@@ -660,13 +660,13 @@
 }
 
 + (void)addOrderWithAmount:(int)amount factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange workingTime:(NSString *)workingTime comment:(NSString *)comment andBlock:(void (^)(NSDictionary *responseDictionary))block {
-    NSParameterAssert(amount);
-    NSParameterAssert(factoryType);
+//    NSParameterAssert(amount);
+//    NSParameterAssert(factoryType);
     NSDictionary *parameters = nil;
     if (factoryType == 1) {
         // 加工订单
-        NSParameterAssert(factoryServiceRange);
-        NSParameterAssert(workingTime);
+//        NSParameterAssert(factoryServiceRange);
+//        NSParameterAssert(workingTime);
         parameters = @{@"amount": @(amount), @"factoryType": @(factoryType), @"factoryServiceRange": factoryServiceRange, @"workingTime": workingTime ,@"comment":comment};
     } else {
         parameters = @{@"amount": @(amount), @"factoryType": @(factoryType) ,@"comment":comment};

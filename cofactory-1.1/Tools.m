@@ -242,9 +242,6 @@
     CGColorSpaceRelease(colorSpace);
     CGImageRelease(imageRef);
 
-//    NSData*imageData = UIImageJPEGRepresentation(returnImage, 0.2);
-//    UIImage*newImage = [[UIImage alloc]initWithData:imageData];
-
     return returnImage;
 }
 

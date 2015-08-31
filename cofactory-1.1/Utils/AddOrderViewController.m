@@ -59,7 +59,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"发布订单" style:UIBarButtonItemStylePlain target:self action:@selector(pushOrderBtn)];
+
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(0, 0, 80, 20);
+    [btn setTitle:@"发布订单" forState:UIControlStateNormal];
+    [btn setUserInteractionEnabled:YES];
+    [btn addTarget:self action:@selector(pushOrderBtn:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem * setButton = [[UIBarButtonItem alloc]initWithCustomView:btn];
+
+//    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"发布订单" style:UIBarButtonItemStylePlain target:self action:@selector(pushOrderBtn:)];
     self.navigationItem.rightBarButtonItem = setButton;
 
     self.title=@"加工厂订单";
@@ -92,7 +100,6 @@
     self.listData = @[@[@"订单类型", @"完成期限", @"订单数量",@"订单备注", @"上传订单照片"], @[ @"订单数量",@"订单备注", @"上传订单照片"], @[ @"订单数量" ,@"订单备注",@"上传订单照片"]];
     self.pickList =@[@[@"针织", @"梭织"],@[@"3天", @"5天", @"5天以上"]];
     self.type = 0;
-
 
     ServiceRangeTextField=[[UITextField alloc]initWithFrame:CGRectMake(kScreenW/2-60, 7, kScreenW/2+50, 30)];
     ServiceRangeTextField.text=@"针织";
@@ -148,21 +155,25 @@
     self.collectionImage = [[NSMutableArray alloc]initWithCapacity:9];
 }
 
-- (void)pushOrderBtn {
+- (void)pushOrderBtn:(id)sender {
+    UIButton*button = (UIButton *)sender;
+    [button setUserInteractionEnabled:NO];
 
     int amount = [numberTextField.text intValue];
-
     if (self.type==0) {
         if (ServiceRangeTextField.text.length==0 ||numberTextField.text.length==0 || numberTextField.text.length==0) {
             UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单信息不完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             [alertView show];
-        }else{
+            [button setUserInteractionEnabled:YES];
 
+        }else{
             [HttpClient addOrderWithAmount:amount factoryType:1 factoryServiceRange:ServiceRangeTextField.text workingTime:dateTextField.text comment:commentTextField.text andBlock:^(NSDictionary *responseDictionary) {
                 int statusCode = [responseDictionary[@"statusCode"] intValue];
                 if (statusCode==200) {
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                     [alertView show];
+                    [button setUserInteractionEnabled:YES];
+
                     NSDictionary*data = responseDictionary[@"data"];
                     self.oid = data[@"oid"];
                     if (![self.collectionImage count]==0) {
@@ -189,9 +200,12 @@
                             }
                         }];
                     }else{
+                        [button setUserInteractionEnabled:YES];
                         DLog(@"没有图片");
                     }
                 }else{
+                    [button setUserInteractionEnabled:YES];
+
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                     [alertView show];
                 }
@@ -202,6 +216,8 @@
         if (numberTextField.text.length==0 || numberTextField.text.length==0) {
             UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单信息不完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             [alertView show];
+            [button setUserInteractionEnabled:YES];
+
         }else{
 
             [HttpClient addOrderWithAmount:amount factoryType:self.type+1 factoryServiceRange:nil workingTime:dateTextField.text comment:commentTextField.text andBlock:^(NSDictionary *responseDictionary) {
@@ -209,6 +225,8 @@
                 if (statusCode==200) {
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                     [alertView show];
+                    [button setUserInteractionEnabled:YES];
+
                     NSDictionary*data = responseDictionary[@"data"];
                     self.oid = data[@"oid"];
 
@@ -236,11 +254,15 @@
                             }
                         }];
                     }else{
+                        [button setUserInteractionEnabled:YES];
+
                         DLog(@"没有图片");
                     }
                 }else{
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                     [alertView show];
+                    [button setUserInteractionEnabled:YES];
+
                 }
             }];
         }

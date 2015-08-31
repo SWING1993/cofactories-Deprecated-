@@ -70,8 +70,8 @@
             break;
         case 2:
         {
-            cell.textLabel.text=@"认证提交时间";
-            cell.detailTextLabel.text=self.VeifyDic[@"updatedAt"];
+            cell.textLabel.text=@"提交时间";
+            cell.detailTextLabel.text=[[Tools WithTime:self.VeifyDic[@"updatedAt"]] firstObject];
         }
             break;
 

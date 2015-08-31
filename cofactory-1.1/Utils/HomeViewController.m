@@ -57,7 +57,7 @@
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
 
         UserModel*userModel=responseDictionary[@"model"];
-        //        DLog(@"%@",userModel);
+        DLog(@"%@",userModel);
         self.factoryFreeStatus=userModel.factoryFreeStatus;
         self.hasTruck=userModel.hasTruck;
         self.factoryFreeTime=userModel.factoryFreeTime;
@@ -309,18 +309,23 @@
     }
 }
 - (void)statusClicked:(id)sender {
+    UIButton*button = (UIButton *)sender;
+    [button setUserInteractionEnabled:NO];
+    
     if ([Tools isTourist]) {
         //游客
         UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您登录后才使用认证服务,是否登录？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         alertView.tag=5;
-
         [alertView show];
+        [button setUserInteractionEnabled:YES];
+
     }else{
         //认证信息
         [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
             NSDictionary*VeifyDic=dictionary[@"responseDictionary"];
             self.status = [VeifyDic[@"status"] intValue];
-//            DLog(@"认证状态%d", self.status);
+            DLog(@"认证状态%d", self.status);
+            [button setUserInteractionEnabled:YES];
 
             //未认证
             if ( self.status==0) {
@@ -531,12 +536,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-
-//    if ([self.view window] == nil)// 是否是正在使用的视图
-//    {
-//        DLog(@"self.view = nil");
-//        self.view = nil;// 目的是再次进入时能够重新加载调用viewDidLoad函数。
-//    }
 }
 
 - (void)dealloc {

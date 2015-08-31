@@ -75,9 +75,11 @@
 - (void)RevisePasswordBtn {
     if (textField1.text.length!=0&&textField2.text.length!=0&&textField3.text.length!=0) {
         if (textField3.text.length!=18) {
-            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"身份证信息不完整" message:nil
-                                                             delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alertView show];
+            [Tools showHudTipStr:@"身份证信息不完整!"];
+
+        }if ([self.imageArray count]!=3) {
+            [Tools showHudTipStr:@"照片信息不完整!"];
+            
         }else{
 
             [HttpClient submitVerifyDetailWithLegalPerson:textField2.text idCard:textField3.text andBlock:^(int statusCode) {
@@ -86,22 +88,19 @@
                     case 200:
                     {
                         UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"认证提交成功" message:nil
-                                                                         delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                                                                         delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                        alertView.tag = 10065;
                         [alertView show];
                     }
                         break;
                     case 400:
                     {
-                        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"未登录" message:nil
-                                                                         delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                        [alertView show];
+                        [Tools showHudTipStr:@"未登录"];
                     }
                         break;
                     case 409:
                     {
-                        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"已经认证或者正在认证，不能修改。" message:nil
-                                                                         delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                        [alertView show];
+                        [Tools showHudTipStr:@"已经认证或者正在认证，不能修改。"];
                     }
                         break;
 
@@ -112,12 +111,18 @@
             }];
         }
     }else{
-        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"认证信息不完整" message:nil
-                                                         delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
+        [Tools showHudTipStr:@"认证信息不完整"];
     }
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 10065) {
+        if (buttonIndex == 0) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+
+}
 
 //- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 //    [self.tableView endEditing:YES];
@@ -165,6 +170,7 @@
                     break;
             }
         }
+
             break;
         case 1:
         {
@@ -206,6 +212,7 @@
             }
 
         }
+
             break;
 
         default:
@@ -286,10 +293,11 @@
         {
             [HttpClient uploadVerifyImage:[self.imageArray lastObject] type:@"license" andblock:^(NSDictionary *dictionary) {
                 if ([dictionary[@"statusCode"] intValue]==200) {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"上传成功" message:nil
-                delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
-                };
+                    [Tools showHudTipStr:@"上传成功"];
+                }else{
+                    [Tools showHudTipStr:@"上传失败"];
+                }
+
             }];
         }
             break;
@@ -298,10 +306,10 @@
         {
             [HttpClient uploadVerifyImage:[self.imageArray lastObject] type:@"idCard" andblock:^(NSDictionary *dictionary) {
                 if ([dictionary[@"statusCode"] intValue]==200) {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"上传成功" message:nil
-                                                                     delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
-                };
+                    [Tools showHudTipStr:@"上传成功"];
+                }else{
+                    [Tools showHudTipStr:@"上传失败"];
+                }
             }];
 
         }
@@ -311,14 +319,13 @@
         {
             [HttpClient uploadVerifyImage:[self.imageArray lastObject] type:@"photo" andblock:^(NSDictionary *dictionary) {
                 if ([dictionary[@"statusCode"] intValue]==200) {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"上传成功" message:nil
-                                                                     delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
-                };
+                    [Tools showHudTipStr:@"上传成功"];
+                }else{
+                    [Tools showHudTipStr:@"上传失败"];
+                }
             }];
         }
             break;
-
 
         default:
             break;
