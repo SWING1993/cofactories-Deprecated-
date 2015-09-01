@@ -314,7 +314,7 @@
 		0448E1531B75E763002B78B8 /* UIImage+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Common.m"; sourceTree = "<group>"; };
 		0448E1541B75E763002B78B8 /* UIImageView+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Common.m"; sourceTree = "<group>"; };
 		0448E15D1B760CE1002B78B8 /* area.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = area.plist; sourceTree = "<group>"; };
-		044B8C6E1B7D9D39008A4854 /* NSLog.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSLog.pch; sourceTree = "<group>"; };
+		044B8C6E1B7D9D39008A4854 /* Cofactory_iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Cofactory_iOS-Prefix.pch"; sourceTree = "<group>"; };
 		045171BA1B70B03800BAA6E8 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		0451D6551B574BCB007CCD59 /* ico_make.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ico_make.png; sourceTree = "<group>"; };
 		0451D6561B574BCB007CCD59 /* JSDropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSDropDownMenu.h; sourceTree = "<group>"; };
@@ -1729,6 +1729,7 @@
 			isa = PBXGroup;
 			children = (
 				BDC907E01B4E9A8700856A32 /* Header.h */,
+				044B8C6E1B7D9D39008A4854 /* Cofactory_iOS-Prefix.pch */,
 				BDC907BE1B4E9A5700856A32 /* AppDelegate.h */,
 				BDC907BF1B4E9A5700856A32 /* AppDelegate.mm */,
 				BDC907E11B4E9B3700856A32 /* Utils */,
@@ -1749,7 +1750,6 @@
 			children = (
 				BDEDA4371B52254A000E5012 /* mapapi.bundle */,
 				BDC907BB1B4E9A5700856A32 /* Info.plist */,
-				044B8C6E1B7D9D39008A4854 /* NSLog.pch */,
 				0448E15D1B760CE1002B78B8 /* area.plist */,
 				BDC907BC1B4E9A5700856A32 /* main.m */,
 			);
@@ -2482,7 +2482,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/cofactory-1.1/Utils",
 				);
-				GCC_PREFIX_HEADER = "$(SRCROOT)/cofactory-1.1/NSLog.pch";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/cofactory-1.1/Cofactory_iOS-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = DEBUG;
 				INFOPLIST_FILE = "cofactory-1.1/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -2520,7 +2521,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/cofactory-1.1/Utils",
 				);
-				GCC_PREFIX_HEADER = "$(SRCROOT)/cofactory-1.1/NSLog.pch";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/cofactory-1.1/Cofactory_iOS-Prefix.pch";
 				INFOPLIST_FILE = "cofactory-1.1/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

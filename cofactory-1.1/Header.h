@@ -1,26 +1,3 @@
-//内网服务器
-//#define kBaseUrl @"http://192.168.100.2:3001"
-
-//正式服务器
-#define kBaseUrl @"http://app2.cofactories.com"
-#define PhotoAPI @"http://cdn.cofactories.com"
-#define bucketAPI @"cofactories"
-
-//测试服务器
-//#define kBaseUrl @"http://test.cofactories.com"
-//#define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
-//#define bucketAPI @"cofactories-test"
-
-//企业版
-//#define UMENGAppKey @"55e03514e0f55a390f003db7"
-//#define mapApi @"pnnhXGR5g1cLReulX6fOQxMQ"
-//#define  aboutCellNumber 2
-
-//个人开发者版
-#define UMENGAppKey @"5566b5e767e58e0c4700aab0"
-#define mapApi @"ijDoxrS8H8lrgD9GDbLQpjNR"
-#define  aboutCellNumber 1
-
 
 
 #import "AppDelegate.h"
@@ -122,29 +99,5 @@
 #import "FactoryRangeModel.h"
 
 
-//ios系统版本
-#define ios8x [[[UIDevice currentDevice] systemVersion] floatValue] >=8.0f
-#define ios7x ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0f) && ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0f)
-#define ios6x [[[UIDevice currentDevice] systemVersion] floatValue] < 7.0f
-#define iosNot6x [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0f
-#define kStatusBarHeight 20
-#define kNavigationBarHeight 44
-#define iphone4x_3_5 ([UIScreen mainScreen].bounds.size.height==480.0f)
-#define iphone5x_4_0 ([UIScreen mainScreen].bounds.size.height==568.0f)
-#define iphone6_4_7 ([UIScreen mainScreen].bounds.size.height==667.0f)
-#define iphone6Plus_5_5 ([UIScreen mainScreen].bounds.size.height==736.0f || [UIScreen mainScreen].bounds.size.height==414.0f)
 
-//屏幕宽高
-#define kScreenW [[UIScreen mainScreen] bounds].size.width
-#define kScreenH [[UIScreen mainScreen] bounds].size.height
-
-//屏幕frame,bounds,size
-#define kScreenFrame [UIScreen mainScreen].bounds
-#define kScreenBounds [UIScreen mainScreen].bounds
-#define kScreenSize [UIScreen mainScreen].bounds.size
-
-#define kBannerHeight kScreenW*0.535
-#define kStatusBarHeight 20
-#define kNavigationBarHeight 44
-#define CellIdentifier @"Cell"
 

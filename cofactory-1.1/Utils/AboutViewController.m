@@ -36,7 +36,7 @@
 
     UILabel*logoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, kScreenW, 20)];
     logoLabel.font = [UIFont systemFontOfSize:16];
-    logoLabel.text=@"聚工厂 cofactories 1.3";
+    logoLabel.text=[NSString stringWithFormat:@"聚工厂 cofactories %@",kVersion_Coding];//@"聚工厂 cofactories 1.3";
     logoLabel.textAlignment = NSTextAlignmentCenter;
     [tableHeaderView addSubview:logoLabel];
 
@@ -50,12 +50,13 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    //个人开发者
-    return aboutCellNumber;
-
-    //企业账号
-    //return 2;
+    if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
+        //个人开发者
+        return 1;
+    }else{
+        //企业账号
+        return 2;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -97,7 +98,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0:{
-            NSString *str = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id1015359842"];
+            NSString *str = kAppReviewURL;
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 
         }

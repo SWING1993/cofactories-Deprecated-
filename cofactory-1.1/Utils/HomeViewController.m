@@ -72,11 +72,17 @@
     [super viewDidLoad];
 
     DLog(@"游客=%d",[Tools isTourist]);
+    DLog(@"%@",Kidentifier);
 
-
-
-    //个人开发者 关闭检测更新
-    //[[PgyManager sharedPgyManager] checkUpdate];
+    if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
+        //个人开发者 关闭检测更新
+        DLog(@"个人开发者 关闭检测更新");
+    }else
+    {
+        //企业账号 开启检测更新
+        DLog(@"企业账号 开启检测更新")
+        [[PgyManager sharedPgyManager] checkUpdate];
+    }
 
     //抽奖
     [HttpClient drawAccessWithBlock:^(int statusCode) {

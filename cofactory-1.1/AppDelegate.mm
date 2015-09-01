@@ -58,27 +58,67 @@
         self.window.rootViewController = mainVC;
     }
 
-    // 初始化百度地图 SDK
-    _mapManager = [[BMKMapManager alloc] init];
-    BOOL ret = [_mapManager start:mapApi  generalDelegate:nil];
 
-    if (!ret) {
-        DLog(@"百度地图SDK错误");
+    
+    if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
+        //个人开发者 关闭蒲公英
+        DLog(@"个人开发者 关闭蒲公英");
+
+        // 初始化百度地图 SDK
+        _mapManager = [[BMKMapManager alloc] init];
+        BOOL ret = [_mapManager start:appStoreMapApi  generalDelegate:nil];
+
+        if (!ret) {
+            DLog(@"百度地图SDK错误");
+        }
+        // 友盟分享
+        [UMSocialData setAppKey:appStoreUMENGAppKey];
+        //[UMSocialData openLog:YES];
+        // 友盟用户反馈
+        [UMFeedback setAppkey:appStoreUMENGAppKey];
+        // 注册友盟统计 SDK
+        [MobClick startWithAppkey:appStoreUMENGAppKey reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
+        [MobClick setAppVersion:kVersion_Coding];
+
+        // 注册友盟推送服务 SDK
+        //set AppKey and LaunchOptions
+        [UMessage startWithAppkey:appStoreUMENGAppKey launchOptions:launchOptions];
+        
+    }else
+    {
+        //企业账号 开启蒲公英
+        DLog(@"企业账号 开启蒲公英")
+        //  关闭用户手势反馈，默认为开启。
+        [[PgyManager sharedPgyManager] setEnableFeedback:NO];
+        //  设置用户反馈界面的颜色，颜色会影响到Title以及工具栏的背景颜色和录音按钮的边框颜色，默认为黑色。
+        [[PgyManager sharedPgyManager] setThemeColor:[UIColor colorWithHexString:@"0x28303b"]];
+        //  启动SDK
+        //  设置三指拖动激活摇一摇需在此调用之前
+        [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
+
+        // 初始化百度地图 SDK
+        _mapManager = [[BMKMapManager alloc] init];
+        BOOL ret = [_mapManager start:mapApi  generalDelegate:nil];
+
+        if (!ret) {
+            DLog(@"百度地图SDK错误");
+        }
+        // 友盟分享
+        [UMSocialData setAppKey:UMENGAppKey];
+        //[UMSocialData openLog:YES];
+        // 友盟用户反馈
+        [UMFeedback setAppkey:UMENGAppKey];
+        // 注册友盟统计 SDK
+        [MobClick startWithAppkey:UMENGAppKey reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
+        // Version 标识
+        NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        [MobClick setAppVersion:version];
+
+        // 注册友盟推送服务 SDK
+        //set AppKey and LaunchOptions
+        [UMessage startWithAppkey:UMENGAppKey launchOptions:launchOptions];
     }
-    // 友盟分享  
-    [UMSocialData setAppKey:UMENGAppKey];
-    //[UMSocialData openLog:YES];
-    // 友盟用户反馈
-    [UMFeedback setAppkey:UMENGAppKey];
-    // 注册友盟统计 SDK
-    [MobClick startWithAppkey:UMENGAppKey reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
-    // Version 标识
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    [MobClick setAppVersion:version];
 
-    // 注册友盟推送服务 SDK
-    //set AppKey and LaunchOptions
-    [UMessage startWithAppkey:UMENGAppKey launchOptions:launchOptions];
 
 //    [UMessage setAutoAlert:NO];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
@@ -119,20 +159,9 @@
      |UIRemoteNotificationTypeAlert];
 
 #endif
-
     //for log
     [UMessage setLogEnabled:YES];
 
-
-    //个人开发者 蒲公英SDK
-
-//    //  关闭用户手势反馈，默认为开启。
-//    [[PgyManager sharedPgyManager] setEnableFeedback:NO];
-//    //  设置用户反馈界面的颜色，颜色会影响到Title以及工具栏的背景颜色和录音按钮的边框颜色，默认为黑色。
-//    [[PgyManager sharedPgyManager] setThemeColor:[UIColor colorWithHexString:@"0x28303b"]];
-//    //  启动SDK
-//    //  设置三指拖动激活摇一摇需在此调用之前
-//    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
 
     [_window makeKeyAndVisible];
     return YES;
