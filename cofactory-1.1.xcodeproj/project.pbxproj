@@ -789,7 +789,7 @@
 		BDC909031B4EB77000856A32 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		BDEDA4331B521F42000E5012 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		BDEDA4351B52234B000E5012 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		BDEDA4371B52254A000E5012 /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = "<group>"; };
+		BDEDA4371B52254A000E5012 /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = mapapi.bundle; path = ../../mapapi.bundle; sourceTree = "<group>"; };
 		BDEDA4391B5229F6000E5012 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		BDEDA43A1B5229F6000E5012 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; tabWidth = 5; };
 /* End PBXFileReference section */
@@ -1476,11 +1476,12 @@
 		04E644441B69C59000A3DF2E /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				BD8C4DF41B4FB2BA0065ECFA /* libz.dylib */,
+				BDEDA4371B52254A000E5012 /* mapapi.bundle */,
 				04E94E151B8EB45700EE911E /* CoreMotion.framework */,
 				04E94E171B8EB49000EE911E /* AudioToolbox.framework */,
 				04E94E131B8EB41600EE911E /* AVFoundation.framework */,
 				045171BA1B70B03800BAA6E8 /* CoreFoundation.framework */,
-				BD8C4DF41B4FB2BA0065ECFA /* libz.dylib */,
 				BDC907FB1B4E9B3700856A32 /* BaiduMapAPI.framework */,
 				BDEDA4351B52234B000E5012 /* CoreGraphics.framework */,
 				BDEDA4331B521F42000E5012 /* MapKit.framework */,
@@ -1732,14 +1733,13 @@
 				044B8C6E1B7D9D39008A4854 /* Cofactory_iOS-Prefix.pch */,
 				BDC907BE1B4E9A5700856A32 /* AppDelegate.h */,
 				BDC907BF1B4E9A5700856A32 /* AppDelegate.mm */,
+				BDC907C41B4E9A5700856A32 /* Main.storyboard */,
+				BDC907C91B4E9A5700856A32 /* LaunchScreen.xib */,
 				BDC907E11B4E9B3700856A32 /* Utils */,
 				BDC908F31B4E9B6B00856A32 /* Model */,
 				BDC909001B4E9B9600856A32 /* Controller */,
 				BD8AD7B01B50DE7900373E5E /* View */,
 				0448E1461B75D78D002B78B8 /* OC_Category */,
-				BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */,
-				BDC907C41B4E9A5700856A32 /* Main.storyboard */,
-				BDC907C91B4E9A5700856A32 /* LaunchScreen.xib */,
 				BDC907BA1B4E9A5700856A32 /* Supporting Files */,
 			);
 			path = "cofactory-1.1";
@@ -1748,8 +1748,8 @@
 		BDC907BA1B4E9A5700856A32 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				BDEDA4371B52254A000E5012 /* mapapi.bundle */,
 				BDC907BB1B4E9A5700856A32 /* Info.plist */,
+				BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */,
 				0448E15D1B760CE1002B78B8 /* area.plist */,
 				BDC907BC1B4E9A5700856A32 /* main.m */,
 			);
