@@ -6,7 +6,6 @@
 //  Copyright (c) 2015年 聚工科技. All rights reserved.
 //
 #import "Header.h"
-#import "ModelsHeader.h"
 #import "HomeViewsHeader.h"
 #import "HomeViewController.h"
 
@@ -76,8 +75,8 @@
 
 
 
-    //个人开发者 检测更新 
-//    [[PgyManager sharedPgyManager] checkUpdate];
+    //个人开发者 关闭检测更新
+    //[[PgyManager sharedPgyManager] checkUpdate];
 
     //抽奖
     [HttpClient drawAccessWithBlock:^(int statusCode) {

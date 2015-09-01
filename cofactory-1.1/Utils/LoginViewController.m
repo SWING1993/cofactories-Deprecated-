@@ -17,6 +17,22 @@
 @end
 
 @implementation LoginViewController
+{
+    BOOL _wasKeyboardManagerEnabled;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
+    [[IQKeyboardManager sharedManager] setEnable:NO];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
+}
 
 
 - (void)viewDidLoad {
@@ -184,9 +200,9 @@
 
 
 
-//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-//    [self.view endEditing:YES];
-//}
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self.view endEditing:YES];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

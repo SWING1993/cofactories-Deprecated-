@@ -52,7 +52,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     //个人开发者
-    return 1;
+    return aboutCellNumber;
 
     //企业账号
     //return 2;
