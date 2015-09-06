@@ -18,21 +18,21 @@
 
 @implementation LoginViewController
 {
-    BOOL _wasKeyboardManagerEnabled;
+    //BOOL _wasKeyboardManagerEnabled;
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
-    [[IQKeyboardManager sharedManager] setEnable:NO];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
-}
+//-(void)viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+//    _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
+//    [[IQKeyboardManager sharedManager] setEnable:NO];
+//}
+//
+//-(void)viewWillDisappear:(BOOL)animated
+//{
+//    [super viewWillDisappear:animated];
+//    [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
+//}
 
 
 - (void)viewDidLoad {
@@ -41,90 +41,97 @@
     self.title=@"登录";
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor=[UIColor whiteColor];
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW-64, kScreenH) style:UITableViewStyleGrouped];
+    self.tableView.showsVerticalScrollIndicator=NO;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+
+    UIView*tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
+    tableHeaderView.backgroundColor=[UIColor clearColor];
+    UIImageView*logoImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2-40, 10, 80, 80)];
+    logoImage.image=[UIImage imageNamed:@"login_logo"];
+    logoImage.layer.cornerRadius = 80/2.0f;
+    logoImage.layer.masksToBounds = YES;
+    [tableHeaderView addSubview:logoImage];
+
+    self.tableView.tableHeaderView = tableHeaderView;
     [self createUI];
     
 }
-- (void)createUI{
-    UIImageView*bgView = [[UIImageView alloc]initWithFrame:kScreenBounds];
-    bgView.image=[UIImage imageNamed:@"登录bg"];
-    [self.view addSubview:bgView];
+- (void)createUI {
 
-    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100-64, kScreenW-20, 100)];
-    TFView.alpha=0.9f;
-    TFView.backgroundColor=[UIColor whiteColor];
-    TFView.layer.borderWidth=2.0f;
-    TFView.layer.borderColor=[UIColor whiteColor].CGColor;
-    TFView.layer.cornerRadius=5.0f;
-    TFView.layer.masksToBounds=YES;
-    [self.view addSubview:TFView];
-    
-
-    UILabel*usernameLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 14, 40, 20)];
-    usernameLable.text=@"账号";
-    usernameLable.font=[UIFont boldSystemFontOfSize:16];
-    usernameLable.textColor=[UIColor blackColor];
-    [TFView addSubview:usernameLable];
-    
-    _usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(50, 5, kScreenW-80, 40)];
+    UIImageView*userTFView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 40, 23)];
+    userTFView.image = [UIImage imageNamed:@"login_user"];
+    _usernameTF.font = [UIFont systemFontOfSize:15.0f];
+    _usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
+    _usernameTF.leftView = userTFView;
+    _usernameTF.leftViewMode = UITextFieldViewModeAlways;
     _usernameTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-    _usernameTF.placeholder=@"请输入账号/手机号";
+    _usernameTF.placeholder=@"手机号";
     _usernameTF.keyboardType = UIKeyboardTypeNumberPad;
-    [TFView addSubview:_usernameTF];
-    
-    UILabel*passwordLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 63, 40, 20)];
-    passwordLable.text=@"密码";
-    passwordLable.font=[UIFont boldSystemFontOfSize:16];
-    passwordLable.textColor=[UIColor blackColor];
-    [TFView addSubview:passwordLable];
-    
-    _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(50, 55, kScreenW-80, 40)];
-    _passwordTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+
+
+
+    UIImageView*passTFView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 40, 23)];
+    passTFView.image = [UIImage imageNamed:@"login_key"];
+    _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
+    _passwordTF.leftView = passTFView;
+    _passwordTF.leftViewMode = UITextFieldViewModeAlways;
     _passwordTF.secureTextEntry=YES;
-    _passwordTF.placeholder=@"请输入您的密码";
-    [TFView addSubview:_passwordTF];
+    _passwordTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+    _passwordTF.placeholder=@"密码";
     
-    //button
-    UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 220-64, (kScreenW-20)/2-20, 35)];
-    registerBtn.backgroundColor=[UIColor whiteColor];
-    registerBtn.alpha=0.9f;
-    registerBtn.layer.cornerRadius=5.0f;
-    registerBtn.layer.masksToBounds=YES;
-    registerBtn.tag=0;
-    [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
-    [registerBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [registerBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:registerBtn];
-    
-    UIButton*loginBtn=[[UIButton alloc]initWithFrame:CGRectMake((kScreenW-20)/2+30, 220-64, (kScreenW-20)/2-20, 35)];
-    loginBtn.layer.cornerRadius=5.0f;
+
+
+    UIButton*loginBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 220, (kScreenW-40), 35)];
     loginBtn.tag=1;
+    loginBtn.layer.cornerRadius=5.0f;
     loginBtn.layer.masksToBounds=YES;
-    [loginBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
+    loginBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+    loginBtn.layer.borderWidth = 1.0f;
+    loginBtn.backgroundColor = [UIColor whiteColor];
     [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
-    [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    //loginBtn.alpha=0.8f;
+    [loginBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
     [loginBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:loginBtn];
+    [self.tableView addSubview:loginBtn];
 
     
-    UIButton*touristBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 270-64, kScreenW-20, 40)];
-//    touristBtn.alpha=0.8f;
+    UIButton*touristBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 265, kScreenW-40, 35)];
     touristBtn.tag=2;
     touristBtn.layer.cornerRadius=5.0f;
     touristBtn.layer.masksToBounds=YES;
+    touristBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+    touristBtn.layer.borderWidth = 1.0f;
+    touristBtn.backgroundColor = [UIColor whiteColor];
+
+    touristBtn.layer.cornerRadius=5.0f;
+    touristBtn.layer.masksToBounds=YES;
     [touristBtn setTitle:@"游客登录" forState:UIControlStateNormal];
-    [touristBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [touristBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
+    [touristBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
     [touristBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:touristBtn];
-    
-    UIButton*forgetBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-80, 315-64, 70, 20)];
+
+
+    //注册 button
+    UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake((kScreenW-40)/2+40, 305, (kScreenW-40)/2-20, 25)];
+//    registerBtn.backgroundColor = [UIColor redColor];
+    registerBtn.tag=0;
+    registerBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+    registerBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
+    [registerBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [registerBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.tableView addSubview:registerBtn];
+
+
+    UIButton*forgetBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, 305, (kScreenW-40)/2-20, 25)];
+//    forgetBtn.backgroundColor = [UIColor grayColor];
     forgetBtn.tag=3;
     forgetBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+    forgetBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [forgetBtn setTitle:@"忘记密码" forState:UIControlStateNormal];
     [forgetBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [forgetBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:forgetBtn];
+    [self.tableView addSubview:forgetBtn];
 
 }
 
@@ -138,30 +145,23 @@
             break;
         case 1:{
             if ([_passwordTF.text isEqualToString:@""]||[_usernameTF.text isEqualToString:@""]) {
-//                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"请您填写账号以及密码后登陆" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//                [alertView show];
+
                 [Tools showHudTipStr:@"请您填写账号以及密码后登陆"];
             }else{
                 [HttpClient loginWithUsername:_usernameTF.text password:_passwordTF.text andBlock:^(int statusCode) {
                     DLog(@"%d",statusCode);
                     switch (statusCode) {
                         case 0:{
-//                            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"网络错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//                            [alertView show];
                             [Tools showHudTipStr:@"网络错误"];
 
                         }
                             break;
                         case 200:{
-//                            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"登陆成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//                            [alertView show];
                             [ViewController goMain];
 
                         }
                             break;
                         case 400:{
-//                            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"用户名密码错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//                            [alertView show];
                             [Tools showHudTipStr:@"用户名或密码错误"];
 
                         }
@@ -176,7 +176,6 @@
         }
             break;
         case 2:{
-//            [ViewController goMain];
             TouristViewController*touristVC = [[TouristViewController alloc]init];
             UINavigationController*touristNav = [[UINavigationController alloc]initWithRootViewController:touristVC];
             touristNav.navigationBar.barStyle=UIBarStyleBlack;
@@ -194,15 +193,16 @@
             break;
     }
 }
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     [ViewController goMain];
 }
 
 
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    [self.view endEditing:YES];
-}
+//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+//    [self.view endEditing:YES];
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -218,5 +218,41 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 2;
+    }
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    UITableViewCell*cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+        if (indexPath.row == 0) {
+            [cell addSubview:_usernameTF];
+        }
+        if (indexPath.row == 1) {
+            [cell addSubview:_passwordTF];
+        }
+    }
+
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.01f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.01f;
+}
 
 @end

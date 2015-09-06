@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RegisterViewController2 : UIViewController
+@interface RegisterViewController2 : UITableViewController
 
 @end

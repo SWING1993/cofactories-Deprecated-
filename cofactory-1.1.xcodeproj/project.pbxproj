@@ -236,7 +236,6 @@
 		BD8AD8001B50FDBB00373E5E /* HomeFooterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD8AD7FE1B50FDBB00373E5E /* HomeFooterCell.xib */; };
 		BD8AD8031B5102C200373E5E /* HomeEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8AD8021B5102C200373E5E /* HomeEditViewController.m */; };
 		BD8AD8091B511ACA00373E5E /* MessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8AD8081B511ACA00373E5E /* MessageDetailViewController.m */; };
-		BD8AD80C1B513B4300373E5E /* PasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8AD80B1B513B4300373E5E /* PasswordViewController.m */; };
 		BD8C4DF31B4FB2640065ECFA /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4DF01B4FB2640065ECFA /* libMobClickLibrary.a */; };
 		BD8C4DF51B4FB2BA0065ECFA /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4DF41B4FB2BA0065ECFA /* libz.dylib */; };
 		BD8C4DF71B4FB2C80065ECFA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4DF61B4FB2C80065ECFA /* OpenGLES.framework */; };
@@ -705,8 +704,6 @@
 		BD8AD8021B5102C200373E5E /* HomeEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeEditViewController.m; sourceTree = "<group>"; };
 		BD8AD8071B511ACA00373E5E /* MessageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDetailViewController.h; sourceTree = "<group>"; };
 		BD8AD8081B511ACA00373E5E /* MessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDetailViewController.m; sourceTree = "<group>"; };
-		BD8AD80A1B513B4300373E5E /* PasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordViewController.h; sourceTree = "<group>"; };
-		BD8AD80B1B513B4300373E5E /* PasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordViewController.m; sourceTree = "<group>"; };
 		BD8C4DF01B4FB2640065ECFA /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		BD8C4DF11B4FB2640065ECFA /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		BD8C4DF21B4FB2640065ECFA /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
@@ -1928,15 +1925,13 @@
 		BDC909011B4E9BBD00856A32 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				04822E341B62E5C200A370F6 /* TouristViewController.h */,
+				04822E351B62E5C200A370F6 /* TouristViewController.m */,
 				04D462E51B5CD1EC00B9B4D8 /* ResetPassword */,
 				BDC909021B4EB77000856A32 /* LoginViewController.h */,
 				BDC909031B4EB77000856A32 /* LoginViewController.m */,
-				04822E341B62E5C200A370F6 /* TouristViewController.h */,
-				04822E351B62E5C200A370F6 /* TouristViewController.m */,
 				BD4311D31B4F5CD00097E4BC /* RegisterViewController.h */,
 				BD4311D41B4F5CD00097E4BC /* RegisterViewController.m */,
-				BD8AD80A1B513B4300373E5E /* PasswordViewController.h */,
-				BD8AD80B1B513B4300373E5E /* PasswordViewController.m */,
 				BD4311D61B4F6A900097E4BC /* RegisterViewController2.h */,
 				BD4311D71B4F6A900097E4BC /* RegisterViewController2.m */,
 				BD801F3A1B520D770009CB4D /* AddressViewController.h */,
@@ -2239,7 +2234,6 @@
 				047EF0E31B6085A0007DD2AE /* AddOrderViewController.m in Sources */,
 				049582E71B6B490F00A69E6D /* JKAssetsViewCell.m in Sources */,
 				04724E731B8870C000F820EF /* TYSlidePageScrollViewController.m in Sources */,
-				BD8AD80C1B513B4300373E5E /* PasswordViewController.m in Sources */,
 				045A266E1B686682002DE415 /* NSDate+WQCalendarLogic.m in Sources */,
 				049582E81B6B490F00A69E6D /* JKImagePickerController.m in Sources */,
 				64F4C6791B70B31D00F52FF0 /* UIView+MJExtension.m in Sources */,

@@ -50,8 +50,6 @@
 
     FactoryRangeModel*rangeModel = [[FactoryRangeModel alloc]init];
 
-//    NSArray*cellListArr=@[@[@"10万件-30万件", @"30万件-50万件", @"50万件-100万件", @"100万件-200万件", @"200万件以上"],@[@"2人-4人", @"4人-10人", @"10人-20人", @"20人以上"],@[@"2人-4人", @"4人-10人"],@[@"2人-4人", @"4人-10人"]];
-
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"]) {
         self.cellServicePickList=serviceListArr[0];
         self.cellPickList=rangeModel.allFactorySize[0];
@@ -66,6 +64,7 @@
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"锁眼钉扣厂"]) {
         self.cellPickList=rangeModel.allFactorySize[3];
     }
+
     [self createUI];
 
     //设置Btn

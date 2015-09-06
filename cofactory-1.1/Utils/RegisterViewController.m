@@ -7,107 +7,123 @@
 //
 #import "Header.h"
 #import "RegisterViewController.h"
-#import "PasswordViewController.h"
+#import "RegisterViewController2.h"
 
-@interface RegisterViewController ()<UIAlertViewDelegate> {
-    UITextField*_authcodeTF;//验证码
-
-    NSTimer*timer;
-
-    NSInteger seconds;
-
-    UIButton*authcodeBtn;
+@interface RegisterViewController ()<UIAlertViewDelegate,UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource> {
 
 }
 
 @property(nonatomic,copy)NSString*statusCode;
 
+@property(nonatomic,retain)NSArray*factoryTypeList;
+@property (nonatomic,strong) UIPickerView *factoryTypePicker;
+@property (nonatomic,strong) UIToolbar*factoryTypeToolbar;
+
 @end
 
 @implementation RegisterViewController{
     UITextField*_usernameTF;//账号
-    BOOL _wasKeyboardManagerEnabled;
+    UITextField*_passwordTF;//密码1
+    UITextField*inviteCodeTF;
+    UITextField*_authcodeTF;//验证码
+    NSTimer*timer;
+    NSInteger seconds;
+    UIButton*authcodeBtn;
+
+    UITextField*_typeTF;//公司类型
+    NSString *_factoryName;
+
+    //BOOL _wasKeyboardManagerEnabled;
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
-    [[IQKeyboardManager sharedManager] setEnable:NO];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
-}
+//-(void)viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+//    _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
+//    [[IQKeyboardManager sharedManager] setEnable:NO];
+//}
+//
+//-(void)viewWillDisappear:(BOOL)animated
+//{
+//    [super viewWillDisappear:animated];
+//    [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title=@"注册";
+    self.factoryTypeList=@[@"服装厂",@"加工厂",@"代裁厂",@"锁眼钉扣厂"];
+
     self.view.backgroundColor=[UIColor whiteColor];
+
+    self.view.backgroundColor=[UIColor whiteColor];
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW-64, kScreenH) style:UITableViewStyleGrouped];
+    self.tableView.showsVerticalScrollIndicator=NO;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+
+    UIView*tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
+    tableHeaderView.backgroundColor=[UIColor clearColor];
+    UIImageView*logoImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2-40, 10, 80, 80)];
+    logoImage.image=[UIImage imageNamed:@"login_logo"];
+    logoImage.layer.cornerRadius = 80/2.0f;
+    logoImage.layer.masksToBounds = YES;
+    [tableHeaderView addSubview:logoImage];
+
+    self.tableView.tableHeaderView = tableHeaderView;
+
     [self createUI];
 }
 
 - (void)createUI {
-    
-    UIImageView*bgView = [[UIImageView alloc]initWithFrame:kScreenBounds];
-    bgView.image=[UIImage imageNamed:@"登录bg"];
-    [self.view addSubview:bgView];
-    
-    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100-64, kScreenW-20, 100)];
-    TFView.alpha=0.9f;
-    TFView.backgroundColor=[UIColor whiteColor];
-    TFView.layer.borderWidth=2.0f;
-    TFView.layer.borderColor=[UIColor whiteColor].CGColor;
-    TFView.layer.cornerRadius=5.0f;
-    TFView.layer.masksToBounds=YES;
-    [self.view addSubview:TFView];
-    
-    
-    UILabel*usernameLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 14, 60, 20)];
-    usernameLable.text=@"手机号";
-    usernameLable.font=[UIFont boldSystemFontOfSize:15];
-    usernameLable.textColor=[UIColor blackColor];
-    [TFView addSubview:usernameLable];
-    
-    _usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(60, 5, kScreenW-90, 40)];
+
+    _usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
     _usernameTF.clearButtonMode=UITextFieldViewModeWhileEditing;
     _usernameTF.keyboardType = UIKeyboardTypeNumberPad;
-    _usernameTF.placeholder=@"请输入手机号";
-    [TFView addSubview:_usernameTF];
+    _usernameTF.placeholder=@"手机号";
 
-    UILabel*codeLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 63, 60, 20)];
-    codeLable.text=@"验证码";
-    codeLable.font=[UIFont boldSystemFontOfSize:15];
-    codeLable.textColor=[UIColor blackColor];
-    [TFView addSubview:codeLable];
+    _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
+    _passwordTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+    _passwordTF.placeholder=@"密码";
+    _passwordTF.secureTextEntry=YES;
 
-    _authcodeTF = [[UITextField alloc]initWithFrame:CGRectMake(60, 55, kScreenW-190, 40)];
+    inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
+    inviteCodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+    inviteCodeTF.keyboardType = UIKeyboardTypeNumberPad;
+    inviteCodeTF.placeholder=@"邀请码(可不填)";
+
+
+    _typeTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
+    _typeTF.placeholder=@"工厂类型";
+    _typeTF.inputView = [self fecthPicker];
+    _typeTF.inputAccessoryView = [self fecthToolbar];
+    _typeTF.delegate =self;
+
+
+     _authcodeTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-118, 44)];
     _authcodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
     _authcodeTF.keyboardType = UIKeyboardTypeNumberPad;
-    _authcodeTF.placeholder=@"请输入验证码";
-    [TFView addSubview:_authcodeTF];
+    _authcodeTF.placeholder=@"验证码";
 
-    authcodeBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW-130, 57, 100, 35)];
-    [authcodeBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
+    authcodeBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW-100, 7, 90, 30)];
     authcodeBtn.layer.cornerRadius=5.0f;
     authcodeBtn.layer.masksToBounds=YES;
+    authcodeBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+    authcodeBtn.layer.borderWidth = 1.0f;
     authcodeBtn.titleLabel.font=[UIFont systemFontOfSize:15];
     [authcodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-    [authcodeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [authcodeBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
     [authcodeBtn addTarget:self action:@selector(sendCodeBtn) forControlEvents:UIControlEventTouchUpInside];
-    [TFView addSubview:authcodeBtn];
 
-    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 220-64, kScreenW-20, 35)];
-    [nextBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
+    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 360, kScreenW-20, 35)];
     nextBtn.layer.cornerRadius=5.0f;
     nextBtn.layer.masksToBounds=YES;
-    [nextBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [nextBtn setTitle:@"注册" forState:UIControlStateNormal];
+    nextBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+    nextBtn.layer.borderWidth = 1.0f;
+    [nextBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
     [nextBtn addTarget:self action:@selector(nextBtn) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:nextBtn];
+    [self.tableView addSubview:nextBtn];
     
 }
 
@@ -121,7 +137,6 @@
     }else{
         seconds--;
         NSString *title = [NSString stringWithFormat:@"倒计时%lds",(long)seconds];
-        [authcodeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [authcodeBtn setEnabled:NO];
         [authcodeBtn setTitle:title forState:UIControlStateNormal];
     }
@@ -151,6 +166,7 @@
 
                 case 200:{
                     [Tools showHudTipStr:@"发送成功，十分钟内有效"];
+                    [authcodeBtn setEnabled:NO];
                     seconds = 60;
                     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
                 }
@@ -174,71 +190,50 @@
                 default:
                     break;
             }
-
             DLog(@"验证码code%d",statusCode);
-//            if (statusCode==200) {
-//                [Tools showHudTipStr:@"发送成功，十分钟内有效"];
-//                seconds = 60;
-//                timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
-//            }
-//
-//            if (statusCode == 400) {
-//                [Tools showHudTipStr:@"手机格式不正确"];
-//            }
-//
-//            if (statusCode == 409) {
-//                [Tools showHudTipStr:@"需要等待冷却"];
-//            }
-//            else {
-//                [Tools showHudTipStr:@"网络错误"];
-//            }
         }];
-
     }else{
-
-        UIAlertView*userAlert=[[UIAlertView alloc]initWithTitle:@"手机号码错误" message:@"您输入的是一个无效的手机号码" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [userAlert show];
+        [Tools showHudTipStr:@"您输入的是一个无效的手机号码"];
     }
-
-
 }
 
 
 - (void)nextBtn {
 
-    MBProgressHUD *hud = [Tools createHUD];
-    hud.labelText = @"正在验证...";
-    [HttpClient validateCodeWithPhone:_usernameTF.text code:_authcodeTF.text andBlock:^(int statusCode) {
-        DLog(@"验证码code%d",statusCode);
+    if (_usernameTF.text.length==0 && _passwordTF.text.length==0 && _authcodeTF.text.length==0) {
+        DLog(@"mo");
+        [Tools showHudTipStr:@"注册信息不完整"];
+    }else{
+        MBProgressHUD *hud = [Tools createHUD];
+        hud.labelText = @"正在验证...";
+        [HttpClient validateCodeWithPhone:_usernameTF.text code:_authcodeTF.text andBlock:^(int statusCode) {
+            DLog(@"验证码code%d",statusCode);
 
-        if (statusCode == 0) {
-            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"网络错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alertView show];
-            [hud hide:YES];
-        }
-        if (statusCode == 200) {
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setObject:_usernameTF.text forKey:@"phone"];
-            [userDefaults setObject:_authcodeTF.text forKey:@"code"];
-            [userDefaults synchronize];
-            hud.labelText = @"验证成功";
-            [hud hide:YES];
-            PasswordViewController*passwordVC =[[PasswordViewController alloc]init];
-            [self.navigationController pushViewController:passwordVC animated:YES];
+            if (statusCode == 0) {
+                [hud hide:YES];
+                [Tools showHudTipStr:@"网络错误"];
+            }
+            if (statusCode == 200) {
+                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                [userDefaults setObject:_usernameTF.text forKey:@"phone"];
+                [userDefaults setObject:_authcodeTF.text forKey:@"code"];
+                [userDefaults setObject:_passwordTF.text forKey:@"password"];
+                [userDefaults setObject:_typeTF.text forKey:@"type"];
+                [userDefaults setObject:inviteCodeTF.text forKey:@"inviteCode"];
+                [userDefaults synchronize];
+                hud.labelText = @"验证成功";
+                [hud hide:YES];
+                RegisterViewController2*Register2VC =[[RegisterViewController2 alloc]init];
+                [self.navigationController pushViewController:Register2VC animated:YES];
+                [self releaseTImer];
 
-        }
-        else {
-            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"验证码过期或者无效" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alertView show];
-            [hud hide:YES];
-        }
-    }];
-
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-
-    [self.view endEditing:YES];
+            }
+            else {
+                [hud hide:YES];
+                [Tools showHudTipStr:@"验证码过期或者无效"];
+            }
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -246,14 +241,112 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - Table view data source
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
 }
-*/
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 5;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    UITableViewCell*cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+        if (indexPath.row == 0) {
+            [cell addSubview:_usernameTF];
+        }
+        if (indexPath.row == 1) {
+            [cell addSubview:_passwordTF];
+        }
+        if (indexPath.row == 2) {
+            [cell addSubview:inviteCodeTF];
+        }
+        if (indexPath.row == 3) {
+            [cell addSubview:_typeTF];
+        }
+
+        if (indexPath.row == 4) {
+            [cell addSubview:_authcodeTF];
+            [cell addSubview:authcodeBtn];
+        }
+
+    }
+
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.01f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.01f;
+}
+
+
+- (UIPickerView *)fecthPicker {
+    if (!self.factoryTypePicker) {
+        self.factoryTypePicker = [[UIPickerView alloc] init];
+        self.factoryTypePicker.backgroundColor = [UIColor whiteColor];
+        self.factoryTypePicker.delegate = self;
+        self.factoryTypePicker.dataSource = self;
+        [self.factoryTypePicker selectRow:0 inComponent:0 animated:NO];
+    }
+    return self.factoryTypePicker;
+}
+
+- (UIToolbar *)fecthToolbar {
+
+    if (!self.factoryTypeToolbar) {
+        self.factoryTypeToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 44)];
+        UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+        UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(ensure)];
+        self.factoryTypeToolbar.items = [NSArray arrayWithObjects:left,space,right,nil];
+    }
+    return self.factoryTypeToolbar;
+}
+#pragma mark - UIPickerView datasource
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    return self.factoryTypeList.count;
+}
+
+
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return [self.factoryTypeList objectAtIndex:row];
+}
+
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    _factoryName = [self pickerView:pickerView titleForRow:row forComponent:component];
+}
+-(void)ensure{
+
+    if (_factoryName) {
+        _typeTF.text = _factoryName;
+        _factoryName = nil;
+    }
+    [_typeTF endEditing:YES];
+
+}
+-(void)cancel{
+    _factoryName = nil;
+    _typeTF.text = nil;
+    [_typeTF endEditing:YES];
+}
 
 @end

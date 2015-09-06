@@ -11,78 +11,96 @@
 
 @interface RegisterViewController2 ()<UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource>{
 
-    UIButton*_beforeBtn;
-    UILabel*_label;
-    UITextField*_typeTF;
-    NSString *_tmpPickerName;
+    NSString *_sizePickerName;
+
+    NSString*_servicePickerName;
+
+    UITextField*_factoryNameTF;//公司名称
+
+    UITextField*_factorySizeTF;//工厂规模
+
+    UITextField*_factoryServiceRangeTF;//业务类型
 
 }
-
 @property(nonatomic,retain)NSArray*cellPickList;
+@property(nonatomic,retain)NSArray*cellServicePickList;
+
 @property (nonatomic,strong) UIPickerView *orderPicker;
-@property (nonatomic,strong) UIToolbar    *pickerToolbar;
+@property (nonatomic,strong) UIToolbar *pickerToolbar;
+
+@property (nonatomic,strong) UIPickerView *servicePicker;
+@property (nonatomic,strong) UIToolbar *serviceToolbar;
+
 
 @end
 
 @implementation RegisterViewController2
 {
-    BOOL _wasKeyboardManagerEnabled;
+    //BOOL _wasKeyboardManagerEnabled;
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
-    [[IQKeyboardManager sharedManager] setEnable:NO];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
-}
+//-(void)viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+//    _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
+//    [[IQKeyboardManager sharedManager] setEnable:NO];
+//}
+//
+//-(void)viewWillDisappear:(BOOL)animated
+//{
+//    [super viewWillDisappear:animated];
+//    [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
+//}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
-    
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW-64, kScreenH) style:UITableViewStyleGrouped];
+    self.tableView.showsVerticalScrollIndicator=NO;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+
+    UIView*tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
+    tableHeaderView.backgroundColor=[UIColor clearColor];
+    UIImageView*logoImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2-40, 10, 80, 80)];
+    logoImage.image=[UIImage imageNamed:@"login_logo"];
+    logoImage.layer.cornerRadius = 80/2.0f;
+    logoImage.layer.masksToBounds = YES;
+    [tableHeaderView addSubview:logoImage];
+    self.tableView.tableHeaderView = tableHeaderView;
+
     self.title=@"身份";
 
-    self.cellPickList=@[@"服装厂",@"加工厂",@"代裁厂",@"锁眼钉扣厂"];
+
+    NSArray*serviceListArr=@[@[@"童装",@"成人装"],@[@"针织",@"梭织"]];
+
+    FactoryRangeModel*rangeModel = [[FactoryRangeModel alloc]init];
+
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"]) {
+        self.cellServicePickList=serviceListArr[0];
+        self.cellPickList=rangeModel.allFactorySize[0];
+    }
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"加工厂"]) {
+        self.cellServicePickList=serviceListArr[1];
+        self.cellPickList=rangeModel.allFactorySize[1];
+    }
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"代裁厂"]) {
+        self.cellPickList=rangeModel.allFactorySize[2];
+    }
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"锁眼钉扣厂"]) {
+        self.cellPickList=rangeModel.allFactorySize[3];
+    }
     
+
     [self createUI];
 }
 
 - (void)createUI {
 
-    UIImageView*bgView = [[UIImageView alloc]initWithFrame:kScreenBounds];
-    bgView.image=[UIImage imageNamed:@"登录bg"];
-    [self.view addSubview:bgView];
-    
-    UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100-64, kScreenW-20, 50)];
-    TFView.alpha=0.9f;
-    TFView.backgroundColor=[UIColor whiteColor];
-    TFView.layer.borderWidth=2.0f;
-    TFView.layer.borderColor=[UIColor whiteColor].CGColor;
-    TFView.layer.cornerRadius=5.0f;
-    TFView.layer.masksToBounds=YES;
-    [self.view addSubview:TFView];
-    
-    
-    UILabel*usernameLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 14, 60, 20)];
-    usernameLable.text=@"工厂类型";
-    usernameLable.font=[UIFont boldSystemFontOfSize:15];
-    usernameLable.textColor=[UIColor blackColor];
-    [TFView addSubview:usernameLable];
-    
-    _typeTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 5, kScreenW-90, 40)];
-    _typeTF.text = self.cellPickList[0];
-    _typeTF.placeholder=@"请选择工厂类型";
-    _typeTF.inputView = [self fecthPicker];
-    _typeTF.inputAccessoryView = [self fecthToolbar];
-    _typeTF.delegate =self;
-    [TFView addSubview:_typeTF];
-    
+    _factoryNameTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
+    _factoryNameTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+    _factoryNameTF.placeholder=@"公司名称";
+
+
     UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 170-64, kScreenW-20, 35)];
     [nextBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
     nextBtn.layer.cornerRadius=5.0f;
@@ -93,35 +111,74 @@
     [self.view addSubview:nextBtn];
 
 }
+
+
+
+
+
 - (void)nextStepButton {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:_typeTF.text forKey:@"type"];
-    [userDefaults synchronize];
-    //NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    
-    DLog(@"%@",[userDefaults stringForKey:@"type"]);
-    if (![[userDefaults stringForKey:@"type"]isEqualToString:@""]) {
-        AddressViewController*addressVC3 = [[AddressViewController alloc]init];
-        [self.navigationController pushViewController:addressVC3 animated:YES];
-    }else{
-     
-        UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"请选择您的工厂类型" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
-    }
+
+
+
 }
 
-- (UIPickerView *)fecthPicker{
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 4;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    UITableViewCell*cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+        if (indexPath.row == 0) {
+            [cell addSubview:_factoryNameTF];
+        }
+        if (indexPath.row == 1) {
+        }
+        if (indexPath.row == 2) {
+        }
+        if (indexPath.row == 3) {
+
+        }
+    }
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.01f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.01f;
+}
+
+
+//sizePicker
+- (UIPickerView *)fecthSizePicker{
     if (!self.orderPicker) {
         self.orderPicker = [[UIPickerView alloc] init];
+        self.orderPicker.tag=1;
         self.orderPicker.delegate = self;
         self.orderPicker.dataSource = self;
         [self.orderPicker selectRow:0 inComponent:0 animated:NO];
     }
     return self.orderPicker;
 }
-
 - (UIToolbar *)fecthToolbar{
-    
     if (!self.pickerToolbar) {
         self.pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 44)];
         UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
@@ -131,6 +188,63 @@
     }
     return self.pickerToolbar;
 }
+
+-(void)cancel{
+
+    _sizePickerName = nil;
+    [_factorySizeTF endEditing:YES];
+}
+
+-(void)ensure{
+
+    if (_sizePickerName) {
+        _factorySizeTF.text = _sizePickerName;
+        _sizePickerName = nil;
+    }
+    [_factorySizeTF endEditing:YES];
+}
+
+
+//service
+- (UIPickerView *)fecthServicePicker{
+    if (!self.servicePicker) {
+        self.servicePicker = [[UIPickerView alloc] init];
+        self.servicePicker.tag=2;
+        self.servicePicker.delegate = self;
+        self.servicePicker.dataSource = self;
+        [self.servicePicker selectRow:0 inComponent:0 animated:NO];
+    }
+    return self.servicePicker;
+}
+
+- (UIToolbar *)fecthServiceToolbar{
+
+    if (!self.serviceToolbar) {
+        self.serviceToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 44)];
+        UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(serviceCancel)];
+        UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(serviceEnsure)];
+        self.serviceToolbar.items = [NSArray arrayWithObjects:left,space,right,nil];
+    }
+    return self.serviceToolbar;
+}
+
+-(void)serviceCancel{
+
+    _servicePickerName = nil;
+    [_factoryServiceRangeTF endEditing:YES];
+}
+
+-(void)serviceEnsure{
+
+    if (_servicePickerName) {
+        _factoryServiceRangeTF.text = _servicePickerName;
+        _servicePickerName = nil;
+    }
+    [_factoryServiceRangeTF endEditing:YES];
+}
+
+
 #pragma mark - UIPickerView datasource
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -138,44 +252,32 @@
     return 1;
 }
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    return self.cellPickList.count;
+    if (pickerView.tag == 1) {
+        return self.cellPickList.count;
+    }else{
+        return self.cellServicePickList.count;
+    }
 }
 
 
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    return [self.cellPickList objectAtIndex:row];
+    if (pickerView.tag==2) {
+        return [self.cellServicePickList objectAtIndex:row];
+    }else{
+        return [self.cellPickList objectAtIndex:row];
+    }
 }
 
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    _tmpPickerName = [self pickerView:pickerView titleForRow:row forComponent:component];
-}
--(void)ensure{
-
-    if (_tmpPickerName) {
-        _typeTF.text = _tmpPickerName;
-        _tmpPickerName = nil;
+    if (pickerView.tag==1) {
+        _sizePickerName = [self pickerView:pickerView titleForRow:row forComponent:component];
+    }else{
+        _servicePickerName = [self pickerView:pickerView titleForRow:row forComponent:component];
     }
-    [_typeTF endEditing:YES];
-
 }
--(void)cancel{
-    
-    _tmpPickerName = nil;
-    [_typeTF endEditing:YES];
-}
-
-//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//    [self.view endEditing:YES];
-//}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 @end
