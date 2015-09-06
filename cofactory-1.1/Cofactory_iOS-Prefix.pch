@@ -1,4 +1,15 @@
 
+/*!
+ 企业账号：466542441@qq.com
+ 密码：Fh123456
+ Bundle ID: com.jugongchang.cofactory
+
+ AppStore账号：378829879@qq.com
+ 密码：Jugongkeji123
+ Bundle ID: com.cofactory.iosapp
+  */
+
+
 #pragma mark - 服务器
 //内网服务器
 //#define kBaseUrl @"http://192.168.100.2:3001"
