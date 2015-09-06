@@ -51,10 +51,10 @@
 
 @implementation HomeViewController
 - (void)viewWillAppear:(BOOL)animated {
-
+    
     //工厂空闲忙碌状态
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
-
+        
         UserModel*userModel=responseDictionary[@"model"];
         DLog(@"%@",userModel);
         self.factoryFreeStatus=userModel.factoryFreeStatus;
@@ -62,7 +62,7 @@
         self.factoryFreeTime=userModel.factoryFreeTime;
         DLog(@"刷新工厂=%@  自备货车%d  空闲时间%@",userModel.factoryFreeStatus,self.hasTruck,self.factoryFreeTime);
     }];
-
+    
     [super viewWillAppear:animated];
     [self.tableView reloadData];
 }
@@ -70,10 +70,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     DLog(@"游客=%d",[Tools isTourist]);
     DLog(@"%@",Kidentifier);
-
+    
     if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
         //个人开发者 关闭检测更新
         DLog(@"个人开发者 关闭检测更新");
@@ -83,7 +83,7 @@
         DLog(@"企业账号 开启检测更新")
         [[PgyManager sharedPgyManager] checkUpdate];
     }
-
+    
     //抽奖
     [HttpClient drawAccessWithBlock:^(int statusCode) {
         DLog(@"%d",statusCode);
@@ -93,16 +93,16 @@
             [alertView show];
         }
     }];
-
+    
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-
+    
     // 初始化模型
     self.homeItemModel = [[HomeItemModel alloc] init];
     self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, kScreenW, kScreenH-(kNavigationBarHeight+kStatusBarHeight)) style:UITableViewStyleGrouped];
     self.automaticallyAdjustsScrollViewInsets = YES;// 自动调整视图关闭
     self.tableView.showsVerticalScrollIndicator = NO;// 竖直滚动条不显示
-
+    
     //网络获取itemArray
     [HttpClient listMenuWithBlock:^(NSDictionary *responseDictionary) {
         NSArray*arr=responseDictionary[@"responseArray"];
@@ -115,25 +115,25 @@
             [self.tableView reloadData];
         }
     }];
-
+    
     // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
     PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:nil];
     [headerView addSubview:bannerView];
-
+    
     //工厂类型
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         UserModel*userModel=responseDictionary[@"model"];
         
-        
+        // 存储用户相关信息
         NSNumber *MyUid = [NSNumber numberWithInt:userModel.uid];
-        DLog(@"user.uid=%@",MyUid);
         [[NSUserDefaults standardUserDefaults] setObject:MyUid forKey:@"selfuid"];
         [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
+        [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryServiceRange forKey:@"factoryServiceRange"];
+        [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-
-      
-
+        
+        
         self.factoryFreeStatus=userModel.factoryFreeStatus;
         self.factoryType =userModel.factoryType;
         if (self.factoryType==0) {
@@ -144,7 +144,7 @@
             [buttonView.postButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
             [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
         }else{
-
+            
             ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"设置状态"];
             [headerView addSubview:buttonView];
             [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -152,15 +152,15 @@
             [buttonView.postButton addTarget:self action:@selector(authClicked:) forControlEvents:UIControlEventTouchUpInside];
             [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
         }
-
+        
     }];
     self.tableView.tableHeaderView = headerView;
 }
 
 - (void)getListMenu {
-
-//    DLog(@"ListMenu为0，初始化");
-
+    
+    //    DLog(@"ListMenu为0，初始化");
+    
     if ([Tools isTourist]) {
         int toursitTag = [[[NSUserDefaults standardUserDefaults]objectForKey:@"toursitTag"] intValue];
         switch (toursitTag) {
@@ -198,10 +198,10 @@
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[3]];
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[4]];
                 [self.tableView reloadData];
-
+                
             }
                 break;
-
+                
             default:
                 break;
         }
@@ -242,10 +242,10 @@
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[3]];
                 [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[4]];
                 [self.tableView reloadData];
-
+                
             }
                 break;
-
+                
             default:
                 break;
         }
@@ -280,7 +280,7 @@
 - (void)findClicked:(id)sender {
     FactoryListViewController *factoryListVC= [[FactoryListViewController alloc]init];
     factoryListVC.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-//    factoryListVC.factoryType = 10;
+    //    factoryListVC.factoryType = 10;
     [self.navigationController pushViewController:factoryListVC animated:YES];
 }
 - (void)postClicked:(id)sender {
@@ -288,7 +288,7 @@
         //游客
         UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您登录后才使用这项服务,是否登录？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         alertView.tag=5;
-
+        
         [alertView show];
     }else{
         PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
@@ -323,7 +323,7 @@
         alertView.tag=5;
         [alertView show];
         [button setUserInteractionEnabled:YES];
-
+        
     }else{
         //认证信息
         [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
@@ -331,7 +331,7 @@
             self.status = [VeifyDic[@"status"] intValue];
             DLog(@"认证状态%d", self.status);
             [button setUserInteractionEnabled:YES];
-
+            
             //未认证
             if ( self.status==0) {
                 VeifyViewController*veifyVC = [[VeifyViewController alloc]init];
@@ -378,7 +378,7 @@
         return cell;
     } else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-
+        
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             // 添加前置颜色
@@ -389,7 +389,7 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             // 设置字体
             cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0f];
-
+            
             UILabel*moreLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-2*cell.frame.size.height+10, 11, 45, 22)];
             moreLabel.text=@"更多";
             moreLabel.backgroundColor=self.homeItemModel.colorArray[indexPath.section % self.homeItemModel.colorArray.count];
@@ -399,9 +399,9 @@
             moreLabel.layer.cornerRadius=10.0f;
             moreLabel.layer.masksToBounds=YES;
             [cell addSubview:moreLabel];
-
+            
         }
-
+        
         cell.textLabel.text = self.homeItemModel.itemArray[indexPath.section];
         return cell;
     }
@@ -418,7 +418,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     CGSize size = [[UIScreen mainScreen] bounds].size;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, kRowInset)];
-
+    
     return view;
 }
 
@@ -428,8 +428,8 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-//    DLog(@"%d",self.homeItemModel.itemArray.count);
+    
+    //    DLog(@"%d",self.homeItemModel.itemArray.count);
     if (indexPath.section != self.homeItemModel.itemArray.count) {
         NSInteger index = [self.homeItemModel.allItemArray indexOfObject:self.homeItemModel.itemArray[indexPath.section]];
         switch (index) {
@@ -441,7 +441,7 @@
                 webViewController.url = [NSString stringWithFormat:@"http://app2.cofactories.com/activity/draw.html#%@",accessToken ];
                 webViewController.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:webViewController animated:YES];
-
+                
             }
                 break;
             case 1:
@@ -453,34 +453,34 @@
                 orderDetailViewController.userType = self.factoryType;
                 orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
                 [self.navigationController pushViewController:orderDetailViewController animated:YES];
-
+                
             }
                 break;
             case 2:{
                 // 找服装厂外发代裁订单
-
+                
                 searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc] init];
                 orderDetailViewController.orderListType = 2;
                 orderDetailViewController.title = @"外发代裁";
                 orderDetailViewController.userType = self.factoryType;
                 orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
                 [self.navigationController pushViewController:orderDetailViewController animated:YES];
-
+                
             }
                 break;
             case 3:{
                 //找服装厂外发锁眼钉扣订单
-
+                
                 searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc] init];
                 orderDetailViewController.orderListType = 3;
                 orderDetailViewController.title = @"外发锁眼钉扣";
                 orderDetailViewController.userType = self.factoryType;
                 orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
                 [self.navigationController pushViewController:orderDetailViewController animated:YES];
-
+                
             }
                 break;
-
+                
             case 4:
             {
                 // 找服装厂信息
@@ -505,7 +505,7 @@
             {
                 // 找锁眼钉扣厂信息
                 FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-
+                
                 searchViewController.factoryType = 2;
                 searchViewController.currentData1Index = 4;
                 searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
@@ -514,9 +514,9 @@
                 break;
             case 7:
             {
-
-
-
+                
+                
+                
                 // 找代裁厂信息
                 FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
                 searchViewController.factoryType = 3;
@@ -525,7 +525,7 @@
                 [self.navigationController pushViewController:searchViewController animated:YES];
             }
                 break;
-
+                
             default:
                 break;
         }
@@ -544,7 +544,7 @@
 }
 
 - (void)dealloc {
-
+    
     DLog(@"释放内存");
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;
@@ -552,7 +552,7 @@
 
 /*
  #pragma mark - Navigation
-
+ 
  // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
  // Get the new view controller using [segue destinationViewController].

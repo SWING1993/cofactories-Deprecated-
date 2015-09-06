@@ -52,6 +52,7 @@
 #define API_uploadFactory @"/upload/factory"
 #define API_uploadVerify @"/upload/verify"
 #define API_uploadOrder @"upload/order"
+#define API_registBid @"/order/bid/"
 
 
 @implementation HttpClient
@@ -1459,6 +1460,27 @@
         block(404);// access_token不存在
     }
  
+}
+
++ (void)registBidWithOid:(int)oid commit:(NSString *)commit completionBlock:(void(^)(int statusCode))block{
+    
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        NSString *url = [[NSString alloc] initWithFormat:@"%@%d", API_registBid, oid];
+        [manager POST:url parameters:@{@"commit":commit} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block((int)[operation.response statusCode]);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            block((int)[operation.response statusCode]);
+        }];
+    }
+    else {
+        block(404);// access_token不存在
+    }
+
 }
 
 @end
