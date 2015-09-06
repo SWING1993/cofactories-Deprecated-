@@ -380,4 +380,10 @@
  * @param oid   订单oid
  */
 + (void)deleteOrderWithOrderOid:(int)oid completionBlock:(void(^)(int statusCode))block;
+
+/**登记投标
+ *@param oid   订单oid
+  @param string 备注
+ */
++ (void)registBidWithOid:(int)oid commit:(NSString *)commit completionBlock:(void(^)(int statusCode))block;
 @end

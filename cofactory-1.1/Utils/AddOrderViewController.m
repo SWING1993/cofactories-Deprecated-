@@ -402,8 +402,6 @@
     }
 }
 
-
-
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     if (pickerView.tag==1) {
@@ -713,7 +711,6 @@
     browser.currentPhotoIndex = indexPath.row;
     browser.photos = photos;
     [browser show];
-
 
 }
 
