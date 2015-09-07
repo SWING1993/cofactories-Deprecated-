@@ -253,7 +253,6 @@
 		BDC907BD1B4E9A5700856A32 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC907BC1B4E9A5700856A32 /* main.m */; };
 		BDC907C01B4E9A5700856A32 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = BDC907BF1B4E9A5700856A32 /* AppDelegate.mm */; };
 		BDC907C31B4E9A5700856A32 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC907C21B4E9A5700856A32 /* ViewController.m */; };
-		BDC907C61B4E9A5700856A32 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDC907C41B4E9A5700856A32 /* Main.storyboard */; };
 		BDC907CB1B4E9A5700856A32 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDC907C91B4E9A5700856A32 /* LaunchScreen.xib */; };
 		BDC907D71B4E9A5700856A32 /* cofactory_1_1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC907D61B4E9A5700856A32 /* cofactory_1_1Tests.m */; };
 		BDC908D41B4E9B3700856A32 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC907E41B4E9B3700856A32 /* AFHTTPRequestOperation.m */; };
@@ -735,7 +734,6 @@
 		BDC907BF1B4E9A5700856A32 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; wrapsLines = 0; };
 		BDC907C11B4E9A5700856A32 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = ../ViewController.h; sourceTree = "<group>"; };
 		BDC907C21B4E9A5700856A32 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = ../ViewController.m; sourceTree = "<group>"; };
-		BDC907C51B4E9A5700856A32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BDC907CA1B4E9A5700856A32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		BDC907D01B4E9A5700856A32 /* cofactory-1.1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "cofactory-1.1Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDC907D51B4E9A5700856A32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1753,7 +1751,6 @@
 				044B8C6E1B7D9D39008A4854 /* Cofactory_iOS-Prefix.pch */,
 				BDC907BE1B4E9A5700856A32 /* AppDelegate.h */,
 				BDC907BF1B4E9A5700856A32 /* AppDelegate.mm */,
-				BDC907C41B4E9A5700856A32 /* Main.storyboard */,
 				BDC907C91B4E9A5700856A32 /* LaunchScreen.xib */,
 				BDC907E11B4E9B3700856A32 /* Utils */,
 				BDC908F31B4E9B6B00856A32 /* Model */,
@@ -2069,7 +2066,6 @@
 				045A26B51B6893D5002DE415 /* calendar_ok-disabled.png in Resources */,
 				045A26AD1B6893D5002DE415 /* arrow_right.png in Resources */,
 				04746D121B6B0FED00C3C45E /* UMSnsAccountViewController.xib in Resources */,
-				BDC907C61B4E9A5700856A32 /* Main.storyboard in Resources */,
 				04746D471B6B284E00C3C45E /* save@2x.png in Resources */,
 				045A26B41B6893D5002DE415 /* calendar_littledot@2x.png in Resources */,
 				04746D4A1B6B284E00C3C45E /* ToolViewInputVoice@2x.png in Resources */,
@@ -2387,14 +2383,6 @@
 				049582C41B6B490F00A69E6D /* zh-Hans */,
 			);
 			name = JKImagePickerController.strings;
-			sourceTree = "<group>";
-		};
-		BDC907C41B4E9A5700856A32 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BDC907C51B4E9A5700856A32 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		BDC907C91B4E9A5700856A32 /* LaunchScreen.xib */ = {
