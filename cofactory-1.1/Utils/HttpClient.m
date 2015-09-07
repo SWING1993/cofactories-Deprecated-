@@ -1412,7 +1412,7 @@
             NSArray *jsonArray = (NSArray *)responseObject;
             NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
             for (NSDictionary *dictionary in jsonArray) {
-                FactoryModel *factoryModel = [[FactoryModel alloc] initWithDictionary:dictionary];
+                BidManagerModel *factoryModel = [BidManagerModel getBidManagerModelWith:dictionary];
                 [responseArray addObject:factoryModel];
             }
             block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseArray});

@@ -195,11 +195,13 @@
 		04F60C6C1B58EC7F00CD3DEC /* FactoryRangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C6B1B58EC7F00CD3DEC /* FactoryRangeModel.m */; };
 		04F60C701B58EF8D00CD3DEC /* ModifySizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C6F1B58EF8D00CD3DEC /* ModifySizeViewController.m */; };
 		649BA0841B7B15E5008EDE31 /* SearchOrderDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 649BA0831B7B15E5008EDE31 /* SearchOrderDetailsVC.m */; };
+		649CCE3E1B9D622000710B2A /* BidManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649CCE3D1B9D622000710B2A /* BidManagerViewController.m */; };
+		649CCE411B9D64D500710B2A /* BidManagerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 649CCE401B9D64D500710B2A /* BidManagerModel.m */; };
+		649CCE441B9D6AEF00710B2A /* BidManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 649CCE431B9D6AEF00710B2A /* BidManagerTableViewCell.m */; };
 		64EDB08B1B9C09F800D2A655 /* CompeteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EDB08A1B9C09F800D2A655 /* CompeteViewController.m */; };
 		64EDB0901B9C3DA700D2A655 /* 公司规模.png in Resources */ = {isa = PBXBuildFile; fileRef = 64EDB08C1B9C3DA700D2A655 /* 公司规模.png */; };
 		64EDB0911B9C3DA700D2A655 /* 公司类型.png in Resources */ = {isa = PBXBuildFile; fileRef = 64EDB08D1B9C3DA700D2A655 /* 公司类型.png */; };
 		64EDB0921B9C3DA700D2A655 /* 公司名称.png in Resources */ = {isa = PBXBuildFile; fileRef = 64EDB08E1B9C3DA700D2A655 /* 公司名称.png */; };
-		64EDB0931B9C3DA700D2A655 /* 添加图片.png in Resources */ = {isa = PBXBuildFile; fileRef = 64EDB08F1B9C3DA700D2A655 /* 添加图片.png */; };
 		64F4C6721B70B31D00F52FF0 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 64F4C6621B70B31D00F52FF0 /* MJRefresh.bundle */; };
 		64F4C6731B70B31D00F52FF0 /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C6651B70B31D00F52FF0 /* MJRefreshBaseView.m */; };
 		64F4C6741B70B31D00F52FF0 /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C6671B70B31D00F52FF0 /* MJRefreshConst.m */; };
@@ -209,7 +211,6 @@
 		64F4C6781B70B31D00F52FF0 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C66F1B70B31D00F52FF0 /* UIScrollView+MJRefresh.m */; };
 		64F4C6791B70B31D00F52FF0 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C6711B70B31D00F52FF0 /* UIView+MJExtension.m */; };
 		64F607061B904B5900AA7F22 /* OrderPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F607051B904B5900AA7F22 /* OrderPhotoViewController.m */; };
-		64F9C3761B7C6BC6009989D9 /* BidTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F9C3751B7C6BC6009989D9 /* BidTableViewCell.m */; };
 		BD041A6B1B69D5DC00F9FC74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */; };
 		BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4311C61B4F41DE0097E4BC /* CooperationViewController.m */; };
 		BD4311CF1B4F41DE0097E4BC /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4311CA1B4F41DE0097E4BC /* MessageViewController.m */; };
@@ -626,12 +627,17 @@
 		04F60C6F1B58EF8D00CD3DEC /* ModifySizeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifySizeViewController.m; sourceTree = "<group>"; };
 		649BA0821B7B15E5008EDE31 /* SearchOrderDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchOrderDetailsVC.h; sourceTree = "<group>"; };
 		649BA0831B7B15E5008EDE31 /* SearchOrderDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchOrderDetailsVC.m; sourceTree = "<group>"; };
+		649CCE3C1B9D622000710B2A /* BidManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidManagerViewController.h; sourceTree = "<group>"; };
+		649CCE3D1B9D622000710B2A /* BidManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidManagerViewController.m; sourceTree = "<group>"; };
+		649CCE3F1B9D64D500710B2A /* BidManagerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidManagerModel.h; sourceTree = "<group>"; };
+		649CCE401B9D64D500710B2A /* BidManagerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidManagerModel.m; sourceTree = "<group>"; };
+		649CCE421B9D6AEF00710B2A /* BidManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidManagerTableViewCell.h; sourceTree = "<group>"; };
+		649CCE431B9D6AEF00710B2A /* BidManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidManagerTableViewCell.m; sourceTree = "<group>"; };
 		64EDB0891B9C09F800D2A655 /* CompeteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompeteViewController.h; sourceTree = "<group>"; };
 		64EDB08A1B9C09F800D2A655 /* CompeteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompeteViewController.m; sourceTree = "<group>"; };
 		64EDB08C1B9C3DA700D2A655 /* 公司规模.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "公司规模.png"; sourceTree = "<group>"; };
 		64EDB08D1B9C3DA700D2A655 /* 公司类型.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "公司类型.png"; sourceTree = "<group>"; };
 		64EDB08E1B9C3DA700D2A655 /* 公司名称.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "公司名称.png"; sourceTree = "<group>"; };
-		64EDB08F1B9C3DA700D2A655 /* 添加图片.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "添加图片.png"; sourceTree = "<group>"; };
 		64F4C6621B70B31D00F52FF0 /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
 		64F4C6631B70B31D00F52FF0 /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
 		64F4C6641B70B31D00F52FF0 /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
@@ -650,8 +656,6 @@
 		64F4C6711B70B31D00F52FF0 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
 		64F607041B904B5900AA7F22 /* OrderPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderPhotoViewController.h; sourceTree = "<group>"; };
 		64F607051B904B5900AA7F22 /* OrderPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderPhotoViewController.m; sourceTree = "<group>"; };
-		64F9C3741B7C6BC6009989D9 /* BidTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidTableViewCell.h; sourceTree = "<group>"; };
-		64F9C3751B7C6BC6009989D9 /* BidTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidTableViewCell.m; sourceTree = "<group>"; };
 		BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Utils/Images.xcassets; sourceTree = "<group>"; };
 		BD4311C51B4F41DE0097E4BC /* CooperationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CooperationViewController.h; sourceTree = "<group>"; };
 		BD4311C61B4F41DE0097E4BC /* CooperationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CooperationViewController.m; sourceTree = "<group>"; };
@@ -1472,8 +1476,10 @@
 				047333041B60D2B600F684A2 /* OrderListTableViewCell.m */,
 				047333001B60D2B600F684A2 /* OrderDetailViewController.h */,
 				047333031B60D2B600F684A2 /* OrderDetailViewController.m */,
-				64F9C3741B7C6BC6009989D9 /* BidTableViewCell.h */,
-				64F9C3751B7C6BC6009989D9 /* BidTableViewCell.m */,
+				649CCE3C1B9D622000710B2A /* BidManagerViewController.h */,
+				649CCE3D1B9D622000710B2A /* BidManagerViewController.m */,
+				649CCE421B9D6AEF00710B2A /* BidManagerTableViewCell.h */,
+				649CCE431B9D6AEF00710B2A /* BidManagerTableViewCell.m */,
 			);
 			name = Status;
 			sourceTree = "<group>";
@@ -1758,7 +1764,6 @@
 				64EDB08C1B9C3DA700D2A655 /* 公司规模.png */,
 				64EDB08D1B9C3DA700D2A655 /* 公司类型.png */,
 				64EDB08E1B9C3DA700D2A655 /* 公司名称.png */,
-				64EDB08F1B9C3DA700D2A655 /* 添加图片.png */,
 				0448E15D1B760CE1002B78B8 /* area.plist */,
 				BDC907BC1B4E9A5700856A32 /* main.m */,
 			);
@@ -1915,6 +1920,8 @@
 				BDC908FB1B4E9B6B00856A32 /* UserModel.m */,
 				045939311B786A57004DA7D6 /* GetPushModel.h */,
 				045939321B786A57004DA7D6 /* GetPushModel.m */,
+				649CCE3F1B9D64D500710B2A /* BidManagerModel.h */,
+				649CCE401B9D64D500710B2A /* BidManagerModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2074,7 +2081,6 @@
 				045A26BE1B6893D5002DE415 /* dialog_ok-disabled@2x.png in Resources */,
 				04746D131B6B0FED00C3C45E /* UMSShareListController.xib in Resources */,
 				BD041A6B1B69D5DC00F9FC74 /* Images.xcassets in Resources */,
-				64EDB0931B9C3DA700D2A655 /* 添加图片.png in Resources */,
 				04746D101B6B0FED00C3C45E /* UMShareEditViewControlleriPad.xib in Resources */,
 				045A26BC1B6893D5002DE415 /* dialog_clear@2x.png in Resources */,
 				04746D451B6B284E00C3C45E /* cancel@2x.png in Resources */,
@@ -2139,6 +2145,7 @@
 				04822E401B62E7A600A370F6 /* MF_Base64Additions.m in Sources */,
 				BDC908EC1B4E9B3700856A32 /* UIImageView+AFNetworking.m in Sources */,
 				BDC908EB1B4E9B3700856A32 /* UIButton+AFNetworking.m in Sources */,
+				649CCE411B9D64D500710B2A /* BidManagerModel.m in Sources */,
 				04D7D02F1B5A4B430054861E /* DescriptionViewController.m in Sources */,
 				049582EC1B6B490F00A69E6D /* JKUtil.m in Sources */,
 				047333091B60D2B700F684A2 /* OrderListTableViewCell.m in Sources */,
@@ -2244,7 +2251,6 @@
 				049582E31B6B490F00A69E6D /* JKAssetsCollectionFooterView.m in Sources */,
 				0451D66C1B57AB4A007CCD59 /* AboutViewController.m in Sources */,
 				047333081B60D2B700F684A2 /* OrderDetailViewController.m in Sources */,
-				64F9C3761B7C6BC6009989D9 /* BidTableViewCell.m in Sources */,
 				045939301B7869F3004DA7D6 /* PushViewController.m in Sources */,
 				047EF0E31B6085A0007DD2AE /* AddOrderViewController.m in Sources */,
 				049582E71B6B490F00A69E6D /* JKAssetsViewCell.m in Sources */,
@@ -2296,8 +2302,10 @@
 				04D7D0231B59E7BD0054861E /* ModifyServiceRangeViewController.m in Sources */,
 				BD4311D81B4F6A900097E4BC /* RegisterViewController2.m in Sources */,
 				0455E1111B61D8D8009C5CDA /* ActivityViewController.m in Sources */,
+				649CCE441B9D6AEF00710B2A /* BidManagerTableViewCell.m in Sources */,
 				BD8AD7E71B50E62600373E5E /* NSData+ImageContentType.m in Sources */,
 				04B1504E1B9569CD004E0353 /* IQNSArray+Sort.m in Sources */,
+				649CCE3E1B9D622000710B2A /* BidManagerViewController.m in Sources */,
 				BD8AD7F11B50E62600373E5E /* UIImage+MultiFormat.m in Sources */,
 				04A20C321B5F3317001AADE9 /* VeifyingViewController.m in Sources */,
 				049582ED1B6B490F00A69E6D /* PhotoAlbumManager.m in Sources */,
