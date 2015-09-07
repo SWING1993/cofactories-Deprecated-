@@ -9,19 +9,20 @@
 #import "RegisterViewController.h"
 #import "RegisterViewController2.h"
 
-@interface RegisterViewController ()<UIAlertViewDelegate,UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource> {
+@interface RegisterViewController ()<UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource> {
 
 }
 
 @property(nonatomic,copy)NSString*statusCode;
 
-@property(nonatomic,retain)NSArray*factoryTypeList;
+@property(nonatomic,retain) NSArray*factoryTypeList;
 @property (nonatomic,strong) UIPickerView *factoryTypePicker;
 @property (nonatomic,strong) UIToolbar*factoryTypeToolbar;
 
 @end
 
 @implementation RegisterViewController{
+
     UITextField*_usernameTF;//账号
     UITextField*_passwordTF;//密码1
     UITextField*inviteCodeTF;
@@ -32,30 +33,12 @@
 
     UITextField*_typeTF;//公司类型
     NSString *_factoryName;
-
-    //BOOL _wasKeyboardManagerEnabled;
 }
-
-//-(void)viewDidAppear:(BOOL)animated
-//{
-//    [super viewDidAppear:animated];
-//    _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
-//    [[IQKeyboardManager sharedManager] setEnable:NO];
-//}
-//
-//-(void)viewWillDisappear:(BOOL)animated
-//{
-//    [super viewWillDisappear:animated];
-//    [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
-//}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title=@"注册";
     self.factoryTypeList=@[@"服装厂",@"加工厂",@"代裁厂",@"锁眼钉扣厂"];
-
-    self.view.backgroundColor=[UIColor whiteColor];
 
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW-64, kScreenH) style:UITableViewStyleGrouped];
@@ -77,43 +60,54 @@
 
 - (void)createUI {
 
-    _usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
-    _usernameTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-    _usernameTF.keyboardType = UIKeyboardTypeNumberPad;
-    _usernameTF.placeholder=@"手机号";
+    if (!_usernameTF) {
+        _usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
+        _usernameTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+        _usernameTF.keyboardType = UIKeyboardTypeNumberPad;
+        _usernameTF.placeholder=@"手机号";
+    }
 
-    _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
-    _passwordTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-    _passwordTF.placeholder=@"密码";
-    _passwordTF.secureTextEntry=YES;
+    if (!_passwordTF) {
+        _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
+        _passwordTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+        _passwordTF.placeholder=@"密码(6位及以上)";
+        _passwordTF.secureTextEntry=YES;
+    }
 
-    inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
-    inviteCodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-    inviteCodeTF.keyboardType = UIKeyboardTypeNumberPad;
-    inviteCodeTF.placeholder=@"邀请码(可不填)";
+    if (!inviteCodeTF) {
+        inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
+        inviteCodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+        inviteCodeTF.keyboardType = UIKeyboardTypeNumberPad;
+        inviteCodeTF.placeholder=@"邀请码(可不填)";
+    }
 
+    if (!_typeTF) {
+        _typeTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
+        _typeTF.placeholder=@"工厂类型";
+        _typeTF.inputView = [self fecthPicker];
+        _typeTF.inputAccessoryView = [self fecthToolbar];
+        _typeTF.delegate =self;
 
-    _typeTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
-    _typeTF.placeholder=@"工厂类型";
-    _typeTF.inputView = [self fecthPicker];
-    _typeTF.inputAccessoryView = [self fecthToolbar];
-    _typeTF.delegate =self;
+    }
+    if (!_authcodeTF) {
+        _authcodeTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-118, 44)];
+        _authcodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+        _authcodeTF.keyboardType = UIKeyboardTypeNumberPad;
+        _authcodeTF.placeholder=@"验证码";
+    }
 
+    if (!authcodeBtn) {
+        authcodeBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW-100, 7, 90, 30)];
+        authcodeBtn.layer.cornerRadius=5.0f;
+        authcodeBtn.layer.masksToBounds=YES;
+        authcodeBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+        authcodeBtn.layer.borderWidth = 1.0f;
+        authcodeBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+        [authcodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+        [authcodeBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
+        [authcodeBtn addTarget:self action:@selector(sendCodeBtn) forControlEvents:UIControlEventTouchUpInside];
 
-     _authcodeTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-118, 44)];
-    _authcodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-    _authcodeTF.keyboardType = UIKeyboardTypeNumberPad;
-    _authcodeTF.placeholder=@"验证码";
-
-    authcodeBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW-100, 7, 90, 30)];
-    authcodeBtn.layer.cornerRadius=5.0f;
-    authcodeBtn.layer.masksToBounds=YES;
-    authcodeBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-    authcodeBtn.layer.borderWidth = 1.0f;
-    authcodeBtn.titleLabel.font=[UIFont systemFontOfSize:15];
-    [authcodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-    [authcodeBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
-    [authcodeBtn addTarget:self action:@selector(sendCodeBtn) forControlEvents:UIControlEventTouchUpInside];
+    }
 
     UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 360, kScreenW-20, 35)];
     nextBtn.layer.cornerRadius=5.0f;
@@ -154,6 +148,7 @@
 }
 
 - (void)sendCodeBtn{
+    [authcodeBtn setEnabled:NO];
     if (_usernameTF.text.length==11) {
 
         [HttpClient postVerifyCodeWithPhone:_usernameTF.text andBlock:^(int statusCode) {
@@ -161,6 +156,8 @@
             switch (statusCode) {
                 case 0:{
                     [Tools showHudTipStr:@"网络错误"];
+                    [authcodeBtn setEnabled:YES];
+
                 }
                     break;
 
@@ -174,16 +171,22 @@
                     
                 case 400:{
                     [Tools showHudTipStr:@"手机格式不正确"];
+                    [authcodeBtn setEnabled:YES];
+
 
                 }
                     break;
                 case 409:{
                     [Tools showHudTipStr:@"需要等待冷却"];
+                    [authcodeBtn setEnabled:YES];
+
                 }
                     break;
                     
                 case 502:{
                     [Tools showHudTipStr:@"发送错误"];
+                    [authcodeBtn setEnabled:YES];
+
                 }
                     break;
                     
@@ -194,45 +197,52 @@
         }];
     }else{
         [Tools showHudTipStr:@"您输入的是一个无效的手机号码"];
+        [authcodeBtn setEnabled:YES];
+
     }
 }
 
 
 - (void)nextBtn {
 
-    if (_usernameTF.text.length==0 && _passwordTF.text.length==0 && _authcodeTF.text.length==0) {
+    if (_usernameTF.text.length==0 || _passwordTF.text.length==0 || _authcodeTF.text.length==0 || _typeTF.text.length==0) {
+
         DLog(@"mo");
         [Tools showHudTipStr:@"注册信息不完整"];
     }else{
-        MBProgressHUD *hud = [Tools createHUD];
-        hud.labelText = @"正在验证...";
-        [HttpClient validateCodeWithPhone:_usernameTF.text code:_authcodeTF.text andBlock:^(int statusCode) {
-            DLog(@"验证码code%d",statusCode);
+        if (_passwordTF.text.length<6) {
+            [Tools showHudTipStr:@"密码长度太短"];
+        }else{
+            MBProgressHUD *hud = [Tools createHUD];
+            hud.labelText = @"正在验证...";
+            [HttpClient validateCodeWithPhone:_usernameTF.text code:_authcodeTF.text andBlock:^(int statusCode) {
+                DLog(@"验证码code%d",statusCode);
 
-            if (statusCode == 0) {
-                [hud hide:YES];
-                [Tools showHudTipStr:@"网络错误"];
-            }
-            if (statusCode == 200) {
-                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                [userDefaults setObject:_usernameTF.text forKey:@"phone"];
-                [userDefaults setObject:_authcodeTF.text forKey:@"code"];
-                [userDefaults setObject:_passwordTF.text forKey:@"password"];
-                [userDefaults setObject:_typeTF.text forKey:@"type"];
-                [userDefaults setObject:inviteCodeTF.text forKey:@"inviteCode"];
-                [userDefaults synchronize];
-                hud.labelText = @"验证成功";
-                [hud hide:YES];
-                RegisterViewController2*Register2VC =[[RegisterViewController2 alloc]init];
-                [self.navigationController pushViewController:Register2VC animated:YES];
-                [self releaseTImer];
+                if (statusCode == 0) {
+                    [hud hide:YES];
+                    [Tools showHudTipStr:@"网络错误"];
+                }
+                if (statusCode == 200) {
+                    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                    [userDefaults setObject:_usernameTF.text forKey:@"phone"];
+                    [userDefaults setObject:_authcodeTF.text forKey:@"code"];
+                    [userDefaults setObject:_passwordTF.text forKey:@"password"];
+                    [userDefaults setObject:_typeTF.text forKey:@"type"];
+                    [userDefaults setObject:inviteCodeTF.text forKey:@"inviteCode"];
+                    [userDefaults synchronize];
+                    hud.labelText = @"验证成功";
+                    [hud hide:YES];
+                    RegisterViewController2*Register2VC =[[RegisterViewController2 alloc]init];
+                    [self.navigationController pushViewController:Register2VC animated:YES];
 
-            }
-            else {
-                [hud hide:YES];
-                [Tools showHudTipStr:@"验证码过期或者无效"];
-            }
-        }];
+                }
+                else {
+                    [hud hide:YES];
+                    [Tools showHudTipStr:@"验证码过期或者无效"];
+                }
+            }];
+
+        }
     }
 }
 
@@ -259,16 +269,17 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
         if (indexPath.row == 0) {
+            [cell addSubview:_typeTF];
+        }
+
+        if (indexPath.row == 1) {
             [cell addSubview:_usernameTF];
         }
-        if (indexPath.row == 1) {
+        if (indexPath.row == 2) {
             [cell addSubview:_passwordTF];
         }
-        if (indexPath.row == 2) {
-            [cell addSubview:inviteCodeTF];
-        }
         if (indexPath.row == 3) {
-            [cell addSubview:_typeTF];
+            [cell addSubview:inviteCodeTF];
         }
 
         if (indexPath.row == 4) {
@@ -347,6 +358,15 @@
     _factoryName = nil;
     _typeTF.text = nil;
     [_typeTF endEditing:YES];
+}
+
+- (void)dealloc {
+    DLog(@"注册1dealloc");
+
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
+    self.factoryTypePicker.dataSource = nil;
+    self.factoryTypePicker.delegate = nil;
 }
 
 @end

@@ -9,320 +9,179 @@
 #import "RegisterViewController3.h"
 
 
-@interface RegisterViewController3 ()<UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource>{
-    UIButton*selectBtn;
-
-    NSString *_sizePickerName;
-
-    NSString*_servicePickerName;
-
-    UITextField*_factoryNameTF;//公司名称
-
-    UITextField*_factorySizeTF;//工厂规模
-
-    UITextField*_factoryServiceRangeTF;//业务类型
-
-    UITextField*inviteCodeTF;
-}
-@property(nonatomic,retain)NSArray*cellPickList;
-@property(nonatomic,retain)NSArray*cellServicePickList;
-
-@property (nonatomic,strong) UIPickerView *orderPicker;
-@property (nonatomic,strong) UIToolbar *pickerToolbar;
-
-@property (nonatomic,strong) UIPickerView *servicePicker;
-@property (nonatomic,strong) UIToolbar *serviceToolbar;
-
-
-
+@interface RegisterViewController3 ()
 @end
 
 @implementation RegisterViewController3
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.view.backgroundColor=[UIColor whiteColor];
-    
-    self.title=@"公司详情";
+    // Do any additional setup after loading the view.    
+    self.title=@"注册信息";
 
-    NSArray*serviceListArr=@[@[@"童装",@"成人装"],@[@"针织",@"梭织"]];
-
-    FactoryRangeModel*rangeModel = [[FactoryRangeModel alloc]init];
-
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"]) {
-        self.cellServicePickList=serviceListArr[0];
-        self.cellPickList=rangeModel.allFactorySize[0];
-    }
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"加工厂"]) {
-        self.cellServicePickList=serviceListArr[1];
-        self.cellPickList=rangeModel.allFactorySize[1];
-    }
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"代裁厂"]) {
-        self.cellPickList=rangeModel.allFactorySize[2];
-    }
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"锁眼钉扣厂"]) {
-        self.cellPickList=rangeModel.allFactorySize[3];
-    }
-
-    [self createUI];
 
     //设置Btn
-    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回登录" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
+    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回首页" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
     self.navigationItem.rightBarButtonItem = setButton;
 
+    self.view.backgroundColor=[UIColor whiteColor];
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH) style:UITableViewStyleGrouped];
+    self.tableView.showsVerticalScrollIndicator=NO;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+
+    UIView*tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
+    tableHeaderView.backgroundColor=[UIColor clearColor];
+    UIImageView*logoImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2-40, 10, 80, 80)];
+    logoImage.image=[UIImage imageNamed:@"login_logo"];
+    logoImage.layer.cornerRadius = 80/2.0f;
+    logoImage.layer.masksToBounds = YES;
+    [tableHeaderView addSubview:logoImage];
+    self.tableView.tableHeaderView = tableHeaderView;
+
+
+
+    UIView*tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 50)];
+    tableFooterView.backgroundColor = [UIColor clearColor];
+
+    UIButton*registerBtn=[[UIButton alloc]init];
+    registerBtn.frame = CGRectMake(10, 9, kScreenW-20, 35);
+
+//    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"] || [[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"加工厂"]) {
+//        registerBtn.frame = CGRectMake(10, 130+44*9, kScreenW-20, 35);
+//    }else{
+//        registerBtn.frame = CGRectMake(10, 130+44*8, kScreenW-20, 35);
+//    }
+    registerBtn.layer.cornerRadius=5.0f;
+    registerBtn.layer.masksToBounds=YES;
+    registerBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+    registerBtn.layer.borderWidth = 1.0f;
+    [registerBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
+
+    [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
+    [registerBtn addTarget:self action:@selector(clickRegisterBtn) forControlEvents:UIControlEventTouchUpInside];
+    [tableFooterView addSubview:registerBtn];
+
+    self.tableView.tableFooterView = tableFooterView;
 }
 
 - (void)buttonClicked {
     NSArray*navArr = self.navigationController.viewControllers;
     [self.navigationController popToViewController:navArr[0] animated:YES];
-}
 
--(void)createUI{
-    UIImageView*bgView = [[UIImageView alloc]initWithFrame:kScreenBounds];
-    bgView.image=[UIImage imageNamed:@"登录bg"];
-    [self.view addSubview:bgView];
-
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"] || [[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"加工厂"]) {
-
-        UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100-64, kScreenW-20, 150)];
-        TFView.alpha=0.9f;
-        TFView.backgroundColor=[UIColor whiteColor];
-        TFView.layer.borderWidth=2.0f;
-        TFView.layer.borderColor=[UIColor whiteColor].CGColor;
-        TFView.layer.cornerRadius=5.0f;
-        TFView.layer.masksToBounds=YES;
-        [self.view addSubview:TFView];
-
-        UILabel*usernameLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 15, 40, 20)];
-        usernameLable.text=@"公司";
-        usernameLable.font=[UIFont boldSystemFontOfSize:18];
-        usernameLable.textColor=[UIColor blackColor];
-        [TFView addSubview:usernameLable];
-
-        _factoryNameTF = [[UITextField alloc]initWithFrame:CGRectMake(50, 5, kScreenW-70, 40)];
-        _factoryNameTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-        _factoryNameTF.placeholder=@"请填写公司名称";
-        [TFView addSubview:_factoryNameTF];
-
-        UILabel*factorySizeLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 64, 40, 20)];
-        factorySizeLable.text=@"规模";
-        factorySizeLable.font=[UIFont boldSystemFontOfSize:18];
-        factorySizeLable.textColor=[UIColor blackColor];
-        [TFView addSubview:factorySizeLable];
-
-        _factorySizeTF = [[UITextField alloc]initWithFrame:CGRectMake(50, 55, kScreenW-70, 40)];
-        _factorySizeTF.placeholder=@"请选择公司规模";
-        _factorySizeTF.inputView = [self fecthSizePicker];
-        _factorySizeTF.inputAccessoryView = [self fecthToolbar];
-        _factorySizeTF.text = self.cellPickList[0];
-        _factorySizeTF.delegate =self;
-        [TFView addSubview:_factorySizeTF];
-
-        //_factoryServiceRangeTF
-
-        UILabel*factoryServiceRangeLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 114, 40, 20)];
-        factoryServiceRangeLable.text=@"业务";
-        factoryServiceRangeLable.font=[UIFont boldSystemFontOfSize:18];
-        factoryServiceRangeLable.textColor=[UIColor blackColor];
-        [TFView addSubview:factoryServiceRangeLable];
-
-        _factoryServiceRangeTF = [[UITextField alloc]initWithFrame:CGRectMake(50, 105, kScreenW-70, 40)];
-        _factoryServiceRangeTF.placeholder=@"请选择公司业务类型";
-        _factoryServiceRangeTF.inputView = [self fecthServicePicker];
-        _factoryServiceRangeTF.inputAccessoryView = [self fecthServiceToolbar];
-        _factoryServiceRangeTF.text =self.cellServicePickList[0];
-        _factoryServiceRangeTF.delegate =self;
-        [TFView addSubview:_factoryServiceRangeTF];
-
-        inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 270-64, kScreenW-20, 35)];
-        inviteCodeTF.keyboardType=UIKeyboardTypeNumberPad;
-        inviteCodeTF.placeholder=@"请填写邀请码，没有可忽略。";
-        inviteCodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-        inviteCodeTF.borderStyle=UITextBorderStyleRoundedRect;
-        inviteCodeTF.backgroundColor=[UIColor whiteColor];
-        [self.view addSubview:inviteCodeTF];
-
-
-        UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 320-64, kScreenW-20, 35)];
-        [registerBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
-        registerBtn.layer.cornerRadius=5.0f;
-        registerBtn.layer.masksToBounds=YES;
-        [registerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
-        [registerBtn addTarget:self action:@selector(clickRegisterBtn) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:registerBtn];
-
-    }else{
-
-        UIView*TFView=[[UIView alloc]initWithFrame:CGRectMake(10, 100-64, kScreenW-20, 100)];
-        TFView.alpha=0.9f;
-        TFView.backgroundColor=[UIColor whiteColor];
-        TFView.layer.borderWidth=2.0f;
-        TFView.layer.borderColor=[UIColor whiteColor].CGColor;
-        TFView.layer.cornerRadius=5.0f;
-        TFView.layer.masksToBounds=YES;
-        [self.view addSubview:TFView];
-
-        UILabel*usernameLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 15, 40, 20)];
-        usernameLable.text=@"公司";
-        usernameLable.font=[UIFont boldSystemFontOfSize:18];
-        usernameLable.textColor=[UIColor blackColor];
-        [TFView addSubview:usernameLable];
-
-        _factoryNameTF = [[UITextField alloc]initWithFrame:CGRectMake(50, 5, kScreenW-70, 40)];
-        _factoryNameTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-        _factoryNameTF.placeholder=@"请填写公司名称";
-        [TFView addSubview:_factoryNameTF];
-
-        UILabel*passwordLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 63, 40, 20)];
-        passwordLable.text=@"规模";
-        passwordLable.font=[UIFont boldSystemFontOfSize:18];
-        passwordLable.textColor=[UIColor blackColor];
-        [TFView addSubview:passwordLable];
-
-        _factorySizeTF = [[UITextField alloc]initWithFrame:CGRectMake(50, 55, kScreenW-70, 40)];
-        _factorySizeTF.placeholder=@"请选择公司规模";
-        _factorySizeTF.inputView = [self fecthSizePicker];
-        _factorySizeTF.inputAccessoryView = [self fecthToolbar];
-        _factorySizeTF.text = _sizePickerName;
-        _factorySizeTF.delegate =self;
-        [TFView addSubview:_factorySizeTF];
-
-        inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 220-64, kScreenW-20, 35)];
-        inviteCodeTF.keyboardType=UIKeyboardTypeNumberPad;
-        inviteCodeTF.placeholder=@"请填写邀请码，没有可忽略。";
-        inviteCodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-        inviteCodeTF.borderStyle=UITextBorderStyleRoundedRect;
-        inviteCodeTF.backgroundColor=[UIColor whiteColor];
-        [self.view addSubview:inviteCodeTF];
-
-
-
-        UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 270-64, kScreenW-20, 35)];
-        [registerBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
-        registerBtn.layer.cornerRadius=5.0f;
-        registerBtn.layer.masksToBounds=YES;
-        [registerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
-        [registerBtn addTarget:self action:@selector(clickRegisterBtn) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:registerBtn];
+    //删除注册信息
+    NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
+    NSDictionary * dict = [defs dictionaryRepresentation];
+    for (id key in dict) {
+        [defs removeObjectForKey:key];
     }
+    [defs synchronize];
 }
+#pragma mark - Table view data source
 
-
-
-//sizePicker
-- (UIPickerView *)fecthSizePicker{
-    if (!self.orderPicker) {
-        self.orderPicker = [[UIPickerView alloc] init];
-        self.orderPicker.tag=1;
-        self.orderPicker.delegate = self;
-        self.orderPicker.dataSource = self;
-        [self.orderPicker selectRow:0 inComponent:0 animated:NO];
-    }
-    return self.orderPicker;
-}
-- (UIToolbar *)fecthToolbar{
-    if (!self.pickerToolbar) {
-        self.pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 44)];
-        UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
-        UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(ensure)];
-        self.pickerToolbar.items = [NSArray arrayWithObjects:left,space,right,nil];
-    }
-    return self.pickerToolbar;
-}
-
--(void)cancel{
-
-    _sizePickerName = nil;
-    [_factorySizeTF endEditing:YES];
-}
-
--(void)ensure{
-
-    if (_sizePickerName) {
-        _factorySizeTF.text = _sizePickerName;
-        _sizePickerName = nil;
-    }
-    [_factorySizeTF endEditing:YES];
-}
-
-
-//service
-- (UIPickerView *)fecthServicePicker{
-    if (!self.servicePicker) {
-        self.servicePicker = [[UIPickerView alloc] init];
-        self.servicePicker.tag=2;
-        self.servicePicker.delegate = self;
-        self.servicePicker.dataSource = self;
-        [self.servicePicker selectRow:0 inComponent:0 animated:NO];
-    }
-    return self.servicePicker;
-}
-
-- (UIToolbar *)fecthServiceToolbar{
-
-    if (!self.serviceToolbar) {
-        self.serviceToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 44)];
-        UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(serviceCancel)];
-        UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(serviceEnsure)];
-        self.serviceToolbar.items = [NSArray arrayWithObjects:left,space,right,nil];
-    }
-    return self.serviceToolbar;
-}
-
--(void)serviceCancel{
-
-    _servicePickerName = nil;
-    [_factoryServiceRangeTF endEditing:YES];
-}
-
--(void)serviceEnsure{
-
-    if (_servicePickerName) {
-        _factoryServiceRangeTF.text = _servicePickerName;
-        _servicePickerName = nil;
-    }
-    [_factoryServiceRangeTF endEditing:YES];
-}
-
-
-#pragma mark - UIPickerView datasource
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    if (pickerView.tag == 1) {
-        return self.cellPickList.count;
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"] || [[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"加工厂"]) {
+        return 9;
+
     }else{
-        return self.cellServicePickList.count;
+        return 8;
     }
 }
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    UITableViewCell*cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        switch (indexPath.row) {
+            case 0:
+            {
+                cell.textLabel.text = @"工厂类型";
+                cell.detailTextLabel.text = [userDefaults objectForKey:@"type"];
+            }
+                break;
+            case 1:
+            {
+                cell.textLabel.text = @"手机号";
+                cell.detailTextLabel.text = [userDefaults objectForKey:@"phone"];
+
+            }
+                break;
+            case 2:
+            {
+
+                cell.textLabel.text = @"密码";
+                cell.detailTextLabel.text = [userDefaults objectForKey:@"password"];
+            }
+                break;
+            case 3:
+            {
+                cell.textLabel.text = @"邀请码";
+                if ([[userDefaults objectForKey:@"inviteCode"]isEqualToString:@""]) {
+                    cell.detailTextLabel.text = @"尚未填写";
+                }else{
+                    cell.detailTextLabel.text = [userDefaults objectForKey:@"inviteCode"];
+                }
+            }
+                break;
+            case 4:
+            {
+                cell.textLabel.text = @"验证码";
+                cell.detailTextLabel.text = [userDefaults objectForKey:@"code"];
+            }
+                break;
 
 
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    if (pickerView.tag==2) {
-        return [self.cellServicePickList objectAtIndex:row];
-    }else{
-        return [self.cellPickList objectAtIndex:row];
+            case 5:
+            {
+                cell.textLabel.text = @"工厂名称";
+                cell.detailTextLabel.text = [userDefaults objectForKey:@"factoryName"];
+            }
+                break;
+            case 6:
+            {
+                cell.textLabel.text = @"工厂地址";
+                cell.detailTextLabel.text = [userDefaults objectForKey:@"factoryAddress"];
+            }
+                break;
+
+            case 7:
+            {
+                cell.textLabel.text = @"工厂规模";
+                cell.detailTextLabel.text = [userDefaults objectForKey:@"factorySize"];
+            }
+                break;
+
+
+            case 8:
+            {
+                cell.textLabel.text = @"工厂业务";
+                cell.detailTextLabel.text = [userDefaults objectForKey:@"factoryServiceRange"];
+            }
+                break;
+
+
+            default:
+                break;
+        }
+
     }
+
+    return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.01f;
+}
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    if (pickerView.tag==1) {
-        _sizePickerName = [self pickerView:pickerView titleForRow:row forComponent:component];
-    }else{
-    _servicePickerName = [self pickerView:pickerView titleForRow:row forComponent:component];
-    }
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.01f;
 }
 
 
@@ -330,11 +189,6 @@
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-    //账号
-    NSString*phone=[userDefaults objectForKey:@"phone"];
-
-    //密码
-    NSString*password=[userDefaults objectForKey:@"password"];
 
     //工厂身份
     int factoryType = 0;
@@ -347,9 +201,17 @@
     }if ([[userDefaults objectForKey:@"type"]isEqualToString:@"锁眼钉扣厂"]) {
         factoryType=3;
     }
+    
+    //手机号
+    NSString*phone = [userDefaults objectForKey:@"phone"];
+
+    //密码
+    NSString*password = [userDefaults objectForKey:@"password"];
 
     //验证码
     NSString*verifyCode=[userDefaults objectForKey:@"code"];
+
+    NSString*inviteCode = [userDefaults objectForKey:@"inviteCode"];
 
     //工厂地址
     NSString*factoryAddress=[userDefaults objectForKey:@"factoryAddress"];
@@ -359,58 +221,69 @@
     double lat=[[userDefaults objectForKey:@"lat"] doubleValue];
 
     //工厂名称
-    NSString*factoryName=_factoryNameTF.text;
+    NSString*factoryName=[userDefaults objectForKey:@"factoryName"];
+
+    //工厂规模
+    NSString*factorySize = [userDefaults objectForKey:@"factorySize"];
 
     //业务类型
-    NSString*factoryServiceRange=_factoryServiceRangeTF.text;
+    NSString*factoryServiceRange=[userDefaults objectForKey:@"factoryServiceRange"];
 
-//    DLog(@"Size=(%@-%@) range = %d",sizeMin,sizeMax,factoryType);
 
-    if ([factoryName isEqualToString:@""]||[factoryServiceRange isEqualToString:@""]||[_factorySizeTF.text isEqualToString:@""]) {
-
-        UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"请将公司信息填写完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
-    }else{
-        //注册
-        [HttpClient registerWithUsername:phone  InviteCode:inviteCodeTF.text password:password factoryType:factoryType verifyCode:verifyCode factoryName:factoryName lon:lon lat:lat factorySizeMin:[[Tools RangeSizeWith:_factorySizeTF.text] firstObject] factorySizeMax:[[Tools RangeSizeWith:_factorySizeTF.text] lastObject] factoryAddress:factoryAddress factoryServiceRange:factoryServiceRange andBlock:^(NSDictionary *responseDictionary) {
+    [HttpClient registerWithUsername:phone  InviteCode:inviteCode password:password factoryType:factoryType verifyCode:verifyCode factoryName:factoryName lon:lon lat:lat factorySizeMin:[[Tools RangeSizeWith:factorySize] firstObject] factorySizeMax:[[Tools RangeSizeWith:factorySize] lastObject] factoryAddress:factoryAddress factoryServiceRange:factoryServiceRange andBlock:^(NSDictionary *responseDictionary) {
+        int statusCode =[responseDictionary[@"statusCode"]intValue];
+        if (statusCode == 200) {
+            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"注册成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            alertView.tag = 10086;
+            [alertView show];
+        }else{
+            DLog(@"注册反馈%@",responseDictionary);
             NSString*message=responseDictionary[@"message"];
             UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             [alertView show];
-        }];
+        }
+    }];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 10086) {
+        [self login];
     }
 }
 
 
 //注册成功 登录
 - (void)login{
-    [HttpClient loginWithUsername:[[NSUserDefaults standardUserDefaults] objectForKey:@"phone"] password:[[NSUserDefaults standardUserDefaults] objectForKey:@"phone"] andBlock:^(int statusCode) {
+    [HttpClient loginWithUsername:[[NSUserDefaults standardUserDefaults] objectForKey:@"phone"] password:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"] andBlock:^(int statusCode) {
         DLog(@"%d",statusCode);
         switch (statusCode) {
-            case 0:{
-//                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"网络错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//                [alertView show];
-            }
-                break;
+
             case 200:{
+                //注册成功 登录成功
                 [ViewController goMain];
-//                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"登陆成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//                [alertView show];
-            }
-                break;
-            case 400:{
-//                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"用户名密码错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//                [alertView show];
+                //删除注册信息
+                NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
+                NSDictionary * dict = [defs dictionaryRepresentation];
+                for (id key in dict) {
+                    [defs removeObjectForKey:key];
+                }
+                [defs synchronize];
             }
                 break;
 
             default:
+                [Tools showHudTipStr:@"网络错误"];
                 break;
         }
     }];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    [self.view endEditing:YES];
+- (void)dealloc {
+    DLog(@"注册2dealloc");
+
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -418,15 +291,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

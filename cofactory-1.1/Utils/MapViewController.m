@@ -21,58 +21,6 @@
 
 @implementation MapViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    self.title=@"精确位置";
-    self.view.backgroundColor=[UIColor whiteColor];
-    
-    //没有地图选点之前的经纬度
-    self.longitude=self.centerLocation.longitude;
-    self.latitude=self.centerLocation.latitude;
-    
-    UIImageView*bgView = [[UIImageView alloc]initWithFrame:kScreenBounds];
-    bgView.image=[UIImage imageNamed:@"登录bg"];
-    [self.view addSubview:bgView];
-
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-
-    DLog(@"位置：%@",self.addressStr);
-    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-150)];
-    [_mapView setCenterCoordinate:self.centerLocation];
-    [self.view addSubview:_mapView];
-
-    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, kScreenH-130, kScreenW-20, 35)];
-    [nextBtn setTitle:@"确定位置" forState:UIControlStateNormal];
-    [nextBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
-    nextBtn.layer.cornerRadius=5.0f;
-    nextBtn.layer.masksToBounds=YES;
-    [nextBtn addTarget:self action:@selector(clickNextBtn) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:nextBtn];
-
-
-//    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, kScreenH-164, kScreenW-20, 35)];
-//    [nextBtn setTitle:@"确定位置" forState:UIControlStateNormal];
-//    [nextBtn setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
-////    nextBtn.alpha=0.9f;
-//    nextBtn.layer.cornerRadius=5.0f;
-//    nextBtn.layer.masksToBounds=YES;
-//    [nextBtn addTarget:self action:@selector(clickNextBtn) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:nextBtn];
-
-}
-
-- (void)clickNextBtn {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:self.addressStr forKey:@"factoryAddress"];
-    [userDefaults setDouble:self.longitude forKey:@"lon"];
-    [userDefaults setDouble:self.latitude forKey:@"lat"];
-    [userDefaults synchronize];
-    DLog(@"%@-%lf-%lf",self.addressStr,self.longitude,self.latitude);
-    RegisterViewController3*registerVC3=[[RegisterViewController3 alloc]init];
-    [self.navigationController pushViewController:registerVC3 animated:YES];
-}
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     _mapView.delegate = self;
@@ -88,6 +36,45 @@
     _mapView.delegate = nil;
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    self.title=@"确定位置";
+    self.view.backgroundColor=[UIColor whiteColor];
+    
+    //没有地图选点之前的经纬度
+    self.longitude=self.centerLocation.longitude;
+    self.latitude=self.centerLocation.latitude;
+    
+
+    DLog(@"位置：%@",self.addressStr);
+    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-150)];
+    [_mapView setCenterCoordinate:self.centerLocation];
+    [self.view addSubview:_mapView];
+
+    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, kScreenH-130, kScreenW-20, 35)];
+    [nextBtn setTitle:@"确定位置" forState:UIControlStateNormal];
+    nextBtn.layer.cornerRadius=5.0f;
+    nextBtn.layer.masksToBounds=YES;
+    nextBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+    nextBtn.layer.borderWidth = 1.0f;
+    [nextBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
+
+    [nextBtn addTarget:self action:@selector(clickNextBtn) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:nextBtn];
+
+}
+
+- (void)clickNextBtn {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setDouble:self.longitude forKey:@"lon"];
+    [userDefaults setDouble:self.latitude forKey:@"lat"];
+    [userDefaults synchronize];
+    DLog(@"%@-%lf-%lf",self.addressStr,self.longitude,self.latitude);
+    RegisterViewController3*registerVC3=[[RegisterViewController3 alloc]init];
+    [self.navigationController pushViewController:registerVC3 animated:YES];
+}
 
 
 #pragma mark - <BMKMapViewDelegate>

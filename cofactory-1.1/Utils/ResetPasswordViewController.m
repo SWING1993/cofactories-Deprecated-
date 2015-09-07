@@ -73,31 +73,41 @@
 
 - (void)createUI {
 
-    _usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
-    _usernameTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-    _usernameTF.keyboardType = UIKeyboardTypeNumberPad;
-    _usernameTF.placeholder=@"手机号";
+    if (!_usernameTF) {
+        _usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
+        _usernameTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+        _usernameTF.keyboardType = UIKeyboardTypeNumberPad;
+        _usernameTF.placeholder=@"手机号";
+    }
 
 
-    _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
-    _passwordTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-    _passwordTF.secureTextEntry=YES;
-    _passwordTF.placeholder=@"新密码";
+    if (!_passwordTF) {
+        _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
+        _passwordTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+        _passwordTF.secureTextEntry=YES;
+        _passwordTF.placeholder=@"新密码";
+    }
 
-    _codeTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-118, 44)];
-    _codeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-    _codeTF.keyboardType = UIKeyboardTypeNumberPad;
-    _codeTF.placeholder=@"验证码";
 
-    _codeBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW-100, 7, 90, 30)];
-    _codeBtn.layer.cornerRadius=5.0f;
-    _codeBtn.layer.masksToBounds=YES;
-    _codeBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-    _codeBtn.layer.borderWidth = 1.0f;
-    _codeBtn.titleLabel.font=[UIFont systemFontOfSize:15];
-    [_codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-    [_codeBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
-    [_codeBtn addTarget:self action:@selector(sendCodeBtn) forControlEvents:UIControlEventTouchUpInside];
+    if (!_codeTF) {
+        _codeTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-118, 44)];
+        _codeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+        _codeTF.keyboardType = UIKeyboardTypeNumberPad;
+        _codeTF.placeholder=@"验证码";
+
+    }
+
+    if (!_codeBtn) {
+        _codeBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW-100, 7, 90, 30)];
+        _codeBtn.layer.cornerRadius=5.0f;
+        _codeBtn.layer.masksToBounds=YES;
+        _codeBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+        _codeBtn.layer.borderWidth = 1.0f;
+        _codeBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+        [_codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+        [_codeBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
+        [_codeBtn addTarget:self action:@selector(sendCodeBtn) forControlEvents:UIControlEventTouchUpInside];
+    }
 
     UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 44*3+20+120, kScreenW-40, 35)];
     nextBtn.layer.cornerRadius=5.0f;
@@ -118,9 +128,8 @@
 
 - (void)nextBtn {
     if (_passwordTF.text.length<6) {
-        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"密码长度应该大于5位" message:nil
-                                                         delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
+        [Tools showHudTipStr:@"密码长度应该是6位及以上！"];
+
     }
     else{
         [HttpClient postResetPasswordWithPhone:_usernameTF.text code:_codeTF.text password:_passwordTF.text andBlock:^(int statusCode) {
@@ -136,23 +145,22 @@
                     break;
                 case 400:
                 {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"没有这个用户" message:nil
-                                                                     delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
+
+                    [Tools showHudTipStr:@"没有这个用户！"];
 
                 }
                     break;
                 case 403:
                 {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"验证码错误" message:nil
-                                                                     delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
-                    
+                    [Tools showHudTipStr:@"验证码错误"];
+
+
                 }
                     break;
-                    
-                    
+
                 default:
+                    [Tools showHudTipStr:@"网络错误"];
+
                     break;
             }
         }];
@@ -160,49 +168,57 @@
 }
 
 - (void)sendCodeBtn{
+    [_codeBtn setEnabled:NO];
+
     if (_usernameTF.text.length==11) {
         [HttpClient postVerifyCodeWithPhone:_usernameTF.text andBlock:^(int statusCode) {
             switch (statusCode) {
                 case 0:{
                     [Tools showHudTipStr:@"网络错误"];
+                    [_codeBtn setEnabled:YES];
+
                 }
                     break;
                 case 200:{
                     [Tools showHudTipStr:@"发送成功，十分钟内有效"];
-
                     seconds = 60;
                     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
                 }
                     break;
                 case 400:{
                     [Tools showHudTipStr:@"手机格式不正确"];
+                    [_codeBtn setEnabled:YES];
+
 
                 }
                     break;
                 case 409:{
 
                     [Tools showHudTipStr:@"需要等待冷却"];
+                    [_codeBtn setEnabled:YES];
+
 
                 }
                     break;
                 case 502:{
                     [Tools showHudTipStr:@"发送错误"];
+                    [_codeBtn setEnabled:YES];
+
 
                 }
                     break;
 
                 default:
+                    [Tools showHudTipStr:@"网络错误"];
                     break;
             }
         }];
 
     }else{
 
-        UIAlertView*userAlert=[[UIAlertView alloc]initWithTitle:@"手机号码错误" message:@"您输入的是一个无效的手机号码" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [userAlert show];
+        [Tools showHudTipStr:@"您输入的是一个无效的手机号码"];
+        [_codeBtn setEnabled:YES];
     }
-
-
 }
 
 
@@ -242,11 +258,6 @@
 
 }
 
-
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    [self.tableView endEditing:YES];
-//}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -273,11 +284,11 @@
             [cell addSubview:_usernameTF];
         }
         if (indexPath.row == 1) {
-            [cell addSubview:_codeTF];
-            [cell addSubview:_codeBtn];
+            [cell addSubview:_passwordTF];
         }
         if (indexPath.row == 2) {
-            [cell addSubview:_passwordTF];
+            [cell addSubview:_codeTF];
+            [cell addSubview:_codeBtn];
         }
     }
 
@@ -293,5 +304,10 @@
 }
 
 
+- (void)dealloc {
+    DLog(@"找回密码dealloc");
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
+}
 
 @end

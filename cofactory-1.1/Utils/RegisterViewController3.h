@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RegisterViewController3 : UIViewController
+@interface RegisterViewController3 : UITableViewController
 
 @end
