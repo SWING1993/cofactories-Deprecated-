@@ -13,6 +13,8 @@
 #import "OrderModel.h"
 #import "MessageModel.h"
 #import "UpYun.h"
+#import "BidManagerModel.h"
+
 
 @interface HttpClient : NSObject
 
