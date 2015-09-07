@@ -249,6 +249,7 @@
 		BD8C4DFF1B4FB3060065ECFA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4DFE1B4FB3060065ECFA /* SystemConfiguration.framework */; };
 		BD8C4E011B4FB30F0065ECFA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4E001B4FB30F0065ECFA /* UIKit.framework */; };
 		BD8C4E031B4FB31B0065ECFA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4E021B4FB31B0065ECFA /* Foundation.framework */; };
+		BD9C60031B9DDBBA0040B5D8 /* ZFModalTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = BD9C60021B9DDBBA0040B5D8 /* ZFModalTransitionAnimator.m */; };
 		BDC907BD1B4E9A5700856A32 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC907BC1B4E9A5700856A32 /* main.m */; };
 		BDC907C01B4E9A5700856A32 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = BDC907BF1B4E9A5700856A32 /* AppDelegate.mm */; };
 		BDC907C31B4E9A5700856A32 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC907C21B4E9A5700856A32 /* ViewController.m */; };
@@ -725,6 +726,8 @@
 		BD8C4E001B4FB30F0065ECFA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BD8C4E021B4FB31B0065ECFA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BD8C4E041B4FB3340065ECFA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		BD9C60011B9DDBBA0040B5D8 /* ZFModalTransitionAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZFModalTransitionAnimator.h; path = ../ZFModalTransitionAnimator.h; sourceTree = "<group>"; };
+		BD9C60021B9DDBBA0040B5D8 /* ZFModalTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZFModalTransitionAnimator.m; path = ../ZFModalTransitionAnimator.m; sourceTree = "<group>"; };
 		BDC907B71B4E9A5700856A32 /* cofactory-1.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cofactory-1.1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDC907BB1B4E9A5700856A32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BDC907BC1B4E9A5700856A32 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1716,6 +1719,15 @@
 			name = Me;
 			sourceTree = "<group>";
 		};
+		BD9C60041B9DDFD90040B5D8 /* ZFModalTransitionAnimator */ = {
+			isa = PBXGroup;
+			children = (
+				BD9C60011B9DDBBA0040B5D8 /* ZFModalTransitionAnimator.h */,
+				BD9C60021B9DDBBA0040B5D8 /* ZFModalTransitionAnimator.m */,
+			);
+			name = ZFModalTransitionAnimator;
+			sourceTree = "<group>";
+		};
 		BDC907AE1B4E9A5600856A32 = {
 			isa = PBXGroup;
 			children = (
@@ -1791,6 +1803,7 @@
 				042A0EE71B7B588100ECE841 /* HttpClient.m */,
 				04AE21841B535ABC007A3279 /* Tools.h */,
 				04AE21851B535ABC007A3279 /* Tools.m */,
+				BD9C60041B9DDFD90040B5D8 /* ZFModalTransitionAnimator */,
 				04E94E111B8EA32200EE911E /* PgySDK.framework */,
 				04B150291B9569CD004E0353 /* IQKeyBoardManager */,
 				04724E661B8870C000F820EF /* TYSlidePageScrollView */,
@@ -2155,6 +2168,7 @@
 				04724E7B1B8870EF00F820EF /* MeController.m in Sources */,
 				BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */,
 				649BA0841B7B15E5008EDE31 /* SearchOrderDetailsVC.m in Sources */,
+				BD9C60031B9DDBBA0040B5D8 /* ZFModalTransitionAnimator.m in Sources */,
 				04746D571B6B284E00C3C45E /* UMFullScreenPhotoView.m in Sources */,
 				BDC909051B4EB77000856A32 /* LoginViewController.m in Sources */,
 				0473330A1B60D2B700F684A2 /* OrderListViewController.m in Sources */,

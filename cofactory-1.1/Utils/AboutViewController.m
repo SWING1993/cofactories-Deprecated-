@@ -41,6 +41,14 @@
     [tableHeaderView addSubview:logoLabel];
 
     self.tableView.tableHeaderView=tableHeaderView;
+    
+    //设置Btn
+    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
+    self.navigationItem.rightBarButtonItem = setButton;
+}
+
+- (void)buttonClicked{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Table view data source

@@ -66,7 +66,7 @@
 
     //确定Btn
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
-    self.navigationItem.leftBarButtonItem = setButton;
+    self.navigationItem.rightBarButtonItem = setButton;
 
     [self createUI];
 }

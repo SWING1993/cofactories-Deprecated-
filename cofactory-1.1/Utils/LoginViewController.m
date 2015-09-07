@@ -8,32 +8,21 @@
 #import "Header.h"
 #import "LoginViewController.h"
 
+#import "ZFModalTransitionAnimator.h"
+
+
 @interface LoginViewController () <UIAlertViewDelegate>{
     UITextField*_usernameTF;
 
     UITextField*_passwordTF;
 }
 
+@property (nonatomic, strong) ZFModalTransitionAnimator *animator;
+
+
 @end
 
 @implementation LoginViewController
-{
-    //BOOL _wasKeyboardManagerEnabled;
-}
-
-//-(void)viewDidAppear:(BOOL)animated
-//{
-//    [super viewDidAppear:animated];
-//    _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
-//    [[IQKeyboardManager sharedManager] setEnable:NO];
-//}
-//
-//-(void)viewWillDisappear:(BOOL)animated
-//{
-//    [super viewWillDisappear:animated];
-//    [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
-//}
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -156,30 +145,38 @@
         }
             break;
         case 1:{
+            [button setEnabled:NO];
             if ([_passwordTF.text isEqualToString:@""]||[_usernameTF.text isEqualToString:@""]) {
 
+                [button setEnabled:YES];
                 [Tools showHudTipStr:@"请您填写账号以及密码后登陆"];
             }else{
                 [HttpClient loginWithUsername:_usernameTF.text password:_passwordTF.text andBlock:^(int statusCode) {
                     DLog(@"%d",statusCode);
                     switch (statusCode) {
                         case 0:{
+                            [button setEnabled:YES];
                             [Tools showHudTipStr:@"网络错误"];
 
                         }
                             break;
                         case 200:{
+                            [button setEnabled:YES];
+
                             [ViewController goMain];
 
                         }
                             break;
                         case 400:{
+                            [button setEnabled:YES];
+
                             [Tools showHudTipStr:@"用户名或密码错误"];
 
                         }
                             break;
                             
                         default:
+                            [button setEnabled:YES];
                             break;
                     }
                 }];
@@ -196,9 +193,26 @@
             break;
         case 3:{
             DLog(@"忘记密码");
+//            ResetPasswordViewController*resetVC = [[ResetPasswordViewController alloc]init];
+//            UINavigationController*resetNav = [[UINavigationController alloc]initWithRootViewController:resetVC];
+//            resetNav.navigationBar.barStyle=UIBarStyleBlack;
+//            [self presentViewController:resetNav animated:YES completion:nil];
+            
+            
             ResetPasswordViewController*resetVC = [[ResetPasswordViewController alloc]init];
+            
             UINavigationController*resetNav = [[UINavigationController alloc]initWithRootViewController:resetVC];
             resetNav.navigationBar.barStyle=UIBarStyleBlack;
+            
+            
+            resetNav.modalPresentationStyle = UIModalPresentationCustom;
+            self.animator = [[ZFModalTransitionAnimator alloc] initWithModalViewController:resetNav];
+            self.animator.dragable = YES;
+            self.animator.bounces = NO;
+            self.animator.behindViewAlpha = 0.5f;
+            self.animator.behindViewScale = 0.5f;
+            self.animator.direction = ZFModalTransitonDirectionBottom;
+            resetNav.transitioningDelegate = self.animator;
             [self presentViewController:resetNav animated:YES completion:nil];
         }
         default:
