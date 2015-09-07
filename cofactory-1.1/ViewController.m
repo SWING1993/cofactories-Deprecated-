@@ -50,12 +50,20 @@
     
     HomeViewController *VC1 = [[HomeViewController alloc] init];
     UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:VC1];
+    nav1.navigationBar.barStyle=UIBarStyleBlack;
+    
     CooperationViewController *VC2 = [[CooperationViewController alloc] init];
     UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:VC2];
+    nav2.navigationBar.barStyle=UIBarStyleBlack;
+
     MessageViewController *VC3 = [[MessageViewController alloc] init];
     UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:VC3];
+    nav3.navigationBar.barStyle=UIBarStyleBlack;
+
     MeController *VC4 = [[MeController alloc] init];
     UINavigationController *nav4 = [[UINavigationController alloc] initWithRootViewController:VC4];
+    nav4.navigationBar.barStyle=UIBarStyleBlack;
+
     
         //获取消息
         [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {
@@ -106,12 +114,19 @@
     
     HomeViewController *VC1 = [[HomeViewController alloc] init];
     UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:VC1];
+    nav1.navigationBar.barStyle=UIBarStyleBlack;
+    
     CooperationViewController *VC2 = [[CooperationViewController alloc] init];
     UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:VC2];
+    nav2.navigationBar.barStyle=UIBarStyleBlack;
+    
     MessageViewController *VC3 = [[MessageViewController alloc] init];
     UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:VC3];
+    nav3.navigationBar.barStyle=UIBarStyleBlack;
+    
     MeController *VC4 = [[MeController alloc] init];
     UINavigationController *nav4 = [[UINavigationController alloc] initWithRootViewController:VC4];
+    nav4.navigationBar.barStyle=UIBarStyleBlack;
     
     VC1.title = @"聚工厂";
     VC2.title = @"合作商";

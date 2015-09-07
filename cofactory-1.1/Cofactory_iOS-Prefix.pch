@@ -12,7 +12,7 @@
 
 #pragma mark - 服务器
 //内网服务器
-#define kBaseUrl @"http://192.168.100.2:3001"
+//#define kBaseUrl @"http://192.168.100.2:3001"
 
 //正式服务器
 //#define kBaseUrl @"http://app2.cofactories.com"
@@ -20,7 +20,7 @@
 //#define bucketAPI @"cofactories"
 
 //测试服务器
-//#define kBaseUrl @"http://test.cofactories.com"
+#define kBaseUrl @"http://test.cofactories.com"
 #define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
 #define bucketAPI @"cofactories-test"
 
