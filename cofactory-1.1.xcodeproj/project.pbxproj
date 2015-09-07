@@ -217,7 +217,6 @@
 		BD4311D51B4F5CD00097E4BC /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4311D41B4F5CD00097E4BC /* RegisterViewController.m */; };
 		BD4311D81B4F6A900097E4BC /* RegisterViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4311D71B4F6A900097E4BC /* RegisterViewController2.m */; };
 		BD7A51D01B4F8478001ACDE3 /* RegisterViewController3.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7A51CF1B4F8478001ACDE3 /* RegisterViewController3.m */; };
-		BD801F3C1B520D770009CB4D /* AddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD801F3B1B520D770009CB4D /* AddressViewController.m */; };
 		BD8AD7B31B50DEFC00373E5E /* ButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8AD7B21B50DEFC00373E5E /* ButtonView.m */; };
 		BD8AD7C31B50E59700373E5E /* PageView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8AD7C21B50E59700373E5E /* PageView.m */; };
 		BD8AD7E61B50E62600373E5E /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8AD7C61B50E62600373E5E /* MKAnnotationView+WebCache.m */; };
@@ -665,8 +664,6 @@
 		BD4311D71B4F6A900097E4BC /* RegisterViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController2.m; sourceTree = "<group>"; };
 		BD7A51CE1B4F8478001ACDE3 /* RegisterViewController3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController3.h; sourceTree = "<group>"; };
 		BD7A51CF1B4F8478001ACDE3 /* RegisterViewController3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController3.m; sourceTree = "<group>"; };
-		BD801F3A1B520D770009CB4D /* AddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressViewController.h; sourceTree = "<group>"; };
-		BD801F3B1B520D770009CB4D /* AddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressViewController.m; sourceTree = "<group>"; };
 		BD8AD7B11B50DEFC00373E5E /* ButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonView.h; sourceTree = "<group>"; };
 		BD8AD7B21B50DEFC00373E5E /* ButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonView.m; sourceTree = "<group>"; };
 		BD8AD7B51B50E07000373E5E /* HomeViewsHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewsHeader.h; sourceTree = "<group>"; };
@@ -1946,8 +1943,6 @@
 				BD4311D41B4F5CD00097E4BC /* RegisterViewController.m */,
 				BD4311D61B4F6A900097E4BC /* RegisterViewController2.h */,
 				BD4311D71B4F6A900097E4BC /* RegisterViewController2.m */,
-				BD801F3A1B520D770009CB4D /* AddressViewController.h */,
-				BD801F3B1B520D770009CB4D /* AddressViewController.m */,
 				BDEDA4391B5229F6000E5012 /* MapViewController.h */,
 				BDEDA43A1B5229F6000E5012 /* MapViewController.m */,
 				BD7A51CE1B4F8478001ACDE3 /* RegisterViewController3.h */,
@@ -2292,7 +2287,6 @@
 				BDC908EE1B4E9B3700856A32 /* UIRefreshControl+AFNetworking.m in Sources */,
 				BDC908ED1B4E9B3700856A32 /* UIProgressView+AFNetworking.m in Sources */,
 				BDC908FE1B4E9B6B00856A32 /* OrderModel.m in Sources */,
-				BD801F3C1B520D770009CB4D /* AddressViewController.m in Sources */,
 				04D7D0231B59E7BD0054861E /* ModifyServiceRangeViewController.m in Sources */,
 				BD4311D81B4F6A900097E4BC /* RegisterViewController2.m in Sources */,
 				0455E1111B61D8D8009C5CDA /* ActivityViewController.m in Sources */,

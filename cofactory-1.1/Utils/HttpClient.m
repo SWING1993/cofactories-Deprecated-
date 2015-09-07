@@ -226,18 +226,18 @@
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
     NSArray *factorySize = [[NSArray alloc] initWithObjects:factorySizeMin, factorySizeMax, nil];
     [manager POST:API_register parameters:@{@"phone": username,@"inviteCode": inviteCode, @"password": password, @"type": @(type), @"code": code, @"factoryName": factoryName, @"lon": @(lon), @"lat": @(lat), @"factorySize": factorySize, @"factoryAddress": factoryAddress, @"factoryServiceRange": (factoryServiceRange == nil ? @"" : factoryServiceRange)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        block(@{@"statusCode": @([operation.response statusCode]), @"message": @"注册成功"});
+        block(@{@"statusCode": @(200), @"message": @"注册成功"});
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         switch ([operation.response statusCode]) {
             case 401:
-                block(@{@"statusCode": @([operation.response statusCode]), @"message": @"验证码错误"});
+                block(@{@"statusCode": @(401), @"message": @"验证码错误"});
                 break;
             case 409:
-                block(@{@"statusCode": @([operation.response statusCode]), @"message": @"该手机已经注册过"});
+                block(@{@"statusCode": @(409), @"message": @"该手机已经注册过"});
                 break;
                 
             default:
-                block(@{@"statusCode": @([operation.response statusCode]), @"message": @"网络错误"});
+                block(@{@"statusCode": @(0), @"message": @"网络错误"});
                 break;
         }
     }];

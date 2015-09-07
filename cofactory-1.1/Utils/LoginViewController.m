@@ -37,6 +37,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    //删除注册信息
+    NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
+    NSDictionary * dict = [defs dictionaryRepresentation];
+    for (id key in dict) {
+        [defs removeObjectForKey:key];
+    }
+    [defs synchronize];
+
+
     // Do any additional setup after loading the view from its nib.
     self.title=@"登录";
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -59,28 +69,30 @@
 }
 - (void)createUI {
 
-    UIImageView*userTFView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 40, 23)];
-    userTFView.image = [UIImage imageNamed:@"login_user"];
-    _usernameTF.font = [UIFont systemFontOfSize:15.0f];
-    _usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
-    _usernameTF.leftView = userTFView;
-    _usernameTF.leftViewMode = UITextFieldViewModeAlways;
-    _usernameTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-    _usernameTF.placeholder=@"手机号";
-    _usernameTF.keyboardType = UIKeyboardTypeNumberPad;
 
+    if (!_usernameTF) {
+        UIImageView*userTFView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 40, 23)];
+        userTFView.image = [UIImage imageNamed:@"login_user"];
+        _usernameTF.font = [UIFont systemFontOfSize:15.0f];
+        _usernameTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
+        _usernameTF.leftView = userTFView;
+        _usernameTF.leftViewMode = UITextFieldViewModeAlways;
+        _usernameTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+        _usernameTF.placeholder=@"手机号";
+        _usernameTF.keyboardType = UIKeyboardTypeNumberPad;
+    }
 
+    if (!_passwordTF) {
+        UIImageView*passTFView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 40, 23)];
+        passTFView.image = [UIImage imageNamed:@"login_key"];
+        _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
+        _passwordTF.leftView = passTFView;
+        _passwordTF.leftViewMode = UITextFieldViewModeAlways;
+        _passwordTF.secureTextEntry=YES;
+        _passwordTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+        _passwordTF.placeholder=@"密码";
 
-    UIImageView*passTFView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 40, 23)];
-    passTFView.image = [UIImage imageNamed:@"login_key"];
-    _passwordTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-15, 44)];
-    _passwordTF.leftView = passTFView;
-    _passwordTF.leftViewMode = UITextFieldViewModeAlways;
-    _passwordTF.secureTextEntry=YES;
-    _passwordTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-    _passwordTF.placeholder=@"密码";
-    
-
+    }
 
     UIButton*loginBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 220, (kScreenW-40), 35)];
     loginBtn.tag=1;
@@ -194,16 +206,6 @@
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [ViewController goMain];
-}
-
-
-
-//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-//    [self.view endEditing:YES];
-//}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -253,6 +255,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 0.01f;
+}
+
+- (void)dealloc {
+    DLog(@"登录dealloc");
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
 }
 
 @end
