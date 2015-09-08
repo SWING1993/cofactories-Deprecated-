@@ -31,7 +31,10 @@
             // 最大的选项
             switch (_factoryType) {
                 case GarmentFactory:
-                    _factorySize = [[NSString alloc] initWithFormat:@"%@万件以上", factorySize[0]];
+                {
+                    NSString *string = [[NSString alloc] initWithFormat:@"%@万件以上", factorySize[0]];
+                    _factorySize = [Tools SizeWith:string];
+                }
                     break;
                 case ProcessingFactory:
                 case CuttingFactory:
@@ -46,7 +49,10 @@
             // 范围选项
             switch (_factoryType) {
                 case GarmentFactory:
-                    _factorySize = [[NSString alloc] initWithFormat:@"%@到%@万件", factorySize[0], factorySize[1]];
+                {
+                    NSString *string = [[NSString alloc] initWithFormat:@"%@到%@万件", factorySize[0], factorySize[1]];
+                    _factorySize = [Tools SizeWith:string];
+                }
                     break;
                 case ProcessingFactory:
                 case CuttingFactory:

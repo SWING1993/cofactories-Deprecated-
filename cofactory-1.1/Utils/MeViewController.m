@@ -190,12 +190,7 @@
                 break;
             case 2:{
                 cellLabel.text=@"公司规模";
-
-                if (self.userModel.factoryType==GarmentFactory) {
-                    cell.detailTextLabel.text=[Tools SizeWith:self.userModel.factorySize];
-                }else {
-                    cell.detailTextLabel.text=self.userModel.factorySize;
-                }
+                cell.detailTextLabel.text=self.userModel.factorySize;
             }
                 break;
             case 3:{
