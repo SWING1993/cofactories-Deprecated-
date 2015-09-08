@@ -334,7 +334,7 @@ static  NSString *const cellIdentifier1 = @"cell1";
     if (self.model.photoArray.count > 0) {
         DLog(@"123");
         OrderPhotoViewController *VC = [[OrderPhotoViewController alloc]initWithPhotoArray:self.model.photoArray];
-        
+        VC.titleString = @"订单图片";
         [self.navigationController pushViewController:VC animated:YES];
         
     }if (self.model.photoArray.count == 0) {

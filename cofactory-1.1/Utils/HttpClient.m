@@ -824,7 +824,6 @@
         [manager GET:url parameters:@{@"uid":@(uid)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
             block(200);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            DLog(@"++%@",error);
 
             switch ([operation.response statusCode]) {
                 case 400:

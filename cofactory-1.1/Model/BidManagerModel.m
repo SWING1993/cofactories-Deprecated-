@@ -13,7 +13,13 @@
     if (self == [super init]){
         self.factoryName = dictionary[@"factoryName"];
         self.photoArray = dictionary[@"photo"];
-        self.uid = [dictionary[@"uid"] integerValue];
+        self.uid = [dictionary[@"uid"] intValue];
+        
+        if (dictionary[@"commit"] == nil || [dictionary[@"commit"] isEqualToString:@"null"]) {
+            self.commit = @"厂家未添加投标备注";
+        }else{
+            self.commit = dictionary[@"commit"];
+        }
     }
     return self;
 }

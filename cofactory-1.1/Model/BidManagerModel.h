@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface BidManagerModel : NSObject
-@property (nonatomic,copy)NSString *factoryName;
+@property (nonatomic,copy)NSString *factoryName,  *commit;
 @property (nonatomic,strong)NSArray *photoArray;
-@property (nonatomic,assign)NSInteger uid;
+@property (nonatomic,assign)int uid;
 - (instancetype)initBidManagerModelWith:(NSDictionary *)dictionary;
 +(instancetype)getBidManagerModelWith:(NSDictionary *)dictionary;
 @end
