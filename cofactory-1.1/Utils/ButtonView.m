@@ -31,7 +31,7 @@
             
             UIButton*btn=[[UIButton alloc]initWithFrame:CGRectMake(
                                                                    (frame.size.width-4*(frame.size.height-30))/5+i*(frame.size.height-30+(frame.size.width-4*(frame.size.height-30))/5),
-                                                                   5,
+                                                                   10,
                                                                    frame.size.height-30, frame.size.height-30)
                           ];
             [btn setBackgroundImage:[UIImage imageNamed:btnImageArr[i]] forState:UIControlStateNormal];
@@ -53,7 +53,7 @@
             
             UILabel*btnTitleLabel=[[UILabel alloc]initWithFrame:CGRectMake(
                                                                            (frame.size.width-4*(frame.size.height-20))/5+i*(frame.size.height-20+(frame.size.width-4*(frame.size.height-20))/5),
-                                                                           frame.size.height-25,
+                                                                           frame.size.height-20,
                                                                            frame.size.height-20,
                                                                            20)
                                    ];
