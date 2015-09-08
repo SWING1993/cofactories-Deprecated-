@@ -10,4 +10,5 @@
 
 @interface BidManagerViewController : UIViewController
 @property (nonatomic,strong)NSArray *bidFactoryArray;
+@property (nonatomic,assign)int oid;
 @end

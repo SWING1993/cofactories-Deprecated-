@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface BidManagerTableViewCell : UITableViewCell
-- (void)getDataWithBidManagerModel:(BidManagerModel *)model;
+- (void)getDataWithBidManagerModel:(BidManagerModel *)model indexPath:(NSIndexPath *)indexPath;
+@property (nonatomic,strong) UIButton *imageButton;
+
 @end

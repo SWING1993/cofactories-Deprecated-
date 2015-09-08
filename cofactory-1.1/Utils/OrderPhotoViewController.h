@@ -10,4 +10,5 @@
 
 @interface OrderPhotoViewController : UIViewController
 - (id)initWithPhotoArray:(NSArray *)photoArray;
+@property (nonatomic,copy) NSString *titleString;
 @end

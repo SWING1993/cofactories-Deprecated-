@@ -258,7 +258,10 @@
                             [HttpClient uploadOrderImageWithImage:newImage oid:oidString type:@"bid" andblock:^(NSDictionary *dictionary) {
                                 if ([dictionary[@"statusCode"] intValue]==200) {
                                     DLog(@"图片上传成功");
-                                }else{
+                                    NSArray *navArray = self.navigationController.viewControllers;
+                                    [self.navigationController popToViewController:navArray[1] animated:YES];
+                                }
+                                else{
                                     DLog(@"图片上传失败%@",dictionary);
                                 }
                             }];
