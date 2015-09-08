@@ -64,10 +64,10 @@
 
     [HttpClient getFactoryPhotoWithUid:[NSString stringWithFormat:@"%d",self.factoryModel.uid] type:@"employee" andBlock:^(NSDictionary *dictionary) {
         if ([dictionary[@"statusCode"] intValue]== 200) {
-            NSMutableArray*employee = [[NSMutableArray alloc]initWithCapacity:0];
+//            NSMutableArray*employee = [[NSMutableArray alloc]initWithCapacity:10];
             NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
             NSDictionary*factory=responseDictionary[@"factory"];
-            employee =factory[@"employee"];
+            NSArray*employee =factory[@"employee"];
             if ([employee firstObject]) {
                 leftImage.contentMode=UIViewContentModeScaleAspectFill;
                 leftImage.layer.borderWidth=0.5f;
@@ -82,10 +82,10 @@
 
     [HttpClient getFactoryPhotoWithUid:[NSString stringWithFormat:@"%d",self.factoryModel.uid] type:@"environment" andBlock:^(NSDictionary *dictionary) {
         if ([dictionary[@"statusCode"] intValue]== 200) {
-            NSMutableArray*environment = [[NSMutableArray alloc]initWithCapacity:0];
+//            NSMutableArray*environment = [[NSMutableArray alloc]initWithCapacity:10];
             NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
             NSDictionary*factory=responseDictionary[@"factory"];
-            environment=factory[@"environment"];
+            NSArray*environment=factory[@"environment"];
             if ([environment firstObject]) {
                 UIImageView*rightImage1 = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2+30, 0, kScreenW-kScreenW/2-30, (ImageViewHeight-50)/2)];
                 rightImage1.contentMode=UIViewContentModeScaleAspectFill;
@@ -102,10 +102,10 @@
 
     [HttpClient getFactoryPhotoWithUid:[NSString stringWithFormat:@"%d",self.factoryModel.uid] type:@"equipment" andBlock:^(NSDictionary *dictionary) {
         if ([dictionary[@"statusCode"] intValue]== 200) {
-            NSMutableArray*equipment = [[NSMutableArray alloc]initWithCapacity:0];
+//            NSMutableArray*equipment = [[NSMutableArray alloc]initWithCapacity:10];
             NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
             NSDictionary*factory=responseDictionary[@"factory"];
-            equipment=factory[@"equipment"];
+            NSArray*equipment=factory[@"equipment"];
 
             if ([equipment firstObject]) {
                 UIImageView*rightImage2 = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2+30, (ImageViewHeight-50)/2, kScreenW-kScreenW/2-30, (ImageViewHeight-50)/2)];

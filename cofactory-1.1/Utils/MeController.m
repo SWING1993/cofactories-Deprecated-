@@ -15,6 +15,8 @@
 
 #import "HeaderViewController.h"
 
+#import "ZFModalTransitionAnimator.h"
+
 @interface MeController ()<TYSlidePageScrollViewDataSource,TYSlidePageScrollViewDelegate>
 
 @property (nonatomic, weak) TYSlidePageScrollView *slidePageScrollView;
@@ -22,6 +24,9 @@
 //@property (nonatomic ,strong) UIButton *selectBtn;
 //用户模型
 @property (nonatomic, strong) UserModel*userModel;
+
+@property (nonatomic, strong) ZFModalTransitionAnimator *animator;
+
 
 @end
 
@@ -191,7 +196,18 @@
 
     HeaderViewController*headerVC = [[HeaderViewController alloc]init];
     headerVC.uid=self.userModel.uid;
-    [self presentViewController:headerVC animated:YES completion:nil];
+    UINavigationController*headerNav = [[UINavigationController alloc]initWithRootViewController:headerVC];
+    headerNav.navigationBar.barStyle=UIBarStyleBlack;
+    headerNav.modalPresentationStyle = UIModalPresentationCustom;
+    self.animator = [[ZFModalTransitionAnimator alloc] initWithModalViewController:headerNav];
+    self.animator.dragable = YES;
+    self.animator.bounces = NO;
+    self.animator.behindViewAlpha = 0.5f;
+    self.animator.behindViewScale = 0.5f;
+    self.animator.direction = ZFModalTransitonDirectionBottom;
+    headerNav.transitioningDelegate = self.animator;
+
+    [self presentViewController:headerNav animated:YES completion:nil];
 }
 
 

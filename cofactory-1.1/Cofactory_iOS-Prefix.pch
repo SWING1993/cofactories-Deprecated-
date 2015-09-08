@@ -15,14 +15,14 @@
 //#define kBaseUrl @"http://192.168.100.2:3001"
 
 //正式服务器
-//#define kBaseUrl @"http://app2.cofactories.com"
-//#define PhotoAPI @"http://cdn.cofactories.com"
-//#define bucketAPI @"cofactories"
+#define kBaseUrl @"http://app2.cofactories.com"
+#define PhotoAPI @"http://cdn.cofactories.com"
+#define bucketAPI @"cofactories"
 
 //测试服务器
-#define kBaseUrl @"http://test.cofactories.com"
-#define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
-#define bucketAPI @"cofactories-test"
+//#define kBaseUrl @"http://test.cofactories.com"
+//#define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
+//#define bucketAPI @"cofactories-test"
 
 
 #pragma mark - 第三方key
@@ -65,7 +65,6 @@
 #define kScreenBounds [UIScreen mainScreen].bounds
 #define kScreenSize [UIScreen mainScreen].bounds.size
 
-#define kBannerHeight kScreenW*0.535
 #define kStatusBarHeight 20
 #define kNavigationBarHeight 44
 #define CellIdentifier @"Cell"

@@ -23,6 +23,31 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
+    self.title = @"头像";
+
+    self.view.backgroundColor = [UIColor whiteColor];
+
+    UIButton*uploadBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-35-64, kScreenW-60, 35)];
+    if (iphone4x_3_5) {
+        uploadBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-45-64, kScreenW-60, 35);
+    }
+    [uploadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [uploadBtn setTitle:@"更换头像" forState:UIControlStateNormal];
+    [uploadBtn setBackgroundColor:[UIColor colorWithHexString:@"0x3bbc79"]];
+    [uploadBtn addTarget:self action:@selector(clickUploadBtn) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:uploadBtn];
+
+    UIButton*backBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+35-64, kScreenW-60, 35)];
+    if (iphone4x_3_5) {
+        backBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+20-64, kScreenW-60, 35);
+    }
+    [backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
+    [backBtn setBackgroundColor:[UIColor colorWithHexString:@"0x3bbc79"]];
+    [backBtn addTarget:self action:@selector(backBtn) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:backBtn];
+
+
 
     headerView = [[UIImageView alloc]init];
     headerView.frame = CGRectMake(kScreenW/2-40, 30+64, 80, 80);
@@ -43,40 +68,28 @@
         headerView.frame = CGRectMake(0, 0, kScreenW, kScreenW);
         headerView.layer.cornerRadius = 0;
         [UIView commitAnimations];
-
+        
     });
-
-
-
-
-    self.view.backgroundColor = [UIColor whiteColor];
-    UIButton*uploadBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-35, kScreenW-60, 35)];
-    if (iphone4x_3_5) {
-        uploadBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-45, kScreenW-60, 35);
-    }
-    [uploadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [uploadBtn setTitle:@"更换头像" forState:UIControlStateNormal];
-    [uploadBtn setBackgroundColor:[UIColor colorWithHexString:@"0x3bbc79"]];
-    [uploadBtn addTarget:self action:@selector(clickUploadBtn) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:uploadBtn];
-
-    UIButton*backBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+35, kScreenW-60, 35)];
-    if (iphone4x_3_5) {
-        backBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+20, kScreenW-60, 35);
-    }
-    [backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [backBtn setBackgroundColor:[UIColor colorWithHexString:@"0x3bbc79"]];
-    [backBtn addTarget:self action:@selector(backBtn) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:backBtn];
 }
 
 - (void)clickUploadBtn {
 
+
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"相册", nil];
     //    [actionSheet setTintColor:[UIColor colorWithHexString:@"0x3bbc79"]];
 
-    [actionSheet showFromTabBar:self.tabBarController.tabBar];
+//    UIWindow* window = [[[UIApplication sharedApplication] delegate] window];
+//
+//    if ([window.subviews containsObject:self.view]) {
+//        [actionSheet showInView:self.view];
+//        DLog(@"actionSheet showInView:self.view");
+//    } else {
+//        [actionSheet showInView:window];
+//        DLog(@"actionSheet showInView:window");
+//    }
+    [actionSheet showInView:self.view];
+
+//    [actionSheet showFromTabBar:self.tabBarController.tabBar];
 }
 
 - (void)backBtn {

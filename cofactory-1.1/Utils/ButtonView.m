@@ -23,7 +23,8 @@
         
         // 添加按钮
 
-    NSArray*btnImageArr=@[@"home_button1",@"home_button2",@"home_button3",@"home_button4"];
+
+        NSArray*btnImageArr=@[@"home_button1",@"home_button2",@"home_button3",@"home_button4"];
         NSArray*btnTitleArr = @[@"推送助手",@"找合作商",btnTitle,@"认证服务"];
         
         for (int i =0; i<4; i++) {
@@ -52,8 +53,9 @@
             
             UILabel*btnTitleLabel=[[UILabel alloc]initWithFrame:CGRectMake(
                                                                            (frame.size.width-4*(frame.size.height-20))/5+i*(frame.size.height-20+(frame.size.width-4*(frame.size.height-20))/5),
+                                                                           frame.size.height-25,
                                                                            frame.size.height-20,
-                                                                           frame.size.height-20, 20)
+                                                                           20)
                                    ];
 
 
@@ -61,7 +63,7 @@
             //btnTitleLabel.backgroundColor=[UIColor greenColor];
             btnTitleLabel.textColor=[UIColor blackColor];
             btnTitleLabel.textAlignment=NSTextAlignmentCenter;
-            btnTitleLabel.font=[UIFont systemFontOfSize:13];
+            btnTitleLabel.font=[UIFont systemFontOfSize:12];
             [self addSubview:btnTitleLabel];
         }
     }

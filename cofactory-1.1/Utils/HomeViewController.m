@@ -16,6 +16,8 @@
 #define kNavigationBarHeight 44
 //#define kBannerHeight 150
 #define kButtonViewHeight 74
+#define kBannerHeight kScreenW*0.535
+
 #define kRowInset 5
 #define CellIdentifier @"Cell"
 #define FooterCellIdentifier @"FooterCell"

@@ -21,7 +21,7 @@
 
 
     self.view.backgroundColor=[UIColor whiteColor];
-    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, kScreenW, kScreenH-(kNavigationBarHeight+kStatusBarHeight)) style:UITableViewStyleGrouped];
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, kScreenW, kScreenH-(kNavigationBarHeight+kStatusBarHeight)) style:UITableViewStylePlain];
     self.tableView.rowHeight=150;
     self.tableView.showsVerticalScrollIndicator=NO;
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
@@ -45,7 +45,7 @@
     
     UILabel*timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
     timeLabel.font=[UIFont boldSystemFontOfSize:14];
-    timeLabel.textColor=[UIColor lightGrayColor];
+    timeLabel.textColor=[UIColor grayColor];
     timeLabel.textAlignment=NSTextAlignmentCenter;
     timeLabel.text = _timeString;
     [cell addSubview:timeLabel];
@@ -54,20 +54,17 @@
     UILabel*messageLabel=[[UILabel alloc]init];
     messageLabel.font=font;
     messageLabel.numberOfLines=0;
-    messageLabel.textColor=[UIColor whiteColor];
+    messageLabel.textColor=[UIColor blackColor];
     messageLabel.text = _messageStr;
     CGSize size = [messageLabel.text sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
-    messageLabel.frame=CGRectMake(10, 5, kScreenW-90, size.height+20);
+    messageLabel.frame=CGRectMake(20, 5, kScreenW-90, size.height+20);
     
-    UIImageView *messageBgView = [[UIImageView alloc]initWithFrame:CGRectMake(64, 25, kScreenW-75, size.height+30)];
-    messageBgView.image=[UIImage imageNamed:@"login"];
+    UIImageView *messageBgView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 25, size.width+30, size.height+30)];
+    messageBgView.image=[UIImage imageNamed:@"消息框"];
+    messageBgView.contentMode=UIViewContentModeScaleToFill;
     [messageBgView addSubview:messageLabel];
     [cell addSubview:messageBgView];
-    
-    UIImageView*headerImage=[[UIImageView alloc]initWithFrame:CGRectMake(10, size.height+28, 44, 44)];
-    headerImage.image=[UIImage imageNamed:@"消息头像"];
-    headerImage.layer.cornerRadius=44/2.0f;
-    [cell addSubview:headerImage];
+
     
     return cell;
 }
