@@ -493,16 +493,16 @@
 }
 
 
-+ (void)getUserProfileWithUid:(NSString *)uid andBlock:(void (^)(NSDictionary *))block {
++ (void)getUserProfileWithUid:(NSInteger )uid andBlock:(void (^)(NSDictionary *))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
     if (credential) {
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
-        NSString *url = [[NSString alloc] initWithFormat:@"%@/%@", API_factoryProfile, uid];
+        NSString *url = [[NSString alloc] initWithFormat:@"%@/%ld", API_factoryProfile, uid];
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            UserModel *userModel = [[UserModel alloc] initWithDictionary:responseObject];
+            FactoryModel *userModel = [[FactoryModel alloc] initWithDictionary:responseObject];
             block(@{@"statusCode": @([operation.response statusCode]), @"model": userModel});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             switch ([operation.response statusCode]) {

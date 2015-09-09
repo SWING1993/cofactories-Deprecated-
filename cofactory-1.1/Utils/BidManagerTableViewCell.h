@@ -10,6 +10,7 @@
 
 @interface BidManagerTableViewCell : UITableViewCell
 - (void)getDataWithBidManagerModel:(BidManagerModel *)model indexPath:(NSIndexPath *)indexPath;
-@property (nonatomic,strong) UIButton *imageButton;
+@property (nonatomic,strong) UIButton *imageButton, *bgImageButton;
+;
 
 @end

@@ -10,7 +10,6 @@
 
 @implementation BidManagerTableViewCell{
     UILabel *_nameLabel;
-    UIImageView *_bgImageView;
     UIButton *_commitButton;
     NSString *_commitString;
 }
@@ -25,10 +24,11 @@
         _nameLabel.font = [UIFont systemFontOfSize:14.0f];
         [self addSubview:_nameLabel];
         
-        _bgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 15, 70, 70)];
-        _bgImageView.layer.masksToBounds = YES;
-        _bgImageView.layer.cornerRadius = 35;
-        [self addSubview:_bgImageView];
+        _bgImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _bgImageButton.frame = CGRectMake(15, 15, 70, 70);
+        _bgImageButton.layer.masksToBounds = YES;
+        _bgImageButton.layer.cornerRadius = 35;
+        [self addSubview:_bgImageButton];
         
         _commitButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _commitButton.frame = CGRectMake(100, 35, 60, 25);
@@ -60,7 +60,8 @@
 - (void)getDataWithBidManagerModel:(BidManagerModel *)model indexPath:(NSIndexPath *)indexPath{
     _nameLabel.text = model.factoryName;
     _commitString = model.commit;
-    [_bgImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,model.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];
+    [_bgImageButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,model.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
+    _bgImageButton.tag = model.uid;
 }
 
 - (void)showCommitString{
@@ -69,6 +70,7 @@
     alertView.tag = 12;
     [alertView show];
 }
+
 
 - (void)awakeFromNib {
     // Initialization code

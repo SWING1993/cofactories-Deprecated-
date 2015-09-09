@@ -48,7 +48,7 @@ static NSString *const cellIdentifer = @"bidCellIdentifer";
     [cell getDataWithBidManagerModel:model indexPath:indexPath];
     cell.imageButton.tag = indexPath.row+1;
     [cell.imageButton addTarget:self action:@selector(gotoPhotoView:) forControlEvents:UIControlEventTouchUpInside];
-    
+    [cell.bgImageButton addTarget:self action:@selector(gotoCooperation:) forControlEvents:UIControlEventTouchUpInside];
     if (indexPath.row == _selectedRow)
     {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -104,13 +104,27 @@ static NSString *const cellIdentifer = @"bidCellIdentifer";
     
 }
 
+- (void)gotoCooperation:(id)sender{
+    
+    UIButton *button = (UIButton *)sender;
+    [HttpClient getUserProfileWithUid:button.tag andBlock:^(NSDictionary *responseDictionary) {
+        DLog(@"----%@",responseDictionary);
+        NSNumber *number = responseDictionary[@"statusCode"];
+        if ([number compare:@200] == NSOrderedSame) {
+            CooperationInfoViewController *vc = [CooperationInfoViewController new];
+            vc.factoryModel = (FactoryModel *)responseDictionary[@"model"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }];
+}
+
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if (alertView.tag == 100) {
         BidManagerModel *model = self.bidFactoryArray[_selectedRow];
         if (buttonIndex == 1) {
             [HttpClient closeOrderWithOid:self.oid Uid:model.uid andBlock:^(int statusCode) {
-                DLog(@"statusCode=%d",statusCode);
                 if (statusCode == 200) {
                     [Tools showHudTipStr:@"招标成功，祝您合作愉快"];
                     NSArray *navArray = self.navigationController.viewControllers;

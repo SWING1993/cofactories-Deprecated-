@@ -173,7 +173,7 @@
  @param uid   用户uid
  @param block 回调函数 会返回 @{@"statusCode": @200, @"model": UserModel对象}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误) @{@"statusCode": @400, @"message": @"未登录"} @{@"statusCode": @401, @"message": @"access_token过期或者无效"} @{@"statusCode": @404, @"message": @"access_token不存在"}
  */
-+ (void)getUserProfileWithUid:(NSString *)uid andBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)getUserProfileWithUid:(NSInteger )uid andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 ///*!
 // 获取任意用户资料
