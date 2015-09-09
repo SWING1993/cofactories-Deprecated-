@@ -104,8 +104,6 @@
     touristBtn.layer.borderWidth = 1.0f;
     touristBtn.backgroundColor = [UIColor whiteColor];
 
-    touristBtn.layer.cornerRadius=5.0f;
-    touristBtn.layer.masksToBounds=YES;
     [touristBtn setTitle:@"游客登录" forState:UIControlStateNormal];
     [touristBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
     [touristBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];

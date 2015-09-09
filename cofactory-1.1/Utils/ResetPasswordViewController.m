@@ -64,7 +64,7 @@
 
     self.tableView.tableHeaderView = tableHeaderView;
 
-    //确定Btn
+    //返回Btn
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
     self.navigationItem.rightBarButtonItem = setButton;
 

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TouristViewController : UIViewController
+@interface TouristViewController : UITableViewController
 
 
 @end
