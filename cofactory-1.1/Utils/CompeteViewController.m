@@ -29,14 +29,15 @@
     
     [super viewDidLoad];
     self.navigationItem.title = @"订单投标";
+    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"确认投标" style:UIBarButtonItemStyleBordered target:self action:@selector(confirmBid)];
     
     _imageArray = @[@"公司名称",@"公司类型",@"公司规模"];
     _collectionImage = [@[] mutableCopy];
     _contentArray = [@[] mutableCopy];
     [_contentArray addObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"factoryName"]];
-    [_contentArray addObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"factoryServiceRange"]];
-    [_contentArray addObject:[Tools SizeWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"factorySize"]]];
+    [_contentArray addObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"factoryAddress"]];
+    [_contentArray addObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"factorySize"]];
     
     [self.view addSubview:self.collectionView];
     [self creatUI];
@@ -46,7 +47,7 @@
 
 - (void)creatUI{
     for (int i=0; i<3; i++) {
-        UIImageView *view = [[UIImageView alloc]initWithFrame:CGRectMake(40+i*((kScreenW-120-60)/2.0+40),20 ,30 ,30 )];
+        UIImageView *view = [[UIImageView alloc]initWithFrame:CGRectMake(50+i*((kScreenW-90-100)/2.0+30),20 ,30 ,30 )];
         view.image = [UIImage imageNamed:_imageArray[i]];
         [self.view addSubview:view];
         
@@ -54,7 +55,7 @@
         label.textColor = [UIColor grayColor];
         label.textAlignment = 1;
         label.text = _contentArray[i];
-        label.font = [UIFont systemFontOfSize:16.0f];
+        label.font = [UIFont systemFontOfSize:14.0f];
         [self.view addSubview:label];
     }
 }

@@ -190,12 +190,7 @@
                 break;
             case 2:{
                 cellLabel.text=@"公司规模";
-
-                if (self.userModel.factoryType==GarmentFactory) {
-                    cell.detailTextLabel.text=[Tools SizeWith:self.userModel.factorySize];
-                }else {
-                    cell.detailTextLabel.text=self.userModel.factorySize;
-                }
+                cell.detailTextLabel.text=self.userModel.factorySize;
             }
                 break;
             case 3:{
@@ -355,11 +350,7 @@
                         break;
                     case 2:{
                         ModifySizeViewController*sizeVC = [[ModifySizeViewController alloc]init];
-                        if (self.userModel.factoryType==GarmentFactory) {
-                            sizeVC.placeholder=[Tools SizeWith:self.userModel.factorySize];
-                        }else {
-                            sizeVC.placeholder=self.userModel.factorySize;
-                        }
+                        sizeVC.placeholder=self.userModel.factorySize;
                         sizeVC.cellPickList=self.sizeArray;
                         sizeVC.hidesBottomBarWhenPushed=YES;
                         [self.navigationController pushViewController:sizeVC animated:YES];

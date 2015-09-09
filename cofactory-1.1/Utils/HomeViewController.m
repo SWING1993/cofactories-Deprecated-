@@ -131,7 +131,7 @@
         NSNumber *MyUid = [NSNumber numberWithInt:userModel.uid];
         [[NSUserDefaults standardUserDefaults] setObject:MyUid forKey:@"selfuid"];
         [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
-        [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryServiceRange forKey:@"factoryServiceRange"];
+        [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryAddress forKey:@"factoryAddress"];
         [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
