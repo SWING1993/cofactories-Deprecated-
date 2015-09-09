@@ -9,6 +9,9 @@
 #import "RegisterViewController.h"
 #import "RegisterViewController2.h"
 
+#define PROVINCE_COMPONENT  0
+
+
 @interface RegisterViewController ()<UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource> {
 
 }
@@ -347,10 +350,11 @@
 }
 -(void)ensure{
 
-    if (_factoryName) {
-        _typeTF.text = _factoryName;
-        _factoryName = nil;
-    }
+    NSInteger provinceIndex = [self.factoryTypePicker selectedRowInComponent: PROVINCE_COMPONENT];
+    _factoryName = [self.factoryTypeList objectAtIndex: provinceIndex];
+    _typeTF.text = _factoryName;
+    _factoryName = nil;
+
     [_typeTF endEditing:YES];
 
 }

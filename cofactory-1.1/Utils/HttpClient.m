@@ -230,7 +230,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         switch ([operation.response statusCode]) {
             case 401:
-                block(@{@"statusCode": @(401), @"message": @"验证码错误"});
+                block(@{@"statusCode": @(401), @"message": @"邀请码或者验证码错误"});
                 break;
             case 409:
                 block(@{@"statusCode": @(409), @"message": @"该手机已经注册过"});
