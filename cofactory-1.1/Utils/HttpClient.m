@@ -270,6 +270,7 @@
 }
 
 + (BOOL)logout {
+    
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     return [AFOAuthCredential deleteCredentialWithIdentifier:serviceProviderIdentifier];

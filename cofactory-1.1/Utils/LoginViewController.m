@@ -18,6 +18,8 @@
 }
 
 @property (nonatomic, strong) ZFModalTransitionAnimator *animator;
+@property (nonatomic, strong) ZFModalTransitionAnimator *touristAnimator;
+
 
 
 @end
@@ -28,6 +30,7 @@
     [super viewDidLoad];
 
     //删除注册信息
+    DLog(@"删除NSUserDefaults信息");
     NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
     NSDictionary * dict = [defs dictionaryRepresentation];
     for (id key in dict) {
@@ -186,6 +189,14 @@
             TouristViewController*touristVC = [[TouristViewController alloc]init];
             UINavigationController*touristNav = [[UINavigationController alloc]initWithRootViewController:touristVC];
             touristNav.navigationBar.barStyle=UIBarStyleBlack;
+            touristNav.modalPresentationStyle = UIModalPresentationCustom;
+            self.touristAnimator = [[ZFModalTransitionAnimator alloc] initWithModalViewController:touristNav];
+            self.touristAnimator.dragable = YES;
+            self.touristAnimator.bounces = NO;
+            self.touristAnimator.behindViewAlpha = 0.5f;
+            self.touristAnimator.behindViewScale = 0.5f;
+            self.touristAnimator.direction = ZFModalTransitonDirectionBottom;
+            touristNav.transitioningDelegate = self.touristAnimator;
             [self presentViewController:touristNav animated:YES completion:nil];
         }
             break;

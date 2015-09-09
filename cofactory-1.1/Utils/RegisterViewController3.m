@@ -69,6 +69,7 @@
     [self.navigationController popToViewController:navArr[0] animated:YES];
 
     //删除注册信息
+    DLog(@"删除NSUserDefaults信息");
     NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
     NSDictionary * dict = [defs dictionaryRepresentation];
     for (id key in dict) {
@@ -262,6 +263,7 @@
                 //注册成功 登录成功
                 [ViewController goMain];
                 //删除注册信息
+                DLog(@"删除NSUserDefaults信息");
                 NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
                 NSDictionary * dict = [defs dictionaryRepresentation];
                 for (id key in dict) {

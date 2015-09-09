@@ -79,8 +79,14 @@
 
 - (void)okButtonClick
 {
+    if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"toursitTag"]integerValue]==_selectedRow ) {
 
-    [ViewController TouristLogin];
+        [ViewController TouristLogin];
+
+    }
+    else{
+        [Tools showHudTipStr:@"请选择您的游客身份！"];
+    }
 }
 
 - (void)goBackClick
