@@ -347,6 +347,8 @@
 }
 
 -(void)ensure{
+    NSInteger provinceIndex = [self.sizePicker selectedRowInComponent: PROVINCE_COMPONENT];
+    _sizePickerName = [self.cellPickList objectAtIndex: provinceIndex];
 
     _factorySizeTF.text = _sizePickerName;
     _sizePickerName = nil;
@@ -386,6 +388,10 @@
 }
 
 -(void)serviceEnsure{
+
+    NSInteger provinceIndex = [self.servicePicker selectedRowInComponent: PROVINCE_COMPONENT];
+    _servicePickerName = [self.cellServicePickList objectAtIndex: provinceIndex];
+
 
     _factoryServiceRangeTF.text = _servicePickerName;
     _servicePickerName = nil;
@@ -600,7 +606,6 @@
         myView.backgroundColor = [UIColor clearColor];
 
         return myView;
-        
     }
 
     if (pickerView.tag == 3) {
