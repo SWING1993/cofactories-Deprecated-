@@ -270,6 +270,8 @@
                         }];
                     }else{
                         DLog(@"没有图片");
+                        NSArray *navArray = self.navigationController.viewControllers;
+                        [self.navigationController popToViewController:navArray[1] animated:YES];
                     }
                     
                 }else{
