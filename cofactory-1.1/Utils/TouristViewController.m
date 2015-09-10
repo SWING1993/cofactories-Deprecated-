@@ -71,9 +71,9 @@
     [FooterView addSubview:button];
     self.tableView.tableFooterView = FooterView;
 
-    //返回Btn
-    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(goBackClick)];
-    self.navigationItem.rightBarButtonItem = setButton;
+//    //返回Btn
+//    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(goBackClick)];
+//    self.navigationItem.rightBarButtonItem = setButton;
 }
 
 
@@ -89,11 +89,11 @@
     }
 }
 
-- (void)goBackClick
-{    
-    DLog(@"toursitTag%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"toursitTag"]);
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
+//- (void)goBackClick
+//{    
+//    DLog(@"toursitTag%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"toursitTag"]);
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//}
 
 #pragma mark - Table view data source
 
