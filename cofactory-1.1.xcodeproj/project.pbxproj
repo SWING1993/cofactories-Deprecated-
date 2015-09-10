@@ -137,8 +137,11 @@
 		04822E421B62E7A600A370F6 /* NSData+MD5Digest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04822E3F1B62E7A600A370F6 /* NSData+MD5Digest.m */; };
 		04822E431B62E85F00A370F6 /* MF_Base64Additions.h in Sources */ = {isa = PBXBuildFile; fileRef = 04822E381B62E7A600A370F6 /* MF_Base64Additions.h */; };
 		04822E441B62E86900A370F6 /* NSData+Utils.h in Sources */ = {isa = PBXBuildFile; fileRef = 04822E3B1B62E7A600A370F6 /* NSData+Utils.h */; };
-		04822E471B635F3F00A370F6 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04822E461B635F3F00A370F6 /* HomeViewController.m */; };
 		048330911B8B376A00219F72 /* HeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048330901B8B376A00219F72 /* HeaderViewController.m */; };
+		048983B01BA18C4D00F98024 /* ActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 048983AC1BA18C4D00F98024 /* ActivityCell.m */; };
+		048983B11BA18C4D00F98024 /* FindFactoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 048983AD1BA18C4D00F98024 /* FindFactoryCell.m */; };
+		048983B21BA18C4D00F98024 /* FindOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 048983AE1BA18C4D00F98024 /* FindOrderCell.m */; };
+		048983B31BA18C4D00F98024 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048983AF1BA18C4D00F98024 /* HomeViewController.m */; };
 		049582E01B6B490F00A69E6D /* JKImagePickerController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 049582C11B6B490F00A69E6D /* JKImagePickerController.strings */; };
 		049582E11B6B490F00A69E6D /* ImagesPicker.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 049582C31B6B490F00A69E6D /* ImagesPicker.xcassets */; };
 		049582E21B6B490F00A69E6D /* JKAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 049582C71B6B490F00A69E6D /* JKAssets.m */; };
@@ -238,7 +241,6 @@
 		BD8AD7F51B50E62600373E5E /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8AD7E51B50E62600373E5E /* UIView+WebCacheOperation.m */; };
 		BD8AD7FF1B50FDBB00373E5E /* HomeFooterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8AD7FD1B50FDBB00373E5E /* HomeFooterCell.m */; };
 		BD8AD8001B50FDBB00373E5E /* HomeFooterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD8AD7FE1B50FDBB00373E5E /* HomeFooterCell.xib */; };
-		BD8AD8031B5102C200373E5E /* HomeEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8AD8021B5102C200373E5E /* HomeEditViewController.m */; };
 		BD8AD8091B511ACA00373E5E /* MessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8AD8081B511ACA00373E5E /* MessageDetailViewController.m */; };
 		BD8C4DF31B4FB2640065ECFA /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4DF01B4FB2640065ECFA /* libMobClickLibrary.a */; };
 		BD8C4DF51B4FB2BA0065ECFA /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4DF41B4FB2BA0065ECFA /* libz.dylib */; };
@@ -514,10 +516,16 @@
 		04822E3C1B62E7A600A370F6 /* NSData+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Utils.m"; sourceTree = "<group>"; };
 		04822E3E1B62E7A600A370F6 /* NSData+MD5Digest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5Digest.h"; sourceTree = "<group>"; };
 		04822E3F1B62E7A600A370F6 /* NSData+MD5Digest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5Digest.m"; sourceTree = "<group>"; };
-		04822E451B635F3A00A370F6 /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
-		04822E461B635F3F00A370F6 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		0483308F1B8B376A00219F72 /* HeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderViewController.h; sourceTree = "<group>"; };
 		048330901B8B376A00219F72 /* HeaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderViewController.m; sourceTree = "<group>"; };
+		048983A81BA18C4D00F98024 /* ActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityCell.h; sourceTree = "<group>"; };
+		048983A91BA18C4D00F98024 /* FindFactoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindFactoryCell.h; sourceTree = "<group>"; };
+		048983AA1BA18C4D00F98024 /* FindOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindOrderCell.h; sourceTree = "<group>"; };
+		048983AB1BA18C4D00F98024 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		048983AC1BA18C4D00F98024 /* ActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityCell.m; sourceTree = "<group>"; };
+		048983AD1BA18C4D00F98024 /* FindFactoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindFactoryCell.m; sourceTree = "<group>"; };
+		048983AE1BA18C4D00F98024 /* FindOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindOrderCell.m; sourceTree = "<group>"; };
+		048983AF1BA18C4D00F98024 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		049582C21B6B490F00A69E6D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/JKImagePickerController.strings; sourceTree = "<group>"; };
 		049582C31B6B490F00A69E6D /* ImagesPicker.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ImagesPicker.xcassets; sourceTree = "<group>"; };
 		049582C41B6B490F00A69E6D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/JKImagePickerController.strings"; sourceTree = "<group>"; };
@@ -709,8 +717,6 @@
 		BD8AD7FC1B50FDBB00373E5E /* HomeFooterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeFooterCell.h; sourceTree = "<group>"; };
 		BD8AD7FD1B50FDBB00373E5E /* HomeFooterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeFooterCell.m; sourceTree = "<group>"; };
 		BD8AD7FE1B50FDBB00373E5E /* HomeFooterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeFooterCell.xib; sourceTree = "<group>"; };
-		BD8AD8011B5102C200373E5E /* HomeEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeEditViewController.h; sourceTree = "<group>"; };
-		BD8AD8021B5102C200373E5E /* HomeEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeEditViewController.m; sourceTree = "<group>"; };
 		BD8AD8071B511ACA00373E5E /* MessageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDetailViewController.h; sourceTree = "<group>"; };
 		BD8AD8081B511ACA00373E5E /* MessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDetailViewController.m; sourceTree = "<group>"; };
 		BD8C4DF01B4FB2640065ECFA /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
@@ -1241,6 +1247,21 @@
 			path = "NSData+MD5Digest";
 			sourceTree = "<group>";
 		};
+		048983A71BA18C3B00F98024 /* HomeVC */ = {
+			isa = PBXGroup;
+			children = (
+				048983AB1BA18C4D00F98024 /* HomeViewController.h */,
+				048983AF1BA18C4D00F98024 /* HomeViewController.m */,
+				048983A81BA18C4D00F98024 /* ActivityCell.h */,
+				048983AC1BA18C4D00F98024 /* ActivityCell.m */,
+				048983A91BA18C4D00F98024 /* FindFactoryCell.h */,
+				048983AD1BA18C4D00F98024 /* FindFactoryCell.m */,
+				048983AA1BA18C4D00F98024 /* FindOrderCell.h */,
+				048983AE1BA18C4D00F98024 /* FindOrderCell.m */,
+			);
+			name = HomeVC;
+			sourceTree = "<group>";
+		};
 		049582BF1B6B490F00A69E6D /* SinaImagePicker */ = {
 			isa = PBXGroup;
 			children = (
@@ -1655,10 +1676,7 @@
 		BD8C4E071B4FBFCA0065ECFA /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				04822E451B635F3A00A370F6 /* HomeViewController.h */,
-				04822E461B635F3F00A370F6 /* HomeViewController.m */,
-				BD8AD8011B5102C200373E5E /* HomeEditViewController.h */,
-				BD8AD8021B5102C200373E5E /* HomeEditViewController.m */,
+				048983A71BA18C3B00F98024 /* HomeVC */,
 				0455E10C1B61D62E009C5CDA /* WebViewController.h */,
 				0455E10D1B61D62E009C5CDA /* WebViewController.m */,
 				0455E10F1B61D8D8009C5CDA /* ActivityViewController.h */,
@@ -2165,11 +2183,11 @@
 				BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */,
 				649BA0841B7B15E5008EDE31 /* SearchOrderDetailsVC.m in Sources */,
 				BD9C60031B9DDBBA0040B5D8 /* ZFModalTransitionAnimator.m in Sources */,
+				048983B11BA18C4D00F98024 /* FindFactoryCell.m in Sources */,
 				04746D571B6B284E00C3C45E /* UMFullScreenPhotoView.m in Sources */,
 				BDC909051B4EB77000856A32 /* LoginViewController.m in Sources */,
 				0473330A1B60D2B700F684A2 /* OrderListViewController.m in Sources */,
 				04DFCAAD1B63D53A00356F4B /* PushHelperModel.m in Sources */,
-				04822E471B635F3F00A370F6 /* HomeViewController.m in Sources */,
 				0479EAE61B5A5714007FE48E /* UploadImageViewController.m in Sources */,
 				BD8AD8091B511ACA00373E5E /* MessageDetailViewController.m in Sources */,
 				04B1504F1B9569CD004E0353 /* IQUITextFieldView+Additions.m in Sources */,
@@ -2177,6 +2195,7 @@
 				04B150571B9569CD004E0353 /* IQBarButtonItem.m in Sources */,
 				04822E201B62724200A370F6 /* searchOrderListVC.m in Sources */,
 				BDC907C31B4E9A5700856A32 /* ViewController.m in Sources */,
+				048983B21BA18C4D00F98024 /* FindOrderCell.m in Sources */,
 				0448E1591B75E763002B78B8 /* UIImageView+Common.m in Sources */,
 				BDC908D51B4E9B3700856A32 /* AFHTTPRequestOperationManager.m in Sources */,
 				049582E91B6B490F00A69E6D /* JKPhotoBrowser.m in Sources */,
@@ -2229,6 +2248,7 @@
 				BDC908D81B4E9B3700856A32 /* AFSecurityPolicy.m in Sources */,
 				04746D561B6B284E00C3C45E /* UMChatToolBar.m in Sources */,
 				BDC908D61B4E9B3700856A32 /* AFHTTPSessionManager.m in Sources */,
+				048983B01BA18C4D00F98024 /* ActivityCell.m in Sources */,
 				64F4C6741B70B31D00F52FF0 /* MJRefreshConst.m in Sources */,
 				BD8AD7F51B50E62600373E5E /* UIView+WebCacheOperation.m in Sources */,
 				64F607061B904B5900AA7F22 /* OrderPhotoViewController.m in Sources */,
@@ -2267,7 +2287,6 @@
 				04DE27861B55F8D20008DEED /* StatusViewController.m in Sources */,
 				045939331B786A57004DA7D6 /* GetPushModel.m in Sources */,
 				04E81EF01B57F75700B7CE7B /* SetaddressViewController.m in Sources */,
-				BD8AD8031B5102C200373E5E /* HomeEditViewController.m in Sources */,
 				04B1505A1B9569CD004E0353 /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				0457E3F71B8EE57100F38881 /* SDWebImageManager+MJ.m in Sources */,
 				04B150551B9569CD004E0353 /* IQSegmentedNextPrevious.m in Sources */,
@@ -2294,6 +2313,7 @@
 				04DFCAAC1B63D53A00356F4B /* PushHelperItemModel.m in Sources */,
 				04A20C3E1B5FBDB7001AADE9 /* PushOrderViewController.m in Sources */,
 				043257981B673D0400C3705D /* ODRefreshControl.m in Sources */,
+				048983B31BA18C4D00F98024 /* HomeViewController.m in Sources */,
 				0448E1421B75CA2E002B78B8 /* TagCCell.m in Sources */,
 				04822E361B62E5C200A370F6 /* TouristViewController.m in Sources */,
 				048330911B8B376A00219F72 /* HeaderViewController.m in Sources */,

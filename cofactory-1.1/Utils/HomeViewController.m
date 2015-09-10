@@ -8,20 +8,28 @@
 #import "Header.h"
 #import "HomeViewsHeader.h"
 #import "HomeViewController.h"
+#import "ActivityCell.h"
+#import "FindFactoryCell.h"
+#import "FindOrderCell.h"
+
 
 //编辑View
-#import "HomeEditViewController.h"
+//#import "HomeEditViewController.h"
 
 #define kStatusBarHeight 20
 #define kNavigationBarHeight 44
 //#define kBannerHeight 150
 #define kButtonViewHeight 74
 #define kBannerHeight kScreenW*0.535
+#define kMargin [[UIScreen mainScreen] bounds].size.width / 375
+
 
 #define kRowInset 5
 #define CellIdentifier @"Cell"
 #define FooterCellIdentifier @"FooterCell"
-
+#define ActivityCellIdentifier @"ActivityCell"
+#define FactoryCellIdentifier @"FactoryCell"
+#define OrderCellIdentifier @"OrderCell"
 @interface HomeViewController () <UIAlertViewDelegate>
 
 @property (nonatomic, strong) HomeItemModel *homeItemModel;
@@ -106,17 +114,17 @@
     self.tableView.showsVerticalScrollIndicator = NO;// 竖直滚动条不显示
     
     //网络获取itemArray
-    [HttpClient listMenuWithBlock:^(NSDictionary *responseDictionary) {
-        NSArray*arr=responseDictionary[@"responseArray"];
-        if (arr.count==0) {
-            [self getListMenu];
-        }
-        for (int i=0; i<arr.count; i++) {
-            NSInteger x = [arr[i] integerValue];
-            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[x]];
-            [self.tableView reloadData];
-        }
-    }];
+//    [HttpClient listMenuWithBlock:^(NSDictionary *responseDictionary) {
+//        NSArray*arr=responseDictionary[@"responseArray"];
+//        if (arr.count==0) {
+//            [self getListMenu];
+//        }
+//        for (int i=0; i<arr.count; i++) {
+//            NSInteger x = [arr[i] integerValue];
+//            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[x]];
+//            [self.tableView reloadData];
+//        }
+//    }];
     
     // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
@@ -157,102 +165,14 @@
         
     }];
     self.tableView.tableHeaderView = headerView;
+    
+    //注册cell
+    [self.tableView registerClass:[ActivityCell class] forCellReuseIdentifier:ActivityCellIdentifier];
+    [self.tableView registerClass:[FindFactoryCell class] forCellReuseIdentifier:FactoryCellIdentifier];
+    [self.tableView registerClass:[FindOrderCell class] forCellReuseIdentifier:OrderCellIdentifier];
 }
 
-- (void)getListMenu {
-    
-    //    DLog(@"ListMenu为0，初始化");
-    
-    if ([Tools isTourist]) {
-        int toursitTag = [[[NSUserDefaults standardUserDefaults]objectForKey:@"toursitTag"] intValue];
-        switch (toursitTag) {
-            case 0:
-            {
-                //服装厂
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[5]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[6]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[7]];
-                [self.tableView reloadData];
-            }
-                break;
-            case 1:
-            {
-                //加工厂
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[1]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[4]];
-                [self.tableView reloadData];
-            }
-                break;
-            case 2:
-            {
-                //代裁厂
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[2]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[4]];
-                [self.tableView reloadData];
-            }
-                break;
-            case 3:
-            {
-                //锁眼钉扣厂
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[3]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[4]];
-                [self.tableView reloadData];
-                
-            }
-                break;
-                
-            default:
-                break;
-        }
-    }else{
-        //@"服装厂",@"加工厂",@"代裁厂",@"锁眼钉扣厂"
-        switch (self.factoryType) {
-            case 0:
-            {
-                //服装厂
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[5]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[6]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[7]];
-                [self.tableView reloadData];
-            }
-                break;
-            case 1:
-            {
-                //加工厂
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[1]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[4]];
-                [self.tableView reloadData];
-            }
-                break;
-            case 2:
-            {
-                //代裁厂
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[2]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[4]];
-                [self.tableView reloadData];
-            }
-                break;
-            case 3:
-            {
-                //锁眼钉扣厂
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[0]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[3]];
-                [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[4]];
-                [self.tableView reloadData];
-                
-            }
-                break;
-                
-            default:
-                break;
-        }
-    }
-}
+
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex==1) {
@@ -360,10 +280,103 @@
     }
 }
 
+- (void)findFactory:(UIButton *)button {
+    switch (button.tag) {
+        case 1000:
+        {
+            // 找服装厂信息
+            FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
+            searchViewController.factoryType = 100;
+            searchViewController.currentData1Index = 1;
+            searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+            [self.navigationController pushViewController:searchViewController animated:YES];
+        }
+            break;
+        case 1001:
+        {
+            // 找锁眼钉扣厂信息
+            FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
+            searchViewController.factoryType = 3;
+            searchViewController.currentData1Index = 3;
+            searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+            [self.navigationController pushViewController:searchViewController animated:YES];
+        }
+            break;
+        case 1002:
+        {
+            // 找加工厂信息
+            FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
+            searchViewController.factoryType = 1;
+            searchViewController.currentData1Index = 2;
+            searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+            [self.navigationController pushViewController:searchViewController animated:YES];
+        }
+
+            break;
+        case 1003:
+        {
+            // 找代裁厂信息
+           
+            
+            FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
+            
+            searchViewController.factoryType = 2;
+            searchViewController.currentData1Index = 4;
+            searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+            [self.navigationController pushViewController:searchViewController animated:YES];
+        }
+
+            break;
+        case 1004:
+        {
+            // 找服装厂外发加工订单
+            searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc]init];
+            orderDetailViewController.orderListType = 1;
+            orderDetailViewController.title = @"外发加工";
+            orderDetailViewController.userType = self.factoryType;
+            orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+            [self.navigationController pushViewController:orderDetailViewController animated:YES];
+        }
+            
+            break;
+        case 1005:
+        {
+            // 找服装厂外发代裁订单
+            
+            searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc] init];
+            orderDetailViewController.orderListType = 2;
+            orderDetailViewController.title = @"外发代裁";
+            orderDetailViewController.userType = self.factoryType;
+            orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+            [self.navigationController pushViewController:orderDetailViewController animated:YES];
+        }
+            
+            break;
+        case 1006:
+        {
+            //找服装厂外发锁眼钉扣订单
+            
+            searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc] init];
+            orderDetailViewController.orderListType = 3;
+            orderDetailViewController.title = @"外发锁眼钉扣";
+            orderDetailViewController.userType = self.factoryType;
+            orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+            [self.navigationController pushViewController:orderDetailViewController animated:YES];
+        }
+            
+            break;
+            
+                default:
+            break;
+    }
+}
+
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.homeItemModel.itemArray.count + 1;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -371,172 +384,76 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == self.homeItemModel.itemArray.count) {
-        HomeFooterCell *cell = [tableView dequeueReusableCellWithIdentifier:FooterCellIdentifier];
-        if (!cell) {
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HomeFooterCell" owner:nil options:nil];
-            cell = [nib objectAtIndex:0];
-        }
+    if (indexPath.section == 0) {
+        ActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:ActivityCellIdentifier forIndexPath:indexPath];
+        return cell;
+    } else if (indexPath.section == 1){
+        FindFactoryCell *cell = [tableView dequeueReusableCellWithIdentifier:FactoryCellIdentifier forIndexPath:indexPath];
+        [cell.clothingButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
+        cell.clothingButton.tag = 1000;
+        [cell.fastenerButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
+        cell.fastenerButton.tag = 1001;
+        [cell.machineButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
+        cell.machineButton.tag = 1002;
+        [cell.cutButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
+        cell.cutButton.tag = 1003;
         return cell;
     } else {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        FindOrderCell *cell = [tableView dequeueReusableCellWithIdentifier:OrderCellIdentifier forIndexPath:indexPath];
         
-        if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-            // 添加前置颜色
-            UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, cell.frame.size.height)];
-            bgView.backgroundColor = self.homeItemModel.colorArray[indexPath.section % self.homeItemModel.colorArray.count];
-            [cell.contentView addSubview:bgView];
-            // accessoryView 设置
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            // 设置字体
-            cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0f];
-            
-            UILabel*moreLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-2*cell.frame.size.height+10, 11, 45, 22)];
-            moreLabel.text=@"更多";
-            moreLabel.backgroundColor=self.homeItemModel.colorArray[indexPath.section % self.homeItemModel.colorArray.count];
-            moreLabel.font=[UIFont boldSystemFontOfSize:13.0f];
-            moreLabel.textColor=[UIColor whiteColor];
-            moreLabel.textAlignment=NSTextAlignmentCenter;
-            moreLabel.layer.cornerRadius=10.0f;
-            moreLabel.layer.masksToBounds=YES;
-            [cell addSubview:moreLabel];
-            
-        }
-        
-        cell.textLabel.text = self.homeItemModel.itemArray[indexPath.section];
+        [cell.fastenerButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
+        cell.fastenerButton.tag = 1004;
+        [cell.machineButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
+        cell.machineButton.tag = 1005;
+        [cell.cutButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
+        cell.cutButton.tag = 1006;
+
         return cell;
     }
-}
 
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return 38 *kMargin;
+    } else if (indexPath.section == 1) {
+        return 3*kScreenW / 7;
+    } else {
+        return kScreenW / 3;
+    }
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return kRowInset;
+    if (section == 0) {
+        return 0;
+    }
+    return 0.5;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.5;
+    return kRowInset;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     CGSize size = [[UIScreen mainScreen] bounds].size;
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, kRowInset)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, 0.5)];
     
     return view;
 }
 
+
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.5)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kRowInset)];
     return view;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    //    DLog(@"%d",self.homeItemModel.itemArray.count);
-    if (indexPath.section != self.homeItemModel.itemArray.count) {
-        NSInteger index = [self.homeItemModel.allItemArray indexOfObject:self.homeItemModel.itemArray[indexPath.section]];
-        switch (index) {
-            case 0:
-            {
-                // 各类营销活动
-                NSString*accessToken = [[NSUserDefaults standardUserDefaults]objectForKey:@"accessToken"];
-                ActivityViewController *webViewController = [[ActivityViewController alloc] init];
-                webViewController.url = [NSString stringWithFormat:@"http://app2.cofactories.com/activity/draw.html#%@",accessToken ];
-                webViewController.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:webViewController animated:YES];
-                
-            }
-                break;
-            case 1:
-            {
-                // 找服装厂外发加工订单
-                searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc]init];
-                orderDetailViewController.orderListType = 1;
-                orderDetailViewController.title = @"外发加工";
-                orderDetailViewController.userType = self.factoryType;
-                orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-                [self.navigationController pushViewController:orderDetailViewController animated:YES];
-                
-            }
-                break;
-            case 2:{
-                // 找服装厂外发代裁订单
-                
-                searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc] init];
-                orderDetailViewController.orderListType = 2;
-                orderDetailViewController.title = @"外发代裁";
-                orderDetailViewController.userType = self.factoryType;
-                orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-                [self.navigationController pushViewController:orderDetailViewController animated:YES];
-                
-            }
-                break;
-            case 3:{
-                //找服装厂外发锁眼钉扣订单
-                
-                searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc] init];
-                orderDetailViewController.orderListType = 3;
-                orderDetailViewController.title = @"外发锁眼钉扣";
-                orderDetailViewController.userType = self.factoryType;
-                orderDetailViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-                [self.navigationController pushViewController:orderDetailViewController animated:YES];
-                
-            }
-                break;
-                
-            case 4:
-            {
-                // 找服装厂信息
-                FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-                searchViewController.factoryType = 100;
-                searchViewController.currentData1Index = 1;
-                searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-                [self.navigationController pushViewController:searchViewController animated:YES];
-            }
-                break;
-            case 5:
-            {
-                // 找加工厂信息
-                FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-                searchViewController.factoryType = 1;
-                searchViewController.currentData1Index = 2;
-                searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-                [self.navigationController pushViewController:searchViewController animated:YES];
-            }
-                break;
-            case 6:
-            {
-                // 找锁眼钉扣厂信息
-                FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-                
-                searchViewController.factoryType = 2;
-                searchViewController.currentData1Index = 4;
-                searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-                [self.navigationController pushViewController:searchViewController animated:YES];
-            }
-                break;
-            case 7:
-            {
-                
-                
-                
-                // 找代裁厂信息
-                FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-                searchViewController.factoryType = 3;
-                searchViewController.currentData1Index = 3;
-                searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-                [self.navigationController pushViewController:searchViewController animated:YES];
-            }
-                break;
-                
-            default:
-                break;
-        }
-    } else {
-        // 编辑自定义项目
-        HomeEditViewController *homeEditViewController = [[HomeEditViewController alloc] initWithStyle:UITableViewStylePlain];
-        homeEditViewController.homeItemModel = self.homeItemModel;
-        homeEditViewController.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:homeEditViewController animated:YES];
+    if (indexPath.section == 0) {
+        // 各类营销活动
+        NSString*accessToken = [[NSUserDefaults standardUserDefaults]objectForKey:@"accessToken"];
+        ActivityViewController *webViewController = [[ActivityViewController alloc] init];
+        webViewController.url = [NSString stringWithFormat:@"http://app2.cofactories.com/activity/draw.html#%@",accessToken ];
+        webViewController.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:webViewController animated:YES];
     }
 }
 
@@ -552,14 +469,6 @@
     self.tableView.delegate = nil;
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
 
 @end

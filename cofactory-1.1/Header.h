@@ -12,7 +12,7 @@
 #import "TouristViewController.h" //游客身份
 
 #import "HomeViewController.h"//HomeVC
-#import "HomeEditViewController.h"//主页编辑
+//#import "HomeEditViewController.h"//主页编辑
 
 //推送助手
 #import "PushViewController.h"
