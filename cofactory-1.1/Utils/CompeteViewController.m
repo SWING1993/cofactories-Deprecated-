@@ -249,7 +249,7 @@
             [HttpClient registBidWithOid:self.oid commit:_commentsTextField.text completionBlock:^(int statusCode) {
                 DLog(@"statusCode==%d",statusCode);
                 if (statusCode == 200 ) {
-                    [Tools showHudTipStr:@"订单发布成功"];
+                    [Tools showHudTipStr:@"订单投标成功"];
                     if (![self.collectionImage count]==0) {
                         [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                             
@@ -275,7 +275,7 @@
                     }
                     
                 }else{
-                    [Tools showHudTipStr:@"订单发布失败"];
+                    [Tools showHudTipStr:@"订单投标失败"];
                 }
             }];
         }

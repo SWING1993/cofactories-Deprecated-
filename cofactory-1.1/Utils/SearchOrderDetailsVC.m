@@ -53,6 +53,11 @@ static  NSString *const cellIdentifier1 = @"cell1";
     backgroundView.backgroundColor = [UIColor colorWithRed:98/255.0 green:190/255.0 blue:181/255.0 alpha:1.0];
     [headerView addSubview:backgroundView];
     
+    UIButton *facDetailButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    facDetailButton.frame = backgroundView.frame;
+    [facDetailButton addTarget:self action:@selector(goToCoopInfoBtn) forControlEvents:UIControlEventTouchUpInside];
+    [backgroundView addSubview:facDetailButton];
+    
     UILabel *companyName = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, backgroundView.frame.size.width-30, 40)];
     companyName.textColor = [UIColor whiteColor];
     companyName.text = self.model.facName;
@@ -332,7 +337,6 @@ static  NSString *const cellIdentifier1 = @"cell1";
 - (void)orderImageButtonClick{
     
     if (self.model.photoArray.count > 0) {
-        DLog(@"123");
         OrderPhotoViewController *VC = [[OrderPhotoViewController alloc]initWithPhotoArray:self.model.photoArray];
         VC.titleString = @"订单图片";
         [self.navigationController pushViewController:VC animated:YES];
@@ -355,6 +359,20 @@ static  NSString *const cellIdentifier1 = @"cell1";
         DLog(@"感兴趣状态码%d",statusCode);
     }];
 }
+
+- (void)goToCoopInfoBtn{
+    
+    [HttpClient getUserProfileWithUid:self.model.uid andBlock:^(NSDictionary *responseDictionary) {
+        DLog(@"----%@",responseDictionary);
+        NSNumber *number = responseDictionary[@"statusCode"];
+        if ([number compare:@200] == NSOrderedSame) {
+            CooperationInfoViewController *vc = [CooperationInfoViewController new];
+            vc.factoryModel = (FactoryModel *)responseDictionary[@"model"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }];
+
+ }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
