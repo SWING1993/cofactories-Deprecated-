@@ -74,14 +74,14 @@
         case 1:
         {
             OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
-            orderListVC.isHistory=NO;
+            orderListVC.myOrderEnum = GarmentFactoryOrder;
             [self.navigationController pushViewController:orderListVC animated:YES];
         }
             break;
         case 2:
         {
             OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
-            orderListVC.isHistory=YES;
+            orderListVC.myOrderEnum = HistoryOrder;
             [self.navigationController pushViewController:orderListVC animated:YES];
         }
             break;

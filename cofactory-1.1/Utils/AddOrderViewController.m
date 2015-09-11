@@ -273,7 +273,7 @@
 
     DLog(@"oid=%@",self.oid);
     OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
-    orderListVC.isHistory=NO;
+    orderListVC.myOrderEnum=GarmentFactoryOrder;
     [self.navigationController pushViewController:orderListVC animated:YES];
 }
 

@@ -370,13 +370,11 @@
         case 1008:
         {
             //寻找加工厂订单
+            OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
+            orderListVC.myOrderEnum = ProcessingFactoryOrder;
+            orderListVC.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+            [self.navigationController pushViewController:orderListVC animated:YES];
             
-            
-            
-            
-            
-            
-            DLog(@"寻找加工厂订单");
         }
             break;
             

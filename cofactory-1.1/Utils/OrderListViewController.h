@@ -6,12 +6,18 @@
 //  Copyright (c) 2015年 宇宙之神. All rights reserved.
 //
 
+typedef enum : NSUInteger {
+    GarmentFactoryOrder,
+    HistoryOrder,
+    ProcessingFactoryOrder
+} MyOrderEnum;
+
 #import <UIKit/UIKit.h>
 
 @interface OrderListViewController : UIViewController
 @property (nonatomic,assign)int userType;
 
-@property (nonatomic, assign) BOOL isHistory;
+@property (nonatomic, assign) MyOrderEnum myOrderEnum ;
 
 
 
