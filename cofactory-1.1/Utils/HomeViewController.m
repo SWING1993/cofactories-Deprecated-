@@ -11,7 +11,7 @@
 #import "ActivityCell.h"
 #import "FindFactoryCell.h"
 #import "FindOrderCell.h"
-
+#import "LastmachineCell.h"
 
 //编辑View
 //#import "HomeEditViewController.h"
@@ -25,11 +25,11 @@
 
 
 #define kRowInset 5
-#define CellIdentifier @"Cell"
-#define FooterCellIdentifier @"FooterCell"
+
 #define ActivityCellIdentifier @"ActivityCell"
 #define FactoryCellIdentifier @"FactoryCell"
 #define OrderCellIdentifier @"OrderCell"
+#define LastCellIdentifier @"LastCell"
 @interface HomeViewController () <UIAlertViewDelegate>
 
 @property (nonatomic, strong) HomeItemModel *homeItemModel;
@@ -113,19 +113,7 @@
     self.automaticallyAdjustsScrollViewInsets = YES;// 自动调整视图关闭
     self.tableView.showsVerticalScrollIndicator = NO;// 竖直滚动条不显示
     
-    //网络获取itemArray
-//    [HttpClient listMenuWithBlock:^(NSDictionary *responseDictionary) {
-//        NSArray*arr=responseDictionary[@"responseArray"];
-//        if (arr.count==0) {
-//            [self getListMenu];
-//        }
-//        for (int i=0; i<arr.count; i++) {
-//            NSInteger x = [arr[i] integerValue];
-//            [self.homeItemModel.itemArray addObject:self.homeItemModel.allItemArray[x]];
-//            [self.tableView reloadData];
-//        }
-//    }];
-    
+
     // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
     PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:nil];
@@ -170,6 +158,8 @@
     [self.tableView registerClass:[ActivityCell class] forCellReuseIdentifier:ActivityCellIdentifier];
     [self.tableView registerClass:[FindFactoryCell class] forCellReuseIdentifier:FactoryCellIdentifier];
     [self.tableView registerClass:[FindOrderCell class] forCellReuseIdentifier:OrderCellIdentifier];
+    [self.tableView registerClass:[LastmachineCell class] forCellReuseIdentifier:LastCellIdentifier];
+    
 }
 
 
@@ -365,6 +355,30 @@
         }
             
             break;
+        case 1007:
+        {
+            //加工厂订单外发
+            
+            
+            
+            
+            
+            
+            DLog(@"加工厂订单外发");
+        }
+            break;
+        case 1008:
+        {
+            //寻找加工厂订单
+            
+            
+            
+            
+            
+            
+            DLog(@"寻找加工厂订单");
+        }
+            break;
             
                 default:
             break;
@@ -376,7 +390,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -398,7 +412,7 @@
         [cell.cutButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
         cell.cutButton.tag = 1003;
         return cell;
-    } else {
+    } else if (indexPath.section == 2){
         FindOrderCell *cell = [tableView dequeueReusableCellWithIdentifier:OrderCellIdentifier forIndexPath:indexPath];
         
         [cell.fastenerButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
@@ -409,6 +423,15 @@
         cell.cutButton.tag = 1006;
 
         return cell;
+    } else {
+        LastmachineCell *cell = [tableView dequeueReusableCellWithIdentifier:LastCellIdentifier forIndexPath:indexPath];
+        cell.leftButton.layer.borderWidth = 0.3;
+        cell.leftButton.layer.borderColor = [UIColor grayColor].CGColor;
+        [cell.leftButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
+        cell.leftButton.tag = 1007;
+        [cell.rightButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
+        cell.rightButton.tag = 1008;
+        return cell;
     }
 
 }
@@ -417,13 +440,17 @@
         return 38 *kMargin;
     } else if (indexPath.section == 1) {
         return 3*kScreenW / 7;
-    } else {
+    } else if (indexPath.section == 2) {
         return kScreenW / 3;
+    } else {
+        return kScreenW / 3 - 0.09*kScreenW;
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {
         return 0;
+    } else if (section == 3) {
+        return 0.09*kScreenW;
     }
     return 0.5;
 }
@@ -433,10 +460,17 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    CGSize size = [[UIScreen mainScreen] bounds].size;
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, 0.5)];
+    if (section == 3) {
+        UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW / 3)];
+        photoView.image = [UIImage imageNamed:@"加工厂订单-标题"];
+        return photoView;
+    } else {
+        CGSize size = [[UIScreen mainScreen] bounds].size;
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, 0.5)];
+        
+        return view;
+    }
     
-    return view;
 }
 
 
