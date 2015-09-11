@@ -189,20 +189,6 @@
     }];
 
 
-    //
-    //        NSArray *array = responseDictionary[@"responseArray"];
-    //
-    //        for (int i=0; i<array.count; i++)
-    //        {
-    //            FactoryModel *model = array[i];
-    //
-    //            [self.factoryModelArray addObject:model];
-    //        }
-    //        [_tableView reloadData];
-    //
-    //    }];
-    //
-    //2,结束刷新
     [_tableView footerEndRefreshing];
 }
 
@@ -211,7 +197,6 @@
 {
     _tableView.delegate = nil;
     _tableView.dataSource = nil;
-//    self.JSDropDownMenu = nil;
     self.JSDropDownMenu.dataSource = nil;
     self.JSDropDownMenu.delegate = nil;
     DLog(@"找订单释放内存");
@@ -293,7 +278,6 @@
         }
         
     }
-
 
     NSMutableArray *arr = [Tools WithTime:model.createTime];//gt123
     cell.timeLabel.text = arr[0];

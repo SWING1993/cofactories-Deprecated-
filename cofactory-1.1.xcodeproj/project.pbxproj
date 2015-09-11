@@ -205,6 +205,11 @@
 		64EDB0901B9C3DA700D2A655 /* 公司规模.png in Resources */ = {isa = PBXBuildFile; fileRef = 64EDB08C1B9C3DA700D2A655 /* 公司规模.png */; };
 		64EDB0911B9C3DA700D2A655 /* 公司类型.png in Resources */ = {isa = PBXBuildFile; fileRef = 64EDB08D1B9C3DA700D2A655 /* 公司类型.png */; };
 		64EDB0921B9C3DA700D2A655 /* 公司名称.png in Resources */ = {isa = PBXBuildFile; fileRef = 64EDB08E1B9C3DA700D2A655 /* 公司名称.png */; };
+		64F2954F1BA2C9C00018ED90 /* SearchFactoryOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F2954E1BA2C9C00018ED90 /* SearchFactoryOrderVC.m */; };
+		64F295561BA2CCC80018ED90 /* DOPDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F295521BA2CCC80018ED90 /* DOPDropDownMenu.m */; };
+		64F295571BA2CCC80018ED90 /* icon_chose_arrow_nor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64F295531BA2CCC80018ED90 /* icon_chose_arrow_nor@2x.png */; };
+		64F295581BA2CCC80018ED90 /* icon_chose_arrow_sel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64F295541BA2CCC80018ED90 /* icon_chose_arrow_sel@2x.png */; };
+		64F295591BA2CCC80018ED90 /* icon_chose_bottom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64F295551BA2CCC80018ED90 /* icon_chose_bottom@2x.png */; };
 		64F4C6721B70B31D00F52FF0 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 64F4C6621B70B31D00F52FF0 /* MJRefresh.bundle */; };
 		64F4C6731B70B31D00F52FF0 /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C6651B70B31D00F52FF0 /* MJRefreshBaseView.m */; };
 		64F4C6741B70B31D00F52FF0 /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C6671B70B31D00F52FF0 /* MJRefreshConst.m */; };
@@ -646,6 +651,13 @@
 		64EDB08C1B9C3DA700D2A655 /* 公司规模.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "公司规模.png"; sourceTree = "<group>"; };
 		64EDB08D1B9C3DA700D2A655 /* 公司类型.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "公司类型.png"; sourceTree = "<group>"; };
 		64EDB08E1B9C3DA700D2A655 /* 公司名称.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "公司名称.png"; sourceTree = "<group>"; };
+		64F2954D1BA2C9C00018ED90 /* SearchFactoryOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchFactoryOrderVC.h; sourceTree = "<group>"; };
+		64F2954E1BA2C9C00018ED90 /* SearchFactoryOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchFactoryOrderVC.m; sourceTree = "<group>"; };
+		64F295511BA2CCC80018ED90 /* DOPDropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DOPDropDownMenu.h; sourceTree = "<group>"; };
+		64F295521BA2CCC80018ED90 /* DOPDropDownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DOPDropDownMenu.m; sourceTree = "<group>"; };
+		64F295531BA2CCC80018ED90 /* icon_chose_arrow_nor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_chose_arrow_nor@2x.png"; sourceTree = "<group>"; };
+		64F295541BA2CCC80018ED90 /* icon_chose_arrow_sel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_chose_arrow_sel@2x.png"; sourceTree = "<group>"; };
+		64F295551BA2CCC80018ED90 /* icon_chose_bottom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_chose_bottom@2x.png"; sourceTree = "<group>"; };
 		64F4C6621B70B31D00F52FF0 /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
 		64F4C6631B70B31D00F52FF0 /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
 		64F4C6641B70B31D00F52FF0 /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
@@ -1580,6 +1592,18 @@
 			name = Size;
 			sourceTree = "<group>";
 		};
+		64F295501BA2CCC80018ED90 /* DOPDropDownMenu - Enhanced */ = {
+			isa = PBXGroup;
+			children = (
+				64F295511BA2CCC80018ED90 /* DOPDropDownMenu.h */,
+				64F295521BA2CCC80018ED90 /* DOPDropDownMenu.m */,
+				64F295531BA2CCC80018ED90 /* icon_chose_arrow_nor@2x.png */,
+				64F295541BA2CCC80018ED90 /* icon_chose_arrow_sel@2x.png */,
+				64F295551BA2CCC80018ED90 /* icon_chose_bottom@2x.png */,
+			);
+			path = "DOPDropDownMenu - Enhanced";
+			sourceTree = "<group>";
+		};
 		64F4C6611B70B31D00F52FF0 /* MJRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -1686,6 +1710,8 @@
 				0455E10D1B61D62E009C5CDA /* WebViewController.m */,
 				0455E10F1B61D8D8009C5CDA /* ActivityViewController.h */,
 				0455E1101B61D8D8009C5CDA /* ActivityViewController.m */,
+				64F2954D1BA2C9C00018ED90 /* SearchFactoryOrderVC.h */,
+				64F2954E1BA2C9C00018ED90 /* SearchFactoryOrderVC.m */,
 				04822E171B62722500A370F6 /* SearchOrder */,
 				0404F5461B54FE1B00B7004B /* PushHelper */,
 				0451D64D1B574A1B007CCD59 /* FactoryList */,
@@ -1823,6 +1849,7 @@
 				042A0EE71B7B588100ECE841 /* HttpClient.m */,
 				04AE21841B535ABC007A3279 /* Tools.h */,
 				04AE21851B535ABC007A3279 /* Tools.m */,
+				64F295501BA2CCC80018ED90 /* DOPDropDownMenu - Enhanced */,
 				BD9C60041B9DDFD90040B5D8 /* ZFModalTransitionAnimator */,
 				04E94E111B8EA32200EE911E /* PgySDK.framework */,
 				04B150291B9569CD004E0353 /* IQKeyBoardManager */,
@@ -2086,12 +2113,14 @@
 				049582E01B6B490F00A69E6D /* JKImagePickerController.strings in Resources */,
 				04B1505B1B9569CD004E0353 /* IQKeyboardManager.bundle in Resources */,
 				64EDB0911B9C3DA700D2A655 /* 公司类型.png in Resources */,
+				64F295571BA2CCC80018ED90 /* icon_chose_arrow_nor@2x.png in Resources */,
 				045A26B51B6893D5002DE415 /* calendar_ok-disabled.png in Resources */,
 				045A26AD1B6893D5002DE415 /* arrow_right.png in Resources */,
 				04746D121B6B0FED00C3C45E /* UMSnsAccountViewController.xib in Resources */,
 				04746D471B6B284E00C3C45E /* save@2x.png in Resources */,
 				045A26B41B6893D5002DE415 /* calendar_littledot@2x.png in Resources */,
 				04746D4A1B6B284E00C3C45E /* ToolViewInputVoice@2x.png in Resources */,
+				64F295591BA2CCC80018ED90 /* icon_chose_bottom@2x.png in Resources */,
 				BDC907CB1B4E9A5700856A32 /* LaunchScreen.xib in Resources */,
 				04746D0D1B6B0FED00C3C45E /* UMSCommentInputController.xib in Resources */,
 				045A26C41B6893D5002DE415 /* THDatePickerViewController.xib in Resources */,
@@ -2136,6 +2165,7 @@
 				0448E15E1B760CE1002B78B8 /* area.plist in Resources */,
 				045A26C21B6893D5002DE415 /* THDateDay.xib in Resources */,
 				045A26BB1B6893D5002DE415 /* dialog_clear.png in Resources */,
+				64F295581BA2CCC80018ED90 /* icon_chose_arrow_sel@2x.png in Resources */,
 				045A26AC1B6893D5002DE415 /* arrow_left@2x.png in Resources */,
 				04746D491B6B284E00C3C45E /* ToolViewInputTextHL@2x.png in Resources */,
 				04746D0E1B6B0FED00C3C45E /* UMSCommentInputControlleriPad.xib in Resources */,
@@ -2218,6 +2248,7 @@
 				045A26691B686682002DE415 /* CalendarLogic.m in Sources */,
 				04AE21861B535ABC007A3279 /* Tools.m in Sources */,
 				64F4C6751B70B31D00F52FF0 /* MJRefreshFooterView.m in Sources */,
+				64F2954F1BA2C9C00018ED90 /* SearchFactoryOrderVC.m in Sources */,
 				04724E741B8870C000F820EF /* TYTitlePageTabBar.m in Sources */,
 				0457E3F51B8EE57100F38881 /* MJPhotoToolbar.m in Sources */,
 				0457E3F41B8EE57100F38881 /* MJPhotoProgressView.m in Sources */,
@@ -2281,6 +2312,7 @@
 				0448E1581B75E763002B78B8 /* UIImage+Common.m in Sources */,
 				049582E31B6B490F00A69E6D /* JKAssetsCollectionFooterView.m in Sources */,
 				0451D66C1B57AB4A007CCD59 /* AboutViewController.m in Sources */,
+				64F295561BA2CCC80018ED90 /* DOPDropDownMenu.m in Sources */,
 				047333081B60D2B700F684A2 /* OrderDetailViewController.m in Sources */,
 				045939301B7869F3004DA7D6 /* PushViewController.m in Sources */,
 				047EF0E31B6085A0007DD2AE /* AddOrderViewController.m in Sources */,

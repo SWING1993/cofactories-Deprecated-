@@ -12,6 +12,8 @@
 #import "FindFactoryCell.h"
 #import "FindOrderCell.h"
 #import "LastmachineCell.h"
+#import "SearchFactoryOrderVC.h"
+
 
 //编辑View
 //#import "HomeEditViewController.h"
@@ -370,11 +372,9 @@
         case 1008:
         {
             //寻找加工厂订单
-            OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
-            orderListVC.myOrderEnum = ProcessingFactoryOrder;
-            orderListVC.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-            [self.navigationController pushViewController:orderListVC animated:YES];
-            
+            SearchFactoryOrderVC *vc = [[SearchFactoryOrderVC alloc]init];
+            vc.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
             
