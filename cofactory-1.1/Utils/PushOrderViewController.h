@@ -10,4 +10,6 @@
 
 @interface PushOrderViewController : UITableViewController
 
+@property (nonatomic,assign)int factoryType;
+
 @end

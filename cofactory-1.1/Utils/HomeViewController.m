@@ -14,10 +14,6 @@
 #import "LastmachineCell.h"
 #import "SearchFactoryOrderVC.h"
 
-
-#import "AddProcessingFactoryOrderVC.h"//加工厂订单
-
-
 #define kStatusBarHeight 20
 #define kNavigationBarHeight 44
 //#define kBannerHeight 150
@@ -362,9 +358,11 @@
             //加工厂订单外发
             if (self.factoryType ==1) {
                 //加工厂订单外发
-                AddProcessingFactoryOrderVC*processingFactoryOrderVC = [[AddProcessingFactoryOrderVC alloc]init];
-                processingFactoryOrderVC.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:processingFactoryOrderVC animated:YES];
+                PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
+                pushOrderVC.factoryType = self.factoryType;
+                pushOrderVC.hidesBottomBarWhenPushed=YES;
+                [self.navigationController pushViewController:pushOrderVC animated:YES];
+
             }else{
                 [Tools showHudTipStr:@"加工厂专区，非加工厂请至首页上方发布订单！"];
             }

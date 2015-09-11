@@ -9,6 +9,9 @@
 #import "Header.h"
 #import "PushOrderViewController.h"
 
+#import "AddProcessingFactoryOrderVC.h"//加工厂订单
+
+
 @interface PushOrderViewController ()
 @property (nonatomic,copy)NSArray * cellTitleArr;
 @property (nonatomic,copy)NSArray * cellImageArr;
@@ -66,8 +69,15 @@
     switch (indexPath.section) {
         case 0:
         {
-            AddOrderViewController*addOrderVC = [[AddOrderViewController alloc]init];
-            [self.navigationController pushViewController:addOrderVC animated:YES];
+
+            if (self.factoryType == 1) {
+                AddProcessingFactoryOrderVC*processingFactoryOrderVC = [[AddProcessingFactoryOrderVC alloc]init];
+                [self.navigationController pushViewController:processingFactoryOrderVC animated:YES];
+            }else{
+                AddOrderViewController*addOrderVC = [[AddOrderViewController alloc]init];
+                [self.navigationController pushViewController:addOrderVC animated:YES];
+            }
+
 
         }
             break;
