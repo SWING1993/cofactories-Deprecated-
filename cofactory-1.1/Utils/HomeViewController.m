@@ -15,8 +15,8 @@
 #import "SearchFactoryOrderVC.h"
 
 
-//编辑View
-//#import "HomeEditViewController.h"
+#import "AddProcessingFactoryOrderVC.h"//加工厂订单
+
 
 #define kStatusBarHeight 20
 #define kNavigationBarHeight 44
@@ -360,12 +360,15 @@
         case 1007:
         {
             //加工厂订单外发
-            
-            
-            
-            
-            
-            
+            if (self.factoryType ==1) {
+                //加工厂订单外发
+                AddProcessingFactoryOrderVC*processingFactoryOrderVC = [[AddProcessingFactoryOrderVC alloc]init];
+                processingFactoryOrderVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:processingFactoryOrderVC animated:YES];
+            }else{
+                [Tools showHudTipStr:@"加工厂专区，非加工厂请至首页上方发布订单！"];
+            }
+
             DLog(@"加工厂订单外发");
         }
             break;

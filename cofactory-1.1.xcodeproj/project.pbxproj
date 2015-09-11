@@ -22,6 +22,7 @@
 		0451D6591B574BCB007CCD59 /* JSDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D6571B574BCB007CCD59 /* JSDropDownMenu.m */; };
 		0451D6691B579A19007CCD59 /* RevisePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D6681B579A19007CCD59 /* RevisePasswordViewController.m */; };
 		0451D66C1B57AB4A007CCD59 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D66B1B57AB4A007CCD59 /* AboutViewController.m */; };
+		04539BB71BA2E52000D49C8F /* AddProcessingFactoryOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 04539BB61BA2E52000D49C8F /* AddProcessingFactoryOrderVC.m */; };
 		0455E10E1B61D62E009C5CDA /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0455E10D1B61D62E009C5CDA /* WebViewController.m */; };
 		0455E1111B61D8D8009C5CDA /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0455E1101B61D8D8009C5CDA /* ActivityViewController.m */; };
 		0455E11D1B61E4F8009C5CDA /* FactoryAndOrderMessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0455E1191B61E4F8009C5CDA /* FactoryAndOrderMessVC.m */; };
@@ -335,6 +336,8 @@
 		0451D6681B579A19007CCD59 /* RevisePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RevisePasswordViewController.m; sourceTree = "<group>"; };
 		0451D66A1B57AB4A007CCD59 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		0451D66B1B57AB4A007CCD59 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		04539BB51BA2E51A00D49C8F /* AddProcessingFactoryOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddProcessingFactoryOrderVC.h; sourceTree = "<group>"; };
+		04539BB61BA2E52000D49C8F /* AddProcessingFactoryOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddProcessingFactoryOrderVC.m; sourceTree = "<group>"; };
 		0455E10C1B61D62E009C5CDA /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		0455E10D1B61D62E009C5CDA /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		0455E10F1B61D8D8009C5CDA /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
@@ -953,6 +956,15 @@
 				0451D66B1B57AB4A007CCD59 /* AboutViewController.m */,
 			);
 			name = Set;
+			sourceTree = "<group>";
+		};
+		04539BB41BA2E4EB00D49C8F /* AddProcessingFactoryOrderVC */ = {
+			isa = PBXGroup;
+			children = (
+				04539BB51BA2E51A00D49C8F /* AddProcessingFactoryOrderVC.h */,
+				04539BB61BA2E52000D49C8F /* AddProcessingFactoryOrderVC.m */,
+			);
+			name = AddProcessingFactoryOrderVC;
 			sourceTree = "<group>";
 		};
 		0457E3DB1B8EE57100F38881 /* MJPhotoBrowser */ = {
@@ -1712,6 +1724,7 @@
 				0455E1101B61D8D8009C5CDA /* ActivityViewController.m */,
 				64F2954D1BA2C9C00018ED90 /* SearchFactoryOrderVC.h */,
 				64F2954E1BA2C9C00018ED90 /* SearchFactoryOrderVC.m */,
+				04539BB41BA2E4EB00D49C8F /* AddProcessingFactoryOrderVC */,
 				04822E171B62722500A370F6 /* SearchOrder */,
 				0404F5461B54FE1B00B7004B /* PushHelper */,
 				0451D64D1B574A1B007CCD59 /* FactoryList */,
@@ -2381,6 +2394,7 @@
 				BDC908FD1B4E9B6B00856A32 /* MessageModel.m in Sources */,
 				0457E3FF1B8EE6B400F38881 /* YLImageView.m in Sources */,
 				045A26661B686682002DE415 /* CalendarDayCell.m in Sources */,
+				04539BB71BA2E52000D49C8F /* AddProcessingFactoryOrderVC.m in Sources */,
 				04F60C691B58D17200CD3DEC /* SetMapViewController.m in Sources */,
 				045A266B1B686682002DE415 /* CalendarMonthHeaderView.m in Sources */,
 				0457E3F21B8EE57100F38881 /* MJPhotoBrowser.m in Sources */,

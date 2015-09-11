@@ -665,7 +665,7 @@
 //    NSParameterAssert(amount);
 //    NSParameterAssert(factoryType);
     NSDictionary *parameters = nil;
-    if (factoryType == 1) {
+    if (factoryType == 1 || factoryType == 0) {
         // 加工订单
 //        NSParameterAssert(factoryServiceRange);
 //        NSParameterAssert(workingTime);
