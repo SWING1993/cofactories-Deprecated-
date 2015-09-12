@@ -92,7 +92,8 @@
     OrderListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
     OrderModel*model = self.orderModerArr[indexPath.row];
-    
+
+
     if (model.type==1) {
         cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
         
@@ -103,6 +104,22 @@
     {
         cell.workingTimeLabel.hidden = YES;
     }
+
+    NSString*typeStr = [NSString stringWithFormat:@"%d",model.type];
+
+    DLog(@"订单类型%d  %@",model.type,typeStr);
+
+
+    if ([typeStr isEqualToString:@"-1"]) {
+
+        DLog(@"MMD%@",model.workingTime);
+        cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
+
+        cell.workingTimeLabel.hidden = NO;
+        cell.workingTimeLabel.text = [NSString stringWithFormat:@"期限 :  %@天",model.workingTime];
+    }
+    
+
     
     //gt123
     NSMutableArray *arr = [Tools WithTime:model.createTime];

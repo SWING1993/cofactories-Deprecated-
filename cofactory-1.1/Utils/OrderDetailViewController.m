@@ -125,10 +125,7 @@ static  NSString *const cellIdentifier1 = @"cell1";
     switch (indexPath.row) {
         case 0:
             switch (self.model.type) {
-                case 1:
-                    cell.textLabel.text = @"订单类型:  加工订单";
-                    
-                    break;
+
                 case 2:
                     cell.textLabel.text = @"订单类型:  代裁订单";
                     
@@ -138,6 +135,8 @@ static  NSString *const cellIdentifier1 = @"cell1";
                     
                     break;
                 default:
+                    cell.textLabel.text = @"订单类型:  加工订单";
+
                     break;
             }
             break;
