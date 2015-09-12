@@ -10,6 +10,7 @@
 #import "SearchFactoryOrderVC.h"
 #import "DOPDropDownMenu.h"
 #import "searchOrderListTVC.h"
+#import "SearchOrderDetailsVC.h"
 
 @interface SearchFactoryOrderVC ()<DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,UITableViewDataSource,UITableViewDelegate>{
     UITableView *_tableView;
@@ -43,10 +44,12 @@ static NSString *const cellIdentifer = @"cell";
     
     [HttpClient searchOrderWithRole:-1 FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:@1 andBlock:^(NSDictionary *responseDictionary) {
         DLog(@"+++++responseDictionary==%@",responseDictionary[@"statusCode"]);
-        _dataArray = responseDictionary[@"responseArray"];
-        [_tableView reloadData];
+        if ([responseDictionary[@"statusCode"] compare:@200] == NSOrderedSame) {
+            _dataArray = responseDictionary[@"responseArray"];
+            [_tableView reloadData];
+        }
     }];
-
+    
     [self creatTableView];
 }
 
@@ -61,10 +64,10 @@ static NSString *const cellIdentifer = @"cell";
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [_tableView registerClass:[searchOrderListTVC class] forCellReuseIdentifier:cellIdentifer];
     [self.view addSubview:_tableView];
-
+    
 }
 
-#pragma mark--表的协议方法
+#pragma mark - TableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return _dataArray.count;
@@ -75,7 +78,29 @@ static NSString *const cellIdentifer = @"cell";
 {
     
     searchOrderListTVC *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifer forIndexPath:indexPath];
-
+    OrderModel *model = _dataArray[indexPath.row];
+    if (model.interest == 0) {
+        cell.labels.hidden = YES;
+        cell.interestCountLabel.hidden = YES;
+    }if (model.interest > 0) {
+        cell.labels.hidden = NO;
+        cell.interestCountLabel.hidden = NO;
+        cell.interestCountLabel.text = [NSString stringWithFormat:@"%d",model.interest];
+    }
+    if (model.status == 0) {
+        cell.statusImage.hidden = YES;
+    }if (model.status == 1) {
+        cell.statusImage.hidden = NO;
+    }
+    NSMutableArray *arr = [Tools WithTime:model.createTime];
+    cell.timeLabel.text = arr[0];
+    [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"]];
+    cell.workingTimeLabel.text = [NSString stringWithFormat:@"期限 :  %@",model.workingTime];
+    cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
+    cell.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"件"];
+    [cell.orderDetailsBtn addTarget:self action:@selector(orderDetailsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    cell.orderDetailsBtn.tag = indexPath.row+1;
+    
     return cell;
 }
 
@@ -120,7 +145,7 @@ static NSString *const cellIdentifer = @"cell";
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
 {
-       switch (indexPath.column) {
+    switch (indexPath.column) {
         case 0:
             switch (indexPath.row) {
                 case 0:
@@ -186,7 +211,7 @@ static NSString *const cellIdentifer = @"cell";
                 case 3:
                     _workingTime = @"5天以上";
                     break;
-
+                    
                 default:
                     break;
             }
@@ -196,15 +221,35 @@ static NSString *const cellIdentifer = @"cell";
             break;
     }
     
-    DLog(@"\n%@,,%@,,%@,,%@",_typeString,_min,_max,_workingTime);
+    DLog(@"\n%@,,\n%@,,\n%@,,\n%@",_typeString,_min,_max,_workingTime);
     
     [HttpClient searchOrderWithRole:-1 FactoryServiceRange:_typeString Time:_workingTime AmountMin:_min AmountMax:_max Page:@1 andBlock:^(NSDictionary *responseDictionary) {
         DLog(@"+++++responseDictionary==%@",responseDictionary[@"statusCode"]);
-        _dataArray = responseDictionary[@"responseArray"];
-        [_tableView reloadData];
+        if ([responseDictionary[@"statusCode"] compare:@200] == NSOrderedSame) {
+            _dataArray = responseDictionary[@"responseArray"];
+            [_tableView reloadData];
+        }
     }];
+}
 
-    
+- (void)orderDetailsBtnClick:(id)sender
+{
+    UIButton *button = (UIButton *)sender;
+    if ([Tools isTourist]) {
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您登录后查看订单详情" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }else{
+        OrderModel *model = _dataArray [button.tag-1];
+        SearchOrderDetailsVC *vc = [[SearchOrderDetailsVC alloc]init];
+        vc.model = model;
+        UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+        backItem.title=@"";
+        backItem.tintColor=[UIColor whiteColor];
+        self.navigationItem.backBarButtonItem = backItem;
+        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {

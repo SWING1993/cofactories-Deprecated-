@@ -30,7 +30,6 @@ static  NSString *const cellIdentifier1 = @"cell1";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"订单详情";
-    //    self.automaticallyAdjustsScrollViewInsets = NO;
     [self creatTableViewAndTableViewHeaderView];
 }
 
@@ -150,7 +149,6 @@ static  NSString *const cellIdentifier1 = @"cell1";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
     cell.textLabel.textColor = [UIColor grayColor];
-    
     switch (indexPath.row) {
         case 0:
             cell.textLabel.text = [NSString stringWithFormat:@"联系人:  %@",self.model.name];
@@ -160,10 +158,6 @@ static  NSString *const cellIdentifier1 = @"cell1";
             break;
         case 2:
             switch (self.model.type) {
-                case 1:
-                    cell.textLabel.text = @"订单类型:  加工订单";
-                    
-                    break;
                 case 2:
                     cell.textLabel.text = @"订单类型:  代裁订单";
                     
@@ -173,6 +167,7 @@ static  NSString *const cellIdentifier1 = @"cell1";
                     
                     break;
                 default:
+                    cell.textLabel.text = @"订单类型:  加工订单";
                     break;
             }
             break;
