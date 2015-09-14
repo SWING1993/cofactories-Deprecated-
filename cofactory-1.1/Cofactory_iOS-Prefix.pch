@@ -24,6 +24,8 @@
 #define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
 #define bucketAPI @"cofactories-test"
 
+//
+
 
 
 #pragma mark - 第三方key
