@@ -63,7 +63,6 @@
 #import "DescriptionViewController.h"//公司简介
 
 //Model
-#import "HomeItemModel.h"
 #import "PushHelperItemModel.h"
 #import "PushHelperModel.h"
 

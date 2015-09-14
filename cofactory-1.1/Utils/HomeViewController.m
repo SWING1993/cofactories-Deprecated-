@@ -30,8 +30,6 @@
 #define LastCellIdentifier @"LastCell"
 @interface HomeViewController () <UIAlertViewDelegate>
 
-@property (nonatomic, strong) HomeItemModel *homeItemModel;
-
 //记录工厂类型
 @property (nonatomic, assign) int factoryType;
 
@@ -106,7 +104,6 @@
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
     // 初始化模型
-    self.homeItemModel = [[HomeItemModel alloc] init];
     self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, kScreenW, kScreenH-(kNavigationBarHeight+kStatusBarHeight)) style:UITableViewStyleGrouped];
     self.automaticallyAdjustsScrollViewInsets = YES;// 自动调整视图关闭
     self.tableView.showsVerticalScrollIndicator = NO;// 竖直滚动条不显示
@@ -496,7 +493,7 @@
 }
 
 - (void)dealloc {
-    
+
     DLog(@"释放内存");
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;

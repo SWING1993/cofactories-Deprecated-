@@ -153,7 +153,7 @@
                     switch (statusCode) {
                         case 0:{
                             [button setEnabled:YES];
-                            [Tools showHudTipStr:@"网络错误"];
+                            [Tools showHudTipStr:@"网络错误！"];
 
                         }
                             break;
@@ -167,13 +167,14 @@
                         case 400:{
                             [button setEnabled:YES];
 
-                            [Tools showHudTipStr:@"用户名或密码错误"];
+                            [Tools showHudTipStr:@"用户名或密码错误！"];
 
                         }
                             break;
                             
                         default:
                             [button setEnabled:YES];
+                            [Tools showHudTipStr:@"网络错误！"];
                             break;
                     }
                 }];

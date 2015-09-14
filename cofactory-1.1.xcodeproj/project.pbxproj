@@ -184,7 +184,6 @@
 		04D7D02F1B5A4B430054861E /* DescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D7D02E1B5A4B430054861E /* DescriptionViewController.m */; };
 		04DE27861B55F8D20008DEED /* StatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DE27851B55F8D20008DEED /* StatusViewController.m */; };
 		04DFCA981B63CE5900356F4B /* SetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DFCA971B63CE5900356F4B /* SetViewController.m */; };
-		04DFCAAB1B63D53A00356F4B /* HomeItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DFCAA61B63D53A00356F4B /* HomeItemModel.m */; };
 		04DFCAAC1B63D53A00356F4B /* PushHelperItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DFCAA71B63D53A00356F4B /* PushHelperItemModel.m */; };
 		04DFCAAD1B63D53A00356F4B /* PushHelperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DFCAAA1B63D53A00356F4B /* PushHelperModel.m */; };
 		04E81EF01B57F75700B7CE7B /* SetaddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E81EEF1B57F75700B7CE7B /* SetaddressViewController.m */; };
@@ -617,8 +616,6 @@
 		04DE27841B55F8D20008DEED /* StatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatusViewController.h; path = Controllers/StatusViewController.h; sourceTree = "<group>"; };
 		04DE27851B55F8D20008DEED /* StatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusViewController.m; path = Controllers/StatusViewController.m; sourceTree = "<group>"; };
 		04DFCA971B63CE5900356F4B /* SetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetViewController.m; sourceTree = "<group>"; };
-		04DFCAA51B63D53A00356F4B /* HomeItemModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeItemModel.h; sourceTree = "<group>"; };
-		04DFCAA61B63D53A00356F4B /* HomeItemModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeItemModel.m; sourceTree = "<group>"; };
 		04DFCAA71B63D53A00356F4B /* PushHelperItemModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushHelperItemModel.m; sourceTree = "<group>"; };
 		04DFCAA81B63D53A00356F4B /* PushHelperModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushHelperModel.h; sourceTree = "<group>"; };
 		04DFCAA91B63D53A00356F4B /* PushHelperItemModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushHelperItemModel.h; sourceTree = "<group>"; };
@@ -1972,8 +1969,6 @@
 		BDC908F31B4E9B6B00856A32 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				04DFCAA51B63D53A00356F4B /* HomeItemModel.h */,
-				04DFCAA61B63D53A00356F4B /* HomeItemModel.m */,
 				04DFCAA91B63D53A00356F4B /* PushHelperItemModel.h */,
 				04DFCAA71B63D53A00356F4B /* PushHelperItemModel.m */,
 				04DFCAA81B63D53A00356F4B /* PushHelperModel.h */,
@@ -2351,7 +2346,6 @@
 				BDC908FF1B4E9B6B00856A32 /* UserModel.m in Sources */,
 				04724E751B8870C000F820EF /* UIScrollView+ty_swizzle.m in Sources */,
 				04822E411B62E7A600A370F6 /* NSData+Utils.m in Sources */,
-				04DFCAAB1B63D53A00356F4B /* HomeItemModel.m in Sources */,
 				64EDB08B1B9C09F800D2A655 /* CompeteViewController.m in Sources */,
 				64F4C6761B70B31D00F52FF0 /* MJRefreshHeaderView.m in Sources */,
 				0457E3F61B8EE57100F38881 /* MJPhotoView.m in Sources */,
@@ -2589,7 +2583,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "cofactory-1.1";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "2b2c7e1a-998b-4868-82ce-fd5bbb057bfc";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -2626,7 +2620,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "cofactory-1.1";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "2b2c7e1a-998b-4868-82ce-fd5bbb057bfc";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
