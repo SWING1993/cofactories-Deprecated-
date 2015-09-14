@@ -366,7 +366,6 @@ static  NSString *const cellIdentifier1 = @"cell1";
             [self.navigationController pushViewController:vc animated:YES];
         }
     }];
-
  }
 
 - (void)didReceiveMemoryWarning {

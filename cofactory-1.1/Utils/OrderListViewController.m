@@ -93,35 +93,18 @@
     
     OrderModel*model = self.orderModerArr[indexPath.row];
 
-
-    if (model.type==1) {
-        cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
-        
-        cell.workingTimeLabel.hidden = NO;
-        cell.workingTimeLabel.text = [NSString stringWithFormat:@"期限 :  %@天",model.workingTime];
-        
-    }else
-    {
+    if (model.type == 2 || model.type == 3) {
+        cell.orderTypeLabel.hidden = YES;
         cell.workingTimeLabel.hidden = YES;
-    }
 
-    NSString*typeStr = [NSString stringWithFormat:@"%d",model.type];
-
-    DLog(@"订单类型%d  %@",model.type,typeStr);
-
-
-    if ([typeStr isEqualToString:@"-1"]) {
-
-        DLog(@"MMD%@",model.workingTime);
+    }else{
+        cell.orderTypeLabel.hidden = NO;
         cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
-
         cell.workingTimeLabel.hidden = NO;
         cell.workingTimeLabel.text = [NSString stringWithFormat:@"期限 :  %@天",model.workingTime];
     }
     
 
-    
-    //gt123
     NSMutableArray *arr = [Tools WithTime:model.createTime];
     cell.timeLabel.text = arr[0];
    [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"]];//gt123

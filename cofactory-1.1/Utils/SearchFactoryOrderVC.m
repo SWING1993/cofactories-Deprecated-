@@ -149,7 +149,7 @@ static NSString *const cellIdentifer = @"cell";
         case 0:
             switch (indexPath.row) {
                 case 0:
-                    _typeString = @"不限类型";
+                    _typeString = nil;
                     break;
                     
                 case 1:
