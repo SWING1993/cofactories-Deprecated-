@@ -18,6 +18,7 @@
     UIScrollView      *_scrollView;
     UIPageControl     *_pageControl;
     NSArray           *_scrollViewImageArray;
+    int               _count;
 }
 
 @end
@@ -85,7 +86,6 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(kScreenW*i, 0, kScreenW, 120);
         [button setBackgroundImage:[UIImage imageNamed:imgStr] forState:UIControlStateNormal];
-        button.tag = i+1;
         [_scrollView addSubview:button];
         
     }
@@ -96,7 +96,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     _pageControl.numberOfPages = _scrollViewImageArray.count;
     [_tableViewHeadView addSubview:_pageControl];
     
-    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(changeImage) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeImage) userInfo:nil repeats:YES];
     
 }
 
@@ -155,21 +155,20 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 #pragma mark - others
 - (void)changeImage
 {
-    static int count = 0;
-    count ++;
+    _count ++;
     
-    _scrollView.contentOffset = CGPointMake((count-1)*kScreenW, 0);
+    _scrollView.contentOffset = CGPointMake((_count-1)*kScreenW, 0);
     
-    if (count > _scrollViewImageArray.count-1)
+    if (_count > _scrollViewImageArray.count-1)
     {
-        count = 0;
+        _count = 0;
     }
     
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    _pageControl.currentPage = _scrollView.contentOffset.x/kScreenW;
+    _pageControl.currentPage = scrollView.contentOffset.x/kScreenW;
 }
 
 - (void)buttonClick:(id)sender{
