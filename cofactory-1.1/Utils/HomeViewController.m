@@ -13,6 +13,7 @@
 #import "FindOrderCell.h"
 #import "LastmachineCell.h"
 #import "SearchFactoryOrderVC.h"
+#import "PopularMesageViewController.h"
 
 #define kStatusBarHeight 20
 #define kNavigationBarHeight 44
@@ -179,9 +180,15 @@
         alertView.tag=5;
         [alertView show];
     }else{
-        PushViewController*pushHelerVC = [[PushViewController alloc]init];
-        pushHelerVC.hidesBottomBarWhenPushed=YES;
-        [self.navigationController pushViewController:pushHelerVC animated:YES];
+//        推送助手
+//        PushViewController*pushHelerVC = [[PushViewController alloc]init];
+//        pushHelerVC.hidesBottomBarWhenPushed=YES;
+//        [self.navigationController pushViewController:pushHelerVC animated:YES];
+        
+        PopularMesageViewController *vc = [[PopularMesageViewController alloc]init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+
     }
 }
 - (void)findClicked:(id)sender {

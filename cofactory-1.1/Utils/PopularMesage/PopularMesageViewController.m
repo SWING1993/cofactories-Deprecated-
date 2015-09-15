@@ -1,0 +1,201 @@
+//
+//  PopularMesageViewController.m
+//  cofactory-1.1
+//
+//  Created by gt on 15/9/15.
+//  Copyright (c) 2015年 聚工科技. All rights reserved.
+//
+
+#import "PopularMesageViewController.h"
+#import "PopularMesageTableViewCell.h"
+#import "PMSectionOneTableViewCell.h"
+
+@interface PopularMesageViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UIScrollViewDelegate>{
+    UITableView       *_tableView;
+    NSArray           *_dataArray;
+    NSArray           *_titleImageArray;
+    UIView            *_tableViewHeadView;
+    UIScrollView      *_scrollView;
+    UIPageControl     *_pageControl;
+    NSArray           *_scrollViewImageArray;
+}
+
+@end
+static NSString *const cellIdetifier1 = @"cellIdentifier1";
+static NSString *const cellIdetifier2 = @"cellIdentifier2";
+
+@implementation PopularMesageViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
+    searchBar.delegate = self;
+    searchBar.placeholder = @"搜索标题或作者";
+    self.navigationItem.titleView = searchBar;
+    _titleImageArray = @[@{@"title":@"麻烦了柯达阿里付款说明",@"image":@"bb"},@{@"title":@"麻烦了柯达阿里付款说明",@"image":@"bb"}];
+    
+    [self creatTableView];
+    [self creatHeadView];
+    [self creatScrollViewAndPageControl];
+}
+
+- (void)creatTableView{
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64) style:UITableViewStylePlain];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [_tableView registerClass:[PMSectionOneTableViewCell class] forCellReuseIdentifier:cellIdetifier1];
+    [_tableView registerClass:[PopularMesageTableViewCell class] forCellReuseIdentifier:cellIdetifier2];
+    [self.view addSubview:_tableView];
+}
+
+- (void)creatHeadView{
+    _tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 160)];
+    _tableViewHeadView.backgroundColor = [UIColor colorWithRed:42/255.0 green:41/255.0 blue:42/255.0 alpha:1.0];
+    NSArray *array = @[@"男装",@"女装",@"童装"];
+    for (int i=0; i<3; i++) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame = CGRectMake(20+i*((kScreenW-280)/2.0+80), 5, 80, 30);
+        button.titleLabel.textColor = [UIColor whiteColor];
+        [button setTitle:array[i] forState:UIControlStateNormal];
+        button.tag = i;
+        [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_tableViewHeadView addSubview:button];
+    }
+    _tableView.tableHeaderView = _tableViewHeadView;
+    
+}
+
+- (void)creatScrollViewAndPageControl{
+    
+    _scrollViewImageArray = @[@"服装平台.jpg",@"时尚资讯.jpg",@"面辅料.jpg",@"加工订单可外包.jpg"];
+    
+    _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 40, kScreenW, 120)];
+    _scrollView.pagingEnabled = YES;
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.bounces = NO;
+    [_tableViewHeadView addSubview:_scrollView];
+    _scrollView.contentSize = CGSizeMake(kScreenW*_scrollViewImageArray.count, 120);
+    _scrollView.delegate = self;
+    
+    for (int i = 0; i<_scrollViewImageArray.count; i++)
+    {
+        NSString *imgStr = _scrollViewImageArray[i];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame = CGRectMake(kScreenW*i, 0, kScreenW, 120);
+        [button setBackgroundImage:[UIImage imageNamed:imgStr] forState:UIControlStateNormal];
+        button.tag = i+1;
+        [_scrollView addSubview:button];
+        
+    }
+    _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((kScreenW-100)/2.0, 145, 100, 10)];
+    _pageControl.currentPage = 0;
+    _pageControl.currentPageIndicatorTintColor = [UIColor greenColor];
+    _pageControl.pageIndicatorTintColor = [UIColor grayColor];
+    _pageControl.numberOfPages = _scrollViewImageArray.count;
+    [_tableViewHeadView addSubview:_pageControl];
+    
+    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(changeImage) userInfo:nil repeats:YES];
+    
+}
+
+#pragma mark - tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (section == 0) {
+        return 2;
+    }else{
+        return 5;
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (indexPath.section == 0) {
+        PMSectionOneTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdetifier1 forIndexPath:indexPath];
+        [cell getDataWithDictionary:_titleImageArray[indexPath.row]];
+        return cell;
+    }
+    
+    PopularMesageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdetifier2 forIndexPath:indexPath];
+    
+    return cell;
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    if (section == 0) {
+        return 0.0001;
+    }if (section == 1) {
+        return 15;
+    }
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        return 60;
+    }return 44;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (indexPath.section == 0) {
+        
+    }else{
+        
+    }
+}
+
+#pragma mark - others
+- (void)changeImage
+{
+    static int count = 0;
+    count ++;
+    
+    _scrollView.contentOffset = CGPointMake((count-1)*kScreenW, 0);
+    
+    if (count > _scrollViewImageArray.count-1)
+    {
+        count = 0;
+    }
+    
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    _pageControl.currentPage = _scrollView.contentOffset.x/kScreenW;
+}
+
+- (void)buttonClick:(id)sender{
+    UIButton *button = (UIButton *)sender;
+    DLog(@"%zi",button.tag);
+}
+
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope{
+    
+}
+
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
+
+@end

@@ -25,7 +25,7 @@
 
 
         NSArray*btnImageArr=@[@"home_button1",@"home_button2",@"home_button3",@"home_button4"];
-        NSArray*btnTitleArr = @[@"推送助手",@"找合作商",btnTitle,@"认证服务"];
+        NSArray*btnTitleArr = @[@"流行资讯",@"找合作商",btnTitle,@"认证服务"];
         
         for (int i =0; i<4; i++) {
             

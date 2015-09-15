@@ -197,6 +197,9 @@
 		04F60C691B58D17200CD3DEC /* SetMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C681B58D17200CD3DEC /* SetMapViewController.m */; };
 		04F60C6C1B58EC7F00CD3DEC /* FactoryRangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C6B1B58EC7F00CD3DEC /* FactoryRangeModel.m */; };
 		04F60C701B58EF8D00CD3DEC /* ModifySizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C6F1B58EF8D00CD3DEC /* ModifySizeViewController.m */; };
+		640A9B041BA7F41C00B71DE5 /* PopularMesageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 640A9B031BA7F41C00B71DE5 /* PopularMesageTableViewCell.m */; };
+		640A9B071BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 640A9B061BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m */; };
+		642FCE6E1BA7D85400CB2856 /* PopularMesageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 642FCE6D1BA7D85400CB2856 /* PopularMesageViewController.m */; };
 		649BA0841B7B15E5008EDE31 /* SearchOrderDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 649BA0831B7B15E5008EDE31 /* SearchOrderDetailsVC.m */; };
 		649CCE3E1B9D622000710B2A /* BidManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649CCE3D1B9D622000710B2A /* BidManagerViewController.m */; };
 		649CCE411B9D64D500710B2A /* BidManagerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 649CCE401B9D64D500710B2A /* BidManagerModel.m */; };
@@ -638,6 +641,12 @@
 		04F60C6B1B58EC7F00CD3DEC /* FactoryRangeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoryRangeModel.m; sourceTree = "<group>"; };
 		04F60C6E1B58EF8D00CD3DEC /* ModifySizeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifySizeViewController.h; sourceTree = "<group>"; };
 		04F60C6F1B58EF8D00CD3DEC /* ModifySizeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifySizeViewController.m; sourceTree = "<group>"; };
+		640A9B021BA7F41C00B71DE5 /* PopularMesageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopularMesageTableViewCell.h; sourceTree = "<group>"; };
+		640A9B031BA7F41C00B71DE5 /* PopularMesageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopularMesageTableViewCell.m; sourceTree = "<group>"; };
+		640A9B051BA7F5A800B71DE5 /* PMSectionOneTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMSectionOneTableViewCell.h; sourceTree = "<group>"; };
+		640A9B061BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMSectionOneTableViewCell.m; sourceTree = "<group>"; };
+		642FCE6C1BA7D85400CB2856 /* PopularMesageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopularMesageViewController.h; sourceTree = "<group>"; };
+		642FCE6D1BA7D85400CB2856 /* PopularMesageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopularMesageViewController.m; sourceTree = "<group>"; };
 		649BA0821B7B15E5008EDE31 /* SearchOrderDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchOrderDetailsVC.h; sourceTree = "<group>"; };
 		649BA0831B7B15E5008EDE31 /* SearchOrderDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchOrderDetailsVC.m; sourceTree = "<group>"; };
 		649CCE3C1B9D622000710B2A /* BidManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidManagerViewController.h; sourceTree = "<group>"; };
@@ -1601,6 +1610,19 @@
 			name = Size;
 			sourceTree = "<group>";
 		};
+		642FCE6B1BA7D66500CB2856 /* PopularMesage */ = {
+			isa = PBXGroup;
+			children = (
+				642FCE6C1BA7D85400CB2856 /* PopularMesageViewController.h */,
+				642FCE6D1BA7D85400CB2856 /* PopularMesageViewController.m */,
+				640A9B021BA7F41C00B71DE5 /* PopularMesageTableViewCell.h */,
+				640A9B031BA7F41C00B71DE5 /* PopularMesageTableViewCell.m */,
+				640A9B051BA7F5A800B71DE5 /* PMSectionOneTableViewCell.h */,
+				640A9B061BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m */,
+			);
+			path = PopularMesage;
+			sourceTree = "<group>";
+		};
 		64F295501BA2CCC80018ED90 /* DOPDropDownMenu - Enhanced */ = {
 			isa = PBXGroup;
 			children = (
@@ -1721,6 +1743,7 @@
 				0455E1101B61D8D8009C5CDA /* ActivityViewController.m */,
 				64F2954D1BA2C9C00018ED90 /* SearchFactoryOrderVC.h */,
 				64F2954E1BA2C9C00018ED90 /* SearchFactoryOrderVC.m */,
+				642FCE6B1BA7D66500CB2856 /* PopularMesage */,
 				04539BB41BA2E4EB00D49C8F /* AddProcessingFactoryOrderVC */,
 				04822E171B62722500A370F6 /* SearchOrder */,
 				0404F5461B54FE1B00B7004B /* PushHelper */,
@@ -2226,6 +2249,7 @@
 				BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */,
 				649BA0841B7B15E5008EDE31 /* SearchOrderDetailsVC.m in Sources */,
 				BD9C60031B9DDBBA0040B5D8 /* ZFModalTransitionAnimator.m in Sources */,
+				642FCE6E1BA7D85400CB2856 /* PopularMesageViewController.m in Sources */,
 				048983B11BA18C4D00F98024 /* FindFactoryCell.m in Sources */,
 				04746D571B6B284E00C3C45E /* UMFullScreenPhotoView.m in Sources */,
 				BDC909051B4EB77000856A32 /* LoginViewController.m in Sources */,
@@ -2273,6 +2297,7 @@
 				04A20C351B5F332C001AADE9 /* VeifyEndViewController.m in Sources */,
 				BDC908DD1B4E9B3700856A32 /* AFHTTPRequestSerializer+OAuth2.m in Sources */,
 				04822E331B62B54C00A370F6 /* PhotoViewController.m in Sources */,
+				640A9B041BA7F41C00B71DE5 /* PopularMesageTableViewCell.m in Sources */,
 				049582E41B6B490F00A69E6D /* JKAssetsGroupCell.m in Sources */,
 				049582E51B6B490F00A69E6D /* JKAssetsGroupsView.m in Sources */,
 				BD8AD7F01B50E62600373E5E /* UIImage+GIF.m in Sources */,
@@ -2329,6 +2354,7 @@
 				045A266E1B686682002DE415 /* NSDate+WQCalendarLogic.m in Sources */,
 				049582E81B6B490F00A69E6D /* JKImagePickerController.m in Sources */,
 				64F4C6791B70B31D00F52FF0 /* UIView+MJExtension.m in Sources */,
+				640A9B071BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m in Sources */,
 				04DFCA981B63CE5900356F4B /* SetViewController.m in Sources */,
 				04DE27861B55F8D20008DEED /* StatusViewController.m in Sources */,
 				045939331B786A57004DA7D6 /* GetPushModel.m in Sources */,
