@@ -94,6 +94,7 @@
         [[PgyManager sharedPgyManager] setThemeColor:[UIColor colorWithHexString:@"0x28303b"]];
         //  启动SDK
         //  设置三指拖动激活摇一摇需在此调用之前
+        
         [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
 
         // 初始化百度地图 SDK

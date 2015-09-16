@@ -10,6 +10,7 @@
 #import "UMRadialView.h"
 #import "UMRecorder.h"
 #import "UMOpenMacros.h"
+#import "UMFeedback.h"
 
 #import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVFoundation.h>
@@ -512,9 +513,24 @@
         [self.rightButton setHidden:_textValid ? NO : YES];
         self.plusButton.hidden = _textValid ? YES : NO;
     }
+    
+    if (self.isAudioInput) {
+        
+        if ([[UMFeedback sharedInstance] audioEnabled]) {
+            if ( UM_IOS_7_OR_LATER) {
+                [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+                    [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:AudioAuthCheckKey];
+                }];
+            }
+        }
+    }
 }
 
-- (void)dealloc { 
+- (void)dealloc {
+#if __has_feature(objc_arc)
+#else
+    [super dealloc];
+#endif
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                  name:UITextViewTextDidChangeNotification
                                                object:nil];

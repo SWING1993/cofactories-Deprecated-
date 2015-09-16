@@ -13,6 +13,7 @@
 #define UM_TIME_LIMIT 1
 #define UM_CONTENT_MAX_LENGTH 2000
 #define kFEEDBACK_LOCALIZABLE_TABLE @"UMFeedbackLocalizable"
+#define AudioAuthCheckKey @"audioAuthAlreadyRequested"
 #define UM_Local(key) NSLocalizedStringFromTable(key, kFEEDBACK_LOCALIZABLE_TABLE, nil)
 #define UM_UIColorFromRGBA(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 #define UM_UIColorFromRGB(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]

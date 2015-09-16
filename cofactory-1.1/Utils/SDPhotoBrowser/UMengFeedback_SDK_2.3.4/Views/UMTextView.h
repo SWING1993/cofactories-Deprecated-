@@ -11,8 +11,8 @@
 @interface UMTextView : UITextView
 
 /** The placeholder text string. */
-@property (nonatomic, readwrite) NSString *placeholder;
+@property (nonatomic, retain) NSString *placeholder;
 
 /** The placeholder color. */
-@property (nonatomic, readwrite) UIColor *placeholderColor;
+@property (nonatomic, retain) UIColor *placeholderColor;
 @end

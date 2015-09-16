@@ -143,6 +143,10 @@ NSString * const UMTextViewContentSizeDidChangeNotification = @"com.umeng.TextVi
 }
 
 - (void)dealloc {
+#if __has_feature(objc_arc)
+#else
+    [super dealloc];
+#endif
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:nil];
     
     [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentSize))];

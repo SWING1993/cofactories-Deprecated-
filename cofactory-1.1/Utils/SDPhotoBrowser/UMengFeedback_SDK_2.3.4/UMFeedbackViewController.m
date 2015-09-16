@@ -27,7 +27,11 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 
 @interface UMFeedbackViewController () <UITableViewDataSource, UITableViewDelegate, UMFeedbackDataDelegate, UINavigationBarDelegate, UIAlertViewDelegate, RecorderDelegate, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIWebViewDelegate>
 
+#if __has_feature(objc_arc)
+@property(nonatomic, weak) id <ChatViewDelegate> delegate;
+#else
 @property(nonatomic, unsafe_unretained) id <ChatViewDelegate> delegate;
+#endif
 
 @property (nonatomic, strong) UIView *feedbackView;
 @property (nonatomic, strong) UIWebView *faqView;
@@ -496,7 +500,6 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 //    NSLog(@"topic and replies count: %d", self.topicAndReplies.count);
 
     self.feedback.delegate = self;
-    self.recorder.delegate = self;
     self.mTableView.delegate = self;
     [self refreshData];
     [self scrollToBottomAnimated:YES];
@@ -531,20 +534,18 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 //        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
     [self.view endEditing:YES];
-
-    if ([[UMFeedback sharedInstance] audioEnabled]) {
-        if ( UM_IOS_7_OR_LATER) {
-            [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
-            }];
-        }
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     self.navigationController.navigationBar.barStyle = self.previousBarStyle;
     [self.view endEditing:YES];
-    [self stopRecordAndPlayback];
+    
+    
+    BOOL audioAuthCheck = [[[NSUserDefaults standardUserDefaults] objectForKey:AudioAuthCheckKey] boolValue];
+    if ([[UMFeedback sharedInstance] audioEnabled] && audioAuthCheck) {
+        [self stopRecordAndPlayback];
+    }
     [self.mTableView becomeFirstResponder];
     [self.inputToolBar.inputTextView endEditing:YES];
     [_faqViewIndicator stopAnimating];
@@ -1441,8 +1442,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 }
 
 - (void)recordButtonTouchDownAction:(UIButton *)sender {
-//    self.recorder.filePath = 
-//    [self.recorder startRecording];
+    self.recorder.delegate = self;
     if ( UM_IOS_7_OR_LATER) {
         [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
             if (granted) {
@@ -1491,10 +1491,6 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 - (void)stopRecordAndPlayback {
     [self stopPlayback];
     [self recordButtonTouchUpOutside:self.inputToolBar.recordButton];
-}
-
-- (void)dealloc {
-    self.feedback.delegate = nil;
 }
 
 @end
