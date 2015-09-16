@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface PopularMesageTableViewCell : UITableViewCell
-
+- (void)getDataWithDictionary:(NSDictionary *)dictionary;
 @end

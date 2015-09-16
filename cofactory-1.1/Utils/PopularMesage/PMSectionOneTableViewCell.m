@@ -20,7 +20,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, 160, 20)];
-        _titleLabel.font = [UIFont systemFontOfSize:15.0f];
+        _titleLabel.font = [UIFont systemFontOfSize:14.0f];
         [self addSubview:_titleLabel];
         
         _abbreviateImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-60, 5, 50, 50)];

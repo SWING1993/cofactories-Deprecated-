@@ -18,7 +18,8 @@
     UIScrollView      *_scrollView;
     UIPageControl     *_pageControl;
     NSArray           *_scrollViewImageArray;
-    int               _count;
+    int                _count;
+    UISearchBar       *_searchBar;
 }
 
 @end
@@ -30,16 +31,34 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
-    searchBar.delegate = self;
-    searchBar.placeholder = @"搜索标题或作者";
-    self.navigationItem.titleView = searchBar;
     _titleImageArray = @[@{@"title":@"麻烦了柯达阿里付款说明",@"image":@"bb"},@{@"title":@"麻烦了柯达阿里付款说明",@"image":@"bb"}];
-    
+    [self creatSearchBar];
     [self creatTableView];
     [self creatHeadView];
     [self creatScrollViewAndPageControl];
+}
+
+- (void)creatSearchBar{
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(30, 20, kScreenW-160, 30)];
+    _searchBar.delegate = self;
+    _searchBar.showsCancelButton = YES;
+    _searchBar.placeholder = @"搜索标题或作者";
+    self.navigationItem.titleView = _searchBar;
+    
+    for(id button in [_searchBar.subviews[0] subviews])
+    {
+        if([button isKindOfClass:[UIButton class]])
+        {
+            UIButton *btn = (UIButton *)button;
+            [btn setTitle:@"取消"  forState:UIControlStateNormal];
+            [btn addTarget:self action:@selector(cancelSearchClick) forControlEvents:UIControlEventTouchUpInside];
+            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        }
+    }
+    
+    
 }
 
 - (void)creatTableView{
@@ -52,13 +71,14 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 }
 
 - (void)creatHeadView{
-    _tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 160)];
+    _tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 220)];
     _tableViewHeadView.backgroundColor = [UIColor colorWithRed:42/255.0 green:41/255.0 blue:42/255.0 alpha:1.0];
     NSArray *array = @[@"男装",@"女装",@"童装"];
     for (int i=0; i<3; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(20+i*((kScreenW-280)/2.0+80), 5, 80, 30);
         button.titleLabel.textColor = [UIColor whiteColor];
+        button.titleLabel.font = [UIFont systemFontOfSize:15.0f];
         [button setTitle:array[i] forState:UIControlStateNormal];
         button.tag = i;
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -72,24 +92,23 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     
     _scrollViewImageArray = @[@"服装平台.jpg",@"时尚资讯.jpg",@"面辅料.jpg",@"加工订单可外包.jpg"];
     
-    _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 40, kScreenW, 120)];
+    _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 40, kScreenW, 180)];
     _scrollView.pagingEnabled = YES;
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.bounces = NO;
     [_tableViewHeadView addSubview:_scrollView];
-    _scrollView.contentSize = CGSizeMake(kScreenW*_scrollViewImageArray.count, 120);
+    _scrollView.contentSize = CGSizeMake(kScreenW*_scrollViewImageArray.count, 180);
     _scrollView.delegate = self;
     
     for (int i = 0; i<_scrollViewImageArray.count; i++)
     {
         NSString *imgStr = _scrollViewImageArray[i];
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(kScreenW*i, 0, kScreenW, 120);
-        [button setBackgroundImage:[UIImage imageNamed:imgStr] forState:UIControlStateNormal];
-        [_scrollView addSubview:button];
+        UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW*i, 0, kScreenW, 180)];
+        image.image = [UIImage imageNamed:imgStr];
+        [_scrollView addSubview:image];
         
     }
-    _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((kScreenW-100)/2.0, 145, 100, 10)];
+    _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((kScreenW-100)/2.0, 205, 100, 10)];
     _pageControl.currentPage = 0;
     _pageControl.currentPageIndicatorTintColor = [UIColor greenColor];
     _pageControl.pageIndicatorTintColor = [UIColor grayColor];
@@ -176,8 +195,13 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     DLog(@"%zi",button.tag);
 }
 
-- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope{
-    
+- (void)cancelSearchClick{
+    [_searchBar endEditing:YES];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [searchBar resignFirstResponder];
+    DLog(@"333%@",searchBar.text);
 }
 
 
