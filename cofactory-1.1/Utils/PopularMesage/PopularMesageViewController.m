@@ -27,6 +27,7 @@
 }
 
 @end
+
 static NSString *const cellIdetifier1 = @"cellIdentifier1";
 static NSString *const cellIdetifier2 = @"cellIdentifier2";
 
@@ -34,6 +35,8 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.title = @"流行资讯";
     
     _titleImageArray = @[@{@"title":@"麻烦了柯达阿里付款说明",@"image":@"bb"},@{@"title":@"麻烦了柯达阿里付款说明",@"image":@"bb"}];
     [self creatSearchBar];
