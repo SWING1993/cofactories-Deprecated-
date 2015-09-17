@@ -393,7 +393,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -426,7 +426,7 @@
         cell.cutButton.tag = 1006;
 
         return cell;
-    } else {
+    } else if(indexPath.section == 3){
         LastmachineCell *cell = [tableView dequeueReusableCellWithIdentifier:LastCellIdentifier forIndexPath:indexPath];
         cell.leftButton.layer.borderWidth = 0.3;
         cell.leftButton.layer.borderColor = [UIColor grayColor].CGColor;
@@ -435,6 +435,16 @@
         [cell.rightButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
         cell.rightButton.tag = 1008;
         return cell;
+    } else {
+        LastmachineCell *cell = [tableView dequeueReusableCellWithIdentifier:LastCellIdentifier forIndexPath:indexPath];
+        cell.leftButton.layer.borderWidth = 0.3;
+        cell.leftButton.layer.borderColor = [UIColor grayColor].CGColor;
+        [cell.leftButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
+        cell.leftButton.tag = 1009;
+        [cell.rightButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
+        cell.rightButton.tag = 1010;
+        return cell;
+
     }
 
 }
@@ -465,7 +475,11 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (section == 3) {
         UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW / 3)];
-        photoView.image = [UIImage imageNamed:@"加工厂订单-标题"];
+        photoView.image = [UIImage imageNamed:@"面辅料专区"];
+        return photoView;
+    } else if (section == 4) {
+        UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW / 3)];
+        photoView.image = [UIImage imageNamed:@"加工厂专区"];
         return photoView;
     } else {
         CGSize size = [[UIScreen mainScreen] bounds].size;
