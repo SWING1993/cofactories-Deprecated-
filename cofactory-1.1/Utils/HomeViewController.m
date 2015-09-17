@@ -359,6 +359,20 @@
             break;
         case 1007:
         {
+            //我想供应
+            DLog(@"我想供应");
+
+        }
+            break;
+        case 1008:
+        {
+            //我想采购
+            DLog(@"我想采购");
+            
+        }
+            break;
+        case 1009:
+        {
             //加工厂订单外发
             if (self.factoryType ==1) {
                 //加工厂订单外发
@@ -366,15 +380,15 @@
                 pushOrderVC.factoryType = self.factoryType;
                 pushOrderVC.hidesBottomBarWhenPushed=YES;
                 [self.navigationController pushViewController:pushOrderVC animated:YES];
-
+                
             }else{
                 [Tools showHudTipStr:@"加工厂专区，非加工厂请至首页上方发布订单！"];
             }
-
+            
             DLog(@"加工厂订单外发");
         }
             break;
-        case 1008:
+        case 1010:
         {
             //寻找加工厂订单
             SearchFactoryOrderVC *vc = [[SearchFactoryOrderVC alloc]init];
@@ -383,6 +397,7 @@
         }
             break;
             
+
                 default:
             break;
     }
@@ -403,6 +418,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         ActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:ActivityCellIdentifier forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     } else if (indexPath.section == 1){
         FindFactoryCell *cell = [tableView dequeueReusableCellWithIdentifier:FactoryCellIdentifier forIndexPath:indexPath];
@@ -430,8 +446,10 @@
         LastmachineCell *cell = [tableView dequeueReusableCellWithIdentifier:LastCellIdentifier forIndexPath:indexPath];
         cell.leftButton.layer.borderWidth = 0.3;
         cell.leftButton.layer.borderColor = [UIColor grayColor].CGColor;
+        [cell.leftButton setImage:[UIImage imageNamed:@"面辅料供应"] forState:UIControlStateNormal];
         [cell.leftButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
         cell.leftButton.tag = 1007;
+        [cell.rightButton setImage:[UIImage imageNamed:@"面辅料采购"] forState:UIControlStateNormal];
         [cell.rightButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
         cell.rightButton.tag = 1008;
         return cell;
@@ -439,8 +457,10 @@
         LastmachineCell *cell = [tableView dequeueReusableCellWithIdentifier:LastCellIdentifier forIndexPath:indexPath];
         cell.leftButton.layer.borderWidth = 0.3;
         cell.leftButton.layer.borderColor = [UIColor grayColor].CGColor;
+        [cell.leftButton setImage:[UIImage imageNamed:@"加工厂订单外发"] forState:UIControlStateNormal];
         [cell.leftButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
         cell.leftButton.tag = 1009;
+        [cell.rightButton setImage:[UIImage imageNamed:@"寻找加工厂订单"] forState:UIControlStateNormal];
         [cell.rightButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
         cell.rightButton.tag = 1010;
         return cell;
@@ -462,7 +482,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {
         return 0;
-    } else if (section == 3) {
+    } else if (section == 3 || section == 4) {
         return 0.09*kScreenW;
     }
     return 0.5;
@@ -484,7 +504,6 @@
     } else {
         CGSize size = [[UIScreen mainScreen] bounds].size;
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, 0.5)];
-        
         return view;
     }
     
