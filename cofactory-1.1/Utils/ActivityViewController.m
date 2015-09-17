@@ -19,12 +19,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:kScreenBounds];
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64)];
     NSURL *url = [NSURL URLWithString:self.url];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [webView loadRequest:urlRequest];
     [self.view addSubview:webView];
+
+    DLog(@"%@",url);
+
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

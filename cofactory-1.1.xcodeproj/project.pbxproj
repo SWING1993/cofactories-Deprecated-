@@ -162,6 +162,7 @@
 		04AEF4F81BA9332C002DA22E /* UMPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AEF4DC1BA9332C002DA22E /* UMPostTableViewCell.m */; };
 		04AEF4F91BA9332C002DA22E /* UMRadialView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AEF4DE1BA9332C002DA22E /* UMRadialView.m */; };
 		04AEF4FA1BA9332C002DA22E /* UMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AEF4E01BA9332C002DA22E /* UMTextView.m */; };
+		04AEF4FD1BA96A17002DA22E /* PopularMessageInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AEF4FC1BA96A17002DA22E /* PopularMessageInfoVC.m */; };
 		04B1504E1B9569CD004E0353 /* IQNSArray+Sort.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B1502C1B9569CD004E0353 /* IQNSArray+Sort.m */; };
 		04B1504F1B9569CD004E0353 /* IQUITextFieldView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B1502E1B9569CD004E0353 /* IQUITextFieldView+Additions.m */; };
 		04B150501B9569CD004E0353 /* IQUIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B150301B9569CD004E0353 /* IQUIView+Hierarchy.m */; };
@@ -571,6 +572,8 @@
 		04AEF4DF1BA9332C002DA22E /* UMTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMTextView.h; sourceTree = "<group>"; };
 		04AEF4E01BA9332C002DA22E /* UMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMTextView.m; sourceTree = "<group>"; };
 		04AEF4E11BA9332C002DA22E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/UMFeedbackLocalizable.strings"; sourceTree = "<group>"; };
+		04AEF4FB1BA96A17002DA22E /* PopularMessageInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopularMessageInfoVC.h; sourceTree = "<group>"; };
+		04AEF4FC1BA96A17002DA22E /* PopularMessageInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopularMessageInfoVC.m; sourceTree = "<group>"; };
 		04B1502B1B9569CD004E0353 /* IQNSArray+Sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQNSArray+Sort.h"; sourceTree = "<group>"; };
 		04B1502C1B9569CD004E0353 /* IQNSArray+Sort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IQNSArray+Sort.m"; sourceTree = "<group>"; };
 		04B1502D1B9569CD004E0353 /* IQUITextFieldView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQUITextFieldView+Additions.h"; sourceTree = "<group>"; };
@@ -1613,6 +1616,8 @@
 				640A9B031BA7F41C00B71DE5 /* PopularMesageTableViewCell.m */,
 				640A9B051BA7F5A800B71DE5 /* PMSectionOneTableViewCell.h */,
 				640A9B061BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m */,
+				04AEF4FB1BA96A17002DA22E /* PopularMessageInfoVC.h */,
+				04AEF4FC1BA96A17002DA22E /* PopularMessageInfoVC.m */,
 			);
 			path = PopularMesage;
 			sourceTree = "<group>";
@@ -2288,6 +2293,7 @@
 				640A9B041BA7F41C00B71DE5 /* PopularMesageTableViewCell.m in Sources */,
 				049582E41B6B490F00A69E6D /* JKAssetsGroupCell.m in Sources */,
 				049582E51B6B490F00A69E6D /* JKAssetsGroupsView.m in Sources */,
+				04AEF4FD1BA96A17002DA22E /* PopularMessageInfoVC.m in Sources */,
 				BD8AD7F01B50E62600373E5E /* UIImage+GIF.m in Sources */,
 				0479EAE91B5A8F61007FE48E /* CooperationInfoViewController.m in Sources */,
 				BD4311D51B4F5CD00097E4BC /* RegisterViewController.m in Sources */,

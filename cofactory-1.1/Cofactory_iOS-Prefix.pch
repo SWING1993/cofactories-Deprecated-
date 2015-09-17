@@ -12,19 +12,18 @@
 
 #pragma mark - 服务器
 //内网服务器
-#define kBaseUrl @"http://192.168.100.2:3001"
+//#define kBaseUrl @"http://192.168.100.2:3001"
 
-//正式服务器
-//#define kBaseUrl @"http://app2.cofactories.com"
-//#define PhotoAPI @"http://cdn.cofactories.com"
-//#define bucketAPI @"cofactories"
 
 //测试服务器
 //#define kBaseUrl @"http://test.cofactories.com"
-#define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
-#define bucketAPI @"cofactories-test"
+//#define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
+//#define bucketAPI @"cofactories-test"
 
-//
+//正式服务器
+#define kBaseUrl @"http://app2.cofactories.com"
+#define PhotoAPI @"http://cdn.cofactories.com"
+#define bucketAPI @"cofactories"
 
 
 
@@ -39,6 +38,7 @@
 
 //appStore地址
 #define kAppUrl  @"http://itunes.apple.com/app/id1015359842"
+//appStore评分地址
 #define kAppReviewURL   @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1015359842"
 
 

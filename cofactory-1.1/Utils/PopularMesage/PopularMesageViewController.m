@@ -10,6 +10,10 @@
 #import "PopularMesageTableViewCell.h"
 #import "PMSectionOneTableViewCell.h"
 
+//资讯详情页
+#import "PopularMessageInfoVC.h"
+
+
 @interface PopularMesageViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UIScrollViewDelegate>{
     UITableView       *_tableView;
     NSArray           *_dataArray;
@@ -165,6 +169,8 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
+        PopularMessageInfoVC * infoVC = [[PopularMessageInfoVC alloc]init];
+        [self.navigationController pushViewController:infoVC animated:YES];
         
     }else{
         

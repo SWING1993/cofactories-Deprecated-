@@ -29,37 +29,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window = [[UIWindow alloc] initWithFrame:kScreenBounds];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    //设置导航条样式
-    [self customizeInterface];
-
-    if ([Tools isTourist]) {
-        NSArray *coverImageNames = @[@"img_index_01txt", @"img_index_02txt", @"img_index_03txt"];
-        NSArray *backgroundImageNames = @[@"img_index_01bg", @"img_index_02bg", @"img_index_03bg"];
-        self.introductionView = [[ZWIntroductionViewController alloc] initWithCoverImageNames:coverImageNames backgroundImageNames:backgroundImageNames];
-
-        NSArray *cofactoryImageNames = @[@"引导页1", @"引导页2", @"引导页3"];
-
-        self.introductionView = [[ZWIntroductionViewController alloc] initWithCoverImageNames:cofactoryImageNames backgroundImageNames:nil];
-        [self.window addSubview:self.introductionView.view];
-
-        __weak AppDelegate *weakSelf = self;
-        self.introductionView.didSelectedEnter = ^() {
-            [weakSelf.introductionView.view removeFromSuperview];
-            weakSelf.introductionView = nil;
-            // enter main view , write your code ...
-            ViewController *mainVC = [[ViewController alloc] init];
-            weakSelf.window.rootViewController = mainVC;
-        };
-    }else{
-        ViewController *mainVC = [[ViewController alloc] init];
-        self.window.rootViewController = mainVC;
-    }
-
-
-    
     if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
         //个人开发者 关闭蒲公英
         DLog(@"个人开发者 关闭蒲公英");
@@ -163,6 +135,37 @@
     //for log
     [UMessage setLogEnabled:YES];
 
+
+    //设置导航条样式
+
+    [self customizeInterface];
+
+    ViewController *mainVC = [[ViewController alloc] init];
+    self.window.rootViewController = mainVC;
+
+
+//    if ([Tools isTourist]) {
+//        NSArray *coverImageNames = @[@"img_index_01txt", @"img_index_02txt", @"img_index_03txt"];
+//        NSArray *backgroundImageNames = @[@"img_index_01bg", @"img_index_02bg", @"img_index_03bg"];
+//        self.introductionView = [[ZWIntroductionViewController alloc] initWithCoverImageNames:coverImageNames backgroundImageNames:backgroundImageNames];
+//
+//        NSArray *cofactoryImageNames = @[@"引导页1", @"引导页2", @"引导页3"];
+//
+//        self.introductionView = [[ZWIntroductionViewController alloc] initWithCoverImageNames:cofactoryImageNames backgroundImageNames:nil];
+//        [self.window addSubview:self.introductionView.view];
+//
+//        __weak AppDelegate *weakSelf = self;
+//        self.introductionView.didSelectedEnter = ^() {
+//            [weakSelf.introductionView.view removeFromSuperview];
+//            weakSelf.introductionView = nil;
+//            // enter main view , write your code ...
+//            ViewController *mainVC = [[ViewController alloc] init];
+//            weakSelf.window.rootViewController = mainVC;
+//        };
+//    }else{
+//        ViewController *mainVC = [[ViewController alloc] init];
+//        self.window.rootViewController = mainVC;
+//    }
 
     [_window makeKeyAndVisible];
     return YES;
