@@ -220,6 +220,7 @@
 		64F4C6781B70B31D00F52FF0 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C66F1B70B31D00F52FF0 /* UIScrollView+MJRefresh.m */; };
 		64F4C6791B70B31D00F52FF0 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C6711B70B31D00F52FF0 /* UIView+MJExtension.m */; };
 		64F607061B904B5900AA7F22 /* OrderPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F607051B904B5900AA7F22 /* OrderPhotoViewController.m */; };
+		7DCA89A31BABB01D00AB8EC0 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA89A21BABB01D00AB8EC0 /* CommentCell.m */; settings = {ASSET_TAGS = (); }; };
 		7DE0FFBB1BAAA97A006B9D96 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */; };
 		7DEE11301BA29CC100678607 /* LastmachineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DEE112F1BA29CC100678607 /* LastmachineCell.m */; };
 		BD041A6B1B69D5DC00F9FC74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */; };
@@ -683,6 +684,8 @@
 		64F4C6711B70B31D00F52FF0 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
 		64F607041B904B5900AA7F22 /* OrderPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderPhotoViewController.h; sourceTree = "<group>"; };
 		64F607051B904B5900AA7F22 /* OrderPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderPhotoViewController.m; sourceTree = "<group>"; };
+		7DCA89A11BABB01D00AB8EC0 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
+		7DCA89A21BABB01D00AB8EC0 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
 		7DE0FFB91BAAA97A006B9D96 /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
 		7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		7DEE112E1BA29CC100678607 /* LastmachineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastmachineCell.h; sourceTree = "<group>"; };
@@ -1623,6 +1626,8 @@
 				04AEF4FC1BA96A17002DA22E /* PopularMessageInfoVC.m */,
 				7DE0FFB91BAAA97A006B9D96 /* CommentViewController.h */,
 				7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */,
+				7DCA89A11BABB01D00AB8EC0 /* CommentCell.h */,
+				7DCA89A21BABB01D00AB8EC0 /* CommentCell.m */,
 			);
 			path = PopularMesage;
 			sourceTree = "<group>";
@@ -2396,6 +2401,7 @@
 				BD4311D81B4F6A900097E4BC /* RegisterViewController2.m in Sources */,
 				0455E1111B61D8D8009C5CDA /* ActivityViewController.m in Sources */,
 				649CCE441B9D6AEF00710B2A /* BidManagerTableViewCell.m in Sources */,
+				7DCA89A31BABB01D00AB8EC0 /* CommentCell.m in Sources */,
 				04AEF4F71BA9332C002DA22E /* UMFullScreenPhotoView.m in Sources */,
 				BD8AD7E71B50E62600373E5E /* NSData+ImageContentType.m in Sources */,
 				04B1504E1B9569CD004E0353 /* IQNSArray+Sort.m in Sources */,

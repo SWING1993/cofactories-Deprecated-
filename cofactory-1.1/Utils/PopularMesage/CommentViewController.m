@@ -7,6 +7,7 @@
 //
 
 #import "CommentViewController.h"
+#define kRowInset 5
 
 @interface CommentViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate> {
     UIView *tableViewHeadView;
@@ -44,20 +45,31 @@ static NSString *commentCellIdentifier = @"comment";
     commentTextView.layer.cornerRadius = 5.0f;
     commentTextView.clipsToBounds = YES;
     commentTextView.keyboardType = UIKeyboardTypeDefault;
-    
+    commentTextView.text = @"请写下你的评论......";
+    commentTextView.textColor = [UIColor grayColor];
     [tableViewHeadView addSubview:commentTextView];
+    UIButton *cancleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    cancleButton.frame = CGRectMake(20, CGRectGetMaxY(commentTextView.frame) + 10, (kScreenW - 40) / 2 - 20, 30);
+    cancleButton.layer.cornerRadius=5.0f;
+    cancleButton.layer.masksToBounds=YES;
+    cancleButton.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+    cancleButton.layer.borderWidth = 1.0f;
+    cancleButton.backgroundColor = [UIColor whiteColor];
     
+    [cancleButton setTitle:@"取消" forState:UIControlStateNormal];
+    [cancleButton setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [cancleButton addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [tableViewHeadView addSubview:cancleButton];
+
     UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    doneButton.frame = CGRectMake(20, CGRectGetMaxY(commentTextView.frame) + 10, kScreenW - 40, 30);
+//    doneButton.frame = CGRectMake(CGRectGetMaxX(<#CGRect rect#>) + 20, CGRectGetMaxY(commentTextView.frame) + 10, (kScreenW - 40) / 2 - 20, 30);
     doneButton.layer.cornerRadius=5.0f;
     doneButton.layer.masksToBounds=YES;
     doneButton.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
     doneButton.layer.borderWidth = 1.0f;
     doneButton.backgroundColor = [UIColor whiteColor];
-    commentTextView.text = @"请写下你的评论......";
-    commentTextView.textColor = [UIColor grayColor];
-
-    [doneButton setTitle:@"提交" forState:UIControlStateNormal];
+    
+    [doneButton setTitle:@"确定" forState:UIControlStateNormal];
     [doneButton setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
     [doneButton addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
     [tableViewHeadView addSubview:doneButton];
@@ -148,6 +160,14 @@ static NSString *commentCellIdentifier = @"comment";
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+   
+    return kRowInset;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.5;
+}
 
 /*
 // Override to support conditional editing of the table view.
