@@ -522,7 +522,7 @@
         // 各类营销活动
         NSString*accessToken = [[NSUserDefaults standardUserDefaults]objectForKey:@"accessToken"];
         ActivityViewController *webViewController = [[ActivityViewController alloc] init];
-        webViewController.url = [NSString stringWithFormat:@"http://app2.cofactories.com/activity/draw.html#%@",accessToken ];
+        webViewController.url = [NSString stringWithFormat:@"http://app2.cofactories.com/activity/draw.html#%@",accessToken];
         webViewController.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:webViewController animated:YES];
     }
