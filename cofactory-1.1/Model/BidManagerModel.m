@@ -10,7 +10,8 @@
 
 @implementation BidManagerModel
 - (instancetype)initBidManagerModelWith:(NSDictionary *)dictionary{
-    if (self == [super init]){
+    
+    if (self = [super init]){
         self.factoryName = dictionary[@"factoryName"];
         self.photoArray = dictionary[@"photo"];
         self.uid = [dictionary[@"uid"] intValue];
