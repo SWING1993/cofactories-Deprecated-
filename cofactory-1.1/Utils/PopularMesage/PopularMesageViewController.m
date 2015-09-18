@@ -9,6 +9,7 @@
 #import "PopularMesageViewController.h"
 #import "PopularMesageTableViewCell.h"
 #import "PMSectionOneTableViewCell.h"
+#import "PageView.h"
 
 //资讯详情页
 #import "PopularMessageInfoVC.h"
@@ -42,8 +43,9 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     [self creatSearchBar];
     [self creatTableView];
     [self creatHeadView];
-    [self creatScrollViewAndPageControl];
+//    [self creatScrollViewAndPageControl];
 }
+
 
 - (void)creatSearchBar{
     
@@ -64,8 +66,6 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
             [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }
     }
-    
-    
 }
 
 - (void)creatTableView{
@@ -93,39 +93,16 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     }
     _tableView.tableHeaderView = _tableViewHeadView;
     
+    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 40, kScreenW, 180) andImageArray:nil];
+    [_tableViewHeadView addSubview:bannerView];
+
+
 }
 
-- (void)creatScrollViewAndPageControl{
-    
-    _scrollViewImageArray = @[@"服装平台.jpg",@"时尚资讯.jpg",@"面辅料.jpg",@"加工订单可外包.jpg"];
-    
-    _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 40, kScreenW, 180)];
-    _scrollView.pagingEnabled = YES;
-    _scrollView.showsHorizontalScrollIndicator = NO;
-    _scrollView.bounces = NO;
-    [_tableViewHeadView addSubview:_scrollView];
-    _scrollView.contentSize = CGSizeMake(kScreenW*_scrollViewImageArray.count, 180);
-    _scrollView.delegate = self;
-    
-    for (int i = 0; i<_scrollViewImageArray.count; i++)
-    {
-        NSString *imgStr = _scrollViewImageArray[i];
-        UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW*i, 0, kScreenW, 180)];
-        image.image = [UIImage imageNamed:imgStr];
-        [_scrollView addSubview:image];
-        
-    }
-    _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((kScreenW-100)/2.0, 205, 100, 10)];
-    _pageControl.currentPage = 0;
-    _pageControl.currentPageIndicatorTintColor = [UIColor greenColor];
-    _pageControl.pageIndicatorTintColor = [UIColor grayColor];
-    _pageControl.numberOfPages = _scrollViewImageArray.count;
-    [_tableViewHeadView addSubview:_pageControl];
-    
-    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeImage) userInfo:nil repeats:YES];
-    
+- (void)dealloc{
+    _tableView.delegate =nil;
+    _tableView.dataSource = nil;
 }
-
 #pragma mark - tableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 2;
@@ -181,24 +158,6 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 }
 
 #pragma mark - others
-- (void)changeImage
-{
-    _count ++;
-    
-    _scrollView.contentOffset = CGPointMake((_count-1)*kScreenW, 0);
-    
-    if (_count > _scrollViewImageArray.count-1)
-    {
-        _count = 0;
-    }
-    
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    _pageControl.currentPage = scrollView.contentOffset.x/kScreenW;
-}
-
 - (void)buttonClick:(id)sender{
     UIButton *button = (UIButton *)sender;
     DLog(@"%zi",button.tag);
