@@ -13,11 +13,12 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        NSArray *arr = @[@"加工厂订单外发", @"寻找加工厂订单"];
+        //NSArray *arr = @[@"加工厂订单外发", @"寻找加工厂订单"];
         for (int i = 0; i < 2; i++) {
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-            btn.frame = CGRectMake(i*kScreenW / 2, 0, kScreenW / 2, kScreenW / 3 - 0.09*kScreenW);
-            [btn setImage:[UIImage imageNamed:arr[i]] forState:UIControlStateNormal];
+            btn.frame = CGRectMake(i*(kScreenW / 2 + 0.3) - 0.3, 0, kScreenW / 2 + 0.3, kScreenW / 3 - 0.09*kScreenW);
+            //[btn setImage:[UIImage imageNamed:arr[i]] forState:UIControlStateNormal];
+            btn.adjustsImageWhenHighlighted = NO;
             btn.imageView.contentMode= UIViewContentModeScaleAspectFill;
             if (i == 0) {
                 self.leftButton = btn;

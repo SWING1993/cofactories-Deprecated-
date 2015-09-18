@@ -21,6 +21,7 @@
         self.clothingButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.clothingButton setImage:[UIImage imageNamed:@"服装厂－订单"] forState:UIControlStateNormal];
         self.clothingButton.frame = CGRectMake(0, 0, 0.45*kScreenW, kScreenW / 3);
+        self.clothingButton.adjustsImageWhenHighlighted = NO;
         [self addSubview:self.clothingButton];
         
         
@@ -28,6 +29,7 @@
         for (int i = 0; i < 3; i++) {
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.frame = CGRectMake(self.clothingButton.frame.size.width + i*(kScreenW - self.clothingButton.frame.size.width) / 3, 0, (kScreenW - self.clothingButton.frame.size.width) / 3, kScreenW / 3);
+            btn.adjustsImageWhenHighlighted = NO;
             [btn setImage:[UIImage imageNamed:btnImageArr[i]] forState:UIControlStateNormal];
             if (i == 0) {
                 self.fastenerButton = btn;

@@ -7,6 +7,8 @@
 //
 
 #import "PopularMessageInfoVC.h"
+#import "CommentViewController.h"
+
 
 @interface PopularMessageInfoVC ()<UIWebViewDelegate>
 
@@ -169,6 +171,13 @@
 
         case 2:
         {
+            CommentViewController *commentVC = [[CommentViewController alloc] init];
+            UINavigationController *commentNaVC = [[UINavigationController alloc] initWithRootViewController:commentVC];
+            
+            [self presentViewController:commentNaVC animated:YES completion:nil];
+            
+            
+            
             DLog(@"评论");
 
         }
