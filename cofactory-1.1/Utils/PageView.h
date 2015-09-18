@@ -13,7 +13,7 @@
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, weak) UIPageControl *pageControl;
 
-- (instancetype)initWithFrame:(CGRect)frame andImageArray:(NSArray *)imageArray;
+- (instancetype)initWithFrame:(CGRect)frame andImageArray:(NSArray *)imageArray isNetWork:(BOOL)isNetWork;
 - (void)scrollToNextPage:(NSTimer *)timer;
 
 @end

@@ -39,7 +39,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 
     self.title = @"流行资讯";
     
-    _titleImageArray = @[@{@"title":@"麻烦了柯达阿里付款说明",@"image":@"bb"},@{@"title":@"麻烦了柯达阿里付款说明",@"image":@"bb"}];
+    _titleImageArray = @[@{@"title":@"时尚服装咨询师-LIJO",@"image":@"1.png"},@{@"title":@"15-16秋冬童装新款解析-Wild",@"image":@"2.png"}];
     [self creatSearchBar];
     [self creatTableView];
     [self creatHeadView];
@@ -93,7 +93,8 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     }
     _tableView.tableHeaderView = _tableViewHeadView;
     
-    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 40, kScreenW, 180) andImageArray:nil];
+    NSArray *imageArray = @[@"新功能.png",@"面辅料.png",@"时尚资讯x.png"];
+    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 40, kScreenW, 180) andImageArray:imageArray isNetWork:NO];
     [_tableViewHeadView addSubview:bannerView];
 
 
