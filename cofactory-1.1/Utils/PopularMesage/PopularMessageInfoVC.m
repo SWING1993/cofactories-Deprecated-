@@ -173,6 +173,7 @@
         {
             CommentViewController *commentVC = [[CommentViewController alloc] init];
             UINavigationController *commentNaVC = [[UINavigationController alloc] initWithRootViewController:commentVC];
+            commentNaVC.navigationBar.barStyle=UIBarStyleBlack;
             
             [self presentViewController:commentNaVC animated:YES completion:nil];
             
