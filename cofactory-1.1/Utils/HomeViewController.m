@@ -14,7 +14,7 @@
 #import "LastmachineCell.h"
 #import "SearchFactoryOrderVC.h"
 #import "PopularMesageViewController.h"
-#import "Purchase ViewController.h"
+#import "PurchaseVC.h"
 
 
 //面辅料 供应
@@ -378,7 +378,7 @@
         case 1008:
         {
             //我想采购
-            Purchase_ViewController *VC =[Purchase_ViewController new];
+            PurchaseVC *VC =[PurchaseVC new];
             VC.hidesBottomBarWhenPushed = YES;
             UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
             backItem.title=@"返回";

@@ -6,15 +6,15 @@
 //  Copyright © 2015年 聚工科技. All rights reserved.
 //
 
-#import "Purchase ViewController.h"
+#import "PurchaseVC.h"
 #import "PurchaseFabricOrAccessoryVC.h"
 #import "SearchMaterialViewController.h"
 
-@interface Purchase_ViewController ()
+@interface PurchaseVC ()
 
 @end
 
-@implementation Purchase_ViewController
+@implementation PurchaseVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
