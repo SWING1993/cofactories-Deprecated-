@@ -10,4 +10,6 @@
 
 @interface PopularMesageViewController : UIViewController
 
+@property (nonatomic, strong) NSMutableArray *informationArray;
+
 @end

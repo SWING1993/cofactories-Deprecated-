@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class CommentModel;
 @interface CommentCell : UITableViewCell
+
+@property (nonatomic, strong) UILabel *authorLabel;
+@property (nonatomic, strong) UILabel *timeLabel;
+@property (nonatomic, strong) UILabel *contentLabel;
+@property (nonatomic, strong) CommentModel *comment;
++ (CGFloat)heightOfCell:(CommentModel *)comment;
 
 @end

@@ -76,5 +76,14 @@
  */
 + (UIImage *)imageBlur:(UIImage *)aImage;
 
+/*!
+ 计算时间
+ 
+ @param newsDate 日期格式  @"2013-08-09 17:01"
+ 
+ @return 距现在多长时间
+ */
+
++ (NSString *)getUTCFormateDate:(NSString *)newsDate;
 
 @end

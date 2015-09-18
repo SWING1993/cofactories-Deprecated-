@@ -34,6 +34,8 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 
 @implementation PopularMesageViewController
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -43,9 +45,17 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     [self creatSearchBar];
     [self creatTableView];
     [self creatHeadView];
+    [self netWork];
 //    [self creatScrollViewAndPageControl];
 }
 
+- (void)netWork {
+    [HttpClient getInfomation:^(NSDictionary *responseDictionary) {
+        self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
+        [_tableView reloadData];
+    }];
+    
+}
 
 - (void)creatSearchBar{
     
@@ -113,7 +123,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     if (section == 0) {
         return 2;
     }else{
-        return 5;
+        return self.informationArray.count;
     }
 }
 
@@ -126,7 +136,11 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     }
     
     PopularMesageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdetifier2 forIndexPath:indexPath];
+    InformationModel *information = [[InformationModel alloc] init];
+    information = self.informationArray[indexPath.row];
+    cell.information = information;
     
+
     return cell;
     
 }
@@ -150,11 +164,15 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
-        PopularMessageInfoVC * infoVC = [[PopularMessageInfoVC alloc]init];
-        [self.navigationController pushViewController:infoVC animated:YES];
+//        PopularMessageInfoVC * infoVC = [[PopularMessageInfoVC alloc]init];
+//        [self.navigationController pushViewController:infoVC animated:YES];
         
     }else{
-        
+        PopularMessageInfoVC * infoVC = [[PopularMessageInfoVC alloc]init];
+        InformationModel *information = self.informationArray[indexPath.row];
+        infoVC.urlString = information.urlString;
+        infoVC.oid = information.oid;
+        [self.navigationController pushViewController:infoVC animated:YES];
     }
 }
 

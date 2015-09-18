@@ -7,7 +7,7 @@
 //
 
 #import "PopularMesageTableViewCell.h"
-
+#import "InformationModel.h"
 @implementation PopularMesageTableViewCell{
     UILabel *_titleLabel;
     UILabel *_interestLabel;
@@ -22,21 +22,21 @@
 
         _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, 160, 20)];
         _titleLabel.font = [UIFont systemFontOfSize:14.0f];
-        _titleLabel.text = @"问题如何为无任何";
+        //_titleLabel.text = @"问题如何为无任何";
         [self addSubview:_titleLabel];
 
         _commentLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-60, 20, 50, 20)];
         _commentLabel.font = [UIFont systemFontOfSize:12.0f];
         _commentLabel.textColor = [UIColor grayColor];
         _commentLabel.textAlignment = 1;
-        _commentLabel.text = @"213评论";
+        //_commentLabel.text = @"213评论";
         [self addSubview:_commentLabel];
         
         _interestLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-120, 20, 50, 20)];
         _interestLabel.font = [UIFont systemFontOfSize:12.0f];
         _interestLabel.textColor = [UIColor grayColor];
         _interestLabel.textAlignment = 1;
-        _interestLabel.text = @"123喜欢";
+        //_interestLabel.text = @"123喜欢";
         [self addSubview:_interestLabel];
 
     }
@@ -44,6 +44,14 @@
     return self;
 }
 
+- (void)setInformation:(InformationModel *)information {
+    if (_information != information) {
+        _information = information;
+    }
+    _titleLabel.text = information.title;
+    _commentLabel.text = [NSString stringWithFormat:@"%@评论", information.comment];
+    _interestLabel.text = [NSString stringWithFormat:@"%@喜欢", information.interest];
+}
 
 - (void)getDataWithDictionary:(NSDictionary *)dictionary{
 

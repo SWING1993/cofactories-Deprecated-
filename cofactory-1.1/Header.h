@@ -73,5 +73,5 @@
 
 #import "FactoryRangeModel.h"
 
-
-
+#import "InformationModel.h"
+#import "CommentModel.h"

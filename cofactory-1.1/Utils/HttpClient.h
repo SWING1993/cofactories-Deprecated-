@@ -388,4 +388,15 @@
   @param string 备注
  */
 + (void)registBidWithOid:(int)oid commit:(NSString *)commit completionBlock:(void(^)(int statusCode))block;
+
+/**资讯列表
+ *
+ */
++ (void)getInfomation:(void (^)(NSDictionary *responseDictionary))block;
+
+/**评论列表
+ *
+ */
++ (void)getCommentWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
+
 @end

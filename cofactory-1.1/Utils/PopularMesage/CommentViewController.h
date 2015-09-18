@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CommentViewController : UITableViewController
-
-
+@property (nonatomic, strong) NSMutableArray *commentArray;
+@property (nonatomic, assign) int oid;
 
 @end
