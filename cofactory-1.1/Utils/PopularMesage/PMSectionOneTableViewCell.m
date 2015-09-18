@@ -19,11 +19,15 @@
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, 160, 20)];
-        _titleLabel.font = [UIFont systemFontOfSize:14.0f];
+        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, 200, 20)];
+        _titleLabel.font = [UIFont systemFontOfSize:13.0f];
         [self addSubview:_titleLabel];
         
         _abbreviateImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-60, 5, 50, 50)];
+        _abbreviateImage.layer.masksToBounds = YES;
+        _abbreviateImage.layer.cornerRadius = 5;
+        _abbreviateImage.layer.borderWidth = 1;
+        _abbreviateImage.layer.backgroundColor = [UIColor grayColor].CGColor;
         [self addSubview:_abbreviateImage];
         
     }

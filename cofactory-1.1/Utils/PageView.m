@@ -11,7 +11,7 @@
 
 @implementation PageView
 
-- (instancetype)initWithFrame:(CGRect)frame andImageArray:(NSArray *)imageArray {
+- (instancetype)initWithFrame:(CGRect)frame andImageArray:(NSArray *)imageArray isNetWork:(BOOL)isNetWork {
     self = [super initWithFrame:frame];
     if (self) {
         // 实例化控件
@@ -23,12 +23,22 @@
         scrollView.showsVerticalScrollIndicator = NO;
         scrollView.contentSize = CGSizeMake(frame.size.width * 3, frame.size.height);
         // 添加图片
-        for (int i = 1; i <= 3; ++i) {
-            NSString *url = [NSString stringWithFormat:@"http://cdn.cofactories.com/banner/banner%d.png", i];
-            UIImageView *imageView = [[UIImageView alloc] init];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:url]];
-            [imageView setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];
-            [scrollView addSubview:imageView];
+        if (isNetWork) {
+            for (int i = 1; i <= 3; ++i) {
+                NSString *url = imageArray[i-1];
+                UIImageView *imageView = [[UIImageView alloc] init];
+                [imageView sd_setImageWithURL:[NSURL URLWithString:url]];
+                [imageView setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];
+                [scrollView addSubview:imageView];
+            }
+        }if (!isNetWork) {
+            for (int i = 1; i <= 3; ++i) {
+                UIImageView *imageView = [[UIImageView alloc] init];
+                imageView.image = [UIImage imageNamed:imageArray[i-1]];
+                [imageView setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];
+                [scrollView addSubview:imageView];
+            }
+
         }
         self.scrollView = scrollView;
         [self addSubview:scrollView];

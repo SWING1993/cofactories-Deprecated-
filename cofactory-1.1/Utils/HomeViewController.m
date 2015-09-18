@@ -112,7 +112,8 @@
 
     // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
-    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:nil];
+    NSArray *imageArray = @[@"http://cdn.cofactories.com/banner/banner1.png",@"http://cdn.cofactories.com/banner/banner2.png",@"http://cdn.cofactories.com/banner/banner3.png"];
+    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:imageArray isNetWork:YES];
     [headerView addSubview:bannerView];
     
     //工厂类型
