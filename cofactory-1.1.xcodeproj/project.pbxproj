@@ -428,10 +428,10 @@
 		045A26A81B6893D5002DE415 /* THDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THDatePickerViewController.h; sourceTree = "<group>"; };
 		045A26A91B6893D5002DE415 /* THDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THDatePickerViewController.m; sourceTree = "<group>"; };
 		045A26AA1B6893D5002DE415 /* THDatePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THDatePickerViewController.xib; sourceTree = "<group>"; };
-		045AE0951BABE8CC003EB1DF /* SupplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyViewController.h; sourceTree = "<group>"; };
-		045AE0961BABE8D3003EB1DF /* SupplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyViewController.m; sourceTree = "<group>"; };
-		045AE0981BABFB46003EB1DF /* AddmaterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddmaterialViewController.h; sourceTree = "<group>"; };
-		045AE0991BABFB46003EB1DF /* AddmaterialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddmaterialViewController.m; sourceTree = "<group>"; };
+		045AE0951BABE8CC003EB1DF /* SupplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SupplyViewController.h; path = Utils/SupplyViewController.h; sourceTree = "<group>"; };
+		045AE0961BABE8D3003EB1DF /* SupplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SupplyViewController.m; path = Utils/SupplyViewController.m; sourceTree = "<group>"; };
+		045AE0981BABFB46003EB1DF /* AddmaterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddmaterialViewController.h; path = Utils/AddmaterialViewController.h; sourceTree = "<group>"; };
+		045AE0991BABFB46003EB1DF /* AddmaterialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddmaterialViewController.m; path = Utils/AddmaterialViewController.m; sourceTree = "<group>"; };
 		04724E671B8870C000F820EF /* TYBasePageTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYBasePageTabBar.h; sourceTree = "<group>"; };
 		04724E681B8870C000F820EF /* TYBasePageTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYBasePageTabBar.m; sourceTree = "<group>"; };
 		04724E691B8870C000F820EF /* TYSlidePageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYSlidePageScrollView.h; sourceTree = "<group>"; };
@@ -1367,6 +1367,18 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		04AF1CB51BAC131300E8A7DD /* 面辅料供应 */ = {
+			isa = PBXGroup;
+			children = (
+				045AE0951BABE8CC003EB1DF /* SupplyViewController.h */,
+				045AE0961BABE8D3003EB1DF /* SupplyViewController.m */,
+				045AE0981BABFB46003EB1DF /* AddmaterialViewController.h */,
+				045AE0991BABFB46003EB1DF /* AddmaterialViewController.m */,
+			);
+			name = "面辅料供应";
+			path = ..;
+			sourceTree = "<group>";
+		};
 		04B150291B9569CD004E0353 /* IQKeyBoardManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1753,10 +1765,7 @@
 				0455E1101B61D8D8009C5CDA /* ActivityViewController.m */,
 				64F2954D1BA2C9C00018ED90 /* SearchFactoryOrderVC.h */,
 				64F2954E1BA2C9C00018ED90 /* SearchFactoryOrderVC.m */,
-				045AE0951BABE8CC003EB1DF /* SupplyViewController.h */,
-				045AE0961BABE8D3003EB1DF /* SupplyViewController.m */,
-				045AE0981BABFB46003EB1DF /* AddmaterialViewController.h */,
-				045AE0991BABFB46003EB1DF /* AddmaterialViewController.m */,
+				04AF1CB51BAC131300E8A7DD /* 面辅料供应 */,
 				642FCE6B1BA7D66500CB2856 /* PopularMesage */,
 				04539BB41BA2E4EB00D49C8F /* AddProcessingFactoryOrderVC */,
 				04822E171B62722500A370F6 /* SearchOrder */,
