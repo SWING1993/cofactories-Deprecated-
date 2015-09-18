@@ -1397,6 +1397,61 @@
         block(404);// access_token不存在
     }
 }
+//二七服装厂
+
++ (void)getInfomation:(void (^)(NSDictionary *responseDictionary))block {
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        NSString *url = @"http://news.cofactories.com/?co&op=posts&page=";
+        [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSArray *jsonArray = (NSArray *)responseObject;
+            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
+            for (NSDictionary *dictionary in jsonArray) {
+                InformationModel *information = [[InformationModel alloc] init];
+                information.title = dictionary[@"post_title"];
+                information.comment = dictionary[@"comment_count"];
+                information.interest = dictionary[@"menu_order"];
+                information.oid = [dictionary[@"ID"] integerValue];
+                information.urlString = dictionary[@"guid"];
+                [responseArray addObject:information];
+            }
+            block(@{@"responseArray": responseArray});
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+        }];
+    }
+}
+
+
++ (void)getCommentWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block {
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        NSString *url = [NSString stringWithFormat:@"http://news.cofactories.com/?co&op=comments&p=%d&page=", oid];
+        [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSArray *jsonArray = (NSArray *)responseObject;
+            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
+            for (NSDictionary *dictionary in jsonArray) {
+                CommentModel *comment = [[CommentModel alloc] init];
+                comment.authour = dictionary[@"comment_author"];
+                comment.time = dictionary[@"comment_date"];
+                comment.comment = dictionary[@"comment_content"];
+                [responseArray addObject:comment];
+            }
+            block(@{@"responseArray": responseArray});
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+        }];
+    }
+}
+
 
 + (void)getBidOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block {
 

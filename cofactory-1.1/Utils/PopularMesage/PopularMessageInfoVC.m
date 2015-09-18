@@ -38,19 +38,20 @@
     
     UIWebView *webView = [[UIWebView alloc] init];
     webView.delegate = self;
+    webView.backgroundColor = [UIColor whiteColor];
     webView.frame = CGRectMake(0,0,kScreenW,kScreenH-64-40);
-    NSURL *url = [NSURL URLWithString:@"http://www.baidu.com"];
+    NSURL *url = [NSURL URLWithString:self.urlString];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [webView sizeToFit];
     [webView loadRequest:urlRequest];
     [self.view addSubview:webView];
 //    self.tableView.tableHeaderView = webView;
 
-//    [self createToolbar];
-
+    //[self createToolbar];
+//
     UIToolbar*toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, kScreenH - 40 - 64, kScreenW, 40.0f) ];
-
-    UIButton*btn1 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenW/5, 40)];
+    UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    UIButton*btn1 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenW/3, 40)];
     btn1.tag = 1;
     [btn1 setImage:[UIImage imageNamed:@"资讯_分享"] forState:UIControlStateNormal];
     btn1.imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -59,7 +60,7 @@
     UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithCustomView:btn1];
     [item1 setWidth:kScreenW/3];
 
-    UIButton*btn2 = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/3, 0, kScreenW/5, 40)];
+    UIButton*btn2 = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/3, 0, kScreenW/3, 40)];
     btn2.tag = 2;
     [btn2 setImage:[UIImage imageNamed:@"资讯_评论"] forState:UIControlStateNormal];
     btn2.imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -69,7 +70,7 @@
     [item2 setWidth:kScreenW/3];
 
 
-    UIButton*btn3 = [[UIButton alloc]initWithFrame:CGRectMake(2*kScreenW/3, 0, kScreenW/5, 40)];
+    UIButton*btn3 = [[UIButton alloc]initWithFrame:CGRectMake(2*kScreenW/3, 0, kScreenW/3, 40)];
     btn3.tag = 3;
     [btn3 setImage:[UIImage imageNamed:@"资讯_赞"] forState:UIControlStateNormal];
     btn3.imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -79,24 +80,12 @@
     [item3 setWidth:kScreenW/3];
 
 
-//    UIBarButtonItem* btn11 = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"资讯_评论"] style:UIBarButtonItemStylePlain target:nil action:nil];
-//
-//
-//    [btn11 setWidth:kScreenW/4];
-//
-//    UIBarButtonItem* btn22 = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"资讯_评论"] style:UIBarButtonItemStylePlain target:nil action:nil];
-//    [btn22 setWidth:kScreenW/4];
-//
-//    UIBarButtonItem* btn33 = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"资讯_评论"] style:UIBarButtonItemStylePlain target:nil action:nil];
-//    [btn33 setWidth:kScreenW/3];
-//
-
     //把item添加到toolbar里
-    [toolBar setItems:[NSArray arrayWithObjects:item1,item2,item3, nil] animated:YES];
+    [toolBar setItems:[NSArray arrayWithObjects:flexSpace,item1, flexSpace, item2, flexSpace, item3, flexSpace, nil] animated:YES];
 
 
     //把toolbar添加到view上
-    UIWindow* window = [[[UIApplication sharedApplication] delegate] window];
+    
     [self.view addSubview:toolBar];
 
 }
@@ -150,10 +139,10 @@
         //创建barbuttonitem
         UIBarButtonItem *item3 = [[UIBarButtonItem alloc] initWithCustomView:btn3];
         [item3 setWidth:kScreenW/3];
-
+        UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
 
         //把item添加到toolbar里
-        [self.toolBar setItems:[NSArray arrayWithObjects:item1,item2,item3, nil] animated:YES];
+        [self.toolBar setItems:[NSArray arrayWithObjects:item1,flexSpace,item2, flexSpace, item3, nil] animated:YES];
         
         //把toolbar添加到view上
         UIWindow* window = [[[UIApplication sharedApplication] delegate] window];
@@ -173,11 +162,10 @@
         {
             CommentViewController *commentVC = [[CommentViewController alloc] init];
             UINavigationController *commentNaVC = [[UINavigationController alloc] initWithRootViewController:commentVC];
-            
+            commentNaVC.navigationBar.barStyle = UIBarStyleBlack;
+            commentVC.oid = self.oid;
+
             [self presentViewController:commentNaVC animated:YES completion:nil];
-            
-            
-            
             DLog(@"评论");
 
         }

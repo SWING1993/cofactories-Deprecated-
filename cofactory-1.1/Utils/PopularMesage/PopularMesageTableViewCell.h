@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+
+@class InformationModel;
 @interface PopularMesageTableViewCell : UITableViewCell
+
+@property (nonatomic, strong)InformationModel *information;
+
+
 - (void)getDataWithDictionary:(NSDictionary *)dictionary;
 @end

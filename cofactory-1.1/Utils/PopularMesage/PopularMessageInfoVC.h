@@ -10,4 +10,7 @@
 
 @interface PopularMessageInfoVC : UIViewController
 
+@property (nonatomic, strong) NSString *urlString;
+@property (nonatomic, assign) int oid;
+
 @end

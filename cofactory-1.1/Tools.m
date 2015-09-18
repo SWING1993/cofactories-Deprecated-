@@ -247,4 +247,51 @@
 }
 
 
++ (NSString *)getUTCFormateDate:(NSString *)newsDate
+{
+    //    newsDate = @"2013-08-09 17:01";
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    NSLog(@"newsDate = %@",newsDate);
+    NSDate *newsDateFormatted = [dateFormatter dateFromString:newsDate];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [dateFormatter setTimeZone:timeZone];
+    
+    NSDate* current_date = [[NSDate alloc] init];
+    
+    NSTimeInterval time=[current_date timeIntervalSinceDate:newsDateFormatted];//间隔的秒数
+    int month=((int)time)/(3600*24*30);//月
+    int days=((int)time)/(3600*24);//天
+    int hours=((int)time)%(3600*24)/3600;//小时
+    int minute=((int)time)%(3600*24)/3600/60;//分钟
+    int seconds = ((int)time)%(3600*24)/3600/3600;//秒
+    
+    NSString *dateContent;
+    
+    if(month!=0){
+        
+        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",month,@"个月前"];
+        
+    }else if (days !=0){
+        
+        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",days,@"天前"];
+    }else if (hours !=0){
+        
+        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",hours,@"小时前"];
+    }else if (minute != 0){
+        
+        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",minute,@"分钟前"];
+    } else {
+        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",seconds,@"秒前"];
+    }
+    
+    //    NSString *dateContent=[[NSString alloc] initWithFormat:@"%i天%i小时",days,hours];
+    
+    
+    
+    return dateContent;
+}
+
+
 @end

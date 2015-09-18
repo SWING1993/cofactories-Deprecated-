@@ -7,6 +7,11 @@
 //
 
 #import "CommentViewController.h"
+#import "CommentCell.h"
+#define kRowInset 5
+#define kHolder @"写下你想说的......"
+
+static NSString *commentCellIdentifier = @"commentCell";
 
 @interface CommentViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate> {
     UIView *tableViewHeadView;
@@ -15,7 +20,6 @@
 
 @end
 
-static NSString *commentCellIdentifier = @"comment";
 @implementation CommentViewController
 
 - (void)viewDidLoad {
@@ -25,15 +29,16 @@ static NSString *commentCellIdentifier = @"comment";
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
     self.navigationItem.leftBarButtonItem = setButton;
     
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:commentCellIdentifier];
+    [self.tableView registerClass:[CommentCell class] forCellReuseIdentifier:commentCellIdentifier];
     [self creatHeadView];
+    [self netWork];
 }
 - (void)buttonClicked{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)creatHeadView {
-    tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 130)];
+    tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 125)];
     commentTextView = [[UITextView alloc] initWithFrame:CGRectMake(20, 15, kScreenW - 40, 60)];
     commentTextView.backgroundColor=[UIColor whiteColor];
     commentTextView.scrollEnabled = NO;
@@ -44,31 +49,59 @@ static NSString *commentCellIdentifier = @"comment";
     commentTextView.layer.cornerRadius = 5.0f;
     commentTextView.clipsToBounds = YES;
     commentTextView.keyboardType = UIKeyboardTypeDefault;
-    
+    commentTextView.text = kHolder;
+    commentTextView.textColor = [UIColor grayColor];
     [tableViewHeadView addSubview:commentTextView];
     
+    UIButton *cancleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    cancleButton.frame = CGRectMake(20, CGRectGetMaxY(commentTextView.frame) + 10, (kScreenW - 40) / 4, 25);
+    cancleButton.layer.cornerRadius=5.0f;
+    cancleButton.layer.masksToBounds=YES;
+    cancleButton.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+    cancleButton.layer.borderWidth = 1.0f;
+    cancleButton.backgroundColor = [UIColor whiteColor];
+    
+    [cancleButton setTitle:@"取消" forState:UIControlStateNormal];
+    [cancleButton setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [cancleButton addTarget:self action:@selector(clickCanclebBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [tableViewHeadView addSubview:cancleButton];
+
     UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    doneButton.frame = CGRectMake(20, CGRectGetMaxY(commentTextView.frame) + 10, kScreenW - 40, 30);
+    doneButton.frame = CGRectMake(CGRectGetMaxX(commentTextView.frame) - (kScreenW - 40) / 4, CGRectGetMaxY(commentTextView.frame) + 10, (kScreenW - 40) / 4, 25);
     doneButton.layer.cornerRadius=5.0f;
     doneButton.layer.masksToBounds=YES;
     doneButton.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
     doneButton.layer.borderWidth = 1.0f;
     doneButton.backgroundColor = [UIColor whiteColor];
-    commentTextView.text = @"请写下你的评论......";
-    commentTextView.textColor = [UIColor grayColor];
-
-    [doneButton setTitle:@"提交" forState:UIControlStateNormal];
+    
+    [doneButton setTitle:@"确定" forState:UIControlStateNormal];
     [doneButton setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
-    [doneButton addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [doneButton addTarget:self action:@selector(clickDonebBtn:) forControlEvents:UIControlEventTouchUpInside];
     [tableViewHeadView addSubview:doneButton];
     self.tableView.tableHeaderView = tableViewHeadView;
 }
 
-- (void)clickbBtn:(UIButton *)button {
+- (void)clickDonebBtn:(UIButton *)button {
     DLog(@"提交评论");
     
     
 }
+- (void)clickCanclebBtn:(UIButton *)button {
+    DLog(@"取消评论");
+    commentTextView.text = @"";
+}
+- (void)netWork {
+    [HttpClient getCommentWithOid:self.oid andBlock:^(NSDictionary *responseDictionary) {
+        self.commentArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
+        [self.tableView reloadData];
+    }];
+//    [HttpClient getComment:^(NSDictionary *responseDictionary) {
+//        self.commentArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
+//        [self.tableView reloadData];
+//    }];
+}
+
+
 ////将要开始编辑
 //
 //- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
@@ -86,10 +119,10 @@ static NSString *commentCellIdentifier = @"comment";
 //开始编辑
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
-     if ([commentTextView.text isEqualToString:@"请写下你的评论......"]) {
-        commentTextView.text = @"";
-    }
-    
+     if ([commentTextView.text isEqualToString:kHolder]) {
+         commentTextView.text = @"";
+         commentTextView.textColor = [UIColor blackColor];
+     } 
     
 }
 
@@ -98,7 +131,7 @@ static NSString *commentCellIdentifier = @"comment";
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
     if (commentTextView.text.length == 0) {
-        commentTextView.text = @"请写下你的评论......";
+        commentTextView.text = kHolder;
         commentTextView.textColor = [UIColor grayColor];
     }
     DLog(@"编辑结束");
@@ -129,68 +162,48 @@ static NSString *commentCellIdentifier = @"comment";
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.commentArray.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:commentCellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+    CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:commentCellIdentifier forIndexPath:indexPath];
+    CommentModel *comment = self.commentArray[indexPath.row];
+    cell.comment = comment;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
     return cell;
 }
-
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return @"全部评论";
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+
+
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CommentModel *comment = self.commentArray[indexPath.row];
+    return [CommentCell heightOfCell:comment];
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+   
+    return 30;
 }
-*/
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.5;
 }
-*/
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+
 
 @end
