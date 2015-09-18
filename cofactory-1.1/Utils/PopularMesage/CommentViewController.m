@@ -10,6 +10,7 @@
 
 @interface CommentViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate> {
     UIView *tableViewHeadView;
+    UITextView *commentTextView;
 }
 
 @end
@@ -32,43 +33,97 @@ static NSString *commentCellIdentifier = @"comment";
 }
 
 - (void)creatHeadView {
-    tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 230)];
-    UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(20, 20, kScreenW - 40, 160)];
-    textView.backgroundColor=[UIColor whiteColor];
-    textView.scrollEnabled = NO;
-    textView.editable = YES;
-    textView.delegate = self;
-    textView.layer.borderColor = [UIColor grayColor].CGColor;
-    textView.layer.borderWidth = 0.5;
+    tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 130)];
+    commentTextView = [[UITextView alloc] initWithFrame:CGRectMake(20, 15, kScreenW - 40, 60)];
+    commentTextView.backgroundColor=[UIColor whiteColor];
+    commentTextView.scrollEnabled = NO;
+    commentTextView.editable = YES;
+    commentTextView.delegate = self;
+    commentTextView.layer.borderColor = [UIColor grayColor].CGColor;
+    commentTextView.layer.borderWidth = 0.5;
+    commentTextView.layer.cornerRadius = 5.0f;
+    commentTextView.clipsToBounds = YES;
+    commentTextView.keyboardType = UIKeyboardTypeDefault;
     
-    [tableViewHeadView addSubview:textView];
+    [tableViewHeadView addSubview:commentTextView];
     
     UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    doneButton.frame = CGRectMake(20, CGRectGetMaxY(textView.frame) + 10, kScreenW - 40, 30);
+    doneButton.frame = CGRectMake(20, CGRectGetMaxY(commentTextView.frame) + 10, kScreenW - 40, 30);
     doneButton.layer.cornerRadius=5.0f;
     doneButton.layer.masksToBounds=YES;
     doneButton.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
     doneButton.layer.borderWidth = 1.0f;
     doneButton.backgroundColor = [UIColor whiteColor];
-    
+    commentTextView.text = @"请写下你的评论......";
+    commentTextView.textColor = [UIColor grayColor];
 
     [doneButton setTitle:@"提交" forState:UIControlStateNormal];
     [doneButton setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
     [doneButton addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
     [tableViewHeadView addSubview:doneButton];
-    
-    
-    
-    
-    
-    
     self.tableView.tableHeaderView = tableViewHeadView;
 }
 
 - (void)clickbBtn:(UIButton *)button {
+    DLog(@"提交评论");
+    
+    
+}
+////将要开始编辑
+//
+//- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+//    return YES;
+//}
+//
+//
+////将要结束编辑
+//
+//- (BOOL)textViewShouldEndEditing:(UITextView *)textView {
+//    return NO;
+//}
+
+
+//开始编辑
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+     if ([commentTextView.text isEqualToString:@"请写下你的评论......"]) {
+        commentTextView.text = @"";
+    }
+    
     
 }
 
+
+//结束编辑
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    if (commentTextView.text.length == 0) {
+        commentTextView.text = @"请写下你的评论......";
+        commentTextView.textColor = [UIColor grayColor];
+    }
+    DLog(@"编辑结束");
+}
+
+//
+////内容将要发生改变编辑
+//
+//- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+//    return YES;
+//}
+//
+//
+////内容发生改变编辑
+//
+//- (void)textViewDidChange:(UITextView *)textView {
+//    DLog(@"内容发生改变编辑");
+//}
+//
+//
+////焦点发生改变
+//
+//- (void)textViewDidChangeSelection:(UITextView *)textView {
+//    DLog(@"焦点发生改变");
+//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -81,7 +136,7 @@ static NSString *commentCellIdentifier = @"comment";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return 10;
 }
 
 
