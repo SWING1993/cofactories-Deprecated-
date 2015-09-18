@@ -15,6 +15,11 @@
 #import "SearchFactoryOrderVC.h"
 #import "PopularMesageViewController.h"
 
+
+//面辅料 供应
+#import "SupplyViewController.h"
+
+
 #define kStatusBarHeight 20
 #define kNavigationBarHeight 44
 //#define kBannerHeight 150
@@ -362,6 +367,10 @@
         {
             //我想供应
             DLog(@"我想供应");
+            SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
+            supplyVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:supplyVC animated:YES];
+
 
         }
             break;

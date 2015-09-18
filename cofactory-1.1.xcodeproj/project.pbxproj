@@ -79,6 +79,8 @@
 		045A26C21B6893D5002DE415 /* THDateDay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045A26A71B6893D5002DE415 /* THDateDay.xib */; };
 		045A26C31B6893D5002DE415 /* THDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26A91B6893D5002DE415 /* THDatePickerViewController.m */; };
 		045A26C41B6893D5002DE415 /* THDatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045A26AA1B6893D5002DE415 /* THDatePickerViewController.xib */; };
+		045AE0971BABE8D3003EB1DF /* SupplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045AE0961BABE8D3003EB1DF /* SupplyViewController.m */; settings = {ASSET_TAGS = (); }; };
+		045AE09A1BABFB46003EB1DF /* AddmaterialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045AE0991BABFB46003EB1DF /* AddmaterialViewController.m */; settings = {ASSET_TAGS = (); }; };
 		04724E711B8870C000F820EF /* TYBasePageTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E681B8870C000F820EF /* TYBasePageTabBar.m */; };
 		04724E721B8870C000F820EF /* TYSlidePageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E6A1B8870C000F820EF /* TYSlidePageScrollView.m */; };
 		04724E731B8870C000F820EF /* TYSlidePageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E6C1B8870C000F820EF /* TYSlidePageScrollViewController.m */; };
@@ -429,6 +431,10 @@
 		045A26A81B6893D5002DE415 /* THDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THDatePickerViewController.h; sourceTree = "<group>"; };
 		045A26A91B6893D5002DE415 /* THDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THDatePickerViewController.m; sourceTree = "<group>"; };
 		045A26AA1B6893D5002DE415 /* THDatePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THDatePickerViewController.xib; sourceTree = "<group>"; };
+		045AE0951BABE8CC003EB1DF /* SupplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SupplyViewController.h; path = Utils/SupplyViewController.h; sourceTree = "<group>"; };
+		045AE0961BABE8D3003EB1DF /* SupplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SupplyViewController.m; path = Utils/SupplyViewController.m; sourceTree = "<group>"; };
+		045AE0981BABFB46003EB1DF /* AddmaterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddmaterialViewController.h; path = Utils/AddmaterialViewController.h; sourceTree = "<group>"; };
+		045AE0991BABFB46003EB1DF /* AddmaterialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddmaterialViewController.m; path = Utils/AddmaterialViewController.m; sourceTree = "<group>"; };
 		04724E671B8870C000F820EF /* TYBasePageTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYBasePageTabBar.h; sourceTree = "<group>"; };
 		04724E681B8870C000F820EF /* TYBasePageTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYBasePageTabBar.m; sourceTree = "<group>"; };
 		04724E691B8870C000F820EF /* TYSlidePageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYSlidePageScrollView.h; sourceTree = "<group>"; };
@@ -1370,6 +1376,18 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		04AF1CB51BAC131300E8A7DD /* 面辅料供应 */ = {
+			isa = PBXGroup;
+			children = (
+				045AE0951BABE8CC003EB1DF /* SupplyViewController.h */,
+				045AE0961BABE8D3003EB1DF /* SupplyViewController.m */,
+				045AE0981BABFB46003EB1DF /* AddmaterialViewController.h */,
+				045AE0991BABFB46003EB1DF /* AddmaterialViewController.m */,
+			);
+			name = "面辅料供应";
+			path = ..;
+			sourceTree = "<group>";
+		};
 		04B150291B9569CD004E0353 /* IQKeyBoardManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1758,6 +1776,7 @@
 				0455E1101B61D8D8009C5CDA /* ActivityViewController.m */,
 				64F2954D1BA2C9C00018ED90 /* SearchFactoryOrderVC.h */,
 				64F2954E1BA2C9C00018ED90 /* SearchFactoryOrderVC.m */,
+				04AF1CB51BAC131300E8A7DD /* 面辅料供应 */,
 				642FCE6B1BA7D66500CB2856 /* PopularMesage */,
 				04539BB41BA2E4EB00D49C8F /* AddProcessingFactoryOrderVC */,
 				04822E171B62722500A370F6 /* SearchOrder */,
@@ -2270,6 +2289,7 @@
 				04DFCAAD1B63D53A00356F4B /* PushHelperModel.m in Sources */,
 				0479EAE61B5A5714007FE48E /* UploadImageViewController.m in Sources */,
 				BD8AD8091B511ACA00373E5E /* MessageDetailViewController.m in Sources */,
+				045AE0971BABE8D3003EB1DF /* SupplyViewController.m in Sources */,
 				04B1504F1B9569CD004E0353 /* IQUITextFieldView+Additions.m in Sources */,
 				BDC908D41B4E9B3700856A32 /* AFHTTPRequestOperation.m in Sources */,
 				04B150571B9569CD004E0353 /* IQBarButtonItem.m in Sources */,
@@ -2353,6 +2373,7 @@
 				BD8AD7FF1B50FDBB00373E5E /* HomeFooterCell.m in Sources */,
 				04AEF4F91BA9332C002DA22E /* UMRadialView.m in Sources */,
 				04F60C621B58C07100CD3DEC /* ModifyJobViewController.m in Sources */,
+				045AE09A1BABFB46003EB1DF /* AddmaterialViewController.m in Sources */,
 				0448E1581B75E763002B78B8 /* UIImage+Common.m in Sources */,
 				049582E31B6B490F00A69E6D /* JKAssetsCollectionFooterView.m in Sources */,
 				0451D66C1B57AB4A007CCD59 /* AboutViewController.m in Sources */,

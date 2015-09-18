@@ -164,6 +164,7 @@
             UINavigationController *commentNaVC = [[UINavigationController alloc] initWithRootViewController:commentVC];
             commentNaVC.navigationBar.barStyle = UIBarStyleBlack;
             commentVC.oid = self.oid;
+
             [self presentViewController:commentNaVC animated:YES completion:nil];
             DLog(@"评论");
 
