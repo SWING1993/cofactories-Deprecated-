@@ -16,7 +16,6 @@
 #import "PopularMesageViewController.h"
 #import "PurchaseVC.h"
 
-
 //面辅料 供应
 #import "SupplyViewController.h"
 
@@ -28,13 +27,12 @@
 #define kBannerHeight kScreenW*0.535
 #define kMargin [[UIScreen mainScreen] bounds].size.width / 375
 
-
 #define kRowInset 5
 
-#define ActivityCellIdentifier @"ActivityCell"
-#define FactoryCellIdentifier @"FactoryCell"
-#define OrderCellIdentifier @"OrderCell"
-#define LastCellIdentifier @"LastCell"
+static NSString *ActivityCellIdentifier = @"ActivityCell";
+static NSString *FactoryCellIdentifier = @"FactoryCell";
+static NSString *OrderCellIdentifier = @"OrderCell";
+static NSString *LastCellIdentifier = @"LastCell";
 @interface HomeViewController () <UIAlertViewDelegate>
 
 //记录工厂类型

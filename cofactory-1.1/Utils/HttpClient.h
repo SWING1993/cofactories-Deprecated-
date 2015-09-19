@@ -409,4 +409,11 @@
  */
 + (void)pushLikeWithID:(NSString *)ID andBlock:(void (^)(int))block;
 
+/** 提交面辅料信息
+ *@param
+ */
+
+
++ (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(int)price width:(int)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block;
+
 @end

@@ -54,6 +54,9 @@
 #define API_uploadOrder @"upload/order"
 #define API_registBid @"/order/bid/"
 
+#define API_addMaterial @"/material"
+
+
 
 @implementation HttpClient
 
@@ -660,7 +663,46 @@
         block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
     }
 }
++ (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(int)price width:(int)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block {
+    NSDictionary *parameters = nil;
+    if ([type isEqualToString:@"面料"]) {
+        parameters = @{@"type":type, @"name":name, @"usage":usage, @"price":@(price), @"width":@(width), @"description":description};
+    } else {
+        parameters = @{@"type":type, @"name":name, @"price":@(price), @"description":description};
+    }
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        
+        // 设置超时时间
+        [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+        manager.requestSerializer.timeoutInterval = 8.f;
+        [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+        
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        [manager POST:API_addMaterial parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block(@{@"statusCode": @([operation.response statusCode]), @"data": [responseObject objectForKey:@"data"]});
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            switch ([operation.response statusCode]) {
+                case 400:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"未登录"});
+                    break;
+                case 401:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"access_token过期或者无效"});
+                    break;
+                    
+                default:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"网络错误"});
+                    break;
+            }
+        }];
+    } else {
+        block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
+    }
 
+}
 + (void)addOrderWithAmount:(int)amount factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange workingTime:(NSString *)workingTime comment:(NSString *)comment andBlock:(void (^)(NSDictionary *responseDictionary))block {
 //    NSParameterAssert(amount);
 //    NSParameterAssert(factoryType);
