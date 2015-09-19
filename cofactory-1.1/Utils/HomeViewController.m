@@ -14,6 +14,7 @@
 #import "LastmachineCell.h"
 #import "SearchFactoryOrderVC.h"
 #import "PopularMesageViewController.h"
+#import "PurchaseVC.h"
 
 
 //面辅料 供应
@@ -377,8 +378,14 @@
         case 1008:
         {
             //我想采购
-            DLog(@"我想采购");
-            
+            PurchaseVC *VC =[PurchaseVC new];
+            VC.hidesBottomBarWhenPushed = YES;
+            UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+            backItem.title=@"返回";
+            backItem.tintColor=[UIColor whiteColor];
+            self.navigationItem.backBarButtonItem = backItem;
+            self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+            [self.navigationController pushViewController:VC animated:YES];
         }
             break;
         case 1009:

@@ -207,6 +207,9 @@
 		649CCE3E1B9D622000710B2A /* BidManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649CCE3D1B9D622000710B2A /* BidManagerViewController.m */; };
 		649CCE411B9D64D500710B2A /* BidManagerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 649CCE401B9D64D500710B2A /* BidManagerModel.m */; };
 		649CCE441B9D6AEF00710B2A /* BidManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 649CCE431B9D6AEF00710B2A /* BidManagerTableViewCell.m */; };
+		649DD8AD1BAC24CB0027A22B /* PurchaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 649DD8A81BAC24CB0027A22B /* PurchaseVC.m */; settings = {ASSET_TAGS = (); }; };
+		649DD8AE1BAC24CB0027A22B /* PurchaseFabricOrAccessoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 649DD8AA1BAC24CB0027A22B /* PurchaseFabricOrAccessoryVC.m */; settings = {ASSET_TAGS = (); }; };
+		649DD8AF1BAC24CB0027A22B /* SearchMaterialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649DD8AC1BAC24CB0027A22B /* SearchMaterialViewController.m */; settings = {ASSET_TAGS = (); }; };
 		64EDB08B1B9C09F800D2A655 /* CompeteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EDB08A1B9C09F800D2A655 /* CompeteViewController.m */; };
 		64F2954F1BA2C9C00018ED90 /* SearchFactoryOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F2954E1BA2C9C00018ED90 /* SearchFactoryOrderVC.m */; };
 		64F295561BA2CCC80018ED90 /* DOPDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F295521BA2CCC80018ED90 /* DOPDropDownMenu.m */; };
@@ -666,6 +669,12 @@
 		649CCE401B9D64D500710B2A /* BidManagerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidManagerModel.m; sourceTree = "<group>"; };
 		649CCE421B9D6AEF00710B2A /* BidManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidManagerTableViewCell.h; sourceTree = "<group>"; };
 		649CCE431B9D6AEF00710B2A /* BidManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidManagerTableViewCell.m; sourceTree = "<group>"; };
+		649DD8A71BAC24CB0027A22B /* PurchaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseVC.h; sourceTree = "<group>"; };
+		649DD8A81BAC24CB0027A22B /* PurchaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseVC.m; sourceTree = "<group>"; };
+		649DD8A91BAC24CB0027A22B /* PurchaseFabricOrAccessoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseFabricOrAccessoryVC.h; sourceTree = "<group>"; };
+		649DD8AA1BAC24CB0027A22B /* PurchaseFabricOrAccessoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseFabricOrAccessoryVC.m; sourceTree = "<group>"; };
+		649DD8AB1BAC24CB0027A22B /* SearchMaterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchMaterialViewController.h; sourceTree = "<group>"; };
+		649DD8AC1BAC24CB0027A22B /* SearchMaterialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchMaterialViewController.m; sourceTree = "<group>"; };
 		64EDB0891B9C09F800D2A655 /* CompeteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompeteViewController.h; sourceTree = "<group>"; };
 		64EDB08A1B9C09F800D2A655 /* CompeteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompeteViewController.m; sourceTree = "<group>"; };
 		64F2954D1BA2C9C00018ED90 /* SearchFactoryOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchFactoryOrderVC.h; sourceTree = "<group>"; };
@@ -1661,6 +1670,19 @@
 			path = PopularMesage;
 			sourceTree = "<group>";
 		};
+		649DD8A61BAC24390027A22B /* PurchaseMaterial */ = {
+			isa = PBXGroup;
+			children = (
+				649DD8A71BAC24CB0027A22B /* PurchaseVC.h */,
+				649DD8A81BAC24CB0027A22B /* PurchaseVC.m */,
+				649DD8A91BAC24CB0027A22B /* PurchaseFabricOrAccessoryVC.h */,
+				649DD8AA1BAC24CB0027A22B /* PurchaseFabricOrAccessoryVC.m */,
+				649DD8AB1BAC24CB0027A22B /* SearchMaterialViewController.h */,
+				649DD8AC1BAC24CB0027A22B /* SearchMaterialViewController.m */,
+			);
+			path = PurchaseMaterial;
+			sourceTree = "<group>";
+		};
 		64F295501BA2CCC80018ED90 /* DOPDropDownMenu - Enhanced */ = {
 			isa = PBXGroup;
 			children = (
@@ -1781,6 +1803,7 @@
 				0455E1101B61D8D8009C5CDA /* ActivityViewController.m */,
 				64F2954D1BA2C9C00018ED90 /* SearchFactoryOrderVC.h */,
 				64F2954E1BA2C9C00018ED90 /* SearchFactoryOrderVC.m */,
+				649DD8A61BAC24390027A22B /* PurchaseMaterial */,
 				04AF1CB51BAC131300E8A7DD /* 面辅料供应 */,
 				642FCE6B1BA7D66500CB2856 /* PopularMesage */,
 				04539BB41BA2E4EB00D49C8F /* AddProcessingFactoryOrderVC */,
@@ -2274,6 +2297,7 @@
 				649CCE411B9D64D500710B2A /* BidManagerModel.m in Sources */,
 				04D7D02F1B5A4B430054861E /* DescriptionViewController.m in Sources */,
 				049582EC1B6B490F00A69E6D /* JKUtil.m in Sources */,
+				649DD8AD1BAC24CB0027A22B /* PurchaseVC.m in Sources */,
 				047333091B60D2B700F684A2 /* OrderListTableViewCell.m in Sources */,
 				04724E721B8870C000F820EF /* TYSlidePageScrollView.m in Sources */,
 				049582EA1B6B490F00A69E6D /* JKPhotoBrowserCell.m in Sources */,
@@ -2321,6 +2345,7 @@
 				64F2954F1BA2C9C00018ED90 /* SearchFactoryOrderVC.m in Sources */,
 				04724E741B8870C000F820EF /* TYTitlePageTabBar.m in Sources */,
 				0457E3F51B8EE57100F38881 /* MJPhotoToolbar.m in Sources */,
+				649DD8AE1BAC24CB0027A22B /* PurchaseFabricOrAccessoryVC.m in Sources */,
 				0457E3F41B8EE57100F38881 /* MJPhotoProgressView.m in Sources */,
 				0455E11D1B61E4F8009C5CDA /* FactoryAndOrderMessVC.m in Sources */,
 				BDC908D71B4E9B3700856A32 /* AFNetworkReachabilityManager.m in Sources */,
@@ -2340,6 +2365,7 @@
 				049582E51B6B490F00A69E6D /* JKAssetsGroupsView.m in Sources */,
 				04AEF4FD1BA96A17002DA22E /* PopularMessageInfoVC.m in Sources */,
 				BD8AD7F01B50E62600373E5E /* UIImage+GIF.m in Sources */,
+				649DD8AF1BAC24CB0027A22B /* SearchMaterialViewController.m in Sources */,
 				0479EAE91B5A8F61007FE48E /* CooperationInfoViewController.m in Sources */,
 				BD4311D51B4F5CD00097E4BC /* RegisterViewController.m in Sources */,
 				04B150561B9569CD004E0353 /* IQTextView.m in Sources */,

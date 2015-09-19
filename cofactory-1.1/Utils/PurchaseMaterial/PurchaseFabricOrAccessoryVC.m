@@ -1,0 +1,340 @@
+//
+//  PurchaseFabricOrAccessoryVC.m
+//  cofactory-1.1
+//
+//  Created by gt on 15/9/18.
+//  Copyright © 2015年 聚工科技. All rights reserved.
+//
+
+#import "PurchaseFabricOrAccessoryVC.h"
+#import "JKPhotoBrowser.h"
+#import "JKImagePickerController.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+
+@interface PurchaseFabricOrAccessoryVC ()<JKImagePickerControllerDelegate,UIAlertViewDelegate>{
+    UITextField    *_nameTF;
+    UITextField    *_commentTF;
+    UITextField    *_amountTF;
+    NSMutableArray *_viewFramArray;
+    NSMutableArray *_buttonFramArray;
+    NSInteger       _selectedIndex;
+    NSArray        *_buttonTitleArray;
+    UIScrollView   *_scrollView;
+    NSMutableArray *_imageViewArray;
+
+}
+@property (strong,nonatomic) UIImageView *selectedImage;
+@property (nonatomic, strong) JKAssets  *asset;
+
+@end
+
+@implementation PurchaseFabricOrAccessoryVC
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
+    
+    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"发布采购" style:UIBarButtonItemStyleBordered target:self action:@selector(publishButton)];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+    
+    if (self.materiaType == 1) {
+        self.navigationItem.title = @"找面料";
+    }if (self.materiaType == 2) {
+        self.navigationItem.title = @"找辅料";
+    }
+    _viewFramArray = [@[] mutableCopy];
+    _buttonFramArray = [@[] mutableCopy];
+    _imageViewArray = [@[] mutableCopy];
+    _selectedIndex = -1;
+    [self creatUI];
+    [self singleSelect];
+    [self creatAddButton];
+}
+
+- (void)creatUI{
+    
+    NSArray *labelTitleArray = @[@"产品名称",@"规格备注",@"采购数量"];
+    NSArray *placeholderArray = @[@"请填写产品名称",@"请填写规格备注",@"请填写采购数量"];
+    for (int i=0; i<3; i++) {
+        
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 10+i*50, kScreenW, 40)];
+        view.backgroundColor = [UIColor whiteColor];
+        [self.view addSubview:view];
+        
+        if (i == 2) {
+            NSValue *value = [NSValue valueWithCGRect:view.frame];
+            [_viewFramArray addObject:value];
+        }
+        
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, 75, 30)];
+        label.font = [UIFont systemFontOfSize:14.0f];
+        label.text = [NSString stringWithFormat:@"%@ :",labelTitleArray[i]];
+        [view addSubview:label];
+        
+        UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(77, 5, view.bounds.size.width-90, 30)];
+        textField.placeholder = placeholderArray[i];
+        textField.font = [UIFont systemFontOfSize:14.0f];
+        [view addSubview:textField];
+        
+        switch (i) {
+            case 0:
+                _nameTF = textField ;
+                break;
+            case 1:
+                _commentTF = textField ;
+                break;
+            case 2:
+                _amountTF = textField ;
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+
+- (void)singleSelect{
+    
+    NSValue *value = _viewFramArray[0];
+    CGRect rect = value.CGRectValue;
+    _buttonTitleArray = @[@"码",@"米",@"千克"];
+    for (int i=0; i<3; i++) {
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame = CGRectMake(80+i*((kScreenW-160-120)/2.0+40), rect.origin.y+40+30, 40, 40);
+        button.layer.masksToBounds = YES;
+        button.layer.cornerRadius = 20;
+        button.backgroundColor = [UIColor colorWithRed:109/255.0 green:109/255.0 blue:109/255.0 alpha:0.8];
+        [button setTitle:_buttonTitleArray[i] forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+        button.tag = i+1;
+        [button addTarget:self action:@selector(selectClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:button];
+        
+        if (i == 0) {
+            NSValue *value = [NSValue valueWithCGRect:button.frame];
+            [_buttonFramArray addObject:value];
+        }
+    }
+}
+
+- (void)creatAddButton{
+    NSValue *value = _buttonFramArray[0];
+    CGRect rect = value.CGRectValue;
+    
+    UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    addButton.frame = CGRectMake(20, rect.origin.y+40+30, 70, 70);
+    [addButton setBackgroundImage:[UIImage imageNamed:@"addImageButton.png"] forState:UIControlStateNormal];
+    addButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    [addButton addTarget:self action:@selector(addImageClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:addButton];
+}
+
+- (void)creatScrollView{
+    
+    if (_scrollView) {
+        [_scrollView removeFromSuperview];
+    }
+    NSValue *value = _buttonFramArray[0];
+    CGRect rect = value.CGRectValue;
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(20+70+10, rect.origin.y+40+30, kScreenW-40-70-10, 70)];
+    _scrollView.pagingEnabled = YES;
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:_scrollView];
+    
+    _scrollView.contentSize = CGSizeMake(80 * _imageViewArray.count, 70);
+    for (int i = 0; i < _imageViewArray.count; ++i) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setBackgroundImage:_imageViewArray[i] forState:UIControlStateNormal];
+        [button setFrame:CGRectMake(i * 80, 0, 70, 70)];
+        [button addTarget:self action:@selector(MJPhotoBrowserClick:) forControlEvents:UIControlEventTouchUpInside];
+        button.tag = i;
+        [_scrollView addSubview:button];
+        
+        UIButton*deleteBtn = [[UIButton alloc]init];
+        deleteBtn.frame = CGRectMake(button.frame.size.width-25, 0, 25, 25);
+        [deleteBtn setBackgroundImage:[UIImage imageNamed:@"删除图片"] forState:UIControlStateNormal];
+        deleteBtn.tag = i;
+        [deleteBtn addTarget:self action:@selector(deleteImageView:) forControlEvents:UIControlEventTouchUpInside];
+        [button addSubview:deleteBtn];
+    }
+
+}
+
+- (void)selectClick:(id)sender{
+    
+    UIButton *button = (UIButton *)sender;
+    
+    if (_selectedIndex != -1) {
+        
+        UIButton *lastButton = (UIButton *)[self.view viewWithTag:_selectedIndex];
+        lastButton.backgroundColor = [UIColor colorWithRed:109/255.0 green:109/255.0 blue:109/255.0 alpha:0.8];
+    }
+    
+    if (!self.selectedImage) {
+        self.selectedImage = [[UIImageView alloc]initWithFrame:CGRectMake(button.frame.origin.x + 13, button.frame.origin.y + 26, 13, 10)];
+        self.selectedImage.image = [UIImage imageNamed:@"勾.png"];
+        [self.view addSubview:self.selectedImage];
+    }
+    
+    button.backgroundColor = [UIColor colorWithRed:55/255.0 green:102/255.0 blue:211/255.0 alpha:1.0];
+    self.selectedImage.frame = CGRectMake(button.frame.origin.x + 13, button.frame.origin.y + 26, 13, 10);
+    _selectedIndex = button.tag;
+    
+}
+
+- (void)addImageClick{
+    
+    if ([_imageViewArray count]== 9) {
+        [Tools showHudTipStr:@"图片最多上传9张"];
+    }else {
+        JKImagePickerController *imagePickerController = [[JKImagePickerController alloc] init];
+        imagePickerController.delegate = self;
+        imagePickerController.showsCancelButton = YES;
+        imagePickerController.allowsMultipleSelection = YES;
+        imagePickerController.minimumNumberOfSelection = 0;
+        imagePickerController.maximumNumberOfSelection = 9-[_imageViewArray count];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
+        [self presentViewController:navigationController animated:YES completion:nil];
+    }
+
+}
+
+#pragma mark - JKImagePickerControllerDelegate
+- (void)imagePickerController:(JKImagePickerController *)imagePicker didSelectAsset:(JKAssets *)asset isSource:(BOOL)source
+{
+    [imagePicker dismissViewControllerAnimated:YES completion:^{
+        
+        DLog(@"1");
+    }];
+}
+
+//下一步
+- (void)imagePickerController:(JKImagePickerController *)imagePicker didSelectAssets:(NSArray *)assets isSource:(BOOL)source
+{
+    [imagePicker dismissViewControllerAnimated:YES completion:^{
+        DLog(@"2");
+        
+        [assets enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            self.asset=assets[idx];
+            ALAssetsLibrary   *lib = [[ALAssetsLibrary alloc] init];
+            [lib assetForURL:_asset.assetPropertyURL resultBlock:^(ALAsset *asset) {
+                if (asset) {
+                    UIImage*image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]];
+                    [_imageViewArray addObject:image];
+                    if (idx == [assets count] - 1) {
+                        
+                        DLog(@"_imageViewArrayCount==%zi",_imageViewArray.count);
+                        [self creatScrollView];
+                    }
+                }
+            } failureBlock:^(NSError *error) {
+                
+            }];
+            
+        }];
+    }];
+}
+
+//取消
+- (void)imagePickerControllerDidCancel:(JKImagePickerController *)imagePicker
+{
+    [imagePicker dismissViewControllerAnimated:YES completion:^{
+        DLog(@"取消");
+    }];
+}
+
+- (void)MJPhotoBrowserClick:(id)sender{
+    
+    UIButton *button = (UIButton *)sender;
+    NSMutableArray *photos = [NSMutableArray arrayWithCapacity:[_imageViewArray count]];
+    [_imageViewArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        
+        MJPhoto *photo = [[MJPhoto alloc] init];
+        photo.image = _imageViewArray[idx]; // 图片
+        [photos addObject:photo];
+    }];
+    
+    MJPhotoBrowser *browser = [[MJPhotoBrowser alloc] init];
+    browser.currentPhotoIndex = button.tag;
+    browser.photos = photos;
+    [browser show];
+
+}
+
+
+- (void)goBackClick{
+    
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确定返回?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alert show];
+}
+
+- (void)publishButton{
+    
+    if (_nameTF.text.length == 0 || _commentTF.text.length == 0 || _amountTF.text.length == 0) {
+        
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"请完善采购信息" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
+    }else{
+        
+        if (_selectedIndex == -1) {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"请勾选采购单位" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alert show];
+        }else{
+            
+            if (_imageViewArray.count == 0) {
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确定不上传图片?" message:nil delegate:self cancelButtonTitle:@"我要上传" otherButtonTitles:@"直接发布", nil];
+                alert.tag = 100;
+                [alert show];
+            }else{
+                DLog(@"123");
+            }
+        }
+    }
+}
+
+- (void)deleteImageView:(id)sender{
+    
+    UIButton *button = (UIButton *)sender;
+    [_imageViewArray removeObjectAtIndex:button.tag];
+    [self creatScrollView];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if (alertView.tag == 100) {
+        if (buttonIndex == 1) {
+            DLog(@"123");
+        }
+    }
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
+    [self.view endEditing:YES];
+}
+
+
+
+
+
+
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
+
+@end
