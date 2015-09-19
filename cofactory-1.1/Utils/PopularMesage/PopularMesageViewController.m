@@ -10,7 +10,7 @@
 #import "PopularMesageTableViewCell.h"
 #import "PMSectionOneTableViewCell.h"
 #import "PageView.h"
-
+#import "PMSearchViewController.h"
 //资讯详情页
 #import "PopularMessageInfoVC.h"
 
@@ -50,11 +50,10 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 }
 
 - (void)netWork {
-    [HttpClient getInfomation:^(NSDictionary *responseDictionary) {
+    [HttpClient getInfomationWithKind:@"cat=man" andBlock:^(NSDictionary *responseDictionary) {
         self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
         [_tableView reloadData];
     }];
-    
 }
 
 - (void)creatSearchBar{
@@ -179,6 +178,12 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 #pragma mark - others
 - (void)buttonClick:(id)sender{
     UIButton *button = (UIButton *)sender;
+    NSArray *kindArray = @[@"cat=man", @"cat=woman", @"cat=child"];
+    [HttpClient getInfomationWithKind:kindArray[button.tag] andBlock:^(NSDictionary *responseDictionary) {
+        self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
+        [_tableView reloadData];
+    }];
+
     DLog(@"%zi",button.tag);
 }
 
@@ -188,8 +193,21 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
-    DLog(@"333%@",searchBar.text);
+     [HttpClient getInfomationWithKind:[NSString stringWithFormat:@"s=%@", searchBar.text] andBlock:^(NSDictionary *responseDictionary) {
+         self.searchArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
+         if (self.searchArray.count == 0) {
+             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"搜索结果为空" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+             [alertView show];
+             
+         } else {
+             PMSearchViewController *PMSearchVC = [[PMSearchViewController alloc] init];
+             PMSearchVC.searchArray = [NSMutableArray arrayWithArray:self.searchArray];
+             [self.navigationController pushViewController:PMSearchVC animated:YES];
+         }
+     }];
 }
+
+
 
 
 

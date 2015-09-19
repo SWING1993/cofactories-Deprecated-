@@ -13,7 +13,7 @@
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *comment;
 @property (nonatomic, strong) NSString *interest;
-@property (nonatomic, assign) NSInteger oid;
+@property (nonatomic, assign) int oid;
 @property (nonatomic, strong) NSString *urlString;
 
 
