@@ -101,14 +101,14 @@
     return string;
 }
 
-+ (BOOL)isTourist {
-    
-    if ([HttpClient getToken]) {
-        return NO;
-    }else{
-        return YES;
-    }
-}
+//+ (BOOL)isTourist {
+//    
+//    if ([HttpClient getToken]) {
+//        return NO;
+//    }else{
+//        return YES;
+//    }
+//}
 
 //判断几天后
 + (NSString *)compareIfTodayAfterDates:(NSDate *)comps

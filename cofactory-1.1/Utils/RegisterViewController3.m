@@ -46,11 +46,6 @@
     UIButton*registerBtn=[[UIButton alloc]init];
     registerBtn.frame = CGRectMake(10, 9, kScreenW-20, 35);
 
-//    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"] || [[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"加工厂"]) {
-//        registerBtn.frame = CGRectMake(10, 130+44*9, kScreenW-20, 35);
-//    }else{
-//        registerBtn.frame = CGRectMake(10, 130+44*8, kScreenW-20, 35);
-//    }
     registerBtn.layer.cornerRadius=5.0f;
     registerBtn.layer.masksToBounds=YES;
     registerBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
@@ -87,7 +82,12 @@
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"] || [[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"加工厂"]) {
         return 9;
 
-    }else{
+    }
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"面辅料商"]) {
+        return 7;
+    }
+
+    else{
         return 8;
     }
 }
@@ -190,19 +190,6 @@
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-
-    //工厂身份
-    int factoryType = 0;
-    if ([[userDefaults objectForKey:@"type"]isEqualToString:@"服装厂"]) {
-        factoryType=0;
-    }if ([[userDefaults objectForKey:@"type"]isEqualToString:@"加工厂"]) {
-        factoryType=1;
-    }if ([[userDefaults objectForKey:@"type"]isEqualToString:@"代裁厂"]) {
-        factoryType=2;
-    }if ([[userDefaults objectForKey:@"type"]isEqualToString:@"锁眼钉扣厂"]) {
-        factoryType=3;
-    }
-    
     //手机号
     NSString*phone = [userDefaults objectForKey:@"phone"];
 
@@ -224,26 +211,123 @@
     //工厂名称
     NSString*factoryName=[userDefaults objectForKey:@"factoryName"];
 
+
+    //工厂身份
+    int factoryType ;
+
     //工厂规模
-    NSString*factorySize = [userDefaults objectForKey:@"factorySize"];
+    NSString*factorySize = nil;
 
     //业务类型
-    NSString*factoryServiceRange=[userDefaults objectForKey:@"factoryServiceRange"];
+    NSString*factoryServiceRange = nil;
+
+    if ([[userDefaults objectForKey:@"type"]isEqualToString:@"服装厂"]) {
 
 
-    [HttpClient registerWithUsername:phone  InviteCode:inviteCode password:password factoryType:factoryType verifyCode:verifyCode factoryName:factoryName lon:lon lat:lat factorySizeMin:[[Tools RangeSizeWith:factorySize] firstObject] factorySizeMax:[[Tools RangeSizeWith:factorySize] lastObject] factoryAddress:factoryAddress factoryServiceRange:factoryServiceRange andBlock:^(NSDictionary *responseDictionary) {
-        int statusCode =[responseDictionary[@"statusCode"]intValue];
-        if (statusCode == 200) {
-            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"注册成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            alertView.tag = 10086;
-            [alertView show];
-        }else{
-            DLog(@"注册反馈%@",responseDictionary);
-            NSString*message=responseDictionary[@"message"];
-            UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alertView show];
-        }
-    }];
+        factoryType=0;
+        factorySize = [userDefaults objectForKey:@"factorySize"];
+        factoryServiceRange=[userDefaults objectForKey:@"factoryServiceRange"];
+
+        [HttpClient registerWithUsername:phone  InviteCode:inviteCode password:password factoryType:factoryType verifyCode:verifyCode factoryName:factoryName lon:lon lat:lat factorySizeMin:[[Tools RangeSizeWith:factorySize] firstObject] factorySizeMax:[[Tools RangeSizeWith:factorySize] lastObject] factoryAddress:factoryAddress factoryServiceRange:factoryServiceRange andBlock:^(NSDictionary *responseDictionary) {
+            int statusCode =[responseDictionary[@"statusCode"]intValue];
+            if (statusCode == 200) {
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"注册成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                alertView.tag = 10086;
+                [alertView show];
+            }else{
+                DLog(@"注册反馈%@",responseDictionary);
+                NSString*message=responseDictionary[@"message"];
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+        }];
+
+
+
+    }if ([[userDefaults objectForKey:@"type"]isEqualToString:@"加工厂"]) {
+
+        factoryType=1;
+        factorySize = [userDefaults objectForKey:@"factorySize"];
+        factoryServiceRange=[userDefaults objectForKey:@"factoryServiceRange"];
+
+        [HttpClient registerWithUsername:phone  InviteCode:inviteCode password:password factoryType:factoryType verifyCode:verifyCode factoryName:factoryName lon:lon lat:lat factorySizeMin:[[Tools RangeSizeWith:factorySize] firstObject] factorySizeMax:[[Tools RangeSizeWith:factorySize] lastObject] factoryAddress:factoryAddress factoryServiceRange:factoryServiceRange andBlock:^(NSDictionary *responseDictionary) {
+            int statusCode =[responseDictionary[@"statusCode"]intValue];
+            if (statusCode == 200) {
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"注册成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                alertView.tag = 10086;
+                [alertView show];
+            }else{
+                DLog(@"注册反馈%@",responseDictionary);
+                NSString*message=responseDictionary[@"message"];
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+        }];
+
+
+    }if ([[userDefaults objectForKey:@"type"]isEqualToString:@"代裁厂"]) {
+
+        factoryType=2;
+        factorySize = [userDefaults objectForKey:@"factorySize"];
+
+        [HttpClient registerWithUsername:phone  InviteCode:inviteCode password:password factoryType:factoryType verifyCode:verifyCode factoryName:factoryName lon:lon lat:lat factorySizeMin:[[Tools RangeSizeWith:factorySize] firstObject] factorySizeMax:[[Tools RangeSizeWith:factorySize] lastObject] factoryAddress:factoryAddress factoryServiceRange:nil andBlock:^(NSDictionary *responseDictionary) {
+            int statusCode =[responseDictionary[@"statusCode"]intValue];
+            if (statusCode == 200) {
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"注册成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                alertView.tag = 10086;
+                [alertView show];
+            }else{
+                DLog(@"注册反馈%@",responseDictionary);
+                NSString*message=responseDictionary[@"message"];
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+        }];
+
+
+    }if ([[userDefaults objectForKey:@"type"]isEqualToString:@"锁眼钉扣厂"]) {
+
+        factoryType=3;
+        factorySize = [userDefaults objectForKey:@"factorySize"];
+
+        [HttpClient registerWithUsername:phone  InviteCode:inviteCode password:password factoryType:factoryType verifyCode:verifyCode factoryName:factoryName lon:lon lat:lat factorySizeMin:[[Tools RangeSizeWith:factorySize] firstObject] factorySizeMax:[[Tools RangeSizeWith:factorySize] lastObject] factoryAddress:factoryAddress factoryServiceRange:nil andBlock:^(NSDictionary *responseDictionary) {
+            int statusCode =[responseDictionary[@"statusCode"]intValue];
+            if (statusCode == 200) {
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"注册成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                alertView.tag = 10086;
+                [alertView show];
+            }else{
+                DLog(@"注册反馈%@",responseDictionary);
+                NSString*message=responseDictionary[@"message"];
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+        }];
+
+
+    }
+    if ([[userDefaults objectForKey:@"type"]isEqualToString:@"面辅料商"]) {
+        factoryType=5;
+
+        [HttpClient registerWithUsername:phone  InviteCode:inviteCode password:password factoryType:factoryType verifyCode:verifyCode factoryName:factoryName lon:lon lat:lat factorySizeMin:nil factorySizeMax:nil factoryAddress:factoryAddress factoryServiceRange:nil andBlock:^(NSDictionary *responseDictionary) {
+            int statusCode =[responseDictionary[@"statusCode"]intValue];
+            if (statusCode == 200) {
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:@"注册成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                alertView.tag = 10086;
+                [alertView show];
+            }else{
+                DLog(@"注册反馈%@",responseDictionary);
+                NSString*message=responseDictionary[@"message"];
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
+        }];
+
+    }
+
+    else {
+        [Tools showHudTipStr:@"未知身份，无法注册！"];
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

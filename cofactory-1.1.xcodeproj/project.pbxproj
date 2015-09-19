@@ -109,7 +109,6 @@
 		04822E1F1B62724200A370F6 /* searchOrderListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 04822E1C1B62724200A370F6 /* searchOrderListTVC.m */; };
 		04822E201B62724200A370F6 /* searchOrderListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 04822E1D1B62724200A370F6 /* searchOrderListVC.m */; };
 		04822E331B62B54C00A370F6 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04822E321B62B54C00A370F6 /* PhotoViewController.m */; };
-		04822E361B62E5C200A370F6 /* TouristViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04822E351B62E5C200A370F6 /* TouristViewController.m */; };
 		04822E401B62E7A600A370F6 /* MF_Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 04822E391B62E7A600A370F6 /* MF_Base64Additions.m */; };
 		04822E411B62E7A600A370F6 /* NSData+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 04822E3C1B62E7A600A370F6 /* NSData+Utils.m */; };
 		04822E421B62E7A600A370F6 /* NSData+MD5Digest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04822E3F1B62E7A600A370F6 /* NSData+MD5Digest.m */; };
@@ -494,8 +493,6 @@
 		04822E1D1B62724200A370F6 /* searchOrderListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchOrderListVC.m; sourceTree = "<group>"; };
 		04822E311B62B54C00A370F6 /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
 		04822E321B62B54C00A370F6 /* PhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
-		04822E341B62E5C200A370F6 /* TouristViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouristViewController.h; sourceTree = "<group>"; };
-		04822E351B62E5C200A370F6 /* TouristViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouristViewController.m; sourceTree = "<group>"; };
 		04822E381B62E7A600A370F6 /* MF_Base64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MF_Base64Additions.h; sourceTree = "<group>"; };
 		04822E391B62E7A600A370F6 /* MF_Base64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MF_Base64Additions.m; sourceTree = "<group>"; };
 		04822E3B1B62E7A600A370F6 /* NSData+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Utils.h"; sourceTree = "<group>"; };
@@ -2095,8 +2092,6 @@
 		BDC909011B4E9BBD00856A32 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				04822E341B62E5C200A370F6 /* TouristViewController.h */,
-				04822E351B62E5C200A370F6 /* TouristViewController.m */,
 				04D462E51B5CD1EC00B9B4D8 /* ResetPassword */,
 				BDC909021B4EB77000856A32 /* LoginViewController.h */,
 				BDC909031B4EB77000856A32 /* LoginViewController.m */,
@@ -2452,7 +2447,6 @@
 				043257981B673D0400C3705D /* ODRefreshControl.m in Sources */,
 				048983B31BA18C4D00F98024 /* HomeViewController.m in Sources */,
 				0448E1421B75CA2E002B78B8 /* TagCCell.m in Sources */,
-				04822E361B62E5C200A370F6 /* TouristViewController.m in Sources */,
 				048330911B8B376A00219F72 /* HeaderViewController.m in Sources */,
 				BDC908E91B4E9B3700856A32 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				BD8AD7F21B50E62600373E5E /* UIImage+WebP.m in Sources */,

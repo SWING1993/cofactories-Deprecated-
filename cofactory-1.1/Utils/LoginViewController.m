@@ -52,6 +52,47 @@
     [tableHeaderView addSubview:logoImage];
 
     self.tableView.tableHeaderView = tableHeaderView;
+
+    UIView * tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 80)];
+    UIButton*loginBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 15, (kScreenW-40), 35)];
+    loginBtn.tag=1;
+    loginBtn.layer.cornerRadius=5.0f;
+    loginBtn.layer.masksToBounds=YES;
+    loginBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+    loginBtn.layer.borderWidth = 1.0f;
+    loginBtn.backgroundColor = [UIColor whiteColor];
+    [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
+    [loginBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [loginBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [tableFooterView addSubview:loginBtn];
+
+
+
+    //注册 button
+    UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake((kScreenW-40)/2+40, 60, (kScreenW-40)/2-20, 25)];
+    //    registerBtn.backgroundColor = [UIColor redColor];
+    registerBtn.tag=0;
+    registerBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+    registerBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
+    [registerBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [registerBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [tableFooterView addSubview:registerBtn];
+
+    UIButton*forgetBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, 60, (kScreenW-40)/2-20, 25)];
+    //    forgetBtn.backgroundColor = [UIColor grayColor];
+    forgetBtn.tag=3;
+    forgetBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+    forgetBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [forgetBtn setTitle:@"忘记密码" forState:UIControlStateNormal];
+    [forgetBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [forgetBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [tableFooterView addSubview:forgetBtn];
+
+    self.tableView.tableFooterView = tableFooterView;
+
+
+    
     [self createUI];
     
 }
@@ -81,55 +122,6 @@
         _passwordTF.placeholder=@"密码";
 
     }
-
-    UIButton*loginBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 220, (kScreenW-40), 35)];
-    loginBtn.tag=1;
-    loginBtn.layer.cornerRadius=5.0f;
-    loginBtn.layer.masksToBounds=YES;
-    loginBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-    loginBtn.layer.borderWidth = 1.0f;
-    loginBtn.backgroundColor = [UIColor whiteColor];
-    [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
-    [loginBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
-    [loginBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView addSubview:loginBtn];
-
-    
-    UIButton*touristBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 265, kScreenW-40, 35)];
-    touristBtn.tag=2;
-    touristBtn.layer.cornerRadius=5.0f;
-    touristBtn.layer.masksToBounds=YES;
-    touristBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-    touristBtn.layer.borderWidth = 1.0f;
-    touristBtn.backgroundColor = [UIColor whiteColor];
-
-    [touristBtn setTitle:@"游客登录" forState:UIControlStateNormal];
-    [touristBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
-    [touristBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:touristBtn];
-
-
-    //注册 button
-    UIButton*registerBtn=[[UIButton alloc]initWithFrame:CGRectMake((kScreenW-40)/2+40, 305, (kScreenW-40)/2-20, 25)];
-//    registerBtn.backgroundColor = [UIColor redColor];
-    registerBtn.tag=0;
-    registerBtn.titleLabel.font=[UIFont systemFontOfSize:15];
-    registerBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-    [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
-    [registerBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [registerBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView addSubview:registerBtn];
-
-
-    UIButton*forgetBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, 305, (kScreenW-40)/2-20, 25)];
-//    forgetBtn.backgroundColor = [UIColor grayColor];
-    forgetBtn.tag=3;
-    forgetBtn.titleLabel.font=[UIFont systemFontOfSize:15];
-    forgetBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [forgetBtn setTitle:@"忘记密码" forState:UIControlStateNormal];
-    [forgetBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [forgetBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView addSubview:forgetBtn];
 
 }
 
@@ -183,9 +175,6 @@
         }
             break;
         case 2:{
-    
-            TouristViewController*touristVC = [[TouristViewController alloc]init];
-            [self.navigationController pushViewController:touristVC animated:YES];
 
         }
             break;
@@ -196,7 +185,6 @@
             
             UINavigationController*resetNav = [[UINavigationController alloc]initWithRootViewController:resetVC];
             resetNav.navigationBar.barStyle=UIBarStyleBlack;
-            
             
             resetNav.modalPresentationStyle = UIModalPresentationCustom;
             self.animator = [[ZFModalTransitionAnimator alloc] initWithModalViewController:resetNav];

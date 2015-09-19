@@ -212,17 +212,17 @@
 
 //注册
 + (void)registerWithUsername:(NSString *)username InviteCode:(NSString *)inviteCode password:(NSString *)password factoryType:(int)type verifyCode:(NSString *)code factoryName:(NSString *)factoryName lon:(double)lon lat:(double)lat factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange andBlock:(void (^)(NSDictionary *))block {
-    NSParameterAssert(username);
-    NSParameterAssert(password);
-    NSParameterAssert(code);
-    NSParameterAssert(factoryName);
-    NSParameterAssert(factorySizeMin);
-    NSParameterAssert(factoryAddress);
-    if (type == 0 || type == 1) {
-        NSParameterAssert(factoryServiceRange);
-    }
-    if (factorySizeMax == 0) {
-    }
+//    NSParameterAssert(username);
+//    NSParameterAssert(password);
+//    NSParameterAssert(code);
+//    NSParameterAssert(factoryName);
+//    NSParameterAssert(factorySizeMin);
+//    NSParameterAssert(factoryAddress);
+//    if (type == 0 || type == 1) {
+//        NSParameterAssert(factoryServiceRange);
+//    }
+//    if (factorySizeMax == 0) {
+//    }
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
     NSArray *factorySize = [[NSArray alloc] initWithObjects:factorySizeMin, factorySizeMax, nil];
     [manager POST:API_register parameters:@{@"phone": username,@"inviteCode": inviteCode, @"password": password, @"type": @(type), @"code": code, @"factoryName": factoryName, @"lon": @(lon), @"lat": @(lat), @"factorySize": factorySize, @"factoryAddress": factoryAddress, @"factoryServiceRange": (factoryServiceRange == nil ? @"" : factoryServiceRange)} success:^(AFHTTPRequestOperation *operation, id responseObject) {

@@ -41,7 +41,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title=@"注册";
-    self.factoryTypeList=@[@"服装厂",@"加工厂",@"代裁厂",@"锁眼钉扣厂"];
+    self.factoryTypeList=@[@"服装厂",@"加工厂",@"代裁厂",@"锁眼钉扣厂",@"面辅料商"];
 
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW-64, kScreenH) style:UITableViewStyleGrouped];
@@ -57,6 +57,23 @@
     [tableHeaderView addSubview:logoImage];
 
     self.tableView.tableHeaderView = tableHeaderView;
+
+    UIView * tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 60)];
+
+    UIButton*nextBtn=[[UIButton alloc]init];
+
+    nextBtn.frame = CGRectMake(20, 15, kScreenW-40, 35);
+
+    nextBtn.layer.cornerRadius=5.0f;
+    nextBtn.layer.masksToBounds=YES;
+    nextBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+    nextBtn.layer.borderWidth = 1.0f;
+    [nextBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
+    [nextBtn addTarget:self action:@selector(nextBtn) forControlEvents:UIControlEventTouchUpInside];
+    [tableFooterView addSubview:nextBtn];
+
+    self.tableView.tableFooterView = tableFooterView;
 
     [self createUI];
 }
@@ -112,16 +129,16 @@
 
     }
 
-    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 360, kScreenW-20, 35)];
-    nextBtn.layer.cornerRadius=5.0f;
-    nextBtn.layer.masksToBounds=YES;
-    nextBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-    nextBtn.layer.borderWidth = 1.0f;
-    [nextBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
-    [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
-    [nextBtn addTarget:self action:@selector(nextBtn) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView addSubview:nextBtn];
-    
+//    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 360, kScreenW-20, 35)];
+//    nextBtn.layer.cornerRadius=5.0f;
+//    nextBtn.layer.masksToBounds=YES;
+//    nextBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+//    nextBtn.layer.borderWidth = 1.0f;
+//    [nextBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
+//    [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
+//    [nextBtn addTarget:self action:@selector(nextBtn) forControlEvents:UIControlEventTouchUpInside];
+//    [self.tableView addSubview:nextBtn];
+
 }
 
 //倒计时方法验证码实现倒计时60秒，60秒后按钮变换开始的样子
