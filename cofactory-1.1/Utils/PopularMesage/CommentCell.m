@@ -24,6 +24,7 @@
         self.timeLabel.textAlignment = NSTextAlignmentRight;
         [self addSubview:self.timeLabel];
         self.contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(self.authorLabel.frame), kScreenW - 40, 50)];
+        self.contentLabel.numberOfLines = 0;
         self.contentLabel.font = [UIFont systemFontOfSize:15];
         [self addSubview:self.contentLabel];
         

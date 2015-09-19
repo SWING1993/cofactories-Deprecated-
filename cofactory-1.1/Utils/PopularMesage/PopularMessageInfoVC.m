@@ -172,7 +172,27 @@
             break;
         case 3:
         {
-            [Tools showHudTipStr:@"已赞！"];
+            [HttpClient pushLikeWithID:[NSString stringWithFormat:@"%d", self.oid] andBlock:^(int statusCode) {
+                switch (statusCode) {
+                    case 200:
+                    {
+                        [Tools showHudTipStr:@"已赞！"];
+                        DLog(@"%d", statusCode);
+                    }
+                        break;
+                    case 400:
+                    {
+                        [Tools showHudTipStr:@"未登录"];
+                    }
+                        break;
+                        
+                        
+                    default:
+                        break;
+                }
+
+            }];
+            
         }
             break;
             

@@ -9,7 +9,7 @@
 #import "CommentViewController.h"
 #import "CommentCell.h"
 #define kRowInset 5
-#define kHolder @"写下你想说的......"
+#define kPlaceholder @"写下你想说的......"
 
 static NSString *commentCellIdentifier = @"commentCell";
 
@@ -41,7 +41,7 @@ static NSString *commentCellIdentifier = @"commentCell";
     tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 125)];
     commentTextView = [[UITextView alloc] initWithFrame:CGRectMake(20, 15, kScreenW - 40, 60)];
     commentTextView.backgroundColor=[UIColor whiteColor];
-    commentTextView.scrollEnabled = NO;
+    //commentTextView.scrollEnabled = NO;
     commentTextView.editable = YES;
     commentTextView.delegate = self;
     commentTextView.layer.borderColor = [UIColor grayColor].CGColor;
@@ -49,7 +49,9 @@ static NSString *commentCellIdentifier = @"commentCell";
     commentTextView.layer.cornerRadius = 5.0f;
     commentTextView.clipsToBounds = YES;
     commentTextView.keyboardType = UIKeyboardTypeDefault;
-    commentTextView.text = kHolder;
+    
+    commentTextView.font = [UIFont systemFontOfSize:17];
+    commentTextView.text = kPlaceholder;
     commentTextView.textColor = [UIColor grayColor];
     [tableViewHeadView addSubview:commentTextView];
     
@@ -82,12 +84,45 @@ static NSString *commentCellIdentifier = @"commentCell";
 }
 
 - (void)clickDonebBtn:(UIButton *)button {
-    DLog(@"提交评论");
+    
+    [commentTextView resignFirstResponder];
+    if (commentTextView.text.length == 0 || [commentTextView.text isEqualToString:kPlaceholder]) {
+
+        [Tools showHudTipStr:@"评论内容不能为空！"];
+    } else {
+        [HttpClient pushCommentWithID:[NSString stringWithFormat:@"%d", self.oid] content:commentTextView.text andBlock:^(int statusCode) {
+            DLog(@"%d", statusCode);
+            switch (statusCode) {
+                case 200:
+                {
+                    [Tools showHudTipStr:@"评论成功！"];
+                    commentTextView.text = kPlaceholder;
+                    commentTextView.textColor = [UIColor grayColor];
+                    [self netWork];
+                }
+                    break;
+                case 400:
+                {
+                    [Tools showHudTipStr:@"未登录"];
+                }
+                    break;
+                    
+                    
+                default:
+                    break;
+            }
+            
+            
+            
+        }];
+
+    }
     
     
 }
 - (void)clickCanclebBtn:(UIButton *)button {
     DLog(@"取消评论");
+    [commentTextView resignFirstResponder];
     commentTextView.text = @"";
 }
 - (void)netWork {
@@ -95,10 +130,6 @@ static NSString *commentCellIdentifier = @"commentCell";
         self.commentArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
         [self.tableView reloadData];
     }];
-//    [HttpClient getComment:^(NSDictionary *responseDictionary) {
-//        self.commentArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
-//        [self.tableView reloadData];
-//    }];
 }
 
 
@@ -119,11 +150,11 @@ static NSString *commentCellIdentifier = @"commentCell";
 //开始编辑
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
-     if ([commentTextView.text isEqualToString:kHolder]) {
+     if ([commentTextView.text isEqualToString:kPlaceholder]) {
          commentTextView.text = @"";
-         commentTextView.textColor = [UIColor blackColor];
+         //commentTextView.textColor = [UIColor blackColor];
      } 
-    
+    commentTextView.textColor = [UIColor blackColor];
 }
 
 
@@ -131,11 +162,14 @@ static NSString *commentCellIdentifier = @"commentCell";
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
     if (commentTextView.text.length == 0) {
-        commentTextView.text = kHolder;
+        commentTextView.text = kPlaceholder;
         commentTextView.textColor = [UIColor grayColor];
     }
     DLog(@"编辑结束");
 }
+
+
+
 
 //
 ////内容将要发生改变编辑

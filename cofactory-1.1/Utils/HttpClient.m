@@ -1166,6 +1166,43 @@
     }
 }
 
++ (void)pushCommentWithID:(NSString *)ID content:(NSString *)content andBlock:(void (^)(int))block {
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        NSString*token = credential.accessToken;
+        NSString *urlString = [NSString stringWithFormat:@"http://news.cofactories.com/?co&op=comment&p=%@&access_token=%@", ID, token];
+        [manager POST:urlString parameters:@{@"comment": content} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block((int)[operation.response statusCode]);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            block((int)[operation.response statusCode]);
+        }];
+    } else {
+        block(404);// access_token不存在
+    }
+}
+//http://news.cofactories.com/?co&op=like&p=1
++ (void)pushLikeWithID:(NSString *)ID andBlock:(void (^)(int))block {
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        NSString *urlString = [NSString stringWithFormat:@"http://news.cofactories.com/?co&op=like&p=%@", ID];
+        [manager POST:urlString parameters:@{@"ID": ID} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block((int)[operation.response statusCode]);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            block((int)[operation.response statusCode]);
+        }];
+    } else {
+        block(404);// access_token不存在
+    }
+}
+
 + (void)submitVerifyDetailWithLegalPerson:(NSString *)legalPerson idCard:(NSString *)idCard andBlock:(void (^)(int))block {
     NSParameterAssert(legalPerson);
     NSParameterAssert(idCard);
@@ -1397,16 +1434,15 @@
         block(404);// access_token不存在
     }
 }
-//二七服装厂
 
-+ (void)getInfomation:(void (^)(NSDictionary *responseDictionary))block {
++ (void)getInfomationWithKind:(NSString *)kind andBlock:(void (^)(NSDictionary *responseDictionary))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
     if (credential) {
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
-        NSString *url = @"http://news.cofactories.com/?co&op=posts&page=";
+        NSString *url = [NSString stringWithFormat:@"http://news.cofactories.com/?co&op=search&%@", kind];
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSArray *jsonArray = (NSArray *)responseObject;
             NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
@@ -1414,8 +1450,8 @@
                 InformationModel *information = [[InformationModel alloc] init];
                 information.title = dictionary[@"post_title"];
                 information.comment = dictionary[@"comment_count"];
-                information.interest = dictionary[@"menu_order"];
-                information.oid = [dictionary[@"ID"] integerValue];
+                information.interest = dictionary[@"like"];
+                information.oid = [dictionary[@"ID"] intValue];
                 information.urlString = dictionary[@"guid"];
                 [responseArray addObject:information];
             }

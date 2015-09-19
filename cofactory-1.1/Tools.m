@@ -255,17 +255,16 @@
     
     NSLog(@"newsDate = %@",newsDate);
     NSDate *newsDateFormatted = [dateFormatter dateFromString:newsDate];
-    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"GMT"];
     [dateFormatter setTimeZone:timeZone];
     
     NSDate* current_date = [[NSDate alloc] init];
     
     NSTimeInterval time=[current_date timeIntervalSinceDate:newsDateFormatted];//间隔的秒数
-    int month=((int)time)/(3600*24*30);//月
-    int days=((int)time)/(3600*24);//天
-    int hours=((int)time)%(3600*24)/3600;//小时
-    int minute=((int)time)%(3600*24)/3600/60;//分钟
-    int seconds = ((int)time)%(3600*24)/3600/3600;//秒
+    int month = ((int)time)/(3600*24*30);//月
+    int days = ((int)time)/(3600*24);//天
+    int hours = ((int)time)%(3600*24)/3600;//小时
+    int minute = ((int)time)%(3600)/60;//分钟
     
     NSString *dateContent;
     
@@ -283,12 +282,9 @@
         
         dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",minute,@"分钟前"];
     } else {
-        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",seconds,@"秒前"];
+//        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",seconds,@"秒前"];
+        dateContent = @"刚刚";
     }
-    
-    //    NSString *dateContent=[[NSString alloc] initWithFormat:@"%i天%i小时",days,hours];
-    
-    
     
     return dateContent;
 }

@@ -392,11 +392,21 @@
 /**资讯列表
  *
  */
-+ (void)getInfomation:(void (^)(NSDictionary *responseDictionary))block;
++ (void)getInfomationWithKind:(NSString *)kind andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 /**评论列表
- *
+ *@param oid   ID
  */
 + (void)getCommentWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
+/** 提交评论
+ *@param ID   ID
+  @param content  评论内容
+ */
+
++ (void)pushCommentWithID:(NSString *)ID content:(NSString *)content andBlock:(void (^)(int))block;
+/** 点赞
+ *@param ID   ID
+ */
++ (void)pushLikeWithID:(NSString *)ID andBlock:(void (^)(int))block;
 
 @end
