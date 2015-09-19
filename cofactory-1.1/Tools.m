@@ -148,7 +148,7 @@
         hud.margin = 12.f;
         hud.removeFromSuperViewOnHide = YES;
         hud.userInteractionEnabled = NO;
-        [hud hide:YES afterDelay:1.0];
+        [hud hide:YES afterDelay:2.0];
     }
 }
 

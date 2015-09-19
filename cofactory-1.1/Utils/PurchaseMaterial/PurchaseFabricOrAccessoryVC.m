@@ -21,7 +21,8 @@
     NSArray        *_buttonTitleArray;
     UIScrollView   *_scrollView;
     NSMutableArray *_imageViewArray;
-
+    UIButton       *_addButton;
+    CGRect          _unitRect;
 }
 @property (strong,nonatomic) UIImageView *selectedImage;
 @property (nonatomic, strong) JKAssets  *asset;
@@ -37,9 +38,9 @@
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"发布采购" style:UIBarButtonItemStyleBordered target:self action:@selector(publishButton)];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
     
-    if (self.materiaType == 1) {
+    if ([self.materiaType isEqualToString:@"面料"]) {
         self.navigationItem.title = @"找面料";
-    }if (self.materiaType == 2) {
+    }if ([self.materiaType isEqualToString:@"辅料"] ) {
         self.navigationItem.title = @"找辅料";
     }
     _viewFramArray = [@[] mutableCopy];
@@ -85,6 +86,7 @@
                 break;
             case 2:
                 _amountTF = textField ;
+                _amountTF.keyboardType = UIKeyboardTypeNumberPad;
                 break;
                 
             default:
@@ -120,14 +122,14 @@
 
 - (void)creatAddButton{
     NSValue *value = _buttonFramArray[0];
-    CGRect rect = value.CGRectValue;
+    _unitRect = value.CGRectValue;
     
-    UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    addButton.frame = CGRectMake(20, rect.origin.y+40+30, 70, 70);
-    [addButton setBackgroundImage:[UIImage imageNamed:@"addImageButton.png"] forState:UIControlStateNormal];
-    addButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
-    [addButton addTarget:self action:@selector(addImageClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:addButton];
+    _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _addButton.frame = CGRectMake((kScreenW-70)/2.0, _unitRect.origin.y+40+30, 70, 70);
+    [_addButton setBackgroundImage:[UIImage imageNamed:@"addImageButton.png"] forState:UIControlStateNormal];
+    _addButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    [_addButton addTarget:self action:@selector(addImageClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_addButton];
 }
 
 - (void)creatScrollView{
@@ -159,7 +161,7 @@
         [deleteBtn addTarget:self action:@selector(deleteImageView:) forControlEvents:UIControlEventTouchUpInside];
         [button addSubview:deleteBtn];
     }
-
+    
 }
 
 - (void)selectClick:(id)sender{
@@ -198,7 +200,7 @@
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
         [self presentViewController:navigationController animated:YES completion:nil];
     }
-
+    
 }
 
 #pragma mark - JKImagePickerControllerDelegate
@@ -224,8 +226,8 @@
                     UIImage*image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]];
                     [_imageViewArray addObject:image];
                     if (idx == [assets count] - 1) {
-                        
                         DLog(@"_imageViewArrayCount==%zi",_imageViewArray.count);
+                        _addButton.frame = CGRectMake(20, _unitRect.origin.y+40+30, 70, 70);
                         [self creatScrollView];
                     }
                 }
@@ -260,7 +262,7 @@
     browser.currentPhotoIndex = button.tag;
     browser.photos = photos;
     [browser show];
-
+    
 }
 
 
@@ -289,6 +291,36 @@
                 [alert show];
             }else{
                 DLog(@"123");
+                int amuont = [_amountTF.text intValue];
+                [HttpClient sendMaterialPurchaseInfomationWithType:self.materiaType name:_nameTF.text description:_commentTF.text amount:@(amuont) unit:_buttonTitleArray[_selectedIndex-1] completionBlock:^(NSDictionary *responseDictionary) {
+                    int statusCode = [responseDictionary[@"statusCode"] intValue];
+                    if (statusCode == 200) {
+                        int index = [responseDictionary[@"responseObject"][@"id"] intValue];
+                        [_imageViewArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                            
+                            NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
+                            UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+                            NSString *oidString = [NSString stringWithFormat:@"%d",index];
+                            [HttpClient uploadMaterialImageWithImage:newImage oid:oidString type:@"buy" andblock:^(NSDictionary *dictionary) {
+                                if ([dictionary[@"statusCode"] intValue] == 200) {
+                                    [Tools showHudTipStr:@"发布成功"];
+                                    double delayInSeconds = 1.0f;
+                                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                                        NSArray *navArray = self.navigationController.viewControllers;
+                                        [self.navigationController popToViewController:navArray[1] animated:YES];
+                                    });
+                                }
+                                else{
+                                    [Tools showHudTipStr:@"图片上传失败"];
+                                }
+
+                            }];
+                            
+                        }];
+                        
+                    }
+                }];
             }
         }
     }
@@ -298,14 +330,32 @@
     
     UIButton *button = (UIButton *)sender;
     [_imageViewArray removeObjectAtIndex:button.tag];
-    [self creatScrollView];
+    if (_imageViewArray.count > 0) {
+        [self creatScrollView];
+        
+    }else{
+        [_scrollView removeFromSuperview];
+        _addButton.frame = CGRectMake((kScreenW-70)/2.0, _unitRect.origin.y+40+30, 70, 70);
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if (alertView.tag == 100) {
         if (buttonIndex == 1) {
-            DLog(@"123");
+            int amuont = [_amountTF.text intValue];
+            [HttpClient sendMaterialPurchaseInfomationWithType:self.materiaType name:_nameTF.text description:_commentTF.text amount:@(amuont) unit:_buttonTitleArray[_selectedIndex-1] completionBlock:^(NSDictionary *responseDictionary) {
+                int statusCode = [responseDictionary[@"statusCode"] intValue];
+                if (statusCode == 200) {
+                    [Tools showHudTipStr:@"发布成功"];
+                    double delayInSeconds = 1.0f;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        NSArray *navArray = self.navigationController.viewControllers;
+                        [self.navigationController popToViewController:navArray[1] animated:YES];
+                    });
+                }
+            }];
         }
     }
 }
@@ -314,12 +364,6 @@
     
     [self.view endEditing:YES];
 }
-
-
-
-
-
-
 
 
 - (void)didReceiveMemoryWarning {

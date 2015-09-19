@@ -8,7 +8,7 @@
 
 #import "PurchaseVC.h"
 #import "PurchaseFabricOrAccessoryVC.h"
-#import "SearchMaterialViewController.h"
+#import "PurchaseHistoryPublicVC.h"
 
 @interface PurchaseVC ()
 
@@ -20,7 +20,9 @@
     [super viewDidLoad];
     self.navigationItem.title = @"采购及查找";
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"历史发布" style:UIBarButtonItemStyleBordered target:self action:@selector(historyPublishButton)];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+
     UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"采购产品.png"]];
     imageView.frame = CGRectMake(100, 90, kScreenW-200, 50);
     [self.view addSubview:imageView];
@@ -53,7 +55,7 @@
         case 1:
         {
             PurchaseFabricOrAccessoryVC *VC = [[PurchaseFabricOrAccessoryVC alloc]init];
-            VC.materiaType = 1;  // 采购面料
+            VC.materiaType = @"面料";  // 采购面料
             [self customBackTitle];
             [self.navigationController pushViewController:VC animated:YES];
         }
@@ -62,7 +64,7 @@
         case 2:
         {
             PurchaseFabricOrAccessoryVC *VC = [[PurchaseFabricOrAccessoryVC alloc]init];
-            VC.materiaType = 2;  // 采购辅料
+            VC.materiaType = @"辅料";  // 采购辅料
             [self customBackTitle];
             [self.navigationController pushViewController:VC animated:YES];
         }
@@ -71,14 +73,19 @@
             
         case 3:
         {
-            SearchMaterialViewController *VC = [[SearchMaterialViewController alloc]init];
-            [self customBackTitle];
-            [self.navigationController pushViewController:VC animated:YES];
+           
         }
 
         default:
             break;
     }
+}
+
+- (void)historyPublishButton{
+    
+    PurchaseHistoryPublicVC *VC = [[PurchaseHistoryPublicVC alloc]init];
+    [self customBackTitle];
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
