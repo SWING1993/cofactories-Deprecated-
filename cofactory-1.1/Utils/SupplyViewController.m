@@ -27,7 +27,7 @@
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     [self.view addSubview:imageView];
     
-    NSArray *buttonBGImageArray = @[@"面辅料_供应面料",@"面辅料_供应辅料",@"面辅料_供应胚布",@"面辅料_查看求购"];
+    NSArray *buttonBGImageArray = @[@"面辅料_供应面料",@"面辅料_供应辅料",@"面辅料_供应胚布",@"面辅料_查看求购",];
     for (int i=0 ; i<4; i++) {
         DLog(@"%d--%d",i/2,i%2);
 

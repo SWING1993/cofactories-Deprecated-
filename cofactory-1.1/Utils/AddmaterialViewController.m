@@ -15,6 +15,8 @@
 
 @interface AddmaterialViewController () <JKImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 
+@property(nonatomic,retain) NSString * materialTypeStr;
+
 @property(nonatomic,retain) UITextField * NameTF;
 
 @property(nonatomic,retain) UITextField * UseTF;
@@ -58,6 +60,18 @@
             break;
     }
 
+
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(0, 0, 80, 20);
+    btn.titleLabel.font = [UIFont systemFontOfSize:16];
+    [btn setTitle:@"发布供应" forState:UIControlStateNormal];
+    [btn setUserInteractionEnabled:YES];
+    [btn addTarget:self action:@selector(pushOrderBtn) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem * setButton = [[UIBarButtonItem alloc]initWithCustomView:btn];
+
+
+    self.navigationItem.rightBarButtonItem = setButton;
+
     self.collectionImage = [[NSMutableArray alloc]initWithCapacity:9];
 
 
@@ -75,9 +89,17 @@
 
 }
 
+- (void)pushOrderBtn {
+//    AFOAuthCredential *credential=[HttpClient getToken];
+//    NSString*token = credential.accessToken;
+//    DLog(@"%@",token);
+
+}
+
 - (UITextField *)createNameTF {
     if (!self.NameTF) {
         self.NameTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - kScreenW/5, 44)];
+        self.NameTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         self.NameTF.placeholder = @"(如：全棉斜纹双色布)";
 
     }
@@ -87,6 +109,7 @@
 - (UITextField *)createUseTF {
     if (!self.UseTF) {
         self.UseTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - kScreenW/5, 44)];
+        self.UseTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         self.UseTF.placeholder = @"请填写面料主要用途";
 
     }
@@ -96,6 +119,7 @@
 - (UITextField *)createWidthTF {
     if (!self.WidthTF) {
         self.WidthTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - kScreenW/5, 44)];
+        self.WidthTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         self.WidthTF.placeholder = @"请填写门幅";
 
     }
@@ -104,8 +128,9 @@
 
 - (UITextField *)createPriceTF {
     if (!self.PriceTF) {
-        self.PriceTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - kScreenW/5-30, 44)];
+        self.PriceTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - kScreenW/5, 44)];
         self.PriceTF.keyboardType = UIKeyboardTypeNumberPad;
+        self.PriceTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         self.PriceTF.placeholder = @"请填写价格";
 
     }
@@ -115,6 +140,7 @@
 - (UITextField *)createExplainTF {
     if (!self.ExplainTF) {
         self.ExplainTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - kScreenW/5, 44)];
+        self.ExplainTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         self.ExplainTF.placeholder = @"其他说明";
 
     }
@@ -181,8 +207,6 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         cell.textLabel.font=[UIFont systemFontOfSize:16.0f];
-        cell.detailTextLabel.font=[UIFont systemFontOfSize:16.0f];
-        cell.detailTextLabel.textColor = [UIColor blackColor];
 
         if (self.materialType == 1) {
             switch (indexPath.section) {
@@ -192,13 +216,13 @@
                         case 0:{
                             [self createNameTF];
                             [cell addSubview:self.NameTF];
-                            cell.textLabel.text = @"品 名";
+                            cell.textLabel.text = @"*品 名";
                         }
                             break;
                         case 1:{
                             [self createUseTF];
                             [cell addSubview:self.UseTF];
-                            cell.textLabel.text = @"用 途";
+                            cell.textLabel.text = @"*用 途";
 
                         }
                             break;
@@ -215,17 +239,14 @@
                         case 0:{
                             [self createPriceTF];
                             [cell addSubview:self.PriceTF];
-                            cell.textLabel.text = @"价 格";
-                            cell.detailTextLabel.text = @"元";
-
-
+                            cell.textLabel.text = @"*价 格";
 
                         }
                             break;
                         case 1:{
                             [self createWidthTF];
                             [cell addSubview:self.WidthTF];
-                            cell.textLabel.text = @"门 幅";
+                            cell.textLabel.text = @"*门 幅";
 
                         }
                             break;
@@ -248,7 +269,7 @@
                         case 0:{
                             [self createNameTF];
                             [cell addSubview:self.NameTF];
-                            cell.textLabel.text = @"品 名";
+                            cell.textLabel.text = @"*品 名";
 
                         }
                             break;
@@ -266,9 +287,7 @@
 
                             [self createPriceTF];
                             [cell addSubview:self.PriceTF];
-                            cell.textLabel.text = @"价 格";
-                            cell.detailTextLabel.text = @"元";
-
+                            cell.textLabel.text = @"*价 格";
                         }
                             break;
 
@@ -287,7 +306,7 @@
             if (indexPath.row == 0) {
                 [self createExplainTF];
                 [cell addSubview:self.ExplainTF];
-                cell.textLabel.text = @"说 明";
+                cell.textLabel.text = @"  说 明";
 
                 DLog(@"farme=%@",NSStringFromCGRect(cell.textLabel.frame));
             }
