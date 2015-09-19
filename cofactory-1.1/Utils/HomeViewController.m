@@ -81,10 +81,17 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    DLog(@"游客=%d",[Tools isTourist]);
+
+
+    self.view.backgroundColor=[UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
+    // 初始化模型
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, kScreenW, kScreenH-(kNavigationBarHeight+kStatusBarHeight)) style:UITableViewStyleGrouped];
+    self.automaticallyAdjustsScrollViewInsets = YES;// 自动调整视图关闭
+    self.tableView.showsVerticalScrollIndicator = NO;// 竖直滚动条不显示
+
     DLog(@"%@",Kidentifier);
-    
     if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
         //个人开发者 关闭检测更新
         DLog(@"个人开发者 关闭检测更新");
@@ -104,14 +111,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             [alertView show];
         }
     }];
-    
-    self.view.backgroundColor=[UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    
-    // 初始化模型
-    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, kScreenW, kScreenH-(kNavigationBarHeight+kStatusBarHeight)) style:UITableViewStyleGrouped];
-    self.automaticallyAdjustsScrollViewInsets = YES;// 自动调整视图关闭
-    self.tableView.showsVerticalScrollIndicator = NO;// 竖直滚动条不显示
+
     
 
     // 表头视图
@@ -135,15 +135,17 @@ static NSString *LastCellIdentifier = @"LastCell";
         
         self.factoryFreeStatus=userModel.factoryFreeStatus;
         self.factoryType =userModel.factoryType;
+
         if (self.factoryType==0) {
-            ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"发布订单"];
+            ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"订单管理"];
             [headerView addSubview:buttonView];
             [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
             [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
             [buttonView.postButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
             [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
-        }else{
-            
+        }
+        if (self.factoryType==1 || self.factoryType==2 || self.factoryType== 3) {
+
             ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"设置状态"];
             [headerView addSubview:buttonView];
             [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -151,7 +153,16 @@ static NSString *LastCellIdentifier = @"LastCell";
             [buttonView.postButton addTarget:self action:@selector(authClicked:) forControlEvents:UIControlEventTouchUpInside];
             [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
         }
-        
+
+        if (self.factoryType==5) {
+            ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"面料供应"];
+            [headerView addSubview:buttonView];
+            [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [buttonView.postButton addTarget:self action:@selector(pushSupply:) forControlEvents:UIControlEventTouchUpInside];
+            [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
+        }
+
     }];
     self.tableView.tableHeaderView = headerView;
     
@@ -164,7 +175,6 @@ static NSString *LastCellIdentifier = @"LastCell";
 }
 
 
-
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex==1) {
         if (alertView.tag==100) {
@@ -172,29 +182,15 @@ static NSString *LastCellIdentifier = @"LastCell";
             UINavigationController*webNav=[[UINavigationController alloc]initWithRootViewController:webVC];
             webNav.navigationBar.barStyle=UIBarStyleBlack;
             [self presentViewController:webNav animated:YES completion:nil];
-        }if (alertView.tag==5) {
-            [ViewController goLogin];
         }
     }
 }
 
 - (void)pushClicked:(id)sender {
-    if ([Tools isTourist]) {
-        //游客
-        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您登录后才使用这项服务,是否登录？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        alertView.tag=5;
-        [alertView show];
-    }else{
-//        推送助手
-//        PushViewController*pushHelerVC = [[PushViewController alloc]init];
-//        pushHelerVC.hidesBottomBarWhenPushed=YES;
-//        [self.navigationController pushViewController:pushHelerVC animated:YES];
-        
-        PopularMesageViewController *vc = [[PopularMesageViewController alloc]init];
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
+    PopularMesageViewController *vc = [[PopularMesageViewController alloc]init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 
-    }
 }
 - (void)findClicked:(id)sender {
     FactoryListViewController *factoryListVC= [[FactoryListViewController alloc]init];
@@ -202,18 +198,18 @@ static NSString *LastCellIdentifier = @"LastCell";
     //    factoryListVC.factoryType = 10;
     [self.navigationController pushViewController:factoryListVC animated:YES];
 }
+
+- (void)pushSupply:(id)sender {
+
+    SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
+    supplyVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:supplyVC animated:YES];
+}
 - (void)postClicked:(id)sender {
-    if ([Tools isTourist]) {
-        //游客
-        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您登录后才使用这项服务,是否登录？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        alertView.tag=5;
-        
-        [alertView show];
-    }else{
-        PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
-        pushOrderVC.hidesBottomBarWhenPushed=YES;
-        [self.navigationController pushViewController:pushOrderVC animated:YES];
-    }
+
+    PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
+    pushOrderVC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:pushOrderVC animated:YES];
 }
 
 - (void)authClicked:(id)sender {
@@ -235,46 +231,37 @@ static NSString *LastCellIdentifier = @"LastCell";
 - (void)statusClicked:(id)sender {
     UIButton*button = (UIButton *)sender;
     [button setUserInteractionEnabled:NO];
-    
-    if ([Tools isTourist]) {
-        //游客
-        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您登录后才使用认证服务,是否登录？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        alertView.tag=5;
-        [alertView show];
+
+    //认证信息
+    [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
+        NSDictionary*VeifyDic=dictionary[@"responseDictionary"];
+        self.status = [VeifyDic[@"status"] intValue];
+        DLog(@"认证状态%d", self.status);
         [button setUserInteractionEnabled:YES];
-        
-    }else{
-        //认证信息
-        [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
-            NSDictionary*VeifyDic=dictionary[@"responseDictionary"];
-            self.status = [VeifyDic[@"status"] intValue];
-            DLog(@"认证状态%d", self.status);
-            [button setUserInteractionEnabled:YES];
-            
-            //未认证
-            if ( self.status==0) {
-                VeifyViewController*veifyVC = [[VeifyViewController alloc]init];
-                veifyVC.hidesBottomBarWhenPushed=YES;
-                veifyVC.title=@"未认证";
-                [self.navigationController pushViewController:veifyVC animated:YES];
-            }
-            //认证中
-            if ( self.status==1) {
-                VeifyingViewController*veifyingVC = [[VeifyingViewController alloc]init];
-                veifyingVC.hidesBottomBarWhenPushed=YES;
-                veifyingVC.VeifyDic=VeifyDic;
-                veifyingVC.title=@"认证资料已提交";
-                [self.navigationController pushViewController:veifyingVC animated:YES];
-            }
-            //认证成功
-            if ( self.status==2) {
-                VeifyEndViewController*endVC = [[VeifyEndViewController alloc]init];
-                endVC.hidesBottomBarWhenPushed=YES;
-                endVC.title=@"认证成功";
-                [self.navigationController pushViewController:endVC animated:YES];
-            }
-        }];
-    }
+
+        //未认证
+        if ( self.status==0) {
+            VeifyViewController*veifyVC = [[VeifyViewController alloc]init];
+            veifyVC.hidesBottomBarWhenPushed=YES;
+            veifyVC.title=@"未认证";
+            [self.navigationController pushViewController:veifyVC animated:YES];
+        }
+        //认证中
+        if ( self.status==1) {
+            VeifyingViewController*veifyingVC = [[VeifyingViewController alloc]init];
+            veifyingVC.hidesBottomBarWhenPushed=YES;
+            veifyingVC.VeifyDic=VeifyDic;
+            veifyingVC.title=@"认证资料已提交";
+            [self.navigationController pushViewController:veifyingVC animated:YES];
+        }
+        //认证成功
+        if ( self.status==2) {
+            VeifyEndViewController*endVC = [[VeifyEndViewController alloc]init];
+            endVC.hidesBottomBarWhenPushed=YES;
+            endVC.title=@"认证成功";
+            [self.navigationController pushViewController:endVC animated:YES];
+        }
+    }];
 }
 
 - (void)findFactory:(UIButton *)button {
@@ -313,8 +300,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         case 1003:
         {
             // 找代裁厂信息
-           
-            
+
             FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
             
             searchViewController.factoryType = 2;
@@ -365,11 +351,15 @@ static NSString *LastCellIdentifier = @"LastCell";
         case 1007:
         {
             //我想供应
-            DLog(@"我想供应");
-            SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
-            supplyVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:supplyVC animated:YES];
+            if (self.factoryType == 5) {
+                SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
+                supplyVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:supplyVC animated:YES];
+            }else{
+                [Tools showHudTipStr:@"加工厂专区，非加工厂请至首页上方发布订单！"];
+            }
 
+            DLog(@"我想供应");
 
         }
             break;
@@ -389,7 +379,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         case 1009:
         {
             //加工厂订单外发
-            if (self.factoryType ==1) {
+            if (self.factoryType == 1) {
                 //加工厂订单外发
                 PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
                 pushOrderVC.factoryType = self.factoryType;

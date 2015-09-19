@@ -101,14 +101,14 @@
     return string;
 }
 
-+ (BOOL)isTourist {
-    
-    if ([HttpClient getToken]) {
-        return NO;
-    }else{
-        return YES;
-    }
-}
+//+ (BOOL)isTourist {
+//    
+//    if ([HttpClient getToken]) {
+//        return NO;
+//    }else{
+//        return YES;
+//    }
+//}
 
 //判断几天后
 + (NSString *)compareIfTodayAfterDates:(NSDate *)comps
@@ -148,7 +148,7 @@
         hud.margin = 12.f;
         hud.removeFromSuperViewOnHide = YES;
         hud.userInteractionEnabled = NO;
-        [hud hide:YES afterDelay:1.0];
+        [hud hide:YES afterDelay:2.0];
     }
 }
 

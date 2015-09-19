@@ -235,21 +235,16 @@ static NSString *const cellIdentifer = @"cell";
 - (void)orderDetailsBtnClick:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    if ([Tools isTourist]) {
-        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您登录后查看订单详情" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
-    }else{
-        OrderModel *model = _dataArray [button.tag-1];
-        SearchOrderDetailsVC *vc = [[SearchOrderDetailsVC alloc]init];
-        vc.model = model;
-        UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
-        backItem.title=@"";
-        backItem.tintColor=[UIColor whiteColor];
-        self.navigationItem.backBarButtonItem = backItem;
-        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-        [self.navigationController pushViewController:vc animated:YES];
-        
-    }
+    OrderModel *model = _dataArray [button.tag-1];
+    SearchOrderDetailsVC *vc = [[SearchOrderDetailsVC alloc]init];
+    vc.model = model;
+    UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+    backItem.title=@"";
+    backItem.tintColor=[UIColor whiteColor];
+    self.navigationItem.backBarButtonItem = backItem;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController pushViewController:vc animated:YES];
+
 }
 
 - (void)didReceiveMemoryWarning {

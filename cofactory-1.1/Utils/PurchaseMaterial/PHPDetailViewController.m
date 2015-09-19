@@ -1,24 +1,24 @@
 //
-//  SearchMaterialViewController.m
+//  PHPDetailViewController.m
 //  cofactory-1.1
 //
-//  Created by gt on 15/9/18.
+//  Created by gt on 15/9/19.
 //  Copyright © 2015年 聚工科技. All rights reserved.
 //
 
-#import "SearchMaterialViewController.h"
+#import "PHPDetailViewController.h"
 
-@interface SearchMaterialViewController ()
+@interface PHPDetailViewController ()
 
 @end
 
-@implementation SearchMaterialViewController
+@implementation PHPDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title = @"发布详情";
     self.view.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
-    self.navigationItem.title = @"查看面辅料";
-
+    
 }
 
 - (void)didReceiveMemoryWarning {

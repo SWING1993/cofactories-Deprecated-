@@ -52,7 +52,10 @@
 #define API_uploadFactory @"/upload/factory"
 #define API_uploadVerify @"/upload/verify"
 #define API_uploadOrder @"upload/order"
+#define API_uploadMaterial @"/upload/material"
 #define API_registBid @"/order/bid/"
+#define API_sendMaterial @"/material/buy"
+#define API_sendMaterialHistory @"/material/history"
 
 #define API_addMaterial @"/material"
 
@@ -215,17 +218,17 @@
 
 //注册
 + (void)registerWithUsername:(NSString *)username InviteCode:(NSString *)inviteCode password:(NSString *)password factoryType:(int)type verifyCode:(NSString *)code factoryName:(NSString *)factoryName lon:(double)lon lat:(double)lat factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange andBlock:(void (^)(NSDictionary *))block {
-    NSParameterAssert(username);
-    NSParameterAssert(password);
-    NSParameterAssert(code);
-    NSParameterAssert(factoryName);
-    NSParameterAssert(factorySizeMin);
-    NSParameterAssert(factoryAddress);
-    if (type == 0 || type == 1) {
-        NSParameterAssert(factoryServiceRange);
-    }
-    if (factorySizeMax == 0) {
-    }
+//    NSParameterAssert(username);
+//    NSParameterAssert(password);
+//    NSParameterAssert(code);
+//    NSParameterAssert(factoryName);
+//    NSParameterAssert(factorySizeMin);
+//    NSParameterAssert(factoryAddress);
+//    if (type == 0 || type == 1) {
+//        NSParameterAssert(factoryServiceRange);
+//    }
+//    if (factorySizeMax == 0) {
+//    }
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
     NSArray *factorySize = [[NSArray alloc] initWithObjects:factorySizeMin, factorySizeMax, nil];
     [manager POST:API_register parameters:@{@"phone": username,@"inviteCode": inviteCode, @"password": password, @"type": @(type), @"code": code, @"factoryName": factoryName, @"lon": @(lon), @"lat": @(lat), @"factorySize": factorySize, @"factoryAddress": factoryAddress, @"factoryServiceRange": (factoryServiceRange == nil ? @"" : factoryServiceRange)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -1612,6 +1615,108 @@
     }
     else {
         block(404);// access_token不存在
+    }
+
+}
+
++ (void)sendMaterialPurchaseInfomationWithType:(NSString *)aType name:(NSString *)aName description:(NSString *)aDescription amount:(NSNumber *)aAmount unit:(NSString *)aUnit completionBlock:(void (^)(NSDictionary *responseDictionary))block{
+    
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        NSMutableDictionary *parameters = [@{} mutableCopy];
+        if (aType) {
+            [parameters setObject:aType forKey:@"type"];
+        }
+        if (aName) {
+            [parameters setObject:aName forKey:@"name"];
+        }
+        if (aDescription) {
+            [parameters setObject:aDescription forKey:@"description"];
+        }
+        if (aAmount) {
+            [parameters setObject:aAmount forKey:@"amount"];
+        }
+        if (aUnit) {
+            [parameters setObject:aUnit forKey:@"unit"];
+        }
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        [manager POST:API_sendMaterial parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseObject});
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            block(@{@"statusCode":@([operation.response statusCode])});
+        }];
+    } else {
+        block(@{@"statusCode":@(404)}); // access_token不存在
+    }
+}
+
++ (void)uploadMaterialImageWithImage:(UIImage *)image oid:(NSString *)oid type:(NSString *)type andblock:(void (^)(NSDictionary *dictionary))block{
+    
+    NSParameterAssert(image);
+    NSParameterAssert(oid);
+    NSParameterAssert(type);
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        
+        NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
+        
+        if (oid)
+            [mutableDictionary setObject:oid forKey:@"id"];
+        if (type) {
+            [mutableDictionary setObject:type forKey:@"type"];
+        }
+        [manager GET:API_uploadMaterial parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            UpYun *upYun = [[UpYun alloc] init];
+            upYun.bucket = bucketAPI;
+            upYun.expiresIn = 600;
+            [upYun uploadImage:image policy:[responseObject objectForKey:@"policy"] signature:[responseObject objectForKey:@"signature"]];
+            block(@{@"statusCode": @([operation.response statusCode]), @"responseDictionary": responseObject});
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            switch ([operation.response statusCode]) {
+                case 400:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"未登录"});
+                    break;
+                case 401:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"access_token过期或者无效"});
+                    break;
+                    
+                default:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"网络错误"});
+                    break;
+            }
+        }];
+    } else {
+        block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
+    }
+
+}
+
++ (void)checkHistoryPublishWithPage:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block{
+    
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        
+        [manager GET:API_sendMaterialHistory parameters:@{@"page":@(aPage)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseObject});
+            DLog(@"responseDictionary==%@",responseObject);
+        }
+        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            block(@{@"statusCode":@([operation.response statusCode])});
+        }];
+    }
+    else {
+        block(@{@"statusCode":@(404)}); // access_token不存在
     }
 
 }

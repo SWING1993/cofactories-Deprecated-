@@ -87,6 +87,24 @@
     self.tableView.tableHeaderView = tableHeaderView;
 
 
+    UIView * tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 60)];
+
+    UIButton*nextBtn=[[UIButton alloc]init];
+
+    nextBtn.frame = CGRectMake(20, 15, kScreenW-40, 35);
+
+    nextBtn.layer.cornerRadius=5.0f;
+    nextBtn.layer.masksToBounds=YES;
+    nextBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+    nextBtn.layer.borderWidth = 1.0f;
+    [nextBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
+    [nextBtn addTarget:self action:@selector(nextStepButton) forControlEvents:UIControlEventTouchUpInside];
+    [tableFooterView addSubview:nextBtn];
+
+    self.tableView.tableFooterView = tableFooterView;
+
+
     [self createUI];
     [self pickerData];
 }
@@ -197,22 +215,7 @@
     }
 
 
-    UIButton*nextBtn=[[UIButton alloc]init];
 
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"] || [[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"加工厂"]) {
-        nextBtn.frame = CGRectMake(10, 130+44*5, kScreenW-20, 35);
-    }else{
-        nextBtn.frame = CGRectMake(10, 130+44*4, kScreenW-20, 35);
-    }
-
-    nextBtn.layer.cornerRadius=5.0f;
-    nextBtn.layer.masksToBounds=YES;
-    nextBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-    nextBtn.layer.borderWidth = 1.0f;
-    [nextBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
-    [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
-    [nextBtn addTarget:self action:@selector(nextStepButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView addSubview:nextBtn];
 
 }
 
@@ -221,31 +224,60 @@
 
 
 - (void)nextStepButton {
-    if (_factoryAddressTF.text.length==0 || _factoryNameTF.text.length == 0 || _factorySizeTF.text.length==0) {
-        [Tools showHudTipStr:@"注册信息不完整"];
-    }else{
-        BMKGeoCodeSearchOption *geoCodeSearchOption = [[BMKGeoCodeSearchOption alloc] init];
-        geoCodeSearchOption.address = _factoryAddressTF.text;
-        if ([_searcher geoCode:geoCodeSearchOption]) {
-            DLog(@"百度地图检索发送正常");
 
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setObject:_factoryNameTF.text forKey:@"factoryName"];
-            [userDefaults setObject:[NSString stringWithFormat:@"%@%@",_factoryAddressTF.text,_factoryAddressTF2.text] forKey:@"factoryAddress"];
-            [userDefaults setObject:_factorySizeTF.text forKey:@"factorySize"];
-            if (_factoryServiceRangeTF.text.length>0) {
-                DLog(@"业务类型存在");
-                [userDefaults setObject:_factoryServiceRangeTF.text forKey:@"factoryServiceRange"];
-            }
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"] || [[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"加工厂"]) {
 
-            [userDefaults synchronize];
+        if (_factoryAddressTF.text.length==0 || _factoryNameTF.text.length == 0 || _factorySizeTF.text.length==0 || _factoryServiceRangeTF.text.length == 0) {
+            [Tools showHudTipStr:@"注册信息不完整"];
+        }else{
+            [self geoCodeSearch];
 
-        } else {
-            [Tools showHudTipStr:@"百度地图检索发送失败"];
         }
 
     }
+
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"代裁厂"] || [[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"锁眼钉扣厂"]) {
+
+        if (_factoryAddressTF.text.length==0 || _factoryNameTF.text.length == 0 || _factorySizeTF.text.length==0) {
+            [Tools showHudTipStr:@"注册信息不完整"];
+        }else{
+            [self geoCodeSearch];
+
+        }
+    }
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"面辅料商"]) {
+
+        if (_factoryAddressTF.text.length==0 || _factoryNameTF.text.length == 0 ) {
+            [Tools showHudTipStr:@"注册信息不完整"];
+        }else{
+            [self geoCodeSearch];
+        }
+
+    }
+
 }
+- (void)geoCodeSearch {
+    BMKGeoCodeSearchOption *geoCodeSearchOption = [[BMKGeoCodeSearchOption alloc] init];
+    geoCodeSearchOption.address = _factoryAddressTF.text;
+    if ([_searcher geoCode:geoCodeSearchOption]) {
+        DLog(@"百度地图检索发送正常");
+
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:_factoryNameTF.text forKey:@"factoryName"];
+        [userDefaults setObject:[NSString stringWithFormat:@"%@%@",_factoryAddressTF.text,_factoryAddressTF2.text] forKey:@"factoryAddress"];
+        [userDefaults setObject:_factorySizeTF.text forKey:@"factorySize"];
+        if (_factoryServiceRangeTF.text.length>0) {
+            DLog(@"业务类型存在");
+            [userDefaults setObject:_factoryServiceRangeTF.text forKey:@"factoryServiceRange"];
+        }
+
+        [userDefaults synchronize];
+
+    } else {
+        [Tools showHudTipStr:@"百度地图检索发送失败"];
+    }
+}
+
 #pragma mark - <BMKGeoCodeSearchDelegate>
 - (void)onGetGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
     if (error == BMK_SEARCH_NO_ERROR) {
@@ -275,6 +307,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"] || [[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"加工厂"]) {
         return 5;
+    }if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"面辅料商"]) {
+        return 3;
     }else{
         return 4;
     }
