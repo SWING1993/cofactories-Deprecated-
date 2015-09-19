@@ -10,5 +10,5 @@
 #import <UIKit/UIKit.h>
 
 @interface PurchaseFabricOrAccessoryVC : UIViewController
-@property (nonatomic,assign) int materiaType;
+@property (nonatomic,copy) NSString *materiaType;
 @end

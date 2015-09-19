@@ -399,4 +399,20 @@
  */
 + (void)getCommentWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
+/**发布求购信息
+ *
+ */
++ (void)sendMaterialPurchaseInfomationWithType:(NSString *)aType name:(NSString *)aName description:(NSString *)aDescription amount:(NSNumber *)aAmount unit:(NSString *)aUnit completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+/**面辅料图片上传
+ *
+ */
++ (void)uploadMaterialImageWithImage:(UIImage *)image oid:(NSString *)oid type:(NSString *)type andblock:(void (^)(NSDictionary *dictionary))block;
+
+/**查看历史发布
+ *
+ */
+
++ (void)checkHistoryPublishWithPage:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
 @end
