@@ -113,7 +113,6 @@ static NSString *LastCellIdentifier = @"LastCell";
     }];
 
     
-
     // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
     NSArray *imageArray = @[@"http://cdn.cofactories.com/banner/banner1.png",@"http://cdn.cofactories.com/banner/banner2.png",@"http://cdn.cofactories.com/banner/banner3.png"];
