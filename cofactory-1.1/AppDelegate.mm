@@ -7,6 +7,7 @@
 //
 #import "Header.h"
 #import "AppDelegate.h"
+
 #import "ZWIntroductionViewController.h"
 #import "UMSocial.h"
 #import "UMFeedback.h"
@@ -15,17 +16,7 @@
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define _IPHONE80_ 80000
-
 #define  kNavTitleFontSize 18
-
-//企业版
-//#define UMENGAppKey @"55e03514e0f55a390f003db7"
-//#define mapApi @"pnnhXGR5g1cLReulX6fOQxMQ"
-
-//个人开发者版
-#define UMENGAppKey @"5566b5e767e58e0c4700aab0"
-#define mapApi @"ijDoxrS8H8lrgD9GDbLQpjNR"
-
 
 @interface AppDelegate ()
 @property (nonatomic, strong) ZWIntroductionViewController *introductionView;
@@ -38,56 +29,69 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window = [[UIWindow alloc] initWithFrame:kScreenBounds];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    //设置导航条样式
-    [self customizeInterface];
+    if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
+        //个人开发者 关闭蒲公英
+        DLog(@"个人开发者 关闭蒲公英");
 
-    if ([Tools isTourist]) {
-        NSArray *coverImageNames = @[@"img_index_01txt", @"img_index_02txt", @"img_index_03txt"];
-        NSArray *backgroundImageNames = @[@"img_index_01bg", @"img_index_02bg", @"img_index_03bg"];
-        self.introductionView = [[ZWIntroductionViewController alloc] initWithCoverImageNames:coverImageNames backgroundImageNames:backgroundImageNames];
+        // 初始化百度地图 SDK
+        _mapManager = [[BMKMapManager alloc] init];
+        BOOL ret = [_mapManager start:appStoreMapApi  generalDelegate:nil];
 
-        NSArray *cofactoryImageNames = @[@"引导页1", @"引导页2", @"引导页3"];
+        if (!ret) {
+            DLog(@"百度地图SDK错误");
+        }
+        // 友盟分享
+        [UMSocialData setAppKey:appStoreUMENGAppKey];
+        //[UMSocialData openLog:YES];
+        // 友盟用户反馈
+        [UMFeedback setAppkey:appStoreUMENGAppKey];
+        // 注册友盟统计 SDK
+        [MobClick startWithAppkey:appStoreUMENGAppKey reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
+        [MobClick setAppVersion:kVersion_Coding];
 
-        self.introductionView = [[ZWIntroductionViewController alloc] initWithCoverImageNames:cofactoryImageNames backgroundImageNames:nil];
-        [self.window addSubview:self.introductionView.view];
+        // 注册友盟推送服务 SDK
+        //set AppKey and LaunchOptions
+        [UMessage startWithAppkey:appStoreUMENGAppKey launchOptions:launchOptions];
+        
+    }else
+    {
+        //企业账号 开启蒲公英
+        DLog(@"企业账号 开启蒲公英")
+        //  关闭用户手势反馈，默认为开启。
+        [[PgyManager sharedPgyManager] setEnableFeedback:NO];
+        //  设置用户反馈界面的颜色，颜色会影响到Title以及工具栏的背景颜色和录音按钮的边框颜色，默认为黑色。
+        [[PgyManager sharedPgyManager] setThemeColor:[UIColor colorWithHexString:@"0x28303b"]];
+        //  启动SDK
+        //  设置三指拖动激活摇一摇需在此调用之前
+        
+        [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
 
-        __weak AppDelegate *weakSelf = self;
-        self.introductionView.didSelectedEnter = ^() {
-            [weakSelf.introductionView.view removeFromSuperview];
-            weakSelf.introductionView = nil;
-            // enter main view , write your code ...
-            ViewController *mainVC = [[ViewController alloc] init];
-            weakSelf.window.rootViewController = mainVC;
-        };
-    }else{
-        ViewController *mainVC = [[ViewController alloc] init];
-        self.window.rootViewController = mainVC;
+        // 初始化百度地图 SDK
+        _mapManager = [[BMKMapManager alloc] init];
+        BOOL ret = [_mapManager start:mapApi  generalDelegate:nil];
+
+        if (!ret) {
+            DLog(@"百度地图SDK错误");
+        }
+        // 友盟分享
+        [UMSocialData setAppKey:UMENGAppKey];
+        //[UMSocialData openLog:YES];
+        // 友盟用户反馈
+        [UMFeedback setAppkey:UMENGAppKey];
+        // 注册友盟统计 SDK
+        [MobClick startWithAppkey:UMENGAppKey reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
+        // Version 标识
+        NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        [MobClick setAppVersion:version];
+
+        // 注册友盟推送服务 SDK
+        //set AppKey and LaunchOptions
+        [UMessage startWithAppkey:UMENGAppKey launchOptions:launchOptions];
     }
 
-    // 初始化百度地图 SDK
-    _mapManager = [[BMKMapManager alloc] init];
-    BOOL ret = [_mapManager start:mapApi  generalDelegate:nil];
-
-    if (!ret) {
-        DLog(@"百度地图SDK错误");
-    }
-    // 友盟分享  
-    [UMSocialData setAppKey:UMENGAppKey];
-    //[UMSocialData openLog:YES];
-    // 友盟用户反馈
-    [UMFeedback setAppkey:UMENGAppKey];
-    // 注册友盟统计 SDK
-    [MobClick startWithAppkey:UMENGAppKey reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
-    // Version 标识
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    [MobClick setAppVersion:version];
-
-    // 注册友盟推送服务 SDK
-    //set AppKey and LaunchOptions
-    [UMessage startWithAppkey:UMENGAppKey launchOptions:launchOptions];
 
 //    [UMessage setAutoAlert:NO];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
@@ -128,22 +132,40 @@
      |UIRemoteNotificationTypeAlert];
 
 #endif
-
     //for log
     [UMessage setLogEnabled:YES];
 
 
-    //个人开发者 蒲公英SDK
+    //设置导航条样式
 
-//    //  关闭用户手势反馈，默认为开启。
-//    [[PgyManager sharedPgyManager] setEnableFeedback:NO];
+    [self customizeInterface];
+
+    ViewController *mainVC = [[ViewController alloc] init];
+    self.window.rootViewController = mainVC;
+
+
+//    if ([Tools isTourist]) {
+//        NSArray *coverImageNames = @[@"img_index_01txt", @"img_index_02txt", @"img_index_03txt"];
+//        NSArray *backgroundImageNames = @[@"img_index_01bg", @"img_index_02bg", @"img_index_03bg"];
+//        self.introductionView = [[ZWIntroductionViewController alloc] initWithCoverImageNames:coverImageNames backgroundImageNames:backgroundImageNames];
 //
-//    //  设置用户反馈界面的颜色，颜色会影响到Title以及工具栏的背景颜色和录音按钮的边框颜色，默认为黑色。
-//    [[PgyManager sharedPgyManager] setThemeColor:[UIColor colorWithHexString:@"0x28303b"]];
+//        NSArray *cofactoryImageNames = @[@"引导页1", @"引导页2", @"引导页3"];
 //
-//    //  启动SDK
-//    //  设置三指拖动激活摇一摇需在此调用之前
-//    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
+//        self.introductionView = [[ZWIntroductionViewController alloc] initWithCoverImageNames:cofactoryImageNames backgroundImageNames:nil];
+//        [self.window addSubview:self.introductionView.view];
+//
+//        __weak AppDelegate *weakSelf = self;
+//        self.introductionView.didSelectedEnter = ^() {
+//            [weakSelf.introductionView.view removeFromSuperview];
+//            weakSelf.introductionView = nil;
+//            // enter main view , write your code ...
+//            ViewController *mainVC = [[ViewController alloc] init];
+//            weakSelf.window.rootViewController = mainVC;
+//        };
+//    }else{
+//        ViewController *mainVC = [[ViewController alloc] init];
+//        self.window.rootViewController = mainVC;
+//    }
 
     [_window makeKeyAndVisible];
     return YES;

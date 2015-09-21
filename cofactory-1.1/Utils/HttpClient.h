@@ -13,6 +13,8 @@
 #import "OrderModel.h"
 #import "MessageModel.h"
 #import "UpYun.h"
+#import "BidManagerModel.h"
+
 
 @interface HttpClient : NSObject
 
@@ -171,7 +173,7 @@
  @param uid   用户uid
  @param block 回调函数 会返回 @{@"statusCode": @200, @"model": UserModel对象}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误) @{@"statusCode": @400, @"message": @"未登录"} @{@"statusCode": @401, @"message": @"access_token过期或者无效"} @{@"statusCode": @404, @"message": @"access_token不存在"}
  */
-+ (void)getUserProfileWithUid:(NSString *)uid andBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)getUserProfileWithUid:(NSInteger )uid andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 ///*!
 // 获取任意用户资料
@@ -209,14 +211,18 @@
 
  @param menuArray 菜单id数组
  @param block     回调函数 会返回 0->(网络错误) 200->(更新成功) 400->(未登录) 401->(access_toke过期或者无效) 404->(access_token不存在)
+
+ + (void)updateMenuWithMenuArray:(NSArray *)menuArray andBlock:(void (^)(int statusCode))block;
+
  */
-+ (void)updateMenuWithMenuArray:(NSArray *)menuArray andBlock:(void (^)(int statusCode))block;
 /*!
  菜单列表
 
  @param block 回调函数 会返回 @{@"statusCode": @200, @"responseArray": 菜单id数组}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误) @{@"statusCode": @400, @"message": @"未登录"}->(未登录) @{@"statusCode": @401, @"message": @"access_token过期或者无效"}->(access_token过期或者无效) @{@"statusCode": @404, @"message": @"access_token不存在"}
+ 
+ + (void)listMenuWithBlock:(void (^)(NSDictionary *responseDictionary))block;
+
  */
-+ (void)listMenuWithBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 /*!
  创建订单接口
@@ -380,4 +386,63 @@
  * @param oid   订单oid
  */
 + (void)deleteOrderWithOrderOid:(int)oid completionBlock:(void(^)(int statusCode))block;
+
+/**登记投标
+ *@param oid   订单oid
+  @param string 备注
+ */
++ (void)registBidWithOid:(int)oid commit:(NSString *)commit completionBlock:(void(^)(int statusCode))block;
+
+/**资讯列表(中间资讯)
+ *
+ */
++ (void)getHeaderInfomationWithBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+/**资讯列表(下边资讯)
+ *
+ */
++ (void)getInfomationWithKind:(NSString *)kind andBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+/**评论列表
+ *@param oid   ID
+ */
++ (void)getCommentWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
+/** 提交评论
+ *@param ID   ID
+  @param content  评论内容
+ */
+
++ (void)pushCommentWithID:(NSString *)ID content:(NSString *)content andBlock:(void (^)(int))block;
+/** 点赞
+ *@param ID   ID
+ */
++ (void)pushLikeWithID:(NSString *)ID andBlock:(void (^)(int))block;
+
+/** 提交面辅料信息
+ *@param
+ */
+
+
++ (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(int)price width:(int)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block;
+/**发布求购信息
+ *
+ */
++ (void)sendMaterialPurchaseInfomationWithType:(NSString *)aType name:(NSString *)aName description:(NSString *)aDescription amount:(NSNumber *)aAmount unit:(NSString *)aUnit completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+/**面辅料图片上传
+ *
+ */
++ (void)uploadMaterialImageWithImage:(UIImage *)image oid:(NSString *)oid type:(NSString *)type andblock:(void (^)(NSDictionary *dictionary))block;
+
+/**查看历史发布
+ *
+ */
+
++ (void)checkHistoryPublishWithPage:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+/**查看面辅料历史发布
+ *
+ */
++ (void)checkMaterialHistoryPublishWithPage:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
 @end

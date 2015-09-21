@@ -9,9 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <BaiduMapAPI/BMapKit.h>
 
-
 #define PGY_APPKEY @"5a53ca291f9b941c3c009f04fe23d2cc"
-
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

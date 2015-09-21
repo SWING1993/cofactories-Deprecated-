@@ -15,7 +15,7 @@
     UITableView *_tableView;
     NSInteger _deleteOrderIndex;
 }
-@property (nonatomic, retain)NSMutableArray*orderModerArr;
+@property (nonatomic, strong)NSArray *orderModerArr;
 @end
 
 @implementation OrderListViewController {
@@ -25,25 +25,27 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     self.view.backgroundColor = [UIColor whiteColor];
-    if (self.isHistory==YES) {
+    if (self.myOrderEnum == HistoryOrder) {
         self.title=@"历史订单";
-        self.orderModerArr=[[NSMutableArray alloc]initWithCapacity:0];
         [HttpClient listHistoryOrderWithBlock:^(NSDictionary *responseDictionary) {
             if ([responseDictionary[@"statusCode"] intValue]==200) {
                 self.orderModerArr=responseDictionary[@"responseArray"];
                 [_tableView reloadData];
             }
         }];
-    }else{
+    }if (self.myOrderEnum == GarmentFactoryOrder){
         self.title=@"进行中的订单";
-        self.orderModerArr=[[NSMutableArray alloc]initWithCapacity:0];
         [HttpClient listOrderWithBlock:^(NSDictionary *responseDictionary) {
             if ([responseDictionary[@"statusCode"] intValue]==200) {
                 self.orderModerArr=responseDictionary[@"responseArray"];
                 [_tableView reloadData];
             }
         }];
+    }if (self.myOrderEnum == ProcessingFactoryOrder) {
+        self.title=@"加工厂订单";
+        self.orderModerArr = nil;
     }
 }
 
@@ -65,8 +67,13 @@
 }
 
 - (void)goBack {
-    NSArray *navArray = self.navigationController.viewControllers;
-    [self.navigationController popToViewController:navArray[1] animated:YES];
+    
+    if (self.myOrderEnum == ProcessingFactoryOrder) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        NSArray *navArray = self.navigationController.viewControllers;
+        [self.navigationController popToViewController:navArray[1] animated:YES];
+    }
 }
 
 #pragma mark--表的协议方法
@@ -85,19 +92,19 @@
     OrderListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
     OrderModel*model = self.orderModerArr[indexPath.row];
-    
-    if (model.type==1) {
+
+    if (model.type == 2 || model.type == 3) {
+        cell.orderTypeLabel.hidden = YES;
+        cell.workingTimeLabel.hidden = YES;
+
+    }else{
+        cell.orderTypeLabel.hidden = NO;
         cell.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
-        
         cell.workingTimeLabel.hidden = NO;
         cell.workingTimeLabel.text = [NSString stringWithFormat:@"期限 :  %@天",model.workingTime];
-        
-    }else
-    {
-        cell.workingTimeLabel.hidden = YES;
     }
     
-    //gt123
+
     NSMutableArray *arr = [Tools WithTime:model.createTime];
     cell.timeLabel.text = arr[0];
    [cell.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"]];//gt123
@@ -113,18 +120,18 @@
         cell.interestCountLabel.text = [NSString stringWithFormat:@"%d",model.interest];
     }
 
-    if (self.isHistory == YES) {
+    if (self.myOrderEnum == HistoryOrder) {
         cell.statusImage.hidden = NO;
-    }if (self.isHistory == NO) {
+    }if (self.myOrderEnum == GarmentFactoryOrder) {
         cell.statusImage.hidden = YES;
     }
     
     [cell.orderDetailsBtn addTarget:self action:@selector(orderDetailsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     cell.orderDetailsBtn.tag = indexPath.row+1;
     
-    if (self.isHistory == YES) {
+    if (self.myOrderEnum == HistoryOrder) {
         cell.deleteButton.hidden = YES;
-    }if (self.isHistory == NO) {
+    }if (self.myOrderEnum == GarmentFactoryOrder) {
         cell.deleteButton.hidden = NO;
         [cell.deleteButton addTarget:self action:@selector(deleteOrderClick:) forControlEvents:UIControlEventTouchUpInside];
         cell.deleteButton.tag = indexPath.row+1;
@@ -143,10 +150,10 @@
     OrderModel*model = self.orderModerArr[button.tag-1];
     OrderDetailViewController *VC = [[OrderDetailViewController alloc]init];
     VC.model=model;
-    if (self.isHistory==YES)
+    if (self.myOrderEnum==HistoryOrder)
     {
         VC.isHistory =YES;
-    }else{
+    }if (self.myOrderEnum == GarmentFactoryOrder){
         VC.isHistory = NO;
     }
     UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];

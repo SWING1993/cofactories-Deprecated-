@@ -12,7 +12,11 @@
 #import "UMFeedback.h"
 
 
+#import "ZFModalTransitionAnimator.h"
+
 @interface SetViewController () <UIAlertViewDelegate,UMSocialUIDelegate>
+
+@property (nonatomic, strong) ZFModalTransitionAnimator *animator;
 
 @end
 
@@ -33,26 +37,16 @@
     inviteCodeTF.borderStyle=UITextBorderStyleRoundedRect;
     inviteCodeTF.keyboardType=UIKeyboardTypeNumberPad;
     inviteCodeTF.placeholder=@"邀请码";
-
-    //设置Btn
-//    UIBarButtonItem *quitButton = [[UIBarButtonItem alloc] initWithTitle:@"退出登录" style:UIBarButtonItemStylePlain target:self action:@selector(quitButtonClicked)];
-//    self.navigationItem.rightBarButtonItem = quitButton;
-
+    
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
 
     quitButton=[[UIButton alloc]initWithFrame:CGRectMake(50, 7, kScreenW-100, 30)];
-//    quitButton.layer.cornerRadius=5.0f;
-//    quitButton.tag=1;
-//    quitButton.layer.masksToBounds=YES;
-//    [quitButton setBackgroundImage:[UIImage imageNamed:@"btnImageSelected"] forState:UIControlStateNormal];
     [quitButton setTitle:@"退出登录" forState:UIControlStateNormal];
     [quitButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     //loginBtn.alpha=0.8f;
     [quitButton addTarget:self action:@selector(quitButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:loginBtn];
-
-
+    
 }
 
 - (void)quitButtonClicked{
@@ -71,16 +65,13 @@
 
 - (void)OKBtn {
     if (inviteCodeTF.text.length!=0) {
-        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"邀请码提交成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
+        [Tools showHudTipStr:@"邀请码提交成功!"];
         [HttpClient registerWithInviteCode:inviteCodeTF.text andBlock:^(NSDictionary *responseDictionary) {
             DLog(@"%@",responseDictionary);
         }];
     }else{
-        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您填写邀请码后再提交" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alertView show];
+        [Tools showHudTipStr:@"请您填写邀请码后再提交!"];
     }
-
 }
 
 //- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -179,7 +170,18 @@
             RevisePasswordViewController*reviseVC = [[RevisePasswordViewController alloc]init];
             UINavigationController*reviseNav = [[UINavigationController alloc]initWithRootViewController:reviseVC];
             reviseNav.navigationBar.barStyle=UIBarStyleBlack;
+//            [self presentViewController:reviseNav animated:YES completion:nil];
+            
+            reviseNav.modalPresentationStyle = UIModalPresentationCustom;
+            self.animator = [[ZFModalTransitionAnimator alloc] initWithModalViewController:reviseNav];
+            self.animator.dragable = YES;
+            self.animator.bounces = NO;
+            self.animator.behindViewAlpha = 0.5f;
+            self.animator.behindViewScale = 0.5f;
+            self.animator.direction = ZFModalTransitonDirectionBottom;
+            reviseNav.transitioningDelegate = self.animator;
             [self presentViewController:reviseNav animated:YES completion:nil];
+
 
         }
             break;
@@ -190,7 +192,7 @@
 
             //蒲公英反馈
             //[self showFeedbackView];
-
+          
         }
             break;
         case 2:{
@@ -205,7 +207,23 @@
 
         case 3:{
             AboutViewController*aboutVC = [[AboutViewController alloc]init];
-            [self.navigationController pushViewController:aboutVC animated:YES];
+//            [self.navigationController pushViewController:aboutVC animated:YES];
+            
+            UINavigationController*aboutNav = [[UINavigationController alloc]initWithRootViewController:aboutVC];
+            aboutNav.navigationBar.barStyle=UIBarStyleBlack;
+            //            [self presentViewController:reviseNav animated:YES completion:nil];
+            
+            aboutNav.modalPresentationStyle = UIModalPresentationCustom;
+            self.animator = [[ZFModalTransitionAnimator alloc] initWithModalViewController:aboutNav];
+            self.animator.dragable = YES;
+            self.animator.bounces = NO;
+            self.animator.behindViewAlpha = 0.5f;
+            self.animator.behindViewScale = 0.5f;
+            self.animator.direction = ZFModalTransitonDirectionBottom;
+            aboutNav.transitioningDelegate = self.animator;
+            [self presentViewController:aboutNav animated:YES completion:nil];
+            
+
 
         }
             break;

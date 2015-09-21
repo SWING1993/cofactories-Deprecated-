@@ -12,30 +12,52 @@
 
 @interface Tools : NSObject
 
-//分割字符串
+/*!
+ 分割公司size
+
+ @param sizeString size字符串
+
+ @return firstobject 返回第一个数值  lastobject 返回第二个数值
+ */
 + (NSMutableArray *)RangeSizeWith:(NSString *)sizeString;
 
+/*!
+ 分割时间
 
+ @param timeString 日期字符串
+
+ @return 数组firstObject 返回年月日  lastOBject 返回时分秒
+ */
 + (NSMutableArray *)WithTime:(NSString *)timeString;
 
+/*!
+ 创建 MBProgressHUD
 
-
+ @return MBProgressHUD
+ */
 + (MBProgressHUD *)createHUD;
 
 
 + (NSString *)SizeWith:(NSString *)sizeString;
 
 
+///*!
+// 身份是不是游客
+//
+// @return YES=游客  NO=已登录
+// */
+//+ (BOOL)isTourist;
+
+
 /*!
- 身份是不是游客
+ 几天后
 
- @return YES=游客  NO=已登录
+ @param comps 日期
+
+ @return 几天后
  */
-+ (BOOL)isTourist;
-
-
-
 + (NSString *)compareIfTodayAfterDates:(NSDate *)comps;
+
 
 /*!
  提示框
@@ -43,6 +65,7 @@
  @param tipStr 提示框文本
  */
 + (void)showHudTipStr:(NSString *)tipStr;
+
 
 /*!
  图片模糊
@@ -52,6 +75,19 @@
  @return 模糊过的图片
  */
 + (UIImage *)imageBlur:(UIImage *)aImage;
+
+/*!
+ 计算时间
+ 
+ @param newsDate 日期格式  @"2013-08-09 17:01"
+ 
+ @return 距现在多长时间
+ */
+
++ (NSString *)getUTCFormateDate:(NSString *)newsDate;
+
+// 检查网络环境
++ (void)AFNetworkReachabilityStatusReachableVia ;
 
 
 @end

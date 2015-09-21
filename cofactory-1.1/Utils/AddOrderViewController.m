@@ -273,7 +273,7 @@
 
     DLog(@"oid=%@",self.oid);
     OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
-    orderListVC.isHistory=NO;
+    orderListVC.myOrderEnum=GarmentFactoryOrder;
     [self.navigationController pushViewController:orderListVC animated:YES];
 }
 
@@ -402,8 +402,6 @@
     }
 }
 
-
-
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     if (pickerView.tag==1) {
@@ -439,8 +437,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         cell.textLabel.font=[UIFont systemFontOfSize:15.0f];
-        NSMutableArray*cellArr=[[NSMutableArray alloc]initWithCapacity:0];
-        cellArr=self.listData[self.type];
+//        NSMutableArray*cellArr=[[NSMutableArray alloc]initWithCapacity:0];
+        NSArray*cellArr=self.listData[self.type];
         cell.textLabel.text=cellArr[indexPath.section];
 
         if (self.type==0) {
@@ -713,7 +711,6 @@
     browser.currentPhotoIndex = indexPath.row;
     browser.photos = photos;
     [browser show];
-
 
 }
 

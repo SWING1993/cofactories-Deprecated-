@@ -54,7 +54,22 @@
 
 @end
 
-@implementation FactoryListViewController
+@implementation FactoryListViewController{
+    BOOL _wasKeyboardManagerEnabled;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
+    [[IQKeyboardManager sharedManager] setEnable:NO];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -279,11 +294,9 @@
             // DLog(@"factoryFreeTime==%@",factoryModel.factoryFreeTime);
             
             if (factoryModel.factoryFreeTime == nil) {
-                DLog(@"234");
                 cell.isBusyLB.text = @"空闲";
 
             }else{
-                DLog(@"678");
                 NSString *dateString = factoryModel.factoryFreeTime;
                 NSArray *array = [dateString componentsSeparatedByString:@"T"];
                 NSDate *dateForCell = [_dateFormatter dateFromString:array[0]];
@@ -382,29 +395,16 @@
     }
     
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-    {
-        if ([Tools isTourist]) {
-            //游客
-            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您登录后才使用这项服务,是否登录？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            alertView.tag=5;
-            
-            [alertView show];
-        }else{
-            FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
-            CooperationInfoViewController*cooperationInfoVC = [[CooperationInfoViewController alloc]init];
-            cooperationInfoVC.factoryModel=factoryModel;
-            cooperationInfoVC.hidesBottomBarWhenPushed=YES;
-            [self.navigationController pushViewController:cooperationInfoVC animated:YES];
-        }
-    }
-    - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-        if (buttonIndex==1) {
-            if (alertView.tag==5) {
-                [ViewController goLogin];
-            }
-        }
-    }
-    
+
+{
+    FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
+    CooperationInfoViewController*cooperationInfoVC = [[CooperationInfoViewController alloc]init];
+    cooperationInfoVC.factoryModel=factoryModel;
+    cooperationInfoVC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:cooperationInfoVC animated:YES];
+
+}
+
 #pragma mark -- 有无货车按钮
     - (void)buttonClick:(id)sender
     {
@@ -1252,88 +1252,89 @@
         _datePicker=nil;
         
         self.JSDropDownMenu.dataSource = nil;
-        self.JSDropDownMenu.delegate = nil;}
+        self.JSDropDownMenu.delegate = nil;
+    }
     
 #pragma mark - <UISearchBarDelegate>
     
-//    - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//        [self.navigationItem.titleView endEditing:YES];
-//    }
-//    
-    - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-    {
-        [searchBar resignFirstResponder];
-        DLog(@"333%@",searchBar.text);
-        
-        
-        _refrushCount = 1;
-        [HttpClient searchWithFactoryName:searchBar.text factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil page:(@1)andBlock:^(NSDictionary *responseDictionary) {
-            
-            self.factoryModelArray = nil;
-            self.factoryModelArray = responseDictionary[@"responseArray"];
-            [_tableView reloadData];
-            
-            if (self.factoryModelArray.count == 0)
-            {
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"搜索结果" message:@"您搜索的工厂暂时不存在" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                [alertView show];
-            }
-        }];
-        
-    }
-    
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.navigationItem.titleView endEditing:YES];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    DLog(@"333%@",searchBar.text);
+
+
+    _refrushCount = 1;
+    [HttpClient searchWithFactoryName:searchBar.text factoryType:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil page:(@1)andBlock:^(NSDictionary *responseDictionary) {
+
+        self.factoryModelArray = nil;
+        self.factoryModelArray = responseDictionary[@"responseArray"];
+        [_tableView reloadData];
+
+        if (self.factoryModelArray.count == 0)
+        {
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"搜索结果" message:@"您搜索的工厂暂时不存在" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alertView show];
+        }
+    }];
+
+}
+
 #pragma mark -- 日期选择器
-    
-    -(void)datePickerDonePressed:(THDatePickerViewController *)datePicker
+-(void)datePickerDonePressed:(THDatePickerViewController *)datePicker
+{
+    self.curDate = datePicker.date;
+
+    NSString *string1 = [NSString stringWithFormat:@"%@",[_formatter stringFromDate:self.curDate]];
+
+    DLog(@"+++++%@",string1);
+    NSArray *array1 = [string1 componentsSeparatedByString:@"年"];
+    DLog(@"+++++%@",array1[0]);
+    NSString *string2 = array1[1];
+    DLog(@"+++++%@",array1[1]);
+    NSArray *array2 = [string2 componentsSeparatedByString:@"月"];
+    DLog(@"+++++%@",array2[0]);
+    NSString *string3 = array2[1];
+    NSArray *array3 = [string3 componentsSeparatedByString:@"日"];
+
+    NSString *string = [NSString stringWithFormat:@"%@-%@-%@",array1[0],array2[0],array3[0]];
+
+    DLog(@"string===+++++%@",string);
+
+
+    self.factoryFree = string;
+
+    if (self.dateArray.count == 0)
     {
-        self.curDate = datePicker.date;
-        
-        NSString *string1 = [NSString stringWithFormat:@"%@",[_formatter stringFromDate:self.curDate]];
-        
-        DLog(@"+++++%@",string1);
-        NSArray *array1 = [string1 componentsSeparatedByString:@"年"];
-        DLog(@"+++++%@",array1[0]);
-        NSString *string2 = array1[1];
-        DLog(@"+++++%@",array1[1]);
-        NSArray *array2 = [string2 componentsSeparatedByString:@"月"];
-        DLog(@"+++++%@",array2[0]);
-        NSString *string3 = array2[1];
-        NSArray *array3 = [string3 componentsSeparatedByString:@"日"];
-        
-        NSString *string = [NSString stringWithFormat:@"%@-%@-%@",array1[0],array2[0],array3[0]];
-        
-        DLog(@"string===+++++%@",string);
-        
-        
-        self.factoryFree = string;
-        
-        if (self.dateArray.count == 0)
-        {
-            [self.dateArray addObject:self.factoryFree];
-        }
-        if (self.dateArray.count>0)
-        {
-            [self.dateArray replaceObjectAtIndex:0 withObject:self.factoryFree];
-        }
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
-        //    [self dismissViewControllerAnimated:YES completion:nil];
-        
-            DLog(@"++++++++++========self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
-        
-        _refrushCount = 1;
-        [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree page:(@1) andBlock:^(NSDictionary *responseDictionary) {
-            
-            self.factoryModelArray = nil;
-            self.factoryModelArray = responseDictionary[@"responseArray"];
-            [_tableView reloadData];
-        }];
+        [self.dateArray addObject:self.factoryFree];
     }
-    
-    -(void)datePickerCancelPressed:(THDatePickerViewController *)datePicker
+    if (self.dateArray.count>0)
     {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self.dateArray replaceObjectAtIndex:0 withObject:self.factoryFree];
     }
-    
-    
-    @end
+
+    [self dismissViewControllerAnimated:YES completion:nil];
+    //    [self dismissViewControllerAnimated:YES completion:nil];
+
+    DLog(@"++++++++++========self.factoryName=%@,self.factoryType=%d,self.factoryServiceRange=%@,self.factorySizeMin=%@,self.factorySizeMax=%@,self.factoryDistanceMin=%@,self.factoryDistanceMax=%@,self.isHaveTruck=%d,self.factoryFree=%@",self.factoryName,self.factoryType,self.factoryServiceRange,self.factorySizeMin,self.factorySizeMax,self.factoryDistanceMin,self.factoryDistanceMax,self.isHaveTruck,self.factoryFree);
+
+    _refrushCount = 1;
+    [HttpClient searchWithFactoryName:self.factoryName factoryType:self.factoryType factoryServiceRange:self.factoryServiceRange factorySizeMin:self.factorySizeMin factorySizeMax:self.factorySizeMax factoryDistanceMin:self.factoryDistanceMin factoryDistanceMax:self.factoryDistanceMax Truck:_number factoryFree:self.factoryFree page:(@1) andBlock:^(NSDictionary *responseDictionary) {
+
+        self.factoryModelArray = nil;
+        self.factoryModelArray = responseDictionary[@"responseArray"];
+        [_tableView reloadData];
+    }];
+}
+
+-(void)datePickerCancelPressed:(THDatePickerViewController *)datePicker
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+@end
+

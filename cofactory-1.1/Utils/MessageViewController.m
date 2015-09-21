@@ -23,15 +23,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+    [Tools AFNetworkReachabilityStatusReachableVia];
+
+
     self.messageArray = [[NSMutableArray alloc]initWithCapacity:0];
-    self.view.backgroundColor=[UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets=NO;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor=[UIColor whiteColor];
-    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64-44) style:UITableViewStyleGrouped];
+    
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64-44) style:UITableViewStylePlain];
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
+//    self.tableView.showsVerticalScrollIndicator=NO;
     self.tableView.showsVerticalScrollIndicator=NO;
+
     self.tableView.rowHeight=60;
     [self.view addSubview:self.tableView];
 
@@ -55,6 +60,8 @@
 
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
 {
+    [Tools AFNetworkReachabilityStatusReachableVia];
+
     double delayInSeconds = 2.0;
     //列出合作商
     [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {
@@ -73,69 +80,58 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [self.messageArray count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return [self.messageArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
 
-        MessageModel*model = self.messageArray[indexPath.section];
+        MessageModel*model = self.messageArray[indexPath.row];
 
-        UIImageView*headerImage=[[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 44, 44)];
-        headerImage.image=[UIImage imageNamed:@"消息头像"];
+        UIImageView*headerImage=[[UIImageView alloc]initWithFrame:CGRectMake(10, 7.5, 45, 45)];
+        headerImage.image=[UIImage imageNamed:@"login_logo"];
         headerImage.layer.cornerRadius=44/2.0f;
         [cell addSubview:headerImage];
 
-        UILabel*headerLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
-        headerLabel.font=[UIFont boldSystemFontOfSize:14];
-        headerLabel.text = @"消息";
-        headerLabel.textAlignment=NSTextAlignmentCenter;
+        UILabel*headerLabel=[[UILabel alloc]initWithFrame:CGRectMake(64, 5, kScreenW-64, 20)];
+        headerLabel.font=[UIFont systemFontOfSize:13];
+        headerLabel.text = @"系统消息";
+        headerLabel.textAlignment=NSTextAlignmentLeft;
         [cell addSubview:headerLabel];
 
         UILabel*timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(kScreenW-135, 5, 125, 20)];
-        timeLabel.font=[UIFont boldSystemFontOfSize:14];
+        timeLabel.font=[UIFont systemFontOfSize:12];
         timeLabel.textColor=[UIColor lightGrayColor];
         timeLabel.textAlignment = NSTextAlignmentRight;
         timeLabel.text = model.time1;
         [cell addSubview:timeLabel];
 
         UILabel*messageLabel=[[UILabel alloc]initWithFrame:CGRectMake(64, 30, kScreenW-70, 20)];
-        messageLabel.font=[UIFont boldSystemFontOfSize:14];
-        messageLabel.textColor=[UIColor lightGrayColor];
+        messageLabel.font=[UIFont systemFontOfSize:12];
+        messageLabel.textColor=[UIColor grayColor];
         messageLabel.text = model.message;
         [cell addSubview:messageLabel];
     }
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 5.0f;
-}
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 0.1;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    MessageModel*model = self.messageArray[indexPath.section];
+    MessageModel*model = self.messageArray[indexPath.row];
     MessageDetailViewController*messageDetailVC = [[MessageDetailViewController alloc]init];
     messageDetailVC.hidesBottomBarWhenPushed=YES;
     messageDetailVC.timeString=model.time2;
     messageDetailVC.messageStr=model.message;
     [self.navigationController pushViewController:messageDetailVC animated:YES];
-
 }
-
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

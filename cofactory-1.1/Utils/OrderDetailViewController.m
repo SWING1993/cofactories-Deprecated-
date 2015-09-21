@@ -8,8 +8,9 @@
 
 #import "OrderDetailViewController.h"
 #import "Header.h"
-#import "BidTableViewCell.h"
 #import "OrderPhotoViewController.h"
+#import "BidManagerViewController.h"
+
 @interface OrderDetailViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
     UIView *_view;
@@ -20,7 +21,6 @@
 
 @end
 static  NSString *const cellIdentifier1 = @"cell1";
-static  NSString *const cellIdentifier2 = @"cell2";
 @implementation OrderDetailViewController
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -28,10 +28,9 @@ static  NSString *const cellIdentifier2 = @"cell2";
     
     [HttpClient getBidOrderWithOid:self.model.oid andBlock:^(NSDictionary *responseDictionary) {
         _competeFactoryArray = responseDictionary[@"responseArray"];
-        DLog(@"_competeFactoryArray==%@",_competeFactoryArray);
         [_tableView reloadData];
     }];
-
+    
 }
 
 
@@ -44,7 +43,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
     
     _buttonArray = [[NSMutableArray alloc]init];
     [self creatTableViewAndTableViewHeaderView];
-   
+    
 }
 
 - (void)creatTableViewAndTableViewHeaderView{
@@ -55,7 +54,6 @@ static  NSString *const cellIdentifier2 = @"cell2";
     _tableView.showsVerticalScrollIndicator = NO;
     _tableView.backgroundColor = [UIColor whiteColor];
     [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier1];
-    [_tableView registerClass:[BidTableViewCell class] forCellReuseIdentifier:cellIdentifier2];
     
     [self.view addSubview:_tableView];
     
@@ -102,10 +100,6 @@ static  NSString *const cellIdentifier2 = @"cell2";
         [backgroundView addSubview:label];
     }
     
-    
-
-    
-    
 }
 
 #pragma mark -- table
@@ -117,98 +111,93 @@ static  NSString *const cellIdentifier2 = @"cell2";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
         return 5;
-    }if (section == 1) {
-        return _competeFactoryArray.count;
     }
     return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (indexPath.section == 0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier1 forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
-        cell.textLabel.textColor = [UIColor grayColor];
-        
-        switch (indexPath.row) {
-            case 0:
-                switch (self.model.type) {
-                    case 1:
-                        cell.textLabel.text = @"订单类型:  加工订单";
-                        
-                        break;
-                    case 2:
-                        cell.textLabel.text = @"订单类型:  代裁订单";
-                        
-                        break;
-                    case 3:
-                        cell.textLabel.text = @"订单类型:  锁眼钉扣订单";
-                        
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case 1:
-                cell.textLabel.text = [NSString stringWithFormat:@"订单数量:  %d件",self.model.amount];
-                break;
-            case 2:
-            {
-                cell.textLabel.text = [NSString stringWithFormat:@"工期:  %@天",self.model.workingTime];
-            }
-                break;
-            case 3:
-            {
-                NSMutableArray *array = [Tools WithTime:self.model.createTime];
-                cell.textLabel.text = [NSString stringWithFormat:@"下单时间:  %@",array[0]];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier1 forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
+    cell.textLabel.textColor = [UIColor grayColor];
+    
+    switch (indexPath.row) {
+        case 0:
+            switch (self.model.type) {
 
+                case 2:
+                    cell.textLabel.text = @"订单类型:  代裁订单";
+                    
+                    break;
+                case 3:
+                    cell.textLabel.text = @"订单类型:  锁眼钉扣订单";
+                    
+                    break;
+                default:
+                    cell.textLabel.text = @"订单类型:  加工订单";
+
+                    break;
             }
-                break;
-            case 4:
-            {
-                if ([self.model.comment isEqualToString:@""] || self.model.comment== nil) {
-                    cell.textLabel.text = [NSString stringWithFormat:@"备注:  暂无备注"];
-                }else{
-                    cell.textLabel.text = [NSString stringWithFormat:@"备注:  %@",self.model.comment];
-                }
-                
-            }
-                break;
-            default:
-                break;
+            break;
+        case 1:
+            cell.textLabel.text = [NSString stringWithFormat:@"订单数量:  %d件",self.model.amount];
+            break;
+        case 2:
+        {
+            cell.textLabel.text = [NSString stringWithFormat:@"工期:  %@天",self.model.workingTime];
         }
-        
-        return cell;
-  
+            break;
+        case 3:
+        {
+            NSMutableArray *array = [Tools WithTime:self.model.createTime];
+            cell.textLabel.text = [NSString stringWithFormat:@"下单时间:  %@",array[0]];
+            
+        }
+            break;
+        case 4:
+        {
+            if ([self.model.comment isEqualToString:@""] || self.model.comment== nil) {
+                cell.textLabel.text = [NSString stringWithFormat:@"备注:  暂无备注"];
+            }else{
+                cell.textLabel.text = [NSString stringWithFormat:@"备注:  %@",self.model.comment];
+            }
+            
+        }
+            break;
+        default:
+            break;
     }
     
-    BidTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier2 forIndexPath:indexPath];
-    FactoryModel *facModel = _competeFactoryArray[indexPath.row];
-    cell.companyNameLabel.text = facModel.factoryName;
-    
-    if (self.isHistory == NO) {
-        
-        cell.competeButton.enabled = YES;
-        [cell.competeButton setTitle:@"中标" forState:UIControlStateNormal];
-        cell.competeButton.backgroundColor = [UIColor colorWithRed:205/255.0 green:17/255.0 blue:23/255.0 alpha:1.0];
-        cell.competeButton.tag = facModel.uid;
-        [cell.competeButton addTarget:self action:@selector(competeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    if (self.isHistory == YES) {
-        
-        cell.competeButton.enabled = NO;
-        
-        if (self.model.bidWinner == facModel.uid) {
-            [cell.competeButton setTitle:@"已中标" forState:UIControlStateNormal];
-            cell.competeButton.backgroundColor = [UIColor colorWithRed:205/255.0 green:17/255.0 blue:23/255.0 alpha:1.0];
-        }else{
-            [cell.competeButton setTitle:@"未中标" forState:UIControlStateNormal];
-     cell.competeButton.backgroundColor = [UIColor colorWithRed:154/255.0 green:154/255.0 blue:154/255.0 alpha:1.0];
-        }
-    }
     return cell;
     
+    
+    //    BidTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier2 forIndexPath:indexPath];
+    //    FactoryModel *facModel = _competeFactoryArray[indexPath.row];
+    //    cell.companyNameLabel.text = facModel.factoryName;
+    //
+    //    if (self.isHistory == NO) {
+    //
+    //        cell.competeButton.enabled = YES;
+    //        [cell.competeButton setTitle:@"中标" forState:UIControlStateNormal];
+    //        cell.competeButton.backgroundColor = [UIColor colorWithRed:205/255.0 green:17/255.0 blue:23/255.0 alpha:1.0];
+    //        cell.competeButton.tag = facModel.uid;
+    //        [cell.competeButton addTarget:self action:@selector(competeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    //    }
+    //    if (self.isHistory == YES) {
+    //
+    //        cell.competeButton.enabled = NO;
+    //
+    //        if (self.model.bidWinner == facModel.uid) {
+    //            [cell.competeButton setTitle:@"已中标" forState:UIControlStateNormal];
+    //            cell.competeButton.backgroundColor = [UIColor colorWithRed:205/255.0 green:17/255.0 blue:23/255.0 alpha:1.0];
+    //        }else{
+    //            [cell.competeButton setTitle:@"未中标" forState:UIControlStateNormal];
+    //     cell.competeButton.backgroundColor = [UIColor colorWithRed:154/255.0 green:154/255.0 blue:154/255.0 alpha:1.0];
+    //        }
+    //    }
+    //    return cell;
+    //
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -264,13 +253,24 @@ static  NSString *const cellIdentifier2 = @"cell2";
         competeButton.backgroundColor = [UIColor colorWithRed:57/255.0 green:57/255.0 blue:57/255.0 alpha:1.0];
         competeButton.layer.masksToBounds = YES;
         competeButton.layer.cornerRadius = 5;
+        [competeButton addTarget:self action:@selector(competeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:competeButton];
         
         if (self.isHistory == YES) {
-            [competeButton setTitle:@"已选择" forState:UIControlStateNormal];
+            [competeButton setTitle:@"已完成" forState:UIControlStateNormal];
+            competeButton.enabled = NO;
         }
         if (self.isHistory == NO) {
-            [competeButton setTitle:@"未选择" forState:UIControlStateNormal];
+            
+            if (_competeFactoryArray.count > 0) {
+                [competeButton setTitle:@"投标管理" forState:UIControlStateNormal];
+                competeButton.enabled = YES;
+                
+            }else{
+                [competeButton setTitle:@"暂无投标" forState:UIControlStateNormal];
+                competeButton.enabled = NO;
+            }
+            
         }
         
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 74, kScreenW, 15)];
@@ -298,88 +298,78 @@ static  NSString *const cellIdentifier2 = @"cell2";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (indexPath.section == 1) {
-        CooperationInfoViewController *VC = [[CooperationInfoViewController alloc]init];
-        VC.factoryModel = _competeFactoryArray[indexPath.row];
-        [self.navigationController pushViewController:VC animated:YES];
-    }
-    
     if (indexPath.section == 0 && indexPath.row == 4) {
         if ([self.model.comment isEqualToString:@""] || self.model.comment== nil ) {
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"备注" message:@"暂无备注" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            alert.tag = 3;
             [alert show];
         }else{
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"备注" message:self.model.comment delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            alert.tag = 3;
             [alert show];
         }
         
-        
-        
     }
-
 }
 
 
 #pragma mark -- button
 - (void)orderImageButtonClick{
-
+    
     if (self.model.photoArray.count > 0) {
         OrderPhotoViewController *VC = [[OrderPhotoViewController alloc]initWithPhotoArray:self.model.photoArray];
-        
+        VC.titleString = @"订单图片";
         [self.navigationController pushViewController:VC animated:YES];
         
     }if (self.model.photoArray.count == 0) {
         
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"厂家未上传订单图片" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        alert.tag = 3;
         [alert show];
     }
-
 }
 
 
-
 - (void)competeButtonClick:(id)sender{
-    
-    UIButton *button = (UIButton *)sender;
-    [_buttonArray addObject:button];
+    BidManagerViewController *vc = [[BidManagerViewController alloc]init];
+    vc.bidFactoryArray = _competeFactoryArray;
+    vc.oid = self.model.oid;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确定该用户中标?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    alert.tag = 1;
+- (void)deleteOrderClick{
+    
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"是否取消订单" message:@"订单一旦取消不可恢复，是否取消订单?" delegate:self cancelButtonTitle:@"不取消订单" otherButtonTitles:@"取消订单", nil];
+    alert.tag = 2;
     [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
-    if (alertView.tag == 1) {
-        if (buttonIndex == 0) {
-            [_buttonArray removeObjectAtIndex:0];
-        }
-        
-        if (buttonIndex == 1) {
-            UIButton *button = _buttonArray[0];
-            [HttpClient closeOrderWithOid:self.model.oid Uid:button.tag andBlock:^(int statusCode) {
-                DLog(@"statusCode==%d",statusCode);
-                
-                if (statusCode == 200) {
-                    [Tools showHudTipStr:@"选择成功"];
-                    NSArray *navArray = self.navigationController.viewControllers;
-                    [self.navigationController popToViewController:navArray[1] animated:YES];
-                    
-                }else{
-                    [Tools showHudTipStr:@"选择失败"];
-                }
-            }];
-            
-            
-        }
-
-    }
+    //    if (alertView.tag == 1) {
+    //        if (buttonIndex == 0) {
+    //            [_buttonArray removeObjectAtIndex:0];
+    //        }
+    //
+    //        if (buttonIndex == 1) {
+    //            UIButton *button = _buttonArray[0];
+    //            [HttpClient closeOrderWithOid:self.model.oid Uid:button.tag andBlock:^(int statusCode) {
+    //                DLog(@"statusCode==%d",statusCode);
+    //
+    //                if (statusCode == 200) {
+    //                    [Tools showHudTipStr:@"选择成功"];
+    //                    NSArray *navArray = self.navigationController.viewControllers;
+    //                    [self.navigationController popToViewController:navArray[1] animated:YES];
+    //
+    //                }else{
+    //                    [Tools showHudTipStr:@"选择失败"];
+    //                }
+    //            }];
+    //
+    //
+    //        }
+    //
+    //    }
     
     if (alertView.tag == 2) {
-       
+        
         if (buttonIndex == 1) {
             [HttpClient deleteOrderWithOrderOid:self.model.oid completionBlock:^(int statusCode) {
                 
@@ -388,7 +378,7 @@ static  NSString *const cellIdentifier2 = @"cell2";
                     [Tools showHudTipStr:@"删除订单成功"];
                     
                     [self.navigationController popViewControllerAnimated:YES];
-
+                    
                 }else{
                     
                     [Tools showHudTipStr:@"删除订单失败"];
@@ -398,22 +388,12 @@ static  NSString *const cellIdentifier2 = @"cell2";
         }
     }
     
-    
 }
 
 - (void)dealloc{
     _tableView.delegate = nil;
     _tableView.dataSource = nil;
 }
-
-
-- (void)deleteOrderClick{
-    
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"是否取消订单" message:@"订单一旦取消不可恢复，是否取消订单?" delegate:self cancelButtonTitle:@"不取消订单" otherButtonTitles:@"取消订单", nil];
-    alert.tag = 2;
-    [alert show];
-}
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

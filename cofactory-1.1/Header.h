@@ -1,82 +1,21 @@
-//ios系统版本
-#define ios8x [[[UIDevice currentDevice] systemVersion] floatValue] >=8.0f
-#define ios7x ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0f) && ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0f)
-#define ios6x [[[UIDevice currentDevice] systemVersion] floatValue] < 7.0f
-#define iosNot6x [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0f
-#define kStatusBarHeight 20
-#define kNavigationBarHeight 44
-#define iphone4x_3_5 ([UIScreen mainScreen].bounds.size.height==480.0f)
-#define iphone5x_4_0 ([UIScreen mainScreen].bounds.size.height==568.0f)
-#define iphone6_4_7 ([UIScreen mainScreen].bounds.size.height==667.0f)
-#define iphone6Plus_5_5 ([UIScreen mainScreen].bounds.size.height==736.0f || [UIScreen mainScreen].bounds.size.height==414.0f)
-
-//屏幕宽高
-#define kScreenW [[UIScreen mainScreen] bounds].size.width
-#define kScreenH [[UIScreen mainScreen] bounds].size.height
-
-//屏幕frame,bounds,size
-#define kScreenFrame [UIScreen mainScreen].bounds
-#define kScreenBounds [UIScreen mainScreen].bounds
-#define kScreenSize [UIScreen mainScreen].bounds.size
-
-#define kBannerHeight kScreenW*0.535
-#define kStatusBarHeight 20
-#define kNavigationBarHeight 44
-#define CellIdentifier @"Cell"
-
-
-//正式服务器
-#define kBaseUrl @"http://app2.cofactories.com"
-#define PhotoAPI @"http://cdn.cofactories.com"
-#define bucketAPI @"cofactories"
-
-//测试服务器
-//#define kBaseUrl @"http://test.cofactories.com"
-//#define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
-//#define bucketAPI @"cofactories-test"
-
-//内网服务器
-//#define kBaseUrl @"http://192.168.100.2:3001"
 
 
 #import "AppDelegate.h"
 
 /*!
- Category
- */
-#import "UIBarButtonItem+Common.h"
-#import "UIColor+Expanded.h"
-#import "UIImage+Common.h"
-#import "UIImageView+Common.h"
-
-
-/*!
- Utils
- */
-#import "HttpClient.h"
-#import "Tools.h"
-#import "MobClick.h"
-#import "MBProgressHUD.h"
-#import "UIButton+WebCache.h"
-#import "UIImageView+WebCache.h"
-#import "JSDropDownMenu.h"//筛选
-#import "ODRefreshControl.h"//下拉刷新
-#import <PgySDK/PgyManager.h>
-
-#import "MJPhotoBrowser.h"
-
-
-/*!
  Controller
  */
 #import "ViewController.h"
+
+#import "ButtonView.h"
+#import "PageView.h"
+
 #import "LoginViewController.h"//登录
 #import "RegisterViewController.h"//注册
 #import "ResetPasswordViewController.h" //找回密码
-#import "TouristViewController.h" //游客身份
 
 #import "HomeViewController.h"//HomeVC
-#import "HomeEditViewController.h"//主页编辑
+//#import "HomeEditViewController.h"//主页编辑
 
 //推送助手
 #import "PushViewController.h"
@@ -125,4 +64,21 @@
 #import "UploadImageViewController.h"//上传图片
 #import "FavoriteViewController.h"//我的收藏
 #import "DescriptionViewController.h"//公司简介
+
+//Model
+#import "PushHelperItemModel.h"
+#import "PushHelperModel.h"
+
+#import "FactoryModel.h"
+#import "MessageModel.h"
+#import "OrderModel.h"
+#import "UserModel.h"
+
+#import "FactoryRangeModel.h"
+
+#import "InformationModel.h"
+#import "CommentModel.h"
+
+#import "SupplyHistory.h"
+
 

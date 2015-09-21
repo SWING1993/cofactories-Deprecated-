@@ -101,15 +101,6 @@
     return string;
 }
 
-+ (BOOL)isTourist {
-    
-    if ([HttpClient getToken]) {
-        return NO;
-    }else{
-        return YES;
-    }
-}
-
 //判断几天后
 + (NSString *)compareIfTodayAfterDates:(NSDate *)comps
 {
@@ -147,7 +138,8 @@
         hud.detailsLabelText = tipStr;
         hud.margin = 12.f;
         hud.removeFromSuperViewOnHide = YES;
-        [hud hide:YES afterDelay:1.0];
+        hud.userInteractionEnabled = NO;
+        [hud hide:YES afterDelay:2.0];
     }
 }
 
@@ -245,5 +237,76 @@
     return returnImage;
 }
 
+
++ (NSString *)getUTCFormateDate:(NSString *)newsDate
+{
+    //    newsDate = @"2013-08-09 17:01";
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    NSLog(@"newsDate = %@",newsDate);
+    NSDate *newsDateFormatted = [dateFormatter dateFromString:newsDate];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"GMT"];
+    [dateFormatter setTimeZone:timeZone];
+    
+    NSDate* current_date = [[NSDate alloc] init];
+    
+    NSTimeInterval time=[current_date timeIntervalSinceDate:newsDateFormatted];//间隔的秒数
+    int month = ((int)time)/(3600*24*30);//月
+    int days = ((int)time)/(3600*24);//天
+    int hours = ((int)time)%(3600*24)/3600;//小时
+    int minute = ((int)time)%(3600)/60;//分钟
+    
+    NSString *dateContent;
+    
+    if(month!=0){
+        
+        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",month,@"个月前"];
+        
+    }else if (days !=0){
+        
+        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",days,@"天前"];
+    }else if (hours !=0){
+        
+        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",hours,@"小时前"];
+    }else if (minute != 0){
+        
+        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",minute,@"分钟前"];
+    } else {
+//        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",seconds,@"秒前"];
+        dateContent = @"刚刚";
+    }
+    
+    return dateContent;
+}
+
+
++ (void)AFNetworkReachabilityStatusReachableVia {
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    [manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        //当网络状态发生变化时会调用这个block
+        switch (status) {
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                DLog(@"WiFi");
+                break;
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+                DLog(@"手机网络");
+                break;
+            case AFNetworkReachabilityStatusNotReachable:
+                [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                DLog(@"没有网络");
+                break;
+            case AFNetworkReachabilityStatusUnknown:
+//                [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                DLog(@"未知网络");
+                break;
+
+            default:
+                break;
+        }
+    }];
+    [manager startMonitoring];
+
+}
 
 @end

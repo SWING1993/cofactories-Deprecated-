@@ -46,11 +46,6 @@
         self.workingTimeLabel.font = [UIFont systemFontOfSize:14.0f];
         [self addSubview:self.workingTimeLabel];
         
-//        self.intersestLabelView = [[UIView alloc]initWithFrame:CGRectMake(170, 60, [UIScreen mainScreen].bounds.size.width-180, 20)];
-//        self.intersestLabelView.userInteractionEnabled = YES;
-//        [self addSubview:self.intersestLabelView];
-//
-        
         self.interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 92, (kScreenW-140)/2.0, 22)];
         self.interestCountLabel.font = [UIFont systemFontOfSize:14.0f];
         self.interestCountLabel.textColor = [UIColor orangeColor];
@@ -89,15 +84,58 @@
     return self;
 }
 
+- (void)getDataWithModel:(OrderModel *)model orderListType:(int)orderListType{
+
+    if (model.interest == 0) {
+        self.labels.hidden = YES;
+        self.interestCountLabel.hidden = YES;
+    }else {
+        self.labels.hidden = NO;
+        self.interestCountLabel.hidden = NO;
+        self.interestCountLabel.text = [NSString stringWithFormat:@"%d",model.interest];
+    }
+    
+    if (model.status == 0) {
+        self.statusImage.hidden = YES;
+    }else {
+        self.statusImage.hidden = NO;
+    }
+    
+    NSMutableArray *arr = [Tools WithTime:model.createTime];
+    self.timeLabel.text = arr[0];
+    [self.orderImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,model.oid]] placeholderImage:[UIImage imageNamed:@"placeholder232"]];
+    self.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"件"];
+    
+    if (orderListType == 1  )
+    {
+        self.orderTypeLabel.hidden = NO;
+        self.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
+        self.workingTimeLabel.hidden = NO;
+        self.workingTimeLabel.text = [NSString stringWithFormat:@"期限 :  %@天",model.workingTime];
+    }else{
+        self.orderTypeLabel.hidden = YES;
+        self.workingTimeLabel.hidden = YES;
+    }
+    
+    if (model.type == 1) {
+        
+        self.orderTypeLabel.hidden = NO;
+        self.orderTypeLabel.text = [NSString stringWithFormat:@"订单类型 :  %@",model.serviceRange];
+        self.workingTimeLabel.hidden = NO;
+        self.workingTimeLabel.text = [NSString stringWithFormat:@"期限 :  %@天",model.workingTime];
+    }else{
+        self.orderTypeLabel.hidden = YES;
+        self.workingTimeLabel.hidden = YES;
+    }
+
+}
 
 - (void)awakeFromNib {
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
 }
 
 @end

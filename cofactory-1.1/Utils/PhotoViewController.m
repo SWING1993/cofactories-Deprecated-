@@ -65,10 +65,10 @@
         [HttpClient getFactoryPhotoWithUid:self.userUid type:@"employee" andBlock:^(NSDictionary *dictionary) {
 
             if ([dictionary[@"statusCode"] intValue]== 200) {
-                NSMutableArray*employeeArray = [[NSMutableArray alloc]initWithCapacity:10];
+//                NSMutableArray*employeeArray = [[NSMutableArray alloc]initWithCapacity:10];
                 NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
                 NSDictionary*factory=responseDictionary[@"factory"];
-                employeeArray = factory[@"employee"];
+                NSArray*employeeArray = factory[@"employee"];
                 self.employeeCount = [employeeArray count];
 
                 int Section = 0;
@@ -81,10 +81,10 @@
         [HttpClient getFactoryPhotoWithUid:self.userUid type:@"environment" andBlock:^(NSDictionary *dictionary) {
 
             if ([dictionary[@"statusCode"] intValue]== 200) {
-                NSMutableArray*environmentArray = [[NSMutableArray alloc]initWithCapacity:10];
+//                NSMutableArray*environmentArray = [[NSMutableArray alloc]initWithCapacity:10];
                 NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
                 NSDictionary*factory=responseDictionary[@"factory"];
-                environmentArray=factory[@"environment"];
+                NSArray*environmentArray=factory[@"environment"];
                 self.environmentCount = [environmentArray count];
 
                 int Section = 1;
@@ -97,10 +97,10 @@
 
         [HttpClient getFactoryPhotoWithUid:self.userUid type:@"equipment" andBlock:^(NSDictionary *dictionary) {
             if ([dictionary[@"statusCode"] intValue]== 200) {
-                NSMutableArray*equipmentArray = [[NSMutableArray alloc]initWithCapacity:10];
+//                NSMutableArray*equipmentArray = [[NSMutableArray alloc]initWithCapacity:10];
                 NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
                 NSDictionary*factory=responseDictionary[@"factory"];
-                equipmentArray=factory[@"equipment"];
+                NSArray*equipmentArray=factory[@"equipment"];
                 self.equipmentCount = [equipmentArray count];
 
                 int Section = 2;
