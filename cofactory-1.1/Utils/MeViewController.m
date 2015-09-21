@@ -121,6 +121,18 @@
     cellLabel.font=[UIFont systemFontOfSize:15.0f];
 
     if (indexPath.section == 0) {
+
+//        CGSize itemSize = CGSizeMake(30, 30);
+//
+//        UIGraphicsBeginImageContext(itemSize);
+//
+//        CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+//
+//        [self.cellImageArray1[indexPath.row] drawInRect:imageRect];
+//
+//        cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+//        UIGraphicsEndImageContext();
+
         cellImage.image=self.cellImageArray1[indexPath.row];
 
         switch (indexPath.row) {

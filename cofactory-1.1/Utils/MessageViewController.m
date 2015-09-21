@@ -23,6 +23,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+    [Tools AFNetworkReachabilityStatusReachableVia];
+
+
     self.messageArray = [[NSMutableArray alloc]initWithCapacity:0];
     self.automaticallyAdjustsScrollViewInsets=NO;
     self.view.backgroundColor=[UIColor whiteColor];
@@ -56,6 +60,8 @@
 
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
 {
+    [Tools AFNetworkReachabilityStatusReachableVia];
+
     double delayInSeconds = 2.0;
     //列出合作商
     [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {

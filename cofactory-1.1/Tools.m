@@ -281,4 +281,32 @@
 }
 
 
++ (void)AFNetworkReachabilityStatusReachableVia {
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    [manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        //当网络状态发生变化时会调用这个block
+        switch (status) {
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                DLog(@"WiFi");
+                break;
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+                DLog(@"手机网络");
+                break;
+            case AFNetworkReachabilityStatusNotReachable:
+                [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                DLog(@"没有网络");
+                break;
+            case AFNetworkReachabilityStatusUnknown:
+//                [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                DLog(@"未知网络");
+                break;
+
+            default:
+                break;
+        }
+    }];
+    [manager startMonitoring];
+
+}
+
 @end

@@ -46,20 +46,28 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+
+    [Tools AFNetworkReachabilityStatusReachableVia];
+
+    NSString *homePath = NSHomeDirectory();
+
+    DLog(@"Home目录：%@",homePath);
+
+    DLog(@"缓存%lu",(unsigned long)[[SDImageCache sharedImageCache] getSize]);
+//    [[SDImageCache sharedImageCache] getSize];
+
+
 //    [self.navigationController.navigationBar lt_reset];
 //    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
 //    self.userModel=[[UserModel alloc]init];
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
 
         self.userModel=responseDictionary[@"model"];
-
         //更新公司名称label.text
         factoryNameLabel.text=self.userModel.factoryName;
-
         //更新信息完整度
         int FinishedDegree = self.userModel.factoryFinishedDegree;
         infoLabel.text = [NSString stringWithFormat:@"信息完整度为%d%s",FinishedDegree,"%"];
-
         [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
     }];
 }
@@ -70,8 +78,8 @@
 //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
 }
 - (void)viewDidLoad {
+
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
 
     self.userModel=[[UserModel alloc]init];
 

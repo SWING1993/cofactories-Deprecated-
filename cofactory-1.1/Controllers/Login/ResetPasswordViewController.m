@@ -24,22 +24,22 @@
 
     UIButton*_codeBtn;
 
-    BOOL _wasKeyboardManagerEnabled;
+//    BOOL _wasKeyboardManagerEnabled;
 
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
-    [[IQKeyboardManager sharedManager] setEnable:NO];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
-}
+//-(void)viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+//    _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
+//    [[IQKeyboardManager sharedManager] setEnable:NO];
+//}
+//
+//-(void)viewWillDisappear:(BOOL)animated
+//{
+//    [super viewWillDisappear:animated];
+//    [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
+//}
 
 
 - (void)viewDidLoad {
@@ -159,7 +159,7 @@
                     break;
 
                 default:
-                    [Tools showHudTipStr:@"网络错误"];
+                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
 
                     break;
             }
@@ -174,7 +174,7 @@
         [HttpClient postVerifyCodeWithPhone:_usernameTF.text andBlock:^(int statusCode) {
             switch (statusCode) {
                 case 0:{
-                    [Tools showHudTipStr:@"网络错误"];
+                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
                     [_codeBtn setEnabled:YES];
 
                 }
@@ -209,7 +209,8 @@
                     break;
 
                 default:
-                    [Tools showHudTipStr:@"网络错误"];
+                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                    [_codeBtn setEnabled:YES];
                     break;
             }
         }];

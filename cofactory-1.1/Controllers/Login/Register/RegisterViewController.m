@@ -175,7 +175,7 @@
 
             switch (statusCode) {
                 case 0:{
-                    [Tools showHudTipStr:@"网络错误"];
+                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
                     [authcodeBtn setEnabled:YES];
 
                 }
@@ -211,6 +211,8 @@
                     break;
                     
                 default:
+                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                    [authcodeBtn setEnabled:YES];
                     break;
             }
             DLog(@"验证码code%d",statusCode);
@@ -240,7 +242,7 @@
 
                 if (statusCode == 0) {
                     [hud hide:YES];
-                    [Tools showHudTipStr:@"网络错误"];
+                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
                 }
                 if (statusCode == 200) {
                     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

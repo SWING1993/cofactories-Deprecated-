@@ -268,7 +268,6 @@
 
         if (indexPath.section == 1) {
             cellImage.image=self.cellImageArray2[indexPath.row];
-
             switch (indexPath.row) {
                 case 0:{
                     cellLabel.text=@"公司名称";
