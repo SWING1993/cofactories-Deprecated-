@@ -146,7 +146,7 @@
     [self.view addSubview:_scrollView];
     
     _scrollView.contentSize = CGSizeMake(80 * _imageViewArray.count, 70);
-    for (int i = 0; i < _imageViewArray.count; ++i) {
+    for (int i = 0; i < _imageViewArray.count; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setBackgroundImage:_imageViewArray[i] forState:UIControlStateNormal];
         [button setFrame:CGRectMake(i * 80, 0, 70, 70)];

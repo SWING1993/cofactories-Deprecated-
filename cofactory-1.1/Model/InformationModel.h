@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString *interest;
 @property (nonatomic, assign) int oid;
 @property (nonatomic, strong) NSString *urlString;
+@property (nonatomic, strong) NSString *imageString;
 
 
 @end

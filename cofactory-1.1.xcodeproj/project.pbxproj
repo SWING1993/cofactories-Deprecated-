@@ -210,6 +210,7 @@
 		64266AE81BAD415E003CA582 /* PurchasePublicHistoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 64266AE71BAD415E003CA582 /* PurchasePublicHistoryModel.m */; settings = {ASSET_TAGS = (); }; };
 		64266AEB1BAD61E7003CA582 /* PHPDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64266AEA1BAD61E7003CA582 /* PHPDetailViewController.m */; settings = {ASSET_TAGS = (); }; };
 		642FCE6E1BA7D85400CB2856 /* PopularMesageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 642FCE6D1BA7D85400CB2856 /* PopularMesageViewController.m */; };
+		6478DAC41BAFE18600624A70 /* PHPDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6478DAC31BAFE18600624A70 /* PHPDetailTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		649BA0841B7B15E5008EDE31 /* SearchOrderDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 649BA0831B7B15E5008EDE31 /* SearchOrderDetailsVC.m */; };
 		649CCE3E1B9D622000710B2A /* BidManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649CCE3D1B9D622000710B2A /* BidManagerViewController.m */; };
 		649CCE411B9D64D500710B2A /* BidManagerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 649CCE401B9D64D500710B2A /* BidManagerModel.m */; };
@@ -240,6 +241,7 @@
 		7DCA89A31BABB01D00AB8EC0 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA89A21BABB01D00AB8EC0 /* CommentCell.m */; settings = {ASSET_TAGS = (); }; };
 		7DCA89A61BABBADF00AB8EC0 /* InformationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA89A51BABBADF00AB8EC0 /* InformationModel.m */; settings = {ASSET_TAGS = (); }; };
 		7DE0FFBB1BAAA97A006B9D96 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */; };
+		7DE1630E1BB000A800777AEF /* SupplyHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE1630D1BB000A800777AEF /* SupplyHistory.m */; settings = {ASSET_TAGS = (); }; };
 		7DEE11301BA29CC100678607 /* LastmachineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DEE112F1BA29CC100678607 /* LastmachineCell.m */; };
 		BD041A6B1B69D5DC00F9FC74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */; };
 		BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4311C61B4F41DE0097E4BC /* CooperationViewController.m */; };
@@ -678,6 +680,8 @@
 		64266AEA1BAD61E7003CA582 /* PHPDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPDetailViewController.m; sourceTree = "<group>"; };
 		642FCE6C1BA7D85400CB2856 /* PopularMesageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopularMesageViewController.h; sourceTree = "<group>"; };
 		642FCE6D1BA7D85400CB2856 /* PopularMesageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopularMesageViewController.m; sourceTree = "<group>"; };
+		6478DAC21BAFE18600624A70 /* PHPDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPDetailTableViewCell.h; sourceTree = "<group>"; };
+		6478DAC31BAFE18600624A70 /* PHPDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPDetailTableViewCell.m; sourceTree = "<group>"; };
 		649BA0821B7B15E5008EDE31 /* SearchOrderDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchOrderDetailsVC.h; sourceTree = "<group>"; };
 		649BA0831B7B15E5008EDE31 /* SearchOrderDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchOrderDetailsVC.m; sourceTree = "<group>"; };
 		649CCE3C1B9D622000710B2A /* BidManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidManagerViewController.h; sourceTree = "<group>"; };
@@ -735,6 +739,8 @@
 		7DCA89A51BABBADF00AB8EC0 /* InformationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InformationModel.m; sourceTree = "<group>"; };
 		7DE0FFB91BAAA97A006B9D96 /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
 		7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
+		7DE1630C1BB000A800777AEF /* SupplyHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyHistory.h; sourceTree = "<group>"; };
+		7DE1630D1BB000A800777AEF /* SupplyHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyHistory.m; sourceTree = "<group>"; };
 		7DEE112E1BA29CC100678607 /* LastmachineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastmachineCell.h; sourceTree = "<group>"; };
 		7DEE112F1BA29CC100678607 /* LastmachineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastmachineCell.m; sourceTree = "<group>"; };
 		BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Utils/Images.xcassets; sourceTree = "<group>"; };
@@ -1730,6 +1736,8 @@
 				64266AE41BAD3F82003CA582 /* PurchaseMPTableViewCell.m */,
 				64266AE91BAD61E7003CA582 /* PHPDetailViewController.h */,
 				64266AEA1BAD61E7003CA582 /* PHPDetailViewController.m */,
+				6478DAC21BAFE18600624A70 /* PHPDetailTableViewCell.h */,
+				6478DAC31BAFE18600624A70 /* PHPDetailTableViewCell.m */,
 			);
 			path = PurchaseMaterial;
 			sourceTree = "<group>";
@@ -2119,6 +2127,8 @@
 				7D616B2E1BABE67100ABA177 /* CommentModel.m */,
 				64266AE61BAD415E003CA582 /* PurchasePublicHistoryModel.h */,
 				64266AE71BAD415E003CA582 /* PurchasePublicHistoryModel.m */,
+				7DE1630C1BB000A800777AEF /* SupplyHistory.h */,
+				7DE1630D1BB000A800777AEF /* SupplyHistory.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2468,6 +2478,7 @@
 				0457E3F71B8EE57100F38881 /* SDWebImageManager+MJ.m in Sources */,
 				04B150551B9569CD004E0353 /* IQSegmentedNextPrevious.m in Sources */,
 				04B150501B9569CD004E0353 /* IQUIView+Hierarchy.m in Sources */,
+				6478DAC41BAFE18600624A70 /* PHPDetailTableViewCell.m in Sources */,
 				BDC908E41B4E9B3700856A32 /* MBProgressHUD.m in Sources */,
 				045A26671B686682002DE415 /* CalendarDayModel.m in Sources */,
 				04B7E4321BAFE49D00B83DF0 /* UIColor+expanded.m in Sources */,
@@ -2483,6 +2494,8 @@
 				04AEF4F31BA9332C002DA22E /* UMFeedbackViewController.m in Sources */,
 				64F4C6731B70B31D00F52FF0 /* MJRefreshBaseView.m in Sources */,
 				BD8AD7F41B50E62600373E5E /* UIImageView+WebCache.m in Sources */,
+				04724E781B8870D000F820EF /* UINavigationBar+Awesome.m in Sources */,
+				7DE1630E1BB000A800777AEF /* SupplyHistory.m in Sources */,
 				BDC908FC1B4E9B6B00856A32 /* FactoryModel.m in Sources */,
 				04F60C701B58EF8D00CD3DEC /* ModifySizeViewController.m in Sources */,
 				042A0EE81B7B588100ECE841 /* HttpClient.m in Sources */,

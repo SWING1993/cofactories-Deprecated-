@@ -10,6 +10,7 @@
 
 #import "AddmaterialViewController.h"
 #import "SearchSupplyFactoryViewController.h"
+#import "PurchaseHistoryPublicVC.h"
 
 @interface SupplyViewController ()
 
@@ -21,6 +22,8 @@
     [super viewDidLoad];
     self.navigationItem.title = @"供应面辅料";
     self.view.backgroundColor = [UIColor whiteColor];
+    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"历史发布" style:UIBarButtonItemStyleBordered target:self action:@selector(historyPublishButton)];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
     
     UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"面辅料_标题"]];
     imageView.frame = CGRectMake(100, 60, kScreenW-200, 50);
@@ -49,8 +52,10 @@
 
     if (button.tag == 4) {
         DLog(@"查看求购！");
-        SearchSupplyFactoryViewController *searchSupplyFactoryVC = [[SearchSupplyFactoryViewController alloc] init];
-        [self.navigationController pushViewController:searchSupplyFactoryVC animated:YES];
+        PurchaseHistoryPublicVC *VC = [[PurchaseHistoryPublicVC alloc]init];
+
+        [self.navigationController pushViewController:VC animated:YES];
+
         
         
     }else{
@@ -61,6 +66,15 @@
     }
 
 }
+
+- (void)historyPublishButton {
+    DLog(@"ihfdils");
+    
+    SearchSupplyFactoryViewController *searchSupplyFactoryVC = [[SearchSupplyFactoryViewController alloc] init];
+    [self.navigationController pushViewController:searchSupplyFactoryVC animated:YES];
+    
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

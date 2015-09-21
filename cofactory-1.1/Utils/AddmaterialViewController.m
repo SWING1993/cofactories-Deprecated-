@@ -91,6 +91,52 @@
 }
 
 - (void)pushOrderBtn {
+    DLog(@"%ld", (long)self.materialType)
+    if (self.materialType == 1) {
+        if (self.NameTF.text.length == 0 || self.UseTF.text.length == 0 || self.WidthTF.text.length == 0 || self.PriceTF.text.length == 0) {
+            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单信息不完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alertView show];
+        } else {
+            
+            [HttpClient addMaterialWithType:@"面料" name:self.NameTF.text usage:self.UseTF.text price:[self.PriceTF.text intValue] width:[self.WidthTF.text intValue] description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
+                int statusCode = [responseDictionary[@"statusCode"] intValue];
+                DLog(@"%d", statusCode);
+                if (statusCode==200) {
+                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                    [alertView show];
+                } else {
+                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                    [alertView show];
+
+                }
+
+            }];
+        }
+    } else {
+        if (self.NameTF.text.length == 0 || self.PriceTF.text.length == 0) {
+            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单信息不完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alertView show];
+
+        } else {
+            NSArray *nameArr = @[@"面料", @"辅料", @"坯布"];
+            [HttpClient addMaterialWithType:nameArr[self.materialType - 1] name:self.NameTF.text usage:nil price:[self.PriceTF.text intValue] width:0 description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
+                int statusCode = [responseDictionary[@"statusCode"] intValue];
+                DLog(@"%d", statusCode);
+                if (statusCode==200) {
+                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                    [alertView show];
+                } else {
+                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                    [alertView show];
+                }
+
+            }];
+            
+        }
+        
+        
+        
+    }
 //    AFOAuthCredential *credential=[HttpClient getToken];
 //    NSString*token = credential.accessToken;
 //    DLog(@"%@",token);
@@ -219,7 +265,6 @@
                             [cell addSubview:self.NameTF];
                             NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:@"*品 名"];
                             [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
-
                             cell.textLabel.attributedText = labelText;
                         }
                             break;

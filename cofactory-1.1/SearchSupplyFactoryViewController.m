@@ -21,14 +21,26 @@ static NSString *searchCellIdentifier = @"SearchCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"求购信息";
+    self.title = @"历史发布";
     //注册cell
     [self.tableView registerClass:[SearchSupplyViewCell class] forCellReuseIdentifier:searchCellIdentifier];
     
-    
+    [self network];
     
     
 }
+
+
+- (void)network {
+    [HttpClient checkMaterialHistoryPublishWithPage:1 completionBlock:^(NSDictionary *responseDictionary) {
+        DLog(@"%@", responseDictionary[@"responseObject"]);
+        self.historyArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseObject"]];
+        [self.tableView reloadData];
+        
+        
+    }];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -42,14 +54,14 @@ static NSString *searchCellIdentifier = @"SearchCell";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.historyArray.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SearchSupplyViewCell *cell = [tableView dequeueReusableCellWithIdentifier:searchCellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
+    SupplyHistory *history = self.historyArray[indexPath.row];
+    cell.history = history;
     
     return cell;
 }

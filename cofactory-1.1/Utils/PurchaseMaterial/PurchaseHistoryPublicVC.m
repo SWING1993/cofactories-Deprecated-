@@ -25,6 +25,7 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
     _dataArray = [@[] mutableCopy];
     [HttpClient checkHistoryPublishWithPage:1 completionBlock:^(NSDictionary *responseDictionary){
         NSArray *array = (NSArray *)responseDictionary[@"responseObject"];
@@ -78,6 +79,7 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
     backItem.tintColor=[UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backItem;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController setNavigationBarHidden:YES];
     [self.navigationController pushViewController:VC animated:YES];
 }
 
