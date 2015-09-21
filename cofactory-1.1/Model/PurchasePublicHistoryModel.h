@@ -10,7 +10,7 @@
 
 @interface PurchasePublicHistoryModel : NSObject
 @property (nonatomic,copy)NSString  *name,  *comment, *unit,  *type;
-@property (nonatomic,assign)NSInteger amount;
+@property (nonatomic,assign)NSInteger amount,  userID;
 @property (nonatomic,strong)NSArray *photoArray;
 - (instancetype)initModelWith:(NSDictionary *)dictionary;
 +(instancetype)getModelWith:(NSDictionary *)dictionary;

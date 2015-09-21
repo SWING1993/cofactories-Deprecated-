@@ -219,7 +219,6 @@
                             [cell addSubview:self.NameTF];
                             NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:@"*品 名"];
                             [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
-
                             cell.textLabel.attributedText = labelText;
                         }
                             break;

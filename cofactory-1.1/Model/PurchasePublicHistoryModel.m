@@ -13,6 +13,7 @@
     
     if (self = [super init]){
         self.amount = [dictionary[@"amount"] integerValue];
+        self.userID = [dictionary[@"id"] integerValue];
         self.photoArray = dictionary[@"photo"];
         self.name = dictionary[@"name"];
         self.comment = dictionary[@"description"];

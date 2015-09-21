@@ -206,6 +206,7 @@
 		64266AE81BAD415E003CA582 /* PurchasePublicHistoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 64266AE71BAD415E003CA582 /* PurchasePublicHistoryModel.m */; settings = {ASSET_TAGS = (); }; };
 		64266AEB1BAD61E7003CA582 /* PHPDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64266AEA1BAD61E7003CA582 /* PHPDetailViewController.m */; settings = {ASSET_TAGS = (); }; };
 		642FCE6E1BA7D85400CB2856 /* PopularMesageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 642FCE6D1BA7D85400CB2856 /* PopularMesageViewController.m */; };
+		6478DAC41BAFE18600624A70 /* PHPDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6478DAC31BAFE18600624A70 /* PHPDetailTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		649BA0841B7B15E5008EDE31 /* SearchOrderDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 649BA0831B7B15E5008EDE31 /* SearchOrderDetailsVC.m */; };
 		649CCE3E1B9D622000710B2A /* BidManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649CCE3D1B9D622000710B2A /* BidManagerViewController.m */; };
 		649CCE411B9D64D500710B2A /* BidManagerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 649CCE401B9D64D500710B2A /* BidManagerModel.m */; };
@@ -673,6 +674,8 @@
 		64266AEA1BAD61E7003CA582 /* PHPDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPDetailViewController.m; sourceTree = "<group>"; };
 		642FCE6C1BA7D85400CB2856 /* PopularMesageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopularMesageViewController.h; sourceTree = "<group>"; };
 		642FCE6D1BA7D85400CB2856 /* PopularMesageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopularMesageViewController.m; sourceTree = "<group>"; };
+		6478DAC21BAFE18600624A70 /* PHPDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPDetailTableViewCell.h; sourceTree = "<group>"; };
+		6478DAC31BAFE18600624A70 /* PHPDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPDetailTableViewCell.m; sourceTree = "<group>"; };
 		649BA0821B7B15E5008EDE31 /* SearchOrderDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchOrderDetailsVC.h; sourceTree = "<group>"; };
 		649BA0831B7B15E5008EDE31 /* SearchOrderDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchOrderDetailsVC.m; sourceTree = "<group>"; };
 		649CCE3C1B9D622000710B2A /* BidManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidManagerViewController.h; sourceTree = "<group>"; };
@@ -1709,6 +1712,8 @@
 				64266AE41BAD3F82003CA582 /* PurchaseMPTableViewCell.m */,
 				64266AE91BAD61E7003CA582 /* PHPDetailViewController.h */,
 				64266AEA1BAD61E7003CA582 /* PHPDetailViewController.m */,
+				6478DAC21BAFE18600624A70 /* PHPDetailTableViewCell.h */,
+				6478DAC31BAFE18600624A70 /* PHPDetailTableViewCell.m */,
 			);
 			path = PurchaseMaterial;
 			sourceTree = "<group>";
@@ -2462,6 +2467,7 @@
 				0457E3F71B8EE57100F38881 /* SDWebImageManager+MJ.m in Sources */,
 				04B150551B9569CD004E0353 /* IQSegmentedNextPrevious.m in Sources */,
 				04B150501B9569CD004E0353 /* IQUIView+Hierarchy.m in Sources */,
+				6478DAC41BAFE18600624A70 /* PHPDetailTableViewCell.m in Sources */,
 				BDC908E41B4E9B3700856A32 /* MBProgressHUD.m in Sources */,
 				045A26671B686682002DE415 /* CalendarDayModel.m in Sources */,
 				04D462E81B5CD21000B9B4D8 /* ResetPasswordViewController.m in Sources */,
