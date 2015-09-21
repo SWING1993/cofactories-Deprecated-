@@ -395,29 +395,16 @@
     }
     
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-    {
-        if ([Tools isTourist]) {
-            //游客
-            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"请您登录后才使用这项服务,是否登录？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            alertView.tag=5;
-            
-            [alertView show];
-        }else{
-            FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
-            CooperationInfoViewController*cooperationInfoVC = [[CooperationInfoViewController alloc]init];
-            cooperationInfoVC.factoryModel=factoryModel;
-            cooperationInfoVC.hidesBottomBarWhenPushed=YES;
-            [self.navigationController pushViewController:cooperationInfoVC animated:YES];
-        }
-    }
-    - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-        if (buttonIndex==1) {
-            if (alertView.tag==5) {
-                [ViewController goLogin];
-            }
-        }
-    }
-    
+
+{
+    FactoryModel *factoryModel = self.factoryModelArray[indexPath.row];
+    CooperationInfoViewController*cooperationInfoVC = [[CooperationInfoViewController alloc]init];
+    cooperationInfoVC.factoryModel=factoryModel;
+    cooperationInfoVC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:cooperationInfoVC animated:YES];
+
+}
+
 #pragma mark -- 有无货车按钮
     - (void)buttonClick:(id)sender
     {

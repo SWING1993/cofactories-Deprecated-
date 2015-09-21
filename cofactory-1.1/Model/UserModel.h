@@ -12,7 +12,10 @@ typedef enum {
     GarmentFactory,// 服装厂
     ProcessingFactory,// 加工厂
     CuttingFactory,// 代裁厂
-    LockButtonFactory// 锁眼钉扣厂
+    LockButtonFactory,// 锁眼钉扣厂
+    MechanicalFactory,// 机械修理厂
+    materialFactory //面辅料商
+
 } FactoryType;
 
 // 实际就是工厂模型

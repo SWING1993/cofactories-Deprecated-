@@ -211,14 +211,18 @@
 
  @param menuArray 菜单id数组
  @param block     回调函数 会返回 0->(网络错误) 200->(更新成功) 400->(未登录) 401->(access_toke过期或者无效) 404->(access_token不存在)
+
+ + (void)updateMenuWithMenuArray:(NSArray *)menuArray andBlock:(void (^)(int statusCode))block;
+
  */
-+ (void)updateMenuWithMenuArray:(NSArray *)menuArray andBlock:(void (^)(int statusCode))block;
 /*!
  菜单列表
 
  @param block 回调函数 会返回 @{@"statusCode": @200, @"responseArray": 菜单id数组}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误) @{@"statusCode": @400, @"message": @"未登录"}->(未登录) @{@"statusCode": @401, @"message": @"access_token过期或者无效"}->(access_token过期或者无效) @{@"statusCode": @404, @"message": @"access_token不存在"}
+ 
+ + (void)listMenuWithBlock:(void (^)(NSDictionary *responseDictionary))block;
+
  */
-+ (void)listMenuWithBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 /*!
  创建订单接口
@@ -409,6 +413,12 @@
  */
 + (void)pushLikeWithID:(NSString *)ID andBlock:(void (^)(int))block;
 
+/** 提交面辅料信息
+ *@param
+ */
+
+
++ (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(int)price width:(int)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block;
 /**发布求购信息
  *
  */
@@ -424,5 +434,6 @@
  */
 
 + (void)checkHistoryPublishWithPage:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
 
 @end

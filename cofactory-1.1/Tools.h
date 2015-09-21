@@ -41,12 +41,12 @@
 + (NSString *)SizeWith:(NSString *)sizeString;
 
 
-/*!
- 身份是不是游客
-
- @return YES=游客  NO=已登录
- */
-+ (BOOL)isTourist;
+///*!
+// 身份是不是游客
+//
+// @return YES=游客  NO=已登录
+// */
+//+ (BOOL)isTourist;
 
 
 /*!

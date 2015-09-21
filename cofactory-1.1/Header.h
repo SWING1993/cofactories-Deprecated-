@@ -9,7 +9,6 @@
 #import "LoginViewController.h"//登录
 #import "RegisterViewController.h"//注册
 #import "ResetPasswordViewController.h" //找回密码
-#import "TouristViewController.h" //游客身份
 
 #import "HomeViewController.h"//HomeVC
 //#import "HomeEditViewController.h"//主页编辑

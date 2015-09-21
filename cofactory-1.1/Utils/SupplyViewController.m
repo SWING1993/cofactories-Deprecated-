@@ -9,7 +9,7 @@
 #import "SupplyViewController.h"
 
 #import "AddmaterialViewController.h"
-
+#import "SearchSupplyFactoryViewController.h"
 
 @interface SupplyViewController ()
 
@@ -49,6 +49,10 @@
 
     if (button.tag == 4) {
         DLog(@"查看求购！");
+        SearchSupplyFactoryViewController *searchSupplyFactoryVC = [[SearchSupplyFactoryViewController alloc] init];
+        [self.navigationController pushViewController:searchSupplyFactoryVC animated:YES];
+        
+        
     }else{
         DLog(@"发布供应！");
         AddmaterialViewController *VC = [[AddmaterialViewController alloc]init];
