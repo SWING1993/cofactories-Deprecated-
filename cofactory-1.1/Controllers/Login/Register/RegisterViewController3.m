@@ -358,7 +358,7 @@
                 break;
 
             default:
-                [Tools showHudTipStr:@"网络错误"];
+                [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
                 break;
         }
     }];

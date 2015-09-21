@@ -6,7 +6,6 @@
 //  Copyright (c) 2015年 聚工科技. All rights reserved.
 //
 #import "Header.h"
-#import "HomeViewsHeader.h"
 #import "HomeViewController.h"
 #import "ActivityCell.h"
 #import "FindFactoryCell.h"
@@ -62,18 +61,31 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 @implementation HomeViewController
 - (void)viewWillAppear:(BOOL)animated {
-    
-    //工厂空闲忙碌状态
+
+    //工厂类型
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
-        
         UserModel*userModel=responseDictionary[@"model"];
-        DLog(@"%@",userModel);
+
+
         self.factoryFreeStatus=userModel.factoryFreeStatus;
+        self.factoryType =userModel.factoryType;
         self.hasTruck=userModel.hasTruck;
         self.factoryFreeTime=userModel.factoryFreeTime;
         DLog(@"刷新工厂=%@  自备货车%d  空闲时间%@",userModel.factoryFreeStatus,self.hasTruck,self.factoryFreeTime);
+
+
+        // 存储用户相关信息
+        NSNumber *MyUid = [NSNumber numberWithInt:userModel.uid];
+        [[NSUserDefaults standardUserDefaults] setObject:MyUid forKey:@"selfuid"];
+        [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
+        [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryAddress forKey:@"factoryAddress"];
+        [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
+        [[NSUserDefaults standardUserDefaults] setInteger:self.factoryType forKey:@"factoryType"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
+
     }];
-    
+
     [super viewWillAppear:animated];
     [self.tableView reloadData];
 }
@@ -118,53 +130,39 @@ static NSString *LastCellIdentifier = @"LastCell";
     NSArray *imageArray = @[@"http://cdn.cofactories.com/banner/banner1.png",@"http://cdn.cofactories.com/banner/banner2.png",@"http://cdn.cofactories.com/banner/banner3.png"];
     PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:imageArray isNetWork:YES];
     [headerView addSubview:bannerView];
-    
-    //工厂类型
-    [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
-        UserModel*userModel=responseDictionary[@"model"];
-        
-        // 存储用户相关信息
-        NSNumber *MyUid = [NSNumber numberWithInt:userModel.uid];
-        [[NSUserDefaults standardUserDefaults] setObject:MyUid forKey:@"selfuid"];
-        [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
-        [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryAddress forKey:@"factoryAddress"];
-        [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        
-        self.factoryFreeStatus=userModel.factoryFreeStatus;
-        self.factoryType =userModel.factoryType;
 
-        if (self.factoryType==0) {
-            ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"订单管理"];
-            [headerView addSubview:buttonView];
-            [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [buttonView.postButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
-        }
-        if (self.factoryType==1 || self.factoryType==2 || self.factoryType== 3) {
 
-            ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"设置状态"];
-            [headerView addSubview:buttonView];
-            [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [buttonView.postButton addTarget:self action:@selector(authClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
-        }
+    NSInteger factoryType = [[[NSUserDefaults standardUserDefaults]objectForKey:@"factoryType"] integerValue];
 
-        if (self.factoryType==5) {
-            ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"面料供应"];
-            [headerView addSubview:buttonView];
-            [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [buttonView.postButton addTarget:self action:@selector(pushSupply:) forControlEvents:UIControlEventTouchUpInside];
-            [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
-        }
+    if (factoryType==0) {
+        ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"订单管理"];
+        [headerView addSubview:buttonView];
+        [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [buttonView.postButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    if (factoryType==1 || factoryType==2 || factoryType== 3) {
 
-    }];
+        ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"设置状态"];
+        [headerView addSubview:buttonView];
+        [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [buttonView.postButton addTarget:self action:@selector(authClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
+    }
+
+    if (factoryType==5) {
+        ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"面料供应"];
+        [headerView addSubview:buttonView];
+        [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [buttonView.postButton addTarget:self action:@selector(pushSupply:) forControlEvents:UIControlEventTouchUpInside];
+        [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
+    }
+
     self.tableView.tableHeaderView = headerView;
-    
+
     //注册cell
     [self.tableView registerClass:[ActivityCell class] forCellReuseIdentifier:ActivityCellIdentifier];
     [self.tableView registerClass:[FindFactoryCell class] forCellReuseIdentifier:FactoryCellIdentifier];
