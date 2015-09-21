@@ -7,6 +7,7 @@
 //
 
 #import "PMSectionOneTableViewCell.h"
+#import "InformationModel.h"
 
 @implementation PMSectionOneTableViewCell{
     UILabel *_titleLabel;
@@ -27,12 +28,22 @@
         _abbreviateImage.layer.masksToBounds = YES;
         _abbreviateImage.layer.cornerRadius = 5;
         _abbreviateImage.layer.borderWidth = 1;
-        _abbreviateImage.layer.backgroundColor = [UIColor grayColor].CGColor;
+        //_abbreviateImage.layer.backgroundColor = [UIColor grayColor].CGColor;
         [self addSubview:_abbreviateImage];
         
     }
     return self;
 }
+
+- (void)setInformation:(InformationModel *)information {
+    if (_information != information) {
+        _information = information;
+    }
+    _titleLabel.text = information.title;
+    
+    [_abbreviateImage sd_setImageWithURL:[NSURL URLWithString:information.imageString] placeholderImage:nil];
+}
+
 
 - (void)getDataWithDictionary:(NSDictionary *)dictionary{
     _titleLabel.text = dictionary[@"title"];

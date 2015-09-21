@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class SupplyHistory;
 @interface SearchSupplyViewCell : UITableViewCell
 
 @property (nonatomic, strong) UIImageView *photoView;
+@property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UILabel *infoLabel;
-@property (nonatomic, strong) UILabel *numberLabel;
-@property (nonatomic, strong) UILabel *addressLabel;
-@property (nonatomic, strong) UILabel *timeLabel;
+@property (nonatomic, strong) UILabel *typeLabel;
+@property (nonatomic, strong) SupplyHistory *history;
+
 
 @end

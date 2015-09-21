@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface PopularMesageViewController : UIViewController
-
+@property (nonatomic, strong) NSMutableArray *headerInformationArray;
 @property (nonatomic, strong) NSMutableArray *informationArray;
 @property (nonatomic, strong) NSMutableArray *searchArray;
 

@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class InformationModel;
 @interface PMSectionOneTableViewCell : UITableViewCell
+@property (nonatomic, strong)InformationModel *information;
+
 - (void)getDataWithDictionary:(NSDictionary *)dictionary;
 @end
