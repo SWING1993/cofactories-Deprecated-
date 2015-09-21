@@ -73,7 +73,7 @@
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
     // 设置超时时间
     [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-    manager.requestSerializer.timeoutInterval = 8.f;
+    manager.requestSerializer.timeoutInterval = 3.f;
     [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
 
     [manager POST:API_reset parameters:@{@"phone": phoneNumber, @"password": password, @"code": code} success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -164,7 +164,7 @@
 
     // 设置超时时间
     [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-    manager.requestSerializer.timeoutInterval = 8.f;
+    manager.requestSerializer.timeoutInterval = 3.f;
     [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
 
     [manager POST:API_verify parameters:@{@"phone": phoneNumber} success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -181,7 +181,7 @@
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
     // 设置超时时间
     [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-    manager.requestSerializer.timeoutInterval = 8.f;
+    manager.requestSerializer.timeoutInterval = 3.f;
     [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
 
     [manager GET:API_checkCode parameters:@{@"phone": phoneNumber, @"code": code} success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -230,6 +230,11 @@
 //    if (factorySizeMax == 0) {
 //    }
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
+    
+    [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+    manager.requestSerializer.timeoutInterval = 3.f;
+    [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+    
     NSArray *factorySize = [[NSArray alloc] initWithObjects:factorySizeMin, factorySizeMax, nil];
     [manager POST:API_register parameters:@{@"phone": username,@"inviteCode": inviteCode, @"password": password, @"type": @(type), @"code": code, @"factoryName": factoryName, @"lon": @(lon), @"lat": @(lat), @"factorySize": factorySize, @"factoryAddress": factoryAddress, @"factoryServiceRange": (factoryServiceRange == nil ? @"" : factoryServiceRange)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         block(@{@"statusCode": @(200), @"message": @"注册成功"});
@@ -255,6 +260,11 @@
     NSParameterAssert(password);
 
     AFOAuth2Manager *OAuth2Manager = [[AFOAuth2Manager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl] clientID:kClientID secret:kSecret];
+    
+    [OAuth2Manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+    OAuth2Manager.requestSerializer.timeoutInterval = 3.f;
+    [OAuth2Manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+    
     [OAuth2Manager authenticateUsingOAuthWithURLString:API_login username:username password:password scope:@"/" success:^(AFOAuthCredential *credential) {
         // 存储 access_token
         [AFOAuthCredential storeCredential:credential withIdentifier:OAuth2Manager.serviceProviderIdentifier];
@@ -291,7 +301,6 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_userProfile parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//            DLog(@"用户信息：%@",responseObject);
             UserModel *userModel = [[UserModel alloc] initWithDictionary:responseObject];
             block(@{@"statusCode": @([operation.response statusCode]), @"model": userModel});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -607,15 +616,36 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_drawAccess parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            block([operation.response statusCode]);
+            block(201);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            block([operation.response statusCode]);
+              switch ([operation.response statusCode]) {
+                case 400:
+                    block(400);
+                    break;
+                    
+                case 401:
+                    block(401);
+                    break;
+                    
+                case 403:
+                    block(403);
+                    break;
+                    
+                case 404:
+                    block(404);
+                    break;
+                    
+                    
+                default:
+                    block(0);
+                    break;
+            }
         }];
     } else {
         block(404);// access_token不存在
     }
 }
-
+/*
 //更新MenuList  严重BUG  已解决
 + (void)updateMenuWithMenuArray:(NSArray *)menuArray andBlock:(void (^)(int))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
@@ -629,7 +659,6 @@
 //            block([operation.response statusCode]);
             block(200);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            //block([operation.response statusCode]);
             block(400);
         }];
     } else {
@@ -666,6 +695,7 @@
         block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
     }
 }
+ */
 + (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(int)price width:(int)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block {
     NSDictionary *parameters = nil;
     if ([type isEqualToString:@"面料"]) {
@@ -681,7 +711,7 @@
         
         // 设置超时时间
         [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-        manager.requestSerializer.timeoutInterval = 8.f;
+        manager.requestSerializer.timeoutInterval = 3.f;
         [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
         
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
@@ -729,7 +759,7 @@
         
         // 设置超时时间
         [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-        manager.requestSerializer.timeoutInterval = 8.f;
+        manager.requestSerializer.timeoutInterval = 3.f;
         [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
 
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
@@ -950,7 +980,6 @@
         [mutableDictionary setObject:page forKey:@"page"];
 
     [manager GET:API_searchOrder parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        DLog(@"订单搜索=%@",responseObject);
         NSArray *jsonArray = (NSArray *)responseObject;
         NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
         for (NSDictionary *dictionary in jsonArray) {
@@ -1138,20 +1167,14 @@
 
         [manager POST:API_pushSetting parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject)
          {
-
              block(200);
          }
-         
               failure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
-
              DLog(@"error=%@",error);
              block(400);
-             
          }];
-
     }
-
 }
 
 
@@ -1641,9 +1664,7 @@
 }
 
 + (void)deleteOrderWithOrderOid:(int)oid completionBlock:(void(^)(int statusCode))block{
-    
     //NSParameterAssert(oid);
-    
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];

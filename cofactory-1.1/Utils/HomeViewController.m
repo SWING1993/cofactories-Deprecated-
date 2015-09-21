@@ -113,7 +113,6 @@ static NSString *LastCellIdentifier = @"LastCell";
     }];
 
     
-
     // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
     NSArray *imageArray = @[@"http://cdn.cofactories.com/banner/banner1.png",@"http://cdn.cofactories.com/banner/banner2.png",@"http://cdn.cofactories.com/banner/banner3.png"];
@@ -361,7 +360,7 @@ static NSString *LastCellIdentifier = @"LastCell";
                 supplyVC.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:supplyVC animated:YES];
             }else{
-                [Tools showHudTipStr:@"加工厂专区，非加工厂请至首页上方发布订单！"];
+                [Tools showHudTipStr:@"面辅料专区，非加工厂请至首页上方发布订单！"];
             }
 
             DLog(@"我想供应");

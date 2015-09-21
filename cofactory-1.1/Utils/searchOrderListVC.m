@@ -64,7 +64,7 @@
     
     _orderTypeArray = @[@"不限类型",@"加工厂",@"代裁厂",@"锁眼钉扣厂"];
     _garmentServiceRangeArray = @[@"加工全部类型",@"针织",@"梭织"];
-    _orderAmountArray = [@[@"不限时间"] mutableCopy];
+    _orderAmountArray = [@[@"不限数量 "] mutableCopy];
     _orderWorkingTimeArray = [@[@"不限期限"] mutableCopy];
     
     DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
@@ -194,7 +194,7 @@
     if (indexPath.column == 0) {
         
         if (indexPath.row == 0) {
-            _orderAmountArray = [@[@"不限规模"] mutableCopy];
+            _orderAmountArray = [@[@"不限数量"] mutableCopy];
             _orderWorkingTimeArray = [@[@"不限期限"] mutableCopy];
             
         }else if(indexPath.row == 1){

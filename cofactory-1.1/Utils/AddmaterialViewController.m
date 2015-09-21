@@ -86,7 +86,8 @@
     _addImageBtn.layer.cornerRadius = 3;
     _addImageBtn.backgroundColor = [UIColor colorWithHexString:@"0x3bbc79"];
     [_addImageBtn addTarget:self action:@selector(addImageBtn) forControlEvents:UIControlEventTouchUpInside];
-
+    
+    
 }
 
 - (void)pushOrderBtn {
@@ -262,13 +263,18 @@
                         case 0:{
                             [self createNameTF];
                             [cell addSubview:self.NameTF];
-                            cell.textLabel.text = @"*品 名";
+                            NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:@"*品 名"];
+                            [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
+
+                            cell.textLabel.attributedText = labelText;
                         }
                             break;
                         case 1:{
                             [self createUseTF];
                             [cell addSubview:self.UseTF];
-                            cell.textLabel.text = @"*用 途";
+                            NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:@"*用 途"];
+                            [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
+                            cell.textLabel.attributedText = labelText;
 
                         }
                             break;
@@ -285,15 +291,18 @@
                         case 0:{
                             [self createPriceTF];
                             [cell addSubview:self.PriceTF];
-                            cell.textLabel.text = @"*价 格";
-
+                            
+                            NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:@"*价 格"];
+                            [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
+                            cell.textLabel.attributedText = labelText;
                         }
                             break;
                         case 1:{
                             [self createWidthTF];
                             [cell addSubview:self.WidthTF];
-                            cell.textLabel.text = @"*门 幅";
-
+                            NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:@"*门 幅"];
+                            [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
+                            cell.textLabel.attributedText = labelText;
                         }
                             break;
 
@@ -315,8 +324,9 @@
                         case 0:{
                             [self createNameTF];
                             [cell addSubview:self.NameTF];
-                            cell.textLabel.text = @"*品 名";
-
+                            NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:@"*品 名"];
+                            [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
+                            cell.textLabel.attributedText = labelText;
                         }
                             break;
 
@@ -333,8 +343,9 @@
 
                             [self createPriceTF];
                             [cell addSubview:self.PriceTF];
-                            cell.textLabel.text = @"*价 格";
-                        }
+                            NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:@"*价 格"];
+                            [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
+                            cell.textLabel.attributedText = labelText;                        }
                             break;
 
                         default:
