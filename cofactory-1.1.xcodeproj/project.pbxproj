@@ -354,10 +354,10 @@
 		0451D66B1B57AB4A007CCD59 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		04539BB51BA2E51A00D49C8F /* AddProcessingFactoryOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddProcessingFactoryOrderVC.h; sourceTree = "<group>"; };
 		04539BB61BA2E52000D49C8F /* AddProcessingFactoryOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddProcessingFactoryOrderVC.m; sourceTree = "<group>"; };
-		0455E10C1B61D62E009C5CDA /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
-		0455E10D1B61D62E009C5CDA /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
-		0455E10F1B61D8D8009C5CDA /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
-		0455E1101B61D8D8009C5CDA /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
+		0455E10C1B61D62E009C5CDA /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = Utils/WebViewController.h; sourceTree = "<group>"; };
+		0455E10D1B61D62E009C5CDA /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = Utils/WebViewController.m; sourceTree = "<group>"; };
+		0455E10F1B61D8D8009C5CDA /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityViewController.h; path = Utils/ActivityViewController.h; sourceTree = "<group>"; };
+		0455E1101B61D8D8009C5CDA /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityViewController.m; path = Utils/ActivityViewController.m; sourceTree = "<group>"; };
 		0455E1161B61E4F8009C5CDA /* FactoryAndOrderMessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactoryAndOrderMessVC.h; sourceTree = "<group>"; };
 		0455E1171B61E4F8009C5CDA /* PushTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushTableViewCell.h; sourceTree = "<group>"; };
 		0455E1181B61E4F8009C5CDA /* PushViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushViewController.h; sourceTree = "<group>"; };
@@ -1511,6 +1511,18 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		04B301821BAFAC8500175C7E /* Activity&WebVC */ = {
+			isa = PBXGroup;
+			children = (
+				0455E10C1B61D62E009C5CDA /* WebViewController.h */,
+				0455E10D1B61D62E009C5CDA /* WebViewController.m */,
+				0455E10F1B61D8D8009C5CDA /* ActivityViewController.h */,
+				0455E1101B61D8D8009C5CDA /* ActivityViewController.m */,
+			);
+			name = "Activity&WebVC";
+			path = ..;
+			sourceTree = "<group>";
+		};
 		04C28A1A1B58ABAA005014E5 /* Name */ = {
 			isa = PBXGroup;
 			children = (
@@ -1827,10 +1839,7 @@
 			isa = PBXGroup;
 			children = (
 				048983A71BA18C3B00F98024 /* HomeVC */,
-				0455E10C1B61D62E009C5CDA /* WebViewController.h */,
-				0455E10D1B61D62E009C5CDA /* WebViewController.m */,
-				0455E10F1B61D8D8009C5CDA /* ActivityViewController.h */,
-				0455E1101B61D8D8009C5CDA /* ActivityViewController.m */,
+				04B301821BAFAC8500175C7E /* Activity&WebVC */,
 				64F2954D1BA2C9C00018ED90 /* SearchFactoryOrderVC.h */,
 				64F2954E1BA2C9C00018ED90 /* SearchFactoryOrderVC.m */,
 				649DD8A61BAC24390027A22B /* PurchaseMaterial */,
