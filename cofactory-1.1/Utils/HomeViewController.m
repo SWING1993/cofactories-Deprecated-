@@ -350,6 +350,11 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1007:
         {
+#warning 记得改回来。。。。
+            
+//            SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
+//            supplyVC.hidesBottomBarWhenPushed = YES;
+//            [self.navigationController pushViewController:supplyVC animated:YES];
             //我想供应
             if (self.factoryType == 5) {
                 SupplyViewController*supplyVC = [[SupplyViewController alloc]init];

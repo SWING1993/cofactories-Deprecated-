@@ -389,7 +389,12 @@
  */
 + (void)registBidWithOid:(int)oid commit:(NSString *)commit completionBlock:(void(^)(int statusCode))block;
 
-/**资讯列表
+/**资讯列表(中间资讯)
+ *
+ */
++ (void)getHeaderInfomationWithBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+/**资讯列表(下边资讯)
  *
  */
 + (void)getInfomationWithKind:(NSString *)kind andBlock:(void (^)(NSDictionary *responseDictionary))block;
@@ -430,6 +435,10 @@
  */
 
 + (void)checkHistoryPublishWithPage:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+/**查看面辅料历史发布
+ *
+ */
++ (void)checkMaterialHistoryPublishWithPage:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 
 @end

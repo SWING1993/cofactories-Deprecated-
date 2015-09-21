@@ -47,12 +47,20 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     [self creatTableView];
     [self creatTableViewHeadView];
     [self netWork];
+    [self netWorker];
 //    [self tapBackground];
 //    [self creatScrollViewAndPageControl];
 }
 
+- (void)netWorker {
+    [HttpClient getHeaderInfomationWithBlock:^(NSDictionary *responseDictionary) {
+        self.headerInformationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
+        [_tableView reloadData];
+    }];
+
+}
 - (void)netWork {
-    [HttpClient getInfomationWithKind:@"cat=man" andBlock:^(NSDictionary *responseDictionary) {
+        [HttpClient getInfomationWithKind:@"cat=man" andBlock:^(NSDictionary *responseDictionary) {
         self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
         [_tableView reloadData];
     }];
@@ -159,7 +167,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
-        return 2;
+        return self.headerInformationArray.count;
     }else{
         return self.informationArray.count;
     }
@@ -169,7 +177,11 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     
     if (indexPath.section == 0) {
         PMSectionOneTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdetifier1 forIndexPath:indexPath];
-        [cell getDataWithDictionary:_titleImageArray[indexPath.row]];
+        //[cell getDataWithDictionary:_titleImageArray[indexPath.row]];
+        InformationModel *information = [[InformationModel alloc] init];
+        information = self.headerInformationArray[indexPath.row];
+        cell.information = information;
+        
         return cell;
     }
     
@@ -202,8 +214,14 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
-//        PopularMessageInfoVC * infoVC = [[PopularMessageInfoVC alloc]init];
-//        [self.navigationController pushViewController:infoVC animated:YES];
+        
+        
+        PopularMessageInfoVC * infoVC = [[PopularMessageInfoVC alloc]init];
+        InformationModel *information = self.headerInformationArray[indexPath.row];
+        infoVC.urlString = information.urlString;
+        infoVC.oid = information.oid;
+        
+        [self.navigationController pushViewController:infoVC animated:YES];
         
     }else{
         PopularMessageInfoVC * infoVC = [[PopularMessageInfoVC alloc]init];

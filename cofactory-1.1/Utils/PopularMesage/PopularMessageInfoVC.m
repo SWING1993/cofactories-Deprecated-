@@ -54,6 +54,8 @@
     UIButton*btn1 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenW/3, 40)];
     btn1.tag = 1;
     [btn1 setImage:[UIImage imageNamed:@"资讯_分享"] forState:UIControlStateNormal];
+    
+    //btn1.backgroundColor = [UIColor yellowColor];
     btn1.imageView.contentMode = UIViewContentModeScaleAspectFill;
     [btn1 addTarget:self action:@selector(doneAction:) forControlEvents:UIControlEventTouchUpInside];
     //创建barbuttonitem
@@ -63,16 +65,21 @@
     UIButton*btn2 = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/3, 0, kScreenW/3, 40)];
     btn2.tag = 2;
     [btn2 setImage:[UIImage imageNamed:@"资讯_评论"] forState:UIControlStateNormal];
+    //btn2.backgroundColor = [UIColor redColor];
     btn2.imageView.contentMode = UIViewContentModeScaleAspectFill;
     [btn2 addTarget:self action:@selector(doneAction:) forControlEvents:UIControlEventTouchUpInside];
+    //btn2.layer.borderColor = [UIColor grayColor].CGColor;
+    //btn2.layer.borderWidth = 1;
     //创建barbuttonitem
     UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithCustomView:btn2];
+    
     [item2 setWidth:kScreenW/3];
 
 
     UIButton*btn3 = [[UIButton alloc]initWithFrame:CGRectMake(2*kScreenW/3, 0, kScreenW/3, 40)];
     btn3.tag = 3;
     [btn3 setImage:[UIImage imageNamed:@"资讯_赞"] forState:UIControlStateNormal];
+    //btn3.backgroundColor = [UIColor greenColor];
     btn3.imageView.contentMode = UIViewContentModeScaleAspectFill;
     [btn3 addTarget:self action:@selector(doneAction:) forControlEvents:UIControlEventTouchUpInside];
     //创建barbuttonitem
@@ -82,7 +89,13 @@
 
     //把item添加到toolbar里
     [toolBar setItems:[NSArray arrayWithObjects:flexSpace,item1, flexSpace, item2, flexSpace, item3, flexSpace, nil] animated:YES];
-
+    UILabel *leftLine = [[UILabel alloc] initWithFrame:CGRectMake(kScreenW / 3, 7.5, 0.3, 25)];
+    leftLine.backgroundColor = [UIColor grayColor];
+    [toolBar addSubview:leftLine];
+    
+    UILabel *rightLine = [[UILabel alloc] initWithFrame:CGRectMake(2*kScreenW / 3, 7.5, 0.3, 25)];
+    rightLine.backgroundColor = [UIColor grayColor];
+    [toolBar addSubview:rightLine];
 
     //把toolbar添加到view上
     

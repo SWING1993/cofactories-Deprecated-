@@ -10,4 +10,6 @@
 
 @interface SearchSupplyFactoryViewController : UITableViewController
 
+@property (nonatomic, strong) NSMutableArray *historyArray;
+
 @end

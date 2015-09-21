@@ -12,7 +12,7 @@
 - (instancetype)initModelWith:(NSDictionary *)dictionary{
     
     if (self = [super init]){
-        self.amount = [dictionary[@"amount"] integerValue];
+        self.amount = [dictionary[@"price"] integerValue];
         self.photoArray = dictionary[@"photo"];
         self.name = dictionary[@"name"];
         self.comment = dictionary[@"description"];
