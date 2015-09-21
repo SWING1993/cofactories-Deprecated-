@@ -33,6 +33,7 @@
         
         _typeLabel = [[UILabel alloc]init];
         _typeLabel.frame = CGRectMake(kScreenW-45, 10, 40, 25);
+        _typeLabel.font = [UIFont systemFontOfSize:14.0f];
         [self addSubview:_typeLabel];
         
         _amountLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 35, 160, 25)];
