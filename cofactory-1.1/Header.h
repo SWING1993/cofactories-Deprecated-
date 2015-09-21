@@ -6,6 +6,10 @@
  Controller
  */
 #import "ViewController.h"
+
+#import "ButtonView.h"
+#import "PageView.h"
+
 #import "LoginViewController.h"//登录
 #import "RegisterViewController.h"//注册
 #import "ResetPasswordViewController.h" //找回密码

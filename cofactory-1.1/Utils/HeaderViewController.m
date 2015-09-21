@@ -150,6 +150,10 @@
             if ([dictionary[@"statusCode"] intValue]==200) {
                 [Tools showHudTipStr:@"头像上传成功,但是头像显示会略有延迟。"];
                 headerView.image = image;
+
+                //清除缓存  显示头像
+                [[SDImageCache sharedImageCache] clearDisk];
+
             }
         }];
     }];
