@@ -7,7 +7,7 @@
 //
 
 #import "PurchaseMPTableViewCell.h"
-
+#import "PurchasePublicHistoryModel.h"
 @implementation PurchaseMPTableViewCell{
     
     UILabel      *_nameLabel;

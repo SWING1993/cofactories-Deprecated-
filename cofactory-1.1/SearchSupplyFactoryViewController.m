@@ -21,13 +21,22 @@ static NSString *searchCellIdentifier = @"SearchCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"历史发布";
+    if (_isMe) {
+        
+        self.title = @"查看面辅料";
+        [HttpClient searchMaterialWithKeywords:@"" type:@"" page:1 completionBlock:^(NSDictionary *responseDictionary) {
+            DLog("responseDictionary==%@",responseDictionary);
+            self.historyArray = responseDictionary[@"responseObject"];
+            [self.tableView reloadData];
+        }];
+        
+    }else{
+        self.title = @"历史发布";
+        [self network];
+    }
     //注册cell
     [self.tableView registerClass:[SearchSupplyViewCell class] forCellReuseIdentifier:searchCellIdentifier];
-    
-    [self network];
-    
-    
+
 }
 
 
@@ -36,9 +45,8 @@ static NSString *searchCellIdentifier = @"SearchCell";
         DLog(@"%@", responseDictionary[@"responseObject"]);
         self.historyArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseObject"]];
         [self.tableView reloadData];
-        
-        
     }];
+
 }
 
 
@@ -71,8 +79,13 @@ static NSString *searchCellIdentifier = @"SearchCell";
     return 80;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    SearchSupplymaterialViewController *searchSupplymaterialVC = [[SearchSupplymaterialViewController alloc] init];
-    [self.navigationController pushViewController:searchSupplymaterialVC animated:YES];
+    
+    if (_isMe) {
+        
+    }else{
+        SearchSupplymaterialViewController *searchSupplymaterialVC = [[SearchSupplymaterialViewController alloc] init];
+        [self.navigationController pushViewController:searchSupplymaterialVC animated:YES];
+    }
 }
 
 @end

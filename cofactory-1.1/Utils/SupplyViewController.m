@@ -71,6 +71,7 @@
     DLog(@"ihfdils");
     
     SearchSupplyFactoryViewController *searchSupplyFactoryVC = [[SearchSupplyFactoryViewController alloc] init];
+    searchSupplyFactoryVC.isMe = NO;
     [self.navigationController pushViewController:searchSupplyFactoryVC animated:YES];
     
 }

@@ -56,6 +56,7 @@
 #define API_registBid @"/order/bid/"
 #define API_sendMaterial @"/material/buy"
 #define API_sendMaterialHistory @"/material/history"
+#define API_searchMaterial @"/search/material"
 
 #define API_addMaterial @"/material"
 #define API_messageHeader @"http://news.cofactories.com/?co&op=category&cat=轮播"
@@ -1845,11 +1846,44 @@
     else {
         block(@{@"statusCode":@(404)}); // access_token不存在
     }
-    
+}
 
++ (void)searchMaterialWithKeywords:(NSString *)aKeywords type:(NSString *)aType page:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block{
     
-    
-    
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        
+        [manager GET:API_searchMaterial parameters:@{@"keyword":aKeywords,@"type":aType,@"page":@(aPage)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSArray *jsonArray = (NSArray *)responseObject;
+            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
+            for (NSDictionary *dictionary in jsonArray) {
+                SupplyHistory *history = [[SupplyHistory alloc] init];
+                history.name = dictionary[@"name"];
+                history.type = dictionary[@"type"];
+                history.price = [dictionary[@"price"] integerValue];
+                history.info = dictionary[@"description"];
+                if ([dictionary[@"photo"] count] != 0) {
+                    history.photo = dictionary[@"photo"][0];
+                }
+                
+                [responseArray addObject:history];
+            }
+            
+            block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseArray});
+
+        }
+             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 block(@{@"statusCode":@([operation.response statusCode])});
+             }];
+    }
+    else {
+        block(@{@"statusCode":@(404)}); // access_token不存在
+    }
+
 }
 
 

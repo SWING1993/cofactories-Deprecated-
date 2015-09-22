@@ -13,6 +13,8 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.photoView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
         self.photoView.layer.cornerRadius = 8;
         self.photoView.clipsToBounds = YES;

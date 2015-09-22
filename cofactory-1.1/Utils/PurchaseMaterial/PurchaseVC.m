@@ -9,7 +9,7 @@
 #import "PurchaseVC.h"
 #import "PurchaseFabricOrAccessoryVC.h"
 #import "PurchaseHistoryPublicVC.h"
-
+#import "SearchSupplyFactoryViewController.h"
 @interface PurchaseVC ()
 
 @end
@@ -73,7 +73,10 @@
             
         case 3:
         {
-           
+            SearchSupplyFactoryViewController *VC = [[SearchSupplyFactoryViewController alloc]init];
+            [self customBackTitle];
+            VC.isMe = YES;
+            [self.navigationController pushViewController:VC animated:YES];
         }
 
         default:

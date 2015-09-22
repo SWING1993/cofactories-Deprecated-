@@ -443,6 +443,9 @@
  *
  */
 + (void)checkMaterialHistoryPublishWithPage:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block;
-
+/**搜索面辅料
+ *
+ */
++ (void)searchMaterialWithKeywords:(NSString *)aKeywords type:(NSString *)aType page:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 @end
