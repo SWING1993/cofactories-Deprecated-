@@ -8,8 +8,9 @@
 #import "Header.h"
 #import "MeViewController.h"
 #import "SettingTagsViewController.h"
+#import "HeaderViewController.h"
 
-@interface MeViewController ()<UIAlertViewDelegate>
+@interface MeViewController ()<UIAlertViewDelegate,UIScrollViewDelegate>
 
 
 //公司规模数组
@@ -24,59 +25,157 @@
 @property (nonatomic,retain)NSArray*cellImageArray2;
 
 
+//用户模型
+@property (nonatomic, strong) UserModel*userModel;
+
+
+//身份类型
+@property (nonatomic, assign) NSInteger factoryType;
 
 
 @end
 
-@implementation MeViewController
+@implementation MeViewController {
+    UIImageView *imageBG;
+    UIView *BGView;
+
+    UILabel*factoryNameLabel;
+
+    UILabel*infoLabel;
+
+    UIButton*headerButton;
+}
 
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    FactoryRangeModel*rangeModel = [[FactoryRangeModel alloc]init];
+    [Tools AFNetworkReachabilityStatusReachableVia];
 
-    //初始化用户model
-    self.userModel=[[UserModel alloc]init];
+    NSString *homePath = NSHomeDirectory();
+
+    DLog(@"Home目录：%@",homePath);
+
+    DLog(@"缓存%lu",(unsigned long)[[SDImageCache sharedImageCache] getSize]);
+
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
 
         self.userModel=responseDictionary[@"model"];
-
-        if (self.userModel.factoryType==GarmentFactory) {
-            DLog(@"---服装厂");
-            self.sizeArray=rangeModel.allFactorySize[0];
-            self.serviceRangeArray=rangeModel.allServiceRange[0];
-        }
-        if (self.userModel.factoryType==ProcessingFactory) {
-            DLog(@"---加工厂");
-            self.sizeArray=rangeModel.allFactorySize[1];
-            self.serviceRangeArray=rangeModel.allServiceRange[1];
-
-        }
-        if (self.userModel.factoryType==CuttingFactory) {
-            DLog(@"---代裁厂");
-            self.sizeArray=rangeModel.allFactorySize[2];
-        }
-        if (self.userModel.factoryType==LockButtonFactory) {
-            DLog(@"---锁眼厂");
-            self.sizeArray=rangeModel.allFactorySize[3];
-        }
+        //更新公司名称label.text
+        factoryNameLabel.text=self.userModel.factoryName;
+        //更新信息完整度
+        int FinishedDegree = self.userModel.factoryFinishedDegree;
+        infoLabel.text = [NSString stringWithFormat:@"信息完整度为%d%s",FinishedDegree,"%"];
+        [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
 
         //刷新tableview
         [self.tableView reloadData];
     }];
+
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+
+    //初始化用户model
+    self.userModel=[[UserModel alloc]init];
+    self.factoryType = [[[NSUserDefaults standardUserDefaults]objectForKey:@"factoryType"] integerValue];
+    [self getArrayData];
+
+    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+
+    //设置Btn
+    UIBarButtonItem*setButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"settingBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(saetButtonClicked)];
+    self.navigationItem.rightBarButtonItem = setButton;
+
+
     self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH+240) style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
 
     self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"],[UIImage imageNamed:@"set_标签"]];
     self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司相册"],[UIImage imageNamed:@"set_公司业务类型"]];
+
+
+    BGView=[[UIView alloc]init];
+    BGView.backgroundColor=[UIColor clearColor];
+    BGView.frame=CGRectMake(0, 0, kScreenW, 200);
+
+    imageBG=[[UIImageView alloc]init];
+    imageBG.frame=CGRectMake(0, 0, kScreenW, 200);
+    imageBG.image=[UIImage imageNamed:@"headerView"];
+
+    headerButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2-40, 80-64, 80, 80)];
+    headerButton.layer.cornerRadius=80/2.0f;
+    headerButton.layer.masksToBounds=YES;
+    headerButton.layer.borderWidth=0.3f;
+    headerButton.layer.borderColor=[UIColor blackColor].CGColor;
+    [headerButton addTarget:self action:@selector(uploadBtn) forControlEvents:UIControlEventTouchUpInside];
+
+
+    factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 180-60, kScreenW, 20)];
+    factoryNameLabel.font=[UIFont boldSystemFontOfSize:16];
+    factoryNameLabel.textAlignment = NSTextAlignmentCenter;
+    factoryNameLabel.textColor = [UIColor whiteColor];
+
+    infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 180-30, kScreenW, 20)];
+    infoLabel.textAlignment = NSTextAlignmentCenter;
+    infoLabel.font=[UIFont systemFontOfSize:14.0f];
+    infoLabel.textColor=[UIColor whiteColor];
+
+    [BGView addSubview:imageBG];
+    [BGView addSubview:headerButton];
+    [BGView addSubview:factoryNameLabel];
+    [BGView addSubview:infoLabel];
+
+    self.tableView.tableHeaderView = BGView;
+
 }
+- (void)getArrayData {
+    FactoryRangeModel*rangeModel = [[FactoryRangeModel alloc]init];
+    if (self.factoryType == GarmentFactory) {
+        DLog(@"---服装厂");
+        self.sizeArray=rangeModel.allFactorySize[0];
+        self.serviceRangeArray=rangeModel.allServiceRange[0];
+    }
+    if (self.factoryType == ProcessingFactory) {
+        DLog(@"---加工厂");
+        self.sizeArray=rangeModel.allFactorySize[1];
+        self.serviceRangeArray=rangeModel.allServiceRange[1];
+
+    }
+    if (self.factoryType == CuttingFactory) {
+        DLog(@"---代裁厂");
+        self.sizeArray=rangeModel.allFactorySize[2];
+    }
+    if (self.factoryType ==LockButtonFactory) {
+        DLog(@"---锁眼厂");
+        self.sizeArray=rangeModel.allFactorySize[3];
+    }
+}
+
+
+//设置
+- (void)saetButtonClicked {
+
+    SetViewController*setVC = [[SetViewController alloc]init];
+    setVC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:setVC animated:YES];
+
+}
+
+
+- (void)uploadBtn{
+
+    HeaderViewController*headerVC = [[HeaderViewController alloc]init];
+    headerVC.uid=self.userModel.uid;
+    UINavigationController*headerNav = [[UINavigationController alloc]initWithRootViewController:headerVC];
+    headerNav.navigationBar.barStyle=UIBarStyleBlack;
+    headerNav.modalPresentationStyle = UIModalPresentationCustom;
+  
+    [self presentViewController:headerNav animated:YES completion:nil];
+}
+
 
 #pragma mark - Table view data source
 
@@ -86,15 +185,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section==0) {
-        if (self.userModel.factoryType == GarmentFactory) {
+        if (self.factoryType == GarmentFactory || self.factoryType==materialFactory) {
             return 4;
         }else{
             return 5;
         }
     }if (section==1) {
-        if (self.userModel.factoryType==GarmentFactory||self.userModel.factoryType==ProcessingFactory) {
+        if (self.factoryType==GarmentFactory||self.factoryType==ProcessingFactory) {
             return 5;
-        }if (self.userModel.factoryType==materialFactory) {
+        }if (self.factoryType==materialFactory) {
             return 3;
         }
         else{
@@ -407,6 +506,46 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat yOffset  = scrollView.contentOffset.y;
+    CGFloat xOffset = (yOffset )/2;
+
+    if (yOffset < 0) {
+
+        CGRect rect = imageBG.frame;
+        rect.origin.y = yOffset;
+        rect.size.height =  200-yOffset ;
+        rect.origin.x = xOffset;
+        rect.size.width = kScreenW + fabs(xOffset)*2;
+
+        imageBG.frame = rect;
+    }
+}
+
+
+- (UIImage *)imageWithColor:(UIColor *)color
+{
+    // 描述矩形
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+
+    // 开启位图上下文
+    UIGraphicsBeginImageContext(rect.size);
+    // 获取位图上下文
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    // 使用color演示填充上下文
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    // 渲染上下文
+    CGContextFillRect(context, rect);
+    // 从上下文中获取图片
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    // 结束上下文
+    UIGraphicsEndImageContext();
+    
+    return theImage;
 }
 
 
