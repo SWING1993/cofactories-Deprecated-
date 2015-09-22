@@ -71,6 +71,8 @@
 #define kNavigationBarHeight 44
 #define CellIdentifier @"Cell"
 
+//登录注册 tableHeaderView 高度
+#define tableHeaderView_height 120
 
 
 #pragma mark - 第三方框架

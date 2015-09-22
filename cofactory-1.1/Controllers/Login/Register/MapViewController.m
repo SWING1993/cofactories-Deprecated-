@@ -53,14 +53,8 @@
     [_mapView setCenterCoordinate:self.centerLocation];
     [self.view addSubview:_mapView];
 
-    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, kScreenH-130, kScreenW-20, 35)];
+    blueButton*nextBtn=[[blueButton alloc]initWithFrame:CGRectMake(10, kScreenH-130, kScreenW-20, 35)];
     [nextBtn setTitle:@"确定位置" forState:UIControlStateNormal];
-    nextBtn.layer.cornerRadius=5.0f;
-    nextBtn.layer.masksToBounds=YES;
-    nextBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-    nextBtn.layer.borderWidth = 1.0f;
-    [nextBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
-
     [nextBtn addTarget:self action:@selector(clickNextBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:nextBtn];
 

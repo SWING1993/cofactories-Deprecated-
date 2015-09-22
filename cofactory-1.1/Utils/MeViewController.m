@@ -50,7 +50,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    [Tools AFNetworkReachabilityStatusReachableVia];
 
     NSString *homePath = NSHomeDirectory();
 

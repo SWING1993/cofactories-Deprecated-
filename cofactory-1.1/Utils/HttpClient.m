@@ -293,6 +293,10 @@
 }
 
 + (void)getUserProfileWithBlock:(void (^)(NSDictionary *))block {
+
+    //判断网络状态 给用户相应提示
+    [Tools AFNetworkReachabilityStatusReachableVia];
+
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];

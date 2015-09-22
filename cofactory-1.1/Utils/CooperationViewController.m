@@ -34,10 +34,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-
-    [Tools AFNetworkReachabilityStatusReachableVia];
-
-
     self.title=@"合作商";
     self.automaticallyAdjustsScrollViewInsets=NO;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -65,8 +61,6 @@
 
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
 {
-    [Tools AFNetworkReachabilityStatusReachableVia];
-
     double delayInSeconds = 2.0;
     //列出合作商
     [HttpClient listPartnerWithBlock:^(NSDictionary *responseDictionary) {

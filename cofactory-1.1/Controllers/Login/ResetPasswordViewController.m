@@ -22,7 +22,7 @@
 
     NSInteger seconds;
 
-    UIButton*_codeBtn;
+    blueButton*_codeBtn;
 
 //    BOOL _wasKeyboardManagerEnabled;
 
@@ -54,14 +54,7 @@
     self.tableView.showsVerticalScrollIndicator=NO;
     self.tableView.backgroundColor = [UIColor whiteColor];
 
-    UIView*tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
-    tableHeaderView.backgroundColor=[UIColor clearColor];
-    UIImageView*logoImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2-40, 10, 80, 80)];
-    logoImage.image=[UIImage imageNamed:@"login_logo"];
-    logoImage.layer.cornerRadius = 80/2.0f;
-    logoImage.layer.masksToBounds = YES;
-    [tableHeaderView addSubview:logoImage];
-
+    tablleHeaderView*tableHeaderView = [[tablleHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, tableHeaderView_height)];
     self.tableView.tableHeaderView = tableHeaderView;
 
     //返回Btn
@@ -98,24 +91,18 @@
     }
 
     if (!_codeBtn) {
-        _codeBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW-100, 7, 90, 30)];
-        _codeBtn.layer.cornerRadius=5.0f;
-        _codeBtn.layer.masksToBounds=YES;
-        _codeBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-        _codeBtn.layer.borderWidth = 1.0f;
-        _codeBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+        _codeBtn=[[blueButton alloc]initWithFrame:CGRectMake(kScreenW-100, 7, 90, 30)];
+//        _codeBtn.layer.cornerRadius=5.0f;
+//        _codeBtn.layer.masksToBounds=YES;
+//        _codeBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
+//        _codeBtn.layer.borderWidth = 1.0f;
+        _codeBtn.titleLabel.font=[UIFont systemFontOfSize:14.0f];
         [_codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-        [_codeBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
+//        [_codeBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
         [_codeBtn addTarget:self action:@selector(sendCodeBtn) forControlEvents:UIControlEventTouchUpInside];
     }
 
-    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 44*3+20+120, kScreenW-40, 35)];
-    nextBtn.layer.cornerRadius=5.0f;
-    nextBtn.layer.masksToBounds=YES;
-    nextBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-    nextBtn.layer.borderWidth = 1.0f;
-
-    [nextBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    blueButton*nextBtn=[[blueButton alloc]initWithFrame:CGRectMake(20, 44*3+20+120, kScreenW-40, 35)];
     [nextBtn setTitle:@"重置密码" forState:UIControlStateNormal];
     [nextBtn addTarget:self action:@selector(nextBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.tableView addSubview:nextBtn];
