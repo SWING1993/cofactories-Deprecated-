@@ -19,6 +19,7 @@
         self.comment = dictionary[@"description"];
         self.unit = dictionary[@"unit"];
         self.type = dictionary[@"type"];
+        self.creatTime = dictionary[@"createdAt"];
     }
     return self;
 }

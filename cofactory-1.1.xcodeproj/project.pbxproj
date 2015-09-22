@@ -199,6 +199,7 @@
 		04F60C691B58D17200CD3DEC /* SetMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C681B58D17200CD3DEC /* SetMapViewController.m */; };
 		04F60C6C1B58EC7F00CD3DEC /* FactoryRangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C6B1B58EC7F00CD3DEC /* FactoryRangeModel.m */; };
 		04F60C701B58EF8D00CD3DEC /* ModifySizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C6F1B58EF8D00CD3DEC /* ModifySizeViewController.m */; };
+		6400BF441BB1232A00546D4D /* PHPDetailMessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6400BF431BB1232A00546D4D /* PHPDetailMessCell.m */; settings = {ASSET_TAGS = (); }; };
 		640A9B041BA7F41C00B71DE5 /* PopularMesageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 640A9B031BA7F41C00B71DE5 /* PopularMesageTableViewCell.m */; };
 		640A9B071BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 640A9B061BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m */; };
 		64266AE21BAD348D003CA582 /* PurchaseHistoryPublicVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 64266AE11BAD348D003CA582 /* PurchaseHistoryPublicVC.m */; settings = {ASSET_TAGS = (); }; };
@@ -654,6 +655,8 @@
 		04F60C6B1B58EC7F00CD3DEC /* FactoryRangeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoryRangeModel.m; sourceTree = "<group>"; };
 		04F60C6E1B58EF8D00CD3DEC /* ModifySizeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifySizeViewController.h; sourceTree = "<group>"; };
 		04F60C6F1B58EF8D00CD3DEC /* ModifySizeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifySizeViewController.m; sourceTree = "<group>"; };
+		6400BF421BB1232A00546D4D /* PHPDetailMessCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPDetailMessCell.h; sourceTree = "<group>"; };
+		6400BF431BB1232A00546D4D /* PHPDetailMessCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPDetailMessCell.m; sourceTree = "<group>"; };
 		640A9B021BA7F41C00B71DE5 /* PopularMesageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopularMesageTableViewCell.h; sourceTree = "<group>"; };
 		640A9B031BA7F41C00B71DE5 /* PopularMesageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopularMesageTableViewCell.m; sourceTree = "<group>"; };
 		640A9B051BA7F5A800B71DE5 /* PMSectionOneTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMSectionOneTableViewCell.h; sourceTree = "<group>"; };
@@ -1710,6 +1713,8 @@
 				64266AEA1BAD61E7003CA582 /* PHPDetailViewController.m */,
 				6478DAC21BAFE18600624A70 /* PHPDetailTableViewCell.h */,
 				6478DAC31BAFE18600624A70 /* PHPDetailTableViewCell.m */,
+				6400BF421BB1232A00546D4D /* PHPDetailMessCell.h */,
+				6400BF431BB1232A00546D4D /* PHPDetailMessCell.m */,
 			);
 			path = PurchaseMaterial;
 			sourceTree = "<group>";
@@ -2396,6 +2401,7 @@
 				BDC908D61B4E9B3700856A32 /* AFHTTPSessionManager.m in Sources */,
 				048983B01BA18C4D00F98024 /* ActivityCell.m in Sources */,
 				64F4C6741B70B31D00F52FF0 /* MJRefreshConst.m in Sources */,
+				6400BF441BB1232A00546D4D /* PHPDetailMessCell.m in Sources */,
 				04B7E4461BAFE6DD00B83DF0 /* RegisterViewController3.m in Sources */,
 				BD8AD7F51B50E62600373E5E /* UIView+WebCacheOperation.m in Sources */,
 				64F607061B904B5900AA7F22 /* OrderPhotoViewController.m in Sources */,

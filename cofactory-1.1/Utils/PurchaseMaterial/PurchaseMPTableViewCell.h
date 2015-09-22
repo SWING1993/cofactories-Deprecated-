@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PurchasePublicHistoryModel.h"
+@class PurchasePublicHistoryModel;
 
 @interface PurchaseMPTableViewCell : UITableViewCell
 - (void)getDataWithModel:(PurchasePublicHistoryModel *)model;
