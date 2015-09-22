@@ -12,7 +12,10 @@
 #import "UMSocial.h"
 #import "UMFeedback.h"
 #import "UMessage.h"
-
+#import "UMSocialWechatHandler.h"
+#import "UMSocialQQHandler.h"
+#import "UMSocialSinaSSOHandler.h"
+#import "UMSocialSinaHandler.h"
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define _IPHONE80_ 80000
@@ -29,6 +32,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
+    [UMSocialData setAppKey:UMENGAppKey];
+    
+    //设置微信AppId、appSecret，分享url
+    [UMSocialWechatHandler setWXAppId:@"wxdf66977ff3f413e2" appSecret:@"a6e3fe6788a9a523cb6657e0ef7ae9f4" url:@"http://www.umeng.com/social"];
+    //设置QQ
+    [UMSocialQQHandler setQQWithAppId:@"100424468" appKey:@"55e03514e0f55a390f003db7" url:@"http://www.umeng.com/social"];
+    //打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。若在新浪后台设置我们的回调地址，“http://sns.whalecloud.com/sina2/callback”，这里可以传nil
+    [UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    //[UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    
+    
     self.window = [[UIWindow alloc] initWithFrame:kScreenBounds];
     self.window.backgroundColor = [UIColor whiteColor];
 
@@ -44,7 +58,7 @@
             DLog(@"百度地图SDK错误");
         }
         // 友盟分享
-        [UMSocialData setAppKey:appStoreUMENGAppKey];
+        //[UMSocialData setAppKey:appStoreUMENGAppKey];
         //[UMSocialData openLog:YES];
         // 友盟用户反馈
         [UMFeedback setAppkey:appStoreUMENGAppKey];
@@ -246,6 +260,21 @@
 {
     return UIInterfaceOrientationMaskPortrait;
 }
+
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    return  [UMSocialSnsService handleOpenURL:url];
+}
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return  [UMSocialSnsService handleOpenURL:url];
+}
+
+
 
 
 @end

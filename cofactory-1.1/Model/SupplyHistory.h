@@ -17,4 +17,8 @@
 @property (nonatomic, strong) NSString *photo;
 @property (nonatomic,strong)NSArray *photoArray;
 
+- (instancetype)initModelWith:(NSDictionary *)dictionary;
++(instancetype)getModelWith:(NSDictionary *)dictionary;
+
+
 @end

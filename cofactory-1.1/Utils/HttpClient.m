@@ -1518,12 +1518,8 @@
             NSArray *jsonArray = (NSArray *)responseObject;
             NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
             for (NSDictionary *dictionary in jsonArray) {
-                InformationModel *information = [[InformationModel alloc] init];
-                information.title = dictionary[@"post_title"];
-                information.comment = dictionary[@"comment_count"];
-                information.interest = dictionary[@"like"];
-                information.oid = [dictionary[@"ID"] intValue];
-                information.urlString = dictionary[@"guid"];
+                InformationModel *information = [[InformationModel alloc] initModelWith:dictionary];
+                
                 [responseArray addObject:information];
             }
             block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseArray});
@@ -1560,11 +1556,7 @@
             NSArray *jsonArray = (NSArray *)responseObject;
             NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
             for (NSDictionary *dictionary in jsonArray) {
-                InformationModel *information = [[InformationModel alloc] init];
-                information.title = dictionary[@"post_title"];
-                information.oid = [dictionary[@"ID"] intValue];
-                information.urlString = dictionary[@"guid"];
-                information.imageString = dictionary[@"thumbnail"];
+                InformationModel *information = [[InformationModel alloc] initModelWith:dictionary];
                 [responseArray addObject:information];
             }
             block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseArray});

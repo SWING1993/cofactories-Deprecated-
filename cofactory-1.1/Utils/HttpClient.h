@@ -398,7 +398,7 @@
  */
 + (void)getHeaderInfomationWithBlock:(void (^)(NSDictionary *responseDictionary))block;
 
-/**资讯列表(下边资讯)
+/**资讯列表(下边资讯)(改过了)
  *
  */
 + (void)getInfomationWithKind:(NSString *)kind andBlock:(void (^)(NSDictionary *responseDictionary))block;

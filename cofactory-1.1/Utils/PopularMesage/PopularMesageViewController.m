@@ -220,7 +220,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
         InformationModel *information = self.headerInformationArray[indexPath.row];
         infoVC.urlString = information.urlString;
         infoVC.oid = information.oid;
-        
+        infoVC.name = information.title;
         [self.navigationController pushViewController:infoVC animated:YES];
         
     }else{
@@ -228,6 +228,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
         InformationModel *information = self.informationArray[indexPath.row];
         infoVC.urlString = information.urlString;
         infoVC.oid = information.oid;
+        infoVC.name = information.title;
         [self.navigationController pushViewController:infoVC animated:YES];
     }
 }

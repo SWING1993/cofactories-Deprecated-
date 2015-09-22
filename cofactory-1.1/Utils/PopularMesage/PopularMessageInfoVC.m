@@ -8,15 +8,18 @@
 
 #import "PopularMessageInfoVC.h"
 #import "CommentViewController.h"
+#import "UMSocial.h"
 
-
-@interface PopularMessageInfoVC ()<UIWebViewDelegate>
+@interface PopularMessageInfoVC ()<UIWebViewDelegate, UMSocialUIDelegate> {
+    UIButton *btn3;
+}
 
 @property (nonatomic,assign)int webViewHeight;
 
 @property (nonatomic,retain)UIWebView *webView;
 
 @property (nonatomic,retain)UIToolbar *toolBar;
+
 
 
 
@@ -76,7 +79,7 @@
     [item2 setWidth:kScreenW/3];
 
 
-    UIButton*btn3 = [[UIButton alloc]initWithFrame:CGRectMake(2*kScreenW/3, 0, kScreenW/3, 40)];
+    btn3 = [[UIButton alloc]initWithFrame:CGRectMake(2*kScreenW/3, 0, kScreenW/3, 40)];
     btn3.tag = 3;
     [btn3 setImage:[UIImage imageNamed:@"资讯_赞"] forState:UIControlStateNormal];
     //btn3.backgroundColor = [UIColor greenColor];
@@ -144,7 +147,7 @@
         [item2 setWidth:kScreenW/3];
 
 
-        UIButton*btn3 = [[UIButton alloc]initWithFrame:CGRectMake(2*kScreenW/3, 0, kScreenW/3, 40)];
+        btn3 = [[UIButton alloc]initWithFrame:CGRectMake(2*kScreenW/3, 0, kScreenW/3, 40)];
         btn3.tag = 3;
         [btn3 setImage:[UIImage imageNamed:@"资讯_赞"] forState:UIControlStateNormal];
         btn3.imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -167,6 +170,18 @@
     switch (sender.tag) {
         case 1:
         {
+            //分享多个
+            [UMSocialData defaultData].extConfig.wechatSessionData.url = self.urlString;//微信好友
+            [UMSocialData defaultData].extConfig.wechatTimelineData.url = self.urlString;//微信朋友圈
+            [UMSocialData defaultData].extConfig.qqData.url = self.urlString;//QQ好友
+            [UMSocialData defaultData].extConfig.qzoneData.url = self.urlString;//QQ空间
+            [UMSocialSnsService presentSnsIconSheetView:self
+                                                 appKey:@"55e03514e0f55a390f003db7"
+                                              shareText:self.name
+                                             shareImage:[UIImage imageNamed:@"logo"]
+                                        shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQQ,UMShareToQzone]
+                                               delegate:self];
+            
             DLog(@"资讯");
         }
             break;
@@ -189,6 +204,8 @@
                 switch (statusCode) {
                     case 200:
                     {
+                        [btn3 setImage:[UIImage imageNamed:@"已赞"] forState:UIControlStateNormal];
+                        
                         [Tools showHudTipStr:@"已赞！"];
                         DLog(@"%d", statusCode);
                     }
