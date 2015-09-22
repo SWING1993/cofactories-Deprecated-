@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface PurchasePublicHistoryModel : NSObject
-@property (nonatomic,copy)NSString  *name,  *comment, *unit,  *type;
+@property (nonatomic,copy)NSString  *name,  *comment, *unit,  *type, *creatTime;
 @property (nonatomic,assign)NSInteger amount,  userID;
 @property (nonatomic,strong)NSArray *photoArray;
 - (instancetype)initModelWith:(NSDictionary *)dictionary;

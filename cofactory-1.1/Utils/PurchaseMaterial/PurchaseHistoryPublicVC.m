@@ -25,7 +25,8 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
     _dataArray = [@[] mutableCopy];
     [HttpClient checkHistoryPublishWithPage:1 completionBlock:^(NSDictionary *responseDictionary){
         NSArray *array = (NSArray *)responseDictionary[@"responseObject"];
@@ -75,11 +76,10 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
     PHPDetailViewController *VC = [[PHPDetailViewController alloc]init];
     VC.model = _dataArray[indexPath.row];
     UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
-    backItem.title=@"返回";
+    backItem.title = @"";
     backItem.tintColor=[UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backItem;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController setNavigationBarHidden:YES];
     [self.navigationController pushViewController:VC animated:YES];
 }
 

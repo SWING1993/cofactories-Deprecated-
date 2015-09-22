@@ -46,7 +46,6 @@
 		045A266C1B686682002DE415 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26611B686682002DE415 /* CalendarViewController.m */; };
 		045A266D1B686682002DE415 /* chack.png in Resources */ = {isa = PBXBuildFile; fileRef = 045A26621B686682002DE415 /* chack.png */; };
 		045A266E1B686682002DE415 /* NSDate+WQCalendarLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26651B686682002DE415 /* NSDate+WQCalendarLogic.m */; };
-		045A26721B6866AE002DE415 /* ZWIntroductionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26711B6866AE002DE415 /* ZWIntroductionViewController.m */; };
 		045A268B1B68937A002DE415 /* FactoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26881B68937A002DE415 /* FactoryListViewController.m */; };
 		045A268C1B68937A002DE415 /* FactoryListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A268A1B68937A002DE415 /* FactoryListTableViewCell.m */; };
 		045A26AB1B6893D5002DE415 /* arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 045A268F1B6893D4002DE415 /* arrow_left.png */; };
@@ -77,12 +76,9 @@
 		045A26C41B6893D5002DE415 /* THDatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045A26AA1B6893D5002DE415 /* THDatePickerViewController.xib */; };
 		045AE0971BABE8D3003EB1DF /* SupplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045AE0961BABE8D3003EB1DF /* SupplyViewController.m */; settings = {ASSET_TAGS = (); }; };
 		045AE09A1BABFB46003EB1DF /* AddmaterialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045AE0991BABFB46003EB1DF /* AddmaterialViewController.m */; settings = {ASSET_TAGS = (); }; };
-		04724E711B8870C000F820EF /* TYBasePageTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E681B8870C000F820EF /* TYBasePageTabBar.m */; };
-		04724E721B8870C000F820EF /* TYSlidePageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E6A1B8870C000F820EF /* TYSlidePageScrollView.m */; };
-		04724E731B8870C000F820EF /* TYSlidePageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E6C1B8870C000F820EF /* TYSlidePageScrollViewController.m */; };
-		04724E741B8870C000F820EF /* TYTitlePageTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E6E1B8870C000F820EF /* TYTitlePageTabBar.m */; };
-		04724E751B8870C000F820EF /* UIScrollView+ty_swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E701B8870C000F820EF /* UIScrollView+ty_swizzle.m */; };
-		04724E7B1B8870EF00F820EF /* MeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04724E7A1B8870EF00F820EF /* MeController.m */; };
+		046BE8A31BB1311C00BA67C4 /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 046BE8A21BB1311C00BA67C4 /* UINavigationBar+Awesome.m */; settings = {ASSET_TAGS = (); }; };
+		046BE8A71BB146BC00BA67C4 /* tablleHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 046BE8A61BB146BC00BA67C4 /* tablleHeaderView.m */; settings = {ASSET_TAGS = (); }; };
+		046BE8AA1BB14BA400BA67C4 /* blueButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 046BE8A91BB14BA400BA67C4 /* blueButton.m */; settings = {ASSET_TAGS = (); }; };
 		047333081B60D2B700F684A2 /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047333031B60D2B600F684A2 /* OrderDetailViewController.m */; };
 		047333091B60D2B700F684A2 /* OrderListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 047333041B60D2B600F684A2 /* OrderListTableViewCell.m */; };
 		0473330A1B60D2B700F684A2 /* OrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047333051B60D2B700F684A2 /* OrderListViewController.m */; };
@@ -191,6 +187,7 @@
 		04F60C691B58D17200CD3DEC /* SetMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C681B58D17200CD3DEC /* SetMapViewController.m */; };
 		04F60C6C1B58EC7F00CD3DEC /* FactoryRangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C6B1B58EC7F00CD3DEC /* FactoryRangeModel.m */; };
 		04F60C701B58EF8D00CD3DEC /* ModifySizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F60C6F1B58EF8D00CD3DEC /* ModifySizeViewController.m */; };
+		6400BF441BB1232A00546D4D /* PHPDetailMessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6400BF431BB1232A00546D4D /* PHPDetailMessCell.m */; settings = {ASSET_TAGS = (); }; };
 		640A9B041BA7F41C00B71DE5 /* PopularMesageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 640A9B031BA7F41C00B71DE5 /* PopularMesageTableViewCell.m */; };
 		640A9B071BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 640A9B061BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m */; };
 		64266AE21BAD348D003CA582 /* PurchaseHistoryPublicVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 64266AE11BAD348D003CA582 /* PurchaseHistoryPublicVC.m */; settings = {ASSET_TAGS = (); }; };
@@ -411,8 +408,6 @@
 		045A26631B686682002DE415 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
 		045A26641B686682002DE415 /* NSDate+WQCalendarLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+WQCalendarLogic.h"; sourceTree = "<group>"; };
 		045A26651B686682002DE415 /* NSDate+WQCalendarLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+WQCalendarLogic.m"; sourceTree = "<group>"; };
-		045A26701B6866AE002DE415 /* ZWIntroductionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWIntroductionViewController.h; sourceTree = "<group>"; };
-		045A26711B6866AE002DE415 /* ZWIntroductionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWIntroductionViewController.m; sourceTree = "<group>"; };
 		045A26871B68937A002DE415 /* FactoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactoryListViewController.h; sourceTree = "<group>"; };
 		045A26881B68937A002DE415 /* FactoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoryListViewController.m; sourceTree = "<group>"; };
 		045A26891B68937A002DE415 /* FactoryListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactoryListTableViewCell.h; sourceTree = "<group>"; };
@@ -449,18 +444,12 @@
 		045AE0961BABE8D3003EB1DF /* SupplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SupplyViewController.m; path = Utils/SupplyViewController.m; sourceTree = "<group>"; };
 		045AE0981BABFB46003EB1DF /* AddmaterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddmaterialViewController.h; path = Utils/AddmaterialViewController.h; sourceTree = "<group>"; };
 		045AE0991BABFB46003EB1DF /* AddmaterialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddmaterialViewController.m; path = Utils/AddmaterialViewController.m; sourceTree = "<group>"; };
-		04724E671B8870C000F820EF /* TYBasePageTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYBasePageTabBar.h; sourceTree = "<group>"; };
-		04724E681B8870C000F820EF /* TYBasePageTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYBasePageTabBar.m; sourceTree = "<group>"; };
-		04724E691B8870C000F820EF /* TYSlidePageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYSlidePageScrollView.h; sourceTree = "<group>"; };
-		04724E6A1B8870C000F820EF /* TYSlidePageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYSlidePageScrollView.m; sourceTree = "<group>"; };
-		04724E6B1B8870C000F820EF /* TYSlidePageScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYSlidePageScrollViewController.h; sourceTree = "<group>"; };
-		04724E6C1B8870C000F820EF /* TYSlidePageScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYSlidePageScrollViewController.m; sourceTree = "<group>"; };
-		04724E6D1B8870C000F820EF /* TYTitlePageTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYTitlePageTabBar.h; sourceTree = "<group>"; };
-		04724E6E1B8870C000F820EF /* TYTitlePageTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYTitlePageTabBar.m; sourceTree = "<group>"; };
-		04724E6F1B8870C000F820EF /* UIScrollView+ty_swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+ty_swizzle.h"; sourceTree = "<group>"; };
-		04724E701B8870C000F820EF /* UIScrollView+ty_swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+ty_swizzle.m"; sourceTree = "<group>"; };
-		04724E791B8870EF00F820EF /* MeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeController.h; sourceTree = "<group>"; };
-		04724E7A1B8870EF00F820EF /* MeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeController.m; sourceTree = "<group>"; };
+		046BE89F1BB130EB00BA67C4 /* UINavigationBar+Awesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Awesome.h"; sourceTree = "<group>"; };
+		046BE8A21BB1311C00BA67C4 /* UINavigationBar+Awesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Awesome.m"; sourceTree = "<group>"; };
+		046BE8A51BB146BC00BA67C4 /* tablleHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tablleHeaderView.h; sourceTree = "<group>"; };
+		046BE8A61BB146BC00BA67C4 /* tablleHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tablleHeaderView.m; sourceTree = "<group>"; };
+		046BE8A81BB14BA400BA67C4 /* blueButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blueButton.h; sourceTree = "<group>"; };
+		046BE8A91BB14BA400BA67C4 /* blueButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = blueButton.m; sourceTree = "<group>"; };
 		047333001B60D2B600F684A2 /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailViewController.h; sourceTree = "<group>"; };
 		047333011B60D2B600F684A2 /* OrderListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderListTableViewCell.h; sourceTree = "<group>"; };
 		047333021B60D2B600F684A2 /* OrderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderListViewController.h; sourceTree = "<group>"; };
@@ -656,6 +645,8 @@
 		04F60C6B1B58EC7F00CD3DEC /* FactoryRangeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoryRangeModel.m; sourceTree = "<group>"; };
 		04F60C6E1B58EF8D00CD3DEC /* ModifySizeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifySizeViewController.h; sourceTree = "<group>"; };
 		04F60C6F1B58EF8D00CD3DEC /* ModifySizeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifySizeViewController.m; sourceTree = "<group>"; };
+		6400BF421BB1232A00546D4D /* PHPDetailMessCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPDetailMessCell.h; sourceTree = "<group>"; };
+		6400BF431BB1232A00546D4D /* PHPDetailMessCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPDetailMessCell.m; sourceTree = "<group>"; };
 		640A9B021BA7F41C00B71DE5 /* PopularMesageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopularMesageTableViewCell.h; sourceTree = "<group>"; };
 		640A9B031BA7F41C00B71DE5 /* PopularMesageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopularMesageTableViewCell.m; sourceTree = "<group>"; };
 		640A9B051BA7F5A800B71DE5 /* PMSectionOneTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMSectionOneTableViewCell.h; sourceTree = "<group>"; };
@@ -999,13 +990,15 @@
 		0448E1461B75D78D002B78B8 /* OC_Category */ = {
 			isa = PBXGroup;
 			children = (
+				046BE89F1BB130EB00BA67C4 /* UINavigationBar+Awesome.h */,
+				046BE8A21BB1311C00BA67C4 /* UINavigationBar+Awesome.m */,
 				04B7E4291BAFE49D00B83DF0 /* UIBarButtonItem+Common.h */,
-				04B7E42A1BAFE49D00B83DF0 /* UIColor+expanded.h */,
-				04B7E42B1BAFE49D00B83DF0 /* UIImage+Common.h */,
-				04B7E42C1BAFE49D00B83DF0 /* UIImageView+Common.h */,
 				04B7E42D1BAFE49D00B83DF0 /* UIBarButtonItem+Common.m */,
+				04B7E42A1BAFE49D00B83DF0 /* UIColor+expanded.h */,
 				04B7E42E1BAFE49D00B83DF0 /* UIColor+expanded.m */,
+				04B7E42B1BAFE49D00B83DF0 /* UIImage+Common.h */,
 				04B7E42F1BAFE49D00B83DF0 /* UIImage+Common.m */,
+				04B7E42C1BAFE49D00B83DF0 /* UIImageView+Common.h */,
 				04B7E4301BAFE49D00B83DF0 /* UIImageView+Common.m */,
 			);
 			path = OC_Category;
@@ -1130,16 +1123,6 @@
 			path = ZFCalendar;
 			sourceTree = "<group>";
 		};
-		045A266F1B6866AE002DE415 /* ZWIntroductionViewController */ = {
-			isa = PBXGroup;
-			children = (
-				045A26701B6866AE002DE415 /* ZWIntroductionViewController.h */,
-				045A26711B6866AE002DE415 /* ZWIntroductionViewController.m */,
-			);
-			name = ZWIntroductionViewController;
-			path = Library;
-			sourceTree = "<group>";
-		};
 		045A268D1B6893D4002DE415 /* THCalendarDatePicker */ = {
 			isa = PBXGroup;
 			children = (
@@ -1183,21 +1166,13 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
-		04724E661B8870C000F820EF /* TYSlidePageScrollView */ = {
+		046BE8A41BB1466300BA67C4 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				04724E671B8870C000F820EF /* TYBasePageTabBar.h */,
-				04724E681B8870C000F820EF /* TYBasePageTabBar.m */,
-				04724E691B8870C000F820EF /* TYSlidePageScrollView.h */,
-				04724E6A1B8870C000F820EF /* TYSlidePageScrollView.m */,
-				04724E6B1B8870C000F820EF /* TYSlidePageScrollViewController.h */,
-				04724E6C1B8870C000F820EF /* TYSlidePageScrollViewController.m */,
-				04724E6D1B8870C000F820EF /* TYTitlePageTabBar.h */,
-				04724E6E1B8870C000F820EF /* TYTitlePageTabBar.m */,
-				04724E6F1B8870C000F820EF /* UIScrollView+ty_swizzle.h */,
-				04724E701B8870C000F820EF /* UIScrollView+ty_swizzle.m */,
+				046BE8A51BB146BC00BA67C4 /* tablleHeaderView.h */,
+				046BE8A61BB146BC00BA67C4 /* tablleHeaderView.m */,
 			);
-			path = TYSlidePageScrollView;
+			path = Login;
 			sourceTree = "<group>";
 		};
 		04822E171B62722500A370F6 /* SearchOrder */ = {
@@ -1728,6 +1703,8 @@
 				64266AEA1BAD61E7003CA582 /* PHPDetailViewController.m */,
 				6478DAC21BAFE18600624A70 /* PHPDetailTableViewCell.h */,
 				6478DAC31BAFE18600624A70 /* PHPDetailTableViewCell.m */,
+				6400BF421BB1232A00546D4D /* PHPDetailMessCell.h */,
+				6400BF431BB1232A00546D4D /* PHPDetailMessCell.m */,
 			);
 			path = PurchaseMaterial;
 			sourceTree = "<group>";
@@ -1878,7 +1855,10 @@
 		BD8AD7B01B50DE7900373E5E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				046BE8A41BB1466300BA67C4 /* Login */,
 				BD8AD7B41B50DFB800373E5E /* Home */,
+				046BE8A81BB14BA400BA67C4 /* blueButton.h */,
+				046BE8A91BB14BA400BA67C4 /* blueButton.m */,
 			);
 			name = View;
 			path = Views;
@@ -1991,8 +1971,6 @@
 		BD8C4E0A1B4FC0820065ECFA /* Me */ = {
 			isa = PBXGroup;
 			children = (
-				04724E791B8870EF00F820EF /* MeController.h */,
-				04724E7A1B8870EF00F820EF /* MeController.m */,
 				BD4311CB1B4F41DE0097E4BC /* MeViewController.h */,
 				BD4311CC1B4F41DE0097E4BC /* MeViewController.m */,
 				040C9B1D1B8C6E7A00B90BE6 /* HeaderImageView */,
@@ -2099,13 +2077,11 @@
 				BD9C60041B9DDFD90040B5D8 /* ZFModalTransitionAnimator */,
 				04E94E111B8EA32200EE911E /* PgySDK.framework */,
 				04B150291B9569CD004E0353 /* IQKeyBoardManager */,
-				04724E661B8870C000F820EF /* TYSlidePageScrollView */,
 				64F4C6611B70B31D00F52FF0 /* MJRefresh */,
 				049582F01B6B68EF00A69E6D /* UMeng */,
 				049582BF1B6B490F00A69E6D /* SinaImagePicker */,
 				0457E3DB1B8EE57100F38881 /* MJPhotoBrowser */,
 				04E644441B69C59000A3DF2E /* Framework */,
-				045A266F1B6866AE002DE415 /* ZWIntroductionViewController */,
 				045A268D1B6893D4002DE415 /* THCalendarDatePicker */,
 				045A26531B686682002DE415 /* ZFCalendar */,
 				043257951B673D0400C3705D /* ODRefreshControl */,
@@ -2452,7 +2428,6 @@
 				649DD8AD1BAC24CB0027A22B /* PurchaseVC.m in Sources */,
 				047333091B60D2B700F684A2 /* OrderListTableViewCell.m in Sources */,
 				7D0609921BAD5FE60021606D /* MaterialInfoCell.m in Sources */,
-				04724E721B8870C000F820EF /* TYSlidePageScrollView.m in Sources */,
 				04B7E4341BAFE49D00B83DF0 /* UIImageView+Common.m in Sources */,
 				049582EA1B6B490F00A69E6D /* JKPhotoBrowserCell.m in Sources */,
 				04F60C661B58CB9700CD3DEC /* ModifyFactoryNameViewController.m in Sources */,
@@ -2460,7 +2435,6 @@
 				04F60C6C1B58EC7F00CD3DEC /* FactoryRangeModel.m in Sources */,
 				0455E10E1B61D62E009C5CDA /* WebViewController.m in Sources */,
 				049582EB1B6B490F00A69E6D /* JKPromptView.m in Sources */,
-				04724E7B1B8870EF00F820EF /* MeController.m in Sources */,
 				BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */,
 				649BA0841B7B15E5008EDE31 /* SearchOrderDetailsVC.m in Sources */,
 				BD9C60031B9DDBBA0040B5D8 /* ZFModalTransitionAnimator.m in Sources */,
@@ -2485,9 +2459,7 @@
 				BD4311D01B4F41DE0097E4BC /* MeViewController.m in Sources */,
 				04C28A1D1B58AC20005014E5 /* ModifyNameViewController.m in Sources */,
 				04B7E4311BAFE49D00B83DF0 /* UIBarButtonItem+Common.m in Sources */,
-				04724E711B8870C000F820EF /* TYBasePageTabBar.m in Sources */,
 				BDC908E81B4E9B3700856A32 /* AFNetworkActivityIndicatorManager.m in Sources */,
-				045A26721B6866AE002DE415 /* ZWIntroductionViewController.m in Sources */,
 				04822E421B62E7A600A370F6 /* NSData+MD5Digest.m in Sources */,
 				BD4311CF1B4F41DE0097E4BC /* MessageViewController.m in Sources */,
 				7DE0FFBB1BAAA97A006B9D96 /* CommentViewController.m in Sources */,
@@ -2495,7 +2467,6 @@
 				04AE21861B535ABC007A3279 /* Tools.m in Sources */,
 				64F4C6751B70B31D00F52FF0 /* MJRefreshFooterView.m in Sources */,
 				64F2954F1BA2C9C00018ED90 /* SearchFactoryOrderVC.m in Sources */,
-				04724E741B8870C000F820EF /* TYTitlePageTabBar.m in Sources */,
 				0457E3F51B8EE57100F38881 /* MJPhotoToolbar.m in Sources */,
 				649DD8AE1BAC24CB0027A22B /* PurchaseFabricOrAccessoryVC.m in Sources */,
 				0457E3F41B8EE57100F38881 /* MJPhotoProgressView.m in Sources */,
@@ -2526,6 +2497,7 @@
 				BDC908DB1B4E9B3700856A32 /* AFURLResponseSerialization.m in Sources */,
 				BDC908D91B4E9B3700856A32 /* AFURLConnectionOperation.m in Sources */,
 				045A26C31B6893D5002DE415 /* THDatePickerViewController.m in Sources */,
+				046BE8AA1BB14BA400BA67C4 /* blueButton.m in Sources */,
 				049582EE1B6B490F00A69E6D /* UIView+JKPicker.m in Sources */,
 				04459B3C1B785BB500D74653 /* SettingTagsViewController.m in Sources */,
 				04B150591B9569CD004E0353 /* IQToolbar.m in Sources */,
@@ -2533,6 +2505,7 @@
 				BDC908D61B4E9B3700856A32 /* AFHTTPSessionManager.m in Sources */,
 				048983B01BA18C4D00F98024 /* ActivityCell.m in Sources */,
 				64F4C6741B70B31D00F52FF0 /* MJRefreshConst.m in Sources */,
+				6400BF441BB1232A00546D4D /* PHPDetailMessCell.m in Sources */,
 				04B7E4461BAFE6DD00B83DF0 /* RegisterViewController3.m in Sources */,
 				BD8AD7F51B50E62600373E5E /* UIView+WebCacheOperation.m in Sources */,
 				64F607061B904B5900AA7F22 /* OrderPhotoViewController.m in Sources */,
@@ -2566,7 +2539,6 @@
 				045939301B7869F3004DA7D6 /* PushViewController.m in Sources */,
 				047EF0E31B6085A0007DD2AE /* AddOrderViewController.m in Sources */,
 				049582E71B6B490F00A69E6D /* JKAssetsViewCell.m in Sources */,
-				04724E731B8870C000F820EF /* TYSlidePageScrollViewController.m in Sources */,
 				045A266E1B686682002DE415 /* NSDate+WQCalendarLogic.m in Sources */,
 				04AEF4FA1BA9332C002DA22E /* UMTextView.m in Sources */,
 				049582E81B6B490F00A69E6D /* JKImagePickerController.m in Sources */,
@@ -2574,6 +2546,7 @@
 				7D0609861BACF8450021606D /* PMSearchViewController.m in Sources */,
 				640A9B071BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m in Sources */,
 				04DFCA981B63CE5900356F4B /* SetViewController.m in Sources */,
+				046BE8A31BB1311C00BA67C4 /* UINavigationBar+Awesome.m in Sources */,
 				04DE27861B55F8D20008DEED /* StatusViewController.m in Sources */,
 				045939331B786A57004DA7D6 /* GetPushModel.m in Sources */,
 				04E81EF01B57F75700B7CE7B /* SetaddressViewController.m in Sources */,
@@ -2591,7 +2564,6 @@
 				BDC907C01B4E9A5700856A32 /* AppDelegate.mm in Sources */,
 				BD8AD7EA1B50E62600373E5E /* SDWebImageDecoder.m in Sources */,
 				BDC908FF1B4E9B6B00856A32 /* UserModel.m in Sources */,
-				04724E751B8870C000F820EF /* UIScrollView+ty_swizzle.m in Sources */,
 				04822E411B62E7A600A370F6 /* NSData+Utils.m in Sources */,
 				64EDB08B1B9C09F800D2A655 /* CompeteViewController.m in Sources */,
 				64F4C6761B70B31D00F52FF0 /* MJRefreshHeaderView.m in Sources */,
@@ -2647,6 +2619,7 @@
 				045A266B1B686682002DE415 /* CalendarMonthHeaderView.m in Sources */,
 				0457E3F21B8EE57100F38881 /* MJPhotoBrowser.m in Sources */,
 				BD8AD7E91B50E62600373E5E /* SDWebImageCompat.m in Sources */,
+				046BE8A71BB146BC00BA67C4 /* tablleHeaderView.m in Sources */,
 				045A266A1B686682002DE415 /* CalendarMonthCollectionViewLayout.m in Sources */,
 				04AEF4F51BA9332C002DA22E /* UMChatTableViewCell.m in Sources */,
 			);

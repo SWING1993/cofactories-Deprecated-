@@ -48,33 +48,16 @@
     self.tableView.showsVerticalScrollIndicator=NO;
     self.tableView.backgroundColor = [UIColor whiteColor];
 
-    UIView*tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
-    tableHeaderView.backgroundColor=[UIColor clearColor];
-    UIImageView*logoImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2-40, 10, 80, 80)];
-    logoImage.image=[UIImage imageNamed:@"login_logo"];
-    logoImage.layer.cornerRadius = 80/2.0f;
-    logoImage.layer.masksToBounds = YES;
-    [tableHeaderView addSubview:logoImage];
-
+    tablleHeaderView*tableHeaderView = [[tablleHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, tableHeaderView_height)];
     self.tableView.tableHeaderView = tableHeaderView;
 
     UIView * tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 60)];
 
-    UIButton*nextBtn=[[UIButton alloc]init];
-
-    nextBtn.frame = CGRectMake(20, 15, kScreenW-40, 35);
-
-    nextBtn.layer.cornerRadius=5.0f;
-    nextBtn.layer.masksToBounds=YES;
-    nextBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-    nextBtn.layer.borderWidth = 1.0f;
-    [nextBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    blueButton*nextBtn=[[blueButton alloc]initWithFrame:CGRectMake(20, 15, kScreenW-40, 35)];;
     [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
     [nextBtn addTarget:self action:@selector(nextBtn) forControlEvents:UIControlEventTouchUpInside];
     [tableFooterView addSubview:nextBtn];
-
     self.tableView.tableFooterView = tableFooterView;
-
     [self createUI];
 }
 
@@ -117,27 +100,13 @@
     }
 
     if (!authcodeBtn) {
-        authcodeBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW-100, 7, 90, 30)];
-        authcodeBtn.layer.cornerRadius=5.0f;
-        authcodeBtn.layer.masksToBounds=YES;
-        authcodeBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-        authcodeBtn.layer.borderWidth = 1.0f;
-        authcodeBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+        authcodeBtn=[[blueButton alloc]initWithFrame:CGRectMake(kScreenW-100, 7, 90, 30)];
+
+        authcodeBtn.titleLabel.font=[UIFont systemFontOfSize:14.0f];
         [authcodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-        [authcodeBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
         [authcodeBtn addTarget:self action:@selector(sendCodeBtn) forControlEvents:UIControlEventTouchUpInside];
 
     }
-
-//    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 360, kScreenW-20, 35)];
-//    nextBtn.layer.cornerRadius=5.0f;
-//    nextBtn.layer.masksToBounds=YES;
-//    nextBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-//    nextBtn.layer.borderWidth = 1.0f;
-//    [nextBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
-//    [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
-//    [nextBtn addTarget:self action:@selector(nextBtn) forControlEvents:UIControlEventTouchUpInside];
-//    [self.tableView addSubview:nextBtn];
 
 }
 

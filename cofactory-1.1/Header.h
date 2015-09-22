@@ -7,9 +7,6 @@
  */
 #import "ViewController.h"
 
-#import "ButtonView.h"
-#import "PageView.h"
-
 #import "LoginViewController.h"//登录
 #import "RegisterViewController.h"//注册
 #import "ResetPasswordViewController.h" //找回密码
@@ -69,15 +66,25 @@
 #import "PushHelperItemModel.h"
 #import "PushHelperModel.h"
 
+
+#pragma mark Model
+
 #import "FactoryModel.h"
 #import "MessageModel.h"
 #import "OrderModel.h"
 #import "UserModel.h"
-
 #import "FactoryRangeModel.h"
-
 #import "InformationModel.h"
 #import "CommentModel.h"
+
+#pragma mark Views
+
+#import "ButtonView.h"
+#import "PageView.h"
+#import "tablleHeaderView.h"
+#import "blueButton.h" // 蓝边Button
+
+
 
 #import "SupplyHistory.h"
 

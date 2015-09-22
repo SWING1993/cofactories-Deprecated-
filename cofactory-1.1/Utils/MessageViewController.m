@@ -24,8 +24,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    [Tools AFNetworkReachabilityStatusReachableVia];
-
 
     self.messageArray = [[NSMutableArray alloc]initWithCapacity:0];
     self.automaticallyAdjustsScrollViewInsets=NO;
@@ -48,6 +46,8 @@
 
     [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {
         if ([responseDictionary[@"statusCode"] intValue]==200) {
+            //判断网络状态 给用户相应提示
+            [Tools AFNetworkReachabilityStatusReachableVia];
             self.messageArray=responseDictionary[@"responseArray"];
             [self.tableView reloadData];
             [refreshControl endRefreshing];
@@ -60,8 +60,6 @@
 
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
 {
-    [Tools AFNetworkReachabilityStatusReachableVia];
-
     double delayInSeconds = 2.0;
     //列出合作商
     [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {

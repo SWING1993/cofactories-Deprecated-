@@ -17,8 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.    
-    self.title=@"注册信息";
 
+    self.title=@"注册信息";
 
     //设置Btn
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回首页" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
@@ -29,29 +29,14 @@
     self.tableView.showsVerticalScrollIndicator=NO;
     self.tableView.backgroundColor = [UIColor whiteColor];
 
-    UIView*tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
-    tableHeaderView.backgroundColor=[UIColor clearColor];
-    UIImageView*logoImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2-40, 10, 80, 80)];
-    logoImage.image=[UIImage imageNamed:@"login_logo"];
-    logoImage.layer.cornerRadius = 80/2.0f;
-    logoImage.layer.masksToBounds = YES;
-    [tableHeaderView addSubview:logoImage];
+    tablleHeaderView*tableHeaderView = [[tablleHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, tableHeaderView_height)];
     self.tableView.tableHeaderView = tableHeaderView;
-
 
 
     UIView*tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 50)];
     tableFooterView.backgroundColor = [UIColor clearColor];
 
-    UIButton*registerBtn=[[UIButton alloc]init];
-    registerBtn.frame = CGRectMake(10, 9, kScreenW-20, 35);
-
-    registerBtn.layer.cornerRadius=5.0f;
-    registerBtn.layer.masksToBounds=YES;
-    registerBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-    registerBtn.layer.borderWidth = 1.0f;
-    [registerBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
-
+    blueButton*registerBtn=[[blueButton alloc]initWithFrame:CGRectMake(10, 9, kScreenW-20, 35)];
     [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
     [registerBtn addTarget:self action:@selector(clickRegisterBtn) forControlEvents:UIControlEventTouchUpInside];
     [tableFooterView addSubview:registerBtn];
@@ -173,7 +158,7 @@
         }
 
     }
-
+    
     return cell;
 }
 

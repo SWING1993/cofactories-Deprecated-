@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PurchasePublicHistoryModel.h"
+@class PurchasePublicHistoryModel;
 
 @interface PHPDetailViewController : UIViewController
 @property (nonatomic,strong) PurchasePublicHistoryModel *model;

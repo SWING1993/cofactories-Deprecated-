@@ -8,8 +8,6 @@
 #import "Header.h"
 #import "HttpClient.h"
 #import "ViewController.h"
-#import "MeController.h"
-
 
 @interface ViewController ()
 
@@ -60,7 +58,7 @@
     UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:VC3];
     nav3.navigationBar.barStyle=UIBarStyleBlack;
 
-    MeController *VC4 = [[MeController alloc] init];
+    MeViewController *VC4 = [[MeViewController alloc] init];
     UINavigationController *nav4 = [[UINavigationController alloc] initWithRootViewController:VC4];
     nav4.navigationBar.barStyle=UIBarStyleBlack;
 
