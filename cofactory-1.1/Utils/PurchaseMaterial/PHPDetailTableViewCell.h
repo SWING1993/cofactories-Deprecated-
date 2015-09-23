@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class LookoverMaterialModel;
 @interface PHPDetailTableViewCell : UITableViewCell
+- (void)getDataWithModel:(LookoverMaterialModel *)model isMaterial:(BOOL)isMaterial;
+@property (nonatomic,strong)UIButton *phoneButton;
 @end
