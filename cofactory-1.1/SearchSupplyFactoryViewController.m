@@ -9,6 +9,7 @@
 #import "SearchSupplyFactoryViewController.h"
 #import "SearchSupplyViewCell.h"
 #import "SearchSupplymaterialViewController.h"
+#import "LookoverMaterialViewController.h"
 
 @interface SearchSupplyFactoryViewController ()
 
@@ -18,6 +19,14 @@ static NSString *searchCellIdentifier = @"SearchCell";
 
 @implementation SearchSupplyFactoryViewController
 
+- (void)viewWillAppear:(BOOL)animated{
+
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -25,10 +34,10 @@ static NSString *searchCellIdentifier = @"SearchCell";
         
         self.title = @"查看面辅料";
         [HttpClient searchMaterialWithKeywords:@"" type:@"" page:1 completionBlock:^(NSDictionary *responseDictionary) {
-            DLog("responseDictionary==%@",responseDictionary);
             self.historyArray = responseDictionary[@"responseObject"];
             [self.tableView reloadData];
         }];
+        
         
     }else{
         self.title = @"历史发布";
@@ -42,7 +51,6 @@ static NSString *searchCellIdentifier = @"SearchCell";
 
 - (void)network {
     [HttpClient checkMaterialHistoryPublishWithPage:1 completionBlock:^(NSDictionary *responseDictionary) {
-        DLog(@"%@", responseDictionary[@"responseObject"]);
         self.historyArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseObject"]];
         [self.tableView reloadData];
     }];
@@ -81,12 +89,22 @@ static NSString *searchCellIdentifier = @"SearchCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (_isMe) {
-        
+        SupplyHistory *history = self.historyArray[indexPath.row];
+        LookoverMaterialViewController *VC= [[LookoverMaterialViewController alloc]initWithOid:history.oid];
+       
+        UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+        backItem.title = @"";
+        backItem.tintColor=[UIColor whiteColor];
+        self.navigationItem.backBarButtonItem = backItem;
+//        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        [self.navigationController pushViewController:VC animated:YES];
     }else{
         
         SearchSupplymaterialViewController *searchSupplymaterialVC = [[SearchSupplymaterialViewController alloc] init];
         SupplyHistory *history = self.historyArray[indexPath.row];
         searchSupplymaterialVC.oid = history.oid;
+        searchSupplymaterialVC.type = history.type;
+        searchSupplymaterialVC.photoArray = [NSMutableArray arrayWithArray:history.photoArray];
         [self.navigationController pushViewController:searchSupplymaterialVC animated:YES];
     }
 }

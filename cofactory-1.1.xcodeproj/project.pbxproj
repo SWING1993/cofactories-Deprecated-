@@ -216,6 +216,8 @@
 		6400BF441BB1232A00546D4D /* PHPDetailMessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6400BF431BB1232A00546D4D /* PHPDetailMessCell.m */; settings = {ASSET_TAGS = (); }; };
 		640A9B041BA7F41C00B71DE5 /* PopularMesageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 640A9B031BA7F41C00B71DE5 /* PopularMesageTableViewCell.m */; };
 		640A9B071BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 640A9B061BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m */; };
+		640B21AB1BB2419700EDFF1C /* LookoverMaterialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 640B21AA1BB2419700EDFF1C /* LookoverMaterialViewController.m */; settings = {ASSET_TAGS = (); }; };
+		640B21AE1BB2478000EDFF1C /* LookoverMaterialModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 640B21AD1BB2478000EDFF1C /* LookoverMaterialModel.m */; settings = {ASSET_TAGS = (); }; };
 		64266AE21BAD348D003CA582 /* PurchaseHistoryPublicVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 64266AE11BAD348D003CA582 /* PurchaseHistoryPublicVC.m */; settings = {ASSET_TAGS = (); }; };
 		64266AE51BAD3F82003CA582 /* PurchaseMPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64266AE41BAD3F82003CA582 /* PurchaseMPTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		64266AE81BAD415E003CA582 /* PurchasePublicHistoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 64266AE71BAD415E003CA582 /* PurchasePublicHistoryModel.m */; settings = {ASSET_TAGS = (); }; };
@@ -712,6 +714,10 @@
 		640A9B031BA7F41C00B71DE5 /* PopularMesageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopularMesageTableViewCell.m; sourceTree = "<group>"; };
 		640A9B051BA7F5A800B71DE5 /* PMSectionOneTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMSectionOneTableViewCell.h; sourceTree = "<group>"; };
 		640A9B061BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMSectionOneTableViewCell.m; sourceTree = "<group>"; };
+		640B21A91BB2419700EDFF1C /* LookoverMaterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookoverMaterialViewController.h; sourceTree = "<group>"; };
+		640B21AA1BB2419700EDFF1C /* LookoverMaterialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookoverMaterialViewController.m; sourceTree = "<group>"; };
+		640B21AC1BB2478000EDFF1C /* LookoverMaterialModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookoverMaterialModel.h; sourceTree = "<group>"; };
+		640B21AD1BB2478000EDFF1C /* LookoverMaterialModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookoverMaterialModel.m; sourceTree = "<group>"; };
 		64266AE01BAD348D003CA582 /* PurchaseHistoryPublicVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseHistoryPublicVC.h; sourceTree = "<group>"; };
 		64266AE11BAD348D003CA582 /* PurchaseHistoryPublicVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseHistoryPublicVC.m; sourceTree = "<group>"; };
 		64266AE31BAD3F82003CA582 /* PurchaseMPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseMPTableViewCell.h; sourceTree = "<group>"; };
@@ -1830,6 +1836,8 @@
 				6478DAC31BAFE18600624A70 /* PHPDetailTableViewCell.m */,
 				6400BF421BB1232A00546D4D /* PHPDetailMessCell.h */,
 				6400BF431BB1232A00546D4D /* PHPDetailMessCell.m */,
+				640B21A91BB2419700EDFF1C /* LookoverMaterialViewController.h */,
+				640B21AA1BB2419700EDFF1C /* LookoverMaterialViewController.m */,
 			);
 			path = PurchaseMaterial;
 			sourceTree = "<group>";
@@ -2313,6 +2321,8 @@
 				64266AE71BAD415E003CA582 /* PurchasePublicHistoryModel.m */,
 				7DE1630C1BB000A800777AEF /* SupplyHistory.h */,
 				7DE1630D1BB000A800777AEF /* SupplyHistory.m */,
+				640B21AC1BB2478000EDFF1C /* LookoverMaterialModel.h */,
+				640B21AD1BB2478000EDFF1C /* LookoverMaterialModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2393,7 +2403,7 @@
 				TargetAttributes = {
 					BDC907B61B4E9A5700856A32 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 23L882L49W;
+						DevelopmentTeam = 24M4SR48J4;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 0;
@@ -2546,6 +2556,7 @@
 				BDC908EC1B4E9B3700856A32 /* UIImageView+AFNetworking.m in Sources */,
 				BDC908EB1B4E9B3700856A32 /* UIButton+AFNetworking.m in Sources */,
 				64266AEB1BAD61E7003CA582 /* PHPDetailViewController.m in Sources */,
+				640B21AB1BB2419700EDFF1C /* LookoverMaterialViewController.m in Sources */,
 				649CCE411B9D64D500710B2A /* BidManagerModel.m in Sources */,
 				04D7D02F1B5A4B430054861E /* DescriptionViewController.m in Sources */,
 				049582EC1B6B490F00A69E6D /* JKUtil.m in Sources */,
@@ -2716,6 +2727,7 @@
 				BDC908E91B4E9B3700856A32 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				BD8AD7F21B50E62600373E5E /* UIImage+WebP.m in Sources */,
 				64266AE81BAD415E003CA582 /* PurchasePublicHistoryModel.m in Sources */,
+				640B21AE1BB2478000EDFF1C /* LookoverMaterialModel.m in Sources */,
 				BD8AD7C31B50E59700373E5E /* PageView.m in Sources */,
 				BDC908EE1B4E9B3700856A32 /* UIRefreshControl+AFNetworking.m in Sources */,
 				BDC908ED1B4E9B3700856A32 /* UIProgressView+AFNetworking.m in Sources */,
@@ -2942,7 +2954,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cofactory.iosapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jugongchang.cofactorys;
 				PRODUCT_NAME = "cofactory-1.1";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2989,7 +3001,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cofactory.iosapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jugongchang.cofactorys;
 				PRODUCT_NAME = "cofactory-1.1";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;

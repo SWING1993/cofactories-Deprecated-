@@ -13,5 +13,8 @@
 @property (nonatomic, strong) NSString *authour;
 @property (nonatomic, strong) NSString *time;
 @property (nonatomic, strong) NSString *comment;
+- (instancetype)initModelWith:(NSDictionary *)dictionary;
++(instancetype)getModelWith:(NSDictionary *)dictionary;
+
 
 @end

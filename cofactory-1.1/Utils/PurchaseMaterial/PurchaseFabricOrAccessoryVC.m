@@ -212,7 +212,6 @@
     }];
 }
 
-//下一步
 - (void)imagePickerController:(JKImagePickerController *)imagePicker didSelectAssets:(NSArray *)assets isSource:(BOOL)source
 {
     [imagePicker dismissViewControllerAnimated:YES completion:^{
@@ -239,7 +238,6 @@
     }];
 }
 
-//取消
 - (void)imagePickerControllerDidCancel:(JKImagePickerController *)imagePicker
 {
     [imagePicker dismissViewControllerAnimated:YES completion:^{

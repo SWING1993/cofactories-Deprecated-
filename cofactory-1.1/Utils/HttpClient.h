@@ -447,5 +447,17 @@
  *
  */
 + (void)searchMaterialWithKeywords:(NSString *)aKeywords type:(NSString *)aType page:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+/**获取面辅料详情信息
+ *
+ */
++ (void)getMaterialDetailMessageWithId:(NSString *)aId completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+/**获取面辅料信息详情
+ *
+ */
+
++ (void)getMaterialMessageWithID:(NSString *)oid completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
 
 @end

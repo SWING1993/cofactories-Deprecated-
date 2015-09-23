@@ -28,16 +28,20 @@
 @end
 
 @implementation CooperationInfoViewController {
-
+    
     UIImageView *imageBG;
     UIView *BGView;
-
-
+    
+    
     UILabel*factoryNameLabel;
     UILabel*infoLabel;
     UIButton*favoriteBtn;
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -45,31 +49,31 @@
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
     self.title=@"公司信息";
-
+    
     self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"]];
     self.cellImageArray2=@[[UIImage imageNamed:@"set_名称"],[UIImage imageNamed:@"set_公司地址"],[UIImage imageNamed:@"set_公司规模"],[UIImage imageNamed:@"set_公司业务类型"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_公司相册"],[UIImage imageNamed:@"set_标签"]];
     self.cellImageArray3=@[[UIImage imageNamed:@"空闲"],[UIImage imageNamed:@"货车2"],[UIImage imageNamed:@"认证2"],];
     self.cellImageArray4=@[[UIImage imageNamed:@"空闲2"],[UIImage imageNamed:@"货车"],[UIImage imageNamed:@"认证"]];
-
+    
     [self createHeaderView];
 }
 
 - (void)createHeaderView {
-
+    
     // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, ImageViewHeight)];
-
+    
     UIImageView*BGImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, ImageViewHeight-50)];
     BGImage.image=[UIImage imageNamed:@"headerView"];
     headerView.backgroundColor=[UIColor whiteColor];
     [headerView addSubview:BGImage];
-
+    
     UIImageView*leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW/2+30, ImageViewHeight-50)];
     [headerView addSubview:leftImage];
-
+    
     [HttpClient getFactoryPhotoWithUid:[NSString stringWithFormat:@"%d",self.factoryModel.uid] type:@"employee" andBlock:^(NSDictionary *dictionary) {
         if ([dictionary[@"statusCode"] intValue]== 200) {
-//            NSMutableArray*employee = [[NSMutableArray alloc]initWithCapacity:10];
+            //            NSMutableArray*employee = [[NSMutableArray alloc]initWithCapacity:10];
             NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
             NSDictionary*factory=responseDictionary[@"factory"];
             NSArray*employee =factory[@"employee"];
@@ -81,13 +85,13 @@
                 NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,[employee firstObject]];//图片测试
                 [leftImage sd_setImageWithURL:[NSURL URLWithString:urlString]];
             }
-
+            
         }
     }];
-
+    
     [HttpClient getFactoryPhotoWithUid:[NSString stringWithFormat:@"%d",self.factoryModel.uid] type:@"environment" andBlock:^(NSDictionary *dictionary) {
         if ([dictionary[@"statusCode"] intValue]== 200) {
-//            NSMutableArray*environment = [[NSMutableArray alloc]initWithCapacity:10];
+            //            NSMutableArray*environment = [[NSMutableArray alloc]initWithCapacity:10];
             NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
             NSDictionary*factory=responseDictionary[@"factory"];
             NSArray*environment=factory[@"environment"];
@@ -100,18 +104,18 @@
                 NSString*urlString =[NSString stringWithFormat:@"%@%@",PhotoAPI,[environment firstObject]];//图片测试
                 [rightImage1 sd_setImageWithURL:[NSURL URLWithString:urlString]];
                 [headerView addSubview:rightImage1];
-
+                
             }
         }
     }];
-
+    
     [HttpClient getFactoryPhotoWithUid:[NSString stringWithFormat:@"%d",self.factoryModel.uid] type:@"equipment" andBlock:^(NSDictionary *dictionary) {
         if ([dictionary[@"statusCode"] intValue]== 200) {
-//            NSMutableArray*equipment = [[NSMutableArray alloc]initWithCapacity:10];
+            //            NSMutableArray*equipment = [[NSMutableArray alloc]initWithCapacity:10];
             NSDictionary*responseDictionary = dictionary[@"responseDictionary"];
             NSDictionary*factory=responseDictionary[@"factory"];
             NSArray*equipment=factory[@"equipment"];
-
+            
             if ([equipment firstObject]) {
                 UIImageView*rightImage2 = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2+30, (ImageViewHeight-50)/2, kScreenW-kScreenW/2-30, (ImageViewHeight-50)/2)];
                 rightImage2.contentMode=UIViewContentModeScaleAspectFill;
@@ -124,7 +128,7 @@
             }
         }
     }];
-
+    
     UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, ImageViewHeight-80, 60, 60)];
     headerImage.layer.cornerRadius=60/2.0f;
     headerImage.layer.masksToBounds=YES;
@@ -135,12 +139,12 @@
     [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"消息头像"]];
     [headerView addSubview:headerImage];
     [headerView bringSubviewToFront:headerImage];
-
+    
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, ImageViewHeight-45, kScreenW-100, 20)];
     factoryNameLabel.font=[UIFont boldSystemFontOfSize:18];
     factoryNameLabel.text=self.factoryModel.factoryName;
     [headerView addSubview:factoryNameLabel];
-
+    
     infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-140, ImageViewHeight-25, 130, 20)];
     infoLabel.font=[UIFont boldSystemFontOfSize:15.0f];
     infoLabel.textColor=[UIColor grayColor];
@@ -150,7 +154,7 @@
 }
 
 - (void)callBtn {
-//    NSLog(@"拨打电话");
+    //    NSLog(@"拨打电话");
     NSString *str = [NSString stringWithFormat:@"telprompt://%@", self.factoryModel.phone];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
     [self performSelector:@selector(popAlertViewController) withObject:nil afterDelay:5.0f];
@@ -177,36 +181,36 @@
 }
 
 - (void)favoriteBtn {
-
+    
     DLog(@"添加收藏");
     NSString * Uid = [NSString stringWithFormat:@"%d",self.factoryModel.uid];
     [HttpClient addFavoriteWithUid:Uid andBlock:^(int statusCode) {
         switch (statusCode) {
             case 201:
             {
-
+                
                 [Tools showHudTipStr:@"收藏成功"];
             }
                 break;
-
+                
             case 400:
             {
                 [Tools showHudTipStr:@"未登录"];
-
+                
             }
                 break;
-
+                
             case 401:
             {
                 [Tools showHudTipStr:@"需要重新登录"];
-
+                
             }
                 break;
                 
             default:
                 break;
         }    }];
-
+    
 }
 
 #pragma mark - Table view data source
@@ -236,29 +240,29 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
         cell.detailTextLabel.font=[UIFont systemFontOfSize:14.0f];
         cell.detailTextLabel.textColor=[UIColor blackColor];
-
+        
         UIImageView*cellImage= [[UIImageView alloc]initWithFrame:CGRectMake(10, 7, 30, 30)];
         UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 7, kScreenW-40, 30)];
         cellLabel.font=[UIFont systemFontOfSize:15.0f];
-
+        
         if (indexPath.section == 0) {
-
-
+            
+            
             UIButton*callBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 10, kScreenW/2-20, 40)];
             callBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
             [callBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [callBtn setTitle:@"拨打电话" forState:UIControlStateNormal];
             callBtn.titleEdgeInsets = UIEdgeInsetsMake(20, -20, 20, 00);
-
+            
             [callBtn setImage:[UIImage imageNamed:@"set_号码"] forState:UIControlStateNormal];
             callBtn.imageEdgeInsets = UIEdgeInsetsMake(0,0 ,0 ,kScreenW/2-60);
             [callBtn addTarget:self action:@selector(callBtn) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:callBtn];
-
+            
             UIView*view=[[UIView alloc]initWithFrame:CGRectMake(kScreenW/2-1.5f, 0, 1.0f, 60)];
             view.backgroundColor=[UIColor lightGrayColor];
             [cell addSubview:view];
-
+            
             favoriteBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2+10, 10, kScreenW/2-20, 40)];
             favoriteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
             favoriteBtn.titleEdgeInsets = UIEdgeInsetsMake(20, -20, 20, 00);
@@ -268,16 +272,16 @@
             favoriteBtn.imageEdgeInsets = UIEdgeInsetsMake(0,0 ,0 ,kScreenW/2-60);
             [favoriteBtn addTarget:self action:@selector(favoriteBtn) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:favoriteBtn];
-
+            
         }
-
+        
         if (indexPath.section == 1) {
             cellImage.image=self.cellImageArray2[indexPath.row];
             switch (indexPath.row) {
                 case 0:{
                     cellLabel.text=@"公司名称";
                     cell.detailTextLabel.text=self.factoryModel.factoryName;
-
+                    
                 }
                     break;
                 case 1:{
@@ -285,11 +289,11 @@
                     UILabel*label = [[UILabel alloc]init];
                     label.frame = CGRectMake(110, 7, kScreenW-125, 30);
                     label.font=[UIFont systemFontOfSize:14.0f];
-
+                    
                     label.textAlignment = NSTextAlignmentRight;
                     label.text =  self.factoryModel.factoryAddress;
                     [cell addSubview:label];
-
+                    
                 }
                     break;
                 case 2:{
@@ -299,7 +303,7 @@
                     }else {
                         cell.detailTextLabel.text=self.factoryModel.factorySize;
                     }
-
+                    
                 }
                     break;
                 case 3:{
@@ -315,7 +319,7 @@
                 case 5:{
                     cellLabel.text=@"公司相册";
                     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-
+                    
                 }
                     break;
                 case 6:{
@@ -327,19 +331,19 @@
                     }
                 }
                     break;
-
+                    
                 default:
                     break;
             }
         }
         if (indexPath.section == 2) {
-
+            
             for (int i = 0; i<3; i++) {
                 UIImageView*imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10+i*((kScreenW-90)/3+30), 5, 30 , 30)];
                 UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(40+i*((kScreenW-90)/3+30), 5, 80 , 30)];
                 cellLabel.font = [UIFont systemFontOfSize:13.0f];
                 if (i==0) {
-
+                    
                     if (self.factoryModel.factoryType==1) {
                         imageView.image = self.cellImageArray3[0];
                         if (self.factoryModel.factoryFreeTime) {
@@ -350,7 +354,7 @@
                         if ([self.factoryModel.factoryFreeStatus isEqualToString:@"空闲"]) {
                             imageView.image = self.cellImageArray3[0];
                             cellLabel.text = @" 空闲";
-
+                            
                         }else{
                             imageView.image = self.cellImageArray4[0];
                             cellLabel.text = @" 忙碌";
@@ -358,12 +362,12 @@
                     }
                 }
                 if (i==1) {
-
+                    
                     if (self.factoryModel.factoryType==1) {
                         if (self.factoryModel.hasTruck==0) {
                             imageView.image = self.cellImageArray3[1];
                             cellLabel.text = @" 有货车";
-
+                            
                         }else{
                             imageView.image = self.cellImageArray4[1];
                             cellLabel.text = @" 无货车";
@@ -372,30 +376,30 @@
                     }else{
                         imageView.hidden=YES;
                         cellLabel.hidden=YES;
-
+                        
                     }
-
+                    
                 }
                 if (i==2) {
                     if (self.factoryModel.authStatus==2) {
                         imageView.image = self.cellImageArray4[2];
                         cellLabel.text = @" 已认证";
-
+                        
                     }else{
                         imageView.image = self.cellImageArray3[2];
                         cellLabel.text = @" 未认证";
-
+                        
                     }
                 }
                 [cell addSubview:imageView];
-
-
+                
+                
                 if (i==0) {
-
+                    
                     if ([self.factoryModel.factoryFreeStatus isEqualToString:@"空闲"]) {
                     }else{
                     }
-
+                    
                 }
                 if (i==1) {
                 }
@@ -408,7 +412,7 @@
             }
         }
         if (indexPath.section == 3) {
-
+            
             [cell setAccessoryType:UITableViewCellAccessoryNone];
             UILabel*titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
             titleLabel.text=@"公司简介";
@@ -416,6 +420,9 @@
             titleLabel.textAlignment=NSTextAlignmentCenter;
             titleLabel.font=[UIFont systemFontOfSize:16.0f];
             [cell addSubview:titleLabel];
+            
+ //           UIFont*font=[UIFont systemFontOfSize:14.0f];
+//            CGSize size = [self.factoryModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
 
             CGSize size = [Tools getSize:[NSString stringWithFormat:@"%@",self.factoryModel.factoryDescription] andFontOfSize:14.0f];
             UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 25, kScreenW-40, size.height)];
@@ -444,7 +451,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     if (indexPath.section==0) {
         return 60;
     }
@@ -462,7 +469,7 @@
         PhotoViewController* factoryPhotoVC = [[PhotoViewController alloc]init];
         factoryPhotoVC.userUid = [NSString stringWithFormat:@"%d",self.factoryModel.uid];
         [self.navigationController pushViewController:factoryPhotoVC animated:YES];
-
+        
     }
 }
 
@@ -481,15 +488,15 @@
 {
     CGFloat yOffset  = scrollView.contentOffset.y;
     CGFloat xOffset = (yOffset )/2;
-
+    
     if (yOffset < 0) {
-
+        
         CGRect rect = imageBG.frame;
         rect.origin.y = yOffset;
         rect.size.height =  200-yOffset ;
         rect.origin.x = xOffset;
         rect.size.width = kScreenW + fabs(xOffset)*2;
-
+        
         imageBG.frame = rect;
     }
 }
@@ -499,7 +506,7 @@
 {
     // 描述矩形
     CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-
+    
     // 开启位图上下文
     UIGraphicsBeginImageContext(rect.size);
     // 获取位图上下文
@@ -512,7 +519,7 @@
     UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
     // 结束上下文
     UIGraphicsEndImageContext();
-
+    
     return theImage;
 }
 

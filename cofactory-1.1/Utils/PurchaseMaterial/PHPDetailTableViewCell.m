@@ -7,7 +7,7 @@
 //
 
 #import "PHPDetailTableViewCell.h"
-
+#import "LookoverMaterialModel.h"
 @implementation PHPDetailTableViewCell{
     UIImageView *_bgImageView;
     UILabel     *_titleLabel;
@@ -32,9 +32,31 @@
         _titleLabel.text = factoryName;
         _titleLabel.font = [UIFont systemFontOfSize:18.0f];
         [self addSubview:_titleLabel];
+        
+        _phoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _phoneButton.frame = CGRectMake(kScreenW-110, 20, 70, 30);
+        [_phoneButton setBackgroundImage:[UIImage imageNamed:@"联系厂商"] forState:UIControlStateNormal];
+        _phoneButton.layer.masksToBounds = YES;
+        _phoneButton.layer.cornerRadius = 5;
+        [self addSubview:_phoneButton];
+        
     }
     return self;
 }
+
+- (void)getDataWithModel:(LookoverMaterialModel *)model isMaterial:(BOOL)isMaterial{
+    
+    if (isMaterial) {
+        [_bgImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%zi.png",PhotoAPI,model.userID]] placeholderImage:[UIImage imageNamed:@"消息头像"]];
+        
+        [HttpClient getUserProfileWithUid:model.userID andBlock:^(NSDictionary *responseDictionary) {
+            FactoryModel *model = (FactoryModel *)responseDictionary[@"model"];
+            _titleLabel.text = model.factoryName;
+        }];
+    }
+}
+
+
 
 - (void)awakeFromNib {
     // Initialization code
@@ -42,7 +64,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

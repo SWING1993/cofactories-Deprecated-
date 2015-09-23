@@ -10,13 +10,17 @@
 
 @interface SupplyHistory : NSObject
 
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *type;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *type;
 @property (nonatomic, assign) NSInteger price;
-@property (nonatomic, strong) NSString *info;
-@property (nonatomic, strong) NSString *photo;
-@property (nonatomic, strong) NSArray *photoArray;
-@property (nonatomic, strong) NSString *oid;
+@property (nonatomic, copy) NSString *info;
+@property (nonatomic, copy) NSString *photo;
+@property (nonatomic, copy) NSString *oid;
+@property (nonatomic, assign) NSInteger width;
+@property (nonatomic, strong) NSString *usage;
+@property (nonatomic, strong) NSString *phoneNumber;
+@property (nonatomic, strong) NSString *userName;
+@property (nonatomic, strong) NSMutableArray *photoArray;
 
 - (instancetype)initModelWith:(NSDictionary *)dictionary;
 +(instancetype)getModelWith:(NSDictionary *)dictionary;
