@@ -11,7 +11,6 @@
 #import "UMSocial.h"
 #import "UMFeedback.h"
 
-
 #import "ZFModalTransitionAnimator.h"
 
 @interface SetViewController () <UIAlertViewDelegate,UMSocialUIDelegate>
@@ -247,13 +246,6 @@
 }
 
 
-/**
- *  通过代码调用来显示用户反馈界面
- */
-- (void)showFeedbackView
-{
-    [[PgyManager sharedPgyManager] showFeedbackView];
-}
 
 
 

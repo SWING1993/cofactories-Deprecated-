@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+#import "EAIntroPage.h"
+#import "EAIntroView.h"
+
+@interface ViewController : UIViewController <EAIntroDelegate,UIApplicationDelegate>
+
 
 //主页
 +(void)goMain;
