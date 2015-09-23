@@ -16,9 +16,13 @@
 #import "UMSocialSinaSSOHandler.h"
 #import "UMSocialSinaHandler.h"
 
+#import <PgySDK/PgyManager.h>
+
+#import "MobClick.h"
+
+
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define _IPHONE80_ 80000
-#define  kNavTitleFontSize 18
 
 @interface AppDelegate ()
 
@@ -26,11 +30,10 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
-    [UMSocialData setAppKey:UMENGAppKey];
+    //[UMSocialData setAppKey:UMENGAppKey];
     
     //设置微信AppId、appSecret，分享url
     [UMSocialWechatHandler setWXAppId:@"wxdf66977ff3f413e2" appSecret:@"a6e3fe6788a9a523cb6657e0ef7ae9f4" url:@"http://www.umeng.com/social"];
@@ -56,8 +59,8 @@
             DLog(@"百度地图SDK错误");
         }
         // 友盟分享
-        //[UMSocialData setAppKey:appStoreUMENGAppKey];
-        //[UMSocialData openLog:YES];
+        [UMSocialData setAppKey:UMENGAppKey];
+        [UMSocialData openLog:YES];
         // 友盟用户反馈
         [UMFeedback setAppkey:appStoreUMENGAppKey];
         // 注册友盟统计 SDK
@@ -149,7 +152,6 @@
 
 
     //设置导航条样式
-
     [self customizeInterface];
 
     ViewController *mainVC = [[ViewController alloc] init];
@@ -158,6 +160,7 @@
     [_window makeKeyAndVisible];
     return YES;
 }
+
 
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
@@ -247,8 +250,5 @@
 {
     return  [UMSocialSnsService handleOpenURL:url];
 }
-
-
-
 
 @end

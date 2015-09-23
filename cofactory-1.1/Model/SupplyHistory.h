@@ -15,8 +15,12 @@
 @property (nonatomic, assign) NSInteger price;
 @property (nonatomic, copy) NSString *info;
 @property (nonatomic, copy) NSString *photo;
-@property (nonatomic, copy) NSArray *photoArray;
 @property (nonatomic, copy) NSString *oid;
+@property (nonatomic, assign) NSInteger width;
+@property (nonatomic, strong) NSString *usage;
+@property (nonatomic, strong) NSString *phoneNumber;
+@property (nonatomic, strong) NSString *userName;
+@property (nonatomic, strong) NSMutableArray *photoArray;
 
 - (instancetype)initModelWith:(NSDictionary *)dictionary;
 +(instancetype)getModelWith:(NSDictionary *)dictionary;

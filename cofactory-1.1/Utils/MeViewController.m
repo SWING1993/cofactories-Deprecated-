@@ -328,10 +328,10 @@
         titleLabel.font=[UIFont systemFontOfSize:16.0f];
         [cell addSubview:titleLabel];
 
+        NSString*factoryDescription = [NSString stringWithFormat:@"%@",self.userModel.factoryDescription];
 
-        UIFont*font=[UIFont systemFontOfSize:14];
+        CGSize size = [Tools getSize:factoryDescription andFontOfSize:14.0f];
 
-        CGSize size = [self.userModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
         UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 25, kScreenW-40, size.height)];
         descriptionLabel.text=self.userModel.factoryDescription;
         descriptionLabel.font=[UIFont systemFontOfSize:14.0f];
@@ -370,8 +370,8 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     if (indexPath.section==2) {
-        UIFont*font=[UIFont systemFontOfSize:14];
-        CGSize size = [self.userModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
+
+        CGSize size = [Tools getSize:[NSString stringWithFormat:@"%@",self.userModel.factoryDescription] andFontOfSize:14.0f];
         return size.height+40;
     }else{
         return 44;
