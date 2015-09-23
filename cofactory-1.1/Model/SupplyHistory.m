@@ -14,15 +14,23 @@
     
 }
 
-//- (instancetype)initModelWith:(NSDictionary *)dictionary {
-//    if (self = [super init]) {
-//        
-//    }
-//    return self;
-//}
-//+(instancetype)getModelWith:(NSDictionary *)dictionary {
-//    
-//}
+- (instancetype)initModelWith:(NSDictionary *)dictionary {
+    if (self = [super init]) {
+        self.name = dictionary[@"name"];
+        self.type = dictionary[@"type"];
+        self.price = [dictionary[@"price"] integerValue];
+        self.info = dictionary[@"description"];
+        self.oid = dictionary[@"id"];
+        if ([dictionary[@"photo"] count] != 0) {
+            self.photo = dictionary[@"photo"][0];
+        }
+        self.photoArray = [NSArray arrayWithArray:dictionary[@"photo"]];
+    }
+    return self;
+}
++(instancetype)getModelWith:(NSDictionary *)dictionary {
+    return [[self alloc]initModelWith:dictionary];
+}
 
 
 @end

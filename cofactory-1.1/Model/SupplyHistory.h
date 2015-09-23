@@ -15,7 +15,8 @@
 @property (nonatomic, assign) NSInteger price;
 @property (nonatomic, strong) NSString *info;
 @property (nonatomic, strong) NSString *photo;
-@property (nonatomic,strong)NSArray *photoArray;
+@property (nonatomic, strong) NSArray *photoArray;
+@property (nonatomic, strong) NSString *oid;
 
 - (instancetype)initModelWith:(NSDictionary *)dictionary;
 +(instancetype)getModelWith:(NSDictionary *)dictionary;
