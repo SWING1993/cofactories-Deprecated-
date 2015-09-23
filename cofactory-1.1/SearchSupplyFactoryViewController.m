@@ -25,7 +25,6 @@ static NSString *searchCellIdentifier = @"SearchCell";
         
         self.title = @"查看面辅料";
         [HttpClient searchMaterialWithKeywords:@"" type:@"" page:1 completionBlock:^(NSDictionary *responseDictionary) {
-            DLog("responseDictionary==%@",responseDictionary);
             self.historyArray = responseDictionary[@"responseObject"];
             [self.tableView reloadData];
         }];
@@ -42,7 +41,6 @@ static NSString *searchCellIdentifier = @"SearchCell";
 
 - (void)network {
     [HttpClient checkMaterialHistoryPublishWithPage:1 completionBlock:^(NSDictionary *responseDictionary) {
-        DLog(@"%@", responseDictionary[@"responseObject"]);
         self.historyArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseObject"]];
         [self.tableView reloadData];
     }];
@@ -87,6 +85,8 @@ static NSString *searchCellIdentifier = @"SearchCell";
         SearchSupplymaterialViewController *searchSupplymaterialVC = [[SearchSupplymaterialViewController alloc] init];
         SupplyHistory *history = self.historyArray[indexPath.row];
         searchSupplymaterialVC.oid = history.oid;
+        searchSupplymaterialVC.type = history.type;
+        searchSupplymaterialVC.photoArray = [NSMutableArray arrayWithArray:history.photoArray];
         [self.navigationController pushViewController:searchSupplymaterialVC animated:YES];
     }
 }

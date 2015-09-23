@@ -57,7 +57,6 @@
 #define API_sendMaterial @"/material/buy"
 #define API_sendMaterialHistory @"/material/history"
 #define API_searchMaterial @"/search/material"
-
 #define API_addMaterial @"/material"
 #define API_messageHeader @"http://news.cofactories.com/?co&op=category&cat=轮播"
 
@@ -1595,10 +1594,7 @@
             NSArray *jsonArray = (NSArray *)responseObject;
             NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
             for (NSDictionary *dictionary in jsonArray) {
-                CommentModel *comment = [[CommentModel alloc] init];
-                comment.authour = dictionary[@"comment_author"];
-                comment.time = dictionary[@"comment_date"];
-                comment.comment = dictionary[@"comment_content"];
+                CommentModel *comment = [CommentModel getModelWith:dictionary];
                 [responseArray addObject:comment];
             }
             block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseArray});
@@ -1795,7 +1791,6 @@
         
         [manager GET:API_sendMaterialHistory parameters:@{@"page":@(aPage)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
             block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseObject});
-            DLog(@"responseDictionary==%@",responseObject);
         }
         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             block(@{@"statusCode":@([operation.response statusCode])});
@@ -1819,22 +1814,12 @@
             NSArray *jsonArray = (NSArray *)responseObject;
             NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
             for (NSDictionary *dictionary in jsonArray) {
-                SupplyHistory *history = [[SupplyHistory alloc] init];
-                history.name = dictionary[@"name"];
-                history.type = dictionary[@"type"];
-                history.price = [dictionary[@"price"] integerValue];
-                history.info = dictionary[@"description"];
-                DLog(@"%@", dictionary[@"photo"]);
-                if ([dictionary[@"photo"] count] != 0) {
-                    history.photo = dictionary[@"photo"][0];
-                    history.photoArray = dictionary[@"photo"];
-                }
-
+                SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
+                
                 [responseArray addObject:history];
             }
 
             block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseArray});
-            DLog(@"responseDictionary==%@",responseObject);
         }
              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                  block(@{@"statusCode":@([operation.response statusCode])});
@@ -1874,6 +1859,31 @@
         block(@{@"statusCode":@(404)}); // access_token不存在
     }
 
+}
++ (void)getMaterialMessageWithID:(NSString *)oid completionBlock:(void (^)(NSDictionary *responseDictionary))block {
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        NSString *url = [NSString stringWithFormat:@"/material/%@", oid];
+        [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            NSDictionary *jsonDic = (NSDictionary *)responseObject;
+            SupplyHistory *history = [SupplyHistory getModelWith:jsonDic];
+            
+            block(@{@"statusCode":@([operation.response statusCode]),@"model":history});
+            
+        }
+             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 block(@{@"statusCode":@([operation.response statusCode])});
+             }];
+    }
+    else {
+        block(@{@"statusCode":@(404)}); // access_token不存在
+    }
+    
 }
 
 

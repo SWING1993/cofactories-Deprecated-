@@ -21,10 +21,18 @@
         self.price = [dictionary[@"price"] integerValue];
         self.info = dictionary[@"description"];
         self.oid = dictionary[@"id"];
+        self.usage = dictionary[@"usage"];
+        self.width = [dictionary[@"width"] integerValue];
+        self.phoneNumber = dictionary[@"phone"];
+        self.userName = dictionary[@"realname"];
         if ([dictionary[@"photo"] count] != 0) {
-            self.photo = dictionary[@"photo"][0];
+            self.photo = [NSString stringWithFormat:@"%@%@",PhotoAPI,dictionary[@"photo"][0]];
         }
-        self.photoArray = [NSArray arrayWithArray:dictionary[@"photo"]];
+        self.photoArray = [NSMutableArray arrayWithCapacity:0];
+        for (NSString *photoUrl in dictionary[@"photo"]) {
+            NSString *photo = [NSString stringWithFormat:@"%@%@",PhotoAPI,photoUrl];
+            [self.photoArray addObject:photo];
+        }
     }
     return self;
 }

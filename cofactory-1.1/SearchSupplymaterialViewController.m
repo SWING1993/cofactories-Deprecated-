@@ -31,7 +31,7 @@ static NSString *userCellIdentifier = @"userCell";
     [self creatCancleButton];
     [self creatHeaderView];
     
-    
+    [self netWork];
     [self creatToolBar];
     
     //注册cell
@@ -43,18 +43,37 @@ static NSString *userCellIdentifier = @"userCell";
 
 }
 
+
+- (void)netWork {
+    [HttpClient getMaterialMessageWithID:self.oid completionBlock:^(NSDictionary *responseDictionary) {
+        self.history = responseDictionary[@"model"];
+//        [self.photoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",PhotoAPI,self.history.photo]] placeholderImage:[UIImage imageNamed:@"没有上传图片"]];
+        [self.tableView reloadData];
+    }];
+}
+
 - (void)creatHeaderView {
     self.tableViewHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW)];
-    self.photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW)];
-    self.photoView.image = [UIImage imageNamed:@"没有上传图片"];
-    [self.tableViewHeadView addSubview:self.photoView];
+    DLog(@"%@", self.history.photoArray);
+    DLog(@"%@", self.photoArray);
+    if (self.photoArray.count == 0) {
+        
+        self.photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW)];
+        self.photoView.image = [UIImage imageNamed:@"没有上传图片"];
+        [self.tableViewHeadView addSubview:self.photoView];
+        
+    } else if (self.photoArray.count == 1) {
+        
+        self.photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW)];
+        [self.photoView sd_setImageWithURL:[NSURL URLWithString:self.photoArray[0]] placeholderImage:[UIImage imageNamed:@"没有上传图片"]];
+        [self.tableViewHeadView addSubview:self.photoView];
+        
+    }else if (self.photoArray.count > 1){
+        PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW) andImageArray:self.photoArray isNetWork:YES];
+        [self.tableViewHeadView addSubview:bannerView];
+    }
     
-//    self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, kScreenW, kScreenW - 20, 40)];
-//    self.numberLabel.text = @"采购数量：300米";
-    
-    [self.tableViewHeadView addSubview:self.numberLabel];
-    
-    
+    //self.photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW)];
     
     self.tableView.tableHeaderView = self.tableViewHeadView;
 }
@@ -106,8 +125,16 @@ static NSString *userCellIdentifier = @"userCell";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return 1;
+    } else {
+        DLog(@"rrrrrrrrrrr%@", self.type);
+        if ([self.type isEqualToString:@"面料"]) {
+            
+            return 6;
+        } else {
+            return 4;
+        }
     }
-    return 6;
+    
 }
 
 
@@ -117,25 +144,96 @@ static NSString *userCellIdentifier = @"userCell";
         return cell;
     }
     MaterialInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:searchCellIdentifier forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if ([self.type isEqualToString:@"面料"]) {
         cell.nameLabel.text = titleArray1[indexPath.row];
-    InformationModel *information = [[InformationModel alloc] init];
-    information.title = @"克，和口袋上印有电子吉他图案的白色燕尾衬衫，非常符合潮流。女孩则穿着紫红色的低腰紧身连衣裙，以及功能性面料制成的纯白色裤子";
-    cell.info = information;
+        InformationModel *information = [[InformationModel alloc] init];
+        switch (indexPath.row) {
+            case 0:
+                cell.infoLabel.text = self.history.type;
+                
+                break;
+            case 1:
+                cell.infoLabel.text = self.history.name;
+                
+                break;
+            case 2:
+                cell.infoLabel.text = [NSString stringWithFormat:@"%ld", self.history.price];
+                
+                break;
+            case 3:
+                cell.infoLabel.text = [NSString stringWithFormat:@"%ld", self.history.width];
+                
+                break;
+                
+            case 4:
+                information.title = self.history.usage;
+                cell.info = information;
+                break;
+            case 5:
+                information.title = self.history.info;
+                cell.info = information;
+                break;
+            
+            default:
+                break;
+        }
+        
+        return cell;
+    } else {
+        cell.nameLabel.text = titleArray2[indexPath.row];
+        InformationModel *information = [[InformationModel alloc] init];
+        
+        switch (indexPath.row) {
+            case 0:
+                cell.infoLabel.text = self.history.type;
+                break;
+            case 1:
+                cell.infoLabel.text = self.history.name;
+                break;
+            case 2:
+                cell.infoLabel.text = [NSString stringWithFormat:@"%ld", self.history.price];
+                break;
+            
+            case 3:
+                information.title = self.history.info;
+                cell.info = information;
+                break;
+                
+            default:
+                break;
+        }
+
+        return cell;
+    }
     
+
     
-    
-    
-    
-    
-    return cell;
 }
 
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         return 80;
-    } else
-    return [MaterialInfoCell heightOfCell:@"克，和口袋上印有电子吉他图案的白色燕尾衬衫，非常符合潮流。女孩则穿着紫红色的低腰紧身连衣裙，以及功能性面料制成的纯白色裤子"];
+    } else {
+        if ([self.type isEqualToString:@"面料"]) {
+            if (indexPath.row == 4 && self.history.info.length != 0) {
+                return [MaterialInfoCell heightOfCell:self.history.usage];
+            } else if (indexPath.row == 5 && self.history.info.length != 0) {
+                return [MaterialInfoCell heightOfCell:self.history.info];
+            } else {
+                return 40;
+            }
+        } else {
+            if (indexPath.row == 3 && self.history.info.length != 0) {
+                return [MaterialInfoCell heightOfCell:self.history.info];
+            } else {
+                return 40;
+            }
+
+        }
+    }
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
