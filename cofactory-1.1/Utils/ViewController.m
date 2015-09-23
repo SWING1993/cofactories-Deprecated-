@@ -130,28 +130,42 @@ static NSString * const sampleDescription4 = @"Nam libero tempore, cum soluta no
     EAIntroPage *page1 = [EAIntroPage page];
     page1.title = @"Hello world";
     page1.desc = sampleDescription1;
-    page1.bgImage = [UIImage imageNamed:@"bg1@2x"];
-    page1.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title1"]];
+    page1.bgImage = [UIImage imageNamed:@"01"];
+//    page1.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title1"]];
 
     EAIntroPage *page2 = [EAIntroPage page];
     page2.title = @"This is page 2";
     page2.desc = sampleDescription2;
-    page2.bgImage = [UIImage imageNamed:@"bg2"];
-    page2.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title2"]];
+    page2.bgImage = [UIImage imageNamed:@"02"];
+//    page2.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title2"]];
 
     EAIntroPage *page3 = [EAIntroPage page];
     page3.title = @"This is page 3";
     page3.desc = sampleDescription3;
-    page3.bgImage = [UIImage imageNamed:@"bg3"];
-    page3.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title3"]];
+    page3.bgImage = [UIImage imageNamed:@"03"];
+//    page3.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title3"]];
 
     EAIntroPage *page4 = [EAIntroPage page];
     page4.title = @"This is page 4";
     page4.desc = sampleDescription4;
-    page4.bgImage = [UIImage imageNamed:@"bg4"];
-    page4.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title4"]];
+    page4.bgImage = [UIImage imageNamed:@"04"];
+//    page4.titleIconView = [[UIImageView bgalloc] initWithImage:[UIImage imageNamed:@"title4"]];
 
-    EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1,page2,page3,page4]];
+    EAIntroPage *page5 = [EAIntroPage page];
+    page5.title = @"This is page 5";
+    page5.desc = sampleDescription4;
+    page5.bgImage = [UIImage imageNamed:@"05"];
+    //    page4.titleIconView = [[UIImageView bgalloc] initWithImage:[UIImage imageNamed:@"title4"]];
+
+
+    EAIntroPage *page6 = [EAIntroPage page];
+    page6.title = @"This is page 6";
+    page6.desc = sampleDescription4;
+    page6.bgImage = [UIImage imageNamed:@"06"];
+    //    page4.titleIconView = [[UIImageView bgalloc] initWithImage:[UIImage imageNamed:@"title4"]];
+
+
+    EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1,page2,page3,page4,page5,page6]];
     [intro setDelegate:self];
     [intro showInView:self.view animateDuration:0.1];
 }
