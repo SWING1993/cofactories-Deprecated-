@@ -41,6 +41,11 @@
 #define kAppReviewURL   @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1015359842"
 
 
+//蒲公英
+#define PGY_APPKEY @"5a53ca291f9b941c3c009f04fe23d2cc"
+
+
+
 #pragma mark - 系统版本  屏幕尺寸
 //版本号
 #define kVersion_Coding [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
@@ -74,6 +79,9 @@
 //登录注册 tableHeaderView 高度
 #define tableHeaderView_height 120
 
+//Nav字体大小
+#define  kNavTitleFontSize 18
+
 
 #pragma mark - 第三方框架
 /*!
@@ -90,15 +98,15 @@
  */
 #import "HttpClient.h"
 #import "Tools.h"
-#import "MobClick.h"
-#import "MBProgressHUD.h"
-#import "UIButton+WebCache.h"
-#import "UIImageView+WebCache.h"
+//#import "MobClick.h"
+#import "UIButton+WebCache.h"//SDWebImage
+#import "UIImageView+WebCache.h"//SDWebImage
 #import "JSDropDownMenu.h"//筛选
 #import "ODRefreshControl.h"//下拉刷新
-#import <PgySDK/PgyManager.h>
-#import "IQKeyboardManager.h"
-#import "MJPhotoBrowser.h"
+#import "IQKeyboardManager.h"//不遮挡输入框
+#import "MJPhotoBrowser.h"//MJ图片浏览
+
+
 
 
 #pragma mark - 日志开关

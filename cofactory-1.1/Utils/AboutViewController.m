@@ -7,6 +7,9 @@
 //
 
 #import "Header.h"
+
+#import <PgySDK/PgyManager.h>
+
 #import "AboutViewController.h"
 
 @interface AboutViewController ()

@@ -15,23 +15,20 @@
 #import "PopularMesageViewController.h"
 #import "PurchaseVC.h"
 
+#import <PgySDK/PgyManager.h>
+
 //面辅料 供应
 #import "SupplyViewController.h"
 
-
-#define kStatusBarHeight 20
-#define kNavigationBarHeight 44
-//#define kBannerHeight 150
 #define kButtonViewHeight 74
 #define kBannerHeight kScreenW*0.535
 #define kMargin [[UIScreen mainScreen] bounds].size.width / 375
-
-#define kRowInset 5
 
 static NSString *ActivityCellIdentifier = @"ActivityCell";
 static NSString *FactoryCellIdentifier = @"FactoryCell";
 static NSString *OrderCellIdentifier = @"OrderCell";
 static NSString *LastCellIdentifier = @"LastCell";
+
 @interface HomeViewController () <UIAlertViewDelegate>
 
 //记录工厂类型
@@ -82,7 +79,6 @@ static NSString *LastCellIdentifier = @"LastCell";
         [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
         [[NSUserDefaults standardUserDefaults] setInteger:self.factoryType forKey:@"factoryType"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-
 
     }];
 
@@ -496,7 +492,7 @@ static NSString *LastCellIdentifier = @"LastCell";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return kRowInset;
+    return 5;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -516,12 +512,6 @@ static NSString *LastCellIdentifier = @"LastCell";
     
 }
 
-
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kRowInset)];
-    return view;
-}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {

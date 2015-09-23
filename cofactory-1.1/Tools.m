@@ -9,6 +9,10 @@
 #import "Tools.h"
 #import <Accelerate/Accelerate.h>
 
+#import "WSProgressHUD.h"
+
+#import "MMMaterialDesignSpinner.h"
+
 #define kKeyWindow [UIApplication sharedApplication].keyWindow
 
 @implementation Tools
@@ -127,20 +131,6 @@
 
     return [NSString stringWithFormat:@"%ld天后",x];
     
-}
-
-
-+ (void)showHudTipStr:(NSString *)tipStr{
-    if (tipStr && tipStr.length > 0) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
-        hud.mode = MBProgressHUDModeText;
-        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:15.0];
-        hud.detailsLabelText = tipStr;
-        hud.margin = 12.f;
-        hud.removeFromSuperViewOnHide = YES;
-        hud.userInteractionEnabled = NO;
-        [hud hide:YES afterDelay:2.0];
-    }
 }
 
 
@@ -293,11 +283,10 @@
                 DLog(@"手机网络");
                 break;
             case AFNetworkReachabilityStatusNotReachable:
-                [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                [WSProgressHUD showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
                 DLog(@"没有网络");
                 break;
             case AFNetworkReachabilityStatusUnknown:
-//                [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
                 DLog(@"未知网络");
                 break;
 
@@ -308,5 +297,60 @@
     [manager startMonitoring];
 
 }
+
++ (void)showHudTipStr:(NSString *)tipStr{
+    if (tipStr && tipStr.length > 0) {
+        //        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
+        //        hud.mode = MBProgressHUDModeText;
+        //        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:15.0];
+        //        hud.detailsLabelText = tipStr;
+        //        hud.margin = 12.f;
+        //        hud.removeFromSuperViewOnHide = YES;
+        //        hud.userInteractionEnabled = NO;
+        //        [hud hide:YES afterDelay:2.0];
+        
+        [WSProgressHUD showErrorWithStatus:tipStr];
+    }
+}
+
+
++ (void)showShimmeringString:(NSString *)string {
+
+    [WSProgressHUD showShimmeringString:string];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [WSProgressHUD dismiss];
+    });
+
+}
+
++ (void)showLoadString:(NSString *)string {
+
+    [WSProgressHUD showWithStatus:string maskType:WSProgressHUDMaskTypeBlack maskWithout:WSProgressHUDMaskWithoutTabbar];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [WSProgressHUD dismiss];
+    });
+}
+
++ (void)showSuccessWithStatus:(NSString *)string {
+
+    [WSProgressHUD showSuccessWithStatus:string];
+}
+
++ (void)showErrorWithStatus: (NSString *)string {
+    [WSProgressHUD showErrorWithStatus:string];
+}
+
++ (void)showString:(NSString *)string {
+    [WSProgressHUD showImage:nil status:string];
+    
+}
+
++ (CGSize)getSize:(NSString *)string andFontOfSize:(CGFloat)fontSize {
+    NSDictionary *attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]};
+    CGSize requiredSize = [string boundingRectWithSize:CGSizeMake(kScreenW-20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading
+                                                 attributes:attribute context:nil].size;
+    return requiredSize;
+}
+
 
 @end

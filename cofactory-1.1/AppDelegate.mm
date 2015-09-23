@@ -16,16 +16,19 @@
 #import "UMSocialSinaSSOHandler.h"
 #import "UMSocialSinaHandler.h"
 
+#import <PgySDK/PgyManager.h>
+
+#import "MobClick.h"
+
+
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define _IPHONE80_ 80000
-#define  kNavTitleFontSize 18
 
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -149,7 +152,6 @@
 
 
     //设置导航条样式
-
     [self customizeInterface];
 
     ViewController *mainVC = [[ViewController alloc] init];
@@ -158,6 +160,7 @@
     [_window makeKeyAndVisible];
     return YES;
 }
+
 
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
@@ -247,8 +250,5 @@
 {
     return  [UMSocialSnsService handleOpenURL:url];
 }
-
-
-
 
 @end
