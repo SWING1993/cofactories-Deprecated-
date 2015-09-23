@@ -56,10 +56,14 @@
     messageLabel.numberOfLines=0;
     messageLabel.textColor=[UIColor blackColor];
     messageLabel.text = _messageStr;
-    CGSize size = [messageLabel.text sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
+
+
+    CGSize size = [Tools getSize:_messageStr andFontOfSize:14.0f];
+
     messageLabel.frame=CGRectMake(20, 5, kScreenW-90, size.height+20);
-    
+
     UIImageView *messageBgView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 25, size.width+30, size.height+30)];
+
     messageBgView.image=[UIImage imageNamed:@"消息框"];
     messageBgView.contentMode=UIViewContentModeScaleToFill;
     [messageBgView addSubview:messageLabel];
@@ -75,9 +79,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    UIFont*font=[UIFont systemFontOfSize:14];
-
-    CGSize size = [_messageStr sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize size = [Tools getSize:_messageStr andFontOfSize:14.0f];
 
     return size.height+80.0f;
 }

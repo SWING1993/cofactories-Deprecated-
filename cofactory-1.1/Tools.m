@@ -344,4 +344,13 @@
     [WSProgressHUD showImage:nil status:string];
     
 }
+
++ (CGSize)getSize:(NSString *)string andFontOfSize:(CGFloat)fontSize {
+    NSDictionary *attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]};
+    CGSize requiredSize = [string boundingRectWithSize:CGSizeMake(kScreenW-20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading
+                                                 attributes:attribute context:nil].size;
+    return requiredSize;
+}
+
+
 @end

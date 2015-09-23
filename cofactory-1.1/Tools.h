@@ -118,4 +118,10 @@
 + (void)showString:(NSString *)string;
 
 
+/*!
+ 传入一个String  返回文本的size
+
+ @param string 文本
+ */
++ (CGSize)getSize:(NSString *)string andFontOfSize:(CGFloat)fontSize;
 @end

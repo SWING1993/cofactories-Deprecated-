@@ -26,9 +26,9 @@
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
-    self.tableView.rowHeight=200.0f;
 
-    descriptionTV=[[UITextView alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 200)];
+    CGSize size = [Tools getSize:self.placeholder andFontOfSize:15.0f];
+    descriptionTV=[[UITextView alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, size.height+40)];
     descriptionTV.font=[UIFont systemFontOfSize:15.0f];
     descriptionTV.text=self.placeholder;
 
@@ -61,6 +61,12 @@
 //    [self.tableView endEditing:YES];
 //}
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    CGSize size = [Tools getSize:self.placeholder andFontOfSize:15.0f];
+    return size.height+40;
+
+}
 
 #pragma mark - Table view data source
 
