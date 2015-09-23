@@ -11,5 +11,6 @@
 @interface AddmaterialViewController : UITableViewController
 
 @property(nonatomic,assign) NSInteger materialType;
+@property(nonatomic, copy)NSString *oid;
 
 @end

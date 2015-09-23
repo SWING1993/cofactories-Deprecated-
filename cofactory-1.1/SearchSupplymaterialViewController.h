@@ -13,4 +13,6 @@
 @property (nonatomic, strong) UIImageView *photoView;
 @property (nonatomic, strong) UIView *tableViewHeadView;
 @property (nonatomic, strong) UILabel *numberLabel;
+
+@property (nonatomic, strong) NSString *oid;//id
 @end

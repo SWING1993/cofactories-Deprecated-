@@ -49,12 +49,11 @@
     if (_history != history) {
         _history = history;
     }
-    [self.photoView sd_setImageWithURL:[NSURL URLWithString:history.photo] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
+    [self.photoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",PhotoAPI,history.photo]] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
     self.nameLabel.text = history.name;
     self.priceLabel.text = [NSString stringWithFormat:@"价格：%ld", history.price];
     self.typeLabel.text = history.type;
     self.infoLabel.text = [NSString stringWithFormat:@"备注：%@", history.info];
-    
 }
 
 

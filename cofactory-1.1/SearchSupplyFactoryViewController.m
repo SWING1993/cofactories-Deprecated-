@@ -83,7 +83,10 @@ static NSString *searchCellIdentifier = @"SearchCell";
     if (_isMe) {
         
     }else{
+        
         SearchSupplymaterialViewController *searchSupplymaterialVC = [[SearchSupplymaterialViewController alloc] init];
+        SupplyHistory *history = self.historyArray[indexPath.row];
+        searchSupplymaterialVC.oid = history.oid;
         [self.navigationController pushViewController:searchSupplymaterialVC animated:YES];
     }
 }

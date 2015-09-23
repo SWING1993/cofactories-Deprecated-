@@ -721,7 +721,7 @@
         
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager POST:API_addMaterial parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            block(@{@"statusCode": @([operation.response statusCode])});
+            block(@{@"statusCode": @([operation.response statusCode]), @"responseObject":responseObject});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             switch ([operation.response statusCode]) {
                 case 400:
@@ -1481,7 +1481,6 @@
     
 }
 
-
 + (void)bidOrderWithOid:(int)oid andBlock:(void (^)(int statusCode))block {
     NSParameterAssert(oid);
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
@@ -1825,10 +1824,12 @@
                 history.type = dictionary[@"type"];
                 history.price = [dictionary[@"price"] integerValue];
                 history.info = dictionary[@"description"];
+                DLog(@"%@", dictionary[@"photo"]);
                 if ([dictionary[@"photo"] count] != 0) {
                     history.photo = dictionary[@"photo"][0];
+                    history.photoArray = dictionary[@"photo"];
                 }
-                
+
                 [responseArray addObject:history];
             }
 
@@ -1857,14 +1858,7 @@
             NSArray *jsonArray = (NSArray *)responseObject;
             NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
             for (NSDictionary *dictionary in jsonArray) {
-                SupplyHistory *history = [[SupplyHistory alloc] init];
-                history.name = dictionary[@"name"];
-                history.type = dictionary[@"type"];
-                history.price = [dictionary[@"price"] integerValue];
-                history.info = dictionary[@"description"];
-                if ([dictionary[@"photo"] count] != 0) {
-                    history.photo = dictionary[@"photo"][0];
-                }
+                SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
                 
                 [responseArray addObject:history];
             }
