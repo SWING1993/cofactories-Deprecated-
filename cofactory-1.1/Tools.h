@@ -12,6 +12,7 @@
 
 @interface Tools : NSObject
 
+
 /*!
  分割公司size
 
@@ -20,6 +21,7 @@
  @return firstobject 返回第一个数值  lastobject 返回第二个数值
  */
 + (NSMutableArray *)RangeSizeWith:(NSString *)sizeString;
+
 
 /*!
  分割时间
@@ -70,6 +72,7 @@
 
 + (NSString *)getUTCFormateDate:(NSString *)newsDate;
 
+
 // 检查网络环境
 + (void)AFNetworkReachabilityStatusReachableVia ;
 
@@ -81,31 +84,35 @@
  */
 + (void)showHudTipStr:(NSString *)tipStr;
 
+
 /*!
  文本闪烁信息提示框
 
- @param tipStr 提示框文本
+ @param string 提示框文本
  */
 + (void)showShimmeringString:(NSString *)string;
+
 
 /*!
  等待加载信息提示框
 
- @param tipStr 提示框文本
+ @param string 提示框文本
  */
 + (void)showLoadString:(NSString *)string;
+
 
 /*!
  正确信息提示框
 
- @param tipStr 提示框文本
+ @param string 提示框文本
  */
 + (void)showSuccessWithStatus:(NSString *)string;
+
 
 /*!
  错误信息提示框
 
- @param tipStr 提示框文本
+ @param string 提示框文本
  */
 + (void)showErrorWithStatus: (NSString *)string;
 
@@ -113,10 +120,11 @@
 /*!
  纯文本信息提示框
 
- @param tipStr 提示框文本
+ @param string 提示框文本
  */
 + (void)showString:(NSString *)string;
 
++ (void)WSProgressHUDDismiss;
 
 /*!
  传入一个String  返回文本的size
@@ -124,4 +132,5 @@
  @param string 文本
  */
 + (CGSize)getSize:(NSString *)string andFontOfSize:(CGFloat)fontSize;
+
 @end

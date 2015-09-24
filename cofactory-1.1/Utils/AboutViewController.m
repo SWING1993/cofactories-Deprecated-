@@ -38,7 +38,7 @@
     [tableHeaderView addSubview:logoImage];
 
     UILabel*logoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, kScreenW, 20)];
-    logoLabel.font = [UIFont systemFontOfSize:16];
+    logoLabel.font = kLargeFont;
     logoLabel.text=[NSString stringWithFormat:@"聚工厂 cofactories %@",kVersion_Coding];//@"聚工厂 cofactories 1.3";
     logoLabel.textAlignment = NSTextAlignmentCenter;
     [tableHeaderView addSubview:logoLabel];
@@ -76,7 +76,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-    cell.textLabel.font=[UIFont systemFontOfSize:16];
+    cell.textLabel.font=kLargeFont;
     cell.detailTextLabel.textColor=[UIColor blackColor];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
 

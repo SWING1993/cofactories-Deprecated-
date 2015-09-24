@@ -325,8 +325,11 @@
 
 + (void)showLoadString:(NSString *)string {
 
-    [WSProgressHUD showWithStatus:string maskType:WSProgressHUDMaskTypeBlack maskWithout:WSProgressHUDMaskWithoutTabbar];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    [WSProgressHUD showWithStatus:string maskType:WSProgressHUDMaskTypeClear maskWithout:WSProgressHUDMaskWithoutNavigation];
+
+    double delayInSeconds = 3.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^{
         [WSProgressHUD dismiss];
     });
 }
@@ -343,6 +346,10 @@
 + (void)showString:(NSString *)string {
     [WSProgressHUD showImage:nil status:string];
     
+}
+
++ (void)WSProgressHUDDismiss {
+    [WSProgressHUD dismiss];
 }
 
 + (CGSize)getSize:(NSString *)string andFontOfSize:(CGFloat)fontSize {

@@ -15,19 +15,15 @@
 
 //公司规模数组
 @property(nonatomic,retain)NSArray*sizeArray;
-
 //公司业务类型数组
 @property (nonatomic,retain)NSArray*serviceRangeArray;
-
 
 //单元格imageArray
 @property (nonatomic,retain)NSArray*cellImageArray1;
 @property (nonatomic,retain)NSArray*cellImageArray2;
 
-
 //用户模型
 @property (nonatomic, strong) UserModel*userModel;
-
 
 //身份类型
 @property (nonatomic, assign) NSInteger factoryType;
@@ -79,7 +75,8 @@
 
     //初始化用户model
     self.userModel=[[UserModel alloc]init];
-    self.factoryType = [[[NSUserDefaults standardUserDefaults]objectForKey:@"factoryType"] integerValue];
+    self.factoryType = kFactoryType;
+    DLog(@"kFactoryType = %ld",kFactoryType);
     [self getArrayData];
 
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
@@ -154,30 +151,25 @@
 }
 
 
-//设置
+#pragma mark - 设置
 - (void)saetButtonClicked {
-
     SetViewController*setVC = [[SetViewController alloc]init];
     setVC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:setVC animated:YES];
-
 }
 
-
+#pragma mark - 头像Button
 - (void)uploadBtn{
-
     HeaderViewController*headerVC = [[HeaderViewController alloc]init];
     headerVC.uid=self.userModel.uid;
     UINavigationController*headerNav = [[UINavigationController alloc]initWithRootViewController:headerVC];
     headerNav.navigationBar.barStyle=UIBarStyleBlack;
     headerNav.modalPresentationStyle = UIModalPresentationCustom;
-  
     [self presentViewController:headerNav animated:YES completion:nil];
 }
 
 
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;
 }
@@ -211,12 +203,12 @@
 
     }
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-    cell.detailTextLabel.font=[UIFont systemFontOfSize:14.0f];
+    cell.detailTextLabel.font=kFont;
     cell.detailTextLabel.textColor=[UIColor blackColor];
 
     UIImageView*cellImage= [[UIImageView alloc]initWithFrame:CGRectMake(10, 7, 30, 30)];
     UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 7, kScreenW-40, 30)];
-    cellLabel.font=[UIFont systemFontOfSize:15.0f];
+    cellLabel.font=kFont;
 
     if (indexPath.section == 0) {
 
@@ -286,12 +278,9 @@
                 break;
             case 1:{
                 cellLabel.text=@"公司地址";
-
-//                cell.detailTextLabel.text=self.userModel.factoryAddress;
                 UILabel*label = [[UILabel alloc]init];
                 label.frame = CGRectMake(110, 7, kScreenW-145, 30);
-                label.font=[UIFont systemFontOfSize:14.0f];
-
+                label.font=kFont;
                 label.textAlignment = NSTextAlignmentRight;
                 label.text =  self.userModel.factoryAddress;
                 [cell addSubview:label];
@@ -325,16 +314,13 @@
         UILabel*titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
         titleLabel.text=@"公司简介";
         titleLabel.textAlignment=NSTextAlignmentCenter;
-        titleLabel.font=[UIFont systemFontOfSize:16.0f];
+        titleLabel.font=kLargeFont;
         [cell addSubview:titleLabel];
-
         NSString*factoryDescription = [NSString stringWithFormat:@"%@",self.userModel.factoryDescription];
-
         CGSize size = [Tools getSize:factoryDescription andFontOfSize:14.0f];
-
         UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 25, kScreenW-40, size.height)];
         descriptionLabel.text=self.userModel.factoryDescription;
-        descriptionLabel.font=[UIFont systemFontOfSize:14.0f];
+        descriptionLabel.font=kFont;
         descriptionLabel.numberOfLines=0;
         [cell addSubview:descriptionLabel];
     }
@@ -357,20 +343,8 @@
     return 0.01f;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 10)];
-    return view;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.01f)];
-    return view;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-
     if (indexPath.section==2) {
-
         CGSize size = [Tools getSize:[NSString stringWithFormat:@"%@",self.userModel.factoryDescription] andFontOfSize:14.0f];
         return size.height+40;
     }else{
@@ -418,17 +392,18 @@
                     break;
                 case 4:{
                     SettingTagsViewController*tagsVC = [[SettingTagsViewController alloc]init];
-                    if (self.userModel.factoryType==ProcessingFactory) {
+                    if (self.factoryType==ProcessingFactory) {
                         //加工
                         tagsVC.allTags = @[@"包工",@"包工包料",@"流水线生产",@"整件生产",@"工价低"];
-                    }else if (self.userModel.factoryType==CuttingFactory){
+                    }
+                    if (self.factoryType==CuttingFactory){
                         //代裁厂
                         tagsVC.allTags = @[@"排版好",@"工期快",@"设备齐全",@"节省布料"];
                     }
-                    else{
-                        //锁眼钉扣
+                    if (self.factoryType == LockButtonFactory) {
                         tagsVC.allTags = @[@"时间短",@"钉扣类型多"];
                     }
+
                     tagsVC.hidesBottomBarWhenPushed=YES;
                     [self.navigationController pushViewController:tagsVC animated:YES];
                 }
@@ -450,7 +425,6 @@
                     break;
                 case 1:{
                     SetaddressViewController*setaddressVC = [[SetaddressViewController alloc]init];
-                    //                        setaddressVC.placeholder=self.userModel.factoryAddress;
                     setaddressVC.hidesBottomBarWhenPushed=YES;
                     [self.navigationController pushViewController:setaddressVC animated:YES];
                 }
@@ -465,14 +439,11 @@
                 }
                     break;
                 case 3:{
-
-
                     ModifySizeViewController*sizeVC = [[ModifySizeViewController alloc]init];
                     sizeVC.placeholder=self.userModel.factorySize;
                     sizeVC.cellPickList=self.sizeArray;
                     sizeVC.hidesBottomBarWhenPushed=YES;
                     [self.navigationController pushViewController:sizeVC animated:YES];
-
                 }
                     break;
                 case 4:{
@@ -508,6 +479,8 @@
 }
 
 
+
+#pragma mark tableHeaderView 拉伸
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     CGFloat yOffset  = scrollView.contentOffset.y;

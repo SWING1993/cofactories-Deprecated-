@@ -44,13 +44,13 @@
 
     
     UILabel*timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
-    timeLabel.font=[UIFont boldSystemFontOfSize:14];
+    timeLabel.font=kLargeFont;
     timeLabel.textColor=[UIColor grayColor];
     timeLabel.textAlignment=NSTextAlignmentCenter;
     timeLabel.text = _timeString;
     [cell addSubview:timeLabel];
     
-    UIFont*font=[UIFont systemFontOfSize:14];
+    UIFont*font=kLargeFont;
     UILabel*messageLabel=[[UILabel alloc]init];
     messageLabel.font=font;
     messageLabel.numberOfLines=0;

@@ -420,9 +420,7 @@
             titleLabel.textAlignment=NSTextAlignmentCenter;
             titleLabel.font=[UIFont systemFontOfSize:16.0f];
             [cell addSubview:titleLabel];
-            
- //           UIFont*font=[UIFont systemFontOfSize:14.0f];
-//            CGSize size = [self.factoryModel.factoryDescription sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
+
 
             CGSize size = [Tools getSize:[NSString stringWithFormat:@"%@",self.factoryModel.factoryDescription] andFontOfSize:14.0f];
             UILabel*descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(20 , 25, kScreenW-40, size.height)];

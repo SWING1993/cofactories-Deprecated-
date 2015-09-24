@@ -24,7 +24,11 @@
 
     [HttpClient listFavoriteWithBlock:^(NSDictionary *responseDictionary) {
         self.modelArray=responseDictionary[@"responseArray"];
-        [self.tableView reloadData];
+        if (self.modelArray.count == 0) {
+            [Tools showErrorWithStatus:@"您暂无收藏！"];
+        }else{
+            [self.tableView reloadData];
+        }
     }];
 }
 
@@ -35,7 +39,7 @@
     self.automaticallyAdjustsScrollViewInsets=NO;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor=[UIColor whiteColor];
-    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64)  style:UITableViewStyleGrouped];
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64)  style:UITableViewStylePlain];
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.showsVerticalScrollIndicator=NO;
@@ -91,7 +95,7 @@
 
         for (int i=0; i<3; i++) {
             UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, (10+30*i), kScreenW-170, 20)];
-            cellLabel.font=[UIFont systemFontOfSize:14.0f];
+            cellLabel.font=kLargeFont;
             switch (i) {
                 case 0:
                 {
