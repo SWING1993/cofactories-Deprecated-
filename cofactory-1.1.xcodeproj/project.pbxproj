@@ -272,6 +272,7 @@
 		7DCA89A61BABBADF00AB8EC0 /* InformationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA89A51BABBADF00AB8EC0 /* InformationModel.m */; settings = {ASSET_TAGS = (); }; };
 		7DE0FFBB1BAAA97A006B9D96 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */; };
 		7DE1630E1BB000A800777AEF /* SupplyHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE1630D1BB000A800777AEF /* SupplyHistory.m */; settings = {ASSET_TAGS = (); }; };
+		7DE9DEE31BB28091002C64AD /* CompeteMaterialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE9DEE21BB28091002C64AD /* CompeteMaterialViewController.m */; settings = {ASSET_TAGS = (); }; };
 		7DEE11301BA29CC100678607 /* LastmachineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DEE112F1BA29CC100678607 /* LastmachineCell.m */; };
 		BD041A6B1B69D5DC00F9FC74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */; };
 		BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4311C61B4F41DE0097E4BC /* CooperationViewController.m */; };
@@ -825,6 +826,8 @@
 		7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		7DE1630C1BB000A800777AEF /* SupplyHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyHistory.h; sourceTree = "<group>"; };
 		7DE1630D1BB000A800777AEF /* SupplyHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyHistory.m; sourceTree = "<group>"; };
+		7DE9DEE11BB28091002C64AD /* CompeteMaterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompeteMaterialViewController.h; sourceTree = "<group>"; };
+		7DE9DEE21BB28091002C64AD /* CompeteMaterialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompeteMaterialViewController.m; sourceTree = "<group>"; };
 		7DEE112E1BA29CC100678607 /* LastmachineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastmachineCell.h; sourceTree = "<group>"; };
 		7DEE112F1BA29CC100678607 /* LastmachineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastmachineCell.m; sourceTree = "<group>"; };
 		BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Utils/Images.xcassets; sourceTree = "<group>"; };
@@ -1433,6 +1436,8 @@
 				7D0609911BAD5FE60021606D /* MaterialInfoCell.m */,
 				7D2CFB981BB12EFC00957797 /* userInformationCell.h */,
 				7D2CFB991BB12EFC00957797 /* userInformationCell.m */,
+				7DE9DEE11BB28091002C64AD /* CompeteMaterialViewController.h */,
+				7DE9DEE21BB28091002C64AD /* CompeteMaterialViewController.m */,
 			);
 			name = "面辅料供应";
 			path = ..;
@@ -2535,6 +2540,7 @@
 				BDC908EC1B4E9B3700856A32 /* UIImageView+AFNetworking.m in Sources */,
 				BDC908EB1B4E9B3700856A32 /* UIButton+AFNetworking.m in Sources */,
 				64266AEB1BAD61E7003CA582 /* PHPDetailViewController.m in Sources */,
+				7DE9DEE31BB28091002C64AD /* CompeteMaterialViewController.m in Sources */,
 				649CCE411B9D64D500710B2A /* BidManagerModel.m in Sources */,
 				04D7D02F1B5A4B430054861E /* DescriptionViewController.m in Sources */,
 				049582EC1B6B490F00A69E6D /* JKUtil.m in Sources */,
