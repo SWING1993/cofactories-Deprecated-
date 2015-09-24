@@ -40,10 +40,10 @@
     [super viewDidLoad];
 
     self.title=@"合作商";
-    self.automaticallyAdjustsScrollViewInsets=NO;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor=[UIColor whiteColor];
-    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64-44) style:UITableViewStylePlain];
+    self.automaticallyAdjustsScrollViewInsets=NO;
+
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64-44) style:UITableViewStyleGrouped];
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.showsVerticalScrollIndicator=NO;
@@ -95,7 +95,6 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
         FactoryModel*factoryModel=self.modelArray[indexPath.section];
-//        [[SDImageCache sharedImageCache]clearDisk];
         UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 80, 80)];
         headerImage.layer.borderWidth=0.3f;
         headerImage.layer.borderColor=[UIColor blackColor].CGColor;

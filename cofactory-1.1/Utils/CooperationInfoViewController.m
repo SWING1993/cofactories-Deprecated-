@@ -157,26 +157,39 @@
     //    NSLog(@"拨打电话");
     NSString *str = [NSString stringWithFormat:@"telprompt://%@", self.factoryModel.phone];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-    [self performSelector:@selector(popAlertViewController) withObject:nil afterDelay:5.0f];
+//    [self performSelector:@selector(popAlertViewController) withObject:nil afterDelay:3.0f];
+    double delayInSeconds = 2.5f;
+
+
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"是否加入合作商列表以便继续合作" delegate:self cancelButtonTitle:@"不加入" otherButtonTitles:@"加入合作商", nil];
+        alertView.tag = 88;
+        [alertView show];
+    });
+
 }
 
 - (void)popAlertViewController {
     if ([self.navigationController.topViewController isEqual:self]) {
         // 弹出对话框
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"是否加入合作商列表以便继续合作" delegate:self cancelButtonTitle:@"不加入" otherButtonTitles:@"加入合作商", nil];
+        alertView.tag = 88;
         [alertView show];
     }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex==1) {
-        [HttpClient addPartnerWithUid:self.factoryModel.uid andBlock:^(int statusCode) {
-            if (statusCode==201) {
-                [Tools showHudTipStr:@"添加成功"];
-            }else{
-                [Tools showHudTipStr:@"添加失败"];
-            }
-        }];
+    if (alertView.tag == 88) {
+        if (buttonIndex==1) {
+            [HttpClient addPartnerWithUid:self.factoryModel.uid andBlock:^(int statusCode) {
+                if (statusCode==201) {
+                    [Tools showSuccessWithStatus:@"添加成功!"];
+                }else{
+                    [Tools showErrorWithStatus:@"添加失败"];
+                }
+            }];
+        }
     }
 }
 
@@ -189,7 +202,7 @@
             case 201:
             {
                 
-                [Tools showHudTipStr:@"收藏成功"];
+                [Tools showSuccessWithStatus:@"收藏成功!"];
             }
                 break;
                 
@@ -208,6 +221,7 @@
                 break;
                 
             default:
+                [Tools showErrorWithStatus:@"添加失败"];
                 break;
         }    }];
     
@@ -288,7 +302,7 @@
                     cellLabel.text=@"公司地址";
                     UILabel*label = [[UILabel alloc]init];
                     label.frame = CGRectMake(110, 7, kScreenW-125, 30);
-                    label.font=[UIFont systemFontOfSize:14.0f];
+                    label.font=kFont;
                     
                     label.textAlignment = NSTextAlignmentRight;
                     label.text =  self.factoryModel.factoryAddress;
