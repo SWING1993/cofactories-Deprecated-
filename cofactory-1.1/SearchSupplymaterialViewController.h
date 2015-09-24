@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SearchSupplymaterialViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface SearchSupplymaterialViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,UIScrollViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIImageView *photoView;
 @property (nonatomic, strong) UIView *tableViewHeadView;

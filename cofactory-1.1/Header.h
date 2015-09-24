@@ -76,6 +76,7 @@
 #import "FactoryRangeModel.h"
 #import "InformationModel.h"
 #import "CommentModel.h"
+#import "PurchasePublicHistoryModel.h"
 
 #pragma mark Views
 

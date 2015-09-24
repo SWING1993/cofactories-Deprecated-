@@ -28,20 +28,35 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
     _dataArray = [@[] mutableCopy];
-    [HttpClient checkHistoryPublishWithPage:1 completionBlock:^(NSDictionary *responseDictionary){
-        NSArray *array = (NSArray *)responseDictionary[@"responseObject"];
-        [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            PurchasePublicHistoryModel * model = [PurchasePublicHistoryModel getModelWith:(NSDictionary *)obj];
-            [_dataArray addObject:model];
+    
+    if (self.isMe) {
+        [HttpClient searchMaterialBidWithKeywords:nil type:nil page:1 completionBlock:^(NSDictionary *responseDictionary) {
+            _dataArray = responseDictionary[@"responseObject"];
+            [_tableView reloadData];
         }];
-        DLog(@"_dataArray==%@",_dataArray);
-        [_tableView reloadData];
-    }];
+    } else {
+        [HttpClient checkHistoryPublishWithPage:1 completionBlock:^(NSDictionary *responseDictionary){
+            NSArray *array = (NSArray *)responseDictionary[@"responseObject"];
+            [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                PurchasePublicHistoryModel * model = [PurchasePublicHistoryModel getModelWith:(NSDictionary *)obj];
+                [_dataArray addObject:model];
+            }];
+            DLog(@"_dataArray==%@",_dataArray);
+            [_tableView reloadData];
+        }];
+    }
+    
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"历史发布";
+    if (self.isMe) {
+        self.navigationItem.title = @"所有求购";
+    } else {
+        self.navigationItem.title = @"历史发布";
+    }
+    
     self.view.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
 
     [self creatTableView];

@@ -11,6 +11,9 @@
 #import "PHPDetailMessCell.h"
 #import "JKPhotoBrowser.h"
 #import "PurchasePublicHistoryModel.h"
+#import "CompeteMaterialViewController.h"
+
+
 
 @interface PHPDetailViewController ()<UITableViewDataSource,UITableViewDelegate>{
     
@@ -212,6 +215,13 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
 }
 
 - (void)bidManager{
+    CompeteMaterialViewController *competeVC = [[CompeteMaterialViewController alloc] init];
+    UINavigationController *competeNaVC = [[UINavigationController alloc] initWithRootViewController:competeVC];
+    competeNaVC.navigationBar.barStyle = UIBarStyleBlack;
+    competeVC.oid = self.model.userID;
+    [self presentViewController:competeNaVC animated:YES completion:nil];
+    
+    
     DLog(@"11223");
 }
 

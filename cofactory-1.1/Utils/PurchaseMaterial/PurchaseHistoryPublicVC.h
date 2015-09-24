@@ -10,4 +10,6 @@
 
 @interface PurchaseHistoryPublicVC : UIViewController
 
+@property (nonatomic, assign)BOOL isMe;
+
 @end

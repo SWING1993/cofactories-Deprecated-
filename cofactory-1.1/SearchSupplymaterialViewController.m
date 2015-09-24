@@ -12,6 +12,7 @@
 @interface SearchSupplymaterialViewController () {
     NSArray *titleArray1;
     NSArray *titleArray2;
+    UIScrollView *scrollView;
 }
 
 @end
@@ -47,42 +48,68 @@ static NSString *userCellIdentifier = @"userCell";
 - (void)netWork {
     [HttpClient getMaterialMessageWithID:self.oid completionBlock:^(NSDictionary *responseDictionary) {
         self.history = responseDictionary[@"model"];
-//        [self.photoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",PhotoAPI,self.history.photo]] placeholderImage:[UIImage imageNamed:@"没有上传图片"]];
+
         [self.tableView reloadData];
     }];
 }
 
 - (void)creatHeaderView {
     self.tableViewHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW)];
-    DLog(@"%@", self.history.photoArray);
-    DLog(@"%@", self.photoArray);
+
     if (self.photoArray.count == 0) {
         
         self.photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW)];
         self.photoView.image = [UIImage imageNamed:@"没有上传图片"];
         [self.tableViewHeadView addSubview:self.photoView];
         
-    } else if (self.photoArray.count == 1) {
-        
-        self.photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW)];
-        [self.photoView sd_setImageWithURL:[NSURL URLWithString:self.photoArray[0]] placeholderImage:[UIImage imageNamed:@"没有上传图片"]];
-        [self.tableViewHeadView addSubview:self.photoView];
-        
-    }else if (self.photoArray.count > 1){
-        PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW) andImageArray:self.photoArray isNetWork:YES];
-        [self.tableViewHeadView addSubview:bannerView];
+    } else {
+        [self creatScrollView];
     }
-    
-    //self.photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW)];
-    
     self.tableView.tableHeaderView = self.tableViewHeadView;
 }
+- (void)creatScrollView{
+    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW)];
+    scrollView.delegate = self;
+    scrollView.pagingEnabled = YES;
+    scrollView.showsHorizontalScrollIndicator = NO;
+    scrollView.showsVerticalScrollIndicator = NO;
+    [self.tableViewHeadView addSubview:scrollView];
+    
+    scrollView.contentSize = CGSizeMake(kScreenW * self.photoArray.count, 0.85 *kScreenW);
+    for (int i = 0; i < self.photoArray.count; i++) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button sd_setBackgroundImageWithURL:[NSURL URLWithString:self.photoArray[i]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@""]];
+        [button setFrame:CGRectMake(i * kScreenW, 0, kScreenW, 0.85 *kScreenW)];
+        [button addTarget:self action:@selector(MJPhotoBrowserClick:) forControlEvents:UIControlEventTouchUpInside];
+        button.tag = i;
+        [scrollView addSubview:button];
+        
+    }
+    
 
+}
 
+- (void)MJPhotoBrowserClick:(id)sender{
+    
+    UIButton *button = (UIButton *)sender;
+    NSMutableArray *photos = [NSMutableArray arrayWithCapacity:[self.photoArray count]];
+    [self.photoArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        
+        MJPhoto *photo = [[MJPhoto alloc] init];
+        photo.url = [NSURL URLWithString:self.photoArray[idx]];
+        [photos addObject:photo];
+    }];
+    
+    MJPhotoBrowser *browser = [[MJPhotoBrowser alloc] init];
+    browser.currentPhotoIndex = button.tag;
+    browser.photos = photos;
+    [browser show];
+    
+}
 - (void)creatCancleButton {
     UIButton *cancleButton = [UIButton buttonWithType:UIButtonTypeCustom];
     cancleButton.frame = CGRectMake(20, 30, 30, 30);
-    [cancleButton setImage:[UIImage imageNamed:@"nav_back_icon"] forState:UIControlStateNormal];
+    [cancleButton setImage:[UIImage imageNamed:@"goback"] forState:UIControlStateNormal];
     cancleButton.layer.cornerRadius = 15;
     cancleButton.layer.masksToBounds = YES;
     [cancleButton addTarget:self action:@selector(pressCancleButton) forControlEvents:UIControlEventTouchUpInside];
