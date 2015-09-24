@@ -54,7 +54,7 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
     [_tableView registerClass:[PHPDetailTableViewCell class] forCellReuseIdentifier:reuseIdentifier2];
     [self.view addSubview:_tableView];
     
-    _headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, (kScreenH)/2.0-60)];
+    _headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, (kScreenH)/2.0-30)];
     _tableView.tableHeaderView = _headView;
     
     if (self.model.photoArray.count == 0) {
@@ -100,17 +100,17 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
 }
 
 - (void)creatScrollView{
-    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, (kScreenH)/2.0-60)];
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, (kScreenH)/2.0-30)];
     _scrollView.pagingEnabled = YES;
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
     [_headView addSubview:_scrollView];
     
-    _scrollView.contentSize = CGSizeMake(kScreenW * self.model.photoArray.count, (kScreenH)/2.0-60);
+    _scrollView.contentSize = CGSizeMake(kScreenW * self.model.photoArray.count, (kScreenH)/2.0-30);
     for (int i = 0; i < self.model.photoArray.count; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",PhotoAPI,self.model.photoArray[i]]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@""]];
-        [button setFrame:CGRectMake(i * kScreenW, 0, kScreenW, (kScreenH)/2.0-40)];
+        [button setFrame:CGRectMake(i * kScreenW, 0, kScreenW, (kScreenH)/2.0-30)];
         [button addTarget:self action:@selector(MJPhotoBrowserClick:) forControlEvents:UIControlEventTouchUpInside];
         button.tag = i;
         [_scrollView addSubview:button];
@@ -133,6 +133,7 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
     
     if (indexPath.section == 0) {
         PHPDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: reuseIdentifier2 forIndexPath:indexPath];
+        cell.phoneButton.hidden = YES;
         return cell;
     }
     
