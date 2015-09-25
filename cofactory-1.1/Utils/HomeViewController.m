@@ -90,29 +90,9 @@ static NSString *LastCellIdentifier = @"LastCell";
 
     self.view.backgroundColor=[UIColor whiteColor];
 
-
     //工厂类型
     NSNumber * factoryTypeNumber = [[NSNumber alloc]initWithInteger:kFactoryType];
     self.factoryType = [factoryTypeNumber intValue];
-
-    //    //工厂类型
-    //    [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
-    //        UserModel*userModel=responseDictionary[@"model"];
-    //
-    //        // 存储用户相关信息
-    //
-    //        if ( kFactoryType == userModel.factoryType) {
-    //            self.factoryType =userModel.factoryType;
-    //
-    //        }else{
-    //            [[NSUserDefaults standardUserDefaults] setInteger:self.factoryType forKey:@"factoryType"];
-    //            if ([[NSUserDefaults standardUserDefaults] synchronize] == YES) {
-    //
-    //            }else {
-    //
-    //            }
-    //        }
-    //    }];
 
 
     // 初始化模型

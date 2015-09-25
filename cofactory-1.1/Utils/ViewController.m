@@ -36,6 +36,27 @@ static NSString * const sampleDescription4 = @"Nam libero tempore, cum soluta no
 //        [ViewController goLogin];
 
     }else{
+        //工厂类型
+        [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
+            UserModel*userModel=responseDictionary[@"model"];
+
+            // 存储用户相关信息
+            if ( kFactoryType != userModel.factoryType) {
+                DLog(@"用户身份与本地不一致，以网络查询为准！");
+                [[NSUserDefaults standardUserDefaults] setInteger:userModel.factoryType forKey:@"factoryType"];
+                if ([[NSUserDefaults standardUserDefaults] synchronize] == YES) {
+                    [Tools showSuccessWithStatus:@"用户身份储存成功！"];
+                }else {
+                    [Tools showErrorWithStatus:@"用户身份储存失败，尝试重新登录！"];
+                }
+            }else{
+                DLog(@"用户身份与本地一致！");
+//                [Tools showSuccessWithStatus:@"用户身份一致！"];
+            }
+        }];
+        
+
+
         [ViewController goMain];
         DLog(@"已登录");
     }
