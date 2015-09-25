@@ -48,7 +48,6 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     [self creatTableViewHeadView];
     [self netWork];
     [self netWorker];
-//    [self tapBackground];
 //    [self creatScrollViewAndPageControl];
 }
 
@@ -66,16 +65,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     }];
 }
 
-//-(void)tapBackground //退出键盘
-//{
-//    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnce)];//定义一个手势
-//    [tap setNumberOfTouchesRequired:1];//触击次数这里设为1
-//    [_tableView addGestureRecognizer:tap];//添加手势到tableView中
-//}
-//-(void)tapOnce//手势方法
-//{
-//    [_searchBar resignFirstResponder];
-//}
+
 - (void)creatSearchBar{
     
     self.view.backgroundColor = [UIColor whiteColor];

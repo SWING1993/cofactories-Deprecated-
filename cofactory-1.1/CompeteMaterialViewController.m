@@ -78,6 +78,7 @@
     priceTextField.layer.borderWidth = 0.5;
     priceTextField.layer.borderColor = [UIColor colorWithRed:70/255.0 green:126/255.0 blue:220/255.0 alpha:1.0].CGColor;
     priceTextField.keyboardType = UIKeyboardTypeNumberPad;
+    priceTextField.font = kFont;
     priceTextField.placeholder = @"填写价格";
     priceTextField.delegate = self;
     [self.view addSubview:priceTextField];
@@ -85,6 +86,7 @@
     priceButton = [UIButton buttonWithType:UIButtonTypeCustom];
     priceButton.frame = CGRectMake(CGRectGetMaxX(priceTextField.frame), 20, kMargin, 30);
     priceButton.tag = 100;
+    priceButton.titleLabel.font = kFont;
     [priceButton setTitle:@"面议" forState:UIControlStateNormal];
     [priceButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     priceButton.layer.borderColor = [UIColor colorWithRed:70/255.0 green:126/255.0 blue:220/255.0 alpha:1.0].CGColor;
@@ -97,6 +99,7 @@
         UIButton *stateButton = [UIButton buttonWithType:UIButtonTypeCustom];
         stateButton.frame = CGRectMake(20 *2 + kMargin + i *kMargin, 70, kMargin, 30);
         stateButton.tag = 101 + i;
+        stateButton.titleLabel.font = kFont;
         [stateButton setTitle:array[i] forState:UIControlStateNormal];
         [stateButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         stateButton.layer.borderColor = [UIColor colorWithRed:70/255.0 green:126/255.0 blue:220/255.0 alpha:1.0].CGColor;
@@ -159,7 +162,7 @@
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(40, 120, kScreenW-80, 20)];
     label.textColor = [UIColor colorWithRed:70/255.0 green:126/255.0 blue:220/255.0 alpha:1.0];
     label.text = @"添加备注";
-    label.font = [UIFont systemFontOfSize:18.0f];
+    label.font = kFont;
     label.textAlignment = 1;
     [self.view addSubview:label];
     
@@ -177,7 +180,7 @@
     button.frame = CGRectMake((kScreenW-100)/2.0, 220, 100, 30);
     [button setTitleColor:[UIColor colorWithRed:70/255.0 green:126/255.0 blue:220/255.0 alpha:1.0] forState:UIControlStateNormal];
     button.titleLabel.textAlignment = 1;
-    button.titleLabel.font = [UIFont systemFontOfSize:18.0f];
+    button.titleLabel.font = kFont;
     button.layer.masksToBounds = YES;
     button.layer.borderWidth = 2.0f;
     button.layer.borderColor = [UIColor colorWithRed:70/255.0 green:126/255.0 blue:220/255.0 alpha:1.0].CGColor;
@@ -360,7 +363,7 @@
                 [HttpClient registMaterialBidWithOid:self.oid price:price status:stateString comment:_commentsTextField.text completionBlock:^(int statusCode) {
                     DLog(@"%d", statusCode);
                     if (statusCode == 200) {
-                        [Tools showHudTipStr:@"投标成功"];
+                        [Tools showSuccessWithStatus:@"投标成功"];
                         if (![self.collectionImage count]==0) {
                             [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                                 
@@ -369,7 +372,7 @@
                                 NSString *oidString = [NSString stringWithFormat:@"%ld",self.oid];
                                 [HttpClient uploadMaterialImageWithImage:newImage oid:oidString type:@"bidBuy" andblock:^(NSDictionary *dictionary) {
                                     if ([dictionary[@"statusCode"] intValue]==200) {
-                                        [Tools showHudTipStr:@"投标成功"];
+                                        [Tools showSuccessWithStatus:@"投标成功"];
                                         double delayInSeconds = 1.0f;
                                         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                                         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -391,7 +394,7 @@
                         }
                         
                     }else{
-                        [Tools showHudTipStr:@"订单投标失败"];
+                        [Tools showErrorWithStatus:@"订单投标失败"];
                     }
                     
                 }];

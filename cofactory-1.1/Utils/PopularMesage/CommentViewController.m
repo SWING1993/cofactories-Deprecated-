@@ -8,6 +8,8 @@
 
 #import "CommentViewController.h"
 #import "CommentCell.h"
+#import "MJRefresh.h"
+
 #define kRowInset 5
 #define kPlaceholder @"写下你想说的......"
 
@@ -32,6 +34,8 @@ static NSString *commentCellIdentifier = @"commentCell";
     [self.tableView registerClass:[CommentCell class] forCellReuseIdentifier:commentCellIdentifier];
     [self creatHeadView];
     [self netWork];
+    
+
 }
 - (void)buttonClicked{
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -87,15 +91,14 @@ static NSString *commentCellIdentifier = @"commentCell";
     
     [commentTextView resignFirstResponder];
     if (commentTextView.text.length == 0 || [commentTextView.text isEqualToString:kPlaceholder]) {
-
-        [Tools showHudTipStr:@"评论内容不能为空！"];
+        [Tools showErrorWithStatus:@"评论内容不能为空！"];
     } else {
         [HttpClient pushCommentWithID:[NSString stringWithFormat:@"%d", self.oid] content:commentTextView.text andBlock:^(int statusCode) {
             DLog(@"%d", statusCode);
             switch (statusCode) {
                 case 200:
                 {
-                    [Tools showHudTipStr:@"评论成功！"];
+                    [Tools showSuccessWithStatus:@"评论成功！"];
                     commentTextView.text = kPlaceholder;
                     commentTextView.textColor = [UIColor grayColor];
                     [self netWork];
@@ -103,7 +106,7 @@ static NSString *commentCellIdentifier = @"commentCell";
                     break;
                 case 400:
                 {
-                    [Tools showHudTipStr:@"未登录"];
+                    [Tools showErrorWithStatus:@"未登录"];
                 }
                     break;
                     
@@ -111,9 +114,7 @@ static NSString *commentCellIdentifier = @"commentCell";
                 default:
                     break;
             }
-            
-            
-            
+    
         }];
 
     }
@@ -126,7 +127,7 @@ static NSString *commentCellIdentifier = @"commentCell";
     commentTextView.text = @"";
 }
 - (void)netWork {
-    [HttpClient getCommentWithOid:self.oid andBlock:^(NSDictionary *responseDictionary) {
+    [HttpClient getCommentWithOid:self.oid page:1 andBlock:^(NSDictionary *responseDictionary) {
         self.commentArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
         [self.tableView reloadData];
     }];
