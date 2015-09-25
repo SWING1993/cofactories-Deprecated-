@@ -22,6 +22,7 @@ static NSString *searchCellIdentifier = @"SearchCell";
 - (void)viewWillAppear:(BOOL)animated{
 
     [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setHidden:NO];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
 

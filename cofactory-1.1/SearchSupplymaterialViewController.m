@@ -9,10 +9,12 @@
 #import "SearchSupplymaterialViewController.h"
 #import "userInformationCell.h"
 #import "MaterialInfoCell.h"
+#import "PHPDetailTableViewCell.h"
 @interface SearchSupplymaterialViewController () {
     NSArray *titleArray1;
     NSArray *titleArray2;
     UIScrollView *scrollView;
+    FactoryModel  *_userModel;
 }
 
 @end
@@ -23,6 +25,7 @@ static NSString *userCellIdentifier = @"userCell";
 
 - (void)viewWillAppear:(BOOL)animated {
     [self.navigationController.navigationBar setHidden:YES];
+    
 }
 
 
@@ -33,11 +36,10 @@ static NSString *userCellIdentifier = @"userCell";
     [self creatHeaderView];
     
     [self netWork];
-    [self creatToolBar];
     
     //注册cell
     [self.tableView registerClass:[MaterialInfoCell class] forCellReuseIdentifier:searchCellIdentifier];
-    [self.tableView registerClass:[userInformationCell class] forCellReuseIdentifier:userCellIdentifier];
+    [self.tableView registerClass:[PHPDetailTableViewCell class] forCellReuseIdentifier:userCellIdentifier];
     
     titleArray1 = @[@"类型:", @"名称:", @"价格:", @"门幅:", @"产品用途:", @"面料说明:"];
     titleArray2 = @[@"类型:", @"名称:", @"价格:", @"面料说明:"];
@@ -48,8 +50,14 @@ static NSString *userCellIdentifier = @"userCell";
 - (void)netWork {
     [HttpClient getMaterialMessageWithID:self.oid completionBlock:^(NSDictionary *responseDictionary) {
         self.history = responseDictionary[@"model"];
-
+        [self getFactory];
         [self.tableView reloadData];
+    }];
+}
+
+- (void)getFactory {
+    [HttpClient getUserProfileWithUid:[self.history.factoryUid integerValue] andBlock:^(NSDictionary *responseDictionary) {
+        _userModel = (FactoryModel *)responseDictionary[@"model"];
     }];
 }
 
@@ -107,36 +115,24 @@ static NSString *userCellIdentifier = @"userCell";
     
 }
 - (void)creatCancleButton {
-    UIButton *cancleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    cancleButton.frame = CGRectMake(20, 30, 30, 30);
-    [cancleButton setImage:[UIImage imageNamed:@"goback"] forState:UIControlStateNormal];
-    cancleButton.layer.cornerRadius = 15;
-    cancleButton.layer.masksToBounds = YES;
-    [cancleButton addTarget:self action:@selector(pressCancleButton) forControlEvents:UIControlEventTouchUpInside];
+    UIImageView *cancleImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 30, 30, 30)];
+    cancleImage.image = [UIImage imageNamed:@"goback"];
+    [self.view addSubview:cancleImage];
     
-    cancleButton.backgroundColor = [UIColor colorWithWhite:0.500 alpha:0.430];
+    UIButton *cancleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    cancleButton.frame = CGRectMake(0, 20, 80, 40);
+    [cancleButton addTarget:self action:@selector(pressCancleButton) forControlEvents:UIControlEventTouchUpInside];
+    cancleButton.backgroundColor = [UIColor clearColor];
     [self.view addSubview:cancleButton];
 
 }
 
-- (void)creatToolBar {
-    
-    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, kScreenH - 40, kScreenW, 40)];
-    //UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 40)];
-    UIButton *phoneBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 40)];
-//    phoneBtn.backgroundColor = [UIColor redColor];
-    [phoneBtn setTitle: @"电话" forState:UIControlStateNormal];
-    [phoneBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
-    [phoneBtn addTarget:self action:@selector(pressphoneBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [toolBar addSubview:phoneBtn];
-    [self.view addSubview:toolBar];
-    
-}
+
 
 
 - (void)creatTableView {
 //    [self.navigationController.navigationBar setHidden:YES];
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -20, kScreenW, kScreenH - 20) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -20, kScreenW, kScreenH + 20) style:UITableViewStylePlain];
     _tableView.dataSource = self;
     _tableView.delegate = self;
     [self.view addSubview:self.tableView];
@@ -146,35 +142,42 @@ static NSString *userCellIdentifier = @"userCell";
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 1;
-    } else {
-        DLog(@"rrrrrrrrrrr%@", self.type);
+//    if (section == 0) {
+//        return 1;
+//    }
         if ([self.type isEqualToString:@"面料"]) {
             
             return 6;
         } else {
             return 4;
         }
-    }
+    
     
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        userInformationCell *cell = [tableView dequeueReusableCellWithIdentifier:userCellIdentifier forIndexPath:indexPath];
-        return cell;
-    }
+//    if (indexPath.section == 0) {
+//        PHPDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:userCellIdentifier forIndexPath:indexPath];
+//        cell.phoneButton.hidden = NO;
+//        [cell.phoneButton addTarget:self action:@selector(contactWithFactory) forControlEvents:UIControlEventTouchUpInside];
+//        [cell getDataWithOtherModel:[self.history.factoryUid integerValue] isMaterial:YES];
+//    }
     MaterialInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:searchCellIdentifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.nameLabel.font = [UIFont systemFontOfSize:14];
+    cell.nameLabel.textColor = [UIColor grayColor];
+    cell.infoLabel.textColor = [UIColor grayColor];
+    cell.infoLabel.font = [UIFont systemFontOfSize:14];
     if ([self.type isEqualToString:@"面料"]) {
         cell.nameLabel.text = titleArray1[indexPath.row];
+        
         InformationModel *information = [[InformationModel alloc] init];
+        
         switch (indexPath.row) {
             case 0:
                 cell.infoLabel.text = self.history.type;
@@ -240,9 +243,9 @@ static NSString *userCellIdentifier = @"userCell";
 
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        return 80;
-    } else {
+//    if (indexPath.section == 0) {
+//        return 80;
+//    }
         if ([self.type isEqualToString:@"面料"]) {
             if (indexPath.row == 4 && self.history.info.length != 0) {
                 return [MaterialInfoCell heightOfCell:self.history.usage];
@@ -259,7 +262,7 @@ static NSString *userCellIdentifier = @"userCell";
             }
 
         }
-    }
+    
     
 }
 
@@ -268,10 +271,10 @@ static NSString *userCellIdentifier = @"userCell";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 0) {
-        return 10;
-    }
-    return 1;
+//    if (section == 0) {
+//        return 10;
+//    }
+    return 10;
 }
 
 

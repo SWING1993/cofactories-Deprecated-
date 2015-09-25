@@ -77,6 +77,8 @@
 #import "InformationModel.h"
 #import "CommentModel.h"
 #import "PurchasePublicHistoryModel.h"
+#import "LookOverNeedModel.h"
+#import "MaterialBidFactory.h"
 
 #pragma mark Views
 

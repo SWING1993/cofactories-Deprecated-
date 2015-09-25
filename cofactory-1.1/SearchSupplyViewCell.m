@@ -26,7 +26,7 @@
         
         self.typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.nameLabel.frame), 10, 50, 20)];
         self.typeLabel.textAlignment = NSTextAlignmentRight;
-        self.typeLabel.textColor = [UIColor orangeColor];
+        self.typeLabel.font = [UIFont systemFontOfSize:14];
         [self addSubview:self.typeLabel];
         
         self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.nameLabel.frame), CGRectGetMaxY(self.nameLabel.frame),  kScreenW - 30 - self.photoView.frame.size.width, 20)];
@@ -49,6 +49,13 @@
     if (_history != history) {
         _history = history;
     }
+    if ([history.type isEqualToString:@"辅料"]) {
+        self.typeLabel.textColor = [UIColor colorWithRed:70/255.0 green:126/255.0 blue:220/255.0 alpha:1.0];
+    }else{
+        self.typeLabel.textColor = [UIColor colorWithRed:241/255.0 green:145/255.0 blue:73/255.0 alpha:1.0];
+    }
+    
+
     [self.photoView sd_setImageWithURL:[NSURL URLWithString:history.photo] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
     self.nameLabel.text = history.name;
     self.priceLabel.text = [NSString stringWithFormat:@"价格：%ld", history.price];

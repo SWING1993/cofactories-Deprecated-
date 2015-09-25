@@ -8,6 +8,9 @@
 
 #import "PHPDetailTableViewCell.h"
 #import "LookoverMaterialModel.h"
+#import "PurchasePublicHistoryModel.h"
+#import "LookoverMaterialModel.h"
+
 @implementation PHPDetailTableViewCell{
     UIImageView *_bgImageView;
     UILabel     *_titleLabel;
@@ -55,6 +58,19 @@
         }];
     }
 }
+
+- (void)getDataWithOtherModel:(NSInteger)uid isMaterial:(BOOL)isMaterial {
+    if (isMaterial) {
+        [_bgImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%zi.png",PhotoAPI,uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];
+        
+        [HttpClient getUserProfileWithUid:uid andBlock:^(NSDictionary *responseDictionary) {
+            FactoryModel *model = (FactoryModel *)responseDictionary[@"model"];
+            _titleLabel.text = model.factoryName;
+        }];
+    }
+
+}
+
 
 
 

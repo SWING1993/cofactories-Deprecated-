@@ -45,6 +45,7 @@
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
     self.navigationItem.leftBarButtonItem = setButton;
     
+    stateString = @"现货";
     
     _imageArray = @[@"公司名称",@"公司类型",@"公司规模"];
     _collectionImage = [@[] mutableCopy];
@@ -85,7 +86,7 @@
     priceButton.frame = CGRectMake(CGRectGetMaxX(priceTextField.frame), 20, kMargin, 30);
     priceButton.tag = 100;
     [priceButton setTitle:@"面议" forState:UIControlStateNormal];
-    [priceButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [priceButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     priceButton.layer.borderColor = [UIColor colorWithRed:70/255.0 green:126/255.0 blue:220/255.0 alpha:1.0].CGColor;
     priceButton.layer.borderWidth = 0.5;
     [priceButton addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -97,24 +98,20 @@
         stateButton.frame = CGRectMake(20 *2 + kMargin + i *kMargin, 70, kMargin, 30);
         stateButton.tag = 101 + i;
         [stateButton setTitle:array[i] forState:UIControlStateNormal];
-        [stateButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [stateButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         stateButton.layer.borderColor = [UIColor colorWithRed:70/255.0 green:126/255.0 blue:220/255.0 alpha:1.0].CGColor;
         stateButton.layer.borderWidth = 0.5;
         [stateButton addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:stateButton];
         if (stateButton.tag == 101) {
             leftButton = stateButton;
+            [leftButton setTitleColor:[UIColor colorWithRed:70/255.0 green:126/255.0 blue:220/255.0 alpha:1.0] forState:UIControlStateNormal];
         } else if (stateButton.tag == 102){
             rightButton = stateButton;
+            [rightButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         }
 
     }
-    
-    
-    
-    
-    
-    
     
 }
 
@@ -122,21 +119,24 @@
     switch (button.tag) {
         case 100:
         {
-            [priceButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+            [priceTextField resignFirstResponder];
+            priceTextField.text = nil;
+            [priceButton setTitleColor:[UIColor colorWithRed:70/255.0 green:126/255.0 blue:220/255.0 alpha:1.0] forState:UIControlStateNormal];
+            
             price = @"-1";
         }
             break;
         case 101:
         {
-            [leftButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-            [rightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [leftButton setTitleColor:[UIColor colorWithRed:70/255.0 green:126/255.0 blue:220/255.0 alpha:1.0] forState:UIControlStateNormal];
+            [rightButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
             stateString = @"现货";
         }
             break;
         case 102:
         {
-            [rightButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-            [leftButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [rightButton setTitleColor:[UIColor colorWithRed:70/255.0 green:126/255.0 blue:220/255.0 alpha:1.0] forState:UIControlStateNormal];
+            [leftButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
             stateString = @"预定";
         }
             break;
@@ -146,11 +146,13 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    [priceButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    price = nil;
+    [priceTextField becomeFirstResponder];
+    [priceButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    price = priceTextField.text;
+//    price = priceTextField.text;
 }
 - (void)creatCommentsTextField{
     
@@ -335,50 +337,68 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
+    
     if (alertView.tag == 10 ) {
         
         if (buttonIndex == 1) {
             
-           
-            
-            [HttpClient registMaterialBidWithOid:self.oid price:price status:stateString comment:_commentsTextField.text completionBlock:^(int statusCode) {
-                DLog(@"%d", statusCode);
-                if (statusCode == 200) {
-                    [Tools showHudTipStr:@"订单投标成功"];
-                    if (![self.collectionImage count]==0) {
-                        [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                            
-                            NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
-                            UIImage*newImage = [[UIImage alloc]initWithData:imageData];
-                            NSString *oidString = [NSString stringWithFormat:@"%ld",self.oid];
-                            [HttpClient uploadMaterialImageWithImage:newImage oid:oidString type:@"bidBuy" andblock:^(NSDictionary *dictionary) {
-                                if ([dictionary[@"statusCode"] intValue]==200) {
-                                    [Tools showHudTipStr:@"发布成功"];
-                                    double delayInSeconds = 1.0f;
-                                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-                                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                                        
-                                        [self dismissViewControllerAnimated:YES completion:nil];
-                                    });
-                                    
-                                    DLog(@"图片上传成功");
-                                }else{
-                                    
-                                    DLog(@"图片上传失败%@",dictionary);
-                                }
+            if (![price isEqualToString:@"-1"]) {
+                price = priceTextField.text;
+            } else {
+                price = @"-1";
+            }
+            DLog(@"%@", price);
+            DLog(@"%@", _commentsTextField);
+            DLog(@"%@", stateString);
+
+            if (price.length == 0) {
+                [Tools showString:@"请完善价格"];
+                
+            } else if (_commentsTextField.text == nil) {
+                [Tools showString:@"请完善备注"];
+            } else {
+                [HttpClient registMaterialBidWithOid:self.oid price:price status:stateString comment:_commentsTextField.text completionBlock:^(int statusCode) {
+                    DLog(@"%d", statusCode);
+                    if (statusCode == 200) {
+                        [Tools showHudTipStr:@"投标成功"];
+                        if (![self.collectionImage count]==0) {
+                            [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                                 
+                                NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
+                                UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+                                NSString *oidString = [NSString stringWithFormat:@"%ld",self.oid];
+                                [HttpClient uploadMaterialImageWithImage:newImage oid:oidString type:@"bidBuy" andblock:^(NSDictionary *dictionary) {
+                                    if ([dictionary[@"statusCode"] intValue]==200) {
+                                        [Tools showHudTipStr:@"投标成功"];
+                                        double delayInSeconds = 1.0f;
+                                        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                                        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                                            
+                                            [self dismissViewControllerAnimated:YES completion:nil];
+                                        });
+                                        
+                                        DLog(@"图片上传成功");
+                                    }else{
+                                        
+                                        DLog(@"图片上传失败%@",dictionary);
+                                    }
+                                    
+                                }];
                             }];
-                        }];
+                        }else{
+                            DLog(@"没有图片");
+                            [self dismissViewControllerAnimated:YES completion:nil];
+                        }
+                        
                     }else{
-                        DLog(@"没有图片");
-                        [self dismissViewControllerAnimated:YES completion:nil];
+                        [Tools showHudTipStr:@"订单投标失败"];
                     }
                     
-                }else{
-                    [Tools showHudTipStr:@"订单投标失败"];
-                }
-                
-            }];
+                }];
+            }
+            
+            
+            
 
         }
     }

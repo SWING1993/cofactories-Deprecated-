@@ -280,6 +280,9 @@
 		7DCA89A61BABBADF00AB8EC0 /* InformationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA89A51BABBADF00AB8EC0 /* InformationModel.m */; settings = {ASSET_TAGS = (); }; };
 		7DE0FFBB1BAAA97A006B9D96 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */; };
 		7DE1630E1BB000A800777AEF /* SupplyHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE1630D1BB000A800777AEF /* SupplyHistory.m */; settings = {ASSET_TAGS = (); }; };
+		7DE7A1BE1BB3997C00512101 /* NeedMaterialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7A1BD1BB3997C00512101 /* NeedMaterialViewController.m */; settings = {ASSET_TAGS = (); }; };
+		7DE7A1C11BB3ADD500512101 /* LookOverNeedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7A1C01BB3ADD500512101 /* LookOverNeedModel.m */; settings = {ASSET_TAGS = (); }; };
+		7DE7A1C41BB3F79600512101 /* MaterialBidFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7A1C31BB3F79600512101 /* MaterialBidFactory.m */; settings = {ASSET_TAGS = (); }; };
 		7DE9DEE31BB28091002C64AD /* CompeteMaterialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE9DEE21BB28091002C64AD /* CompeteMaterialViewController.m */; settings = {ASSET_TAGS = (); }; };
 		7DEE11301BA29CC100678607 /* LastmachineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DEE112F1BA29CC100678607 /* LastmachineCell.m */; };
 		BD041A6B1B69D5DC00F9FC74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */; };
@@ -843,6 +846,12 @@
 		7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		7DE1630C1BB000A800777AEF /* SupplyHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyHistory.h; sourceTree = "<group>"; };
 		7DE1630D1BB000A800777AEF /* SupplyHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyHistory.m; sourceTree = "<group>"; };
+		7DE7A1BC1BB3997C00512101 /* NeedMaterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeedMaterialViewController.h; sourceTree = "<group>"; };
+		7DE7A1BD1BB3997C00512101 /* NeedMaterialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeedMaterialViewController.m; sourceTree = "<group>"; };
+		7DE7A1BF1BB3ADD500512101 /* LookOverNeedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookOverNeedModel.h; sourceTree = "<group>"; };
+		7DE7A1C01BB3ADD500512101 /* LookOverNeedModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookOverNeedModel.m; sourceTree = "<group>"; };
+		7DE7A1C21BB3F79600512101 /* MaterialBidFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialBidFactory.h; sourceTree = "<group>"; };
+		7DE7A1C31BB3F79600512101 /* MaterialBidFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaterialBidFactory.m; sourceTree = "<group>"; };
 		7DE9DEE11BB28091002C64AD /* CompeteMaterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompeteMaterialViewController.h; sourceTree = "<group>"; };
 		7DE9DEE21BB28091002C64AD /* CompeteMaterialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompeteMaterialViewController.m; sourceTree = "<group>"; };
 		7DEE112E1BA29CC100678607 /* LastmachineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastmachineCell.h; sourceTree = "<group>"; };
@@ -1447,6 +1456,8 @@
 				7D06098B1BAD4B320021606D /* SearchSupplyViewCell.m */,
 				7D06098D1BAD557A0021606D /* SearchSupplymaterialViewController.h */,
 				7D06098E1BAD557A0021606D /* SearchSupplymaterialViewController.m */,
+				7DE7A1BC1BB3997C00512101 /* NeedMaterialViewController.h */,
+				7DE7A1BD1BB3997C00512101 /* NeedMaterialViewController.m */,
 				7D0609901BAD5FE60021606D /* MaterialInfoCell.h */,
 				7D0609911BAD5FE60021606D /* MaterialInfoCell.m */,
 				7D2CFB981BB12EFC00957797 /* userInformationCell.h */,
@@ -1732,6 +1743,8 @@
 		04E644441B69C59000A3DF2E /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				7D2378B81BB10460000FC478 /* libstdc++.tbd */,
+				7D2378B61BB1017E000FC478 /* libsqlite3.tbd */,
 				7D2378BA1BB104AD000FC478 /* CoreTelephony.framework */,
 				7D2378CD1BB10A4D000FC478 /* ImageIO.framework */,
 				BD8C4DF41B4FB2BA0065ECFA /* libz.dylib */,
@@ -2130,8 +2143,6 @@
 		BDC907AE1B4E9A5600856A32 = {
 			isa = PBXGroup;
 			children = (
-				7D2378B81BB10460000FC478 /* libstdc++.tbd */,
-				7D2378B61BB1017E000FC478 /* libsqlite3.tbd */,
 				BDC907B91B4E9A5700856A32 /* cofactory-1.1 */,
 				BDC907D31B4E9A5700856A32 /* cofactory-1.1Tests */,
 				BDC907B81B4E9A5700856A32 /* Products */,
@@ -2328,6 +2339,10 @@
 				7DE1630D1BB000A800777AEF /* SupplyHistory.m */,
 				640B21AC1BB2478000EDFF1C /* LookoverMaterialModel.h */,
 				640B21AD1BB2478000EDFF1C /* LookoverMaterialModel.m */,
+				7DE7A1BF1BB3ADD500512101 /* LookOverNeedModel.h */,
+				7DE7A1C01BB3ADD500512101 /* LookOverNeedModel.m */,
+				7DE7A1C21BB3F79600512101 /* MaterialBidFactory.h */,
+				7DE7A1C31BB3F79600512101 /* MaterialBidFactory.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2408,7 +2423,7 @@
 				TargetAttributes = {
 					BDC907B61B4E9A5700856A32 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 24M4SR48J4;
+						DevelopmentTeam = 23L882L49W;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 0;
@@ -2668,6 +2683,7 @@
 				0451D6591B574BCB007CCD59 /* JSDropDownMenu.m in Sources */,
 				04B7E43A1BAFE69D00B83DF0 /* ResetPasswordViewController.m in Sources */,
 				04B150531B9569CD004E0353 /* IQKeyboardManager.m in Sources */,
+				7DE7A1BE1BB3997C00512101 /* NeedMaterialViewController.m in Sources */,
 				BDC908DA1B4E9B3700856A32 /* AFURLRequestSerialization.m in Sources */,
 				04B7E4441BAFE6DD00B83DF0 /* RegisterViewController.m in Sources */,
 				0457E3EF1B8EE57100F38881 /* MBProgressHUD+Add.m in Sources */,
@@ -2683,6 +2699,7 @@
 				04BDB9D21BB2640D00AD246E /* MBProgressHUD.m in Sources */,
 				045939301B7869F3004DA7D6 /* PushViewController.m in Sources */,
 				047EF0E31B6085A0007DD2AE /* AddOrderViewController.m in Sources */,
+				7DE7A1C41BB3F79600512101 /* MaterialBidFactory.m in Sources */,
 				049582E71B6B490F00A69E6D /* JKAssetsViewCell.m in Sources */,
 				045A266E1B686682002DE415 /* NSDate+WQCalendarLogic.m in Sources */,
 				04AEF4FA1BA9332C002DA22E /* UMTextView.m in Sources */,
@@ -2711,6 +2728,7 @@
 				BD8AD7EA1B50E62600373E5E /* SDWebImageDecoder.m in Sources */,
 				04CDAA0E1BB2579600A015AD /* FBShimmeringLayer.m in Sources */,
 				BDC908FF1B4E9B6B00856A32 /* UserModel.m in Sources */,
+				7DE7A1C11BB3ADD500512101 /* LookOverNeedModel.m in Sources */,
 				04822E411B62E7A600A370F6 /* NSData+Utils.m in Sources */,
 				64EDB08B1B9C09F800D2A655 /* CompeteViewController.m in Sources */,
 				64F4C6761B70B31D00F52FF0 /* MJRefreshHeaderView.m in Sources */,
