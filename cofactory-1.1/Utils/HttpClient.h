@@ -458,6 +458,17 @@
 
 + (void)getMaterialMessageWithID:(NSString *)oid completionBlock:(void (^)(NSDictionary *responseDictionary))block;
 
+/**获取求购投标
+ *
+ */
+
++ (void)getPurchaseBidInformationWithID:(NSInteger)aId completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+/**关闭面辅料投标订单
+ *
+ */
+
++ (void)closeMaterialBidOrderWithWinnerID:(NSInteger)aWinnerID orderID:(NSInteger)aOrderID completionBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 
 @end

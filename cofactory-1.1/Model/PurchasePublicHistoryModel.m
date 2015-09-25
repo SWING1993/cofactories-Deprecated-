@@ -13,13 +13,14 @@
     
     if (self = [super init]){
         self.amount = [dictionary[@"amount"] integerValue];
-        self.userID = [dictionary[@"id"] integerValue];
+        self.orderID = [dictionary[@"id"] integerValue];
         self.photoArray = dictionary[@"photo"];
         self.name = dictionary[@"name"];
         self.comment = dictionary[@"description"];
         self.unit = dictionary[@"unit"];
         self.type = dictionary[@"type"];
         self.creatTime = dictionary[@"createdAt"];
+        self.isCompletion = [dictionary[@"status"] integerValue];
     }
     return self;
 }
