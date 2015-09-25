@@ -110,7 +110,6 @@ static  NSString *const cellIdentifier1 = @"cell1";
         _competeFactoryArray = responseDictionary[@"responseArray"];
         //       NSLog(@"_competeFactoryArray==%@",_competeFactoryArray);
         NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"selfuid"];
-        DLog(@"+++++%@",number);
         int myUid = [number intValue];
         
         [_competeFactoryArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
