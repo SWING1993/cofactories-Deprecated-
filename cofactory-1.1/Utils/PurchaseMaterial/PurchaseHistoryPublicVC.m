@@ -39,7 +39,12 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
     if (self.isMe) {
         //请求查看求购页面
         [HttpClient searchMaterialBidWithKeywords:nil type:nil page:1 completionBlock:^(NSDictionary *responseDictionary) {
-            _dataArray = responseDictionary[@"responseObject"];
+            NSArray *array = (NSArray *)responseDictionary[@"responseObject"];
+            for (NSDictionary *dictionary in array) {
+                //SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
+                PurchasePublicHistoryModel *search = [PurchasePublicHistoryModel getModelWith:dictionary];
+                [_dataArray addObject:search];
+            }
             [_tableView reloadData];
         }];
     } else {
@@ -61,15 +66,43 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
     [super viewDidLoad];
     if (self.isMe) {
         self.navigationItem.title = @"查看求购";
+           [self creatTableView];
+        [self setupRefreshZHAO];
     } else {
         self.navigationItem.title = @"历史发布";
+           [self creatTableView];
+        [self setupRefreshGUTao];
     }
     
     self.view.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
 
     _refrushCount = 1;
-    [self creatTableView];
-    [self setupRefresh];
+ 
+}
+
+- (void)setupRefreshZHAO
+{
+    [_tableView addFooterWithTarget:self action:@selector(footerRereshingZHAO)];
+    _tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+    _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+    _tableView.footerRefreshingText = @"加载中。。。";
+}
+
+- (void)footerRereshingZHAO
+{
+    _refrushCount++;
+    DLog(@"???????????%d",_refrushCount);
+    [HttpClient searchMaterialBidWithKeywords:nil type:nil page:_refrushCount completionBlock:^(NSDictionary *responseDictionary) {
+        NSArray *array = (NSArray *)responseDictionary[@"responseObject"];
+        for (NSDictionary *dictionary in array) {
+            //SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
+            PurchasePublicHistoryModel *search = [PurchasePublicHistoryModel getModelWith:dictionary];
+            [_dataArray addObject:search];
+        }
+        [_tableView reloadData];
+    }];
+    
+    [_tableView footerEndRefreshing];
 }
 
 - (void)creatTableView{
@@ -82,15 +115,15 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
     [self.view addSubview:_tableView];
 }
 
-- (void)setupRefresh
+- (void)setupRefreshGUTao
 {
-    [_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    [_tableView addFooterWithTarget:self action:@selector(footerRereshingGutao)];
     _tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
     _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
     _tableView.footerRefreshingText = @"加载中。。。";
 }
 
-- (void)footerRereshing
+- (void)footerRereshingGutao
 {
     _refrushCount++;
     DLog(@"???????????%d",_refrushCount);

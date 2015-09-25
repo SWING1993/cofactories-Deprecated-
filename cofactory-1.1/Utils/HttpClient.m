@@ -1933,15 +1933,15 @@
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         
         [manager GET:API_searchBidMaterial parameters:@{@"page":@(aPage)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSArray *jsonArray = (NSArray *)responseObject;
-            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
-            for (NSDictionary *dictionary in jsonArray) {
-                //SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
-                PurchasePublicHistoryModel *search = [PurchasePublicHistoryModel getModelWith:dictionary];
-                [responseArray addObject:search];
-            }
-            
-            block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseArray});
+//            NSArray *jsonArray = (NSArray *)responseObject;
+//            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
+////            for (NSDictionary *dictionary in jsonArray) {
+////                //SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
+////                PurchasePublicHistoryModel *search = [PurchasePublicHistoryModel getModelWith:dictionary];
+////                [responseArray addObject:search];
+////            }
+////            
+            block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseObject});
             
         }
              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
