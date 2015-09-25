@@ -79,9 +79,20 @@
 //登录注册 tableHeaderView 高度
 #define tableHeaderView_height 120
 
-//Nav字体大小
-#define  kNavTitleFontSize 18
+//用户身份 FactoryType
+#define kFactoryType [[[NSUserDefaults standardUserDefaults]objectForKey:@"factoryType"] integerValue]
 
+//字体 Font
+
+//Nav字体大小
+#define kNavTitleFontSize 17.5f
+#define kLargeFont  [UIFont systemFontOfSize:16.0f]
+#define kFont [UIFont systemFontOfSize:14.5f]
+#define kSmallFont  [UIFont systemFontOfSize:12.0f]
+
+//Color
+#define kGreen [UIColor colorWithHexString:@"0x3bbd79"]
+#define kBlack [UIColor colorWithHexString:@"0x28303b"]
 
 #pragma mark - 第三方框架
 /*!

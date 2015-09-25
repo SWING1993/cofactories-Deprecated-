@@ -38,6 +38,9 @@
     [super viewDidLoad];
 
     self.view.backgroundColor = [UIColor whiteColor];
+
+    [Tools showLoadString:@"正在加载网页..."];
+    
     
     UIWebView *webView = [[UIWebView alloc] init];
     webView.delegate = self;
@@ -48,17 +51,12 @@
     [webView sizeToFit];
     [webView loadRequest:urlRequest];
     [self.view addSubview:webView];
-//    self.tableView.tableHeaderView = webView;
 
-    //[self createToolbar];
-//
     UIToolbar*toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, kScreenH - 40 - 64, kScreenW, 40.0f) ];
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     UIButton*btn1 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenW/3, 40)];
     btn1.tag = 1;
     [btn1 setImage:[UIImage imageNamed:@"资讯_分享"] forState:UIControlStateNormal];
-    
-    //btn1.backgroundColor = [UIColor yellowColor];
     btn1.imageView.contentMode = UIViewContentModeScaleAspectFill;
     [btn1 addTarget:self action:@selector(doneAction:) forControlEvents:UIControlEventTouchUpInside];
     //创建barbuttonitem
@@ -105,23 +103,10 @@
     [self.view addSubview:toolBar];
 
 }
-//- (void)webViewDidFinishLoad:(UIWebView *)webView
-//{
-//    NSString *height_str= [webView stringByEvaluatingJavaScriptFromString: @"document.body.offsetHeight"];
-//    self.webViewHeight = [height_str intValue];
-//    self.webView.userInteractionEnabled = NO;
-//
-////    [self.tableView reloadData];
-//
-//    DLog(@"height: %d", self.webViewHeight);
-//    DLog(@"--- : %f",webView.scrollView.contentSize.height);
-//
-//    webView.frame = CGRectMake(0,0,kScreenW,self.webViewHeight-64);
-//
-//
-//    webView.delegate = nil;
-//    
-//}
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [Tools WSProgressHUDDismiss];
+}
 
 - (UIToolbar *)createToolbar {
     if (!self.toolBar) {
