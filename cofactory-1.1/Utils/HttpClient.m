@@ -58,6 +58,10 @@
 #define API_sendMaterialHistory @"/material/history"
 #define API_searchMaterial @"/search/material"
 #define API_addMaterial @"/material"
+#define API_bidMaterial @"/material/buy/bid"
+#define API_searchBidMaterial @"/search/materialBuy"
+
+
 #define API_messageHeader @"http://news.cofactories.com/?co&op=category&cat=轮播"
 
 
@@ -1616,8 +1620,6 @@
         block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
     }
 }
-
-
 + (void)getBidOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block {
     
     NSParameterAssert(oid);
@@ -1633,6 +1635,44 @@
             NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
             for (NSDictionary *dictionary in jsonArray) {
                 BidManagerModel *factoryModel = [BidManagerModel getBidManagerModelWith:dictionary];
+                [responseArray addObject:factoryModel];
+            }
+            block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseArray});
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            switch ([operation.response statusCode]) {
+                case 400:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"未登录"});
+                    break;
+                case 401:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"access_token过期或者无效"});
+                    break;
+                    
+                default:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"网络错误"});
+                    break;
+            }
+        }];
+    } else {
+        block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
+    }
+}
+
+
++ (void)getMaterialBidOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block {
+    
+    NSParameterAssert(oid);
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        NSString *url = [[NSString alloc] initWithFormat:@"%@/%d", API_bidMaterial, oid];
+        [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSArray *jsonArray = (NSArray *)responseObject;
+            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
+            for (NSDictionary *dictionary in jsonArray) {
+                MaterialBidFactory *factoryModel = [MaterialBidFactory getBidManagerModelWith:dictionary];
                 [responseArray addObject:factoryModel];
             }
             block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseArray});
@@ -1679,6 +1719,30 @@
     }
     
 }
+
++ (void)registMaterialBidWithOid:(NSInteger)oid price:(NSString *)price status:(NSString *)status comment:(NSString *)comment completionBlock:(void(^)(int statusCode))block{
+    
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        
+        CGFloat number = [price floatValue];
+        [manager POST:API_bidMaterial parameters:@{@"id": [NSNumber numberWithInteger:oid], @"price":[NSNumber numberWithFloat:number], @"status":status, @"comment": comment} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block((int)[operation.response statusCode]);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            block((int)[operation.response statusCode]);
+        }];
+    }
+    else {
+        block(404);// access_token不存在
+    }
+    
+}
+
+
 
 + (void)registBidWithOid:(int)oid commit:(NSString *)commit completionBlock:(void(^)(int statusCode))block{
     
@@ -1858,6 +1922,40 @@
         block(@{@"statusCode":@(404)}); 
     }
 }
+
++ (void)searchMaterialBidWithKeywords:(NSString *)aKeywords type:(NSString *)aType page:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block{
+    
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        
+        [manager GET:API_searchBidMaterial parameters:@{@"page":@(aPage)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSArray *jsonArray = (NSArray *)responseObject;
+            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
+            for (NSDictionary *dictionary in jsonArray) {
+                //SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
+                PurchasePublicHistoryModel *search = [PurchasePublicHistoryModel getModelWith:dictionary];
+                [responseArray addObject:search];
+            }
+            
+            block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseArray});
+            
+        }
+             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 block(@{@"statusCode":@([operation.response statusCode])});
+             }];
+    }
+    else {
+        block(@{@"statusCode":@(404)}); // access_token不存在
+    }
+    
+}
+
+
+
 + (void)getMaterialMessageWithID:(NSString *)oid completionBlock:(void (^)(NSDictionary *responseDictionary))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
@@ -1955,6 +2053,32 @@
         block(@{@"statusCode":@(404)});
     }
 
+}
++ (void)getNeedMaterialDetailMessageWithId:(NSString *)aId completionBlock:(void (^)(NSDictionary *responseDictionary))block{
+    
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        
+        NSString *url = [[NSString alloc] initWithFormat:@"%@%@", @"/material/buy/", aId];
+        
+        [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            LookOverNeedModel *model = [LookOverNeedModel getModelWith:responseObject];
+            
+            block(@{@"statusCode":@([operation.response statusCode]),@"model":model});
+        }
+             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 
+                 block(@{@"statusCode":@([operation.response statusCode])});
+             }];
+    }
+    else {
+        block(@{@"statusCode":@(404)});
+    }
+    
 }
 
 @end

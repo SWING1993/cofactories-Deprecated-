@@ -29,7 +29,7 @@
 
     CGSize size = [Tools getSize:self.placeholder andFontOfSize:15.0f];
     descriptionTV=[[UITextView alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, size.height+40)];
-    descriptionTV.font=[UIFont systemFontOfSize:15.0f];
+    descriptionTV.font=kLargeFont;
     descriptionTV.text=self.placeholder;
 
     //设置Btn

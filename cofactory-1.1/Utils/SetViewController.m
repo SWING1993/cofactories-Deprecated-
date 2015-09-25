@@ -11,11 +11,7 @@
 #import "UMSocial.h"
 #import "UMFeedback.h"
 
-#import "ZFModalTransitionAnimator.h"
-
 @interface SetViewController () <UIAlertViewDelegate,UMSocialUIDelegate>
-
-@property (nonatomic, strong) ZFModalTransitionAnimator *animator;
 
 @end
 
@@ -169,16 +165,7 @@
             RevisePasswordViewController*reviseVC = [[RevisePasswordViewController alloc]init];
             UINavigationController*reviseNav = [[UINavigationController alloc]initWithRootViewController:reviseVC];
             reviseNav.navigationBar.barStyle=UIBarStyleBlack;
-//            [self presentViewController:reviseNav animated:YES completion:nil];
-            
             reviseNav.modalPresentationStyle = UIModalPresentationCustom;
-            self.animator = [[ZFModalTransitionAnimator alloc] initWithModalViewController:reviseNav];
-            self.animator.dragable = YES;
-            self.animator.bounces = NO;
-            self.animator.behindViewAlpha = 0.5f;
-            self.animator.behindViewScale = 0.5f;
-            self.animator.direction = ZFModalTransitonDirectionBottom;
-            reviseNav.transitioningDelegate = self.animator;
             [self presentViewController:reviseNav animated:YES completion:nil];
 
 
@@ -213,13 +200,7 @@
             //            [self presentViewController:reviseNav animated:YES completion:nil];
             
             aboutNav.modalPresentationStyle = UIModalPresentationCustom;
-            self.animator = [[ZFModalTransitionAnimator alloc] initWithModalViewController:aboutNav];
-            self.animator.dragable = YES;
-            self.animator.bounces = NO;
-            self.animator.behindViewAlpha = 0.5f;
-            self.animator.behindViewScale = 0.5f;
-            self.animator.direction = ZFModalTransitonDirectionBottom;
-            aboutNav.transitioningDelegate = self.animator;
+
             [self presentViewController:aboutNav animated:YES completion:nil];
             
 

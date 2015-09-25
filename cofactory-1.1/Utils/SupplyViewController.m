@@ -53,6 +53,7 @@
     if (button.tag == 4) {
         DLog(@"查看求购！");
         PurchaseHistoryPublicVC *VC = [[PurchaseHistoryPublicVC alloc]init];
+        VC.isMe = YES;
 
         [self.navigationController pushViewController:VC animated:YES];
 
@@ -68,7 +69,6 @@
 }
 
 - (void)historyPublishButton {
-    DLog(@"ihfdils");
     
     SearchSupplyFactoryViewController *searchSupplyFactoryVC = [[SearchSupplyFactoryViewController alloc] init];
     searchSupplyFactoryVC.isMe = NO;

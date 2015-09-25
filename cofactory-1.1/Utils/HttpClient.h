@@ -447,6 +447,12 @@
  *
  */
 + (void)searchMaterialWithKeywords:(NSString *)aKeywords type:(NSString *)aType page:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+/**搜索面辅料求购
+ *
+ */
+
++ (void)searchMaterialBidWithKeywords:(NSString *)aKeywords type:(NSString *)aType page:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
 /**获取面辅料详情信息
  *
  */
@@ -457,6 +463,11 @@
  */
 
 + (void)getMaterialMessageWithID:(NSString *)oid completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+/**面辅料投标
+ *
+ */
+
++ (void)registMaterialBidWithOid:(NSInteger)oid price:(NSString *)price status:(NSString *)status comment:(NSString *)comment completionBlock:(void(^)(int statusCode))block;
 
 /**获取求购投标
  *
@@ -470,5 +481,17 @@
 
 + (void)closeMaterialBidOrderWithWinnerID:(NSInteger)aWinnerID orderID:(NSInteger)aOrderID completionBlock:(void (^)(NSDictionary *responseDictionary))block;
 
+
+/**获取求购信息详情
+ *
+ */
+
++ (void)getNeedMaterialDetailMessageWithId:(NSString *)aId completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+/**获取求购投标详情
+ *
+ */
+
+
++ (void)getMaterialBidOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 @end

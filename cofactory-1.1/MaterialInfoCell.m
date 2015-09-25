@@ -14,14 +14,11 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 80, 20)];
-//        self.nameLabel.backgroundColor = [UIColor greenColor];
         self.nameLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:self.nameLabel];
         self.infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.nameLabel.frame) + 10, 10, kScreenW - 30 - CGRectGetWidth(self.nameLabel.frame), 20)];
         self.infoLabel.font = [UIFont systemFontOfSize:15];
-        //self.infoLabel.textAlignment = NSTextAlignmentCenter;
         self.infoLabel.numberOfLines = 0;
-        //self.infoLabel.backgroundColor = [UIColor redColor];
         [self addSubview:self.infoLabel];
         
     }

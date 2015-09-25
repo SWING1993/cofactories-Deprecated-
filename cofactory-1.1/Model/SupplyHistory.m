@@ -25,6 +25,7 @@
         self.width = [dictionary[@"width"] integerValue];
         self.phoneNumber = dictionary[@"phone"];
         self.userName = dictionary[@"realname"];
+        self.factoryUid = dictionary[@"factoryUid"];
         if ([dictionary[@"photo"] count] != 0) {
             self.photo = [NSString stringWithFormat:@"%@%@",PhotoAPI,dictionary[@"photo"][0]];
         }

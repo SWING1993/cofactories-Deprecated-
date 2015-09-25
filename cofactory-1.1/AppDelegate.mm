@@ -40,7 +40,7 @@
     //设置QQ
     [UMSocialQQHandler setQQWithAppId:@"100424468" appKey:@"55e03514e0f55a390f003db7" url:@"http://www.umeng.com/social"];
     //打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。若在新浪后台设置我们的回调地址，“http://sns.whalecloud.com/sina2/callback”，这里可以传nil
-    [UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    //[UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
     //[UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
     
     
@@ -219,7 +219,7 @@
     //设置Nav的背景色和title色
     
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
-    [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+    [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:kBlack] forBarMetrics:UIBarMetricsDefault];
     [navigationBarAppearance setTintColor:[UIColor whiteColor]];//返回按钮的箭头颜色
     NSDictionary *textAttributes = @{
                                      NSFontAttributeName: [UIFont boldSystemFontOfSize:kNavTitleFontSize],
@@ -227,8 +227,8 @@
                                      };
     [navigationBarAppearance setTitleTextAttributes:textAttributes];
 
-    [[UITextField appearance] setTintColor:[UIColor colorWithHexString:@"0x3bbc79"]];//设置UITextField的光标颜色
-    [[UITextView appearance] setTintColor:[UIColor colorWithHexString:@"0x3bbc79"]];//设置UITextView的光标颜色
+    [[UITextField appearance] setTintColor:kGreen];//设置UITextField的光标颜色
+    [[UITextView appearance] setTintColor:kGreen];//设置UITextView的光标颜色
 //    [[UISearchBar appearance] setBackgroundImage:[UIImage imageWithColor:kColorTableSectionBg] forBarPosition:0 barMetrics:UIBarMetricsDefault];
 }
 

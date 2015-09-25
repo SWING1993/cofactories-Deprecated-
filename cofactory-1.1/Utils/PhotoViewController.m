@@ -165,7 +165,7 @@
     [cell addSubview:cellImage];
 
     UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 7, kScreenW-40, 30)];
-    cellLabel.font=[UIFont systemFontOfSize:15.0f];
+    cellLabel.font=kLargeFont;
     cellLabel.text=self.cellArray[indexPath.section];
     [cell addSubview:cellLabel];
 

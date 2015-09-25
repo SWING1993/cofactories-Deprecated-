@@ -13,6 +13,9 @@
 #import "PurchasePublicHistoryModel.h"
 #import "MaterialBidViewController.h"
 #import "MaterialBidManagerModel.h"
+#import "CompeteMaterialViewController.h"
+
+
 
 @interface PHPDetailViewController ()<UITableViewDataSource,UITableViewDelegate>{
     
@@ -238,8 +241,9 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
     backItem.tintColor=[UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backItem;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-
     [self.navigationController pushViewController:VC animated:YES];
+    
+    DLog(@"11223");
 }
 
 - (void)gobackClick{

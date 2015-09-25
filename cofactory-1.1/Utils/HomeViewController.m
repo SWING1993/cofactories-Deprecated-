@@ -99,28 +99,6 @@ static NSString *LastCellIdentifier = @"LastCell";
     self.automaticallyAdjustsScrollViewInsets = YES;// 自动调整视图关闭
     self.tableView.showsVerticalScrollIndicator = NO;// 竖直滚动条不显示
 
-    DLog(@"%@",Kidentifier);
-    if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
-        //个人开发者 关闭检测更新
-        DLog(@"个人开发者 关闭检测更新");
-    }else
-    {
-        //企业账号 开启检测更新
-        DLog(@"企业账号 开启检测更新")
-        [[PgyManager sharedPgyManager] checkUpdate];
-    }
-    
-    //抽奖
-    [HttpClient drawAccessWithBlock:^(int statusCode) {
-        DLog(@"%d",statusCode);
-        if (statusCode==200) {
-            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"您已达到抽奖资格，您想要抽奖吗" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            alertView.tag=100;
-            [alertView show];
-        }
-    }];
-
-    
     // 表头视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
     NSArray *imageArray = @[@"http://cdn.cofactories.com/banner/banner1.png",@"http://cdn.cofactories.com/banner/banner2.png",@"http://cdn.cofactories.com/banner/banner3.png"];
@@ -128,7 +106,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     [headerView addSubview:bannerView];
 
 
-    NSInteger factoryType = [[[NSUserDefaults standardUserDefaults]objectForKey:@"factoryType"] integerValue];
+    NSInteger factoryType = kFactoryType;
 
     if (factoryType==0) {
         ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"订单管理"];
@@ -167,7 +145,31 @@ static NSString *LastCellIdentifier = @"LastCell";
     
 }
 
+#pragma mark - 抽奖 检测更新
+- (void)goDrawAccess {
 
+    DLog(@"%@",Kidentifier);
+    if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
+        //个人开发者 关闭检测更新
+        DLog(@"个人开发者 关闭检测更新");
+    }else
+    {
+        //企业账号 开启检测更新
+        DLog(@"企业账号 开启检测更新")
+        [[PgyManager sharedPgyManager] checkUpdate];
+    }
+
+    //抽奖
+    [HttpClient drawAccessWithBlock:^(int statusCode) {
+        DLog(@"%d",statusCode);
+        if (statusCode==200) {
+            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"您已达到抽奖资格，您想要抽奖吗" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            alertView.tag=100;
+            [alertView show];
+        }
+    }];
+
+}
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex==1) {
         if (alertView.tag==100) {
@@ -178,6 +180,9 @@ static NSString *LastCellIdentifier = @"LastCell";
         }
     }
 }
+
+
+#pragma mark - buttonView 点击事件
 
 - (void)pushClicked:(id)sender {
     PopularMesageViewController *vc = [[PopularMesageViewController alloc]init];

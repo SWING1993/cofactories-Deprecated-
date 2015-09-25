@@ -11,6 +11,7 @@
 #import "PurchaseMPTableViewCell.h"
 #import "PurchasePublicHistoryModel.h"
 #import "PHPDetailViewController.h"
+#import "NeedMaterialViewController.h"
 
 @interface PurchaseHistoryPublicVC ()<UITableViewDataSource,UITableViewDelegate>{
     
@@ -23,25 +24,44 @@
 @implementation PurchaseHistoryPublicVC
 static NSString * const reuseIdentifier = @"cellIdentifier";
 
+
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setHidden:NO];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
     _dataArray = [@[] mutableCopy];
-    [HttpClient checkHistoryPublishWithPage:1 completionBlock:^(NSDictionary *responseDictionary){
-        NSArray *array = (NSArray *)responseDictionary[@"responseObject"];
-        [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            PurchasePublicHistoryModel * model = [PurchasePublicHistoryModel getModelWith:(NSDictionary *)obj];
-            [_dataArray addObject:model];
+    
+    if (self.isMe) {
+        //请求查看求购页面
+        [HttpClient searchMaterialBidWithKeywords:nil type:nil page:1 completionBlock:^(NSDictionary *responseDictionary) {
+            _dataArray = responseDictionary[@"responseObject"];
+            [_tableView reloadData];
         }];
-        DLog(@"_dataArray==%@",_dataArray);
-        [_tableView reloadData];
-    }];
+    } else {
+        [HttpClient checkHistoryPublishWithPage:1 completionBlock:^(NSDictionary *responseDictionary){
+            NSArray *array = (NSArray *)responseDictionary[@"responseObject"];
+            [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                PurchasePublicHistoryModel * model = [PurchasePublicHistoryModel getModelWith:(NSDictionary *)obj];
+                [_dataArray addObject:model];
+            }];
+            DLog(@"_dataArray==%@",_dataArray);
+            [_tableView reloadData];
+        }];
+    }
+    
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"历史发布";
+    if (self.isMe) {
+        self.navigationItem.title = @"查看求购";
+    } else {
+        self.navigationItem.title = @"历史发布";
+    }
+    
     self.view.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
 
     [self creatTableView];
@@ -73,14 +93,29 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    PHPDetailViewController *VC = [[PHPDetailViewController alloc]init];
-    VC.model = _dataArray[indexPath.row];
-    UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
-    backItem.title = @"";
-    backItem.tintColor=[UIColor whiteColor];
-    self.navigationItem.backBarButtonItem = backItem;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController pushViewController:VC animated:YES];
+    if (self.isMe) {
+        //进入查看求购详情页面
+        NeedMaterialViewController *needVC = [[NeedMaterialViewController alloc] init];
+        PurchasePublicHistoryModel *model = _dataArray[indexPath.row];
+        needVC.oid = [NSString stringWithFormat:@"%ld", model.orderID];
+        needVC.photoArray = model.photoArray;
+        needVC.amount = model.unit;
+        [self.navigationController pushViewController:needVC animated:YES];
+        
+    } else {
+        PHPDetailViewController *VC = [[PHPDetailViewController alloc]init];
+        VC.model = _dataArray[indexPath.row];
+        
+        UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+        backItem.title = @"";
+        backItem.tintColor=[UIColor whiteColor];
+        self.navigationItem.backBarButtonItem = backItem;
+        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

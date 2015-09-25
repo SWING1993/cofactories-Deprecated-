@@ -28,7 +28,11 @@
     //列出合作商
     [HttpClient listPartnerWithBlock:^(NSDictionary *responseDictionary) {
         self.modelArray = responseDictionary[@"responseArray"];
-        [self.tableView reloadData];
+        if (self.modelArray.count == 0) {
+            [Tools showErrorWithStatus:@"您尚未添加合作商！"];
+        }else{
+            [self.tableView reloadData];
+        }
     }];
 }
 
@@ -36,9 +40,9 @@
     [super viewDidLoad];
 
     self.title=@"合作商";
-    self.automaticallyAdjustsScrollViewInsets=NO;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor=[UIColor whiteColor];
+    self.automaticallyAdjustsScrollViewInsets=NO;
+
     self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64-44) style:UITableViewStyleGrouped];
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
@@ -91,7 +95,6 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
         FactoryModel*factoryModel=self.modelArray[indexPath.section];
-//        [[SDImageCache sharedImageCache]clearDisk];
         UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 80, 80)];
         headerImage.layer.borderWidth=0.3f;
         headerImage.layer.borderColor=[UIColor blackColor].CGColor;
@@ -112,7 +115,7 @@
 
         for (int i=0; i<3; i++) {
             UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, (10+30*i), kScreenW-170, 20)];
-            cellLabel.font=[UIFont systemFontOfSize:14.0f];
+            cellLabel.font=kLargeFont;
             switch (i) {
                 case 0:
                 {
