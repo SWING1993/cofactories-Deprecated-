@@ -151,6 +151,11 @@ static NSString *LastCellIdentifier = @"LastCell";
     
 }
 
+- (void)createButtonViewWithFactory:(NSInteger )myFactory {
+
+    DLog(@"myFactory = %ld",(long)myFactory);
+}
+
 #pragma mark - 抽奖 检测更新
 - (void)goDrawAccess {
     DLog(@"%@",Kidentifier);

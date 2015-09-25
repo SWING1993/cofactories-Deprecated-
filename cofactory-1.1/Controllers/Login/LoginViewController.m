@@ -140,7 +140,21 @@
                         case 200:{
                             [button setEnabled:YES];
 
-                            [ViewController goMain];
+                            //工厂类型
+                            [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
+                                UserModel*userModel=responseDictionary[@"model"];
+                                [[NSUserDefaults standardUserDefaults] setInteger:userModel.factoryType forKey:@"factoryType"];
+
+                                if ([[NSUserDefaults standardUserDefaults] synchronize] == YES) {
+                                    [ViewController goMain];
+
+                                }
+                                else{
+                                    [Tools showErrorWithStatus:@"获取用户身份失败，请重新登录！"];
+                                }
+
+                            }];
+
 
                         }
                             break;
