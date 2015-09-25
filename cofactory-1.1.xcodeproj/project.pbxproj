@@ -12,7 +12,7 @@
 		04459B3C1B785BB500D74653 /* SettingTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04459B3B1B785BB500D74653 /* SettingTagsViewController.m */; };
 		0448E1421B75CA2E002B78B8 /* TagCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0448E1411B75CA2E002B78B8 /* TagCCell.m */; };
 		0448E1451B75CD78002B78B8 /* TagsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0448E1441B75CD78002B78B8 /* TagsManager.m */; };
-		0448E15E1B760CE1002B78B8 /* area.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0448E15D1B760CE1002B78B8 /* area.plist */; };
+		0448E15E1B760CE1002B78B8 /* Areas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0448E15D1B760CE1002B78B8 /* Areas.plist */; };
 		045171BB1B70B03800BAA6E8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 045171BA1B70B03800BAA6E8 /* CoreFoundation.framework */; };
 		0451D6581B574BCB007CCD59 /* ico_make.png in Resources */ = {isa = PBXBuildFile; fileRef = 0451D6551B574BCB007CCD59 /* ico_make.png */; };
 		0451D6591B574BCB007CCD59 /* JSDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451D6571B574BCB007CCD59 /* JSDropDownMenu.m */; };
@@ -373,7 +373,7 @@
 		0448E1411B75CA2E002B78B8 /* TagCCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagCCell.m; sourceTree = "<group>"; };
 		0448E1431B75CD78002B78B8 /* TagsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsManager.h; sourceTree = "<group>"; };
 		0448E1441B75CD78002B78B8 /* TagsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsManager.m; sourceTree = "<group>"; };
-		0448E15D1B760CE1002B78B8 /* area.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = area.plist; sourceTree = "<group>"; };
+		0448E15D1B760CE1002B78B8 /* Areas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Areas.plist; sourceTree = "<group>"; };
 		044B8C6E1B7D9D39008A4854 /* Cofactory_iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Cofactory_iOS-Prefix.pch"; sourceTree = "<group>"; };
 		045171BA1B70B03800BAA6E8 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		0451D6551B574BCB007CCD59 /* ico_make.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ico_make.png; sourceTree = "<group>"; };
@@ -808,7 +808,6 @@
 		BD8753651BB5936500A5F4CC /* UMSocialWechatHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialWechatHandler.h; sourceTree = "<group>"; };
 		BD8753661BB5936500A5F4CC /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		BD8753671BB5936500A5F4CC /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
-		BD8753711BB5946000A5F4CC /* libz.1.1.3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.1.3.tbd; path = usr/lib/libz.1.1.3.tbd; sourceTree = SDKROOT; };
 		BD8753791BB5963D00A5F4CC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/UMSocialLocalizable.strings; sourceTree = "<group>"; };
 		BD87537B1BB5963D00A5F4CC /* UMSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocial.h; sourceTree = "<group>"; };
 		BD87537C1BB5963D00A5F4CC /* UMSocialAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialAccountManager.h; sourceTree = "<group>"; };
@@ -2153,7 +2152,6 @@
 		BDC907AE1B4E9A5600856A32 = {
 			isa = PBXGroup;
 			children = (
-				BD8753711BB5946000A5F4CC /* libz.1.1.3.tbd */,
 				BDC907B91B4E9A5700856A32 /* cofactory-1.1 */,
 				BDC907D31B4E9A5700856A32 /* cofactory-1.1Tests */,
 				BDC907B81B4E9A5700856A32 /* Products */,
@@ -2192,7 +2190,7 @@
 			children = (
 				BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */,
 				BDC907BB1B4E9A5700856A32 /* Info.plist */,
-				0448E15D1B760CE1002B78B8 /* area.plist */,
+				0448E15D1B760CE1002B78B8 /* Areas.plist */,
 				BDC907BC1B4E9A5700856A32 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -2545,7 +2543,7 @@
 				BD8753D61BB596CF00A5F4CC /* ToolViewInputText@2x.png in Resources */,
 				BD8753DB1BB596CF00A5F4CC /* umeng_fb_audio_dialog_cancel@2x.png in Resources */,
 				BD87536E1BB5936500A5F4CC /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
-				0448E15E1B760CE1002B78B8 /* area.plist in Resources */,
+				0448E15E1B760CE1002B78B8 /* Areas.plist in Resources */,
 				045A26C21B6893D5002DE415 /* THDateDay.xib in Resources */,
 				045A26BB1B6893D5002DE415 /* dialog_clear.png in Resources */,
 				04BDB9DD1BB2895C00AD246E /* 04.png in Resources */,
