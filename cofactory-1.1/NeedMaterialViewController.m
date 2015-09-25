@@ -239,8 +239,9 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         return 70;
+    } else {
+        return 44;
     }
-    return 44;
 }
 
 

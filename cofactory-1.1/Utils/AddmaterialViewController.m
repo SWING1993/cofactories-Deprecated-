@@ -116,7 +116,7 @@
                                 NSString *oidString = [NSString stringWithFormat:@"%d",index];
                                     [HttpClient uploadMaterialImageWithImage:newImage oid:oidString type:@"sell" andblock:^(NSDictionary *dictionary) {
                                         if ([dictionary[@"statusCode"] intValue]==200) {
-                                            [Tools showHudTipStr:@"发布成功"];
+                                            [Tools showSuccessWithStatus:@"发布成功"];
                                             double delayInSeconds = 1.0f;
                                             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                                             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -137,8 +137,7 @@
                         
                         
                     } else {
-                        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                        [alertView show];
+                        [Tools showErrorWithStatus:@"订单发布失败"];
                         
                     }
                     
@@ -172,7 +171,7 @@
                                 NSString *oidString = [NSString stringWithFormat:@"%d",index];
                                 [HttpClient uploadMaterialImageWithImage:newImage oid:oidString type:@"sell" andblock:^(NSDictionary *dictionary) {
                                     if ([dictionary[@"statusCode"] intValue]==200) {
-                                        [Tools showHudTipStr:@"发布成功"];
+                                        [Tools showSuccessWithStatus:@"发布成功"];
                                         double delayInSeconds = 1.0f;
                                         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                                         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -191,8 +190,7 @@
                         
                         
                     } else {
-                        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                        [alertView show];
+                        [Tools showErrorWithStatus:@"订单发布失败"];
                         
                     }
                     
@@ -212,7 +210,7 @@
             [HttpClient addMaterialWithType:nameArr[self.materialType - 1] name:self.NameTF.text usage:self.UseTF.text price:[self.PriceTF.text intValue] width:[self.WidthTF.text intValue] description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
                 int statusCode = [responseDictionary[@"statusCode"] intValue];
                 if (statusCode == 200) {
-                    [Tools showHudTipStr:@"发布成功"];
+                    [Tools showSuccessWithStatus:@"发布成功"];
                     double delayInSeconds = 1.0f;
                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -249,6 +247,7 @@
 - (UITextField *)createWidthTF {
     if (!self.WidthTF) {
         self.WidthTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - kScreenW/5, 44)];
+        self.WidthTF.keyboardType = UIKeyboardTypeNumberPad;
         self.WidthTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         self.WidthTF.placeholder = @"请填写门幅";
 

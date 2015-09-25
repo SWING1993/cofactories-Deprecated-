@@ -406,7 +406,7 @@
 /**评论列表
  *@param oid   ID
  */
-+ (void)getCommentWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)getCommentWithOid:(int)oid page:(int)page andBlock:(void (^)(NSDictionary *responseDictionary))block;
 /** 提交评论
  *@param ID   ID
   @param content  评论内容
