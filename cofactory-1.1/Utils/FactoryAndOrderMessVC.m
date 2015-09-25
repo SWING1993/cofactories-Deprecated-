@@ -53,7 +53,7 @@
 
     //发送推送数据
 
-    int *_pushFacYype;
+    int _pushFacYype;
     NSNumber *_pushDistenceMin;
     NSNumber *_pushDistenceMax;
     NSNumber *_pushPeopleMin;

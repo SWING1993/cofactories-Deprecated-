@@ -76,7 +76,7 @@
     //初始化用户model
     self.userModel=[[UserModel alloc]init];
     self.factoryType = kFactoryType;
-    DLog(@"kFactoryType = %ld",kFactoryType);
+    DLog(@"kFactoryType = %d",kFactoryType);
     [self getArrayData];
 
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];

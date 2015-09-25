@@ -58,7 +58,7 @@
 
     [self.photoView sd_setImageWithURL:[NSURL URLWithString:history.photo] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
     self.nameLabel.text = history.name;
-    self.priceLabel.text = [NSString stringWithFormat:@"价格：%ld", history.price];
+    self.priceLabel.text = [NSString stringWithFormat:@"价格：%ld", (long)history.price];
     self.typeLabel.text = history.type;
     self.infoLabel.text = [NSString stringWithFormat:@"备注：%@", history.info];
 }

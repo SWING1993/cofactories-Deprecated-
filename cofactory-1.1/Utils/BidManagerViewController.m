@@ -74,7 +74,7 @@ static NSString *const cellIdentifer = @"bidCellIdentifer";
 }
 
 - (void)confirmBid{
-    DLog(@"==%ld",_selectedRow);
+    DLog(@"==%ld",(long)_selectedRow);
     if (_selectedRow == -1) {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"未选择中标厂商!" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         alertView.tag = 10;

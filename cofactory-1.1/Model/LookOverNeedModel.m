@@ -32,7 +32,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@, %@, %@, %@, %ld, %ld, %ld, %@", _photoArray, _info, _name, _phone, _uid, _amount, _oid, _createdAt];
+    return [NSString stringWithFormat:@"%@, %@, %@, %@, %ld, %ld, %ld, %@", _photoArray, _info, _name, _phone, (long)_uid, (long)_amount, (long)_oid, _createdAt];
 }
 
 @end
