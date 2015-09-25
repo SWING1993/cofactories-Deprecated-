@@ -140,15 +140,23 @@
                         case 200:{
                             [button setEnabled:YES];
 
-                            [ViewController goMain];
+                            //工厂类型
+                            [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
+                                UserModel*userModel=responseDictionary[@"model"];
+                                [[NSUserDefaults standardUserDefaults] setInteger:userModel.factoryType forKey:@"factoryType"];
 
+                                if ([[NSUserDefaults standardUserDefaults] synchronize] == YES) {
+                                    [ViewController goMain];
+                                }
+                                else{
+                                    [Tools showErrorWithStatus:@"获取用户身份失败，请尝试重新登录！"];
+                                }
+                            }];
                         }
                             break;
                         case 400:{
                             [button setEnabled:YES];
-
                             [Tools showHudTipStr:@"用户名或密码错误！"];
-
                         }
                             break;
                             
@@ -159,11 +167,9 @@
                     }
                 }];
             }
-            
         }
             break;
         case 2:{
-
         }
             break;
         case 3:{

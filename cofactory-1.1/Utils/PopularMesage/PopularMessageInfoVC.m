@@ -190,17 +190,15 @@
                     case 200:
                     {
                         [btn3 setImage:[UIImage imageNamed:@"已赞"] forState:UIControlStateNormal];
-                        
-                        [Tools showHudTipStr:@"已赞！"];
+                        [Tools showSuccessWithStatus:@"已赞！"];
                         DLog(@"%d", statusCode);
                     }
                         break;
                     case 400:
                     {
-                        [Tools showHudTipStr:@"未登录"];
+                        [Tools showErrorWithStatus:@"未登录"];
                     }
                         break;
-                        
                         
                     default:
                         break;
