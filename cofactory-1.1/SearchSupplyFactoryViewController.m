@@ -10,8 +10,11 @@
 #import "SearchSupplyViewCell.h"
 #import "SearchSupplymaterialViewController.h"
 #import "LookoverMaterialViewController.h"
+#import "MJRefresh.h"
 
-@interface SearchSupplyFactoryViewController ()
+@interface SearchSupplyFactoryViewController () {
+    int                _refrushCount;
+}
 
 @end
 
@@ -30,20 +33,31 @@ static NSString *searchCellIdentifier = @"SearchCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.historyArray = [NSMutableArray arrayWithCapacity:0];
     if (_isMe) {
         
         self.title = @"查看面辅料";
         [HttpClient searchMaterialWithKeywords:@"" type:@"" page:1 completionBlock:^(NSDictionary *responseDictionary) {
-            self.historyArray = responseDictionary[@"responseObject"];
-            [self.tableView reloadData];
+            
+            NSArray *jsonArray = (NSArray *)responseDictionary[@"responseObject"];
+            
+            for (NSDictionary *dictionary in jsonArray) {
+                SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
+                [self.historyArray addObject:history];
+            }
+
+                [self.tableView reloadData];
         }];
         
+        [self setupRefreshIsMe];
         
     }else{
         self.title = @"历史发布";
         [self network];
+        [self setupRefresh];
     }
+    
+    _refrushCount = 1;
     //注册cell
     [self.tableView registerClass:[SearchSupplyViewCell class] forCellReuseIdentifier:searchCellIdentifier];
 
@@ -52,11 +66,75 @@ static NSString *searchCellIdentifier = @"SearchCell";
 
 - (void)network {
     [HttpClient checkMaterialHistoryPublishWithPage:1 completionBlock:^(NSDictionary *responseDictionary) {
-        self.historyArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseObject"]];
+        
+        NSArray *jsonArray = (NSArray *)responseDictionary[@"responseObject"];
+       
+        for (NSDictionary *dictionary in jsonArray) {
+            
+            SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
+            
+            [self.historyArray addObject:history];
+        }
+
         [self.tableView reloadData];
     }];
 
 }
+- (void)setupRefreshIsMe
+{
+    [self.tableView addFooterWithTarget:self action:@selector(footerRereshingIsMe)];
+    self.tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+    self.tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+    self.tableView.footerRefreshingText = @"加载中。。。";
+}
+
+- (void)footerRereshingIsMe
+{
+    _refrushCount++;
+    DLog(@"???????????%d",_refrushCount);
+    [HttpClient searchMaterialWithKeywords:@"" type:@"" page:_refrushCount completionBlock:^(NSDictionary *responseDictionary) {
+        
+        NSArray *jsonArray = (NSArray *)responseDictionary[@"responseObject"];
+        
+        for (NSDictionary *dictionary in jsonArray) {
+            SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
+            [self.historyArray addObject:history];
+        }
+        
+        [self.tableView reloadData];
+    }];
+    
+    [self.tableView footerEndRefreshing];
+}
+- (void)setupRefresh
+{
+    [self.tableView addFooterWithTarget:self action:@selector(footerRereshingIsMe)];
+    self.tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+    self.tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+    self.tableView.footerRefreshingText = @"加载中。。。";
+}
+
+- (void)footerRereshing
+{
+    _refrushCount++;
+    DLog(@"???????????%d",_refrushCount);
+    [HttpClient checkMaterialHistoryPublishWithPage:_refrushCount completionBlock:^(NSDictionary *responseDictionary) {
+        
+        NSArray *jsonArray = (NSArray *)responseDictionary[@"responseObject"];
+        
+        for (NSDictionary *dictionary in jsonArray) {
+            
+            SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
+            
+            [self.historyArray addObject:history];
+        }
+        
+        [self.tableView reloadData];
+    }];
+    
+    [self.tableView footerEndRefreshing];
+}
+
 
 
 - (void)didReceiveMemoryWarning {

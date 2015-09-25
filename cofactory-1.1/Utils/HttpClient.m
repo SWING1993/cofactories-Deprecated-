@@ -1875,16 +1875,16 @@
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         
         [manager GET:API_sendMaterialHistory parameters:@{@"page":@(aPage)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSArray *jsonArray = (NSArray *)responseObject;
-            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
-            for (NSDictionary *dictionary in jsonArray) {
-
-                SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
-                
-                [responseArray addObject:history];
-            }
+//            NSArray *jsonArray = (NSArray *)responseObject;
+//            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
+//            for (NSDictionary *dictionary in jsonArray) {
+//
+//                SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
+//                
+//                [responseArray addObject:history];
+//            }
             
-            block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseArray});
+            block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseObject});
         }
              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                  block(@{@"statusCode":@([operation.response statusCode])});
@@ -1905,13 +1905,13 @@
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         
         [manager GET:API_searchMaterial parameters:@{@"keyword":aKeywords,@"type":aType,@"page":@(aPage)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSArray *jsonArray = (NSArray *)responseObject;
-            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
-            for (NSDictionary *dictionary in jsonArray) {
-                SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
-                [responseArray addObject:history];
-            }
-            block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseArray});
+//            NSArray *jsonArray = (NSArray *)responseObject;
+//            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
+//            for (NSDictionary *dictionary in jsonArray) {
+//                SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
+//                [responseArray addObject:history];
+//            }
+            block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseObject});
             
         }
              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
