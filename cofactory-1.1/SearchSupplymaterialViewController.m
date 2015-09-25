@@ -55,6 +55,9 @@ static NSString *userCellIdentifier = @"userCell";
     }];
 }
 
+
+
+
 - (void)getFactory {
     [HttpClient getUserProfileWithUid:[self.history.factoryUid integerValue] andBlock:^(NSDictionary *responseDictionary) {
         _userModel = (FactoryModel *)responseDictionary[@"model"];

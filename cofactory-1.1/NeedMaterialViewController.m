@@ -134,6 +134,7 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
             
             if (model.uid == myUid) {
                 self.isCompete = YES;
+                *stop = YES;
             }else{
                 self.isCompete = NO;
             }
@@ -267,6 +268,8 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
         vc.factoryModel = _userModel;
         [self.navigationController.navigationBar setHidden:NO];
         [self.navigationController pushViewController:vc animated:YES];
+    } else if (indexPath.section == 1 && indexPath.row == 3) {
+        [Tools showString:[NSString stringWithFormat:@"备注:  %@",self.detail.info]];
     }
 }
 
