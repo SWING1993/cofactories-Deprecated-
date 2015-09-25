@@ -2039,7 +2039,7 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         
-        NSString *url = [[NSString alloc] initWithFormat:@"%@%zi", @"/close/", aOrderID];
+        NSString *url = [[NSString alloc] initWithFormat:@"%@%zi", @"/material/close/", aOrderID];
         
         [manager POST:url parameters:@{@"winner":@(aWinnerID)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
             block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseObject});
