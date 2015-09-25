@@ -147,7 +147,7 @@ static NSString *const reuseIdentifier = @"reuseIdentifier";
         
        [HttpClient closeMaterialBidOrderWithWinnerID:model.userID orderID:self.orderModel.orderID completionBlock:^(NSDictionary *responseDictionary) {
            DLog(@"%@",responseDictionary);
-           NSInteger number = [responseDictionary[@"responseDictionary"] integerValue];
+           NSInteger number = [responseDictionary[@"statusCode"] integerValue];
            if (number == 200) {
                [Tools showSuccessWithStatus:@"订单完成"];
                NSArray *navArray = self.navigationController.viewControllers;

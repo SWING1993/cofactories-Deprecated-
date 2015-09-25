@@ -12,11 +12,14 @@
 #import "PurchasePublicHistoryModel.h"
 #import "PHPDetailViewController.h"
 #import "NeedMaterialViewController.h"
+#import "MJRefresh.h"
 
 @interface PurchaseHistoryPublicVC ()<UITableViewDataSource,UITableViewDelegate>{
     
-    UITableView *_tableView;
+    UITableView        *_tableView;
     NSMutableArray     *_dataArray;
+    int                _refrushCount;
+
 }
 
 @end
@@ -64,8 +67,9 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
     
     self.view.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
 
+    _refrushCount = 1;
     [self creatTableView];
-    
+    [self setupRefresh];
 }
 
 - (void)creatTableView{
@@ -77,6 +81,32 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
     [_tableView registerClass:[PurchaseMPTableViewCell class] forCellReuseIdentifier:reuseIdentifier];
     [self.view addSubview:_tableView];
 }
+
+- (void)setupRefresh
+{
+    [_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    _tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+    _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+    _tableView.footerRefreshingText = @"加载中。。。";
+}
+
+- (void)footerRereshing
+{
+    _refrushCount++;
+    DLog(@"???????????%d",_refrushCount);
+    [HttpClient checkHistoryPublishWithPage:_refrushCount completionBlock:^(NSDictionary *responseDictionary){
+        NSArray *array = (NSArray *)responseDictionary[@"responseObject"];
+        [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            PurchasePublicHistoryModel * model = [PurchasePublicHistoryModel getModelWith:(NSDictionary *)obj];
+            [_dataArray addObject:model];
+        }];
+        DLog(@"_dataArray==%@",_dataArray);
+        [_tableView reloadData];
+    }];
+    
+    [_tableView footerEndRefreshing];
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     

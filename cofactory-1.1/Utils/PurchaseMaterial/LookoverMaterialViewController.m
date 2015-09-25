@@ -12,6 +12,7 @@
 #import "LookoverMaterialModel.h"
 #import "JKPhotoBrowser.h"
 #import "PHPDetailTableViewCell.h"
+
 @interface LookoverMaterialViewController ()<UITableViewDataSource,UITableViewDelegate>{
     
     UITableView           *_tableView;
