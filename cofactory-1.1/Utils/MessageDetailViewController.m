@@ -41,7 +41,7 @@
     }
     
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-//    _messageStr = @"UINavigationController是IOS编程中比较常用的一种容器view controller，很多系统的控件(如UIImagePickerViewController)以及很多有名的APP中(如qq，系统相册等)都有用到。说是使用详解，其实我只会介绍几个自认为比较重要或者容易放错的地方进行讲解，下面让我们挨个探探究竟：UINavigationController是IOS编程中比较常用的一种容器view controller，很多系统的控件(如UIImagePickerViewController)以及很多有名的APP中(如qq，系统相册等)都有用到。说是使用详解，其实我只会介绍几个自认为比较重要或者容易放错的地方进行讲解，下面让我们挨个探探究竟：UINavigationController是";
+//    _messageStr = @"UINavigationController是IOS编程中比较常用的一种容器view controller，很多系统的控件(如UIImagePickerViewController)以及很多有名的APP中(如qq，系统相册等)都有用到。说是使用详解，其实我只会介绍几个自认为比较重要或者容易放错的地方进行讲解，下面让我们挨个探探究竟：";
 
     UILabel*timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
     timeLabel.font=kLargeFont;
