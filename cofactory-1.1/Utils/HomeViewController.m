@@ -365,7 +365,7 @@ static NSString *LastCellIdentifier = @"LastCell";
                 supplyVC.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:supplyVC animated:YES];
             }else{
-                [Tools showHudTipStr:@"面辅料专区，非加工厂请至首页上方发布订单！"];
+                [Tools showHudTipStr:@"面辅料专区，非面辅料请至首页上方发布订单！"];
             }
 
             DLog(@"我想供应");

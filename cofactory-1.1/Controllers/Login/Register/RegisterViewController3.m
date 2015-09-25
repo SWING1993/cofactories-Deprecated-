@@ -329,16 +329,26 @@
         switch (statusCode) {
 
             case 200:{
-                //注册成功 登录成功
-                [ViewController goMain];
-                //删除注册信息
-                DLog(@"删除NSUserDefaults信息");
-                NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
-                NSDictionary * dict = [defs dictionaryRepresentation];
-                for (id key in dict) {
-                    [defs removeObjectForKey:key];
-                }
-                [defs synchronize];
+
+//                DLog(@"删除NSUserDefaults信息");
+//                NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
+//                NSDictionary * dict = [defs dictionaryRepresentation];
+//                for (id key in dict) {
+//                    [defs removeObjectForKey:key];
+//                }
+//                [defs synchronize];
+                //工厂类型
+                [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
+                    UserModel*userModel=responseDictionary[@"model"];
+                    [[NSUserDefaults standardUserDefaults] setInteger:userModel.factoryType forKey:@"factoryType"];
+
+                    if ([[NSUserDefaults standardUserDefaults] synchronize] == YES) {
+                        [ViewController goMain];
+                    }
+                    else{
+                        [Tools showErrorWithStatus:@"获取用户身份失败，请尝试重新登录！"];
+                    }
+                }];
             }
                 break;
 
