@@ -52,9 +52,6 @@ static NSString * const sampleDescription4 = @"Nam libero tempore, cum soluta no
 //加载主界面
 +(void)goMain {
 
-    [[NSUserDefaults standardUserDefaults]setObject:@"NO" forKey:@"toursit"];
-    [[NSUserDefaults standardUserDefaults]synchronize];
-
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     AppDelegate *app =[UIApplication sharedApplication].delegate;
     app.window.rootViewController = tabBarController;

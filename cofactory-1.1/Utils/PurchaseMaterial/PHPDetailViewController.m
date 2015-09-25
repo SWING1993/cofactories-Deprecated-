@@ -11,6 +11,8 @@
 #import "PHPDetailMessCell.h"
 #import "JKPhotoBrowser.h"
 #import "PurchasePublicHistoryModel.h"
+#import "MaterialBidViewController.h"
+#import "MaterialBidManagerModel.h"
 #import "CompeteMaterialViewController.h"
 
 
@@ -19,7 +21,10 @@
     
     UITableView    *_tableView;
     UIScrollView   *_scrollView;
-    UIView            *_headView;
+    UIView         *_headView;
+    UIButton       *_bidManagerButton;
+    NSMutableArray *_bidArray;
+    BOOL            _isHavePeople;
 }
 
 @end
@@ -28,21 +33,42 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
 
 @implementation PHPDetailViewController
 
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.navigationController.navigationBar.tintColor = [UIColor clearColor];
     UIImage *image = [UIImage imageNamed:@"bg_navigation.png"];
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     self.view.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
     
-    [self prefersStatusBarHidden];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    if (!_bidArray) {
+        _bidArray = [@[] mutableCopy];
+    }
+
+    [HttpClient getPurchaseBidInformationWithID:self.model.orderID completionBlock:^(NSDictionary *responseDictionary) {
+        DLog(@"%@",responseDictionary);
+        NSArray *array = responseDictionary[@"responseObject"];
+        if (array.count == 0) {
+            _isHavePeople = NO;
+        }else{
+            _isHavePeople = YES;
+            [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSDictionary *dictionary = (NSDictionary *)obj;
+                MaterialBidManagerModel *model = [MaterialBidManagerModel getModelWith:dictionary];
+                [_bidArray addObject:model];
+            }];
+        }
+        
+        [self creatBitManagerButton];
+    }];
+
     [self creatTableView];
     [self creatGobackButton];
-    [self creatBitManagerButton];
-   // [self creatBottomTwoButtons];
 }
 
 - (void)creatTableView{
@@ -79,24 +105,23 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
 - (void)creatBitManagerButton{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, kScreenH-40, kScreenW, 40);
-    [button setTitle:@"投标管理" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorWithRed:89/255.0 green:89/255.0 blue:89/255.0 alpha:1.0] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(bidManager) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
-}
-
-- (void)creatBottomTwoButtons{
     
-    NSArray *array = @[@"致电",@"投标"];
-    for (int i = 0; i<2; i++) {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(i*kScreenW/2.0, kScreenH-40, kScreenW/2.0, 40);
-        button.titleLabel.textColor = [UIColor lightGrayColor];
-        [button setTitle:array[i] forState:UIControlStateNormal];
-        button.tag = i;
-        [button addTarget:self action:@selector(buttonTwoBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:button];
+    if (self.model.isCompletion == 0) {
+        if (_isHavePeople) {
+            [button setTitle:@"投标管理" forState:UIControlStateNormal];
+            button.enabled = YES;
+        }else{
+            [button setTitle:@"暂无厂商投标" forState:UIControlStateNormal];
+            button.enabled = NO;
+        }
+    }else{
+        [button setTitle:@"订单完成" forState:UIControlStateNormal];
+        button.enabled = NO;
     }
+    
 }
 
 - (void)creatScrollView{
@@ -203,25 +228,20 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
     browser.photos = photos;
     [browser show];
     
-}
-
-- (void)buttonTwoBtnClick:(id)sender{
     
-    UIButton *button = (UIButton *)sender;
-    if (button.tag == 0) {
-        
-    }else if (button.tag == 1){
-        
-    }
+    
 }
 
 - (void)bidManager{
-    CompeteMaterialViewController *competeVC = [[CompeteMaterialViewController alloc] init];
-    UINavigationController *competeNaVC = [[UINavigationController alloc] initWithRootViewController:competeVC];
-    competeNaVC.navigationBar.barStyle = UIBarStyleBlack;
-    competeVC.oid = self.model.userID;
-    [self presentViewController:competeNaVC animated:YES completion:nil];
-    
+    MaterialBidViewController *VC = [[MaterialBidViewController alloc]init];
+    VC.dataArray = _bidArray;
+    VC.orderModel = self.model;
+    UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+    backItem.title=@"返回";
+    backItem.tintColor=[UIColor whiteColor];
+    self.navigationItem.backBarButtonItem = backItem;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController pushViewController:VC animated:YES];
     
     DLog(@"11223");
 }

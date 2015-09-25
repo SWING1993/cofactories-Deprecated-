@@ -97,7 +97,7 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
         //进入查看求购详情页面
         NeedMaterialViewController *needVC = [[NeedMaterialViewController alloc] init];
         PurchasePublicHistoryModel *model = _dataArray[indexPath.row];
-        needVC.oid = [NSString stringWithFormat:@"%ld", model.userID];
+        needVC.oid = [NSString stringWithFormat:@"%ld", model.orderID];
         needVC.photoArray = model.photoArray;
         needVC.amount = model.unit;
         [self.navigationController pushViewController:needVC animated:YES];

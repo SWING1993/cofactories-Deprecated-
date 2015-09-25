@@ -2004,6 +2004,54 @@
     else {
         block(@{@"statusCode":@(404)});
     }
+}
+
++ (void)getPurchaseBidInformationWithID:(NSInteger)aId completionBlock:(void (^)(NSDictionary *responseDictionary))block{
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        
+        NSString *url = [[NSString alloc] initWithFormat:@"%@%zi", @"/material/buy/bid/", aId];
+        
+        [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseObject});
+        }
+             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 
+                 block(@{@"statusCode":@([operation.response statusCode])});
+             }];
+    }
+    else {
+        block(@{@"statusCode":@(404)});
+    }
+ 
+}
+
++ (void)closeMaterialBidOrderWithWinnerID:(NSInteger)aWinnerID orderID:(NSInteger)aOrderID completionBlock:(void (^)(NSDictionary *responseDictionary))block{
+    
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        
+        NSString *url = [[NSString alloc] initWithFormat:@"%@%zi", @"/close/", aOrderID];
+        
+        [manager POST:url parameters:@{@"winner":@(aWinnerID)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block(@{@"statusCode":@([operation.response statusCode]),@"responseObject":responseObject});
+        }
+             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 
+                 block(@{@"statusCode":@([operation.response statusCode])});
+             }];
+    }
+    else {
+        block(@{@"statusCode":@(404)});
+    }
 
 }
 + (void)getNeedMaterialDetailMessageWithId:(NSString *)aId completionBlock:(void (^)(NSDictionary *responseDictionary))block{

@@ -75,10 +75,10 @@ static  NSString *const cellIdentifier1 = @"cell1";
         UILabel *interestCount = [[UILabel alloc]init];
         interestCount.textColor = [UIColor orangeColor];
         interestCount.font = font;
-
-
+        
+        
         CGSize size = [Tools getSize:[NSString stringWithFormat:@"%d",self.model.interest] andFontOfSize:16.0f];
-
+        
         interestCount.frame = CGRectMake(10, 90, size.width, 20);
         interestCount.textAlignment = 2;
         interestCount.text = [NSString stringWithFormat:@"%d",self.model.interest];
@@ -321,15 +321,20 @@ static  NSString *const cellIdentifier1 = @"cell1";
 #pragma mark -- ButtonClick
 - (void)competeButtonClick{
     
-    NSNumber *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"selfuid"];
-    if ([uid intValue] == self.model.uid) {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"不能竞标自己的订单" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alert show];
+    if (kFactoryType == 5) {
+        [Tools showErrorWithStatus:@"面辅料供应商不可投标订单"];
     }else{
-        CompeteViewController *VC = [[CompeteViewController alloc]init];
-        VC.oid = self.model.oid;
-        [self.navigationController pushViewController:VC animated:YES];
-    }
+        NSNumber *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"selfuid"];
+        if ([uid intValue] == self.model.uid) {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"不能竞标自己的订单" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alert show];
+        }else{
+            CompeteViewController *VC = [[CompeteViewController alloc]init];
+            VC.oid = self.model.oid;
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+ 
+    }    
 }
 
 - (void)orderImageButtonClick{
@@ -369,7 +374,7 @@ static  NSString *const cellIdentifier1 = @"cell1";
             [self.navigationController pushViewController:vc animated:YES];
         }
     }];
- }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

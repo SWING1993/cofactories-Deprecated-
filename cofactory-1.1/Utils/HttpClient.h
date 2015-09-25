@@ -468,6 +468,20 @@
  */
 
 + (void)registMaterialBidWithOid:(NSInteger)oid price:(NSString *)price status:(NSString *)status comment:(NSString *)comment completionBlock:(void(^)(int statusCode))block;
+
+/**获取求购投标
+ *
+ */
+
++ (void)getPurchaseBidInformationWithID:(NSInteger)aId completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+/**关闭面辅料投标订单
+ *
+ */
+
++ (void)closeMaterialBidOrderWithWinnerID:(NSInteger)aWinnerID orderID:(NSInteger)aOrderID completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
 /**获取求购信息详情
  *
  */
@@ -476,6 +490,7 @@
 /**获取求购投标详情
  *
  */
+
 
 + (void)getMaterialBidOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
