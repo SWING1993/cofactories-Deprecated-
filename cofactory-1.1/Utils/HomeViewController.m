@@ -373,15 +373,21 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1008:
         {
-            //我想采购
-            PurchaseVC *VC =[PurchaseVC new];
-            VC.hidesBottomBarWhenPushed = YES;
-            UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
-            backItem.title=@"返回";
-            backItem.tintColor=[UIColor whiteColor];
-            self.navigationItem.backBarButtonItem = backItem;
-            self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-            [self.navigationController pushViewController:VC animated:YES];
+            
+            if (self.factoryType == 5) {
+                [Tools showHudTipStr:@"采购商专区，供应商请发布供应！"];
+            }else{
+                //我想采购
+                PurchaseVC *VC =[PurchaseVC new];
+                VC.hidesBottomBarWhenPushed = YES;
+                UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+                backItem.title=@"返回";
+                backItem.tintColor=[UIColor whiteColor];
+                self.navigationItem.backBarButtonItem = backItem;
+                self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+                [self.navigationController pushViewController:VC animated:YES];
+
+            }
         }
             break;
         case 1009:

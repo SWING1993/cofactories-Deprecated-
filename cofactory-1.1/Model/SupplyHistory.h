@@ -15,7 +15,7 @@
 @property (nonatomic, assign) NSInteger price;
 @property (nonatomic, copy) NSString *info;
 @property (nonatomic, copy) NSString *photo;
-@property (nonatomic, copy) NSString *oid;
+@property (nonatomic, copy) NSString *oid, *factoryUid;
 @property (nonatomic, assign) NSInteger width;
 @property (nonatomic, strong) NSString *usage;
 @property (nonatomic, strong) NSString *phoneNumber;

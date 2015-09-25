@@ -245,6 +245,9 @@
 		64F4C6781B70B31D00F52FF0 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C66F1B70B31D00F52FF0 /* UIScrollView+MJRefresh.m */; };
 		64F4C6791B70B31D00F52FF0 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F4C6711B70B31D00F52FF0 /* UIView+MJExtension.m */; };
 		64F607061B904B5900AA7F22 /* OrderPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F607051B904B5900AA7F22 /* OrderPhotoViewController.m */; };
+		64F65A141BB3B78200B293CE /* MaterialBidTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F65A131BB3B78200B293CE /* MaterialBidTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		64F65A171BB3B79700B293CE /* MaterialBidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F65A161BB3B79700B293CE /* MaterialBidViewController.m */; settings = {ASSET_TAGS = (); }; };
+		64F65A1A1BB3B82200B293CE /* MaterialBidManagerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F65A191BB3B82200B293CE /* MaterialBidManagerModel.m */; settings = {ASSET_TAGS = (); }; };
 		7D0609861BACF8450021606D /* PMSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0609851BACF8450021606D /* PMSearchViewController.m */; settings = {ASSET_TAGS = (); }; };
 		7D0609891BAD445D0021606D /* SearchSupplyFactoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0609881BAD445D0021606D /* SearchSupplyFactoryViewController.m */; settings = {ASSET_TAGS = (); }; };
 		7D06098C1BAD4B320021606D /* SearchSupplyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D06098B1BAD4B320021606D /* SearchSupplyViewCell.m */; settings = {ASSET_TAGS = (); }; };
@@ -280,6 +283,9 @@
 		7DCA89A61BABBADF00AB8EC0 /* InformationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA89A51BABBADF00AB8EC0 /* InformationModel.m */; settings = {ASSET_TAGS = (); }; };
 		7DE0FFBB1BAAA97A006B9D96 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */; };
 		7DE1630E1BB000A800777AEF /* SupplyHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE1630D1BB000A800777AEF /* SupplyHistory.m */; settings = {ASSET_TAGS = (); }; };
+		7DE7A1BE1BB3997C00512101 /* NeedMaterialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7A1BD1BB3997C00512101 /* NeedMaterialViewController.m */; settings = {ASSET_TAGS = (); }; };
+		7DE7A1C11BB3ADD500512101 /* LookOverNeedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7A1C01BB3ADD500512101 /* LookOverNeedModel.m */; settings = {ASSET_TAGS = (); }; };
+		7DE7A1C41BB3F79600512101 /* MaterialBidFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7A1C31BB3F79600512101 /* MaterialBidFactory.m */; settings = {ASSET_TAGS = (); }; };
 		7DE9DEE31BB28091002C64AD /* CompeteMaterialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE9DEE21BB28091002C64AD /* CompeteMaterialViewController.m */; settings = {ASSET_TAGS = (); }; };
 		7DEE11301BA29CC100678607 /* LastmachineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DEE112F1BA29CC100678607 /* LastmachineCell.m */; };
 		BD041A6B1B69D5DC00F9FC74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD041A6A1B69D5DC00F9FC74 /* Images.xcassets */; };
@@ -770,6 +776,12 @@
 		64F4C6711B70B31D00F52FF0 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
 		64F607041B904B5900AA7F22 /* OrderPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderPhotoViewController.h; sourceTree = "<group>"; };
 		64F607051B904B5900AA7F22 /* OrderPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderPhotoViewController.m; sourceTree = "<group>"; };
+		64F65A121BB3B78200B293CE /* MaterialBidTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialBidTableViewCell.h; sourceTree = "<group>"; };
+		64F65A131BB3B78200B293CE /* MaterialBidTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaterialBidTableViewCell.m; sourceTree = "<group>"; };
+		64F65A151BB3B79700B293CE /* MaterialBidViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialBidViewController.h; sourceTree = "<group>"; };
+		64F65A161BB3B79700B293CE /* MaterialBidViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaterialBidViewController.m; sourceTree = "<group>"; };
+		64F65A181BB3B82200B293CE /* MaterialBidManagerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialBidManagerModel.h; sourceTree = "<group>"; };
+		64F65A191BB3B82200B293CE /* MaterialBidManagerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaterialBidManagerModel.m; sourceTree = "<group>"; };
 		7D0609841BACF8450021606D /* PMSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMSearchViewController.h; sourceTree = "<group>"; };
 		7D0609851BACF8450021606D /* PMSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMSearchViewController.m; sourceTree = "<group>"; };
 		7D0609871BAD445D0021606D /* SearchSupplyFactoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSupplyFactoryViewController.h; sourceTree = "<group>"; };
@@ -843,6 +855,12 @@
 		7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		7DE1630C1BB000A800777AEF /* SupplyHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyHistory.h; sourceTree = "<group>"; };
 		7DE1630D1BB000A800777AEF /* SupplyHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyHistory.m; sourceTree = "<group>"; };
+		7DE7A1BC1BB3997C00512101 /* NeedMaterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeedMaterialViewController.h; sourceTree = "<group>"; };
+		7DE7A1BD1BB3997C00512101 /* NeedMaterialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeedMaterialViewController.m; sourceTree = "<group>"; };
+		7DE7A1BF1BB3ADD500512101 /* LookOverNeedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookOverNeedModel.h; sourceTree = "<group>"; };
+		7DE7A1C01BB3ADD500512101 /* LookOverNeedModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookOverNeedModel.m; sourceTree = "<group>"; };
+		7DE7A1C21BB3F79600512101 /* MaterialBidFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialBidFactory.h; sourceTree = "<group>"; };
+		7DE7A1C31BB3F79600512101 /* MaterialBidFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaterialBidFactory.m; sourceTree = "<group>"; };
 		7DE9DEE11BB28091002C64AD /* CompeteMaterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompeteMaterialViewController.h; sourceTree = "<group>"; };
 		7DE9DEE21BB28091002C64AD /* CompeteMaterialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompeteMaterialViewController.m; sourceTree = "<group>"; };
 		7DEE112E1BA29CC100678607 /* LastmachineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastmachineCell.h; sourceTree = "<group>"; };
@@ -1447,6 +1465,8 @@
 				7D06098B1BAD4B320021606D /* SearchSupplyViewCell.m */,
 				7D06098D1BAD557A0021606D /* SearchSupplymaterialViewController.h */,
 				7D06098E1BAD557A0021606D /* SearchSupplymaterialViewController.m */,
+				7DE7A1BC1BB3997C00512101 /* NeedMaterialViewController.h */,
+				7DE7A1BD1BB3997C00512101 /* NeedMaterialViewController.m */,
 				7D0609901BAD5FE60021606D /* MaterialInfoCell.h */,
 				7D0609911BAD5FE60021606D /* MaterialInfoCell.m */,
 				7D2CFB981BB12EFC00957797 /* userInformationCell.h */,
@@ -1732,6 +1752,8 @@
 		04E644441B69C59000A3DF2E /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				7D2378B81BB10460000FC478 /* libstdc++.tbd */,
+				7D2378B61BB1017E000FC478 /* libsqlite3.tbd */,
 				7D2378BA1BB104AD000FC478 /* CoreTelephony.framework */,
 				7D2378CD1BB10A4D000FC478 /* ImageIO.framework */,
 				BD8C4DF41B4FB2BA0065ECFA /* libz.dylib */,
@@ -1837,6 +1859,10 @@
 				64266AE41BAD3F82003CA582 /* PurchaseMPTableViewCell.m */,
 				64266AE91BAD61E7003CA582 /* PHPDetailViewController.h */,
 				64266AEA1BAD61E7003CA582 /* PHPDetailViewController.m */,
+				64F65A151BB3B79700B293CE /* MaterialBidViewController.h */,
+				64F65A161BB3B79700B293CE /* MaterialBidViewController.m */,
+				64F65A121BB3B78200B293CE /* MaterialBidTableViewCell.h */,
+				64F65A131BB3B78200B293CE /* MaterialBidTableViewCell.m */,
 				6478DAC21BAFE18600624A70 /* PHPDetailTableViewCell.h */,
 				6478DAC31BAFE18600624A70 /* PHPDetailTableViewCell.m */,
 				6400BF421BB1232A00546D4D /* PHPDetailMessCell.h */,
@@ -2130,8 +2156,6 @@
 		BDC907AE1B4E9A5600856A32 = {
 			isa = PBXGroup;
 			children = (
-				7D2378B81BB10460000FC478 /* libstdc++.tbd */,
-				7D2378B61BB1017E000FC478 /* libsqlite3.tbd */,
 				BDC907B91B4E9A5700856A32 /* cofactory-1.1 */,
 				BDC907D31B4E9A5700856A32 /* cofactory-1.1Tests */,
 				BDC907B81B4E9A5700856A32 /* Products */,
@@ -2328,6 +2352,12 @@
 				7DE1630D1BB000A800777AEF /* SupplyHistory.m */,
 				640B21AC1BB2478000EDFF1C /* LookoverMaterialModel.h */,
 				640B21AD1BB2478000EDFF1C /* LookoverMaterialModel.m */,
+				64F65A181BB3B82200B293CE /* MaterialBidManagerModel.h */,
+				64F65A191BB3B82200B293CE /* MaterialBidManagerModel.m */,
+				7DE7A1BF1BB3ADD500512101 /* LookOverNeedModel.h */,
+				7DE7A1C01BB3ADD500512101 /* LookOverNeedModel.m */,
+				7DE7A1C21BB3F79600512101 /* MaterialBidFactory.h */,
+				7DE7A1C31BB3F79600512101 /* MaterialBidFactory.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2408,6 +2438,7 @@
 				TargetAttributes = {
 					BDC907B61B4E9A5700856A32 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 23L882L49W;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 0;
@@ -2575,6 +2606,7 @@
 				04F60C6C1B58EC7F00CD3DEC /* FactoryRangeModel.m in Sources */,
 				0455E10E1B61D62E009C5CDA /* WebViewController.m in Sources */,
 				049582EB1B6B490F00A69E6D /* JKPromptView.m in Sources */,
+				64F65A171BB3B79700B293CE /* MaterialBidViewController.m in Sources */,
 				BD4311CD1B4F41DE0097E4BC /* CooperationViewController.m in Sources */,
 				649BA0841B7B15E5008EDE31 /* SearchOrderDetailsVC.m in Sources */,
 				04CE49C31BB2384C004442D2 /* EAIntroView.m in Sources */,
@@ -2609,6 +2641,7 @@
 				64F4C6751B70B31D00F52FF0 /* MJRefreshFooterView.m in Sources */,
 				64F2954F1BA2C9C00018ED90 /* SearchFactoryOrderVC.m in Sources */,
 				0457E3F51B8EE57100F38881 /* MJPhotoToolbar.m in Sources */,
+				64F65A1A1BB3B82200B293CE /* MaterialBidManagerModel.m in Sources */,
 				649DD8AE1BAC24CB0027A22B /* PurchaseFabricOrAccessoryVC.m in Sources */,
 				0457E3F41B8EE57100F38881 /* MJPhotoProgressView.m in Sources */,
 				0455E11D1B61E4F8009C5CDA /* FactoryAndOrderMessVC.m in Sources */,
@@ -2617,6 +2650,7 @@
 				045A268B1B68937A002DE415 /* FactoryListViewController.m in Sources */,
 				BD8AD7ED1B50E62600373E5E /* SDWebImageManager.m in Sources */,
 				0457E3F81B8EE57100F38881 /* UIImageView+MJWebCache.m in Sources */,
+				64F65A141BB3B78200B293CE /* MaterialBidTableViewCell.m in Sources */,
 				045A268C1B68937A002DE415 /* FactoryListTableViewCell.m in Sources */,
 				0455E11E1B61E4F8009C5CDA /* PushTableViewCell.m in Sources */,
 				04B150581B9569CD004E0353 /* IQTitleBarButtonItem.m in Sources */,
@@ -2667,6 +2701,7 @@
 				0451D6591B574BCB007CCD59 /* JSDropDownMenu.m in Sources */,
 				04B7E43A1BAFE69D00B83DF0 /* ResetPasswordViewController.m in Sources */,
 				04B150531B9569CD004E0353 /* IQKeyboardManager.m in Sources */,
+				7DE7A1BE1BB3997C00512101 /* NeedMaterialViewController.m in Sources */,
 				BDC908DA1B4E9B3700856A32 /* AFURLRequestSerialization.m in Sources */,
 				04B7E4441BAFE6DD00B83DF0 /* RegisterViewController.m in Sources */,
 				0457E3EF1B8EE57100F38881 /* MBProgressHUD+Add.m in Sources */,
@@ -2682,6 +2717,7 @@
 				04BDB9D21BB2640D00AD246E /* MBProgressHUD.m in Sources */,
 				045939301B7869F3004DA7D6 /* PushViewController.m in Sources */,
 				047EF0E31B6085A0007DD2AE /* AddOrderViewController.m in Sources */,
+				7DE7A1C41BB3F79600512101 /* MaterialBidFactory.m in Sources */,
 				049582E71B6B490F00A69E6D /* JKAssetsViewCell.m in Sources */,
 				045A266E1B686682002DE415 /* NSDate+WQCalendarLogic.m in Sources */,
 				04AEF4FA1BA9332C002DA22E /* UMTextView.m in Sources */,
@@ -2710,6 +2746,7 @@
 				BD8AD7EA1B50E62600373E5E /* SDWebImageDecoder.m in Sources */,
 				04CDAA0E1BB2579600A015AD /* FBShimmeringLayer.m in Sources */,
 				BDC908FF1B4E9B6B00856A32 /* UserModel.m in Sources */,
+				7DE7A1C11BB3ADD500512101 /* LookOverNeedModel.m in Sources */,
 				04822E411B62E7A600A370F6 /* NSData+Utils.m in Sources */,
 				64EDB08B1B9C09F800D2A655 /* CompeteViewController.m in Sources */,
 				64F4C6761B70B31D00F52FF0 /* MJRefreshHeaderView.m in Sources */,
@@ -2959,6 +2996,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
+
 				PRODUCT_BUNDLE_IDENTIFIER = com.cofactory.iosapp;
 				PRODUCT_NAME = "cofactory-1.1";
 				PROVISIONING_PROFILE = "";
@@ -3006,7 +3044,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cofactory.iosapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jugongchang.cofactory;
 				PRODUCT_NAME = "cofactory-1.1";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;

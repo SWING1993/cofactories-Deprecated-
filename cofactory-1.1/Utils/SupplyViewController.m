@@ -69,7 +69,6 @@
 }
 
 - (void)historyPublishButton {
-    DLog(@"ihfdils");
     
     SearchSupplyFactoryViewController *searchSupplyFactoryVC = [[SearchSupplyFactoryViewController alloc] init];
     searchSupplyFactoryVC.isMe = NO;
