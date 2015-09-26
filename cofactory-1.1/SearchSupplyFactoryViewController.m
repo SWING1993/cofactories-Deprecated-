@@ -28,12 +28,11 @@ static NSString *searchCellIdentifier = @"SearchCell";
     [self.navigationController.navigationBar setHidden:NO];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
-
-}
+    }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.historyArray = [NSMutableArray arrayWithCapacity:0];
+    self.historyArray = [@[] mutableCopy];
     if (_isMe) {
         
         self.title = @"查看面辅料";
@@ -45,8 +44,8 @@ static NSString *searchCellIdentifier = @"SearchCell";
                 SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
                 [self.historyArray addObject:history];
             }
-
-                [self.tableView reloadData];
+            
+            [self.tableView reloadData];
         }];
         
         [self setupRefreshIsMe];
@@ -58,6 +57,7 @@ static NSString *searchCellIdentifier = @"SearchCell";
     }
     
     _refrushCount = 1;
+
     //注册cell
     [self.tableView registerClass:[SearchSupplyViewCell class] forCellReuseIdentifier:searchCellIdentifier];
 
@@ -108,7 +108,7 @@ static NSString *searchCellIdentifier = @"SearchCell";
 }
 - (void)setupRefresh
 {
-    [self.tableView addFooterWithTarget:self action:@selector(footerRereshingIsMe)];
+    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
     self.tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
     self.tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
     self.tableView.footerRefreshingText = @"加载中。。。";

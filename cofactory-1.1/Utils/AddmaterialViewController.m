@@ -40,6 +40,7 @@
 @implementation AddmaterialViewController {
 
     UIButton * _addImageBtn;
+    UIButton *btn;
 }
 
 - (void)viewDidLoad {
@@ -61,7 +62,7 @@
     }
 
 
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(0, 0, 80, 20);
     btn.titleLabel.font = [UIFont systemFontOfSize:16];
     [btn setTitle:@"发布供应" forState:UIControlStateNormal];
@@ -91,7 +92,7 @@
 }
 
 - (void)pushOrderBtn {
-    DLog(@"%ld", (long)self.materialType)
+    
     if (self.materialType == 1) {
         if (self.NameTF.text.length == 0 || self.UseTF.text.length == 0 || self.WidthTF.text.length == 0 || self.PriceTF.text.length == 0 || self.ExplainTF.text.length == 0) {
             UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单信息不完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
@@ -102,6 +103,7 @@
                 alert.tag = 100;
                 [alert show];
             } else {
+                [btn setUserInteractionEnabled:NO];
                 NSArray *nameArr = @[@"面料", @"辅料", @"坯布"];
                 [HttpClient addMaterialWithType:nameArr[self.materialType - 1] name:self.NameTF.text usage:self.UseTF.text price:[self.PriceTF.text intValue] width:[self.WidthTF.text intValue] description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
                     int statusCode = [responseDictionary[@"statusCode"] intValue];
@@ -126,7 +128,7 @@
                                             
                                             DLog(@"图片上传成功");
                                         }else{
-                                            
+                                            [btn setUserInteractionEnabled:YES];
                                             DLog(@"图片上传失败%@",dictionary);
                                         }
                                         
@@ -137,6 +139,7 @@
                         
                         
                     } else {
+                        [btn setUserInteractionEnabled:YES];
                         [Tools showErrorWithStatus:@"订单发布失败"];
                         
                     }
@@ -152,10 +155,12 @@
             [alertView show];
         } else {
             if (self.collectionImage.count == 0) {
+                
                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确定不上传图片?" message:nil delegate:self cancelButtonTitle:@"我要上传" otherButtonTitles:@"直接发布", nil];
                 alert.tag = 100;
                 [alert show];
             } else {
+                [btn setUserInteractionEnabled:NO];
                 NSArray *nameArr = @[@"面料", @"辅料", @"坯布"];
                 [HttpClient addMaterialWithType:nameArr[self.materialType - 1] name:self.NameTF.text usage:self.UseTF.text price:[self.PriceTF.text intValue] width:[self.WidthTF.text intValue] description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
                     int statusCode = [responseDictionary[@"statusCode"] intValue];
@@ -180,6 +185,7 @@
                                         });
                                         DLog(@"图片上传成功");
                                     }else{
+                                        [btn setUserInteractionEnabled:YES];
                                         DLog(@"图片上传失败%@",dictionary);
                                     }
                                     
@@ -190,6 +196,7 @@
                         
                         
                     } else {
+                        [btn setUserInteractionEnabled:YES];
                         [Tools showErrorWithStatus:@"订单发布失败"];
                         
                     }

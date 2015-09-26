@@ -38,19 +38,26 @@
     [super viewDidLoad];
 
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
+    temporaryBarButtonItem.title = @"返回";
+    temporaryBarButtonItem.target = self;
+    temporaryBarButtonItem.action = @selector(back);
+    self.navigationItem.leftBarButtonItem = temporaryBarButtonItem;
+    
 
     [Tools showLoadString:@"正在加载网页..."];
     
     
-    UIWebView *webView = [[UIWebView alloc] init];
-    webView.delegate = self;
-    webView.backgroundColor = [UIColor whiteColor];
-    webView.frame = CGRectMake(0,0,kScreenW,kScreenH-64-40);
+    _webView = [[UIWebView alloc] init];
+    _webView.delegate = self;
+    _webView.backgroundColor = [UIColor whiteColor];
+    _webView.frame = CGRectMake(0,0,kScreenW,kScreenH-64-40);
     NSURL *url = [NSURL URLWithString:self.urlString];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-    [webView sizeToFit];
-    [webView loadRequest:urlRequest];
-    [self.view addSubview:webView];
+    [_webView sizeToFit];
+    [_webView loadRequest:urlRequest];
+    [self.view addSubview:_webView];
 
     UIToolbar*toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, kScreenH - 40 - 64, kScreenW, 40.0f) ];
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
@@ -155,7 +162,7 @@
     switch (sender.tag) {
         case 1:
         {
-            //分享多个
+        //分享多个
             [UMSocialData defaultData].extConfig.wechatSessionData.url = self.urlString;//微信好友
             [UMSocialData defaultData].extConfig.wechatTimelineData.url = self.urlString;//微信朋友圈
             [UMSocialData defaultData].extConfig.qqData.url = self.urlString;//QQ好友
@@ -214,6 +221,23 @@
     }
 
 }
+
+
+
+- (void) back
+{
+    if ([self.webView canGoBack]) {
+        [self.webView goBack];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    }
+}
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
