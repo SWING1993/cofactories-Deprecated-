@@ -57,6 +57,15 @@
     tablleHeaderView*tableHeaderView = [[tablleHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, tableHeaderView_height)];
     self.tableView.tableHeaderView = tableHeaderView;
 
+    UIView*tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 50)];
+    tableFooterView.backgroundColor = [UIColor clearColor];
+    blueButton*nextBtn=[[blueButton alloc]initWithFrame:CGRectMake(20, 7, kScreenW-40, 35)];
+    [nextBtn setTitle:@"重置密码" forState:UIControlStateNormal];
+    [nextBtn addTarget:self action:@selector(nextBtn) forControlEvents:UIControlEventTouchUpInside];
+    [tableFooterView addSubview:nextBtn];
+    self.tableView.tableFooterView = tableFooterView;
+
+
     //返回Btn
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
     self.navigationItem.rightBarButtonItem = setButton;
@@ -92,21 +101,11 @@
 
     if (!_codeBtn) {
         _codeBtn=[[blueButton alloc]initWithFrame:CGRectMake(kScreenW-100, 7, 90, 30)];
-//        _codeBtn.layer.cornerRadius=5.0f;
-//        _codeBtn.layer.masksToBounds=YES;
-//        _codeBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-//        _codeBtn.layer.borderWidth = 1.0f;
+
         _codeBtn.titleLabel.font=[UIFont systemFontOfSize:14.0f];
         [_codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-//        [_codeBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
         [_codeBtn addTarget:self action:@selector(sendCodeBtn) forControlEvents:UIControlEventTouchUpInside];
     }
-
-    blueButton*nextBtn=[[blueButton alloc]initWithFrame:CGRectMake(20, 44*3+20+120, kScreenW-40, 35)];
-    [nextBtn setTitle:@"重置密码" forState:UIControlStateNormal];
-    [nextBtn addTarget:self action:@selector(nextBtn) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView addSubview:nextBtn];
-
 }
 
 - (void)buttonClicked {
@@ -204,7 +203,7 @@
 
     }else{
 
-        [Tools showHudTipStr:@"您输入的是一个无效的手机号码"];
+        [Tools showHudTipStr:@"您输入的是一个无效的手机号码！"];
         [_codeBtn setEnabled:YES];
     }
 }
@@ -213,15 +212,21 @@
 //倒计时方法验证码实现倒计时60秒，60秒后按钮变换开始的样子
 -(void)timerFireMethod:(NSTimer *)theTimer {
     if (seconds == 1) {
+
         [theTimer invalidate];
         seconds = 60;
+        _codeBtn.titleLabel.text = @"重新获取";
         [_codeBtn setTitle:@"重新获取" forState: UIControlStateNormal];
         [_codeBtn setEnabled:YES];
     }else{
         seconds--;
-        NSString *title = [NSString stringWithFormat:@"倒计时%lds",(long)seconds];
         [_codeBtn setEnabled:NO];
+        NSString *title = [NSString stringWithFormat:@"倒计时%lds",(long)seconds];
+        [_codeBtn.titleLabel sizeToFit];
+        _codeBtn.titleLabel.text = title;
         [_codeBtn setTitle:title forState:UIControlStateNormal];
+        DLog(@"%@",_codeBtn.titleLabel.text);
+
     }
 }
 
