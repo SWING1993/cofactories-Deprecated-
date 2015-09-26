@@ -60,7 +60,7 @@
 
 - (void)OKBtn {
     if (inviteCodeTF.text.length!=0) {
-        [Tools showHudTipStr:@"邀请码提交成功!"];
+        [Tools showSuccessWithStatus:@"邀请码提交成功!"];
         [HttpClient registerWithInviteCode:inviteCodeTF.text andBlock:^(NSDictionary *responseDictionary) {
             DLog(@"%@",responseDictionary);
         }];
@@ -120,12 +120,14 @@
 
 
             case 4:{
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
+
                 [cell addSubview:inviteCodeTF];
-                UIButton*OKBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-70, 7, 60, 30)];
-                [OKBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
+                blueButton*OKBtn = [[blueButton alloc]initWithFrame:CGRectMake(kScreenW-70, 10, 60, 24)];
                 [OKBtn setTitle:@"提交" forState:UIControlStateNormal];
                 [OKBtn addTarget:self action:@selector(OKBtn) forControlEvents:UIControlEventTouchUpInside];
                 [cell addSubview:OKBtn];
+
             }
                 break;
 
@@ -186,24 +188,17 @@
                                                  appKey:UMENGAppKey
                                               shareText:@"推荐一款非常好用的app——聚工厂，大家快来试试。下载链接：https://itunes.apple.com/cn/app/ju-gong-chang/id1015359842?mt=8"
                                              shareImage:[UIImage imageNamed:@"icon.png"]
-                                        shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQQ,UMShareToQzone, UMShareToSina,UMShareToTencent,UMShareToRenren,UMShareToDouban,UMShareToEmail,UMShareToSms,UMShareToFacebook,UMShareToTwitter,nil]
+                                        shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQQ,UMShareToQzone, UMShareToSina,UMShareToTencent,UMShareToEmail,UMShareToSms,nil]
                                                delegate:self];
         }
             break;
 
         case 3:{
             AboutViewController*aboutVC = [[AboutViewController alloc]init];
-//            [self.navigationController pushViewController:aboutVC animated:YES];
-            
             UINavigationController*aboutNav = [[UINavigationController alloc]initWithRootViewController:aboutVC];
             aboutNav.navigationBar.barStyle=UIBarStyleBlack;
-            //            [self presentViewController:reviseNav animated:YES completion:nil];
-            
             aboutNav.modalPresentationStyle = UIModalPresentationCustom;
-
             [self presentViewController:aboutNav animated:YES completion:nil];
-            
-
 
         }
             break;

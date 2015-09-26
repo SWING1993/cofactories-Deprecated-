@@ -99,13 +99,15 @@
 
     imageBG=[[UIImageView alloc]init];
     imageBG.frame=CGRectMake(0, 0, kScreenW, 200);
-    imageBG.image=[UIImage imageNamed:@"headerView"];
+    imageBG.contentMode = UIViewContentModeScaleAspectFill;
+    imageBG.clipsToBounds = YES;
+    int x = arc4random() % 6;
+    NSString * imageStr = [NSString stringWithFormat:@"headerView%d",x];
+    imageBG.image=[UIImage imageNamed:imageStr];
 
     headerButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2-40, 80-64, 80, 80)];
     headerButton.layer.cornerRadius=80/2.0f;
     headerButton.layer.masksToBounds=YES;
-    headerButton.layer.borderWidth=0.3f;
-    headerButton.layer.borderColor=[UIColor blackColor].CGColor;
     [headerButton addTarget:self action:@selector(uploadBtn) forControlEvents:UIControlEventTouchUpInside];
 
 
