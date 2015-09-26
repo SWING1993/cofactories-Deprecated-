@@ -106,7 +106,7 @@
         headerImage.layer.masksToBounds=YES;
         [cell addSubview:headerImage];
 
-        UIButton*callBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-55, 307, 30, 30)];
+        UIButton*callBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-55, 30, 30, 30)];
         callBtn.tag=indexPath.section;
         [callBtn setBackgroundImage:[UIImage imageNamed:@"PHONE"] forState:UIControlStateNormal];
         [callBtn addTarget:self action:@selector(callBtn:) forControlEvents:UIControlEventTouchUpInside];

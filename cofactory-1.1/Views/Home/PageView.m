@@ -28,12 +28,14 @@
                 UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
                 [button setBackgroundImage:[UIImage imageNamed:imageArray[i-1]] forState:UIControlStateNormal];
                  [button setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];
+                button.imageView.contentMode = UIViewContentModeScaleAspectFill;
+
                 button.tag = i-1;
                 [scrollView addSubview:button];
                 switch (i) {
                     case 1:
                         _imageButton1 = button;
-                        break;
+                          break;
                         
                     case 2:
                         _imageButton2 = button;
@@ -50,6 +52,8 @@
         }if (!isNetWork) {
             for (int i = 1; i <= 3; i++) {
                 UIImageView *imageView = [[UIImageView alloc] init];
+                imageView.contentMode = UIViewContentModeScaleAspectFill;
+                imageView.clipsToBounds = YES;
                 imageView.image = [UIImage imageNamed:imageArray[i-1]];
                 [imageView setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];
                 [scrollView addSubview:imageView];
