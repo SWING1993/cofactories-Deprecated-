@@ -1521,7 +1521,8 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         NSString *url = [NSString stringWithFormat:@"http://news.cofactories.com/?co&op=search&%@", kind];
-        [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *urlString = [url stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
+        [manager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSArray *jsonArray = (NSArray *)responseObject;
             NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
             for (NSDictionary *dictionary in jsonArray) {
@@ -1556,7 +1557,7 @@
     if (credential) {
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
-        NSString *url = @"http://news.cofactories.com/?co&op=search&cat=top";
+        NSString *url = @"http://news.cofactories.com/?co&op=category&cat=置顶";
         
         NSString *urlString = [url stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
         [manager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -1595,13 +1596,13 @@
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         NSString *url = [NSString stringWithFormat:@"http://news.cofactories.com/?co&op=comments&p=%d&page=%d", oid, page];
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSArray *jsonArray = (NSArray *)responseObject;
-            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
-            for (NSDictionary *dictionary in jsonArray) {
-                CommentModel *comment = [CommentModel getModelWith:dictionary];
-                [responseArray addObject:comment];
-            }
-            block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseArray});
+//            NSArray *jsonArray = (NSArray *)responseObject;
+//            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
+//            for (NSDictionary *dictionary in jsonArray) {
+//                CommentModel *comment = [CommentModel getModelWith:dictionary];
+//                [responseArray addObject:comment];
+//            }
+            block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseObject});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             switch ([operation.response statusCode]) {
                 case 400:

@@ -95,7 +95,6 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
     [HttpClient searchMaterialBidWithKeywords:nil type:nil page:_refrushCount completionBlock:^(NSDictionary *responseDictionary) {
         NSArray *array = (NSArray *)responseDictionary[@"responseObject"];
         for (NSDictionary *dictionary in array) {
-            //SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
             PurchasePublicHistoryModel *search = [PurchasePublicHistoryModel getModelWith:dictionary];
             [_dataArray addObject:search];
         }

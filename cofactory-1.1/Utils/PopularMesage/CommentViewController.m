@@ -18,6 +18,7 @@ static NSString *commentCellIdentifier = @"commentCell";
 @interface CommentViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate> {
     UIView *tableViewHeadView;
     UITextView *commentTextView;
+    int _refrushCount;
 }
 
 @end
@@ -33,8 +34,10 @@ static NSString *commentCellIdentifier = @"commentCell";
     
     [self.tableView registerClass:[CommentCell class] forCellReuseIdentifier:commentCellIdentifier];
     [self creatHeadView];
-    [self netWork];
     
+    _refrushCount = 1;
+    [self netWork];
+    [self setupRefresh];
 
 }
 - (void)buttonClicked{
@@ -94,7 +97,6 @@ static NSString *commentCellIdentifier = @"commentCell";
         [Tools showErrorWithStatus:@"评论内容不能为空！"];
     } else {
         [HttpClient pushCommentWithID:[NSString stringWithFormat:@"%d", self.oid] content:commentTextView.text andBlock:^(int statusCode) {
-            DLog(@"%d", statusCode);
             switch (statusCode) {
                 case 200:
                 {
@@ -104,14 +106,12 @@ static NSString *commentCellIdentifier = @"commentCell";
                     [self netWork];
                 }
                     break;
-                case 400:
-                {
-                    [Tools showErrorWithStatus:@"未登录"];
-                }
-                    break;
-                    
-                    
+        
                 default:
+                {
+                    [Tools showErrorWithStatus:@"评论失败！"];
+                }
+                    
                     break;
             }
     
@@ -128,10 +128,46 @@ static NSString *commentCellIdentifier = @"commentCell";
 }
 - (void)netWork {
     [HttpClient getCommentWithOid:self.oid page:1 andBlock:^(NSDictionary *responseDictionary) {
-        self.commentArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
+        DLog(@"%@", responseDictionary);
+        NSArray *jsonArray = responseDictionary[@"responseArray"];
+        self.commentArray = [NSMutableArray arrayWithCapacity:0];
+        for (NSDictionary *dictionary in jsonArray) {
+            CommentModel *comment = [CommentModel getModelWith:dictionary];
+            DLog(@"%@", comment);
+            [self.commentArray addObject:comment];
+        }
         [self.tableView reloadData];
     }];
 }
+
+- (void)setupRefresh
+{
+    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    self.tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+    self.tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+    self.tableView.footerRefreshingText = @"加载中。。。";
+}
+
+- (void)footerRereshing
+{
+    _refrushCount++;
+    DLog(@"???????????%d",_refrushCount);
+    [HttpClient getCommentWithOid:self.oid page:_refrushCount andBlock:^(NSDictionary *responseDictionary) {
+        DLog(@"%d", self.oid);
+        NSArray *jsonArray = (NSArray *)responseDictionary[@"responseArray"];
+        
+        for (NSDictionary *dictionary in jsonArray) {
+            CommentModel *comment = [CommentModel getModelWith:dictionary];
+            [self.commentArray addObject:comment];
+        }
+        
+        [self.tableView reloadData];
+    }];
+    
+    [self.tableView footerEndRefreshing];
+}
+
+
 
 
 ////将要开始编辑

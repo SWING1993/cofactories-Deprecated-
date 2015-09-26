@@ -20,7 +20,7 @@
 
 @property (nonatomic,retain)UIToolbar *toolBar;
 
-
+@property (nonatomic,assign)BOOL isSelected;
 
 
 @end
@@ -38,6 +38,8 @@
     [super viewDidLoad];
 
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.isSelected = NO;
     
     UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
     temporaryBarButtonItem.title = @"返回";
@@ -192,26 +194,37 @@
             break;
         case 3:
         {
-            [HttpClient pushLikeWithID:[NSString stringWithFormat:@"%d", self.oid] andBlock:^(int statusCode) {
-                switch (statusCode) {
-                    case 200:
-                    {
-                        [btn3 setImage:[UIImage imageNamed:@"已赞"] forState:UIControlStateNormal];
-                        [Tools showSuccessWithStatus:@"已赞！"];
-                        DLog(@"%d", statusCode);
+            [btn3 setUserInteractionEnabled:NO];
+            if (_isSelected == NO) {
+                _isSelected = YES;
+                [btn3 setImage:[UIImage imageNamed:@"已赞"] forState:UIControlStateNormal];
+                [HttpClient pushLikeWithID:[NSString stringWithFormat:@"%d", self.oid] andBlock:^(int statusCode) {
+                    switch (statusCode) {
+                        case 200:
+                        {
+                            [Tools showSuccessWithStatus:@"已赞！"];
+                            [btn3 setUserInteractionEnabled:YES];
+                        }
+                            break;
+                            
+                        default:
+                        {
+                            [Tools showSuccessWithStatus:@"点赞失败！"];
+                            [btn3 setUserInteractionEnabled:YES];
+                        }
+                            break;
                     }
-                        break;
-                    case 400:
-                    {
-                        [Tools showErrorWithStatus:@"未登录"];
-                    }
-                        break;
-                        
-                    default:
-                        break;
-                }
+                    
+                }];
+                
+                
+            } else {
+                [Tools showErrorWithStatus:@"不能重复点赞！"];
+                [btn3 setUserInteractionEnabled:YES];
+            }
+            
 
-            }];
+            
             
         }
             break;

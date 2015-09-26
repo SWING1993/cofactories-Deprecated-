@@ -33,6 +33,7 @@ static NSString *searchCellIdentifier = @"SearchCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.historyArray = [@[] mutableCopy];
+    self.tableView.tableFooterView = [[UIView alloc] init];
     if (_isMe) {
         
         self.title = @"查看面辅料";

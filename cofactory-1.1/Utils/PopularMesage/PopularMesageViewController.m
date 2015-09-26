@@ -35,7 +35,9 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 
 @implementation PopularMesageViewController
 
-
+- (void)viewWillAppear:(BOOL)animated {
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -43,12 +45,14 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     self.title = @"流行资讯";
     
     _titleImageArray = @[@{@"title":@"时尚服装咨询师-LIJO",@"image":@"1.png"},@{@"title":@"15-16秋冬童装新款解析-Wild",@"image":@"2.png"}];
+    
     [self creatSearchBar];
     [self creatTableView];
     [self creatTableViewHeadView];
     [self netWork];
     [self netWorker];
 //    [self creatScrollViewAndPageControl];
+    
 }
 
 - (void)netWorker {
@@ -91,8 +95,10 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.tableFooterView = [[UIView alloc] init];
     [_tableView registerClass:[PMSectionOneTableViewCell class] forCellReuseIdentifier:cellIdetifier1];
     [_tableView registerClass:[PopularMesageTableViewCell class] forCellReuseIdentifier:cellIdetifier2];
+    
     [self.view addSubview:_tableView];
 }
 

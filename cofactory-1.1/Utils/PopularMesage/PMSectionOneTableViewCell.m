@@ -45,10 +45,10 @@
 }
 
 
-- (void)getDataWithDictionary:(NSDictionary *)dictionary{
-    _titleLabel.text = dictionary[@"title"];
-    _abbreviateImage.image = [UIImage imageNamed:dictionary[@"image"]];
-}
+//- (void)getDataWithDictionary:(NSDictionary *)dictionary{
+//    _titleLabel.text = dictionary[@"title"];
+//    _abbreviateImage.image = [UIImage imageNamed:dictionary[@"image"]];
+//}
 
 - (void)awakeFromNib {
     // Initialization code
