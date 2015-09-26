@@ -84,6 +84,58 @@ static NSString *LastCellIdentifier = @"LastCell";
     [self.tableView reloadData];
 }
 
+- (void)bannerViewClick:(id)sender{
+    UIButton *button = (UIButton *)sender;
+    DLog(@"%zi",button.tag);
+    switch (button.tag) {
+        case 0:
+        {
+            PopularMesageViewController *vc = [[PopularMesageViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+        case 1:
+        {
+            if (self.factoryType == 5) {
+                SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
+                supplyVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:supplyVC animated:YES];
+            }else{
+                PurchaseVC *VC =[PurchaseVC new];
+                VC.hidesBottomBarWhenPushed = YES;
+                UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+                backItem.title=@"返回";
+                backItem.tintColor=[UIColor whiteColor];
+                self.navigationItem.backBarButtonItem = backItem;
+                self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+                [self.navigationController pushViewController:VC animated:YES];
+            }
+        }
+            break;
+
+        case 2:
+        {
+            if (self.factoryType == 1) {
+                PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
+                pushOrderVC.factoryType = self.factoryType;
+                pushOrderVC.hidesBottomBarWhenPushed=YES;
+                [self.navigationController pushViewController:pushOrderVC animated:YES];
+                
+            }else{
+                SearchFactoryOrderVC *vc = [[SearchFactoryOrderVC alloc]init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }
+            break;
+
+            
+        default:
+            break;
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -102,8 +154,11 @@ static NSString *LastCellIdentifier = @"LastCell";
 
     // 表头视图
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
-    NSArray *imageArray = @[@"http://cdn.cofactories.com/banner/banner1.png",@"http://cdn.cofactories.com/banner/banner2.png",@"http://cdn.cofactories.com/banner/banner3.png"];
+    NSArray *imageArray = @[@"服装平台.png",@"面辅料.png",@"新功能.png"];
     PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:imageArray isNetWork:YES];
+    [bannerView.imageButton1 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
+    [bannerView.imageButton2 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
+    [bannerView.imageButton3 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:bannerView];
 
     if (self.factoryType==0) {
@@ -176,6 +231,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         }
     }
 }
+
 
 
 #pragma mark - buttonView 点击事件

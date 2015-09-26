@@ -24,15 +24,31 @@
         scrollView.contentSize = CGSizeMake(frame.size.width * 3, frame.size.height);
         // 添加图片
         if (isNetWork) {
-            for (int i = 1; i <= 3; ++i) {
-                NSString *url = imageArray[i-1];
-                UIImageView *imageView = [[UIImageView alloc] init];
-                [imageView sd_setImageWithURL:[NSURL URLWithString:url]];
-                [imageView setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];
-                [scrollView addSubview:imageView];
+            for (int i = 1; i <= 3; i++) {
+                UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+                [button setBackgroundImage:[UIImage imageNamed:imageArray[i-1]] forState:UIControlStateNormal];
+                 [button setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];
+                button.tag = i-1;
+                [scrollView addSubview:button];
+                switch (i) {
+                    case 1:
+                        _imageButton1 = button;
+                        break;
+                        
+                    case 2:
+                        _imageButton2 = button;
+                        break;
+                        
+                    case 3:
+                        _imageButton3 = button;
+                        break;
+                        
+                    default:
+                        break;
+                }
             }
         }if (!isNetWork) {
-            for (int i = 1; i <= 3; ++i) {
+            for (int i = 1; i <= 3; i++) {
                 UIImageView *imageView = [[UIImageView alloc] init];
                 imageView.image = [UIImage imageNamed:imageArray[i-1]];
                 [imageView setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];
@@ -65,6 +81,9 @@
     self.pageControl.currentPage = (self.pageControl.currentPage + 1) % 3;
     [self.scrollView setContentOffset:CGPointMake(size.width * self.pageControl.currentPage, 0) animated:YES];
 }
+
+
+
 
 
 

@@ -12,8 +12,10 @@
 
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, weak) UIPageControl *pageControl;
+@property (nonatomic,strong) UIButton *imageButton1;
+@property (nonatomic,strong) UIButton *imageButton2;
+@property (nonatomic,strong) UIButton *imageButton3;
 
 - (instancetype)initWithFrame:(CGRect)frame andImageArray:(NSArray *)imageArray isNetWork:(BOOL)isNetWork;
 - (void)scrollToNextPage:(NSTimer *)timer;
-
 @end
