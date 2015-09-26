@@ -219,15 +219,19 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
         competeButton.layer.cornerRadius = 5;
         [competeButton addTarget:self action:@selector(bidManager) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:competeButton];
-        
-        if (self.isCompete == YES) {
-            
-            [competeButton setTitle:@"已投标" forState:UIControlStateNormal];
+        if (self.isCompletion == YES) {
+            [competeButton setTitle:@"订单完成" forState:UIControlStateNormal];
             competeButton.enabled = NO;
-        }
-        if (self.isCompete == NO) {
-            [competeButton setTitle:@"参与投标" forState:UIControlStateNormal];
-            competeButton.enabled = YES;
+        } else {
+            if (self.isCompete == YES) {
+                
+                [competeButton setTitle:@"已投标" forState:UIControlStateNormal];
+                competeButton.enabled = NO;
+            }
+            if (self.isCompete == NO) {
+                [competeButton setTitle:@"参与投标" forState:UIControlStateNormal];
+                competeButton.enabled = YES;
+            }
         }
         
         return view;

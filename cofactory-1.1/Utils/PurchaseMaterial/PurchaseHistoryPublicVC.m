@@ -162,6 +162,7 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
         needVC.oid = [NSString stringWithFormat:@"%ld", (long)model.orderID];
         needVC.photoArray = model.photoArray;
         needVC.amount = model.unit;
+        needVC.isCompletion = model.isCompletion;
         [self.navigationController pushViewController:needVC animated:YES];
         
     } else {

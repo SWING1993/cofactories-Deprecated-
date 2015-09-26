@@ -14,4 +14,8 @@
 @property (nonatomic, strong) NSString *oid;
 @property (nonatomic, strong) NSArray *photoArray;
 @property (nonatomic, strong) NSString *amount;
+
+@property (nonatomic, assign) BOOL isCompletion;//订单是否完成
+
+
 @end
