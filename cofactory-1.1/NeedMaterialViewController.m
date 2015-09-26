@@ -179,13 +179,8 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
         
         
         switch (indexPath.row) {
-            case 0: {
-                if (self.detail.name.length == 0) {
-                    cell.textLabel.text = [NSString stringWithFormat:@"名称:  %@",@"名称暂无"];
-                } else {
-                    cell.textLabel.text = [NSString stringWithFormat:@"名称:  %@",self.detail.name];
-                }
-            }
+            case 0:
+                cell.textLabel.text = [NSString stringWithFormat:@"名称:  %@",self.needName];
                 break;
             case 1:
                 cell.textLabel.text = [NSString stringWithFormat:@"数量:  %ld%@",self.detail.amount, self.amount];

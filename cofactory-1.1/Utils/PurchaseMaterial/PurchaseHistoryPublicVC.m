@@ -163,6 +163,7 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
         needVC.photoArray = model.photoArray;
         needVC.amount = model.unit;
         needVC.isCompletion = model.isCompletion;
+        needVC.needName = model.name;
         [self.navigationController pushViewController:needVC animated:YES];
         
     } else {

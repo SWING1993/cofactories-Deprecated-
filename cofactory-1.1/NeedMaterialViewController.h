@@ -16,6 +16,6 @@
 @property (nonatomic, strong) NSString *amount;
 
 @property (nonatomic, assign) BOOL isCompletion;//订单是否完成
-
+@property (nonatomic, assign) NSString *needName;//订单的名字
 
 @end
