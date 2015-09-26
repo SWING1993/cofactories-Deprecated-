@@ -41,7 +41,7 @@
     }
     
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-//    _messageStr = @"UINavigationController是IOS编程中比较常用的一种容器view controller，很多系统的控件(如UIImagePickerViewController)以及很多有名的APP中(如qq，系统相册等)都有用到。说是使用详解，其实我只会介绍几个自认为比较重要或者容易放错的地方进行讲解，下面让我们挨个探探究竟：";
+    _messageStr = @"UINavigationController是IOS编程中比较常用的一种容器view controller，很多系统的控件(如UIImagePickerViewController)以及很多有名的APP中(如qq，系统相册等)都有用到。说是使用详解，其实我只会介绍几个自认为比较重要或者容易放错的地方进行讲解，下面让我们挨个探探究竟：";
 
     UILabel*timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenW, 20)];
     timeLabel.font=kLargeFont;
@@ -60,10 +60,8 @@
 
     CGSize size = [Tools getSize:_messageStr andFontOfSize:14.0f];
 
-    messageLabel.frame=CGRectMake(10, 10, size.width+5, size.height+5);
-//    messageLabel.backgroundColor = [UIColor whiteColor];
+    messageLabel.frame=CGRectMake(10, 10, size.width+3, size.height+5);
     UIImageView *messageBgView = [[UIImageView alloc]initWithFrame:CGRectMake(5, 25, size.width+15, size.height+20)];
-
     messageBgView.image=[UIImage imageNamed:@"消息框"];
     messageBgView.contentMode=UIViewContentModeScaleToFill;
     [messageBgView addSubview:messageLabel];

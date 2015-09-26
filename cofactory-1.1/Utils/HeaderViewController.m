@@ -27,9 +27,9 @@
 
     self.view.backgroundColor = [UIColor whiteColor];
 
-    UIButton*uploadBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-35-64, kScreenW-60, 35)];
+    UIButton*uploadBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-35-60, kScreenW-60, 35)];
     if (iphone4x_3_5) {
-        uploadBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-45-64, kScreenW-60, 35);
+        uploadBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-20-60, kScreenW-60, 30);
     }
     [uploadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [uploadBtn setTitle:@"更换头像" forState:UIControlStateNormal];
@@ -37,9 +37,9 @@
     [uploadBtn addTarget:self action:@selector(clickUploadBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:uploadBtn];
 
-    UIButton*backBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+35-64, kScreenW-60, 35)];
+    UIButton*backBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+35-60, kScreenW-60, 35)];
     if (iphone4x_3_5) {
-        backBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+20-64, kScreenW-60, 35);
+        backBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+20-60, kScreenW-60, 30);
     }
     [backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backBtn setTitle:@"返回" forState:UIControlStateNormal];
@@ -51,6 +51,7 @@
 
     headerView = [[UIImageView alloc]init];
     headerView.frame = CGRectMake(kScreenW/2-40, 30+64, 80, 80);
+    headerView.contentMode = UIViewContentModeScaleAspectFill;
     headerView.layer.cornerRadius = 80/2.0f;
     headerView.layer.masksToBounds = YES;
     [headerView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];
@@ -66,7 +67,10 @@
         [UIView setAnimationDuration:.4f];
         [UIView setAnimationDelegate:self];
         headerView.frame = CGRectMake(0, 0, kScreenW, kScreenW);
+        DLog(@"%@",headerView);
         headerView.layer.cornerRadius = 0;
+        headerView.contentMode = UIViewContentModeScaleAspectFill;
+
         [UIView commitAnimations];
         
     });

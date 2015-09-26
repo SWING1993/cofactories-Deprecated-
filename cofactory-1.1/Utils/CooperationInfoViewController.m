@@ -29,9 +29,9 @@
 
 @implementation CooperationInfoViewController {
     
-    UIImageView *imageBG;
-    UIView *BGView;
-    
+//    UIImageView *imageBG;
+//    UIView *BGView;
+
     
     UILabel*factoryNameLabel;
     UILabel*infoLabel;
@@ -64,8 +64,11 @@
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, ImageViewHeight)];
     
     UIImageView*BGImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, ImageViewHeight-50)];
-    BGImage.image=[UIImage imageNamed:@"headerView"];
-    headerView.backgroundColor=[UIColor whiteColor];
+    BGImage.contentMode = UIViewContentModeScaleAspectFill;
+    BGImage.clipsToBounds = YES;
+    int x = arc4random() % 6;
+    NSString * imageStr = [NSString stringWithFormat:@"headerView%d",x];
+    BGImage.image=[UIImage imageNamed:imageStr];    headerView.backgroundColor=[UIColor whiteColor];
     [headerView addSubview:BGImage];
     
     UIImageView*leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW/2+30, ImageViewHeight-50)];
@@ -496,43 +499,43 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    CGFloat yOffset  = scrollView.contentOffset.y;
-    CGFloat xOffset = (yOffset )/2;
-    
-    if (yOffset < 0) {
-        
-        CGRect rect = imageBG.frame;
-        rect.origin.y = yOffset;
-        rect.size.height =  200-yOffset ;
-        rect.origin.x = xOffset;
-        rect.size.width = kScreenW + fabs(xOffset)*2;
-        
-        imageBG.frame = rect;
-    }
-}
-
-
-- (UIImage *)imageWithColor:(UIColor *)color
-{
-    // 描述矩形
-    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    
-    // 开启位图上下文
-    UIGraphicsBeginImageContext(rect.size);
-    // 获取位图上下文
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    // 使用color演示填充上下文
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    // 渲染上下文
-    CGContextFillRect(context, rect);
-    // 从上下文中获取图片
-    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
-    // 结束上下文
-    UIGraphicsEndImageContext();
-    
-    return theImage;
-}
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    CGFloat yOffset  = scrollView.contentOffset.y;
+//    CGFloat xOffset = (yOffset )/2;
+//    
+//    if (yOffset < 0) {
+//        
+//        CGRect rect = imageBG.frame;
+//        rect.origin.y = yOffset;
+//        rect.size.height =  200-yOffset ;
+//        rect.origin.x = xOffset;
+//        rect.size.width = kScreenW + fabs(xOffset)*2;
+//        
+//        imageBG.frame = rect;
+//    }
+//}
+//
+//
+//- (UIImage *)imageWithColor:(UIColor *)color
+//{
+//    // 描述矩形
+//    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+//    
+//    // 开启位图上下文
+//    UIGraphicsBeginImageContext(rect.size);
+//    // 获取位图上下文
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    // 使用color演示填充上下文
+//    CGContextSetFillColorWithColor(context, [color CGColor]);
+//    // 渲染上下文
+//    CGContextFillRect(context, rect);
+//    // 从上下文中获取图片
+//    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+//    // 结束上下文
+//    UIGraphicsEndImageContext();
+//    
+//    return theImage;
+//}
 
 @end
