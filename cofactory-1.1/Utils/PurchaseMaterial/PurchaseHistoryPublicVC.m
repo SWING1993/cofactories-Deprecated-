@@ -34,6 +34,25 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
     [self.navigationController.navigationBar setHidden:NO];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+    
+    
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    if (self.isMe) {
+        self.navigationItem.title = @"查看求购";
+           [self creatTableView];
+        [self setupRefreshZHAO];
+    } else {
+        self.navigationItem.title = @"历史发布";
+           [self creatTableView];
+        [self setupRefreshGUTao];
+    }
+    
+    self.view.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
+
+    _refrushCount = 1;
     _dataArray = [@[] mutableCopy];
     
     if (self.isMe) {
@@ -58,25 +77,7 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
             [_tableView reloadData];
         }];
     }
-    
-    
-}
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    if (self.isMe) {
-        self.navigationItem.title = @"查看求购";
-           [self creatTableView];
-        [self setupRefreshZHAO];
-    } else {
-        self.navigationItem.title = @"历史发布";
-           [self creatTableView];
-        [self setupRefreshGUTao];
-    }
-    
-    self.view.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
-
-    _refrushCount = 1;
  
 }
 
@@ -163,6 +164,7 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
         needVC.photoArray = model.photoArray;
         needVC.amount = model.unit;
         needVC.isCompletion = model.isCompletion;
+        needVC.needName = model.name;
         [self.navigationController pushViewController:needVC animated:YES];
         
     } else {

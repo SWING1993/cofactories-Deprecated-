@@ -33,7 +33,7 @@
         
         
         [self addSubview:self.middleLabel];
-        self.rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.middleLabel.frame) + kSpace, 9*kMargin, 150*kMargin, 20 *kMargin)];
+        self.rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.middleLabel.frame) + kSpace, 9*kMargin, 160*kMargin, 20 *kMargin)];
         self.rightLabel.text = @"聚工厂抽奖进行中！";
         self.rightLabel.font = kFont;
         [self addSubview:self.rightLabel];
