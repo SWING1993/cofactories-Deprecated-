@@ -127,6 +127,7 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
+    cell.detailTextLabel.font = kFont;
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     switch (indexPath.section) {
         case 0:
@@ -165,7 +166,7 @@
     [cell addSubview:cellImage];
 
     UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 7, kScreenW-40, 30)];
-    cellLabel.font=kLargeFont;
+    cellLabel.font=kFont;
     cellLabel.text=self.cellArray[indexPath.section];
     [cell addSubview:cellLabel];
 

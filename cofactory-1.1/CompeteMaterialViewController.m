@@ -369,7 +369,7 @@
                                 
                                 NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
                                 UIImage*newImage = [[UIImage alloc]initWithData:imageData];
-                                NSString *oidString = [NSString stringWithFormat:@"%ld",self.oid];
+                                NSString *oidString = [NSString stringWithFormat:@"%ld",(long)self.oid];
                                 [HttpClient uploadMaterialImageWithImage:newImage oid:oidString type:@"bidBuy" andblock:^(NSDictionary *dictionary) {
                                     if ([dictionary[@"statusCode"] intValue]==200) {
                                         [Tools showSuccessWithStatus:@"投标成功"];

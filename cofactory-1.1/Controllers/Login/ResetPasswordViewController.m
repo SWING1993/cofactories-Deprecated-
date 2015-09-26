@@ -167,7 +167,7 @@
                 }
                     break;
                 case 200:{
-                    [Tools showHudTipStr:@"发送成功，十分钟内有效"];
+                    [Tools showSuccessWithStatus:@"发送成功，十分钟内有效"];
                     seconds = 60;
                     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
                 }

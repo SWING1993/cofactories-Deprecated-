@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "filename" : "-1.png",
+      "filename" : "LaunchImage@2x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "iphone",
-      "filename" : "引导页.png",
+      "filename" : "LaunchImage-568h@2x.png",
       "scale" : "2x"
     },
     {

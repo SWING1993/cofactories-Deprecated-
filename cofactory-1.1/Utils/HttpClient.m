@@ -523,7 +523,7 @@
     if (credential) {
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
-        NSString *url = [[NSString alloc] initWithFormat:@"%@/%ld", API_factoryProfile, uid];
+        NSString *url = [[NSString alloc] initWithFormat:@"%@/%ld", API_factoryProfile, (long)uid];
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             FactoryModel *userModel = [[FactoryModel alloc] initWithDictionary:responseObject];
             block(@{@"statusCode": @([operation.response statusCode]), @"model": userModel});
@@ -1314,7 +1314,7 @@
             DLog(@"===%@", operation.responseString);
             
             DLog(@"%@",error);
-            DLog(@"======%ld",[operation.response statusCode]);
+            DLog(@"======%d",[operation.response statusCode]);
             switch ([operation.response statusCode]) {
                 case 400:
                     block(@{@"statusCode": @([operation.response statusCode]), @"message": @"未登录"});

@@ -231,7 +231,7 @@ static  NSString *const cellIdentifier1 = @"cell1";
         competeCount.textColor = [UIColor colorWithRed:205/255.0 green:17/255.0 blue:23/255.0 alpha:1.0];
         competeCount.textAlignment = 1;
         competeCount.font = [UIFont systemFontOfSize:18.0f];
-        competeCount.text = [NSString stringWithFormat:@"%ld",_competeFactoryArray.count];
+        competeCount.text = [NSString stringWithFormat:@"%ld",(unsigned long)_competeFactoryArray.count];
         [view addSubview:competeCount];
         
         UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(195, 0, 20, 43)];

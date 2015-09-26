@@ -117,7 +117,7 @@
 
 
     NSBundle *bundle = [NSBundle mainBundle];
-    NSString *plistPath = [bundle pathForResource:@"area" ofType:@"plist"];
+    NSString *plistPath = [bundle pathForResource:@"Areas" ofType:@"plist"];
     areaDic = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
 
     NSArray *components = [areaDic allKeys];
