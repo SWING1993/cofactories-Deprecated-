@@ -179,15 +179,17 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
         cell.information = information;
         
         return cell;
+    } else {
+        PopularMesageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdetifier2 forIndexPath:indexPath];
+        InformationModel *information = [[InformationModel alloc] init];
+        information = self.informationArray[indexPath.row];
+        cell.information = information;
+        
+        
+        return cell;
     }
     
-    PopularMesageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdetifier2 forIndexPath:indexPath];
-    InformationModel *information = [[InformationModel alloc] init];
-    information = self.informationArray[indexPath.row];
-    cell.information = information;
     
-
-    return cell;
     
 }
 
