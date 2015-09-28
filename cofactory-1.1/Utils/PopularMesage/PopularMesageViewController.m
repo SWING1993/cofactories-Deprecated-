@@ -124,8 +124,8 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
         [_tableViewHeadView addSubview:typeBtn];
     }
     _tableView.tableHeaderView = _tableViewHeadView;
-    NSArray *imageArray = @[@"新功能.png",@"面辅料.png",@"时尚资讯x.png"];
-    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 50, kScreenW, 180) andImageArray:imageArray isNetWork:NO];
+    NSArray *imageArray = @[@"时尚资讯.png",@"童装设计潮流趋势.png",@"男装新潮流.png",@"女装新潮流.png"];
+    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 50, kScreenW, 180) andImageArray:imageArray pageCount:4 isNetWork:NO];
     [_tableViewHeadView addSubview:bannerView];
 }
 
