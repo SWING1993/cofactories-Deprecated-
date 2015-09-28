@@ -206,7 +206,8 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         return 60;
-    }return 44;
+    }
+    return 40;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -241,7 +242,8 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     NSArray *kindArray = @[@"cat=man", @"cat=woman", @"cat=child"];
     [HttpClient getInfomationWithKind:kindArray[button.tag] andBlock:^(NSDictionary *responseDictionary) {
         self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
-        [_tableView reloadData];
+        [self netWorker];
+        //[_tableView reloadData];
     }];
 
     DLog(@"%zi",button.tag);
