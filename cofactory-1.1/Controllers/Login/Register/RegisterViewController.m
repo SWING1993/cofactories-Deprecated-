@@ -115,13 +115,17 @@
     if (seconds == 1) {
         [theTimer invalidate];
         seconds = 60;
+        authcodeBtn.titleLabel.text = @"重新获取";
         [authcodeBtn setTitle:@"重新获取" forState: UIControlStateNormal];
         [authcodeBtn setEnabled:YES];
     }else{
         seconds--;
-        NSString *title = [NSString stringWithFormat:@"倒计时%lds",(long)seconds];
         [authcodeBtn setEnabled:NO];
+        NSString *title = [NSString stringWithFormat:@"倒计时%lds",(long)seconds];
+        authcodeBtn.titleLabel.text = title;
         [authcodeBtn setTitle:title forState:UIControlStateNormal];
+        [authcodeBtn.titleLabel sizeToFit];
+
     }
 }
 //如果登陆成功，停止验证码的倒数，
@@ -195,7 +199,6 @@
 
 
 - (void)nextBtn {
-
     if (_usernameTF.text.length==0 || _passwordTF.text.length==0 || _authcodeTF.text.length==0 || _typeTF.text.length==0) {
 
         DLog(@"mo");
@@ -326,16 +329,28 @@
 
 
 
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+//- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+//{
+//    return [self.factoryTypeList objectAtIndex:row];
+//}
+
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
 {
-    return [self.factoryTypeList objectAtIndex:row];
+    UILabel *myView = nil;
+    myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, kScreenW, 30)];
+    myView.textAlignment = NSTextAlignmentCenter;
+    myView.text = [self.factoryTypeList objectAtIndex:row];
+    myView.font = kFont;
+    myView.backgroundColor = [UIColor clearColor];
+    return myView;
+
 }
 
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    _factoryName = [self pickerView:pickerView titleForRow:row forComponent:component];
-}
+//- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+//{
+//    _factoryName = [self pickerView:pickerView titleForRow:row forComponent:PROVINCE_COMPONENT];
+//}
 -(void)ensure{
 
     NSInteger provinceIndex = [self.factoryTypePicker selectedRowInComponent: PROVINCE_COMPONENT];

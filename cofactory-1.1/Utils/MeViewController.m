@@ -46,7 +46,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-
+    int x = arc4random() % 6;
+    NSString * imageStr = [NSString stringWithFormat:@"headerView%d",x];
+    imageBG.image=[UIImage imageNamed:imageStr];
     NSString *homePath = NSHomeDirectory();
 
     DLog(@"Home目录：%@",homePath);
@@ -76,7 +78,7 @@
     //初始化用户model
     self.userModel=[[UserModel alloc]init];
     self.factoryType = kFactoryType;
-    DLog(@"kFactoryType = %d",kFactoryType);
+    DLog(@"kFactoryType = %ld",kFactoryType);
     [self getArrayData];
 
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
@@ -101,9 +103,7 @@
     imageBG.frame=CGRectMake(0, 0, kScreenW, 200);
     imageBG.contentMode = UIViewContentModeScaleAspectFill;
     imageBG.clipsToBounds = YES;
-    int x = arc4random() % 6;
-    NSString * imageStr = [NSString stringWithFormat:@"headerView%d",x];
-    imageBG.image=[UIImage imageNamed:imageStr];
+   
 
     headerButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2-40, 80-64, 80, 80)];
     headerButton.layer.cornerRadius=80/2.0f;

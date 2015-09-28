@@ -27,9 +27,9 @@
 
     self.view.backgroundColor = [UIColor whiteColor];
 
-    UIButton*uploadBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-35-60, kScreenW-60, 35)];
+    UIButton*uploadBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-35-55, kScreenW-60, 35)];
     if (iphone4x_3_5) {
-        uploadBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-20-60, kScreenW-60, 30);
+        uploadBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-20-55, kScreenW-60, 30);
     }
     [uploadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [uploadBtn setTitle:@"更换头像" forState:UIControlStateNormal];
@@ -37,9 +37,9 @@
     [uploadBtn addTarget:self action:@selector(clickUploadBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:uploadBtn];
 
-    UIButton*backBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+35-60, kScreenW-60, 35)];
+    UIButton*backBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+35-55, kScreenW-60, 35)];
     if (iphone4x_3_5) {
-        backBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+20-60, kScreenW-60, 30);
+        backBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+20-55, kScreenW-60, 30);
     }
     [backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backBtn setTitle:@"返回" forState:UIControlStateNormal];

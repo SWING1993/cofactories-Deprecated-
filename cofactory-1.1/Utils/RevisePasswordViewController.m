@@ -27,6 +27,7 @@
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
+    self.tableView.rowHeight = 40;
 
     oldPasswordTF=[[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 44)];
     oldPasswordTF.clearButtonMode=YES;
@@ -38,12 +39,15 @@
     passwordTF.secureTextEntry=YES;
     passwordTF.placeholder=@"6-16个字符，区分大小写";
 
-    UIButton*ReviseBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 160, kScreenW-40, 35)];
-    [ReviseBtn setTitle:@"确定" forState:UIControlStateNormal];
-    [ReviseBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
-    [ReviseBtn addTarget:self action:@selector(RevisePasswordBtn) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView addSubview:ReviseBtn];
 
+
+    UIView*tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 50)];
+    tableFooterView.backgroundColor = [UIColor clearColor];
+    blueButton*nextBtn=[[blueButton alloc]initWithFrame:CGRectMake(20, 7, kScreenW-40, 35)];
+    [nextBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [nextBtn addTarget:self action:@selector(RevisePasswordBtn) forControlEvents:UIControlEventTouchUpInside];
+    [tableFooterView addSubview:nextBtn];
+    self.tableView.tableFooterView = tableFooterView;
 
     //设置Btn
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
@@ -69,15 +73,15 @@
             switch (statusCode) {
                 case 200:
                 {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"密码修改成功" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
+
+                    [Tools showSuccessWithStatus:@"密码修改成功!"];
 
                 }
                     break;
                 case 403:
                 {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"旧密码错误" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
+                    [Tools showErrorWithStatus:@"旧密码错误!"];
+
                 }
                     break;
                     
@@ -112,7 +116,6 @@
         case 1:{
             [cell addSubview:passwordTF];
 
-
         }
             break;
 
@@ -131,9 +134,9 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 25)];
-    UILabel*titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, kScreenW-20, 25)];
-    titleLabel.font=[UIFont systemFontOfSize:15.0f];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 20)];
+    UILabel*titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 2.5, kScreenW-20, 20)];
+    titleLabel.font=kFont;
     switch (section) {
         case 0:
         {

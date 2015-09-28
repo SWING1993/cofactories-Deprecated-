@@ -43,7 +43,7 @@
     self.view.backgroundColor=[UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets=NO;
 
-    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64-44) style:UITableViewStyleGrouped];
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64-44) style:UITableViewStylePlain];
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.showsVerticalScrollIndicator=NO;
@@ -106,8 +106,7 @@
         headerImage.layer.masksToBounds=YES;
         [cell addSubview:headerImage];
 
-
-        UIButton*callBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-55, 30, 40, 40)];
+        UIButton*callBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-55, 30, 30, 30)];
         callBtn.tag=indexPath.section;
         [callBtn setBackgroundImage:[UIImage imageNamed:@"PHONE"] forState:UIControlStateNormal];
         [callBtn addTarget:self action:@selector(callBtn:) forControlEvents:UIControlEventTouchUpInside];
@@ -153,13 +152,13 @@
     NSString *str = [NSString stringWithFormat:@"telprompt://%@", factoryModel.phone];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 5.0f;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.01f;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    return 5.0f;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+//    return 0.01f;
+//}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
@@ -182,5 +181,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 @end

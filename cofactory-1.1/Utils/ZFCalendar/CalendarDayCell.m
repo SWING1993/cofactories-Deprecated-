@@ -58,7 +58,7 @@
             if (model.holiday) {
                 day_lab.text = model.holiday;
             }else{
-                day_lab.text = [NSString stringWithFormat:@"%d",model.day];
+                day_lab.text = [NSString stringWithFormat:@"%lu",(unsigned long)model.day];
             }
             
             day_lab.textColor = [UIColor lightGrayColor];
