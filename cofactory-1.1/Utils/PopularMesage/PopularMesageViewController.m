@@ -45,12 +45,11 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     self.title = @"流行资讯";
     
     _titleImageArray = @[@{@"title":@"时尚服装咨询师-LIJO",@"image":@"1.png"},@{@"title":@"15-16秋冬童装新款解析-Wild",@"image":@"2.png"}];
-    
+    [Tools showLoadString:@"正在加载中..."];
     [self creatSearchBar];
     [self creatTableView];
     [self creatTableViewHeadView];
     [self netWork];
-    [self netWorker];
 //    [self creatScrollViewAndPageControl];
     
 }
@@ -58,6 +57,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 - (void)netWorker {
     [HttpClient getHeaderInfomationWithBlock:^(NSDictionary *responseDictionary) {
         self.headerInformationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
+        [Tools WSProgressHUDDismiss];
         [_tableView reloadData];
     }];
 
@@ -65,7 +65,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 - (void)netWork {
         [HttpClient getInfomationWithKind:@"cat=man" andBlock:^(NSDictionary *responseDictionary) {
         self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
-        [_tableView reloadData];
+            [self netWorker];
     }];
 }
 
@@ -179,15 +179,17 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
         cell.information = information;
         
         return cell;
+    } else {
+        PopularMesageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdetifier2 forIndexPath:indexPath];
+        InformationModel *information = [[InformationModel alloc] init];
+        information = self.informationArray[indexPath.row];
+        cell.information = information;
+        
+        
+        return cell;
     }
     
-    PopularMesageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdetifier2 forIndexPath:indexPath];
-    InformationModel *information = [[InformationModel alloc] init];
-    information = self.informationArray[indexPath.row];
-    cell.information = information;
     
-
-    return cell;
     
 }
 
@@ -204,7 +206,8 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         return 60;
-    }return 44;
+    }
+    return 40;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -235,11 +238,12 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     [UIView animateWithDuration:0.2 animations:^{
         _lineLabel.frame = CGRectMake(button.frame.origin.x, 40, button.frame.size.width, 2);
     }];
-
+    [Tools showLoadString:@"正在加载中..."];
     NSArray *kindArray = @[@"cat=man", @"cat=woman", @"cat=child"];
     [HttpClient getInfomationWithKind:kindArray[button.tag] andBlock:^(NSDictionary *responseDictionary) {
         self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
-        [_tableView reloadData];
+        [self netWorker];
+        //[_tableView reloadData];
     }];
 
     DLog(@"%zi",button.tag);
