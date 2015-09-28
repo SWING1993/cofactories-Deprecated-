@@ -27,7 +27,7 @@
         _abbreviateImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-70, 5, 50, 50)];
         _abbreviateImage.layer.masksToBounds = YES;
         _abbreviateImage.layer.cornerRadius = 5;
-        _abbreviateImage.layer.borderWidth = 0.2;
+        //_abbreviateImage.layer.borderWidth = 0.2;
 //        _abbreviateImage.layer.backgroundColor = [UIColor grayColor].CGColor;
         [self addSubview:_abbreviateImage];
         
