@@ -310,14 +310,14 @@
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         [manager GET:API_userProfile parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             UserModel *userModel = [[UserModel alloc] initWithDictionary:responseObject];
-            block(@{@"statusCode": @([operation.response statusCode]), @"model": userModel});
+            block(@{@"statusCode": @(200), @"model": userModel});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             switch ([operation.response statusCode]) {
                 case 400:
-                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"未登录"});
+                    block(@{@"statusCode": @(400), @"message": @"未登录"});
                     break;
                 case 401:
-                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"access_token过期或者无效"});
+                    block(@{@"statusCode": @(401), @"message": @"access_token过期或者无效"});
                     break;
                     
                 default:
