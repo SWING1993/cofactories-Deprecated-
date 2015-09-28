@@ -350,15 +350,12 @@
             } else {
                 price = @"-1";
             }
-            DLog(@"%@", price);
-            DLog(@"%@", _commentsTextField.text);
-            DLog(@"%@", stateString);
 
             if (price.length == 0) {
-                [Tools showString:@"请完善价格"];
+                [Tools showErrorWithStatus:@"请完善价格"];
                 
             } else if (_commentsTextField.text.length == 0) {
-                [Tools showString:@"请完善备注"];
+                [Tools showErrorWithStatus:@"请完善备注"];
             } else {
                 [HttpClient registMaterialBidWithOid:self.oid price:price status:stateString comment:_commentsTextField.text completionBlock:^(int statusCode) {
                     DLog(@"%d", statusCode);

@@ -11,5 +11,5 @@
 @interface PMSectionOneTableViewCell : UITableViewCell
 @property (nonatomic, strong)InformationModel *information;
 
-- (void)getDataWithDictionary:(NSDictionary *)dictionary;
+//- (void)getDataWithDictionary:(NSDictionary *)dictionary;
 @end
