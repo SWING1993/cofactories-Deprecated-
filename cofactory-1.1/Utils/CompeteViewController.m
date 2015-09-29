@@ -96,7 +96,7 @@
 
 - (void)addImageView:(id)sender{
     if ([self.collectionImage count]== 9) {
-        [Tools showHudTipStr:@"订单图片最多能上传9张"];
+        [Tools showErrorWithStatus:@"订单图片最多能上传9张"];
     }else {
         JKImagePickerController *imagePickerController = [[JKImagePickerController alloc] init];
         imagePickerController.delegate = self;
@@ -249,7 +249,7 @@
             [HttpClient registBidWithOid:self.oid commit:_commentsTextField.text completionBlock:^(int statusCode) {
                 DLog(@"statusCode==%d",statusCode);
                 if (statusCode == 200 ) {
-                    [Tools showHudTipStr:@"订单投标成功"];
+                    [Tools showSuccessWithStatus:@"订单投标成功"];
                     if (![self.collectionImage count]==0) {
                         [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                             
@@ -275,7 +275,7 @@
                     }
                     
                 }else{
-                    [Tools showHudTipStr:@"订单投标失败"];
+                    [Tools showErrorWithStatus:@"订单投标失败"];
                 }
             }];
         }

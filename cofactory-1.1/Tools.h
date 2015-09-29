@@ -82,7 +82,7 @@
 
  @param tipStr 提示框文本
  */
-+ (void)showHudTipStr:(NSString *)tipStr;
+//+ (void)showHudTipStr:(NSString *)tipStr;
 
 
 /*!

@@ -204,7 +204,7 @@
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"服装厂"] || [[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"加工厂"]) {
 
         if (_factoryAddressTF.text.length==0 || _factoryNameTF.text.length == 0 || _factorySizeTF.text.length==0 || _factoryServiceRangeTF.text.length == 0) {
-            [Tools showHudTipStr:@"注册信息不完整"];
+            [Tools showErrorWithStatus:@"注册信息不完整"];
         }else{
             [self geoCodeSearch];
 
@@ -215,7 +215,7 @@
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"代裁厂"] || [[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"锁眼钉扣厂"]) {
 
         if (_factoryAddressTF.text.length==0 || _factoryNameTF.text.length == 0 || _factorySizeTF.text.length==0) {
-            [Tools showHudTipStr:@"注册信息不完整"];
+            [Tools showErrorWithStatus:@"注册信息不完整"];
         }else{
             [self geoCodeSearch];
 
@@ -224,7 +224,7 @@
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"type"]isEqualToString:@"面辅料商"]) {
 
         if (_factoryAddressTF.text.length==0 || _factoryNameTF.text.length == 0 ) {
-            [Tools showHudTipStr:@"注册信息不完整"];
+            [Tools showErrorWithStatus:@"注册信息不完整"];
         }else{
             [self geoCodeSearch];
         }
@@ -250,7 +250,7 @@
         [userDefaults synchronize];
 
     } else {
-        [Tools showHudTipStr:@"百度地图检索发送失败"];
+        [Tools showErrorWithStatus:@"百度地图检索发送失败"];
     }
 }
 

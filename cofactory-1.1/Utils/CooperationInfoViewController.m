@@ -211,14 +211,14 @@
                 
             case 400:
             {
-                [Tools showHudTipStr:@"未登录"];
+                [Tools showErrorWithStatus:@"未登录"];
                 
             }
                 break;
                 
             case 401:
             {
-                [Tools showHudTipStr:@"需要重新登录"];
+                [Tools showErrorWithStatus:@"需要重新登录"];
                 
             }
                 break;

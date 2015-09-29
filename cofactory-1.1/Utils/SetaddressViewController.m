@@ -135,7 +135,7 @@
     addressString = [NSString stringWithFormat: @"%@%@%@%@", provinceStr, cityStr, districtStr,addressTF.text];
 
     if ([addressString isEqualToString:@""]) {
-        [Tools showHudTipStr:@"公司地址不能为空！"];
+        [Tools showErrorWithStatus:@"公司地址不能为空！"];
     }else{
         BMKGeoCodeSearchOption *geoCodeSearchOption = [[BMKGeoCodeSearchOption alloc] init];
         geoCodeSearchOption.address = addressString;
@@ -144,7 +144,7 @@
 
         } else {
             DLog(@"geo检索发送失败");
-            [Tools showHudTipStr:@"检索发送失败"];
+            [Tools showErrorWithStatus:@"检索发送失败"];
         }
 
     }
@@ -161,7 +161,7 @@
         mapVC.centerLocation = result.location;
         [self.navigationController pushViewController:mapVC animated:YES];
     } else {
-        [Tools showHudTipStr:@"抱歉，未找到结果。"];
+        [Tools showErrorWithStatus:@"抱歉，未找到结果。"];
 
     }
 }

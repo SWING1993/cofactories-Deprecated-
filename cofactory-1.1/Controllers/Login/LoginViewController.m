@@ -126,14 +126,14 @@
             if ([_passwordTF.text isEqualToString:@""]||[_usernameTF.text isEqualToString:@""]) {
 
                 [button setEnabled:YES];
-                [Tools showHudTipStr:@"请您填写账号以及密码后登陆"];
+                [Tools showErrorWithStatus:@"请您填写账号以及密码后登陆"];
             }else{
                 [HttpClient loginWithUsername:_usernameTF.text password:_passwordTF.text andBlock:^(int statusCode) {
                     DLog(@"%d",statusCode);
                     switch (statusCode) {
                         case 0:{
                             [button setEnabled:YES];
-                            [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                            [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
 
                         }
                             break;
@@ -159,13 +159,13 @@
                             break;
                         case 400:{
                             [button setEnabled:YES];
-                            [Tools showHudTipStr:@"用户名或密码错误！"];
+                            [Tools showErrorWithStatus:@"用户名或密码错误！"];
                         }
                             break;
                             
                         default:
                             [button setEnabled:YES];
-                            [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                            [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
                             break;
                     }
                 }];

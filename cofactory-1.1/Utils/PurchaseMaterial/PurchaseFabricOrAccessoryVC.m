@@ -189,7 +189,7 @@
 - (void)addImageClick{
     
     if ([_imageViewArray count]== 9) {
-        [Tools showHudTipStr:@"图片最多上传9张"];
+        [Tools showErrorWithStatus:@"图片最多上传9张"];
     }else {
         JKImagePickerController *imagePickerController = [[JKImagePickerController alloc] init];
         imagePickerController.delegate = self;
@@ -292,6 +292,7 @@
                 int amuont = [_amountTF.text intValue];
                 [HttpClient sendMaterialPurchaseInfomationWithType:self.materiaType name:_nameTF.text description:_commentTF.text amount:@(amuont) unit:_buttonTitleArray[_selectedIndex-1] completionBlock:^(NSDictionary *responseDictionary) {
                     int statusCode = [responseDictionary[@"statusCode"] intValue];
+                    DLog("++++>>>>%d",statusCode);
                     if (statusCode == 200) {
                         int index = [responseDictionary[@"responseObject"][@"id"] intValue];
                         [_imageViewArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {

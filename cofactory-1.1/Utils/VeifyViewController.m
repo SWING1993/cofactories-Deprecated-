@@ -75,10 +75,10 @@
 - (void)RevisePasswordBtn {
     if (textField1.text.length!=0&&textField2.text.length!=0&&textField3.text.length!=0) {
         if (textField3.text.length!=18) {
-            [Tools showHudTipStr:@"身份证信息不完整!"];
+            [Tools showErrorWithStatus:@"身份证信息不完整!"];
 
         }if ([self.imageArray count]!=3) {
-            [Tools showHudTipStr:@"照片信息不完整!"];
+            [Tools showErrorWithStatus:@"照片信息不完整!"];
             
         }else{
 
@@ -95,12 +95,12 @@
                         break;
                     case 400:
                     {
-                        [Tools showHudTipStr:@"未登录"];
+                        [Tools showErrorWithStatus:@"未登录"];
                     }
                         break;
                     case 409:
                     {
-                        [Tools showHudTipStr:@"已经认证或者正在认证，不能修改。"];
+                        [Tools showShimmeringString:@"已经认证或者正在认证，不能修改。"];
                     }
                         break;
 
@@ -111,7 +111,7 @@
             }];
         }
     }else{
-        [Tools showHudTipStr:@"认证信息不完整"];
+        [Tools showErrorWithStatus:@"认证信息不完整"];
     }
 }
 
@@ -293,9 +293,9 @@
         {
             [HttpClient uploadVerifyImage:[self.imageArray lastObject] type:@"license" andblock:^(NSDictionary *dictionary) {
                 if ([dictionary[@"statusCode"] intValue]==200) {
-                    [Tools showHudTipStr:@"上传成功"];
+                    [Tools showSuccessWithStatus:@"上传成功"];
                 }else{
-                    [Tools showHudTipStr:@"上传失败"];
+                    [Tools showErrorWithStatus:@"上传失败"];
                 }
 
             }];
@@ -306,9 +306,9 @@
         {
             [HttpClient uploadVerifyImage:[self.imageArray lastObject] type:@"idCard" andblock:^(NSDictionary *dictionary) {
                 if ([dictionary[@"statusCode"] intValue]==200) {
-                    [Tools showHudTipStr:@"上传成功"];
+                    [Tools showSuccessWithStatus:@"上传成功"];
                 }else{
-                    [Tools showHudTipStr:@"上传失败"];
+                    [Tools showErrorWithStatus:@"上传失败"];
                 }
             }];
 
@@ -319,9 +319,9 @@
         {
             [HttpClient uploadVerifyImage:[self.imageArray lastObject] type:@"photo" andblock:^(NSDictionary *dictionary) {
                 if ([dictionary[@"statusCode"] intValue]==200) {
-                    [Tools showHudTipStr:@"上传成功"];
+                    [Tools showSuccessWithStatus:@"上传成功"];
                 }else{
-                    [Tools showHudTipStr:@"上传失败"];
+                    [Tools showErrorWithStatus:@"上传失败"];
                 }
             }];
         }

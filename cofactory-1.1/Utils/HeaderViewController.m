@@ -118,7 +118,7 @@
     if (buttonIndex == 0) {
 
         if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            [Tools showHudTipStr:@"设备没有相机"];
+            [Tools showErrorWithStatus:@"设备没有相机"];
         } else {
             UIImagePickerController *imagePickerController = [UIImagePickerController new];
             imagePickerController.delegate = self;
@@ -152,7 +152,7 @@
     [picker dismissViewControllerAnimated:YES completion:^{
         [HttpClient uploadImageWithImage:newImage type:@"avatar" andblock:^(NSDictionary *dictionary) {
             if ([dictionary[@"statusCode"] intValue]==200) {
-                [Tools showHudTipStr:@"头像上传成功,但是头像显示会略有延迟。"];
+                [Tools showSuccessWithStatus:@"头像上传成功,但是头像显示会略有延迟。"];
                 headerView.image = image;
 
                 //清除缓存  显示头像
