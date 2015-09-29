@@ -250,6 +250,18 @@
 }
 
 
+//去除链接
+- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
+    if(navigationType==UIWebViewNavigationTypeLinkClicked)//判断是否是点击链接
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+}
+
 
 
 - (void)didReceiveMemoryWarning {
