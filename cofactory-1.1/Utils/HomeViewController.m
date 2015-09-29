@@ -59,26 +59,26 @@ static NSString *LastCellIdentifier = @"LastCell";
     UIView *headerView;
 }
 - (void)viewWillAppear:(BOOL)animated {
-
+    
     //工厂类型
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         UserModel*userModel=responseDictionary[@"model"];
         [super viewWillAppear:animated];
-
+        
         self.factoryFreeStatus=userModel.factoryFreeStatus;
         self.hasTruck=userModel.hasTruck;
         self.factoryFreeTime=userModel.factoryFreeTime;
-//        self.factoryType =userModel.factoryType;
-
+        //        self.factoryType =userModel.factoryType;
+        
         DLog(@"刷新工厂=%@  自备货车%d  空闲时间%@",userModel.factoryFreeStatus,self.hasTruck,self.factoryFreeTime);
-
+        
         // 存储用户相关信息
         NSNumber *MyUid = [NSNumber numberWithInt:userModel.uid];
         [[NSUserDefaults standardUserDefaults] setObject:MyUid forKey:@"selfuid"];
         [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
         [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryAddress forKey:@"factoryAddress"];
         [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
-//        [[NSUserDefaults standardUserDefaults] setInteger:self.factoryType forKey:@"factoryType"];
+        //        [[NSUserDefaults standardUserDefaults] setInteger:self.factoryType forKey:@"factoryType"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }];
     [self.tableView reloadData];
@@ -114,7 +114,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             }
         }
             break;
-
+            
         case 2:
         {
             if (self.factoryType == 1) {
@@ -130,7 +130,10 @@ static NSString *LastCellIdentifier = @"LastCell";
             }
         }
             break;
-
+            
+        case 3:
+            
+            break;
             
         default:
             break;
@@ -139,28 +142,29 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.view.backgroundColor=[UIColor whiteColor];
-
+    
     //工厂类型
     NSNumber * factoryTypeNumber = [[NSNumber alloc]initWithInteger:kFactoryType];
     self.factoryType = [factoryTypeNumber intValue];
-
-
+    
+    
     // 初始化模型
     self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, kScreenW, kScreenH-(kNavigationBarHeight+kStatusBarHeight)) style:UITableViewStyleGrouped];
     self.automaticallyAdjustsScrollViewInsets = YES;// 自动调整视图关闭
     self.tableView.showsVerticalScrollIndicator = NO;// 竖直滚动条不显示
-
+    
     // 表头视图
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
-    NSArray *imageArray = @[@"服装平台.png",@"面辅料.png",@"新功能.png"];
-    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:imageArray isNetWork:YES];
+    NSArray *imageArray = @[@"服装平台.png",@"面辅料.png",@"新功能.png", @"营销活动.png"];
+    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:imageArray pageCount:4 isNetWork:YES];
     [bannerView.imageButton1 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
     [bannerView.imageButton2 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
     [bannerView.imageButton3 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
+    [bannerView.imageButton4 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:bannerView];
-
+    
     if (self.factoryType==0) {
         ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"订单管理"];
         [headerView addSubview:buttonView];
@@ -170,7 +174,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
     }
     if (self.factoryType==1 || self.factoryType==2 || self.factoryType== 3) {
-
+        
         ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"设置状态"];
         [headerView addSubview:buttonView];
         [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -178,7 +182,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         [buttonView.postButton addTarget:self action:@selector(authClicked:) forControlEvents:UIControlEventTouchUpInside];
         [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
     }
-
+    
     if (self.factoryType==5) {
         ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"面料供应"];
         [headerView addSubview:buttonView];
@@ -188,7 +192,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
     }
     self.tableView.tableHeaderView = headerView;
-
+    
     //注册cell
     [self.tableView registerClass:[ActivityCell class] forCellReuseIdentifier:ActivityCellIdentifier];
     [self.tableView registerClass:[FindFactoryCell class] forCellReuseIdentifier:FactoryCellIdentifier];
@@ -209,7 +213,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         DLog(@"企业账号 开启检测更新")
         [[PgyManager sharedPgyManager] checkUpdate];
     }
-
+    
     //抽奖
     [HttpClient drawAccessWithBlock:^(int statusCode) {
         DLog(@"%d",statusCode);
@@ -219,7 +223,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             [alertView show];
         }
     }];
-
+    
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex==1) {
@@ -242,7 +246,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     PopularMesageViewController *vc = [[PopularMesageViewController alloc]init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
-
+    
 }
 #pragma mark - 找合作商
 - (void)findClicked:(id)sender {
@@ -254,7 +258,7 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 #pragma mark - 面辅料供应
 - (void)pushSupply:(id)sender {
-
+    
     SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
     supplyVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:supplyVC animated:YES];
@@ -262,7 +266,7 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 #pragma mark - 发布订单
 - (void)postClicked:(id)sender {
-
+    
     PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
     pushOrderVC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:pushOrderVC animated:YES];
@@ -290,14 +294,14 @@ static NSString *LastCellIdentifier = @"LastCell";
 - (void)statusClicked:(id)sender {
     UIButton*button = (UIButton *)sender;
     [button setUserInteractionEnabled:NO];
-
+    
     //认证信息
     [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
         NSDictionary*VeifyDic=dictionary[@"responseDictionary"];
         self.status = [VeifyDic[@"status"] intValue];
         DLog(@"认证状态%d", self.status);
         [button setUserInteractionEnabled:YES];
-
+        
         //未认证
         if ( self.status==0) {
             VeifyViewController*veifyVC = [[VeifyViewController alloc]init];
@@ -355,12 +359,12 @@ static NSString *LastCellIdentifier = @"LastCell";
             searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
             [self.navigationController pushViewController:searchViewController animated:YES];
         }
-
+            
             break;
         case 1003:
         {
             // 找代裁厂信息
-
+            
             FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
             
             searchViewController.factoryType = 2;
@@ -368,7 +372,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
             [self.navigationController pushViewController:searchViewController animated:YES];
         }
-
+            
             break;
         case 1004:
         {
@@ -412,9 +416,9 @@ static NSString *LastCellIdentifier = @"LastCell";
         {
 #warning 记得改回来。。。。
             
-//            SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
-//            supplyVC.hidesBottomBarWhenPushed = YES;
-//            [self.navigationController pushViewController:supplyVC animated:YES];
+            //            SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
+            //            supplyVC.hidesBottomBarWhenPushed = YES;
+            //            [self.navigationController pushViewController:supplyVC animated:YES];
             //我想供应
             if (self.factoryType == 5) {
                 SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
@@ -423,9 +427,9 @@ static NSString *LastCellIdentifier = @"LastCell";
             }else{
                 [Tools showHudTipStr:@"面辅料专区，非面辅料请至首页上方发布订单！"];
             }
-
+            
             DLog(@"我想供应");
-
+            
         }
             break;
         case 1008:
@@ -443,7 +447,7 @@ static NSString *LastCellIdentifier = @"LastCell";
                 self.navigationItem.backBarButtonItem = backItem;
                 self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
                 [self.navigationController pushViewController:VC animated:YES];
-
+                
             }
         }
             break;
@@ -473,8 +477,8 @@ static NSString *LastCellIdentifier = @"LastCell";
         }
             break;
             
-
-                default:
+            
+        default:
             break;
     }
 }
@@ -516,7 +520,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         cell.machineButton.tag = 1005;
         [cell.cutButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
         cell.cutButton.tag = 1006;
-
+        
         return cell;
     } else if(indexPath.section == 3){
         LastmachineCell *cell = [tableView dequeueReusableCellWithIdentifier:LastCellIdentifier forIndexPath:indexPath];
@@ -540,9 +544,9 @@ static NSString *LastCellIdentifier = @"LastCell";
         [cell.rightButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
         cell.rightButton.tag = 1010;
         return cell;
-
+        
     }
-
+    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
