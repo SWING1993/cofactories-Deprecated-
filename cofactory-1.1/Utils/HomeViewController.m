@@ -14,6 +14,7 @@
 #import "SearchFactoryOrderVC.h"
 #import "PopularMesageViewController.h"
 #import "PurchaseVC.h"
+#import "ActivityViewController.h"
 
 #import <PgySDK/PgyManager.h>
 
@@ -132,7 +133,12 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
             
         case 3:
-            
+        {
+            ActivityViewController *vc = [[ActivityViewController alloc]init];
+            vc.url = @"http://activity.cofactories.com/";
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
             break;
             
         default:
@@ -157,7 +163,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     
     // 表头视图
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
-    NSArray *imageArray = @[@"服装平台.png",@"面辅料.png",@"新功能.png", @"营销活动.png"];
+    NSArray *imageArray = @[@"服装平台.png",@"面辅料.png",@"新功能.png", @"活动轮播图.png"];
     PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:imageArray pageCount:4 isNetWork:YES];
     [bannerView.imageButton1 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
     [bannerView.imageButton2 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
