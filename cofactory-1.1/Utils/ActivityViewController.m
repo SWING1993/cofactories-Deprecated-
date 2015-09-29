@@ -9,7 +9,9 @@
 #import "Header.h"
 #import "ActivityViewController.h"
 
-@interface ActivityViewController ()
+@interface ActivityViewController () {
+    UIWebView *activityWebView;
+}
 
 @end
 
@@ -17,18 +19,37 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
+    UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
+    temporaryBarButtonItem.title = @"返回";
+    temporaryBarButtonItem.target = self;
+    temporaryBarButtonItem.action = @selector(back);
+    self.navigationItem.leftBarButtonItem = temporaryBarButtonItem;
+
+    
+    
     self.view.backgroundColor=[UIColor whiteColor];
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64)];
+    activityWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64)];
     NSURL *url = [NSURL URLWithString:self.url];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-    [webView loadRequest:urlRequest];
-    [self.view addSubview:webView];
+    [activityWebView loadRequest:urlRequest];
+    [self.view addSubview:activityWebView];
 
     DLog(@"%@",url);
 
 }
 
+- (void) back
+{
+    if ([activityWebView canGoBack]) {
+        [activityWebView goBack];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    }
+}
 
 
 - (void)didReceiveMemoryWarning {
