@@ -168,6 +168,7 @@
         case 1:
         {
             if ([WXApi isWXAppInstalled] == NO && [QQApiInterface isQQInstalled] == NO) {
+                DLog(@"微信和QQ都没安装");
                 [UMSocialSnsService presentSnsIconSheetView:self
                                                      appKey:UMENGAppKey
                                                   shareText:[NSString stringWithFormat:@"%@, %@", self.name, self.urlString]
@@ -181,10 +182,10 @@
                 [UMSocialData defaultData].extConfig.qqData.url = self.urlString;//QQ好友
                 [UMSocialData defaultData].extConfig.qzoneData.url = self.urlString;//QQ空间
                 [UMSocialSnsService presentSnsIconSheetView:self
-                                                     appKey:@"55e03514e0f55a390f003db7"
-                                                  shareText:[NSString stringWithFormat:@"%@, %@", self.name, self.urlString]
-                                                 shareImage:[UIImage imageNamed:@"logo"]
-                                            shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQQ,UMShareToQzone, UMShareToSms]
+                                                    appKey:@"55e03514e0f55a390f003db7"
+                                        shareText:self.name
+                                        shareImage:[UIImage imageNamed:@"logo"]
+                                            shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQQ,UMShareToQzone]
                                                    delegate:self];
                 
                 DLog(@"资讯");
