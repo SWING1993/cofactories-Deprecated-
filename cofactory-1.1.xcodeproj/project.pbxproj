@@ -37,6 +37,7 @@
 		0457E3FF1B8EE6B400F38881 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0457E3FD1B8EE6B400F38881 /* YLImageView.m */; };
 		045939301B7869F3004DA7D6 /* PushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0459392F1B7869F3004DA7D6 /* PushViewController.m */; };
 		045939331B786A57004DA7D6 /* GetPushModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 045939321B786A57004DA7D6 /* GetPushModel.m */; };
+		0459D4581BBA265D00CCE4D9 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0459D4571BBA265D00CCE4D9 /* Bugly.framework */; settings = {ASSET_TAGS = (); }; };
 		045A26661B686682002DE415 /* CalendarDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26551B686682002DE415 /* CalendarDayCell.m */; };
 		045A26671B686682002DE415 /* CalendarDayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26571B686682002DE415 /* CalendarDayModel.m */; };
 		045A26681B686682002DE415 /* CalendarHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26591B686682002DE415 /* CalendarHomeViewController.m */; };
@@ -421,6 +422,7 @@
 		0459392F1B7869F3004DA7D6 /* PushViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushViewController.m; sourceTree = "<group>"; };
 		045939311B786A57004DA7D6 /* GetPushModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetPushModel.h; sourceTree = "<group>"; };
 		045939321B786A57004DA7D6 /* GetPushModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetPushModel.m; sourceTree = "<group>"; };
+		0459D4571BBA265D00CCE4D9 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bugly.framework; path = "Bugly_libc++/Bugly.framework"; sourceTree = "<group>"; };
 		045A26541B686682002DE415 /* CalendarDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarDayCell.h; sourceTree = "<group>"; };
 		045A26551B686682002DE415 /* CalendarDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarDayCell.m; sourceTree = "<group>"; };
 		045A26561B686682002DE415 /* CalendarDayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarDayModel.h; sourceTree = "<group>"; };
@@ -1008,6 +1010,7 @@
 				BD8C4DFB1B4FB2E10065ECFA /* Security.framework in Frameworks */,
 				BD8753A01BB5967700A5F4CC /* libUMessage_Sdk_1.1.0.a in Frameworks */,
 				BD87536C1BB5936500A5F4CC /* libSocialQQ.a in Frameworks */,
+				0459D4581BBA265D00CCE4D9 /* Bugly.framework in Frameworks */,
 				045171BB1B70B03800BAA6E8 /* CoreFoundation.framework in Frameworks */,
 				BD87536A1BB5936500A5F4CC /* libWeiboSDK.a in Frameworks */,
 				BD8753E21BB596CF00A5F4CC /* libUMOpus.a in Frameworks */,
@@ -1178,6 +1181,14 @@
 				0457E3FD1B8EE6B400F38881 /* YLImageView.m */,
 			);
 			path = YLGIFImage;
+			sourceTree = "<group>";
+		};
+		0459D4561BBA263900CCE4D9 /* Bugly */ = {
+			isa = PBXGroup;
+			children = (
+				0459D4571BBA265D00CCE4D9 /* Bugly.framework */,
+			);
+			path = Bugly;
 			sourceTree = "<group>";
 		};
 		045A26531B686682002DE415 /* ZFCalendar */ = {
@@ -2216,6 +2227,7 @@
 		BDC907E11B4E9B3700856A32 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				0459D4561BBA263900CCE4D9 /* Bugly */,
 				042A0EE61B7B588100ECE841 /* HttpClient.h */,
 				042A0EE71B7B588100ECE841 /* HttpClient.m */,
 				04AE21841B535ABC007A3279 /* Tools.h */,
@@ -2961,6 +2973,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/cofactory-1.1/Utils",
 					"$(PROJECT_DIR)/cofactory-1.1/Utils/UMeng/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
+					"$(PROJECT_DIR)/cofactory-1.1/Utils/Bugly/Bugly_libc++",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/cofactory-1.1/Cofactory_iOS-Prefix.pch";
@@ -2985,7 +2998,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cofactory.iosapp;
 				PRODUCT_NAME = "cofactory-1.1";
-				PROVISIONING_PROFILE = "a853d66d-705d-4d5f-abf9-4f984ab3bede";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -3004,6 +3017,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/cofactory-1.1/Utils",
 					"$(PROJECT_DIR)/cofactory-1.1/Utils/UMeng/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
+					"$(PROJECT_DIR)/cofactory-1.1/Utils/Bugly/Bugly_libc++",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/cofactory-1.1/Cofactory_iOS-Prefix.pch";
@@ -3026,7 +3040,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cofactory.iosapp;
 				PRODUCT_NAME = "cofactory-1.1";
-				PROVISIONING_PROFILE = "a853d66d-705d-4d5f-abf9-4f984ab3bede";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;

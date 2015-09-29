@@ -16,7 +16,11 @@
 #import "UMSocialSinaSSOHandler.h"
 #import "UMSocialSinaHandler.h"
 
+//蒲公英
 #import <PgySDK/PgyManager.h>
+
+//腾讯Bugly
+#import <Bugly/CrashReporter.h>
 
 #import "MobClick.h"
 
@@ -33,19 +37,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
-    //[UMSocialData setAppKey:UMENGAppKey];
-    
-    //设置微信AppId、appSecret，分享url
-    [UMSocialWechatHandler setWXAppId:@"wxdf66977ff3f413e2" appSecret:@"a6e3fe6788a9a523cb6657e0ef7ae9f4" url:@"http://www.umeng.com/social"];
-    //设置QQ
-    [UMSocialQQHandler setQQWithAppId:@"1104779454" appKey:@"VNaZ1cQfyRS2C3I7" url:@"http://www.umeng.com/social"];
-    //打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。若在新浪后台设置我们的回调地址，“http://sns.whalecloud.com/sina2/callback”，这里可以传nil
-    //[UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
-    //[UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
-    
-    
     self.window = [[UIWindow alloc] initWithFrame:kScreenBounds];
     self.window.backgroundColor = [UIColor whiteColor];
+
+    //关闭友盟bug检测
+    [MobClick setCrashReportEnabled:NO];
 
     if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
         //个人开发者 关闭蒲公英
@@ -70,18 +66,19 @@
         // 注册友盟推送服务 SDK
         //set AppKey and LaunchOptions
         [UMessage startWithAppkey:appStoreUMENGAppKey launchOptions:launchOptions];
+
+        //开启腾讯Bugly
+        [[CrashReporter sharedInstance] installWithAppId:@"900009962"];
         
     }else
     {
         //企业账号 开启蒲公英
         DLog(@"企业账号 开启蒲公英")
-        //  关闭用户手势反馈，默认为开启。
+
+        //关闭蒲公英用户手势反馈
         [[PgyManager sharedPgyManager] setEnableFeedback:NO];
-        //  设置用户反馈界面的颜色，颜色会影响到Title以及工具栏的背景颜色和录音按钮的边框颜色，默认为黑色。
-        [[PgyManager sharedPgyManager] setThemeColor:[UIColor colorWithHexString:@"0x28303b"]];
-        //  启动SDK
-        //  设置三指拖动激活摇一摇需在此调用之前
-        
+
+        //启动蒲公英SDK
         [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
 
         // 初始化百度地图 SDK
@@ -105,8 +102,17 @@
         // 注册友盟推送服务 SDK
         //set AppKey and LaunchOptions
         [UMessage startWithAppkey:UMENGAppKey launchOptions:launchOptions];
-    }
 
+        //开启腾讯Bugly
+        [[CrashReporter sharedInstance] installWithAppId:@"900009962"];
+    }
+    //设置微信AppId、appSecret，分享url
+    [UMSocialWechatHandler setWXAppId:@"wxdf66977ff3f413e2" appSecret:@"a6e3fe6788a9a523cb6657e0ef7ae9f4" url:@"http://www.umeng.com/social"];
+    //设置QQ
+    [UMSocialQQHandler setQQWithAppId:@"1104779454" appKey:@"VNaZ1cQfyRS2C3I7" url:@"http://www.umeng.com/social"];
+    //打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。若在新浪后台设置我们的回调地址，“http://sns.whalecloud.com/sina2/callback”，这里可以传nil
+    //[UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    //[UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
 
 //    [UMessage setAutoAlert:NO];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_

@@ -32,7 +32,7 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
 
         //未登录 加载展示页面
         [self showIntroWithCrossDissolve];
-//        [ViewController goLogin];
+        //[ViewController goLogin];
 
     }else{
         //工厂类型
@@ -93,20 +93,20 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
     nav4.navigationBar.barStyle=UIBarStyleBlack;
 
     
-        //获取消息
-        [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {
-            if ([responseDictionary[@"statusCode"] intValue]==200) {
-                NSArray *array=responseDictionary[@"responseArray"];
-                NSInteger messageCount = array.count;
-                NSString *badgeValue = [NSString stringWithFormat:@"%ld",(long)messageCount];
-                NSLog(@"badgeValue==%@",badgeValue);
-                if ([badgeValue isEqualToString:@"0"] ) {
-                    VC3.tabBarItem.badgeValue = nil;
-                }else{
-                    VC3.tabBarItem.badgeValue = badgeValue;
-                }
-            };
-        }];
+//        //获取消息
+//        [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {
+//            if ([responseDictionary[@"statusCode"] intValue]==200) {
+//                NSArray *array=responseDictionary[@"responseArray"];
+//                NSInteger messageCount = array.count;
+//                NSString *badgeValue = [NSString stringWithFormat:@"%ld",(long)messageCount];
+//                NSLog(@"badgeValue==%@",badgeValue);
+//                if ([badgeValue isEqualToString:@"0"] ) {
+//                    VC3.tabBarItem.badgeValue = nil;
+//                }else{
+//                    VC3.tabBarItem.badgeValue = badgeValue;
+//                }
+//            };
+//        }];
 
     VC1.title = @"聚工厂";
     VC2.title = @"合作商";

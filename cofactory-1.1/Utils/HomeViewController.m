@@ -144,7 +144,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     [super viewDidLoad];
     
     self.view.backgroundColor=[UIColor whiteColor];
-    
+
     //工厂类型
     NSNumber * factoryTypeNumber = [[NSNumber alloc]initWithInteger:kFactoryType];
     self.factoryType = [factoryTypeNumber intValue];
