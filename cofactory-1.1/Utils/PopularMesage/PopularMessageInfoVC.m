@@ -9,6 +9,9 @@
 #import "PopularMessageInfoVC.h"
 #import "CommentViewController.h"
 #import "UMSocial.h"
+#import "QQApiInterface.h"
+#import "WXApi.h"
+
 
 @interface PopularMessageInfoVC ()<UIWebViewDelegate, UMSocialUIDelegate> {
     UIButton *btn3;
@@ -164,20 +167,30 @@
     switch (sender.tag) {
         case 1:
         {
-        //分享多个
-            [UMSocialData defaultData].extConfig.wechatSessionData.url = self.urlString;//微信好友
-            [UMSocialData defaultData].extConfig.wechatTimelineData.url = self.urlString;//微信朋友圈
-            [UMSocialData defaultData].extConfig.qqData.url = self.urlString;//QQ好友
-            [UMSocialData defaultData].extConfig.qzoneData.url = self.urlString;//QQ空间
-            [UMSocialSnsService presentSnsIconSheetView:self
-                                                 appKey:@"55e03514e0f55a390f003db7"
-                                              shareText:[NSString stringWithFormat:@"%@, %@", self.name, self.urlString]
-                                             shareImage:[UIImage imageNamed:@"logo"]
-                                        shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQQ,UMShareToQzone, UMShareToSms]
-                                               delegate:self];
-            
-            DLog(@"资讯");
-        }
+            if ([WXApi isWXAppInstalled] == NO && [QQApiInterface isQQInstalled] == NO) {
+                [UMSocialSnsService presentSnsIconSheetView:self
+                                                     appKey:UMENGAppKey
+                                                  shareText:[NSString stringWithFormat:@"%@, %@", self.name, self.urlString]
+                                                 shareImage:nil
+                                            shareToSnsNames:[NSArray arrayWithObjects:UMShareToSms,nil]
+                                                   delegate:self];
+            } else {
+                //分享多个
+                [UMSocialData defaultData].extConfig.wechatSessionData.url = self.urlString;//微信好友
+                [UMSocialData defaultData].extConfig.wechatTimelineData.url = self.urlString;//微信朋友圈
+                [UMSocialData defaultData].extConfig.qqData.url = self.urlString;//QQ好友
+                [UMSocialData defaultData].extConfig.qzoneData.url = self.urlString;//QQ空间
+                [UMSocialSnsService presentSnsIconSheetView:self
+                                                     appKey:@"55e03514e0f55a390f003db7"
+                                                  shareText:[NSString stringWithFormat:@"%@, %@", self.name, self.urlString]
+                                                 shareImage:[UIImage imageNamed:@"logo"]
+                                            shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQQ,UMShareToQzone, UMShareToSms]
+                                                   delegate:self];
+                
+                DLog(@"资讯");
+
+            }
+                }
             break;
 
         case 2:
