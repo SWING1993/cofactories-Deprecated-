@@ -237,19 +237,18 @@
 }
 
 
-
-//- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-//{
-//    if (component == PROVINCE_COMPONENT) {
-//        return [province objectAtIndex: row];
-//    }
-//    else if (component == CITY_COMPONENT) {
-//        return [city objectAtIndex: row];
-//    }
-//    else {
-//        return [district objectAtIndex: row];
-//    }
-//}
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    if (component == PROVINCE_COMPONENT) {
+        return [province objectAtIndex: row];
+    }
+    else if (component == CITY_COMPONENT) {
+        return [city objectAtIndex: row];
+    }
+    else {
+        return [district objectAtIndex: row];
+    }
+}
 
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component

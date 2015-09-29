@@ -499,29 +499,29 @@
 
 
 
-//- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-//{
-//
-//    DLog(@"a");
-//    if (pickerView.tag == 3) {
-//        if (component == PROVINCE_COMPONENT) {
-//            return [province objectAtIndex: row];
-//        }
-//        else if (component == CITY_COMPONENT) {
-//            return [city objectAtIndex: row];
-//        }
-//        else {
-//            return [district objectAtIndex: row];
-//        }
-//    }
-//
-//    if (pickerView.tag==1) {
-//        return [self.cellPickList objectAtIndex:row];
-//    }else{
-//        return [self.cellServicePickList objectAtIndex:row];
-//    }
-//}
-//
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+
+    DLog(@"a");
+    if (pickerView.tag == 3) {
+        if (component == PROVINCE_COMPONENT) {
+            return [province objectAtIndex: row];
+        }
+        else if (component == CITY_COMPONENT) {
+            return [city objectAtIndex: row];
+        }
+        else {
+            return [district objectAtIndex: row];
+        }
+    }
+
+    if (pickerView.tag==1) {
+        return [self.cellPickList objectAtIndex:row];
+    }else{
+        return [self.cellServicePickList objectAtIndex:row];
+    }
+}
+
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
@@ -616,7 +616,7 @@
 {
     DLog(@"- (UIView *)pickerView:");
     if (pickerView.tag == 1) {
-        UILabel *myView = nil;myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 110, 30)];
+        UILabel *myView = nil;myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, kScreenW, 30)];
         myView.textAlignment = NSTextAlignmentCenter;
         myView.text = [self.cellPickList objectAtIndex:row];
         myView.font = kFont;
@@ -628,7 +628,7 @@
 
     }
     if (pickerView.tag == 2) {
-        UILabel *myView = nil;myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 110, 30)];
+        UILabel *myView = nil;myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, kScreenW, 30)];
         myView.textAlignment = NSTextAlignmentCenter;
         myView.text = [self.cellServicePickList objectAtIndex:row];
         myView.textColor = [UIColor blackColor];

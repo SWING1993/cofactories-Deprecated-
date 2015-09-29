@@ -214,7 +214,7 @@
 
     if (indexPath.section == 0) {
 
-        cellImage.image=self.cellImageArray1[6];
+        cellImage.image=self.cellImageArray1[indexPath.row];
 
         switch (indexPath.row) {
             case 0:{
