@@ -301,7 +301,7 @@
                             NSString *oidString = [NSString stringWithFormat:@"%d",index];
                             [HttpClient uploadMaterialImageWithImage:newImage oid:oidString type:@"buy" andblock:^(NSDictionary *dictionary) {
                                 if ([dictionary[@"statusCode"] intValue] == 200) {
-                                    [Tools showHudTipStr:@"发布成功"];
+                                    [Tools showSuccessWithStatus:@"发布成功"];
                                     double delayInSeconds = 1.0f;
                                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                                     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -310,13 +310,15 @@
                                     });
                                 }
                                 else{
-                                    [Tools showHudTipStr:@"图片上传失败"];
+                                    [Tools showErrorWithStatus:@"图片上传失败"];
                                 }
 
                             }];
                             
                         }];
                         
+                    }else{
+                        [Tools showErrorWithStatus:@"发布失败"];
                     }
                 }];
             }
@@ -345,13 +347,15 @@
             [HttpClient sendMaterialPurchaseInfomationWithType:self.materiaType name:_nameTF.text description:_commentTF.text amount:@(amuont) unit:_buttonTitleArray[_selectedIndex-1] completionBlock:^(NSDictionary *responseDictionary) {
                 int statusCode = [responseDictionary[@"statusCode"] intValue];
                 if (statusCode == 200) {
-                    [Tools showHudTipStr:@"发布成功"];
+                    [Tools showSuccessWithStatus:@"发布成功"];
                     double delayInSeconds = 1.0f;
                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                         NSArray *navArray = self.navigationController.viewControllers;
                         [self.navigationController popToViewController:navArray[1] animated:YES];
                     });
+                }else{
+                    [Tools showErrorWithStatus:@"发布失败"];
                 }
             }];
         }
