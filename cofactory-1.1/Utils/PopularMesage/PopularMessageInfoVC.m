@@ -171,9 +171,9 @@
             [UMSocialData defaultData].extConfig.qzoneData.url = self.urlString;//QQ空间
             [UMSocialSnsService presentSnsIconSheetView:self
                                                  appKey:@"55e03514e0f55a390f003db7"
-                                              shareText:self.name
+                                              shareText:[NSString stringWithFormat:@"%@, %@", self.name, self.urlString]
                                              shareImage:[UIImage imageNamed:@"logo"]
-                                        shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQQ,UMShareToQzone]
+                                        shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQQ,UMShareToQzone, UMShareToSms]
                                                delegate:self];
             
             DLog(@"资讯");
