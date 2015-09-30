@@ -34,7 +34,43 @@
     self.title=@"公司地址";
     self.view.backgroundColor=[UIColor colorWithWhite:0.952 alpha:1.000];
 
-    [self pickerviewData];
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSString *plistPath = [bundle pathForResource:@"Areas" ofType:@"plist"];
+    areaDic = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+
+    NSArray *components = [areaDic allKeys];
+    NSArray *sortedArray = [components sortedArrayUsingComparator: ^(id obj1, id obj2) {
+
+        if ([obj1 integerValue] > [obj2 integerValue]) {
+            return (NSComparisonResult)NSOrderedDescending;
+        }
+
+        if ([obj1 integerValue] < [obj2 integerValue]) {
+            return (NSComparisonResult)NSOrderedAscending;
+        }
+        return (NSComparisonResult)NSOrderedSame;
+    }];
+
+    NSMutableArray *provinceTmp = [[NSMutableArray alloc] init];
+    for (int i=0; i<[sortedArray count]; i++) {
+        NSString *index = [sortedArray objectAtIndex:i];
+        NSArray *tmp = [[areaDic objectForKey: index] allKeys];
+        [provinceTmp addObject: [tmp objectAtIndex:0]];
+    }
+
+    province = [[NSArray alloc] initWithArray: provinceTmp];
+
+    NSString *index = [sortedArray objectAtIndex:0];
+    NSString *selected = [province objectAtIndex:0];
+    NSDictionary *dic = [NSDictionary dictionaryWithDictionary: [[areaDic objectForKey:index]objectForKey:selected]];
+
+    NSArray *cityArray = [dic allKeys];
+    NSDictionary *cityDic = [NSDictionary dictionaryWithDictionary: [dic objectForKey: [cityArray objectAtIndex:0]]];
+    city = [[NSArray alloc] initWithArray: [cityDic allKeys]];
+
+
+    NSString *selectedCity = [city objectAtIndex: 0];
+    district = [[NSArray alloc] initWithArray: [cityDic objectForKey: selectedCity]];
 
 
     _searcher = [[BMKGeoCodeSearch alloc] init];
@@ -79,60 +115,21 @@
 
 }
 
-
-- (void)pickerviewData {
-
-    NSBundle *bundle = [NSBundle mainBundle];
-    NSString *plistPath = [bundle pathForResource:@"Areas" ofType:@"plist"];
-    areaDic = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
-
-    NSArray *components = [areaDic allKeys];
-    NSArray *sortedArray = [components sortedArrayUsingComparator: ^(id obj1, id obj2) {
-
-        if ([obj1 integerValue] > [obj2 integerValue]) {
-            return (NSComparisonResult)NSOrderedDescending;
-        }
-
-        if ([obj1 integerValue] < [obj2 integerValue]) {
-            return (NSComparisonResult)NSOrderedAscending;
-        }
-        return (NSComparisonResult)NSOrderedSame;
-    }];
-
-    NSMutableArray *provinceTmp = [[NSMutableArray alloc] init];
-    for (int i=0; i<[sortedArray count]; i++) {
-        NSString *index = [sortedArray objectAtIndex:i];
-        NSArray *tmp = [[areaDic objectForKey: index] allKeys];
-        [provinceTmp addObject: [tmp objectAtIndex:0]];
-    }
-
-    province = [[NSArray alloc] initWithArray: provinceTmp];
-
-    NSString *index = [sortedArray objectAtIndex:0];
-    NSString *selected = [province objectAtIndex:0];
-    NSDictionary *dic = [NSDictionary dictionaryWithDictionary: [[areaDic objectForKey:index]objectForKey:selected]];
-
-    NSArray *cityArray = [dic allKeys];
-    NSDictionary *cityDic = [NSDictionary dictionaryWithDictionary: [dic objectForKey: [cityArray objectAtIndex:0]]];
-    city = [[NSArray alloc] initWithArray: [cityDic allKeys]];
-
-
-    NSString *selectedCity = [city objectAtIndex: 0];
-    district = [[NSArray alloc] initWithArray: [cityDic objectForKey: selectedCity]];
-}
-
 - (void)buttonClicked {
 
-    NSInteger provinceIndex = [picker selectedRowInComponent: PROVINCE_COMPONENT];
-    NSInteger cityIndex = [picker selectedRowInComponent: CITY_COMPONENT];
-    NSInteger districtIndex = [picker selectedRowInComponent: DISTRICT_COMPONENT];
+    NSInteger provinceIndex = [self.addressPicker selectedRowInComponent: PROVINCE_COMPONENT];
+    NSInteger cityIndex = [self.addressPicker selectedRowInComponent: CITY_COMPONENT];
+    NSInteger districtIndex = [self.addressPicker selectedRowInComponent: DISTRICT_COMPONENT];
 
     NSString *provinceStr = [province objectAtIndex: provinceIndex];
     NSString *cityStr = [city objectAtIndex: cityIndex];
     NSString *districtStr = [district objectAtIndex:districtIndex];
-
+    
 
     addressString = [NSString stringWithFormat: @"%@%@%@%@", provinceStr, cityStr, districtStr,addressTF.text];
+
+    DLog(@"addressString%@",addressString);
+
 
     if ([addressString isEqualToString:@""]) {
         [Tools showErrorWithStatus:@"公司地址不能为空！"];

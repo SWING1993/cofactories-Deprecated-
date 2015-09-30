@@ -189,6 +189,8 @@
     //工厂地址
     NSString*factoryAddress=[userDefaults objectForKey:@"factoryAddress"];
 
+    DLog(@"factoryAddress = %@",factoryAddress);
+
     //经纬度
     double lon=[[userDefaults objectForKey:@"lon"] doubleValue];
     double lat=[[userDefaults objectForKey:@"lat"] doubleValue];
