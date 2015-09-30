@@ -79,6 +79,27 @@
     self.userModel=[[UserModel alloc]init];
     self.factoryType = kFactoryType;
     DLog(@"kFactoryType = %ld",kFactoryType);
+    switch (kFactoryType) {
+        case 0:
+            self.title = @"服装厂";
+            break;
+
+        case 1:
+            self.title = @"加工厂";
+            break;
+        case 2:
+            self.title = @"代裁厂";
+            break;
+        case 3:
+            self.title = @"锁眼钉扣厂";
+            break;
+        case 5:
+            self.title = @"面辅料商";
+            break;
+
+        default:
+            break;
+    }
     [self getArrayData];
 
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];

@@ -111,7 +111,7 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
     VC1.title = @"聚工厂";
     VC2.title = @"合作商";
     VC3.title = @"消息";
-    VC4.title = @"我";
+//    VC4.title = @"我";
     NSArray *viewControllersArray = @[nav1,nav2,nav3,nav4];
     [tabBarController setViewControllers:viewControllersArray];
     app.window.rootViewController = tabBarController;
