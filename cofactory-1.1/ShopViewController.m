@@ -197,7 +197,7 @@ static NSString *shopCellIdentifier = @"shopCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ShopCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:shopCellIdentifier forIndexPath:indexPath];
     if (indexPath.row == 0) {
-        cell.shopImage.image = [UIImage imageNamed:@"addImageButton"];
+        cell.shopImage.image = [UIImage imageNamed:@"发布面辅料+"];
         
     } else {
         SupplyHistory *history = self.historyArray[indexPath.row - 1];
