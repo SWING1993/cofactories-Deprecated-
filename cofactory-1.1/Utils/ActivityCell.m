@@ -34,7 +34,7 @@
         
         [self addSubview:self.middleLabel];
         self.rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.middleLabel.frame) + kSpace, 9*kMargin, 160*kMargin, 20 *kMargin)];
-        self.rightLabel.text = @"服装节活动进行中！";
+        self.rightLabel.text = @"服装节洽谈会进行中！";
         self.rightLabel.font = kFont;
         [self addSubview:self.rightLabel];
         

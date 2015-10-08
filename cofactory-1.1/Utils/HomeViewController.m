@@ -604,15 +604,15 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
-        //各类营销活动
-        AFOAuthCredential *credential=[HttpClient getToken];
-        NSString*token = credential.accessToken;
-        ActivityViewController *webViewController = [[ActivityViewController alloc] init];
-        webViewController.url = [NSString stringWithFormat:@"http://app2.cofactories.com/activity/draw.html#%@",token];
-        webViewController.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:webViewController animated:YES];
-    }
+//    if (indexPath.section == 0) {
+//        //各类营销活动
+//        AFOAuthCredential *credential=[HttpClient getToken];
+//        NSString*token = credential.accessToken;
+//        ActivityViewController *webViewController = [[ActivityViewController alloc] init];
+//        webViewController.url = [NSString stringWithFormat:@"http://app2.cofactories.com/activity/draw.html#%@",token];
+//        webViewController.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:webViewController animated:YES];
+//    }
 }
 
 - (void)didReceiveMemoryWarning {
