@@ -221,6 +221,10 @@
 		64F65A141BB3B78200B293CE /* MaterialBidTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F65A131BB3B78200B293CE /* MaterialBidTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		64F65A171BB3B79700B293CE /* MaterialBidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F65A161BB3B79700B293CE /* MaterialBidViewController.m */; settings = {ASSET_TAGS = (); }; };
 		64F65A1A1BB3B82200B293CE /* MaterialBidManagerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F65A191BB3B82200B293CE /* MaterialBidManagerModel.m */; settings = {ASSET_TAGS = (); }; };
+		707ED83C1BC6414200B1E779 /* HeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 707ED83B1BC6414200B1E779 /* HeaderCollectionReusableView.m */; settings = {ASSET_TAGS = (); }; };
+		707ED83F1BC64F3000B1E779 /* ClothCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 707ED83E1BC64F3000B1E779 /* ClothCollectionViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		70FBD3AE1BC617CA00A20DF8 /* LookOverShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FBD3AD1BC617CA00A20DF8 /* LookOverShopViewController.m */; settings = {ASSET_TAGS = (); }; };
+		70FBD3B11BC637BF00A20DF8 /* ShopDetailViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FBD3B01BC637BF00A20DF8 /* ShopDetailViewViewController.m */; settings = {ASSET_TAGS = (); }; };
 		7D0609861BACF8450021606D /* PMSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0609851BACF8450021606D /* PMSearchViewController.m */; settings = {ASSET_TAGS = (); }; };
 		7D0609891BAD445D0021606D /* SearchSupplyFactoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0609881BAD445D0021606D /* SearchSupplyFactoryViewController.m */; settings = {ASSET_TAGS = (); }; };
 		7D06098C1BAD4B320021606D /* SearchSupplyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D06098B1BAD4B320021606D /* SearchSupplyViewCell.m */; settings = {ASSET_TAGS = (); }; };
@@ -743,6 +747,14 @@
 		64F65A161BB3B79700B293CE /* MaterialBidViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaterialBidViewController.m; sourceTree = "<group>"; };
 		64F65A181BB3B82200B293CE /* MaterialBidManagerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialBidManagerModel.h; sourceTree = "<group>"; };
 		64F65A191BB3B82200B293CE /* MaterialBidManagerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaterialBidManagerModel.m; sourceTree = "<group>"; };
+		707ED83A1BC6414200B1E779 /* HeaderCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderCollectionReusableView.h; sourceTree = "<group>"; };
+		707ED83B1BC6414200B1E779 /* HeaderCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderCollectionReusableView.m; sourceTree = "<group>"; };
+		707ED83D1BC64F3000B1E779 /* ClothCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClothCollectionViewCell.h; sourceTree = "<group>"; };
+		707ED83E1BC64F3000B1E779 /* ClothCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClothCollectionViewCell.m; sourceTree = "<group>"; };
+		70FBD3AC1BC617CA00A20DF8 /* LookOverShopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookOverShopViewController.h; sourceTree = "<group>"; };
+		70FBD3AD1BC617CA00A20DF8 /* LookOverShopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookOverShopViewController.m; sourceTree = "<group>"; };
+		70FBD3AF1BC637BF00A20DF8 /* ShopDetailViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailViewViewController.h; sourceTree = "<group>"; };
+		70FBD3B01BC637BF00A20DF8 /* ShopDetailViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailViewViewController.m; sourceTree = "<group>"; };
 		7D0609841BACF8450021606D /* PMSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMSearchViewController.h; sourceTree = "<group>"; };
 		7D0609851BACF8450021606D /* PMSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMSearchViewController.m; sourceTree = "<group>"; };
 		7D0609871BAD445D0021606D /* SearchSupplyFactoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSupplyFactoryViewController.h; sourceTree = "<group>"; };
@@ -1810,6 +1822,14 @@
 				6400BF431BB1232A00546D4D /* PHPDetailMessCell.m */,
 				640B21A91BB2419700EDFF1C /* LookoverMaterialViewController.h */,
 				640B21AA1BB2419700EDFF1C /* LookoverMaterialViewController.m */,
+				70FBD3AC1BC617CA00A20DF8 /* LookOverShopViewController.h */,
+				70FBD3AD1BC617CA00A20DF8 /* LookOverShopViewController.m */,
+				70FBD3AF1BC637BF00A20DF8 /* ShopDetailViewViewController.h */,
+				70FBD3B01BC637BF00A20DF8 /* ShopDetailViewViewController.m */,
+				707ED83A1BC6414200B1E779 /* HeaderCollectionReusableView.h */,
+				707ED83B1BC6414200B1E779 /* HeaderCollectionReusableView.m */,
+				707ED83D1BC64F3000B1E779 /* ClothCollectionViewCell.h */,
+				707ED83E1BC64F3000B1E779 /* ClothCollectionViewCell.m */,
 			);
 			path = PurchaseMaterial;
 			sourceTree = "<group>";
@@ -2626,6 +2646,7 @@
 				640B21AB1BB2419700EDFF1C /* LookoverMaterialViewController.m in Sources */,
 				649CCE411B9D64D500710B2A /* BidManagerModel.m in Sources */,
 				BD8753E51BB596CF00A5F4CC /* UMFullScreenPhotoView.m in Sources */,
+				707ED83C1BC6414200B1E779 /* HeaderCollectionReusableView.m in Sources */,
 				04D7D02F1B5A4B430054861E /* DescriptionViewController.m in Sources */,
 				049582EC1B6B490F00A69E6D /* JKUtil.m in Sources */,
 				649DD8AD1BAC24CB0027A22B /* PurchaseVC.m in Sources */,
@@ -2635,6 +2656,7 @@
 				049582EA1B6B490F00A69E6D /* JKPhotoBrowserCell.m in Sources */,
 				04F60C661B58CB9700CD3DEC /* ModifyFactoryNameViewController.m in Sources */,
 				BD8AD7EE1B50E62600373E5E /* SDWebImagePrefetcher.m in Sources */,
+				70FBD3AE1BC617CA00A20DF8 /* LookOverShopViewController.m in Sources */,
 				04F60C6C1B58EC7F00CD3DEC /* FactoryRangeModel.m in Sources */,
 				0455E10E1B61D62E009C5CDA /* WebViewController.m in Sources */,
 				049582EB1B6B490F00A69E6D /* JKPromptView.m in Sources */,
@@ -2654,6 +2676,7 @@
 				045AE0971BABE8D3003EB1DF /* SupplyViewController.m in Sources */,
 				04B1504F1B9569CD004E0353 /* IQUITextFieldView+Additions.m in Sources */,
 				BDC908D41B4E9B3700856A32 /* AFHTTPRequestOperation.m in Sources */,
+				707ED83F1BC64F3000B1E779 /* ClothCollectionViewCell.m in Sources */,
 				04B150571B9569CD004E0353 /* IQBarButtonItem.m in Sources */,
 				04822E201B62724200A370F6 /* searchOrderListVC.m in Sources */,
 				048983B21BA18C4D00F98024 /* FindOrderCell.m in Sources */,
@@ -2780,6 +2803,7 @@
 				BDC907C01B4E9A5700856A32 /* AppDelegate.mm in Sources */,
 				BD8AD7EA1B50E62600373E5E /* SDWebImageDecoder.m in Sources */,
 				04CDAA0E1BB2579600A015AD /* FBShimmeringLayer.m in Sources */,
+				70FBD3B11BC637BF00A20DF8 /* ShopDetailViewViewController.m in Sources */,
 				BDC908FF1B4E9B6B00856A32 /* UserModel.m in Sources */,
 				7DE7A1C11BB3ADD500512101 /* LookOverNeedModel.m in Sources */,
 				04822E411B62E7A600A370F6 /* NSData+Utils.m in Sources */,
