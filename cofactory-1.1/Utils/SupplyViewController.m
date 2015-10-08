@@ -9,7 +9,7 @@
 #import "SupplyViewController.h"
 
 #import "AddmaterialViewController.h"
-#import "SearchSupplyFactoryViewController.h"
+//#import "SearchSupplyFactoryViewController.h"
 #import "PurchaseHistoryPublicVC.h"
 
 @interface SupplyViewController ()
@@ -17,25 +17,34 @@
 @end
 
 @implementation SupplyViewController
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setHidden:NO];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+    
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"供应面辅料";
     self.view.backgroundColor = [UIColor whiteColor];
-    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"历史发布" style:UIBarButtonItemStyleBordered target:self action:@selector(historyPublishButton)];
-    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+//    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"历史发布" style:UIBarButtonItemStyleBordered target:self action:@selector(historyPublishButton)];
+//    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
     
-    UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"面辅料_标题"]];
-    imageView.frame = CGRectMake(100, 60, kScreenW-200, 50);
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    [self.view addSubview:imageView];
+//    UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"面辅料_标题"]];
+//    imageView.frame = CGRectMake(100, 60, kScreenW-200, 50);
+//    imageView.contentMode = UIViewContentModeScaleAspectFill;
+//    [self.view addSubview:imageView];
     
-    NSArray *buttonBGImageArray = @[@"面辅料_供应面料",@"面辅料_供应辅料",@"面辅料_供应胚布",@"面辅料_查看求购",];
-    for (int i=0 ; i<4; i++) {
+    NSArray *buttonBGImageArray = @[@"面辅料_供应面料",@"面辅料_供应辅料",@"面辅料_供应胚布"];
+    for (int i=0 ; i<3; i++) {
         DLog(@"%d--%d",i/2,i%2);
-
+        
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake((kScreenW-120)/3+(i%2)*(60+(kScreenW-120)/3), 140+(i/2)*100, 60, 85);
+        button.frame = CGRectMake((kScreenW-180)/4+(i%3)*(60+(kScreenW-180)/4), (kScreenH - 64)/2 - 85, 60, 85);
+
         [button setBackgroundImage:[UIImage imageNamed:buttonBGImageArray[i]] forState:UIControlStateNormal];
         button.imageView.contentMode = UIViewContentModeScaleAspectFill;
         button.tag = i+1;
@@ -49,32 +58,21 @@
     
     UIButton *button = (UIButton*)sender;
     DLog(@"button.tag = %ld",(long)button.tag)
-
-    if (button.tag == 4) {
-        DLog(@"查看求购！");
-        PurchaseHistoryPublicVC *VC = [[PurchaseHistoryPublicVC alloc]init];
-        VC.isMe = YES;
-
-        [self.navigationController pushViewController:VC animated:YES];
-
-        
-        
-    }else{
-        DLog(@"发布供应！");
-        AddmaterialViewController *VC = [[AddmaterialViewController alloc]init];
-        VC.materialType = button.tag;  // 采购面料
-        [self.navigationController pushViewController:VC animated:YES];
-    }
+    
+    DLog(@"发布供应！");
+    AddmaterialViewController *VC = [[AddmaterialViewController alloc]init];
+    VC.materialType = button.tag;  // 采购面料
+    [self.navigationController pushViewController:VC animated:YES];
 
 }
 
-- (void)historyPublishButton {
-    
-    SearchSupplyFactoryViewController *searchSupplyFactoryVC = [[SearchSupplyFactoryViewController alloc] init];
-    searchSupplyFactoryVC.isMe = NO;
-    [self.navigationController pushViewController:searchSupplyFactoryVC animated:YES];
-    
-}
+//- (void)historyPublishButton {
+//    
+//    SearchSupplyFactoryViewController *searchSupplyFactoryVC = [[SearchSupplyFactoryViewController alloc] init];
+//    searchSupplyFactoryVC.isMe = NO;
+//    [self.navigationController pushViewController:searchSupplyFactoryVC animated:YES];
+//    
+//}
 
 
 - (void)didReceiveMemoryWarning {

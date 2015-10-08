@@ -60,7 +60,7 @@
 #define API_addMaterial @"/material"
 #define API_bidMaterial @"/material/buy/bid"
 #define API_searchBidMaterial @"/search/materialBuy"
-
+#define API_deleteMateria @"/material/shop/"
 
 #define API_messageHeader @"http://news.cofactories.com/?co&op=category&cat=轮播"
 
@@ -2081,5 +2081,36 @@
     }
     
 }
+
+
+
++ (void)deleteMaterialWithid:(int)oid completionBlock:(void(^)(int statusCode))block{
+    //NSParameterAssert(oid);
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        
+        NSString *url = [[NSString alloc] initWithFormat:@"%@%d", API_deleteMateria, oid];
+        [manager DELETE:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block((int)[operation.response statusCode]);
+        }
+                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    block((int)[operation.response statusCode]);
+                    DLog(@"error%@",error);
+                }];
+    }
+    else {
+        block(404);// access_token不存在
+    }
+    
+}
+
+
+
+
+
 
 @end

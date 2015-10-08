@@ -15,6 +15,8 @@
 #import "PopularMesageViewController.h"
 #import "PurchaseVC.h"
 #import "ActivityViewController.h"
+#import "ProviderViewController.h"
+
 
 #import <PgySDK/PgyManager.h>
 
@@ -427,9 +429,14 @@ static NSString *LastCellIdentifier = @"LastCell";
             //            [self.navigationController pushViewController:supplyVC animated:YES];
             //我想供应
             if (self.factoryType == 5) {
-                SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
-                supplyVC.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:supplyVC animated:YES];
+                ProviderViewController *providerVC = [[ProviderViewController alloc] init];
+                providerVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:providerVC animated:YES];
+                
+                
+//                SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
+//                supplyVC.hidesBottomBarWhenPushed = YES;
+//                [self.navigationController pushViewController:supplyVC animated:YES];
             }else{
                 [Tools showHudTipStr:@"面辅料专区，非面辅料请至首页上方发布订单！"];
             }

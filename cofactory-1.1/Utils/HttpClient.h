@@ -494,4 +494,14 @@
 
 + (void)getMaterialBidOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
+
+/**删除面辅料工厂自己发布的面辅料
+ *
+ */
++ (void)deleteMaterialWithid:(int)oid completionBlock:(void(^)(int statusCode))block;
+
+
+
+
+
 @end
