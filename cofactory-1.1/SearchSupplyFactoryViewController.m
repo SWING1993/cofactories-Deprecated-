@@ -156,6 +156,7 @@ static NSString *searchCellIdentifier = @"SearchCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SearchSupplyViewCell *cell = [tableView dequeueReusableCellWithIdentifier:searchCellIdentifier forIndexPath:indexPath];
+    
     SupplyHistory *history = self.historyArray[indexPath.row];
     cell.history = history;
     
