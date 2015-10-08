@@ -18,6 +18,7 @@
         _photoArray = dictionary[@"photo"];
         _type = dictionary[@"type"];
         _userID = [dictionary[@"uid"] integerValue];
+        _materialID = [dictionary[@"id"] integerValue];
         _price = [dictionary[@"price"] integerValue];
         if (dictionary[@"usage"] == nil) {
             _useage = @"数据暂无";

@@ -10,7 +10,6 @@
 
 @implementation HeaderCollectionReusableView{
     UIImageView *_bgImageView;
-    UIImageView *_userHeader;
     UILabel     *_facName;
     UILabel     *_facAddress;
 
@@ -23,10 +22,10 @@
     _bgImageView.userInteractionEnabled = YES;
     [self addSubview:_bgImageView];
     
-    _userHeader = [[UIImageView alloc] initWithFrame:CGRectMake(10, _bgImageView.bounds.size.height-15-60, 60, 60)];
+    _userHeader = [[UIButton alloc] initWithFrame:CGRectMake(10, _bgImageView.bounds.size.height-15-60, 60, 60)];
     _userHeader.layer.masksToBounds = YES;
     _userHeader.layer.cornerRadius = 30;
-    [_userHeader sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,model.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];
+    [_userHeader sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,model.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
     [_bgImageView addSubview:_userHeader];
     
     _facName = [[UILabel alloc] initWithFrame:CGRectMake(90,  _bgImageView.bounds.size.height-20-60, kScreenW-100, 40)];
