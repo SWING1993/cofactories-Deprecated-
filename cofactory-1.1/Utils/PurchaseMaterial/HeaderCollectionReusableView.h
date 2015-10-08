@@ -10,4 +10,5 @@
 
 @interface HeaderCollectionReusableView : UICollectionReusableView
 - (void)getDataWithFactoryModel:(FactoryModel *)model;
+@property (nonatomic,strong)UIButton *userHeader;
 @end

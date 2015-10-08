@@ -12,6 +12,7 @@
 #import "LookoverMaterialModel.h"
 #import "JKPhotoBrowser.h"
 #import "OrderPhotoViewController.h"
+#import "LookoverMaterialViewController.h"
 @interface ShopDetailViewViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>{
     NSMutableArray *_dataArray;
 }
@@ -90,15 +91,14 @@
         LookoverMaterialModel *model = _dataArray[indexPath.row];
         cell.messageLable.text = model.name;
         cell.imageButton.tag = indexPath.row;
+        cell.imageButton.enabled = YES;
         [cell.imageButton addTarget:self action:@selector(photoClick:) forControlEvents:UIControlEventTouchUpInside];
         if (model.photoArray.count > 0 ) {
             NSString *imageOne = model.photoArray[0];
             [cell.imageButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",PhotoAPI,imageOne]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"placeholder88"]];
             
-            cell.imageButton.enabled = YES;
         }else{
             [cell.imageButton setBackgroundImage:[UIImage imageNamed:@"placeholder88"] forState:UIControlStateNormal];
-            cell.imageButton.enabled = NO;
         }
 
     }else{
@@ -121,6 +121,7 @@
         
         reusableview = headerView;
         [headerView getDataWithFactoryModel:self.facModel];
+        [headerView.userHeader addTarget:self action:@selector(goToUserInterface) forControlEvents:UIControlEventTouchUpInside];
     }
     reusableview.backgroundColor = [UIColor whiteColor];
     return reusableview;
@@ -130,14 +131,13 @@
     
     UIButton *button = (UIButton *)sender;
     LookoverMaterialModel *model = _dataArray[button.tag];
-    OrderPhotoViewController *vc= [[OrderPhotoViewController alloc] initWithPhotoArray:model.photoArray];
-    vc.titleString = @"布匹图片";
+    LookoverMaterialViewController *VC= [[LookoverMaterialViewController alloc]initWithOid:[NSString stringWithFormat:@"%zi",model.materialID]];
+    
     UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
-    backItem.title=@"返回";
+    backItem.title = @"";
     backItem.tintColor=[UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backItem;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 
@@ -148,6 +148,11 @@
     [gobackButton setBackgroundImage:[UIImage imageNamed:@"goback"] forState:UIControlStateNormal];
     [gobackButton addTarget:self action:@selector(gobackClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:gobackButton];
+}
+
+//1223435456354
+- (void)goToUserInterface{
+    
 }
 
 - (void)gobackClick{

@@ -16,6 +16,7 @@
 @property (nonatomic, copy) NSArray *photoArray;
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, assign) NSInteger userID;
+@property (nonatomic, assign) NSInteger materialID;
 @property (nonatomic, assign) NSInteger price;
 @property (nonatomic, copy) NSString *useage;
 @property (nonatomic, copy) NSString *width;
