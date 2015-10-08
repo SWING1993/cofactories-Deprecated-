@@ -436,7 +436,7 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        cell.textLabel.font=[UIFont systemFontOfSize:15.0f];
+        cell.textLabel.font=kFont;
 //        NSMutableArray*cellArr=[[NSMutableArray alloc]initWithCapacity:0];
         NSArray*cellArr=self.listData[self.type];
         cell.textLabel.text=cellArr[indexPath.section];

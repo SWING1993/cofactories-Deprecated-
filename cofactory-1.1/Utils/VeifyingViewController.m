@@ -22,15 +22,25 @@
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
 
-    UIButton*VeifyBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 160, kScreenW-40, 35)];
-    [VeifyBtn setTitle:@"重新认证" forState:UIControlStateNormal];
-    [VeifyBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
-    [VeifyBtn addTarget:self action:@selector(VeifyBtn) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView addSubview:VeifyBtn];
+
+    UIView * tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 60)];
+    blueButton*ReviseBtn=[[blueButton alloc]initWithFrame:CGRectMake(20, 15, kScreenW-40, 35)];;
+    [ReviseBtn setTitle:@"重新认证" forState:UIControlStateNormal];
+    [ReviseBtn addTarget:self action:@selector(VeifyBtn) forControlEvents:UIControlEventTouchUpInside];
+    [tableFooterView addSubview:ReviseBtn];
+    self.tableView.tableFooterView = tableFooterView;
 
     DLog(@"%@",self.VeifyDic);
-
+    //backBtn
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(goback)];
+    self.navigationItem.leftBarButtonItem = backButton;
 }
+
+- (void)goback {
+    NSArray*navArr = self.navigationController.viewControllers;
+    [self.navigationController popToViewController:navArr[0] animated:YES];
+}
+
 - (void)VeifyBtn {
     VeifyViewController*veifyVC = [[VeifyViewController alloc]init];
     [self.navigationController pushViewController:veifyVC animated:YES];
@@ -39,11 +49,11 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -55,7 +65,7 @@
     cell.textLabel.font=[UIFont systemFontOfSize:15.0f];
     cell.detailTextLabel.font=[UIFont systemFontOfSize:15.0f];
     cell.detailTextLabel.textColor=[UIColor blackColor];
-    switch (indexPath.section) {
+    switch (indexPath.row) {
         case 0:
         {
             cell.textLabel.text=@"法人姓名";
