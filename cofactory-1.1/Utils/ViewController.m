@@ -108,10 +108,18 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
 //            };
 //        }];
 
-    VC1.title = @"聚工厂";
+    if ([kBaseUrl isEqualToString:@"http://192.168.100.2:3001"]) {
+        VC1.title = @"聚工厂（内网服务器）";
+    }
+    if ([kBaseUrl isEqualToString:@"http://test.cofactories.com"]) {
+
+    }else{
+        VC1.title = @"聚工厂（测试服务器）";
+    }
     VC2.title = @"合作商";
     VC3.title = @"消息";
-//    VC4.title = @"我";
+    VC4.title = @"我";
+
     NSArray *viewControllersArray = @[nav1,nav2,nav3,nav4];
     [tabBarController setViewControllers:viewControllersArray];
     app.window.rootViewController = tabBarController;
