@@ -188,7 +188,7 @@
             
             if (statusCode == 200) {
                 
-                [Tools showHudTipStr:@"删除订单成功"];
+                [Tools showSuccessWithStatus:@"删除订单成功"];
                 [HttpClient listOrderWithBlock:^(NSDictionary *responseDictionary) {
                     if ([responseDictionary[@"statusCode"] intValue]==200) {
                         self.orderModerArr=responseDictionary[@"responseArray"];
@@ -197,7 +197,7 @@
                 }];
             }else{
                 
-                [Tools showHudTipStr:@"删除订单失败"];
+                [Tools showErrorWithStatus:@"删除订单失败"];
  
             }
         }];

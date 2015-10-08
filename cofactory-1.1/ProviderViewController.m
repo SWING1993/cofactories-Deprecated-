@@ -35,7 +35,7 @@
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"历史发布" style:UIBarButtonItemStyleBordered target:self action:@selector(historyPublishButton)];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
 
-    NSArray *buttonBGImageArray = @[@"material_shop" ,@"面辅料_查看求购",];
+    NSArray *buttonBGImageArray = @[@"我的店铺" ,@"面辅料_查看求购",];
     for (int i=0 ; i<2; i++) {
         DLog(@"%d--%d",i/2,i%2);
         

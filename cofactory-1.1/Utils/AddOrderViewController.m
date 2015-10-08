@@ -436,7 +436,7 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        cell.textLabel.font=[UIFont systemFontOfSize:15.0f];
+        cell.textLabel.font=kFont;
 //        NSMutableArray*cellArr=[[NSMutableArray alloc]initWithCapacity:0];
         NSArray*cellArr=self.listData[self.type];
         cell.textLabel.text=cellArr[indexPath.section];
@@ -580,7 +580,7 @@
 - (void)addImageBtn {
 
     if ([self.collectionImage count]== 9) {
-        [Tools showHudTipStr:@"订单图片最多能上传9张"];
+        [Tools showErrorWithStatus:@"订单图片最多能上传9张"];
     }else {
         JKImagePickerController *imagePickerController = [[JKImagePickerController alloc] init];
         imagePickerController.delegate = self;

@@ -27,6 +27,7 @@
 
 //身份类型
 @property (nonatomic, assign) NSInteger factoryType;
+@property (nonatomic, retain) NSString * factoryTypeString;
 
 
 @end
@@ -62,7 +63,7 @@
         factoryNameLabel.text=self.userModel.factoryName;
         //更新信息完整度
         int FinishedDegree = self.userModel.factoryFinishedDegree;
-        infoLabel.text = [NSString stringWithFormat:@"信息完整度为%d%s",FinishedDegree,"%"];
+        infoLabel.text = [NSString stringWithFormat:@"信息完整度为%d%s⌈%@⌋",FinishedDegree,"%",self.factoryTypeString];
         [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
 
         //刷新tableview
@@ -79,6 +80,27 @@
     self.userModel=[[UserModel alloc]init];
     self.factoryType = kFactoryType;
     DLog(@"kFactoryType = %ld",kFactoryType);
+    switch (kFactoryType) {
+        case 0:
+            self.factoryTypeString = @"服装厂";
+            break;
+
+        case 1:
+            self.factoryTypeString = @"加工厂";
+            break;
+        case 2:
+            self.factoryTypeString = @"代裁厂";
+            break;
+        case 3:
+            self.factoryTypeString = @"锁眼钉扣厂";
+            break;
+        case 5:
+            self.factoryTypeString = @"面辅料商";
+            break;
+
+        default:
+            break;
+    }
     [self getArrayData];
 
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
@@ -112,7 +134,7 @@
 
 
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 180-60, kScreenW, 20)];
-    factoryNameLabel.font=[UIFont boldSystemFontOfSize:16];
+    factoryNameLabel.font=[UIFont systemFontOfSize:16];
     factoryNameLabel.textAlignment = NSTextAlignmentCenter;
     factoryNameLabel.textColor = [UIColor whiteColor];
 

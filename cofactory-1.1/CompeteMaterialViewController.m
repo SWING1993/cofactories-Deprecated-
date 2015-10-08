@@ -193,7 +193,7 @@
 
 - (void)addImageView:(id)sender{
     if ([self.collectionImage count]== 9) {
-        [Tools showHudTipStr:@"订单图片最多能上传9张"];
+        [Tools showErrorWithStatus:@"订单图片最多能上传9张"];
     }else {
         JKImagePickerController *imagePickerController = [[JKImagePickerController alloc] init];
         imagePickerController.delegate = self;

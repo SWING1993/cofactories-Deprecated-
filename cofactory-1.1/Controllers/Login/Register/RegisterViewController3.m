@@ -189,6 +189,8 @@
     //工厂地址
     NSString*factoryAddress=[userDefaults objectForKey:@"factoryAddress"];
 
+    DLog(@"factoryAddress = %@",factoryAddress);
+
     //经纬度
     double lon=[[userDefaults objectForKey:@"lon"] doubleValue];
     double lat=[[userDefaults objectForKey:@"lat"] doubleValue];
@@ -222,7 +224,7 @@
             }else{
                 DLog(@"注册反馈%@",responseDictionary);
                 NSString*message=responseDictionary[@"message"];
-                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                 [alertView show];
             }
         }];
@@ -244,7 +246,7 @@
             }else{
                 DLog(@"注册反馈%@",responseDictionary);
                 NSString*message=responseDictionary[@"message"];
-                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                 [alertView show];
             }
         }];
@@ -264,7 +266,7 @@
             }else{
                 DLog(@"注册反馈%@",responseDictionary);
                 NSString*message=responseDictionary[@"message"];
-                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                 [alertView show];
             }
         }];
@@ -284,7 +286,7 @@
             }else{
                 DLog(@"注册反馈%@",responseDictionary);
                 NSString*message=responseDictionary[@"message"];
-                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                 [alertView show];
             }
         }];
@@ -303,16 +305,14 @@
             }else{
                 DLog(@"注册反馈%@",responseDictionary);
                 NSString*message=responseDictionary[@"message"];
-                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                UIAlertView*alertView=[[UIAlertView alloc]initWithTitle:message message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                 [alertView show];
             }
         }];
 
     }
 
-    else {
-        [Tools showHudTipStr:@"未知身份，无法注册！"];
-    }
+    DLog(@"%@",[userDefaults objectForKey:@"type"]);
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -353,7 +353,7 @@
                 break;
 
             default:
-                [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
                 break;
         }
     }];

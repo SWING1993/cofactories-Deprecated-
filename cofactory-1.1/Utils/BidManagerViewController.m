@@ -126,7 +126,7 @@ static NSString *const cellIdentifer = @"bidCellIdentifer";
         if (buttonIndex == 1) {
             [HttpClient closeOrderWithOid:self.oid Uid:model.uid andBlock:^(int statusCode) {
                 if (statusCode == 200) {
-                    [Tools showHudTipStr:@"招标成功，祝您合作愉快"];
+                    [Tools showSuccessWithStatus:@"招标成功，祝您合作愉快"];
                     NSArray *navArray = self.navigationController.viewControllers;
                     [self.navigationController popToViewController:navArray[1] animated:YES];
                 }

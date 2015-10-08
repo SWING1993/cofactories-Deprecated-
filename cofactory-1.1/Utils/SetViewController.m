@@ -65,7 +65,7 @@
             DLog(@"%@",responseDictionary);
         }];
     }else{
-        [Tools showHudTipStr:@"请您填写邀请码后再提交!"];
+        [Tools showErrorWithStatus:@"请您填写邀请码后再提交!"];
     }
 }
 

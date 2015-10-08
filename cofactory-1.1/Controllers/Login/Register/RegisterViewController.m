@@ -148,7 +148,7 @@
 
             switch (statusCode) {
                 case 0:{
-                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                    [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦!"];
                     [authcodeBtn setEnabled:YES];
 
                 }
@@ -163,35 +163,35 @@
                     break;
                     
                 case 400:{
-                    [Tools showHudTipStr:@"手机格式不正确"];
+                    [Tools showErrorWithStatus:@"手机格式不正确"];
                     [authcodeBtn setEnabled:YES];
 
 
                 }
                     break;
                 case 409:{
-                    [Tools showHudTipStr:@"需要等待冷却"];
+                    [Tools showShimmeringString:@"需要等待冷却"];
                     [authcodeBtn setEnabled:YES];
 
                 }
                     break;
                     
                 case 502:{
-                    [Tools showHudTipStr:@"发送错误"];
+                    [Tools showErrorWithStatus:@"发送错误"];
                     [authcodeBtn setEnabled:YES];
 
                 }
                     break;
                     
                 default:
-                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                    [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
                     [authcodeBtn setEnabled:YES];
                     break;
             }
             DLog(@"验证码code%d",statusCode);
         }];
     }else{
-        [Tools showHudTipStr:@"您输入的是一个无效的手机号码"];
+        [Tools showErrorWithStatus:@"您输入的是一个无效的手机号码"];
         [authcodeBtn setEnabled:YES];
 
     }
@@ -202,10 +202,10 @@
     if (_usernameTF.text.length==0 || _passwordTF.text.length==0 || _authcodeTF.text.length==0 || _typeTF.text.length==0) {
 
         DLog(@"mo");
-        [Tools showHudTipStr:@"注册信息不完整"];
+        [Tools showErrorWithStatus:@"注册信息不完整"];
     }else{
         if (_passwordTF.text.length<6) {
-            [Tools showHudTipStr:@"密码长度太短"];
+            [Tools showErrorWithStatus:@"密码长度太短"];
         }else{
             MBProgressHUD *hud = [Tools createHUD];
             hud.labelText = @"正在验证...";
@@ -214,7 +214,7 @@
 
                 if (statusCode == 0) {
                     [hud hide:YES];
-                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                    [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
                 }
                 if (statusCode == 200) {
                     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -232,7 +232,7 @@
                 }
                 else {
                     [hud hide:YES];
-                    [Tools showHudTipStr:@"验证码过期或者无效"];
+                    [Tools showErrorWithStatus:@"验证码过期或者无效"];
                 }
             }];
 

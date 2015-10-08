@@ -40,7 +40,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     _dataArray = [@[] mutableCopy];
     [self creatTableAndDOPDropDownMenu];
-    
+
     [HttpClient searchOrderWithRole:self.orderListType FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:@1 andBlock:^(NSDictionary *responseDictionary) {
         _dataArray = responseDictionary[@"responseArray"];
         DLog(@"+++++responseDictionary==%@",_dataArray);
@@ -48,6 +48,7 @@
     }];
     
     _refrushCount = 1;
+    _role = 2;
     [self setupRefresh];
 }
 
@@ -85,7 +86,7 @@
 - (void)footerRereshing
 {
     _refrushCount++;
-    DLog(@"???????????%d",_refrushCount);
+    DLog(@"???????????%d",_role);
     NSNumber *num = [NSNumber numberWithInt:_refrushCount];
     [HttpClient searchOrderWithRole:_role FactoryServiceRange:_serviceRangeString Time:_timeString AmountMin:_minNumber AmountMax:_maxNumber Page:num andBlock:^(NSDictionary *responseDictionary) {
         
@@ -116,6 +117,8 @@
     
     searchOrderListTVC *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     OrderModel *model = _dataArray[indexPath.row];
+    DLog(@"???????????>>%d",model.type);
+
     [cell getDataWithModel:model orderListType:self.orderListType];
     self.uid = model.uid;
     [cell.orderDetailsBtn addTarget:self action:@selector(orderDetailsBtnClick:) forControlEvents:UIControlEventTouchUpInside];

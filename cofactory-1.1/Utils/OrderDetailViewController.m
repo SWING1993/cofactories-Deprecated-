@@ -375,13 +375,13 @@ static  NSString *const cellIdentifier1 = @"cell1";
                 
                 if (statusCode == 200) {
                     
-                    [Tools showHudTipStr:@"删除订单成功"];
+                    [Tools showSuccessWithStatus:@"删除订单成功"];
                     
                     [self.navigationController popViewControllerAnimated:YES];
                     
                 }else{
                     
-                    [Tools showHudTipStr:@"删除订单失败"];
+                    [Tools showErrorWithStatus:@"删除订单失败"];
                     
                 }
             }];

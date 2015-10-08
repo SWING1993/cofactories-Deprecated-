@@ -165,7 +165,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     
     // 表头视图
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
-    NSArray *imageArray = @[@"服装平台.png",@"面辅料.png",@"新功能.png", @"活动轮播图.png"];
+    NSArray *imageArray = @[@"服装平台.png",@"面辅料.png",@"新功能.png", @"活动策划bbbb.png"];
     PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:imageArray pageCount:4 isNetWork:YES];
     [bannerView.imageButton1 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
     [bannerView.imageButton2 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -438,7 +438,7 @@ static NSString *LastCellIdentifier = @"LastCell";
 //                supplyVC.hidesBottomBarWhenPushed = YES;
 //                [self.navigationController pushViewController:supplyVC animated:YES];
             }else{
-                [Tools showHudTipStr:@"面辅料专区，非面辅料请至首页上方发布订单！"];
+                [Tools showShimmeringString:@"面辅料专区，非面辅料请至首页上方发布订单！"];
             }
             
             DLog(@"我想供应");
@@ -449,7 +449,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         {
             
             if (self.factoryType == 5) {
-                [Tools showHudTipStr:@"采购商专区，供应商请发布供应！"];
+                [Tools showShimmeringString:@"采购商专区，供应商请发布供应！"];
             }else{
                 //我想采购
                 PurchaseVC *VC =[PurchaseVC new];
@@ -475,7 +475,7 @@ static NSString *LastCellIdentifier = @"LastCell";
                 [self.navigationController pushViewController:pushOrderVC animated:YES];
                 
             }else{
-                [Tools showHudTipStr:@"加工厂专区，非加工厂请至首页上方发布订单！"];
+                [Tools showShimmeringString:@"加工厂专区，非加工厂请至首页上方发布订单！"];
             }
             
             DLog(@"加工厂订单外发");

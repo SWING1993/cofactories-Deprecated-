@@ -114,7 +114,7 @@
 
 - (void)nextBtn {
     if (_passwordTF.text.length<6) {
-        [Tools showHudTipStr:@"密码长度应该是6位及以上！"];
+        [Tools showErrorWithStatus:@"密码长度应该是6位及以上！"];
 
     }
     else{
@@ -132,20 +132,20 @@
                 case 400:
                 {
 
-                    [Tools showHudTipStr:@"没有这个用户！"];
+                    [Tools showErrorWithStatus:@"没有这个用户！"];
 
                 }
                     break;
                 case 403:
                 {
-                    [Tools showHudTipStr:@"验证码错误"];
+                    [Tools showErrorWithStatus:@"验证码错误"];
 
 
                 }
                     break;
 
                 default:
-                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                    [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
 
                     break;
             }
@@ -160,7 +160,7 @@
         [HttpClient postVerifyCodeWithPhone:_usernameTF.text andBlock:^(int statusCode) {
             switch (statusCode) {
                 case 0:{
-                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                    [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
                     [_codeBtn setEnabled:YES];
 
                 }
@@ -172,7 +172,7 @@
                 }
                     break;
                 case 400:{
-                    [Tools showHudTipStr:@"手机格式不正确"];
+                    [Tools showErrorWithStatus:@"手机格式不正确"];
                     [_codeBtn setEnabled:YES];
 
 
@@ -180,14 +180,14 @@
                     break;
                 case 409:{
 
-                    [Tools showHudTipStr:@"需要等待冷却"];
+                    [Tools showErrorWithStatus:@"需要等待冷却"];
                     [_codeBtn setEnabled:YES];
 
 
                 }
                     break;
                 case 502:{
-                    [Tools showHudTipStr:@"发送错误"];
+                    [Tools showErrorWithStatus:@"发送错误"];
                     [_codeBtn setEnabled:YES];
 
 
@@ -195,7 +195,7 @@
                     break;
 
                 default:
-                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                    [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
                     [_codeBtn setEnabled:YES];
                     break;
             }
@@ -203,7 +203,7 @@
 
     }else{
 
-        [Tools showHudTipStr:@"您输入的是一个无效的手机号码！"];
+        [Tools showErrorWithStatus:@"您输入的是一个无效的手机号码！"];
         [_codeBtn setEnabled:YES];
     }
 }

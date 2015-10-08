@@ -14,6 +14,7 @@
 #import "MessageModel.h"
 #import "UpYun.h"
 #import "BidManagerModel.h"
+#import "LookoverMaterialModel.h"
 
 
 @interface HttpClient : NSObject
@@ -494,7 +495,6 @@
 
 + (void)getMaterialBidOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
-
 /**删除面辅料工厂自己发布的面辅料
  *
  */
@@ -504,4 +504,8 @@
 
 
 
+/**获取用户所有发布面辅料
+ *
+ */
++ (void)getAllMaterialWithUserID:(NSInteger)aID completionBlock:(void (^)(NSDictionary *responseDictionary))block;
 @end

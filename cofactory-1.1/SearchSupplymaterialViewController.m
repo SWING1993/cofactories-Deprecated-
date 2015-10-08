@@ -88,7 +88,8 @@ static NSString *userCellIdentifier = @"userCell";
     
     scrollView.contentSize = CGSizeMake(kScreenW * self.photoArray.count, 0.85 *kScreenW);
     for (int i = 0; i < self.photoArray.count; i++) {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+        button.imageView.contentMode = UIViewContentModeScaleAspectFill;
         [button sd_setBackgroundImageWithURL:[NSURL URLWithString:self.photoArray[i]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@""]];
         [button setFrame:CGRectMake(i * kScreenW, 0, kScreenW, 0.85 *kScreenW)];
         [button addTarget:self action:@selector(MJPhotoBrowserClick:) forControlEvents:UIControlEventTouchUpInside];

@@ -10,6 +10,8 @@
 #import "PurchaseFabricOrAccessoryVC.h"
 #import "PurchaseHistoryPublicVC.h"
 #import "SearchSupplyFactoryViewController.h"
+#import "LookOverShopViewController.h"
+
 @interface PurchaseVC ()
 
 @end
@@ -22,15 +24,15 @@
     self.view.backgroundColor = [UIColor whiteColor];
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"历史发布" style:UIBarButtonItemStyleBordered target:self action:@selector(historyPublishButton)];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
-
+    
     UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"采购产品.png"]];
     imageView.frame = CGRectMake(100, 90, kScreenW-200, 50);
     [self.view addSubview:imageView];
     
-    NSArray *buttonBGImageArray = @[@"采购面料.png",@"采购辅料.png",@"看面辅料.png"];
-    for (int i=0 ; i<3; i++) {
+    NSArray *buttonBGImageArray = @[@"采购面料.png",@"采购辅料.png",@"看面辅料.png",@"查看店铺.png"];
+    for (int i=0 ; i<4; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(40+i*((kScreenW-180-80)/2.0+60), 220, 60, 85);
+        button.frame = CGRectMake((kScreenW-120)/3.0+(i%2)*((kScreenW-120)/3.0+60), 180+(i/2)*110, 60, 85);
         [button setBackgroundImage:[UIImage imageNamed:buttonBGImageArray[i]] forState:UIControlStateNormal];
         button.imageView.contentMode = UIViewContentModeScaleAspectFill;
         button.tag = i+1;
@@ -68,7 +70,7 @@
             [self customBackTitle];
             [self.navigationController pushViewController:VC animated:YES];
         }
-  
+            
             break;
             
         case 3:
@@ -78,7 +80,16 @@
             VC.isMe = YES;
             [self.navigationController pushViewController:VC animated:YES];
         }
-
+            break;
+            
+        case 4:
+        {
+            LookOverShopViewController *VC = [[LookOverShopViewController alloc]init];
+            [self customBackTitle];
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+            break;
+            
         default:
             break;
     }
@@ -97,13 +108,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

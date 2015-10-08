@@ -167,11 +167,11 @@ static NSString * const reuseIdentifier = @"collectionViewCell";
                         if ([dictionary[@"statusCode"] intValue]==200) {
                             //最后一张图片上传成功  刷新collectionView
                             if (idx == [assets count] - 1) {
-                                [Tools showHudTipStr:@"图片上传成功,但是图片显示要略有延迟，请耐心等待！"];
+                                [Tools showSuccessWithStatus:@"图片上传成功,但是图片显示要略有延迟，请耐心等待！"];
                                 [self getImage];
                             }
                         }else{
-                            [Tools showHudTipStr:@"图片上传失败！"];
+                            [Tools showErrorWithStatus:@"图片上传失败！"];
                         }
                     }];
                 }

@@ -40,7 +40,7 @@
 - (void)buttonClicked{
 
     if ([descriptionTV.text isEqualToString:@""]) {
-        [Tools showHudTipStr:@"公司简介不能为空！"];
+        [Tools showErrorWithStatus:@"公司简介不能为空！"];
     }else{
         MBProgressHUD *hud = [Tools createHUD];
         hud.labelText = @"正在修改姓名";

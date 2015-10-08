@@ -2108,9 +2108,29 @@
     
 }
 
++ (void)getAllMaterialWithUserID:(NSInteger)aID completionBlock:(void (^)(NSDictionary *responseDictionary))block{
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
 
+        NSString *url = [[NSString alloc] initWithFormat:@"%@%zi", @"/material/shop/", aID];
+        
+        [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+        block(@{@"statusCode":@([operation.response statusCode]),@"modelArray":responseObject});
+        }
+             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 
+                 block(@{@"statusCode":@([operation.response statusCode])});
+             }];
+    }
+    else {
+        block(@{@"statusCode":@(404)});
+    }
 
-
-
+}
 
 @end
