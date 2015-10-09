@@ -204,7 +204,7 @@ static NSString *shopCellIdentifier = @"shopCell";
     } else {
         SupplyHistory *history = self.historyArray[indexPath.row - 1];
         [cell.shopImage sd_setImageWithURL:[NSURL URLWithString:history.photo] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
-        //cell.nameLabel.text = history.type;
+        cell.nameLabel.text = history.name;
     }
     
     deleteBtn = [cell valueForKey:@"but"];

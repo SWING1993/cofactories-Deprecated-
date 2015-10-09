@@ -23,7 +23,11 @@
 
 @property(nonatomic,retain) UITextField * WidthTF;
 
+@property(nonatomic,retain) UILabel *widthLabel;
+
 @property(nonatomic,retain) UITextField * PriceTF;
+
+@property(nonatomic, retain) UILabel *priceLabel;
 
 @property(nonatomic,retain) UITextField * ExplainTF;
 
@@ -256,24 +260,41 @@
 
 - (UITextField *)createWidthTF {
     if (!self.WidthTF) {
-        self.WidthTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - kScreenW/5, 44)];
-        self.WidthTF.keyboardType = UIKeyboardTypeDefault;
+        self.WidthTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - 2*kScreenW/5, 44)];
+        self.WidthTF.keyboardType = UIKeyboardTypeDecimalPad;
         self.WidthTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-        self.WidthTF.placeholder = @"请填写门幅";
+        self.WidthTF.placeholder = @"请填写数字，如3.5";
 
     }
     return self.WidthTF;
 }
+- (UILabel *)creatWidthLabel {
+    if (!self.widthLabel) {
+        self.widthLabel = [[UILabel alloc] initWithFrame:CGRectMake(4*kScreenW/5, 0, kScreenW/5, 44)];
+        self.widthLabel.text = @"米";
+    }
+    
+    return self.widthLabel;
+    
+}
 
 - (UITextField *)createPriceTF {
     if (!self.PriceTF) {
-        self.PriceTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - kScreenW/5, 44)];
+        self.PriceTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - 2*kScreenW/5, 44)];
         self.PriceTF.keyboardType = UIKeyboardTypeNumberPad;
         self.PriceTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-        self.PriceTF.placeholder = @"请填写价格";
+        self.PriceTF.placeholder = @"请填写数字，如123";
 
     }
     return self.PriceTF;
+}
+
+- (UILabel *)creatPriceLabel {
+    if (!self.priceLabel) {
+        self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(4*kScreenW/5, 0, kScreenW/5, 44)];
+        self.priceLabel.text = @"元";
+    }
+    return self.priceLabel;
 }
 
 - (UITextField *)createExplainTF {
@@ -382,7 +403,8 @@
                         case 0:{
                             [self createPriceTF];
                             [cell addSubview:self.PriceTF];
-                            
+                            [self creatPriceLabel];
+                            [cell addSubview:self.priceLabel];
                             NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:@"*价 格"];
                             [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
                             cell.textLabel.attributedText = labelText;
@@ -391,6 +413,10 @@
                         case 1:{
                             [self createWidthTF];
                             [cell addSubview:self.WidthTF];
+                            [self creatWidthLabel];
+                            [cell addSubview:self.widthLabel];
+                            
+                            
                             NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:@"*门 幅"];
                             [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
                             cell.textLabel.attributedText = labelText;
@@ -434,6 +460,8 @@
 
                             [self createPriceTF];
                             [cell addSubview:self.PriceTF];
+                            [self creatPriceLabel];
+                            [cell addSubview:self.priceLabel];
                             NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:@"*价 格"];
                             [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
                             cell.textLabel.attributedText = labelText;                        }

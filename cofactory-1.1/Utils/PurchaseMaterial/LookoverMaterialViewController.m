@@ -159,7 +159,7 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
             cell.textLabel.text = [NSString stringWithFormat:@"备注:  %@",_model.descriptions];
             break;
         case 5:
-            cell.textLabel.text = [NSString stringWithFormat:@"门幅:  %@",_model.width];
+            cell.textLabel.text = [NSString stringWithFormat:@"门幅:  %@ 米",_model.width];
             break;
         default:
             break;
