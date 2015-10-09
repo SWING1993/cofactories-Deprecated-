@@ -8,7 +8,7 @@
 
 #import "ActivityCell.h"
 #define kMargin [[UIScreen mainScreen] bounds].size.width / 375
-#define kSpace 30*kMargin
+#define kSpace 22*kMargin
 
 @implementation ActivityCell
 
@@ -33,9 +33,9 @@
         
         
         [self addSubview:self.middleLabel];
-        self.rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.middleLabel.frame) + kSpace, 9*kMargin, 160*kMargin, 20 *kMargin)];
+        self.rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.middleLabel.frame) + kSpace, 9*kMargin, 190*kMargin, 20 *kMargin)];
         self.rightLabel.text = @"服装企业洽谈会进行中！";
-        self.rightLabel.font = kSmallFont;
+        self.rightLabel.font = kFont;
         [self addSubview:self.rightLabel];
         
     }

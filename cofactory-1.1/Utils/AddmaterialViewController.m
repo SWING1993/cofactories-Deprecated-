@@ -123,7 +123,8 @@
                                             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                                             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                                                 NSArray *navArray = self.navigationController.viewControllers;
-                                                [self.navigationController popToViewController:navArray[1] animated:YES];
+                                                [self.navigationController popToViewController:navArray[3] animated:YES];
+                                                
                                             });
                                             
                                             DLog(@"图片上传成功");
@@ -181,7 +182,8 @@
                                         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                                         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                                             NSArray *navArray = self.navigationController.viewControllers;
-                                            [self.navigationController popToViewController:navArray[1] animated:YES];
+                                            [self.navigationController popToViewController:navArray[3] animated:YES];
+                                            
                                         });
                                         DLog(@"图片上传成功");
                                     }else{
@@ -222,7 +224,8 @@
                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                         NSArray *navArray = self.navigationController.viewControllers;
-                        [self.navigationController popToViewController:navArray[1] animated:YES];
+                        [self.navigationController popToViewController:navArray[3] animated:YES];
+                        
                     });
                 }
             }];
