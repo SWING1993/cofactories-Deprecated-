@@ -47,7 +47,6 @@
     [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {
         if ([responseDictionary[@"statusCode"] intValue]==200) {
             //判断网络状态 给用户相应提示
-            [Tools AFNetworkReachabilityStatusReachableVia];
             self.messageArray=responseDictionary[@"responseArray"];
             [self.tableView reloadData];
             [refreshControl endRefreshing];
