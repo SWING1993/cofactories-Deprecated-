@@ -65,7 +65,7 @@
         _typeLabel.textColor = [UIColor colorWithRed:241/255.0 green:145/255.0 blue:73/255.0 alpha:1.0];
     }
     
-    _amountLabel.text = [NSString stringWithFormat:@"数量: %zi%@",model.amount,model.unit];
+    _amountLabel.text = [NSString stringWithFormat:@"数量: %@%@",model.amount,model.unit];
     _commentLabel.text = [NSString stringWithFormat:@"备注: %@",model.comment];
     if (model.photoArray.count > 0 ) {
         NSString *imageOne = model.photoArray[0];

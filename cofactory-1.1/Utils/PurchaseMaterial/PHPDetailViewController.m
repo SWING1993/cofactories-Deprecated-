@@ -170,7 +170,7 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
             cell.messageLabel.frame = CGRectMake(90, 0, kScreenW-10, 44);
             cell.titleLabel.font = [UIFont systemFontOfSize:16.0f];
             cell.messageLabel.textColor = [UIColor orangeColor];
-            cell.messageLabel.text = [NSString stringWithFormat:@"%zi%@",self.model.amount,self.model.unit];
+            cell.messageLabel.text = [NSString stringWithFormat:@"%@%@",self.model.amount,self.model.unit];
             break;
             
         case 1:
