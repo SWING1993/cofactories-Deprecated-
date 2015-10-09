@@ -192,7 +192,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     }
     
     if (self.factoryType==5) {
-        ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"面料供应"];
+        ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"产品供应"];
         [headerView addSubview:buttonView];
         [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
         [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -267,7 +267,7 @@ static NSString *LastCellIdentifier = @"LastCell";
 #pragma mark - 面辅料供应
 - (void)pushSupply:(id)sender {
     
-    SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
+    ProviderViewController*supplyVC = [[ProviderViewController alloc]init];
     supplyVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:supplyVC animated:YES];
 }

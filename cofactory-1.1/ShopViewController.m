@@ -79,6 +79,34 @@ static NSString *shopCellIdentifier = @"shopCell";
     
 }
 
+//- (void)setupRefresh
+//{
+//    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+//    self.tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+//    self.tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+//    self.tableView.footerRefreshingText = @"加载中。。。";
+//}
+//
+//- (void)footerRereshing
+//{
+//    _refrushCount++;
+//    DLog(@"???????????%d",_refrushCount);
+//    [HttpClient checkMaterialHistoryPublishWithPage:_refrushCount completionBlock:^(NSDictionary *responseDictionary) {
+//        
+//        NSArray *jsonArray = (NSArray *)responseDictionary[@"responseObject"];
+//        
+//        for (NSDictionary *dictionary in jsonArray) {
+//            
+//            SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
+//            
+//            [self.historyArray addObject:history];
+//        }
+//        
+//        [self.tableView reloadData];
+//    }];
+//    
+//    [self.tableView footerEndRefreshing];
+//}
 
 
 - (void)creatMessage {
@@ -169,7 +197,7 @@ static NSString *shopCellIdentifier = @"shopCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ShopCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:shopCellIdentifier forIndexPath:indexPath];
     if (indexPath.row == 0) {
-        cell.shopImage.image = [UIImage imageNamed:@"addImageButton"];
+        cell.shopImage.image = [UIImage imageNamed:@"发布面辅料+"];
         
     } else {
         SupplyHistory *history = self.historyArray[indexPath.row - 1];

@@ -13,11 +13,11 @@
     if (self = [super initWithFrame:frame]) {
         self.shopImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
         [self addSubview:self.shopImage];
-//        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.shopImage.frame.size.height - 20, self.frame.size.width, 20)];
-//        self.nameLabel.textAlignment = NSTextAlignmentCenter;
-//        self.nameLabel.font = kFont;
-////        self.nameLabel.backgroundColor = [UIColor redColor];
-//        [self.shopImage addSubview:self.nameLabel];
+        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.shopImage.frame.size.height - 20, self.frame.size.width, 20)];
+        self.nameLabel.textAlignment = NSTextAlignmentCenter;
+        self.nameLabel.font = kFont;
+//        self.nameLabel.backgroundColor = [UIColor redColor];
+        [self.shopImage addSubview:self.nameLabel];
     }
     
     
