@@ -115,7 +115,7 @@
         if (textField3.text.length!=18) {
             [Tools showErrorWithStatus:@"身份证信息不完整!"];
 
-        }else if ([self.imageArray count]!=3) {
+        }else if ([self.imageArray count]<3) {
             [Tools showErrorWithStatus:@"照片信息不完整!"];
             
         }else{
@@ -289,8 +289,10 @@
 #pragma mark <UIImagePickerControllerDelegate>
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage*image;
-    image = info[UIImagePickerControllerEditedImage];
-    [self.imageArray addObject:image];
+    image = info[UIImagePickerControllerOriginalImage];
+    NSData *imageData = UIImageJPEGRepresentation(image,0.00001);
+    UIImage*newImage = [UIImage imageWithData:imageData];
+    [self.imageArray addObject:newImage];
     [picker dismissViewControllerAnimated:YES completion:^{
         NSIndexPath *te=[NSIndexPath indexPathForRow:self.imageType-1 inSection:0];
         [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:te,nil] ];

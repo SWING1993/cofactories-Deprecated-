@@ -296,8 +296,8 @@
             cellImage.image=self.cellImageArray2[indexPath.row];
             switch (indexPath.row) {
                 case 0:{
-                    cellLabel.text=@"公司名称";
-                    cell.detailTextLabel.text=self.factoryModel.factoryName;
+                    cellLabel.text=@"姓名";
+                    cell.detailTextLabel.text=self.factoryModel.name;
                     
                 }
                     break;
