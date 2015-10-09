@@ -71,7 +71,7 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
 }
 //加载主界面
 +(void)goMain {
-
+    
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     AppDelegate *app =[UIApplication sharedApplication].delegate;
     app.window.rootViewController = tabBarController;

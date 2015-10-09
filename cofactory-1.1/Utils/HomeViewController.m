@@ -153,6 +153,8 @@ static NSString *LastCellIdentifier = @"LastCell";
     
     self.view.backgroundColor=[UIColor whiteColor];
 
+    [self goUpdata];
+
     //工厂类型
     NSNumber * factoryTypeNumber = [[NSNumber alloc]initWithInteger:kFactoryType];
     self.factoryType = [factoryTypeNumber intValue];
@@ -210,7 +212,7 @@ static NSString *LastCellIdentifier = @"LastCell";
 }
 
 #pragma mark - 抽奖 检测更新
-- (void)goDrawAccess {
+- (void)goUpdata {
     DLog(@"%@",Kidentifier);
     if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
         //个人开发者 关闭检测更新
@@ -223,6 +225,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     }
     
     //抽奖
+    /*
     [HttpClient drawAccessWithBlock:^(int statusCode) {
         DLog(@"%d",statusCode);
         if (statusCode==200) {
@@ -231,6 +234,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             [alertView show];
         }
     }];
+     */
     
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
