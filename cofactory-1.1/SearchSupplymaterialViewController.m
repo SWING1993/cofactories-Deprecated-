@@ -196,7 +196,7 @@ static NSString *userCellIdentifier = @"userCell";
                 
                 break;
             case 3:
-                cell.infoLabel.text = [NSString stringWithFormat:@"%ld", (long)self.history.width];
+                cell.infoLabel.text = self.history.width;
                 
                 break;
                 

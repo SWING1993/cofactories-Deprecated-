@@ -424,7 +424,7 @@
  */
 
 
-+ (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(int)price width:(int)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(int)price width:(NSString *)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block;
 /**发布求购信息
  *
  */
