@@ -144,10 +144,37 @@
     [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"消息头像"]];
     [headerView addSubview:headerImage];
     [headerView bringSubviewToFront:headerImage];
+
+
+
+
+    NSString*factoryTypeString = [[NSString alloc]init];
+    switch (self.factoryModel.factoryType) {
+        case 0:
+            factoryTypeString = @"服装厂";
+            break;
+
+        case 1:
+            factoryTypeString = @"加工厂";
+            break;
+        case 2:
+            factoryTypeString = @"代裁厂";
+            break;
+        case 3:
+            factoryTypeString = @"锁眼钉扣厂";
+            break;
+        case 5:
+            factoryTypeString = @"面辅料商";
+            break;
+
+        default:
+            break;
+    }
     
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, ImageViewHeight-45, kScreenW-100, 20)];
-    factoryNameLabel.font=[UIFont boldSystemFontOfSize:18];
-    factoryNameLabel.text=self.factoryModel.factoryName;
+    factoryNameLabel.font=kLargeFont;
+    factoryNameLabel.text= [NSString stringWithFormat:@"%@——⌈%@⌋",self.factoryModel.factoryName,factoryTypeString];
+    ;
     [headerView addSubview:factoryNameLabel];
     
     infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-140, ImageViewHeight-25, 130, 20)];
