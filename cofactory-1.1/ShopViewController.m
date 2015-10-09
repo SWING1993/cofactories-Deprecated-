@@ -240,7 +240,7 @@ static NSString *shopCellIdentifier = @"shopCell";
 //设置某个分区的最小的cell间距
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return 10;
+    return 0;
 }
 
 
