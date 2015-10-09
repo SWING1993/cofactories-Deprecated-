@@ -173,7 +173,7 @@ static NSString *shopCellIdentifier = @"shopCell";
     //滚动方向
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     
-    shopCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 200, kScreenW, kScreenH - 190) collectionViewLayout:layout];
+    shopCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 200, kScreenW, kScreenH - 200) collectionViewLayout:layout];
     shopCollectionView.dataSource = self;
     shopCollectionView.tag = 1000;
     shopCollectionView.delegate = self;
