@@ -22,7 +22,7 @@
         self.info = dictionary[@"description"];
         self.oid = dictionary[@"id"];
         self.usage = dictionary[@"usage"];
-        self.width = [dictionary[@"width"] integerValue];
+        self.width = [NSString stringWithFormat:@"%@", dictionary[@"width"]];
         self.phoneNumber = dictionary[@"phone"];
         self.userName = dictionary[@"realname"];
         self.factoryUid = dictionary[@"factoryUid"];

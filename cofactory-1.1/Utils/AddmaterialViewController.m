@@ -105,7 +105,7 @@
             } else {
                 [btn setUserInteractionEnabled:NO];
                 NSArray *nameArr = @[@"面料", @"辅料", @"坯布"];
-                [HttpClient addMaterialWithType:nameArr[self.materialType - 1] name:self.NameTF.text usage:self.UseTF.text price:[self.PriceTF.text intValue] width:[self.WidthTF.text intValue] description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
+                [HttpClient addMaterialWithType:nameArr[self.materialType - 1] name:self.NameTF.text usage:self.UseTF.text price:[self.PriceTF.text intValue] width:self.WidthTF.text  description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
                     int statusCode = [responseDictionary[@"statusCode"] intValue];
                     DLog(@"%d", statusCode);
                     if (statusCode==200) {
@@ -163,7 +163,7 @@
             } else {
                 [btn setUserInteractionEnabled:NO];
                 NSArray *nameArr = @[@"面料", @"辅料", @"坯布"];
-                [HttpClient addMaterialWithType:nameArr[self.materialType - 1] name:self.NameTF.text usage:self.UseTF.text price:[self.PriceTF.text intValue] width:[self.WidthTF.text intValue] description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
+                [HttpClient addMaterialWithType:nameArr[self.materialType - 1] name:self.NameTF.text usage:self.UseTF.text price:[self.PriceTF.text intValue] width:self.WidthTF.text  description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
                     int statusCode = [responseDictionary[@"statusCode"] intValue];
                     DLog(@"%d", statusCode);
                     if (statusCode==200) {
@@ -216,7 +216,7 @@
     if (alertView.tag == 100) {
         if (buttonIndex == 1) {
             NSArray *nameArr = @[@"面料", @"辅料", @"坯布"];
-            [HttpClient addMaterialWithType:nameArr[self.materialType - 1] name:self.NameTF.text usage:self.UseTF.text price:[self.PriceTF.text intValue] width:[self.WidthTF.text intValue] description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
+            [HttpClient addMaterialWithType:nameArr[self.materialType - 1] name:self.NameTF.text usage:self.UseTF.text price:[self.PriceTF.text intValue] width:self.WidthTF.text description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
                 int statusCode = [responseDictionary[@"statusCode"] intValue];
                 if (statusCode == 200) {
                     [Tools showSuccessWithStatus:@"发布成功"];
@@ -257,7 +257,7 @@
 - (UITextField *)createWidthTF {
     if (!self.WidthTF) {
         self.WidthTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - kScreenW/5, 44)];
-        self.WidthTF.keyboardType = UIKeyboardTypeNumberPad;
+        self.WidthTF.keyboardType = UIKeyboardTypeDefault;
         self.WidthTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         self.WidthTF.placeholder = @"请填写门幅";
 
