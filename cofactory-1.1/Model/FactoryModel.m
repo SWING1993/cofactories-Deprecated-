@@ -13,7 +13,7 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
-//        DLog(@"-------%@",dictionary);
+        DLog(@"-------%@",dictionary);
         _uid = [[dictionary objectForKey:@"uid"] intValue];
         _oid = [[dictionary objectForKey:@"oid"] intValue];
         _factoryName = [dictionary objectForKey:@"factoryName"];
