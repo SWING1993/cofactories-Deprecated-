@@ -41,6 +41,8 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+    
+    DLog(@"+++>>>>%@",self.factoryModel.phone);
 }
 
 - (void)viewDidLoad {
