@@ -15,8 +15,10 @@
         [self addSubview:self.shopImage];
         self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.shopImage.frame.size.height - 20, self.frame.size.width, 20)];
         self.nameLabel.textAlignment = NSTextAlignmentCenter;
-        self.nameLabel.font = kFont;
-//        self.nameLabel.backgroundColor = [UIColor redColor];
+        self.nameLabel.font = kSmallFont;
+        
+        //self.nameLabel.backgroundColor = [UIColor colorWithRed:<#(CGFloat)#> green:<#(CGFloat)#> blue:<#(CGFloat)#> alpha:<#(CGFloat)#>];
+        
         [self.shopImage addSubview:self.nameLabel];
     }
     

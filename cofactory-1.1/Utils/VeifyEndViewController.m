@@ -26,7 +26,7 @@
     [self.view addSubview:logoImage];
 
     UILabel*logoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 220, kScreenW, 20)];
-    logoLabel.text=@"恭喜您已经成为聚工厂认证用户";
+    logoLabel.text=@"恭喜您已经成为聚工厂认证用户！";
     logoLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:logoLabel];
 }

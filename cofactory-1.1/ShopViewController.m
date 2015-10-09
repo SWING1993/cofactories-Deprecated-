@@ -21,7 +21,8 @@ static NSString *shopCellIdentifier = @"shopCell";
     UICollectionView *shopCollectionView;
     BOOL isDeleteStyle;
     UIButton *deleteBtn;
-    FactoryModel   *_userModel;
+    FactoryModel  *_userModel;
+    int  _refrushCount;
 }
 @property (nonatomic, strong) NSMutableArray *collectionImage;
 @property (nonatomic, strong) NSMutableArray *historyArray;
@@ -51,6 +52,7 @@ static NSString *shopCellIdentifier = @"shopCell";
     [self creatGobackButton];
     [self creatCollection];
     [self network];
+    //[self setupRefresh];
     [shopCollectionView registerClass:[ShopCollectionViewCell class] forCellWithReuseIdentifier:shopCellIdentifier];
     
 
@@ -81,10 +83,10 @@ static NSString *shopCellIdentifier = @"shopCell";
 
 //- (void)setupRefresh
 //{
-//    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
-//    self.tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
-//    self.tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
-//    self.tableView.footerRefreshingText = @"加载中。。。";
+//    [shopCollectionView addFooterWithTarget:self action:@selector(footerRereshing)];
+//    shopCollectionView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+//    shopCollectionView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+//    shopCollectionView.footerRefreshingText = @"加载中。。。";
 //}
 //
 //- (void)footerRereshing
@@ -102,12 +104,12 @@ static NSString *shopCellIdentifier = @"shopCell";
 //            [self.historyArray addObject:history];
 //        }
 //        
-//        [self.tableView reloadData];
+//        [shopCollectionView reloadData];
 //    }];
 //    
-//    [self.tableView footerEndRefreshing];
+//    [shopCollectionView footerEndRefreshing];
 //}
-
+//
 
 - (void)creatMessage {
     UIImageView *bigView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 200)];
@@ -171,7 +173,7 @@ static NSString *shopCellIdentifier = @"shopCell";
     //滚动方向
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     
-    shopCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 200, kScreenW, kScreenH - 190) collectionViewLayout:layout];
+    shopCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 200, kScreenW, kScreenH - 200) collectionViewLayout:layout];
     shopCollectionView.dataSource = self;
     shopCollectionView.tag = 1000;
     shopCollectionView.delegate = self;
@@ -198,11 +200,11 @@ static NSString *shopCellIdentifier = @"shopCell";
     ShopCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:shopCellIdentifier forIndexPath:indexPath];
     if (indexPath.row == 0) {
         cell.shopImage.image = [UIImage imageNamed:@"发布面辅料+"];
-        
+        cell.nameLabel.text = @"添加产品";
     } else {
         SupplyHistory *history = self.historyArray[indexPath.row - 1];
         [cell.shopImage sd_setImageWithURL:[NSURL URLWithString:history.photo] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
-        
+        //cell.nameLabel.text = history.type;
     }
     
     deleteBtn = [cell valueForKey:@"but"];
@@ -238,7 +240,7 @@ static NSString *shopCellIdentifier = @"shopCell";
 //设置某个分区的最小的cell间距
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return 10;
+    return 0;
 }
 
 

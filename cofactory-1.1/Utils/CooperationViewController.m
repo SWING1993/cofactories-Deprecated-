@@ -125,7 +125,7 @@
                     break;
                 case 1:
                 {
-                    cellLabel.text=factoryModel.legalPerson;
+                    cellLabel.text=factoryModel.name;
 
                 }
                     break;

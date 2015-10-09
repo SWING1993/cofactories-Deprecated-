@@ -33,10 +33,10 @@
 //    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"历史发布" style:UIBarButtonItemStyleBordered target:self action:@selector(historyPublishButton)];
 //    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
     
-//    UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"面辅料_标题"]];
-//    imageView.frame = CGRectMake(100, 60, kScreenW-200, 50);
-//    imageView.contentMode = UIViewContentModeScaleAspectFill;
-//    [self.view addSubview:imageView];
+    UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"面辅料_标题"]];
+    imageView.frame = CGRectMake(100, 60, kScreenW-200, 50);
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    [self.view addSubview:imageView];
     
     NSArray *buttonBGImageArray = @[@"面辅料_供应面料",@"面辅料_供应辅料",@"面辅料_供应胚布"];
     for (int i=0 ; i<3; i++) {
