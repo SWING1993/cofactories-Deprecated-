@@ -47,9 +47,7 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     self.view.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
     
-    [HttpClient getUserProfileWithUid:_model.userID andBlock:^(NSDictionary *responseDictionary) {
-        _userModel = (FactoryModel *)responseDictionary[@"model"];
-    }];
+   
     
 }
 
@@ -192,13 +190,16 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         CooperationInfoViewController *vc = [CooperationInfoViewController new];
-        vc.factoryModel = _userModel;
         UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
         backItem.title=@"返回";
         backItem.tintColor=[UIColor whiteColor];
         self.navigationItem.backBarButtonItem = backItem;
         self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-        [self.navigationController pushViewController:vc animated:YES];
+        [HttpClient getUserProfileWithUid:_model.userID andBlock:^(NSDictionary *responseDictionary) {
+            _userModel = (FactoryModel *)responseDictionary[@"model"];
+            vc.factoryModel = _userModel;
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
     }
 }
 
