@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		035F5C9C1BC8F5750014FD1D /* RCDHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 035F5C9B1BC8F5750014FD1D /* RCDHttpTool.m */; settings = {ASSET_TAGS = (); }; };
 		042A0EE81B7B588100ECE841 /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 042A0EE71B7B588100ECE841 /* HttpClient.m */; };
 		043257981B673D0400C3705D /* ODRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 043257971B673D0400C3705D /* ODRefreshControl.m */; };
 		04459B3C1B785BB500D74653 /* SettingTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04459B3B1B785BB500D74653 /* SettingTagsViewController.m */; };
@@ -387,6 +388,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		035F5C9A1BC8F5750014FD1D /* RCDHttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDHttpTool.h; sourceTree = "<group>"; };
+		035F5C9B1BC8F5750014FD1D /* RCDHttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDHttpTool.m; sourceTree = "<group>"; };
 		042A0EE61B7B588100ECE841 /* HttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpClient.h; sourceTree = "<group>"; };
 		042A0EE71B7B588100ECE841 /* HttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpClient.m; sourceTree = "<group>"; };
 		043257961B673D0400C3705D /* ODRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODRefreshControl.h; sourceTree = "<group>"; };
@@ -1421,6 +1424,8 @@
 		0492C5051BC7AD4800FAF11A /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				035F5C9A1BC8F5750014FD1D /* RCDHttpTool.h */,
+				035F5C9B1BC8F5750014FD1D /* RCDHttpTool.m */,
 				0492C5091BC7ADD800FAF11A /* ChatListViewController.h */,
 				0492C50A1BC7ADD800FAF11A /* ChatListViewController.m */,
 			);
@@ -2861,6 +2866,7 @@
 				04B7E4441BAFE6DD00B83DF0 /* RegisterViewController.m in Sources */,
 				0457E3EF1B8EE57100F38881 /* MBProgressHUD+Add.m in Sources */,
 				0448E1451B75CD78002B78B8 /* TagsManager.m in Sources */,
+				035F5C9C1BC8F5750014FD1D /* RCDHttpTool.m in Sources */,
 				BD8753E41BB596CF00A5F4CC /* UMChatToolBar.m in Sources */,
 				04CE49E71BB240E1004442D2 /* EARestrictedScrollView.m in Sources */,
 				04F60C621B58C07100CD3DEC /* ModifyJobViewController.m in Sources */,
