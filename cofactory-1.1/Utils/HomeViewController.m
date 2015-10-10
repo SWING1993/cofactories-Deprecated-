@@ -65,7 +65,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     //工厂类型
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
-        DLog(@"状态码 == %ld",(long)statusCode);
+        DLog(@"getUserProfile状态码 == %ld",(long)statusCode);
         if (statusCode == 200) {
             UserModel*userModel=responseDictionary[@"model"];
             [super viewWillAppear:animated];
@@ -83,7 +83,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryAddress forKey:@"factoryAddress"];
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
-            //        [[NSUserDefaults standardUserDefaults] setInteger:self.factoryType forKey:@"factoryType"];
+            //[[NSUserDefaults standardUserDefaults] setInteger:self.factoryType forKey:@"factoryType"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             [self.tableView reloadData];
         }
@@ -159,6 +159,21 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    // 快速集成第二步，连接融云服务器
+    [[RCIM sharedRCIM] connectWithToken:@"Vkgi/jY7j79UZYy0nR3SkqI9tUQUBLjKhzx0mCxqjYx2P4Ca70Z00YnUMuswiM/BQtBqyX6K1UZZaxGN0x8djQ==" success:^(NSString *userId) {
+        // Connect 成功
+        DLog(@" Connect 成功");
+        
+    }
+                                  error:^(RCConnectErrorCode status) {
+                                      // Connect 失败
+                                      DLog(@" Connect 失败")
+                                  }
+                         tokenIncorrect:^() {
+                             // Token 失效的状态处理
+                         }];
+
     
     self.view.backgroundColor=[UIColor whiteColor];
 
