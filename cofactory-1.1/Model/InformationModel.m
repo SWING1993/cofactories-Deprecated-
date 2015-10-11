@@ -29,7 +29,7 @@
 }
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@, %@, %@", self.title, self.comment, self.interest];
+    return [NSString stringWithFormat:@"%@, %@, %@, %@, %@", self.title, self.comment, self.interest, self.urlString, self.imageString];
 }
 
 

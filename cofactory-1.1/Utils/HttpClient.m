@@ -62,7 +62,7 @@
 #define API_searchBidMaterial @"/search/materialBuy"
 #define API_deleteMateria @"/material/shop/"
 
-#define API_messageHeader @"http://news.cofactories.com/?co&op=category&cat=轮播"
+
 
 
 @implementation HttpClient

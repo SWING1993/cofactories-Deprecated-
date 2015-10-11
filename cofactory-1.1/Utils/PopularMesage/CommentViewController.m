@@ -28,20 +28,23 @@ static NSString *commentCellIdentifier = @"commentCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"评论";
-    //设置Btn
-    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
-    self.navigationItem.leftBarButtonItem = setButton;
+    
     
     [self.tableView registerClass:[CommentCell class] forCellReuseIdentifier:commentCellIdentifier];
     [self creatHeadView];
-    
+    [self creatCancleItem];
     _refrushCount = 1;
     [self netWork];
     [self setupRefresh];
 
 }
-- (void)buttonClicked{
-    [self dismissViewControllerAnimated:YES completion:nil];
+
+#pragma mark - 创建UI
+
+- (void)creatCancleItem {
+    //设置Btn
+    UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
+    self.navigationItem.leftBarButtonItem = setButton;
 }
 
 - (void)creatHeadView {
@@ -90,42 +93,9 @@ static NSString *commentCellIdentifier = @"commentCell";
     self.tableView.tableHeaderView = tableViewHeadView;
 }
 
-- (void)clickDonebBtn:(UIButton *)button {
-    
-    [commentTextView resignFirstResponder];
-    if (commentTextView.text.length == 0 || [commentTextView.text isEqualToString:kPlaceholder]) {
-        [Tools showErrorWithStatus:@"评论内容不能为空！"];
-    } else {
-        [HttpClient pushCommentWithID:[NSString stringWithFormat:@"%d", self.oid] content:commentTextView.text andBlock:^(int statusCode) {
-            switch (statusCode) {
-                case 200:
-                {
-                    [Tools showSuccessWithStatus:@"评论成功！"];
-                    commentTextView.text = kPlaceholder;
-                    commentTextView.textColor = [UIColor grayColor];
-                    [self netWork];
-                }
-                    break;
-        
-                default:
-                {
-                    [Tools showErrorWithStatus:@"评论失败！"];
-                }
-                    
-                    break;
-            }
-    
-        }];
 
-    }
-    
-    
-}
-- (void)clickCanclebBtn:(UIButton *)button {
-    DLog(@"取消评论");
-    [commentTextView resignFirstResponder];
-    commentTextView.text = @"";
-}
+#pragma mark - 网络请求
+
 - (void)netWork {
     [HttpClient getCommentWithOid:self.oid page:1 andBlock:^(NSDictionary *responseDictionary) {
         DLog(@"%@", responseDictionary);
@@ -167,22 +137,7 @@ static NSString *commentCellIdentifier = @"commentCell";
     [self.tableView footerEndRefreshing];
 }
 
-
-
-
-////将要开始编辑
-//
-//- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
-//    return YES;
-//}
-//
-//
-////将要结束编辑
-//
-//- (BOOL)textViewShouldEndEditing:(UITextView *)textView {
-//    return NO;
-//}
-
+#pragma mark - UITextViewDelegate
 
 //开始编辑
 
@@ -206,28 +161,6 @@ static NSString *commentCellIdentifier = @"commentCell";
 }
 
 
-
-
-//
-////内容将要发生改变编辑
-//
-//- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-//    return YES;
-//}
-//
-//
-////内容发生改变编辑
-//
-//- (void)textViewDidChange:(UITextView *)textView {
-//    DLog(@"内容发生改变编辑");
-//}
-//
-//
-////焦点发生改变
-//
-//- (void)textViewDidChangeSelection:(UITextView *)textView {
-//    DLog(@"焦点发生改变");
-//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -275,6 +208,49 @@ static NSString *commentCellIdentifier = @"commentCell";
 }
 
 
+
+#pragma mark - Action
+
+- (void)clickDonebBtn:(UIButton *)button {
+    
+    [commentTextView resignFirstResponder];
+    if (commentTextView.text.length == 0 || [commentTextView.text isEqualToString:kPlaceholder]) {
+        [Tools showErrorWithStatus:@"评论内容不能为空！"];
+    } else {
+        [HttpClient pushCommentWithID:[NSString stringWithFormat:@"%d", self.oid] content:commentTextView.text andBlock:^(int statusCode) {
+            switch (statusCode) {
+                case 200:
+                {
+                    [Tools showSuccessWithStatus:@"评论成功！"];
+                    commentTextView.text = kPlaceholder;
+                    commentTextView.textColor = [UIColor grayColor];
+                    [self netWork];
+                }
+                    break;
+                    
+                default:
+                {
+                    [Tools showErrorWithStatus:@"评论失败！"];
+                }
+                    
+                    break;
+            }
+            
+        }];
+        
+    }
+    
+    
+}
+- (void)clickCanclebBtn:(UIButton *)button {
+    DLog(@"取消评论");
+    [commentTextView resignFirstResponder];
+    commentTextView.text = @"";
+}
+
+- (void)buttonClicked{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 @end
