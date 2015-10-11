@@ -17,7 +17,6 @@
 #import "ActivityViewController.h"
 #import "ProviderViewController.h"
 
-
 #import <PgySDK/PgyManager.h>
 
 //面辅料 供应
@@ -65,26 +64,36 @@ static NSString *LastCellIdentifier = @"LastCell";
     
     //工厂类型
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
-        UserModel*userModel=responseDictionary[@"model"];
-        [super viewWillAppear:animated];
+        NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
+        DLog(@"getUserProfile状态码 == %ld",(long)statusCode);
+        if (statusCode == 200) {
+            UserModel*userModel=responseDictionary[@"model"];
+            [super viewWillAppear:animated];
+            
+            self.factoryFreeStatus=userModel.factoryFreeStatus;
+            self.hasTruck=userModel.hasTruck;
+            self.factoryFreeTime=userModel.factoryFreeTime;
+            //        self.factoryType =userModel.factoryType;
+            
+            DLog(@"刷新工厂=%@  自备货车%d  空闲时间%@",userModel.factoryFreeStatus,self.hasTruck,self.factoryFreeTime);
+            
+            // 存储用户相关信息
+            NSNumber *MyUid = [NSNumber numberWithInt:userModel.uid];
+            [[NSUserDefaults standardUserDefaults] setObject:MyUid forKey:@"selfuid"];
+            [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
+            [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryAddress forKey:@"factoryAddress"];
+            [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
+            //[[NSUserDefaults standardUserDefaults] setInteger:self.factoryType forKey:@"factoryType"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            [self.tableView reloadData];
+        }
         
-        self.factoryFreeStatus=userModel.factoryFreeStatus;
-        self.hasTruck=userModel.hasTruck;
-        self.factoryFreeTime=userModel.factoryFreeTime;
-        //        self.factoryType =userModel.factoryType;
-        
-        DLog(@"刷新工厂=%@  自备货车%d  空闲时间%@",userModel.factoryFreeStatus,self.hasTruck,self.factoryFreeTime);
-        
-        // 存储用户相关信息
-        NSNumber *MyUid = [NSNumber numberWithInt:userModel.uid];
-        [[NSUserDefaults standardUserDefaults] setObject:MyUid forKey:@"selfuid"];
-        [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
-        [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryAddress forKey:@"factoryAddress"];
-        [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
-        //        [[NSUserDefaults standardUserDefaults] setInteger:self.factoryType forKey:@"factoryType"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        if (statusCode == 401 || statusCode == 404) {
+            UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"您的登录信息已过期，请重新登录！" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            alertView.tag = 401;
+            [alertView show];
+        }
     }];
-    [self.tableView reloadData];
 }
 
 - (void)bannerViewClick:(id)sender{
@@ -154,7 +163,24 @@ static NSString *LastCellIdentifier = @"LastCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // 快速集成第二步，连接融云服务器
+    [[RCIM sharedRCIM] connectWithToken:@"Vkgi/jY7j79UZYy0nR3SkqI9tUQUBLjKhzx0mCxqjYx2P4Ca70Z00YnUMuswiM/BQtBqyX6K1UZZaxGN0x8djQ==" success:^(NSString *userId) {
+        // Connect 成功
+        DLog(@" Connect 成功");
+        
+    }
+                                  error:^(RCConnectErrorCode status) {
+                                      // Connect 失败
+                                      DLog(@" Connect 失败")
+                                  }
+                         tokenIncorrect:^() {
+                             // Token 失效的状态处理
+                         }];
+
+    
     self.view.backgroundColor=[UIColor whiteColor];
+
+    [self goUpdata];
 
     //工厂类型
     NSNumber * factoryTypeNumber = [[NSNumber alloc]initWithInteger:kFactoryType];
@@ -213,7 +239,7 @@ static NSString *LastCellIdentifier = @"LastCell";
 }
 
 #pragma mark - 抽奖 检测更新
-- (void)goDrawAccess {
+- (void)goUpdata {
     DLog(@"%@",Kidentifier);
     if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
         //个人开发者 关闭检测更新
@@ -226,6 +252,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     }
     
     //抽奖
+    /*
     [HttpClient drawAccessWithBlock:^(int statusCode) {
         DLog(@"%d",statusCode);
         if (statusCode==200) {
@@ -234,16 +261,20 @@ static NSString *LastCellIdentifier = @"LastCell";
             [alertView show];
         }
     }];
+     */
     
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex==1) {
-        if (alertView.tag==100) {
+    if (alertView.tag==100) {
+        if (buttonIndex==1) {
             WebViewController*webVC = [[WebViewController alloc]init];
             UINavigationController*webNav=[[UINavigationController alloc]initWithRootViewController:webVC];
             webNav.navigationBar.barStyle=UIBarStyleBlack;
             [self presentViewController:webNav animated:YES completion:nil];
         }
+    }
+    if (alertView.tag == 401) {
+        [ViewController goLogin];
     }
 }
 

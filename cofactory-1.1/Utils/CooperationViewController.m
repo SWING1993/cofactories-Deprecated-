@@ -9,7 +9,7 @@
 #import "Header.h"
 
 
-@interface CooperationViewController () <UITableViewDataSource,UITableViewDelegate>
+@interface CooperationViewController () <UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 
 @property (nonatomic,retain)NSMutableArray*modelArray;
 @property (nonatomic, retain) UITableView *tableView;
@@ -27,11 +27,20 @@
 
     //列出合作商
     [HttpClient listPartnerWithBlock:^(NSDictionary *responseDictionary) {
-        self.modelArray = responseDictionary[@"responseArray"];
-        if (self.modelArray.count == 0) {
-            [Tools showErrorWithStatus:@"您尚未添加合作商！"];
-        }else{
-            [self.tableView reloadData];
+        NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
+        DLog(@"状态码 == %ld",(long)statusCode);
+        if (statusCode == 200) {
+            self.modelArray = responseDictionary[@"responseArray"];
+            if (self.modelArray.count == 0) {
+                [Tools showErrorWithStatus:@"您尚未添加合作商！"];
+            }else{
+                [self.tableView reloadData];
+            }
+        }
+        if (statusCode == 401 || statusCode == 404) {
+            UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"您的登录信息已过期，请重新登录！" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            alertView.tag = 401;
+            [alertView show];
         }
     }];
 }
@@ -79,7 +88,11 @@
         [refreshControl endRefreshing];
     });
 }
-
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 401) {
+        [ViewController goLogin];
+    }
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
