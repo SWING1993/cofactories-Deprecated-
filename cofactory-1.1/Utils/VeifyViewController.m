@@ -50,7 +50,7 @@
     self.tableView.showsVerticalScrollIndicator=NO;
 
     self.cellArray = @[@"公司名称:",@"法人姓名:",@"身份证号:",@"营业执照",@"身份证照片",@"公司形象",];
-    self.imageArray = [[NSMutableArray alloc]initWithCapacity:0];
+    self.imageArray = [[NSMutableArray alloc]initWithCapacity:3];
 
 
     textField1=[[UITextField alloc]initWithFrame:CGRectMake(100, 5, kScreenW-110, 34)];
@@ -172,10 +172,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return 3;
+        return 1;
     }
     else
-        return 1;
+        return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -187,7 +187,15 @@
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.textLabel.font = kFont;
     switch (indexPath.section) {
+            
         case 0:
+        {
+            
+            [cell addSubview:self.collectionView];
+            
+        }
+            break;
+        case 1:
         {
             cell.textLabel.text=self.cellArray[indexPath.row];
             switch (indexPath.row) {
@@ -213,13 +221,7 @@
         }
 
             break;
-        case 1:
-        {
-
-            [cell addSubview:self.collectionView];
-
-        }
-            break;
+        
         default:
             break;
     }
@@ -237,9 +239,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return 44;
-    }else
         return kScreenW/3;
+
+    }else
+        return 44;
+    
 }
 
 //- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -293,6 +297,7 @@
     NSData *imageData = UIImageJPEGRepresentation(image,0.00001);
     UIImage*newImage = [UIImage imageWithData:imageData];
     [self.imageArray addObject:newImage];
+    DLog(@"self.imageArray.count%lu",(unsigned long)self.imageArray.count);
     [picker dismissViewControllerAnimated:YES completion:^{
         NSIndexPath *te=[NSIndexPath indexPathForRow:self.imageType-1 inSection:0];
         [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:te,nil] ];
@@ -309,7 +314,7 @@
             DLog(@"license");
             [HttpClient uploadVerifyImage:[self.imageArray lastObject] type:@"license" andblock:^(NSDictionary *dictionary) {
                 if ([dictionary[@"statusCode"] intValue]==200) {
-                    [Tools showSuccessWithStatus:@"上传成功"];
+                    [Tools showSuccessWithStatus:@"营业执照上传成功"];
                 }else{
                     [Tools showErrorWithStatus:@"上传失败"];
                 }
@@ -323,7 +328,7 @@
             DLog(@"idCard");
             [HttpClient uploadVerifyImage:[self.imageArray lastObject] type:@"idCard" andblock:^(NSDictionary *dictionary) {
                 if ([dictionary[@"statusCode"] intValue]==200) {
-                    [Tools showSuccessWithStatus:@"上传成功"];
+                    [Tools showSuccessWithStatus:@"身份证上传成功"];
                 }else{
                     [Tools showErrorWithStatus:@"上传失败"];
                 }
@@ -337,7 +342,7 @@
             DLog(@"photo")
             [HttpClient uploadVerifyImage:[self.imageArray lastObject] type:@"photo" andblock:^(NSDictionary *dictionary) {
                 if ([dictionary[@"statusCode"] intValue]==200) {
-                    [Tools showSuccessWithStatus:@"上传成功"];
+                    [Tools showSuccessWithStatus:@"公司形象上传成功"];
                 }else{
                     [Tools showErrorWithStatus:@"上传失败"];
                 }
@@ -346,6 +351,7 @@
             break;
 
         default:
+            [Tools showErrorWithStatus:@"上传类型未知！"];
             break;
     }
 }
@@ -449,6 +455,7 @@
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.imageType = indexPath.row+1;
+    DLog(@"self.imageType = %ld",(long)self.imageType);
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"相册", nil];
     [actionSheet showInView:self.view];
 }
