@@ -23,12 +23,8 @@ static NSString *searchCellIdentifier = @"searchCell";
     self.title = @"搜索结果";
     //注册cell
     [self.tableView registerClass:[PopularMesageTableViewCell class] forCellReuseIdentifier:searchCellIdentifier];
-    
-    
-    
+
 }
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -111,8 +111,11 @@ static NSString *LastCellIdentifier = @"LastCell";
         case 1:
         {
             if (self.factoryType == 5) {
-                SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
+                ProviderViewController*supplyVC = [[ProviderViewController alloc]init];
                 supplyVC.hidesBottomBarWhenPushed = YES;
+                UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+                backItem.title=@"返回";
+                self.navigationItem.backBarButtonItem = backItem;
                 [self.navigationController pushViewController:supplyVC animated:YES];
             }else{
                 PurchaseVC *VC =[PurchaseVC new];
@@ -300,6 +303,9 @@ static NSString *LastCellIdentifier = @"LastCell";
     
     ProviderViewController*supplyVC = [[ProviderViewController alloc]init];
     supplyVC.hidesBottomBarWhenPushed = YES;
+    UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+    backItem.title=@"返回";
+    self.navigationItem.backBarButtonItem = backItem;
     [self.navigationController pushViewController:supplyVC animated:YES];
 }
 
@@ -453,21 +459,16 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1007:
         {
-#warning 记得改回来。。。。
-            
-            //            SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
-            //            supplyVC.hidesBottomBarWhenPushed = YES;
-            //            [self.navigationController pushViewController:supplyVC animated:YES];
+
             //我想供应
             if (self.factoryType == 5) {
                 ProviderViewController *providerVC = [[ProviderViewController alloc] init];
                 providerVC.hidesBottomBarWhenPushed = YES;
+                UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+                backItem.title=@"返回";
+                self.navigationItem.backBarButtonItem = backItem;
                 [self.navigationController pushViewController:providerVC animated:YES];
                 
-                
-//                SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
-//                supplyVC.hidesBottomBarWhenPushed = YES;
-//                [self.navigationController pushViewController:supplyVC animated:YES];
             }else{
                 [Tools showShimmeringString:@"面辅料专区，非面辅料请至首页上方发布订单！"];
             }

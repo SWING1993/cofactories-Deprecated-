@@ -40,15 +40,15 @@
         _information = information;
     }
     _titleLabel.text = information.title;
-    
-    [_abbreviateImage sd_setImageWithURL:[NSURL URLWithString:information.imageString] placeholderImage:nil];
+    NSString* encodedString = [information.imageString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [_abbreviateImage sd_setImageWithURL:[NSURL URLWithString:encodedString] placeholderImage:nil];
 }
-
 
 //- (void)getDataWithDictionary:(NSDictionary *)dictionary{
 //    _titleLabel.text = dictionary[@"title"];
 //    _abbreviateImage.image = [UIImage imageNamed:dictionary[@"image"]];
 //}
+
 
 - (void)awakeFromNib {
     // Initialization code

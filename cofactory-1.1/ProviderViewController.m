@@ -60,33 +60,16 @@
         DLog(@"查看求购！");
         PurchaseHistoryPublicVC *VC = [[PurchaseHistoryPublicVC alloc]init];
         VC.isMe = YES;
-        
+        UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+        backItem.title=@"返回";
+        self.navigationItem.backBarButtonItem = backItem;
         [self.navigationController pushViewController:VC animated:YES];
         
-        
-        
     }else{
-        
         
         ShopViewController *shopVC = [[ShopViewController alloc] init];
         
         [self.navigationController pushViewController:shopVC animated:YES];
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-//        DLog(@"发布供应！");
-//        AddmaterialViewController *VC = [[AddmaterialViewController alloc]init];
-//        VC.materialType = button.tag;  // 采购面料
-//        [self.navigationController pushViewController:VC animated:YES];
-        
-        
         
     }
     
@@ -95,11 +78,12 @@
     
     SearchSupplyFactoryViewController *searchSupplyFactoryVC = [[SearchSupplyFactoryViewController alloc] init];
     searchSupplyFactoryVC.isMe = NO;
+    UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+    backItem.title=@"返回";
+    self.navigationItem.backBarButtonItem = backItem;
     [self.navigationController pushViewController:searchSupplyFactoryVC animated:YES];
     
 }
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
