@@ -139,18 +139,25 @@
                             break;
                         case 200:{
                             [button setEnabled:YES];
+                            
+                            DLog(@"登陆成功");
+                            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                            [userDefaults setObject:_usernameTF.text forKey:@"username"];
+                            [userDefaults setObject:_passwordTF.text forKey:@"password"];
 
                             //工厂类型
                             [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
 
                                 if ([responseDictionary[@"statusCode"]integerValue]==200) {
                                     UserModel*userModel=responseDictionary[@"model"];
-                                    [[NSUserDefaults standardUserDefaults] setInteger:userModel.factoryType forKey:@"factoryType"];
+                                    [userDefaults setInteger:userModel.factoryType forKey:@"factoryType"];
 
-                                    if ([[NSUserDefaults standardUserDefaults] synchronize] == YES) {
+                                    if ([userDefaults synchronize] == YES) {
+                                        DLog(@"token、username、password储存成功！");
                                         [ViewController goMain];
                                     }
                                     else{
+                                        DLog(@"token、username、password储存失败！");
                                         [Tools showErrorWithStatus:@"获取用户身份失败，请尝试重新登录！"];
                                     }
                                 }

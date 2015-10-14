@@ -34,7 +34,7 @@
 //    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
     
     UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"面辅料_标题"]];
-    imageView.frame = CGRectMake(100, 60, kScreenW-200, 50);
+    imageView.frame = CGRectMake(100, (kScreenW - 64)/4, kScreenW-200, 50);
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     [self.view addSubview:imageView];
     
@@ -43,7 +43,7 @@
         DLog(@"%d--%d",i/2,i%2);
         
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake((kScreenW-180)/4+(i%3)*(60+(kScreenW-180)/4), (kScreenH - 64)/2 - 85, 60, 85);
+        button.frame = CGRectMake((kScreenW-180)/4+(i%3)*(60+(kScreenW-180)/4), (kScreenH - 64- 85)/2 , 60, 85);
 
         [button setBackgroundImage:[UIImage imageNamed:buttonBGImageArray[i]] forState:UIControlStateNormal];
         button.imageView.contentMode = UIViewContentModeScaleAspectFill;

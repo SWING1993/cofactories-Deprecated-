@@ -13,7 +13,8 @@
 #import "PMSearchViewController.h"
 //资讯详情页
 #import "PopularMessageInfoVC.h"
-
+#define kSearchFrameLong CGRectMake(50, 25, kScreenW-50, 30)
+#define kSearchFrameShort CGRectMake(50, 25, kScreenW-100, 30)
 
 @interface PopularMesageViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UIScrollViewDelegate>{
     UITableView       *_tableView;
@@ -26,6 +27,7 @@
     int                _count;
     UISearchBar       *_searchBar;
     UILabel           *_lineLabel;
+    UIView            *bigView;
 }
 
 @end
@@ -36,17 +38,24 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 @implementation PopularMesageViewController
 
 - (void)viewWillAppear:(BOOL)animated {
-    
+    [self creatSearchBar];
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = @"流行资讯";
     
     _titleImageArray = @[@{@"title":@"时尚服装咨询师-LIJO",@"image":@"1.png"},@{@"title":@"15-16秋冬童装新款解析-Wild",@"image":@"2.png"}];
     [Tools showLoadString:@"正在加载中..."];
-    [self creatSearchBar];
+    
+    UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
+    temporaryBarButtonItem.title = @"返回";
+    temporaryBarButtonItem.target = self;
+    temporaryBarButtonItem.action = @selector(back);
+    self.navigationItem.leftBarButtonItem = temporaryBarButtonItem;
+    
+    
     [self creatTableView];
     [self creatTableViewHeadView];
     [self netWork];
@@ -54,14 +63,19 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     
 }
 
+
+#pragma mark - 网络请求
+
 - (void)netWorker {
     [HttpClient getHeaderInfomationWithBlock:^(NSDictionary *responseDictionary) {
         self.headerInformationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
+        DLog(@"%@", self.headerInformationArray);
         [Tools WSProgressHUDDismiss];
         [_tableView reloadData];
     }];
 
 }
+
 - (void)netWork {
         [HttpClient getInfomationWithKind:@"cat=man" andBlock:^(NSDictionary *responseDictionary) {
         self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
@@ -69,32 +83,23 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     }];
 }
 
-
+#pragma mark - 创建UI
 - (void)creatSearchBar{
     
     self.view.backgroundColor = [UIColor whiteColor];
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(30, 20, kScreenW-160, 30)];
+    _searchBar = [[UISearchBar alloc] initWithFrame:kSearchFrameLong];
     _searchBar.delegate = self;
-    _searchBar.showsCancelButton = YES;
+    [self.navigationController.view addSubview:_searchBar];
+    [_searchBar setBackgroundImage:[[UIImage alloc] init] ];
     _searchBar.placeholder = @"搜索标题或作者";
-    self.navigationItem.titleView = _searchBar;
     
-    for(id button in [_searchBar.subviews[0] subviews])
-    {
-        if([button isKindOfClass:[UIButton class]])
-        {
-            UIButton *btn = (UIButton *)button;
-            [btn setTitle:@"取消"  forState:UIControlStateNormal];
-            [btn addTarget:self action:@selector(cancelSearchClick) forControlEvents:UIControlEventTouchUpInside];
-            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        }
-    }
 }
 
 - (void)creatTableView{
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.showsVerticalScrollIndicator = NO;
     _tableView.tableFooterView = [[UIView alloc] init];
     [_tableView registerClass:[PMSectionOneTableViewCell class] forCellReuseIdentifier:cellIdetifier1];
     [_tableView registerClass:[PopularMesageTableViewCell class] forCellReuseIdentifier:cellIdetifier2];
@@ -103,7 +108,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 }
 
 - (void)creatTableViewHeadView{
-    _tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 230)];
+    _tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 50 + 0.4*kScreenW)];
     
     NSArray*btnTitleArray = @[@"男装",@"女装",@"童装"];
     UIView*headerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 50)];
@@ -125,38 +130,13 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     }
     _tableView.tableHeaderView = _tableViewHeadView;
     NSArray *imageArray = @[@"时尚资讯.png",@"童装设计潮流趋势.png",@"男装新潮流.png",@"女装新潮流.png"];
-    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 50, kScreenW, 180) andImageArray:imageArray pageCount:4 isNetWork:NO];
+    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 50, kScreenW, 0.4*kScreenW) andImageArray:imageArray pageCount:4 isNetWork:NO];
     [_tableViewHeadView addSubview:bannerView];
 }
 
-//- (void)creatHeadView{
-//    _tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 220)];
-//    _tableViewHeadView.backgroundColor = [UIColor colorWithRed:42/255.0 green:41/255.0 blue:42/255.0 alpha:1.0];
-//    NSArray *array = @[@"男装",@"女装",@"童装"];
-//    for (int i=0; i<3; i++) {
-//        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-//        button.frame = CGRectMake(20+i*((kScreenW-280)/2.0+80), 5, 80, 30);
-//        button.titleLabel.textColor = [UIColor whiteColor];
-//        button.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-//        [button setTitle:array[i] forState:UIControlStateNormal];
-//        button.tag = i;
-//        [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-//        [_tableViewHeadView addSubview:button];
-//    }
-//    _tableView.tableHeaderView = _tableViewHeadView;
-//    
-//    NSArray *imageArray = @[@"新功能.png",@"面辅料.png",@"时尚资讯x.png"];
-//    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 40, kScreenW, 180) andImageArray:imageArray isNetWork:NO];
-//    [_tableViewHeadView addSubview:bannerView];
-//
-//
-//}
 
-- (void)dealloc{
-    _tableView.delegate =nil;
-    _tableView.dataSource = nil;
-}
-#pragma mark - tableView
+
+#pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 2;
 }
@@ -189,9 +169,10 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
         return cell;
     }
     
-    
-    
 }
+
+
+#pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
@@ -211,10 +192,8 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    [self removeSearchBar];
     if (indexPath.section == 0) {
-        
-        
         PopularMessageInfoVC * infoVC = [[PopularMessageInfoVC alloc]init];
         InformationModel *information = self.headerInformationArray[indexPath.row];
         infoVC.urlString = information.urlString;
@@ -232,7 +211,53 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     }
 }
 
-#pragma mark - others
+#pragma mark - UISearchBarDelegate
+
+//点击搜索框改变seachBar的大小，创建取消按钮，添加一层View
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+    if (_searchBar.frame.size.width == kScreenW-50) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancleButtonClick)];
+        _searchBar.frame = kSearchFrameShort;
+        bigView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH)];
+        bigView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
+        [self.view addSubview:bigView];
+    }
+}
+
+
+//点击搜索出结果
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    //搜索完移除view改变searchBar的大小
+    [searchBar resignFirstResponder];
+    [bigView removeFromSuperview];
+    _searchBar.frame = kSearchFrameLong;
+    [HttpClient getInfomationWithKind:[NSString stringWithFormat:@"s=%@", searchBar.text] andBlock:^(NSDictionary *responseDictionary) {
+        self.searchArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
+        if (self.searchArray.count == 0) {
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"搜索结果为空" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alertView show];
+            
+        } else {
+            [self removeSearchBar];
+            PMSearchViewController *PMSearchVC = [[PMSearchViewController alloc] init];
+            PMSearchVC.searchArray = [NSMutableArray arrayWithArray:self.searchArray];
+            [self.navigationController pushViewController:PMSearchVC animated:YES];
+        }
+    }];
+}
+
+
+//点击键盘之外的View移除View
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    if (![_searchBar isExclusiveTouch]) {
+        [_searchBar resignFirstResponder];
+        [bigView removeFromSuperview];
+        _searchBar.frame = kSearchFrameLong;
+    }
+}
+
+
+#pragma mark - Action
 - (void)buttonClick:(UIButton *)button{
     // 控制下划线Label与按钮的同步
     [UIView animateWithDuration:0.2 animations:^{
@@ -249,29 +274,32 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     DLog(@"%zi",button.tag);
 }
 
-- (void)cancelSearchClick{
+
+//点击取消收回键盘，移除View，改变seachBar的大小
+- (void)cancleButtonClick {
+    //收回键盘
+    [_searchBar resignFirstResponder];
+    [bigView removeFromSuperview];
+    _searchBar.frame = kSearchFrameLong;
     
-    [_searchBar endEditing:YES];
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    [searchBar resignFirstResponder];
-     [HttpClient getInfomationWithKind:[NSString stringWithFormat:@"s=%@", searchBar.text] andBlock:^(NSDictionary *responseDictionary) {
-         self.searchArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
-         if (self.searchArray.count == 0) {
-             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"搜索结果为空" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-             [alertView show];
-             
-         } else {
-             PMSearchViewController *PMSearchVC = [[PMSearchViewController alloc] init];
-             PMSearchVC.searchArray = [NSMutableArray arrayWithArray:self.searchArray];
-             [self.navigationController pushViewController:PMSearchVC animated:YES];
-         }
-     }];
+//返回时移除searchBar
+- (void)back {
+    [_searchBar removeFromSuperview];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+//同时移除searchBar和View（在当前页面操作）
+- (void)removeSearchBar {
+    [_searchBar removeFromSuperview];
+    [bigView removeFromSuperview];
 }
 
-
-
+- (void)dealloc{
+    _tableView.delegate =nil;
+    _tableView.dataSource = nil;
+    
+}
 
 
 - (void)didReceiveMemoryWarning {
@@ -279,14 +307,5 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     // Dispose of any resources that can be recreated.
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

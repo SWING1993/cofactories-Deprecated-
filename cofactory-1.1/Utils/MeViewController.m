@@ -57,17 +57,25 @@
     DLog(@"缓存%lu",(unsigned long)[[SDImageCache sharedImageCache] getSize]);
 
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
-
-        self.userModel=responseDictionary[@"model"];
-        //更新公司名称label.text
-        factoryNameLabel.text=self.userModel.factoryName;
-        //更新信息完整度
-        int FinishedDegree = self.userModel.factoryFinishedDegree;
-        infoLabel.text = [NSString stringWithFormat:@"信息完整度为%d%s⌈%@⌋",FinishedDegree,"%",self.factoryTypeString];
-        [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
-
-        //刷新tableview
-        [self.tableView reloadData];
+        NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
+        DLog(@"状态码 == %ld",(long)statusCode);
+        if (statusCode == 200) {
+            self.userModel=responseDictionary[@"model"];
+            //更新公司名称label.text
+            factoryNameLabel.text=self.userModel.factoryName;
+            //更新信息完整度
+            int FinishedDegree = self.userModel.factoryFinishedDegree;
+            infoLabel.text = [NSString stringWithFormat:@"信息完整度为%d%s⌈%@⌋",FinishedDegree,"%",self.factoryTypeString];
+            [headerButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.userModel.uid]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];
+            
+            //刷新tableview
+            [self.tableView reloadData];
+        }
+        else if (statusCode == 401 || statusCode == 404) {
+            UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"您的登录信息已过期，请重新登录！" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            alertView.tag = 401;
+            [alertView show];
+        }
     }];
 
 }
@@ -365,10 +373,8 @@
     }
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex==1) {
-        if (alertView.tag==99) {
-            [ViewController goLogin];
-        }
+    if (alertView.tag == 401) {
+        [ViewController goLogin];
     }
 }
 

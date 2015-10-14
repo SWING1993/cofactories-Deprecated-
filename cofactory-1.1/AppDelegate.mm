@@ -15,14 +15,13 @@
 #import "UMSocialQQHandler.h"
 #import "UMSocialSinaSSOHandler.h"
 #import "UMSocialSinaHandler.h"
+#import "MobClick.h"
 
 //蒲公英
 #import <PgySDK/PgyManager.h>
 
 //腾讯Bugly
 #import <Bugly/CrashReporter.h>
-
-#import "MobClick.h"
 
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
@@ -40,6 +39,27 @@
     self.window = [[UIWindow alloc] initWithFrame:kScreenBounds];
     self.window.backgroundColor = [UIColor whiteColor];
 
+
+    //初始化融云SDK。
+    [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];
+    /**
+     * 融云推送处理1
+     */
+    if ([application
+         respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings
+                                                settingsForTypes:(UIUserNotificationTypeBadge |
+                                                                  UIUserNotificationTypeSound |
+                                                                  UIUserNotificationTypeAlert)
+                                                categories:nil];
+        [application registerUserNotificationSettings:settings];
+    } else {
+        UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge |
+        UIRemoteNotificationTypeAlert |
+        UIRemoteNotificationTypeSound;
+        [application registerForRemoteNotificationTypes:myTypes];
+    }
+
     //关闭友盟bug检测
     [MobClick setCrashReportEnabled:NO];
 
@@ -56,7 +76,7 @@
         }
         // 友盟分享
         [UMSocialData setAppKey:UMENGAppKey];
-        [UMSocialData openLog:YES];
+        [UMSocialData openLog:NO];
         // 友盟用户反馈
         [UMFeedback setAppkey:appStoreUMENGAppKey];
         // 注册友盟统计 SDK
@@ -90,7 +110,7 @@
         }
         // 友盟分享
         [UMSocialData setAppKey:UMENGAppKey];
-        //[UMSocialData openLog:YES];
+        [UMSocialData openLog:NO];
         // 友盟用户反馈
         [UMFeedback setAppkey:UMENGAppKey];
         // 注册友盟统计 SDK
@@ -168,14 +188,32 @@
     return YES;
 }
 
-
-
+/**
+ * 融云推送处理2
+ */
+//注册用户通知设置
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    // register to receive notifications
+    [application registerForRemoteNotifications];
+}
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     [HttpClient registerDeviceWithDeviceId:[NSString stringWithFormat:@"%@", deviceToken] andBlock:^(int statusCode) {
                 DLog(@"deviceTokenStatus %d  deviceToken = %@", statusCode,deviceToken);
     }];
     [UMessage registerDeviceToken:deviceToken];
+
+    /**
+     * 融云推送处理3
+     */
+    NSString *token =[[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"
+                                                                            withString:@""]
+                       stringByReplacingOccurrencesOfString:@">"
+                       withString:@""]
+                      stringByReplacingOccurrencesOfString:@" "
+                      withString:@""];
+    
+    [[RCIMClient sharedRCIMClient] setDeviceToken:token];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -184,18 +222,19 @@
 //    DLog(@"%@",userInfo);
     [UMessage setAutoAlert:NO];
 
-    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
-    {
-        NSDictionary*aps = userInfo[@"aps"];
-        NSString*message = aps[@"alert"];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"通知消息"
-                                                            message:message
-                                                           delegate:self
-                                                  cancelButtonTitle:@"确定"
-                                                  otherButtonTitles:nil];
+//    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
+//    {
+//        NSDictionary*aps = userInfo[@"aps"];
+//        NSString*message = aps[@"alert"];
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"通知消息"
+//                                                            message:message
+//                                                           delegate:self
+//                                                  cancelButtonTitle:@"确定"
+//                                                  otherButtonTitles:nil];
+//
+//        [alertView show];
+//    }
 
-        [alertView show];
-    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

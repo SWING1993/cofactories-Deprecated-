@@ -7,6 +7,10 @@
  AppStore账号：378829879@qq.com
  密码：Jugongkeji123
  Bundle ID: com.cofactory.iosapp
+ 
+ 融云
+ admin@cofactories.com
+ rongcofactories
   */
 
 
@@ -115,7 +119,12 @@
 #import "IQKeyboardManager.h"//不遮挡输入框
 #import "MJPhotoBrowser.h"//MJ图片浏览
 
+//融云IM
+#import <RongIMKit/RongIMKit.h>
+#define RONGCLOUD_IM_APPKEY @"pwe86ga5edfp6"
 
+#import "ChatListViewController.h"
+#import "RCDHttpTool.h"
 
 
 #pragma mark - 日志开关

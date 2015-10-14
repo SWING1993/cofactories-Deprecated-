@@ -62,7 +62,7 @@
 #define API_searchBidMaterial @"/search/materialBuy"
 #define API_deleteMateria @"/material/shop/"
 
-#define API_messageHeader @"http://news.cofactories.com/?co&op=category&cat=轮播"
+
 
 
 @implementation HttpClient
@@ -297,9 +297,6 @@
 }
 
 + (void)getUserProfileWithBlock:(void (^)(NSDictionary *))block {
-    
-    //判断网络状态 给用户相应提示
-    [Tools AFNetworkReachabilityStatusReachableVia];
     
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
@@ -610,7 +607,7 @@
             FactoryModel *factoryModel = [[FactoryModel alloc] initWithDictionary:dictionary];
             [responseArray addObject:factoryModel];
         }
-        block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseArray});
+        block(@{@"statusCode": @(200), @"responseArray": responseArray});
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         block(@{@"statusCode": @0, @"message": @"网络错误"});// 网络错误
     }];
@@ -1047,14 +1044,14 @@
                 FactoryModel *factoryModel = [[FactoryModel alloc] initWithDictionary:dictionary];
                 [responseArray addObject:factoryModel];
             }
-            block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseArray});
+            block(@{@"statusCode": @(200), @"responseArray": responseArray});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             switch ([operation.response statusCode]) {
                 case 400:
-                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"未登录"});
+                    block(@{@"statusCode": @(400), @"message": @"未登录"});
                     break;
                 case 401:
-                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"access_token过期或者无效"});
+                    block(@{@"statusCode": @(401), @"message": @"access_token过期或者无效"});
                     break;
                     
                 default:

@@ -191,16 +191,18 @@
     }
     
     [HttpClient searchWithFactoryName:nil factoryType:self.factoryType factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDistanceMin:nil factoryDistanceMax:nil Truck:nil factoryFree:nil page:(@1)andBlock:^(NSDictionary *responseDictionary) {
-        self.factoryModelArray = nil;
-        self.factoryModelArray = responseDictionary[@"responseArray"];
-        [_tableView reloadData];
-        
+        NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
+        if (statusCode == 200) {
+            self.factoryModelArray = nil;
+            self.factoryModelArray = responseDictionary[@"responseArray"];
+            [_tableView reloadData];
+            
+        }
     }];
     
     _refrushCount = 1;
     [self setupRefresh];
-    
-    
+   
 }
 
 

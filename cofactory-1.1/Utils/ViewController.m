@@ -35,7 +35,7 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
         //[ViewController goLogin];
 
     }else{
-        //工厂类型
+        //存储工厂类型
         [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
 
             if ([responseDictionary[@"statusCode"]integerValue]==200) {
@@ -56,7 +56,20 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
 
             }
         }];
+        
+        //刷新Token
+        [HttpClient validateOAuthWithBlock:^(int statusCode) {
+            DLog(@"刷新Token");
+        
+            if (statusCode == 200) {
+                DLog(@"刷新Token成功！");
+            }else {
+                DLog(@"刷新Token失败！");
+            }
+        }];
+        
         [ViewController goMain];
+
         DLog(@"已登录");
     }
 }
@@ -71,7 +84,7 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
 }
 //加载主界面
 +(void)goMain {
-
+    
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     AppDelegate *app =[UIApplication sharedApplication].delegate;
     app.window.rootViewController = tabBarController;
