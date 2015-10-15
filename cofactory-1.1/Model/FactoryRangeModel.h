@@ -9,12 +9,31 @@
 #import <Foundation/Foundation.h>
 
 @interface FactoryRangeModel : NSObject
+/*
+GarmentFactory,// 服装厂
+ProcessingFactory,// 加工厂
+CuttingFactory,// 代裁厂
+LockButtonFactory,// 锁眼钉扣厂
+MechanicalFactory,// 机械修理厂
+materialFactory //面辅料商
+ */
 
 @property (nonatomic, strong) NSArray *serviceList;
 
 @property (nonatomic, strong) NSArray *allServiceRange;//全部业务类型
 
-@property (nonatomic, strong) NSArray *allFactorySize;//全部公司规模
+@property (nonatomic, strong) NSArray *garmentRange;//服装厂业务类型
+@property (nonatomic, strong) NSArray *processingRange;//加工厂业务类型
+@property (nonatomic, strong) NSArray *materialRange;//面辅料商业务类型
 
+
+@property (nonatomic, strong) NSArray *allFactorySize;
+
+@property (nonatomic, strong) NSArray *garmentSize;//服装厂规模
+@property (nonatomic, strong) NSArray *processingSize;//加工厂规模
+@property (nonatomic, strong) NSArray *cuttingSize;//代裁厂规模
+@property (nonatomic, strong) NSArray *lockButtonFactorySize;//代裁厂规模
+
+- (instancetype)init;
 
 @end

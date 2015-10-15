@@ -149,27 +149,8 @@
 
 
     NSString*factoryTypeString = [[NSString alloc]init];
-    switch (self.factoryModel.factoryType) {
-        case 0:
-            factoryTypeString = @"服装厂";
-            break;
-
-        case 1:
-            factoryTypeString = @"加工厂";
-            break;
-        case 2:
-            factoryTypeString = @"代裁厂";
-            break;
-        case 3:
-            factoryTypeString = @"锁眼钉扣厂";
-            break;
-        case 5:
-            factoryTypeString = @"面辅料商";
-            break;
-
-        default:
-            break;
-    }
+    FactoryRangeModel *factoryRangeModel = [[FactoryRangeModel alloc]init];
+    factoryTypeString = factoryRangeModel.serviceList[self.factoryModel.factoryType];
     
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, ImageViewHeight-45, kScreenW-100, 20)];
     factoryNameLabel.font=kLargeFont;

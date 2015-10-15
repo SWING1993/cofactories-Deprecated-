@@ -17,16 +17,19 @@
 @property(nonatomic,retain)NSArray*sizeArray;
 //公司业务类型数组
 @property (nonatomic,retain)NSArray*serviceRangeArray;
+//标签数组
+@property (nonatomic, retain)NSArray * allTags;
 
 //单元格imageArray
 @property (nonatomic,retain)NSArray*cellImageArray1;
 @property (nonatomic,retain)NSArray*cellImageArray2;
 
-//用户模型
+//用户模型&工厂模型
 @property (nonatomic, strong) UserModel*userModel;
+@property (nonatomic, strong) FactoryRangeModel * factoryRangeModel;
 
 //身份类型
-@property (nonatomic, assign) NSInteger factoryType;
+//@property (nonatomic, assign) NSInteger factoryType;
 @property (nonatomic, retain) NSString * factoryTypeString;
 
 
@@ -86,29 +89,11 @@
 
     //初始化用户model
     self.userModel=[[UserModel alloc]init];
-    self.factoryType = kFactoryType;
+//    self.factoryType = kFactoryType;
+    self.factoryRangeModel = [[FactoryRangeModel alloc]init];
+    self.factoryTypeString = self.factoryRangeModel.serviceList[kFactoryType];
     DLog(@"kFactoryType = %ld",kFactoryType);
-    switch (kFactoryType) {
-        case 0:
-            self.factoryTypeString = @"服装厂";
-            break;
-
-        case 1:
-            self.factoryTypeString = @"加工厂";
-            break;
-        case 2:
-            self.factoryTypeString = @"代裁厂";
-            break;
-        case 3:
-            self.factoryTypeString = @"锁眼钉扣厂";
-            break;
-        case 5:
-            self.factoryTypeString = @"面辅料商";
-            break;
-
-        default:
-            break;
-    }
+    
     [self getArrayData];
 
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
@@ -160,25 +145,34 @@
 
 }
 - (void)getArrayData {
-    FactoryRangeModel*rangeModel = [[FactoryRangeModel alloc]init];
-    if (self.factoryType == GarmentFactory) {
+    
+    if (kFactoryType == GarmentFactory) {
         DLog(@"---服装厂");
-        self.sizeArray=rangeModel.allFactorySize[0];
-        self.serviceRangeArray=rangeModel.allServiceRange[0];
+        self.sizeArray=self.factoryRangeModel.garmentSize;
+        self.serviceRangeArray=self.factoryRangeModel.garmentRange;
     }
-    if (self.factoryType == ProcessingFactory) {
+    if (kFactoryType == ProcessingFactory) {
         DLog(@"---加工厂");
-        self.sizeArray=rangeModel.allFactorySize[1];
-        self.serviceRangeArray=rangeModel.allServiceRange[1];
+        self.sizeArray=self.factoryRangeModel.processingSize;
+        self.serviceRangeArray=self.factoryRangeModel.processingRange;
+        self.allTags = @[@"包工",@"包工包料",@"流水线生产",@"整件生产",@"工价低"];
 
     }
-    if (self.factoryType == CuttingFactory) {
+    if (kFactoryType == CuttingFactory) {
         DLog(@"---代裁厂");
-        self.sizeArray=rangeModel.allFactorySize[2];
+        self.allTags = @[@"排版好",@"工期快",@"设备齐全",@"节省布料"];
+        self.sizeArray=self.factoryRangeModel.cuttingSize;
     }
-    if (self.factoryType ==LockButtonFactory) {
+    if (kFactoryType ==LockButtonFactory) {
         DLog(@"---锁眼厂");
-        self.sizeArray=rangeModel.allFactorySize[3];
+        self.sizeArray=self.factoryRangeModel.lockButtonFactorySize;
+        self.allTags = @[@"时间短",@"钉扣类型多"];
+
+    }
+    if (kFactoryType ==materialFactory) {
+        DLog(@"---面辅料商");
+        self.serviceRangeArray=self.factoryRangeModel.materialRange;
+        
     }
 }
 
@@ -208,16 +202,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section==0) {
-        if (self.factoryType == GarmentFactory || self.factoryType==materialFactory) {
+        if (kFactoryType == GarmentFactory || kFactoryType==materialFactory) {
             return 4;
         }else{
             return 5;
         }
     }if (section==1) {
-        if (self.factoryType==GarmentFactory||self.factoryType==ProcessingFactory) {
+        if (kFactoryType == GarmentFactory||kFactoryType == ProcessingFactory) {
             return 5;
-        }if (self.factoryType==materialFactory) {
-            return 3;
+        }if (kFactoryType == materialFactory) {
+            return 4;
         }
         else{
             return 4;
@@ -315,11 +309,17 @@
             }
                 break;
             case 3:{
-
-                cellLabel.text=@"公司规模";
-                cell.detailTextLabel.text=self.userModel.factorySize;
+                if (kFactoryType == materialFactory) {
+                    cellLabel.text=@"业务类型";
+                    cell.detailTextLabel.text=self.userModel.factoryServiceRange;
+                }else {
+                    cellLabel.text=@"公司规模";
+                    cell.detailTextLabel.text=self.userModel.factorySize;
+                }
+                
             }
                 break;
+                
             case 4:{
                 cellLabel.text=@"业务类型";
                 cell.detailTextLabel.text=self.userModel.factoryServiceRange;
@@ -411,18 +411,8 @@
                     break;
                 case 4:{
                     SettingTagsViewController*tagsVC = [[SettingTagsViewController alloc]init];
-                    if (self.factoryType==ProcessingFactory) {
-                        //加工
-                        tagsVC.allTags = @[@"包工",@"包工包料",@"流水线生产",@"整件生产",@"工价低"];
-                    }
-                    if (self.factoryType==CuttingFactory){
-                        //代裁厂
-                        tagsVC.allTags = @[@"排版好",@"工期快",@"设备齐全",@"节省布料"];
-                    }
-                    if (self.factoryType == LockButtonFactory) {
-                        tagsVC.allTags = @[@"时间短",@"钉扣类型多"];
-                    }
-
+                    tagsVC.allTags = self.allTags;
+                    
                     tagsVC.hidesBottomBarWhenPushed=YES;
                     [self.navigationController pushViewController:tagsVC animated:YES];
                 }
@@ -458,11 +448,20 @@
                 }
                     break;
                 case 3:{
-                    ModifySizeViewController*sizeVC = [[ModifySizeViewController alloc]init];
-                    sizeVC.placeholder=self.userModel.factorySize;
-                    sizeVC.cellPickList=self.sizeArray;
-                    sizeVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:sizeVC animated:YES];
+                    if (kFactoryType == materialFactory) {
+                        ModifyServiceRangeViewController*rangeVC = [[ModifyServiceRangeViewController alloc]init];
+                        rangeVC.cellPickList=self.serviceRangeArray;
+                        rangeVC.placeholder=self.userModel.factoryServiceRange;
+                        rangeVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:rangeVC animated:YES];
+                    } else {
+                        ModifySizeViewController*sizeVC = [[ModifySizeViewController alloc]init];
+                        sizeVC.placeholder=self.userModel.factorySize;
+                        sizeVC.cellPickList=self.sizeArray;
+                        sizeVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:sizeVC animated:YES];
+                    }
+                    
                 }
                     break;
                 case 4:{
