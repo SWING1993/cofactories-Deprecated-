@@ -123,10 +123,6 @@
 #import <RongIMKit/RongIMKit.h>
 #define RONGCLOUD_IM_APPKEY @"pwe86ga5edfp6"
 
-#import "ChatListViewController.h"
-#import "RCDHttpTool.h"
-
-
 #pragma mark - 日志开关
 /*!
  DLog

@@ -191,7 +191,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     //获取融云的token
     [HttpClient getIMTokenWithBlock:^(NSDictionary *responseDictionary) {
         NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
-        DLog(@"融云====%ld", statusCode);
+        DLog(@"融云====%ld", (long)statusCode);
         NSString *token = responseDictionary[@"IMToken"];
         DLog(@"融云token====%@", token);
         
