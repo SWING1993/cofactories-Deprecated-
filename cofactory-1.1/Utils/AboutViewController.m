@@ -61,13 +61,15 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
-        //个人开发者
-        return 1;
-    }else{
-        //企业账号
-        return 2;
-    }
+    return 1;
+
+//    if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
+//        //个人开发者
+//        return 1;
+//    }else{
+//        //企业账号
+//        return 2;
+//    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -115,7 +117,7 @@
         }
             break;
         case 1:{
-            [self checkUpdate];
+//            [self checkUpdate];
 
         }
             break;
@@ -146,41 +148,41 @@
 /**
  *  检查更新
  */
-- (void)checkUpdate
-{
-    //  有回调的检查更新
-    [[PgyManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(updateMethod:)];
-
-}
-
-/**
- *  检查更新回调
- *
- *  @param response 检查更新的返回结果
- */
-- (void)updateMethod:(NSDictionary *)response
-{
-    if (response[@"downloadURL"]) {
-
-        //    无回调的检查更新，如果有新版本，则会提示用户更新，确认更新后会自动安装新版本
-        [[PgyManager sharedPgyManager] checkUpdate];
-
-    }
-    else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"当前版本为最新版本"
-                                                            message:nil
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"好的"
-                                                  otherButtonTitles:nil,
-                                  nil];
-
-        [alertView show];
-
-    }
-
-    //    调用checkUpdateWithDelegete后可用此方法来更新本地的版本号，如果有更新的话，在调用了此方法后再次调用将不提示更新信息。
-    //    [[PgyManager sharedPgyManager] updateLocalBuildNumber];
-}
+//- (void)checkUpdate
+//{
+//    //  有回调的检查更新
+//    [[PgyManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(updateMethod:)];
+//
+//}
+//
+///**
+// *  检查更新回调
+// *
+// *  @param response 检查更新的返回结果
+// */
+//- (void)updateMethod:(NSDictionary *)response
+//{
+//    if (response[@"downloadURL"]) {
+//
+//        //    无回调的检查更新，如果有新版本，则会提示用户更新，确认更新后会自动安装新版本
+//        [[PgyManager sharedPgyManager] checkUpdate];
+//
+//    }
+//    else {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"当前版本为最新版本"
+//                                                            message:nil
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:@"好的"
+//                                                  otherButtonTitles:nil,
+//                                  nil];
+//
+//        [alertView show];
+//
+//    }
+//
+//    //    调用checkUpdateWithDelegete后可用此方法来更新本地的版本号，如果有更新的话，在调用了此方法后再次调用将不提示更新信息。
+//    //    [[PgyManager sharedPgyManager] updateLocalBuildNumber];
+//}
 
 
 @end

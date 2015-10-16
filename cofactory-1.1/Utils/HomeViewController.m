@@ -163,24 +163,8 @@ static NSString *LastCellIdentifier = @"LastCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // 快速集成第二步，连接融云服务器
-    [[RCIM sharedRCIM] connectWithToken:@"Vkgi/jY7j79UZYy0nR3SkqI9tUQUBLjKhzx0mCxqjYx2P4Ca70Z00YnUMuswiM/BQtBqyX6K1UZZaxGN0x8djQ==" success:^(NSString *userId) {
-        // Connect 成功
-        DLog(@" Connect 成功");
-        
-    }
-                                  error:^(RCConnectErrorCode status) {
-                                      // Connect 失败
-                                      DLog(@" Connect 失败")
-                                  }
-                         tokenIncorrect:^() {
-                             // Token 失效的状态处理
-                         }];
-
-    
     self.view.backgroundColor=[UIColor whiteColor];
-
-    [self goUpdata];
+    //[self goUpdata];
 
     //工厂类型
     NSNumber * factoryTypeNumber = [[NSNumber alloc]initWithInteger:kFactoryType];
@@ -243,11 +227,11 @@ static NSString *LastCellIdentifier = @"LastCell";
     DLog(@"%@",Kidentifier);
     if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
         //个人开发者 关闭检测更新
-        DLog(@"个人开发者 关闭检测更新");
+        //DLog(@"个人开发者 关闭检测更新");
     }else
     {
         //企业账号 开启检测更新
-        DLog(@"企业账号 开启检测更新")
+        //DLog(@"企业账号 开启检测更新")
         [[PgyManager sharedPgyManager] checkUpdate];
     }
     
