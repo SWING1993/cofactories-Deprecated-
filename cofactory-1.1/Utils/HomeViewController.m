@@ -187,6 +187,7 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     //获取融云的token
     [HttpClient getIMTokenWithBlock:^(NSDictionary *responseDictionary) {
         NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
@@ -210,11 +211,10 @@ static NSString *LastCellIdentifier = @"LastCell";
         
     }];
 
-    
+
     
     self.view.backgroundColor=[UIColor whiteColor];
-
-    [self goUpdata];
+    //[self goUpdata];
 
     //工厂类型
     NSNumber * factoryTypeNumber = [[NSNumber alloc]initWithInteger:kFactoryType];
@@ -277,11 +277,11 @@ static NSString *LastCellIdentifier = @"LastCell";
     DLog(@"%@",Kidentifier);
     if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
         //个人开发者 关闭检测更新
-        DLog(@"个人开发者 关闭检测更新");
+        //DLog(@"个人开发者 关闭检测更新");
     }else
     {
         //企业账号 开启检测更新
-        DLog(@"企业账号 开启检测更新")
+        //DLog(@"企业账号 开启检测更新")
         [[PgyManager sharedPgyManager] checkUpdate];
     }
     

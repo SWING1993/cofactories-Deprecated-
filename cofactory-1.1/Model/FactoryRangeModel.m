@@ -13,11 +13,32 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.serviceList = @[@"服装厂",@"加工厂",@"代裁厂",@"锁眼钉扣厂"];
+        self.serviceList = @[@"服装厂",@"加工厂",@"代裁厂",@"锁眼钉扣厂",@"机械修理厂",@"面辅料商"];
+        
+        
+//        @property (nonatomic, strong) NSArray *garmentRange;//服装厂业务类型
+//        @property (nonatomic, strong) NSArray *processingRange;//加工厂业务类型
+//        @property (nonatomic, strong) NSArray *materialRange;//面辅料商业务类型
+   
+        
+        self.garmentRange = @[@"童装", @"成人装"];
+        self.processingRange = @[@"针织", @"梭织"];
+        self.materialRange = @[@"面料商", @"辅料商"];
 
-        self.allServiceRange = @[@[@"童装",@"成人装"],@[@"针织",@"梭织"]];
 
-        self.allFactorySize = @[@[@"10万件-30万件", @"30万件-50万件", @"50万件-100万件", @"100万件-200万件", @"200万件以上"],@[@"2人-4人", @"4人-10人", @"10人-20人", @"20人以上"],@[@"2人-4人", @"4人-10人"],@[@"2人-4人", @"4人-10人"]];
+//        @property (nonatomic, strong) NSArray *garmentSize;//服装厂规模
+//        @property (nonatomic, strong) NSArray *processingSize;//加工厂规模
+//        @property (nonatomic, strong) NSArray *cuttingSize;//代裁厂规模
+//        @property (nonatomic, strong) NSArray *mechanicalSize;//锁眼钉扣规模
+        
+        self.garmentSize = @[@"10万件以下",@"10万件-30万件", @"30万件-50万件", @"50万件-100万件", @"100万件以上"];
+        self.processingSize = @[@"2人以下",@"2人-10人",  @"10人-20人", @"20人以上"];
+        self.cuttingSize = @[@"2人以下", @"2人-4人", @"4人以上"];
+        self.lockButtonFactorySize = @[@"2人以下", @"2人-4人", @"4人以上"];
+        
+        self.allServiceRange = @[self.garmentRange,self.processingRange,self.materialRange];
+        self.allFactorySize = @[self.garmentSize, self.processingSize, self.cuttingSize, self.lockButtonFactorySize];
+
     }
     return self;
 }

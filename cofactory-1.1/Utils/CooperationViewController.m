@@ -47,7 +47,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.title=@"合作商";
     self.view.backgroundColor=[UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets=NO;
