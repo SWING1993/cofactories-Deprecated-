@@ -833,6 +833,7 @@
 		7DE1630D1BB000A800777AEF /* SupplyHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyHistory.m; sourceTree = "<group>"; };
 		7DE221441BCF39410001E82A /* IMChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMChatViewController.h; sourceTree = "<group>"; };
 		7DE221451BCF39410001E82A /* IMChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMChatViewController.m; sourceTree = "<group>"; };
+		7DE5941A1BD0FBE7007495C6 /* RCIM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCIM.h; sourceTree = "<group>"; };
 		7DE6E8F51BCE404A00B67C3E /* IMChatListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMChatListViewController.h; sourceTree = "<group>"; };
 		7DE6E8F61BCE404A00B67C3E /* IMChatListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMChatListViewController.m; sourceTree = "<group>"; };
 		7DE7A1BC1BB3997C00512101 /* NeedMaterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeedMaterialViewController.h; sourceTree = "<group>"; };
@@ -2001,6 +2002,7 @@
 		7DE6E8F41BCE3F3800B67C3E /* IM */ = {
 			isa = PBXGroup;
 			children = (
+				7DE5941A1BD0FBE7007495C6 /* RCIM.h */,
 				7DE6E8F51BCE404A00B67C3E /* IMChatListViewController.h */,
 				7DE6E8F61BCE404A00B67C3E /* IMChatListViewController.m */,
 				7DE221441BCF39410001E82A /* IMChatViewController.h */,

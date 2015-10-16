@@ -9,8 +9,7 @@
 #import "Header.h"
 #import "HeaderViewController.h"
 #import <RongIMKit/RongIMKit.h>
-#import <RongIMKit/RongIMKit.h>
-
+#import "RCIM.h"
 @interface HeaderViewController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate> {
 
     UIImageView*headerView;
@@ -159,7 +158,6 @@
                 
                 //清除缓存  显示头像
                 [[SDImageCache sharedImageCache] clearDisk];
-
             }
         }];
     }];
