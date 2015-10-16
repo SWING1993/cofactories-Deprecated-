@@ -50,8 +50,8 @@
 
 #pragma mark - 系统版本  屏幕尺寸
 //版本号
-#define kVersion_Coding [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
-#define kVersionBuild_Coding [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
+#define kVersion_Cofactories [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
+#define kVersionBuild_Cofactories [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
 #define Kidentifier [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]
 
 //ios系统版本

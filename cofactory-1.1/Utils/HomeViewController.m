@@ -164,7 +164,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     [super viewDidLoad];
     
     self.view.backgroundColor=[UIColor whiteColor];
-    //[self goUpdata];
+    [self goUpdata];
 
     //工厂类型
     NSNumber * factoryTypeNumber = [[NSNumber alloc]initWithInteger:kFactoryType];
@@ -226,11 +226,24 @@ static NSString *LastCellIdentifier = @"LastCell";
 - (void)goUpdata {
     DLog(@"%@",Kidentifier);
     if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
-        //个人开发者 关闭检测更新
-        //DLog(@"个人开发者 关闭检测更新");
+        //个人开发者
+        [HttpClient upDataWithBlock:^(NSDictionary *upDateDictionary) {
+            NSInteger  statusCode = [upDateDictionary[@"statusCode"] integerValue];
+            if (statusCode == 200) {
+                double latestVersion = [upDateDictionary[@"latestVersion"] doubleValue];
+                if (latestVersion > [kVersion_Cofactories doubleValue]) {
+                    DLog(@"发现新版本")
+                    NSString * releaseNotes = upDateDictionary[@"releaseNotes"];
+                    UIAlertView * upDataAlertView = [[UIAlertView alloc]initWithTitle:[NSString stringWithFormat:@"发现新版本%.2f！",latestVersion] message:releaseNotes delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去更新", nil];
+                    upDataAlertView.tag = 200;
+                    [upDataAlertView show];
+
+                }
+            }
+        }];
     }else
     {
-        //企业账号 开启检测更新
+        //企业账号
         //DLog(@"企业账号 开启检测更新")
         [[PgyManager sharedPgyManager] checkUpdate];
     }
@@ -257,6 +270,12 @@ static NSString *LastCellIdentifier = @"LastCell";
             [self presentViewController:webNav animated:YES completion:nil];
         }
     }
+    if (alertView.tag == 200) {
+        if (buttonIndex == 1) {
+            NSString *str = kAppUrl;
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+        }
+    }
     if (alertView.tag == 401) {
         [ViewController goLogin];
     }
@@ -265,7 +284,6 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 
 #pragma mark - buttonView 点击事件
-
 
 #pragma mark - 流行资讯
 - (void)pushClicked:(id)sender {

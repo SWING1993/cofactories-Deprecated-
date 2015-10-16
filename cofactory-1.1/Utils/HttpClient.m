@@ -62,10 +62,7 @@
 #define API_searchBidMaterial @"/search/materialBuy"
 #define API_deleteMateria @"/material/shop/"
 
-
-
-
-@implementation HttpClient
+@implementation HttpClient 
 
 //重置密码
 + (void)postResetPasswordWithPhone:(NSString *)phoneNumber code:(NSString *)code password:(NSString *)password andBlock:(void (^)(int statusCode))block {
@@ -2128,6 +2125,32 @@
         block(@{@"statusCode":@(404)});
     }
 
+}
+
+
++ (void)upDataWithBlock:(void (^)(NSDictionary *upDateDictionary))block {
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] init];
+    [manager POST:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=1015359842"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
+    } success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSDictionary *jsonData = responseObject;
+        NSArray *infoArray = [jsonData objectForKey:@"results"];
+        NSDictionary *releaseInfo = [infoArray firstObject];
+        NSString *latestVersion = [releaseInfo objectForKey:@"version"];
+        NSString *releaseNotes = [releaseInfo objectForKey:@"releaseNotes"];
+        
+        NSMutableDictionary * dataDic = [[NSMutableDictionary alloc]initWithCapacity:3];
+        [dataDic setObject:@"200" forKey:@"statusCode"];
+        [dataDic setObject:latestVersion forKey:@"latestVersion"];
+        [dataDic setObject:releaseNotes forKey:@"releaseNotes"];
+        block(dataDic);
+        
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        NSMutableDictionary * errorDic = [[NSMutableDictionary alloc]initWithCapacity:2];
+        [errorDic setObject:@"400" forKey:@"statusCode"];
+        [errorDic setObject:error forKey:@"data"];
+        block(errorDic);
+    }];
 }
 
 @end

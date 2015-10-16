@@ -73,6 +73,8 @@
     BGImage.image=[UIImage imageNamed:imageStr];    headerView.backgroundColor=[UIColor whiteColor];
     [headerView addSubview:BGImage];
     
+    /*
+    
     UIImageView*leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW/2+30, ImageViewHeight-50)];
     [headerView addSubview:leftImage];
     
@@ -133,7 +135,9 @@
             }
         }
     }];
-    
+     
+     */
+        
     UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, ImageViewHeight-80, 60, 60)];
     headerImage.layer.cornerRadius=60/2.0f;
     headerImage.layer.masksToBounds=YES;

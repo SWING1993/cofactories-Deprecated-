@@ -17,7 +17,7 @@
 #import "LookoverMaterialModel.h"
 
 
-@interface HttpClient : NSObject
+@interface HttpClient : NSObject <UIAlertViewDelegate>
 
 #pragma mark - API RESTful方法
 
@@ -508,4 +508,12 @@
  *
  */
 + (void)getAllMaterialWithUserID:(NSInteger)aID completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
+/**检测更新
+ *
+ */
++ (void)upDataWithBlock:(void (^)(NSDictionary *upDateDictionary))block ;
 @end
+
+

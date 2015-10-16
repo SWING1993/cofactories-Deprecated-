@@ -105,22 +105,6 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
     UINavigationController *nav4 = [[UINavigationController alloc] initWithRootViewController:VC4];
     nav4.navigationBar.barStyle=UIBarStyleBlack;
 
-    
-//        //获取消息
-//        [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {
-//            if ([responseDictionary[@"statusCode"] intValue]==200) {
-//                NSArray *array=responseDictionary[@"responseArray"];
-//                NSInteger messageCount = array.count;
-//                NSString *badgeValue = [NSString stringWithFormat:@"%ld",(long)messageCount];
-//                NSLog(@"badgeValue==%@",badgeValue);
-//                if ([badgeValue isEqualToString:@"0"] ) {
-//                    VC3.tabBarItem.badgeValue = nil;
-//                }else{
-//                    VC3.tabBarItem.badgeValue = badgeValue;
-//                }
-//            };
-//        }];
-
     if ([kBaseUrl isEqualToString:@"http://192.168.100.2:3001"]) {
         VC1.title = @"聚工厂（内网）";
     }

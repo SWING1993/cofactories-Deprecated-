@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		035F5C9C1BC8F5750014FD1D /* RCDHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 035F5C9B1BC8F5750014FD1D /* RCDHttpTool.m */; settings = {ASSET_TAGS = (); }; };
+		03C8D47B1BD0F08700042D5A /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03C8D47A1BD0F08700042D5A /* Bugly.framework */; settings = {ASSET_TAGS = (); }; };
 		042A0EE81B7B588100ECE841 /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 042A0EE71B7B588100ECE841 /* HttpClient.m */; };
 		043257981B673D0400C3705D /* ODRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 043257971B673D0400C3705D /* ODRefreshControl.m */; };
 		04459B3C1B785BB500D74653 /* SettingTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04459B3B1B785BB500D74653 /* SettingTagsViewController.m */; };
@@ -38,7 +39,6 @@
 		0457E3FF1B8EE6B400F38881 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0457E3FD1B8EE6B400F38881 /* YLImageView.m */; };
 		045939301B7869F3004DA7D6 /* PushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0459392F1B7869F3004DA7D6 /* PushViewController.m */; };
 		045939331B786A57004DA7D6 /* GetPushModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 045939321B786A57004DA7D6 /* GetPushModel.m */; };
-		0459D4581BBA265D00CCE4D9 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0459D4571BBA265D00CCE4D9 /* Bugly.framework */; settings = {ASSET_TAGS = (); }; };
 		045A26661B686682002DE415 /* CalendarDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26551B686682002DE415 /* CalendarDayCell.m */; };
 		045A26671B686682002DE415 /* CalendarDayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26571B686682002DE415 /* CalendarDayModel.m */; };
 		045A26681B686682002DE415 /* CalendarHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A26591B686682002DE415 /* CalendarHomeViewController.m */; };
@@ -390,6 +390,7 @@
 /* Begin PBXFileReference section */
 		035F5C9A1BC8F5750014FD1D /* RCDHttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDHttpTool.h; sourceTree = "<group>"; };
 		035F5C9B1BC8F5750014FD1D /* RCDHttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDHttpTool.m; sourceTree = "<group>"; };
+		03C8D47A1BD0F08700042D5A /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bugly.framework; path = "Bugly_libc++/Bugly.framework"; sourceTree = "<group>"; };
 		042A0EE61B7B588100ECE841 /* HttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpClient.h; sourceTree = "<group>"; };
 		042A0EE71B7B588100ECE841 /* HttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpClient.m; sourceTree = "<group>"; };
 		043257961B673D0400C3705D /* ODRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODRefreshControl.h; sourceTree = "<group>"; };
@@ -448,7 +449,6 @@
 		0459392F1B7869F3004DA7D6 /* PushViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushViewController.m; sourceTree = "<group>"; };
 		045939311B786A57004DA7D6 /* GetPushModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetPushModel.h; sourceTree = "<group>"; };
 		045939321B786A57004DA7D6 /* GetPushModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetPushModel.m; sourceTree = "<group>"; };
-		0459D4571BBA265D00CCE4D9 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bugly.framework; path = "Bugly_libc++/Bugly.framework"; sourceTree = "<group>"; };
 		045A26541B686682002DE415 /* CalendarDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarDayCell.h; sourceTree = "<group>"; };
 		045A26551B686682002DE415 /* CalendarDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarDayCell.m; sourceTree = "<group>"; };
 		045A26561B686682002DE415 /* CalendarDayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarDayModel.h; sourceTree = "<group>"; };
@@ -1085,13 +1085,13 @@
 				04E94E181B8EB49000EE911E /* AudioToolbox.framework in Frameworks */,
 				0492C4E21BC7A4F500FAF11A /* AssetsLibrary.framework in Frameworks */,
 				BD87536D1BB5936500A5F4CC /* TencentOpenAPI.framework in Frameworks */,
+				03C8D47B1BD0F08700042D5A /* Bugly.framework in Frameworks */,
 				BD8753681BB5936500A5F4CC /* libSocialSina.a in Frameworks */,
 				BD8753D11BB596CF00A5F4CC /* libUMFeedback.a in Frameworks */,
 				04E94E161B8EB45700EE911E /* CoreMotion.framework in Frameworks */,
 				BD8C4DFB1B4FB2E10065ECFA /* Security.framework in Frameworks */,
 				BD8753A01BB5967700A5F4CC /* libUMessage_Sdk_1.1.0.a in Frameworks */,
 				BD87536C1BB5936500A5F4CC /* libSocialQQ.a in Frameworks */,
-				0459D4581BBA265D00CCE4D9 /* Bugly.framework in Frameworks */,
 				045171BB1B70B03800BAA6E8 /* CoreFoundation.framework in Frameworks */,
 				BD87536A1BB5936500A5F4CC /* libWeiboSDK.a in Frameworks */,
 				BD8753E21BB596CF00A5F4CC /* libUMOpus.a in Frameworks */,
@@ -1264,7 +1264,7 @@
 		0459D4561BBA263900CCE4D9 /* Bugly */ = {
 			isa = PBXGroup;
 			children = (
-				0459D4571BBA265D00CCE4D9 /* Bugly.framework */,
+				03C8D47A1BD0F08700042D5A /* Bugly.framework */,
 			);
 			path = Bugly;
 			sourceTree = "<group>";
