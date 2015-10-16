@@ -508,4 +508,14 @@
  *
  */
 + (void)getAllMaterialWithUserID:(NSInteger)aID completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+/**
+ *获取融云的Token
+ */
+
++ (void)getIMTokenWithBlock:(void (^)(NSDictionary *))block;
+
+
+
+
 @end

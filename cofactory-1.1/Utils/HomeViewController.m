@@ -16,6 +16,7 @@
 #import "PurchaseVC.h"
 #import "ActivityViewController.h"
 #import "ProviderViewController.h"
+#import "IMChatListViewController.h"
 
 #import <PgySDK/PgyManager.h>
 
@@ -31,7 +32,7 @@ static NSString *FactoryCellIdentifier = @"FactoryCell";
 static NSString *OrderCellIdentifier = @"OrderCell";
 static NSString *LastCellIdentifier = @"LastCell";
 
-@interface HomeViewController () <UIAlertViewDelegate>
+@interface HomeViewController () <UIAlertViewDelegate> 
 
 //记录工厂类型
 @property (nonatomic, assign) int factoryType;
@@ -61,7 +62,8 @@ static NSString *LastCellIdentifier = @"LastCell";
     UIView *headerView;
 }
 - (void)viewWillAppear:(BOOL)animated {
-    
+    //设置代理（融云）
+    [[RCIM sharedRCIM] setUserInfoDataSource:self];
     //工厂类型
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
@@ -94,7 +96,13 @@ static NSString *LastCellIdentifier = @"LastCell";
             [alertView show];
         }
     }];
+    
+    
 }
+
+
+
+
 
 - (void)bannerViewClick:(id)sender{
     UIButton *button = (UIButton *)sender;
@@ -159,24 +167,50 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
     }
 }
+//获取IM用户信息
+- (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{
+
+    //解析工厂信息
+    [HttpClient getUserProfileWithUid:[userId intValue] andBlock:^(NSDictionary *responseDictionary) {
+        FactoryModel *userModel = (FactoryModel *)responseDictionary[@"model"];
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            RCUserInfo *user = [[RCUserInfo alloc]init];
+            user.userId = userId;
+            user.name = userModel.factoryName;
+            user.portraitUri = [NSString stringWithFormat:@"%@/factory/%@.png",PhotoAPI,userId];
+            return completion(user);
+//        });
+
+    }];
+
+    }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // 快速集成第二步，连接融云服务器
-    [[RCIM sharedRCIM] connectWithToken:@"Vkgi/jY7j79UZYy0nR3SkqI9tUQUBLjKhzx0mCxqjYx2P4Ca70Z00YnUMuswiM/BQtBqyX6K1UZZaxGN0x8djQ==" success:^(NSString *userId) {
-        // Connect 成功
-        DLog(@" Connect 成功");
+    //获取融云的token
+    [HttpClient getIMTokenWithBlock:^(NSDictionary *responseDictionary) {
+        NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
+        DLog(@"融云====%ld", statusCode);
+        NSString *token = responseDictionary[@"IMToken"];
+        DLog(@"融云token====%@", token);
         
-    }
-                                  error:^(RCConnectErrorCode status) {
-                                      // Connect 失败
-                                      DLog(@" Connect 失败")
-                                  }
-                         tokenIncorrect:^() {
-                             // Token 失效的状态处理
-                         }];
+        // 快速集成第二步，连接融云服务器
+        [[RCIM sharedRCIM] connectWithToken:token success:^(NSString *userId) {
+            // Connect 成功
+            DLog(@" Connect 成功");
+            
+        }
+                                      error:^(RCConnectErrorCode status) {
+                                          // Connect 失败
+                                          DLog(@" Connect 失败")
+                                      }
+                             tokenIncorrect:^() {
+                                 // Token 失效的状态处理
+                             }];
+        
+    }];
 
+    
     
     self.view.backgroundColor=[UIColor whiteColor];
 
@@ -636,15 +670,8 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    if (indexPath.section == 0) {
-//        //各类营销活动
-//        AFOAuthCredential *credential=[HttpClient getToken];
-//        NSString*token = credential.accessToken;
-//        ActivityViewController *webViewController = [[ActivityViewController alloc] init];
-//        webViewController.url = [NSString stringWithFormat:@"http://app2.cofactories.com/activity/draw.html#%@",token];
-//        webViewController.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:webViewController animated:YES];
-//    }
+
+
 }
 
 - (void)didReceiveMemoryWarning {

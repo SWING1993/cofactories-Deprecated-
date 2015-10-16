@@ -42,6 +42,8 @@
 
     //初始化融云SDK。
     [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];
+    
+    
     /**
      * 融云推送处理1
      */

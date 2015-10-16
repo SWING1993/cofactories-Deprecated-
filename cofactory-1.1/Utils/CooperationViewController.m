@@ -7,7 +7,7 @@
 //
 #import "CooperationViewController.h"
 #import "Header.h"
-
+#import "IMChatViewController.h"
 
 @interface CooperationViewController () <UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 
@@ -175,11 +175,23 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
+    // 您需要根据自己的 App 选择场景触发聊天。这里的例子是一个 Button 点击事件。
+    IMChatViewController *conversationVC = [[IMChatViewController alloc]init];
+    conversationVC.conversationType = ConversationType_PRIVATE; //会话类型，这里设置为 PRIVATE 即发起单聊会话。
     FactoryModel*factoryModel=self.modelArray[indexPath.section];
-    CooperationInfoViewController*infoVC = [[CooperationInfoViewController alloc]init];
-    infoVC.factoryModel=factoryModel;
-    infoVC.hidesBottomBarWhenPushed=YES;
-    [self.navigationController pushViewController:infoVC animated:YES];
+    conversationVC.targetId = [NSString stringWithFormat:@"%d", factoryModel.uid]; // 接收者的 targetId，这里为举例。
+    conversationVC.userName = factoryModel.factoryName; // 接受者的 username，这里为举例。
+    conversationVC.title = factoryModel.name; // 会话的 title。
+    conversationVC.hidesBottomBarWhenPushed=YES;
+    // 把单聊视图控制器添加到导航栈。
+    [self.navigationController.navigationBar setHidden:NO];
+    [self.navigationController pushViewController:conversationVC animated:YES];
+    
+//    FactoryModel*factoryModel=self.modelArray[indexPath.section];
+//    CooperationInfoViewController*infoVC = [[CooperationInfoViewController alloc]init];
+//    infoVC.factoryModel=factoryModel;
+//    infoVC.hidesBottomBarWhenPushed=YES;
+//    [self.navigationController pushViewController:infoVC animated:YES];
 }
 
 - (void)dealloc
