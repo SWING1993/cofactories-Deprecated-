@@ -13,6 +13,7 @@
 #import "PurchasePublicHistoryModel.h"
 #import "CompeteMaterialViewController.h"
 #import "LookOverNeedModel.h"
+#import "IMChatViewController.h"
 
 @interface NeedMaterialViewController () <UITableViewDataSource,UITableViewDelegate>{
     
@@ -263,6 +264,7 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
+        
         CooperationInfoViewController *vc = [CooperationInfoViewController new];
         vc.factoryModel = _userModel;
         [self.navigationController.navigationBar setHidden:NO];

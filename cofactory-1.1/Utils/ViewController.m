@@ -8,7 +8,7 @@
 #import "Header.h"
 #import "HttpClient.h"
 #import "ViewController.h"
-
+#import "IMChatListViewController.h"
 
 static NSString * const sampleDescription1 = @"面辅料商可在此板块发布产品，用户也可以自由发布求购信息。";
 static NSString * const sampleDescription2 = @"新增的流行资讯板块可以为广大用户和设计师提供一个交流的平台。请记住！这里有更多更好更新鲜的流行资讯。";
@@ -96,8 +96,8 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
     CooperationViewController *VC2 = [[CooperationViewController alloc] init];
     UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:VC2];
     nav2.navigationBar.barStyle=UIBarStyleBlack;
-
-    MessageViewController *VC3 = [[MessageViewController alloc] init];
+    IMChatListViewController *VC3 = [[IMChatListViewController alloc] initWithDisplayConversationTypes:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION), @(ConversationType_APPSERVICE), @(ConversationType_PUBLICSERVICE),@(ConversationType_GROUP),@(ConversationType_SYSTEM)] collectionConversationType:@[@(ConversationType_DISCUSSION)]];
+//    MessageViewController *VC3 = [[MessageViewController alloc] init];
     UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:VC3];
     nav3.navigationBar.barStyle=UIBarStyleBlack;
 

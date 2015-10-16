@@ -258,6 +258,8 @@
 		7DCA89A61BABBADF00AB8EC0 /* InformationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA89A51BABBADF00AB8EC0 /* InformationModel.m */; settings = {ASSET_TAGS = (); }; };
 		7DE0FFBB1BAAA97A006B9D96 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */; };
 		7DE1630E1BB000A800777AEF /* SupplyHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE1630D1BB000A800777AEF /* SupplyHistory.m */; settings = {ASSET_TAGS = (); }; };
+		7DE221461BCF39410001E82A /* IMChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE221451BCF39410001E82A /* IMChatViewController.m */; settings = {ASSET_TAGS = (); }; };
+		7DE6E8F71BCE404A00B67C3E /* IMChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE6E8F61BCE404A00B67C3E /* IMChatListViewController.m */; settings = {ASSET_TAGS = (); }; };
 		7DE7A1BE1BB3997C00512101 /* NeedMaterialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7A1BD1BB3997C00512101 /* NeedMaterialViewController.m */; settings = {ASSET_TAGS = (); }; };
 		7DE7A1C11BB3ADD500512101 /* LookOverNeedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7A1C01BB3ADD500512101 /* LookOverNeedModel.m */; settings = {ASSET_TAGS = (); }; };
 		7DE7A1C41BB3F79600512101 /* MaterialBidFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7A1C31BB3F79600512101 /* MaterialBidFactory.m */; settings = {ASSET_TAGS = (); }; };
@@ -829,6 +831,10 @@
 		7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		7DE1630C1BB000A800777AEF /* SupplyHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyHistory.h; sourceTree = "<group>"; };
 		7DE1630D1BB000A800777AEF /* SupplyHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyHistory.m; sourceTree = "<group>"; };
+		7DE221441BCF39410001E82A /* IMChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMChatViewController.h; sourceTree = "<group>"; };
+		7DE221451BCF39410001E82A /* IMChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMChatViewController.m; sourceTree = "<group>"; };
+		7DE6E8F51BCE404A00B67C3E /* IMChatListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMChatListViewController.h; sourceTree = "<group>"; };
+		7DE6E8F61BCE404A00B67C3E /* IMChatListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMChatListViewController.m; sourceTree = "<group>"; };
 		7DE7A1BC1BB3997C00512101 /* NeedMaterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeedMaterialViewController.h; sourceTree = "<group>"; };
 		7DE7A1BD1BB3997C00512101 /* NeedMaterialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeedMaterialViewController.m; sourceTree = "<group>"; };
 		7DE7A1BF1BB3ADD500512101 /* LookOverNeedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookOverNeedModel.h; sourceTree = "<group>"; };
@@ -1992,6 +1998,17 @@
 			path = TencentOpenAPI.framework/Headers;
 			sourceTree = "<group>";
 		};
+		7DE6E8F41BCE3F3800B67C3E /* IM */ = {
+			isa = PBXGroup;
+			children = (
+				7DE6E8F51BCE404A00B67C3E /* IMChatListViewController.h */,
+				7DE6E8F61BCE404A00B67C3E /* IMChatListViewController.m */,
+				7DE221441BCF39410001E82A /* IMChatViewController.h */,
+				7DE221451BCF39410001E82A /* IMChatViewController.m */,
+			);
+			path = IM;
+			sourceTree = "<group>";
+		};
 		BD87534C1BB5936500A5F4CC /* Sina */ = {
 			isa = PBXGroup;
 			children = (
@@ -2514,6 +2531,7 @@
 		BDC909001B4E9B9600856A32 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7DE6E8F41BCE3F3800B67C3E /* IM */,
 				04B7E4351BAFE57000B83DF0 /* ViewController.h */,
 				04B7E4361BAFE57000B83DF0 /* ViewController.m */,
 				0492C5051BC7AD4800FAF11A /* Chat */,
@@ -2786,6 +2804,7 @@
 				049582E91B6B490F00A69E6D /* JKPhotoBrowser.m in Sources */,
 				7DF7CE8D1BC60D0800CFF428 /* ShopViewController.m in Sources */,
 				04822E1F1B62724200A370F6 /* searchOrderListTVC.m in Sources */,
+				7DE221461BCF39410001E82A /* IMChatViewController.m in Sources */,
 				045A266C1B686682002DE415 /* CalendarViewController.m in Sources */,
 				BD4311D01B4F41DE0097E4BC /* MeViewController.m in Sources */,
 				BD8753E71BB596CF00A5F4CC /* UMRadialView.m in Sources */,
@@ -2951,6 +2970,7 @@
 				04A20C321B5F3317001AADE9 /* VeifyingViewController.m in Sources */,
 				7D06098C1BAD4B320021606D /* SearchSupplyViewCell.m in Sources */,
 				049582ED1B6B490F00A69E6D /* PhotoAlbumManager.m in Sources */,
+				7DE6E8F71BCE404A00B67C3E /* IMChatListViewController.m in Sources */,
 				BD8AD7F31B50E62600373E5E /* UIImageView+HighlightedWebCache.m in Sources */,
 				0451D6691B579A19007CCD59 /* RevisePasswordViewController.m in Sources */,
 				BDC908EF1B4E9B3700856A32 /* UIWebView+AFNetworking.m in Sources */,

@@ -56,9 +56,10 @@ static NSString *searchCellIdentifier = @"searchCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     InformationModel *information = self.searchArray[indexPath.row];
     PopularMessageInfoVC *popularMessageVC = [[PopularMessageInfoVC alloc] init];
-    
     popularMessageVC.urlString = information.urlString;
     popularMessageVC.oid = information.oid;
+    popularMessageVC.name = information.title;
+    
     [self.navigationController pushViewController:popularMessageVC animated:YES];
 }
 

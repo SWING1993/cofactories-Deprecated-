@@ -8,7 +8,8 @@
 
 #import "Header.h"
 #import "HeaderViewController.h"
-
+#import <RongIMKit/RongIMKit.h>
+#import <RongIMKit/RongIMKit.h>
 
 @interface HeaderViewController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate> {
 
@@ -146,6 +147,7 @@
 
 #pragma mark <UIImagePickerControllerDelegate>
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
     UIImage *image = info[UIImagePickerControllerEditedImage];
     NSData*imageData = UIImageJPEGRepresentation(image, 0.2);
     UIImage*newImage = [[UIImage alloc]initWithData:imageData];
@@ -154,13 +156,14 @@
             if ([dictionary[@"statusCode"] intValue]==200) {
                 [Tools showSuccessWithStatus:@"头像上传成功,但是头像显示会略有延迟。"];
                 headerView.image = image;
-
+                
                 //清除缓存  显示头像
                 [[SDImageCache sharedImageCache] clearDisk];
 
             }
         }];
     }];
+    
 }
 
 
