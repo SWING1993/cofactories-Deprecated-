@@ -100,6 +100,25 @@ static NSString *LastCellIdentifier = @"LastCell";
     
 }
 
+#pragma mark - RCIMUserInfoDataSource
+
+//获取IM用户信息
+- (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{
+    
+    //解析工厂信息
+    [HttpClient getUserProfileWithUid:[userId intValue] andBlock:^(NSDictionary *responseDictionary) {
+        FactoryModel *userModel = (FactoryModel *)responseDictionary[@"model"];
+        //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (intm 64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        RCUserInfo *user = [[RCUserInfo alloc]init];
+        user.userId = userId;
+        user.name = userModel.factoryName;
+        user.portraitUri = [NSString stringWithFormat:@"%@/factory/%@.png",PhotoAPI,userId];
+        return completion(user);
+        //        });
+        
+    }];
+    
+}
 
 
 
@@ -167,23 +186,6 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
     }
 }
-//获取IM用户信息
-- (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{
-
-    //解析工厂信息
-    [HttpClient getUserProfileWithUid:[userId intValue] andBlock:^(NSDictionary *responseDictionary) {
-        FactoryModel *userModel = (FactoryModel *)responseDictionary[@"model"];
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            RCUserInfo *user = [[RCUserInfo alloc]init];
-            user.userId = userId;
-            user.name = userModel.factoryName;
-            user.portraitUri = [NSString stringWithFormat:@"%@/factory/%@.png",PhotoAPI,userId];
-            return completion(user);
-//        });
-
-    }];
-
-    }
 
 - (void)viewDidLoad {
     [super viewDidLoad];

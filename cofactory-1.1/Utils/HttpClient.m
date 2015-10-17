@@ -730,7 +730,7 @@
  }
  }
  */
-+ (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(int)price width:(NSString *)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block {
++ (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(CGFloat)price width:(NSString *)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block {
     NSDictionary *parameters = nil;
     if ([type isEqualToString:@"面料"]) {
         parameters = @{@"type":type, @"name":name, @"usage":usage, @"price":@(price), @"width":width, @"description":description};

@@ -192,7 +192,7 @@ static NSString *userCellIdentifier = @"userCell";
                 
                 break;
             case 2:
-                cell.infoLabel.text = [NSString stringWithFormat:@"%ld 元", (long)self.history.price];
+                cell.infoLabel.text = [NSString stringWithFormat:@"%g 元", self.history.price];
                 
                 break;
             case 3:
@@ -226,7 +226,7 @@ static NSString *userCellIdentifier = @"userCell";
                 cell.infoLabel.text = self.history.name;
                 break;
             case 2:
-                cell.infoLabel.text = [NSString stringWithFormat:@"%ld 元", (long)self.history.price];
+                cell.infoLabel.text = [NSString stringWithFormat:@"%g 元", self.history.price];
                 break;
             
             case 3:

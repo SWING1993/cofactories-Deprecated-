@@ -18,7 +18,7 @@
     if (self = [super init]) {
         self.name = dictionary[@"name"];
         self.type = dictionary[@"type"];
-        self.price = [dictionary[@"price"] integerValue];
+        self.price = [dictionary[@"price"] floatValue];
         self.info = dictionary[@"description"];
         self.oid = dictionary[@"id"];
         self.usage = dictionary[@"usage"];
