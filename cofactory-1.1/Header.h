@@ -54,7 +54,6 @@
 #import "ModifyJobViewController.h"//设置job
 #import "SetaddressViewController.h"//工厂位置
 #import "ModifyFactoryNameViewController.h"//工厂名称
-#import "SetMapViewController.h"//地图
 #import "ModifySizeViewController.h"//公司规模
 #import "ModifyServiceRangeViewController.h"//公司业务类型
 #import "PhotoViewController.h"//公司相册

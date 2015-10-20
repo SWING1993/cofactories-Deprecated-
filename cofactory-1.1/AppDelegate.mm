@@ -69,13 +69,6 @@
         //个人开发者 关闭蒲公英
         DLog(@"个人开发者 关闭蒲公英");
 
-        // 初始化百度地图 SDK
-        _mapManager = [[BMKMapManager alloc] init];
-        BOOL ret = [_mapManager start:appStoreMapApi  generalDelegate:nil];
-
-        if (!ret) {
-            DLog(@"百度地图SDK错误");
-        }
         // 友盟分享
         [UMSocialData setAppKey:UMENGAppKey];
         [UMSocialData openLog:NO];
@@ -103,13 +96,6 @@
         //启动蒲公英SDK
         [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
 
-        // 初始化百度地图 SDK
-        _mapManager = [[BMKMapManager alloc] init];
-        BOOL ret = [_mapManager start:mapApi  generalDelegate:nil];
-
-        if (!ret) {
-            DLog(@"百度地图SDK错误");
-        }
         // 友盟分享
         [UMSocialData setAppKey:UMENGAppKey];
         [UMSocialData openLog:NO];
@@ -255,7 +241,6 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [BMKMapView didForeGround];
 
 }
 
