@@ -153,10 +153,7 @@
 		04B7E4341BAFE49D00B83DF0 /* UIImageView+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7E4301BAFE49D00B83DF0 /* UIImageView+Common.m */; settings = {ASSET_TAGS = (); }; };
 		04B7E4371BAFE57000B83DF0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7E4361BAFE57000B83DF0 /* ViewController.m */; settings = {ASSET_TAGS = (); }; };
 		04B7E43A1BAFE69D00B83DF0 /* ResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7E4391BAFE69D00B83DF0 /* ResetPasswordViewController.m */; settings = {ASSET_TAGS = (); }; };
-		04B7E4431BAFE6DD00B83DF0 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7E43F1BAFE6DD00B83DF0 /* MapViewController.m */; settings = {ASSET_TAGS = (); }; };
 		04B7E4441BAFE6DD00B83DF0 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7E4401BAFE6DD00B83DF0 /* RegisterViewController.m */; settings = {ASSET_TAGS = (); }; };
-		04B7E4451BAFE6DD00B83DF0 /* RegisterViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7E4411BAFE6DD00B83DF0 /* RegisterViewController2.m */; settings = {ASSET_TAGS = (); }; };
-		04B7E4461BAFE6DD00B83DF0 /* RegisterViewController3.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7E4421BAFE6DD00B83DF0 /* RegisterViewController3.m */; settings = {ASSET_TAGS = (); }; };
 		04BDB9D21BB2640D00AD246E /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BDB9D11BB2640D00AD246E /* MBProgressHUD.m */; settings = {ASSET_TAGS = (); }; };
 		04BDB9DA1BB2895C00AD246E /* 01.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BDB9D31BB2895C00AD246E /* 01.png */; settings = {ASSET_TAGS = (); }; };
 		04BDB9DB1BB2895C00AD246E /* 02.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BDB9D41BB2895C00AD246E /* 02.png */; settings = {ASSET_TAGS = (); }; };
@@ -637,14 +634,8 @@
 		04B7E4361BAFE57000B83DF0 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		04B7E4381BAFE69D00B83DF0 /* ResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetPasswordViewController.h; sourceTree = "<group>"; };
 		04B7E4391BAFE69D00B83DF0 /* ResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPasswordViewController.m; sourceTree = "<group>"; };
-		04B7E43B1BAFE6DD00B83DF0 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = "cofactory-1.1/Controllers/Login/Register/MapViewController.h"; sourceTree = SOURCE_ROOT; };
 		04B7E43C1BAFE6DD00B83DF0 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisterViewController.h; path = "cofactory-1.1/Controllers/Login/Register/RegisterViewController.h"; sourceTree = SOURCE_ROOT; };
-		04B7E43D1BAFE6DD00B83DF0 /* RegisterViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisterViewController2.h; path = "cofactory-1.1/Controllers/Login/Register/RegisterViewController2.h"; sourceTree = SOURCE_ROOT; };
-		04B7E43E1BAFE6DD00B83DF0 /* RegisterViewController3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisterViewController3.h; path = "cofactory-1.1/Controllers/Login/Register/RegisterViewController3.h"; sourceTree = SOURCE_ROOT; };
-		04B7E43F1BAFE6DD00B83DF0 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = "cofactory-1.1/Controllers/Login/Register/MapViewController.m"; sourceTree = SOURCE_ROOT; };
 		04B7E4401BAFE6DD00B83DF0 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegisterViewController.m; path = "cofactory-1.1/Controllers/Login/Register/RegisterViewController.m"; sourceTree = SOURCE_ROOT; };
-		04B7E4411BAFE6DD00B83DF0 /* RegisterViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegisterViewController2.m; path = "cofactory-1.1/Controllers/Login/Register/RegisterViewController2.m"; sourceTree = SOURCE_ROOT; };
-		04B7E4421BAFE6DD00B83DF0 /* RegisterViewController3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegisterViewController3.m; path = "cofactory-1.1/Controllers/Login/Register/RegisterViewController3.m"; sourceTree = SOURCE_ROOT; };
 		04BDB9D01BB2640D00AD246E /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		04BDB9D11BB2640D00AD246E /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		04BDB9D31BB2895C00AD246E /* 01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 01.png; sourceTree = "<group>"; };
@@ -1620,12 +1611,6 @@
 			children = (
 				04B7E43C1BAFE6DD00B83DF0 /* RegisterViewController.h */,
 				04B7E4401BAFE6DD00B83DF0 /* RegisterViewController.m */,
-				04B7E43D1BAFE6DD00B83DF0 /* RegisterViewController2.h */,
-				04B7E4411BAFE6DD00B83DF0 /* RegisterViewController2.m */,
-				04B7E43B1BAFE6DD00B83DF0 /* MapViewController.h */,
-				04B7E43F1BAFE6DD00B83DF0 /* MapViewController.m */,
-				04B7E43E1BAFE6DD00B83DF0 /* RegisterViewController3.h */,
-				04B7E4421BAFE6DD00B83DF0 /* RegisterViewController3.m */,
 			);
 			name = Register;
 			path = ../Controllers/Register;
@@ -2849,7 +2834,6 @@
 				048983B01BA18C4D00F98024 /* ActivityCell.m in Sources */,
 				64F4C6741B70B31D00F52FF0 /* MJRefreshConst.m in Sources */,
 				6400BF441BB1232A00546D4D /* PHPDetailMessCell.m in Sources */,
-				04B7E4461BAFE6DD00B83DF0 /* RegisterViewController3.m in Sources */,
 				BD8AD7F51B50E62600373E5E /* UIView+WebCacheOperation.m in Sources */,
 				64F607061B904B5900AA7F22 /* OrderPhotoViewController.m in Sources */,
 				7D2CFB9A1BB12EFC00957797 /* userInformationCell.m in Sources */,
@@ -2858,7 +2842,6 @@
 				BD8AD7E81B50E62600373E5E /* SDImageCache.m in Sources */,
 				64266AE51BAD3F82003CA582 /* PurchaseMPTableViewCell.m in Sources */,
 				BD8AD7E61B50E62600373E5E /* MKAnnotationView+WebCache.m in Sources */,
-				04B7E4431BAFE6DD00B83DF0 /* MapViewController.m in Sources */,
 				04D462EC1B5D14CC00B9B4D8 /* VeifyViewController.m in Sources */,
 				BDC908DE1B4E9B3700856A32 /* AFOAuth2Manager.m in Sources */,
 				0457E3F01B8EE57100F38881 /* MJPhoto.m in Sources */,
@@ -2896,7 +2879,6 @@
 				045939331B786A57004DA7D6 /* GetPushModel.m in Sources */,
 				04E81EF01B57F75700B7CE7B /* SetaddressViewController.m in Sources */,
 				7D06098F1BAD557A0021606D /* SearchSupplymaterialViewController.m in Sources */,
-				04B7E4451BAFE6DD00B83DF0 /* RegisterViewController2.m in Sources */,
 				0366DD351BD0F886002351A5 /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				BD8753E11BB596CF00A5F4CC /* UMFeedbackViewController.m in Sources */,
 				0457E3F71B8EE57100F38881 /* SDWebImageManager+MJ.m in Sources */,

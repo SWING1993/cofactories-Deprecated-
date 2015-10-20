@@ -258,14 +258,14 @@
  */
 
 //注册V2
-+ (void)registerWithUsername:(NSString *)username password:(NSString *)password factoryType:(int)type  inviteCode:(NSString *)inviteCode  factoryName:(NSString *)factoryName andBlock:(void (^)(NSDictionary *responseDictionary))block {
++ (void)registerWithUsername:(NSString *)username password:(NSString *)password factoryType:(int)type  code:(NSString *)code  factoryName:(NSString *)factoryName andBlock:(void (^)(NSDictionary *responseDictionary))block {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
     
     [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
     manager.requestSerializer.timeoutInterval = 3.f;
     [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
     
-    [manager POST:API_register parameters:@{@"phone": username, @"password": password,@"inviteCode": inviteCode, @"type": @(type), @"factoryName": factoryName} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:API_register parameters:@{@"phone": username, @"password": password,@"code": code, @"factoryType": @(type), @"factoryName": factoryName} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         block(@{@"statusCode": @(200), @"message": @"注册成功"});
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         switch ([operation.response statusCode]) {

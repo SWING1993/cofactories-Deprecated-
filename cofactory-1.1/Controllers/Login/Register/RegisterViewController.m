@@ -7,7 +7,6 @@
 //
 #import "Header.h"
 #import "RegisterViewController.h"
-#import "RegisterViewController2.h"
 
 #define PROVINCE_COMPONENT  0
 
@@ -30,14 +29,13 @@
     UITextField*_passwordTF;//密码
     UITextField*_factoryNameTF;//工厂名称
     UITextField*_typeTF;//公司类型
-    UITextField*_authcodeTF;//验证码
+    UITextField*_codeTF;//验证码
     
     NSTimer*timer;
     NSInteger seconds;
     UIButton*authcodeBtn;
 
     NSString *_factoryType;
-    
     int factoryTypeInt;
 }
 - (void)viewDidLoad {
@@ -95,11 +93,11 @@
         _typeTF.delegate =self;
 
     }
-    if (!_authcodeTF) {
-        _authcodeTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-118, 44)];
-        _authcodeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
-        _authcodeTF.keyboardType = UIKeyboardTypeNumberPad;
-        _authcodeTF.placeholder=@"验证码";
+    if (!_codeTF) {
+        _codeTF = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-118, 44)];
+        _codeTF.clearButtonMode=UITextFieldViewModeWhileEditing;
+        _codeTF.keyboardType = UIKeyboardTypeNumberPad;
+        _codeTF.placeholder=@"验证码";
     }
 
     if (!authcodeBtn) {
@@ -202,30 +200,25 @@
 
 
 - (void)registerBtnClick {
-    if (_usernameTF.text.length==0 || _passwordTF.text.length==0 || _authcodeTF.text.length==0 || _typeTF.text.length==0 || _factoryNameTF.text.length==0) {
+    if (_usernameTF.text.length==0 || _passwordTF.text.length==0 || _codeTF.text.length==0 || _typeTF.text.length==0 || _factoryNameTF.text.length==0) {
 
         DLog(@"mo");
         [Tools showErrorWithStatus:@"注册信息不完整"];
     }else{
         if (_passwordTF.text.length<6) {
-            [Tools showErrorWithStatus:@"密码长度太短"];
+            [Tools showErrorWithStatus:@"密码长度太短！"];
         }else{
             MBProgressHUD *hud = [Tools createHUD];
             hud.labelText = @"正在验证...";
-            [HttpClient validateCodeWithPhone:_usernameTF.text code:_authcodeTF.text andBlock:^(int statusCode) {
-                DLog(@"验证码code%d",statusCode);
-
-                if (statusCode == 0) {
-                    [hud hide:YES];
-                    [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
-                }
+            [HttpClient validateCodeWithPhone:_usernameTF.text code:_codeTF.text andBlock:^(int statusCode) {
+                DLog(@"验证  验证码code==%d",statusCode);
                 if (statusCode == 200) {
                     hud.labelText = @"验证成功!";
                     [hud hide:YES];
-
-                    DLog(@"注册信息：%@、%@、%d、%@、%@",_usernameTF.text,_passwordTF.text,factoryTypeInt,_authcodeTF.text,_factoryNameTF.text);
                     
-                    [HttpClient registerWithUsername:_usernameTF.text password:_passwordTF.text factoryType:factoryTypeInt inviteCode:_authcodeTF.text factoryName:_factoryNameTF.text andBlock:^(NSDictionary *responseDictionary) {
+                    DLog(@"注册信息：%@、%@、%d、%@、%@",_usernameTF.text,_passwordTF.text,factoryTypeInt,_codeTF.text,_factoryNameTF.text);
+                    
+                    [HttpClient registerWithUsername:_usernameTF.text password:_passwordTF.text factoryType:factoryTypeInt code:_codeTF.text factoryName:_factoryNameTF.text andBlock:^(NSDictionary *responseDictionary) {
                         int statusCode =[responseDictionary[@"statusCode"]intValue];
                         DLog(@"statusCode == %d",statusCode);
                         if (statusCode == 200) {
@@ -240,6 +233,12 @@
                         }
                     }];
                 }
+
+                else if (statusCode == 0) {
+                    [hud hide:YES];
+                    [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
+                }
+                
                 else {
                     [hud hide:YES];
                     [Tools showErrorWithStatus:@"验证码过期或者无效"];
@@ -312,18 +311,13 @@
             [cell addSubview:_usernameTF];
         }
         if (indexPath.row == 3) {
-            [cell addSubview:_authcodeTF];
+            [cell addSubview:_codeTF];
             [cell addSubview:authcodeBtn];
         }
         if (indexPath.row == 4) {
             [cell addSubview:_passwordTF];
         }
-        
-
-        
-
     }
-
     return cell;
 }
 
@@ -348,7 +342,6 @@
 }
 
 - (UIToolbar *)fecthToolbar {
-
     if (!self.factoryTypeToolbar) {
         self.factoryTypeToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 40)];
         UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
@@ -384,7 +377,6 @@
     myView.font = kFont;
     myView.backgroundColor = [UIColor clearColor];
     return myView;
-
 }
 
 
@@ -392,10 +384,9 @@
 //{
 //    _factoryName = [self pickerView:pickerView titleForRow:row forComponent:PROVINCE_COMPONENT];
 //}
--(void)ensure{
 
+-(void)ensure{
     NSInteger provinceIndex = [self.factoryTypePicker selectedRowInComponent: PROVINCE_COMPONENT];
-    
     _factoryType = [self.factoryTypeList objectAtIndex: provinceIndex];
     [Tools showShimmeringString:[NSString stringWithFormat:@"您选择的身份为%@",_factoryType]];
     switch (provinceIndex) {
