@@ -2231,6 +2231,7 @@
         block(@{@"statusCode": @404, @"NSError": error});
     }];
     
+}
 
 + (void)upDataWithBlock:(void (^)(NSDictionary *upDateDictionary))block {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] init];
