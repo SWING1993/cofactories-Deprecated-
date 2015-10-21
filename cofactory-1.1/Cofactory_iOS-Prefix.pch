@@ -113,7 +113,6 @@
 //#import "MobClick.h"
 #import "UIButton+WebCache.h"//SDWebImage
 #import "UIImageView+WebCache.h"//SDWebImage
-#import "JSDropDownMenu.h"//筛选
 #import "ODRefreshControl.h"//下拉刷新
 #import "IQKeyboardManager.h"//不遮挡输入框
 #import "MJPhotoBrowser.h"//MJ图片浏览

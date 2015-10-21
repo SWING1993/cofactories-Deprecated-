@@ -35,6 +35,7 @@ typedef enum {
 @property (nonatomic, copy) NSString* factoryFreeStatus;
 @property (nonatomic, copy) NSString* factoryFreeTime;
 @property (nonatomic, copy) NSString* tag;
+@property (nonatomic, copy) NSString* city;
 
 
 @property (nonatomic,assign) int verifyStatus;
