@@ -16,6 +16,7 @@
 #import "PurchaseVC.h"
 #import "ActivityViewController.h"
 #import "ProviderViewController.h"
+#import "IMChatListViewController.h"
 
 #import <PgySDK/PgyManager.h>
 
@@ -31,7 +32,7 @@ static NSString *FactoryCellIdentifier = @"FactoryCell";
 static NSString *OrderCellIdentifier = @"OrderCell";
 static NSString *LastCellIdentifier = @"LastCell";
 
-@interface HomeViewController () <UIAlertViewDelegate>
+@interface HomeViewController () <UIAlertViewDelegate> 
 
 //记录工厂类型
 @property (nonatomic, assign) int factoryType;
@@ -61,6 +62,8 @@ static NSString *LastCellIdentifier = @"LastCell";
     UIView *headerView;
 }
 - (void)viewWillAppear:(BOOL)animated {
+    //设置代理（融云）
+    [[RCIM sharedRCIM] setUserInfoDataSource:self];
     
     //工厂类型
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
@@ -94,7 +97,34 @@ static NSString *LastCellIdentifier = @"LastCell";
             [alertView show];
         }
     }];
+    
+    
 }
+
+
+
+
+#pragma mark - RCIMUserInfoDataSource
+
+//获取IM用户信息
+- (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{
+    
+    //解析工厂信息
+    [HttpClient getUserProfileWithUid:[userId intValue] andBlock:^(NSDictionary *responseDictionary) {
+        FactoryModel *userModel = (FactoryModel *)responseDictionary[@"model"];
+        //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (intm 64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        RCUserInfo *user = [[RCUserInfo alloc]init];
+        user.userId = userId;
+        user.name = userModel.factoryName;
+        user.portraitUri = [NSString stringWithFormat:@"%@/factory/%@.png",PhotoAPI,userId];
+        return completion(user);
+        //        });
+        
+    }];
+    
+}
+
+
 
 - (void)bannerViewClick:(id)sender{
     UIButton *button = (UIButton *)sender;
@@ -163,23 +193,30 @@ static NSString *LastCellIdentifier = @"LastCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // 快速集成第二步，连接融云服务器
-    [[RCIM sharedRCIM] connectWithToken:@"Vkgi/jY7j79UZYy0nR3SkqI9tUQUBLjKhzx0mCxqjYx2P4Ca70Z00YnUMuswiM/BQtBqyX6K1UZZaxGN0x8djQ==" success:^(NSString *userId) {
-        // Connect 成功
-        DLog(@" Connect 成功");
+    //获取融云的token
+    [HttpClient getIMTokenWithBlock:^(NSDictionary *responseDictionary) {
+        NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
+        DLog(@"融云====%ld", (long)statusCode);
+        NSString *token = responseDictionary[@"IMToken"];
+        DLog(@"融云token====%@", token);
         
-    }
-                                  error:^(RCConnectErrorCode status) {
-                                      // Connect 失败
-                                      DLog(@" Connect 失败")
-                                  }
-                         tokenIncorrect:^() {
-                             // Token 失效的状态处理
-                         }];
+        // 快速集成第二步，连接融云服务器
+        [[RCIM sharedRCIM] connectWithToken:token success:^(NSString *userId) {
+            // Connect 成功
+            DLog(@" Connect 成功");
+        }
+                                      error:^(RCConnectErrorCode status) {
+                                          // Connect 失败
+                                          DLog(@" Connect 失败")
+                                      }
+                             tokenIncorrect:^() {
+                                 // Token 失效的状态处理
+                             }];
+        
+    }];
 
     
     self.view.backgroundColor=[UIColor whiteColor];
-
     [self goUpdata];
 
     //工厂类型
@@ -242,12 +279,25 @@ static NSString *LastCellIdentifier = @"LastCell";
 - (void)goUpdata {
     DLog(@"%@",Kidentifier);
     if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
-        //个人开发者 关闭检测更新
-        DLog(@"个人开发者 关闭检测更新");
+        //个人开发者
+        [HttpClient upDataWithBlock:^(NSDictionary *upDateDictionary) {
+            NSInteger  statusCode = [upDateDictionary[@"statusCode"] integerValue];
+            if (statusCode == 200) {
+                double latestVersion = [upDateDictionary[@"latestVersion"] doubleValue];
+                if (latestVersion > [kVersion_Cofactories doubleValue]) {
+                    DLog(@"发现新版本")
+                    NSString * releaseNotes = upDateDictionary[@"releaseNotes"];
+                    UIAlertView * upDataAlertView = [[UIAlertView alloc]initWithTitle:[NSString stringWithFormat:@"发现新版本%.2f！",latestVersion] message:releaseNotes delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去更新", nil];
+                    upDataAlertView.tag = 200;
+                    [upDataAlertView show];
+
+                }
+            }
+        }];
     }else
     {
-        //企业账号 开启检测更新
-        DLog(@"企业账号 开启检测更新")
+        //企业账号
+        //DLog(@"企业账号 开启检测更新")
         [[PgyManager sharedPgyManager] checkUpdate];
     }
     
@@ -273,6 +323,12 @@ static NSString *LastCellIdentifier = @"LastCell";
             [self presentViewController:webNav animated:YES completion:nil];
         }
     }
+    if (alertView.tag == 200) {
+        if (buttonIndex == 1) {
+            NSString *str = kAppUrl;
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+        }
+    }
     if (alertView.tag == 401) {
         [ViewController goLogin];
     }
@@ -281,7 +337,6 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 
 #pragma mark - buttonView 点击事件
-
 
 #pragma mark - 流行资讯
 - (void)pushClicked:(id)sender {
@@ -632,15 +687,8 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    if (indexPath.section == 0) {
-//        //各类营销活动
-//        AFOAuthCredential *credential=[HttpClient getToken];
-//        NSString*token = credential.accessToken;
-//        ActivityViewController *webViewController = [[ActivityViewController alloc] init];
-//        webViewController.url = [NSString stringWithFormat:@"http://app2.cofactories.com/activity/draw.html#%@",token];
-//        webViewController.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:webViewController animated:YES];
-//    }
+
+
 }
 
 - (void)didReceiveMemoryWarning {

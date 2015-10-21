@@ -21,7 +21,7 @@
 #define API_login @"/user/login"
 #define API_verify @"/user/code"
 #define API_checkCode @"/user/checkCode"
-#define API_register @"/user/register"
+#define API_register @"/user/register/v2"
 #define API_userProfile @"/user/profile"
 #define API_favorite @"/user/favorite"
 #define API_factoryProfile @"/factory/profile"
@@ -62,9 +62,7 @@
 #define API_bidMaterial @"/material/buy/bid"
 #define API_searchBidMaterial @"/search/materialBuy"
 #define API_deleteMateria @"/material/shop/"
-
-
-
+#define API_GetIMToken @"/im/token"
 
 @implementation HttpClient
 
@@ -220,7 +218,7 @@
     }
 }
 
-
+/*
 //注册
 + (void)registerWithUsername:(NSString *)username InviteCode:(NSString *)inviteCode password:(NSString *)password factoryType:(int)type verifyCode:(NSString *)code factoryName:(NSString *)factoryName lon:(double)lon lat:(double)lat factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange andBlock:(void (^)(NSDictionary *))block {
     //    NSParameterAssert(username);
@@ -242,6 +240,33 @@
     
     NSArray *factorySize = [[NSArray alloc] initWithObjects:factorySizeMin, factorySizeMax, nil];
     [manager POST:API_register parameters:@{@"phone": username,@"inviteCode": inviteCode, @"password": password, @"type": @(type), @"code": code, @"factoryName": factoryName, @"lon": @(lon), @"lat": @(lat), @"factorySize": factorySize, @"factoryAddress": factoryAddress, @"factoryServiceRange": (factoryServiceRange == nil ? @"" : factoryServiceRange)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        block(@{@"statusCode": @(200), @"message": @"注册成功"});
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        switch ([operation.response statusCode]) {
+            case 401:
+                block(@{@"statusCode": @(401), @"message": @"邀请码或者验证码错误"});
+                break;
+            case 409:
+                block(@{@"statusCode": @(409), @"message": @"该手机已经注册过"});
+                break;
+                
+            default:
+                block(@{@"statusCode": @(0), @"message": @"网络错误"});
+                break;
+        }
+    }];
+}
+ */
+
+//注册V2
++ (void)registerWithUsername:(NSString *)username password:(NSString *)password factoryType:(int)type  code:(NSString *)code  factoryName:(NSString *)factoryName andBlock:(void (^)(NSDictionary *responseDictionary))block {
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
+    
+    [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+    manager.requestSerializer.timeoutInterval = 3.f;
+    [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+    
+    [manager POST:API_register parameters:@{@"phone": username, @"password": password,@"code": code, @"factoryType": @(type), @"factoryName": factoryName} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         block(@{@"statusCode": @(200), @"message": @"注册成功"});
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         switch ([operation.response statusCode]) {
@@ -513,7 +538,37 @@
     
 }
 
++ (void)getIMTokenWithBlock:(void (^)(NSDictionary *))block {
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        
+        [manager GET:API_GetIMToken parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSString *token = responseObject[@"data"][@"token"];
+            block(@{@"statusCode": @([operation.response statusCode]), @"IMToken": token});
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            switch ([operation.response statusCode]) {
+                case 400:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"未登录"});
+                    break;
+                case 401:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"access_token过期或者无效"});
+                    break;
+                    
+                default:
+                    block(@{@"statusCode": @([operation.response statusCode]), @"message": @"网络错误"});
+                    break;
+            }
+        }];
+    } else {
+        block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
+    }
 
+
+}
 + (void)getUserProfileWithUid:(NSInteger )uid andBlock:(void (^)(NSDictionary *))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
@@ -522,6 +577,7 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         NSString *url = [[NSString alloc] initWithFormat:@"%@/%ld", API_factoryProfile, (long)uid];
+        DLog(@"ghdfuihgviudfhgi%@", url);
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             FactoryModel *userModel = [[FactoryModel alloc] initWithDictionary:responseObject];
             block(@{@"statusCode": @([operation.response statusCode]), @"model": userModel});
@@ -702,7 +758,7 @@
  }
  }
  */
-+ (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(int)price width:(NSString *)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block {
++ (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(CGFloat)price width:(NSString *)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block {
     NSDictionary *parameters = nil;
     if ([type isEqualToString:@"面料"]) {
         parameters = @{@"type":type, @"name":name, @"usage":usage, @"price":@(price), @"width":width, @"description":description};
@@ -1312,7 +1368,7 @@
             DLog(@"===%@", operation.responseString);
             
             DLog(@"%@",error);
-            DLog(@"======%d",[operation.response statusCode]);
+            DLog(@"======%ld",[operation.response statusCode]);
             switch ([operation.response statusCode]) {
                 case 400:
                     block(@{@"statusCode": @([operation.response statusCode]), @"message": @"未登录"});
@@ -2175,6 +2231,30 @@
         block(@{@"statusCode": @404, @"NSError": error});
     }];
     
+
++ (void)upDataWithBlock:(void (^)(NSDictionary *upDateDictionary))block {
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] init];
+    [manager POST:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=1015359842"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
+    } success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSDictionary *jsonData = responseObject;
+        NSArray *infoArray = [jsonData objectForKey:@"results"];
+        NSDictionary *releaseInfo = [infoArray firstObject];
+        NSString *latestVersion = [releaseInfo objectForKey:@"version"];
+        NSString *releaseNotes = [releaseInfo objectForKey:@"releaseNotes"];
+        
+        NSMutableDictionary * dataDic = [[NSMutableDictionary alloc]initWithCapacity:3];
+        [dataDic setObject:@"200" forKey:@"statusCode"];
+        [dataDic setObject:latestVersion forKey:@"latestVersion"];
+        [dataDic setObject:releaseNotes forKey:@"releaseNotes"];
+        block(dataDic);
+        
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        NSMutableDictionary * errorDic = [[NSMutableDictionary alloc]initWithCapacity:2];
+        [errorDic setObject:@"400" forKey:@"statusCode"];
+        [errorDic setObject:error forKey:@"data"];
+        block(errorDic);
+    }];
 }
 
 @end

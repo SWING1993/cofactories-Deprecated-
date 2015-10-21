@@ -10,6 +10,7 @@
 
 #import "Header.h"
 #import "CooperationInfoViewController.h"
+#import "IMChatViewController.h"
 
 @interface CooperationInfoViewController () <UIAlertViewDelegate>
 
@@ -73,6 +74,8 @@
     BGImage.image=[UIImage imageNamed:imageStr];    headerView.backgroundColor=[UIColor whiteColor];
     [headerView addSubview:BGImage];
     
+    /*
+    
     UIImageView*leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenW/2+30, ImageViewHeight-50)];
     [headerView addSubview:leftImage];
     
@@ -133,7 +136,9 @@
             }
         }
     }];
-    
+     
+     */
+        
     UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, ImageViewHeight-80, 60, 60)];
     headerImage.layer.cornerRadius=60/2.0f;
     headerImage.layer.masksToBounds=YES;
@@ -149,27 +154,8 @@
 
 
     NSString*factoryTypeString = [[NSString alloc]init];
-    switch (self.factoryModel.factoryType) {
-        case 0:
-            factoryTypeString = @"服装厂";
-            break;
-
-        case 1:
-            factoryTypeString = @"加工厂";
-            break;
-        case 2:
-            factoryTypeString = @"代裁厂";
-            break;
-        case 3:
-            factoryTypeString = @"锁眼钉扣厂";
-            break;
-        case 5:
-            factoryTypeString = @"面辅料商";
-            break;
-
-        default:
-            break;
-    }
+    FactoryRangeModel *factoryRangeModel = [[FactoryRangeModel alloc]init];
+    factoryTypeString = factoryRangeModel.serviceList[self.factoryModel.factoryType];
     
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, ImageViewHeight-45, kScreenW-100, 20)];
     factoryNameLabel.font=kLargeFont;
@@ -186,9 +172,19 @@
 }
 
 - (void)callBtn {
-    //    NSLog(@"拨打电话");
-    NSString *str = [NSString stringWithFormat:@"telprompt://%@", self.factoryModel.phone];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    // 您需要根据自己的 App 选择场景触发聊天。这里的例子是一个 Button 点击事件。
+    IMChatViewController *conversationVC = [[IMChatViewController alloc]init];
+    conversationVC.conversationType = ConversationType_PRIVATE; //会话类型，这里设置为 PRIVATE 即发起单聊会话。
+    conversationVC.targetId = [NSString stringWithFormat:@"%d", self.factoryModel.uid]; // 接收者的 targetId，这里为举例。
+    conversationVC.userName = self.factoryModel.factoryName; // 接受者的 username，这里为举例。
+    conversationVC.title = self.factoryModel.name; // 会话的 title。
+    conversationVC.hidesBottomBarWhenPushed=YES;
+    // 把单聊视图控制器添加到导航栈。
+    [self.navigationController.navigationBar setHidden:NO];
+    [self.navigationController pushViewController:conversationVC animated:YES];
+//    //    NSLog(@"拨打电话");
+//    NSString *str = [NSString stringWithFormat:@"telprompt://%@", self.factoryModel.phone];
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 //    [self performSelector:@selector(popAlertViewController) withObject:nil afterDelay:3.0f];
     double delayInSeconds = 2.5f;
 

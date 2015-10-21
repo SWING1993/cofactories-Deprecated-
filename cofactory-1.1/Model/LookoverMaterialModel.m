@@ -19,7 +19,7 @@
         _type = dictionary[@"type"];
         _userID = [dictionary[@"uid"] integerValue];
         _materialID = [dictionary[@"id"] integerValue];
-        _price = [dictionary[@"price"] integerValue];
+        _price = [dictionary[@"price"] floatValue];
         if (dictionary[@"usage"] == nil) {
             _useage = @"数据暂无";
         }else{

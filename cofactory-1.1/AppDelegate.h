@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <BaiduMapAPI/BMapKit.h>
+// 引用 IMKit 头文件。
+#import <RongIMKit/RongIMKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) BMKMapManager *mapManager;
-
 
 @end
 

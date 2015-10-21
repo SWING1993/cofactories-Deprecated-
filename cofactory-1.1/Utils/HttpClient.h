@@ -17,7 +17,7 @@
 #import "LookoverMaterialModel.h"
 
 
-@interface HttpClient : NSObject
+@interface HttpClient : NSObject <UIAlertViewDelegate>
 
 #pragma mark - API RESTful方法
 
@@ -86,8 +86,9 @@
  @param factoryServiceRange 业务类型
  @param block               回调函数 会返回 @{@"statusCode": @201, @"responseObject": 字典}->(注册成功) @{@"statusCode": @401, @"message": @"验证码错误"}->(验证码错误) @{@"statusCode": @409, @"message": @"该手机已经注册过""}->(手机已经注册过) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误)
  */
-+ (void)registerWithUsername:(NSString *)username InviteCode:(NSString *)inviteCode password:(NSString *)password factoryType:(int)type verifyCode:(NSString *)code factoryName:(NSString *)factoryName lon:(double)lon lat:(double)lat factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange andBlock:(void (^)(NSDictionary *responseDictionary))block;
+//+ (void)registerWithUsername:(NSString *)username InviteCode:(NSString *)inviteCode password:(NSString *)password factoryType:(int)type verifyCode:(NSString *)code factoryName:(NSString *)factoryName lon:(double)lon lat:(double)lat factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
++ (void)registerWithUsername:(NSString *)username password:(NSString *)password factoryType:(int)type  code:(NSString *)code  factoryName:(NSString *)factoryName andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 //邀请码
 + (void)registerWithInviteCode:(NSString *)inviteCode andBlock:(void (^)(NSDictionary *responseDictionary))block;
@@ -424,7 +425,7 @@
  */
 
 
-+ (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(int)price width:(NSString *)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(CGFloat)price width:(NSString *)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block;
 /**发布求购信息
  *
  */
@@ -514,6 +515,21 @@
  *
  */
 + (void)searchFactoriesWithFactoryType:(NSInteger)factoryType factorySize:(NSArray *)factorySize city:(NSString *)city factoryServiceRange:(NSString *)factoryServiceRange factoryFreeTime:(NSNumber *)factoryFreeTime factoryFreeStatus:(NSString *)factoryFreeStatus page:(NSNumber*)page completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+/**检测更新
+ *
+ */
++ (void)upDataWithBlock:(void (^)(NSDictionary *upDateDictionary))block ;
+
+
+/**
+ *获取融云的Token
+ */
+
++ (void)getIMTokenWithBlock:(void (^)(NSDictionary *))block;
+
+
 
 
 @end
+
+

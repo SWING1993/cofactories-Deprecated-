@@ -42,6 +42,7 @@
 
     //初始化融云SDK。
     [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];
+    
     /**
      * 融云推送处理1
      */
@@ -67,13 +68,6 @@
         //个人开发者 关闭蒲公英
         DLog(@"个人开发者 关闭蒲公英");
 
-        // 初始化百度地图 SDK
-        _mapManager = [[BMKMapManager alloc] init];
-        BOOL ret = [_mapManager start:appStoreMapApi  generalDelegate:nil];
-
-        if (!ret) {
-            DLog(@"百度地图SDK错误");
-        }
         // 友盟分享
         [UMSocialData setAppKey:UMENGAppKey];
         [UMSocialData openLog:NO];
@@ -81,7 +75,7 @@
         [UMFeedback setAppkey:appStoreUMENGAppKey];
         // 注册友盟统计 SDK
         [MobClick startWithAppkey:appStoreUMENGAppKey reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
-        [MobClick setAppVersion:kVersion_Coding];
+        [MobClick setAppVersion:kVersion_Cofactories];
 
         // 注册友盟推送服务 SDK
         //set AppKey and LaunchOptions
@@ -101,13 +95,6 @@
         //启动蒲公英SDK
         [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
 
-        // 初始化百度地图 SDK
-        _mapManager = [[BMKMapManager alloc] init];
-        BOOL ret = [_mapManager start:mapApi  generalDelegate:nil];
-
-        if (!ret) {
-            DLog(@"百度地图SDK错误");
-        }
         // 友盟分享
         [UMSocialData setAppKey:UMENGAppKey];
         [UMSocialData openLog:NO];
@@ -185,6 +172,12 @@
     self.window.rootViewController = mainVC;
 
     [_window makeKeyAndVisible];
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(didReceiveMessageNotification:)
+     name:RCKitDispatchMessageNotification
+     object:nil];
+
     return YES;
 }
 
@@ -215,7 +208,10 @@
     
     [[RCIMClient sharedRCIMClient] setDeviceToken:token];
 }
-
+- (void)didReceiveMessageNotification:(NSNotification *)notification {
+    [UIApplication sharedApplication].applicationIconBadgeNumber =
+    [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
+}
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     [UMessage didReceiveRemoteNotification:userInfo];
@@ -245,6 +241,14 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    int unreadMsgCount = [[RCIMClient sharedRCIMClient] getUnreadCount:@[
+                                                                         @(ConversationType_PRIVATE),
+                                                                         @(ConversationType_DISCUSSION),
+                                                                         @(ConversationType_APPSERVICE),
+                                                                         @(ConversationType_PUBLICSERVICE),
+                                                                         @(ConversationType_GROUP)
+                                                                         ]];
+    application.applicationIconBadgeNumber = unreadMsgCount;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -253,7 +257,6 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [BMKMapView didForeGround];
 
 }
 
@@ -277,6 +280,9 @@
     [[UITextView appearance] setTintColor:kGreen];//设置UITextView的光标颜色
 //    [[UISearchBar appearance] setBackgroundImage:[UIImage imageWithColor:kColorTableSectionBg] forBarPosition:0 barMetrics:UIBarMetricsDefault];
 }
+
+
+
 
 //禁止横屏
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window

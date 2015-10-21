@@ -37,6 +37,7 @@
     self.tableView.showsVerticalScrollIndicator=NO;
 
     quitButton=[[UIButton alloc]initWithFrame:CGRectMake(50, 7, kScreenW-100, 30)];
+    quitButton.titleLabel.font = kFont;
     [quitButton setTitle:@"退出登录" forState:UIControlStateNormal];
     [quitButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     //loginBtn.alpha=0.8f;
@@ -89,7 +90,7 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-        cell.textLabel.font=[UIFont systemFontOfSize:16];
+        cell.textLabel.font=kFont;
         cell.detailTextLabel.textColor=[UIColor blackColor];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
 

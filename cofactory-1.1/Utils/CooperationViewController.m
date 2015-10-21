@@ -7,7 +7,7 @@
 //
 #import "CooperationViewController.h"
 #import "Header.h"
-
+#import "IMChatViewController.h"
 
 @interface CooperationViewController () <UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 
@@ -47,7 +47,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.title=@"合作商";
     self.view.backgroundColor=[UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets=NO;
@@ -175,6 +175,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
+    
+    
     FactoryModel*factoryModel=self.modelArray[indexPath.section];
     CooperationInfoViewController*infoVC = [[CooperationInfoViewController alloc]init];
     infoVC.factoryModel=factoryModel;

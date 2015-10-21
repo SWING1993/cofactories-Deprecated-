@@ -153,7 +153,7 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
             cell.textLabel.text = [NSString stringWithFormat:@"用途:  %@",_model.useage];
             break;
         case 3:
-            cell.textLabel.text = [NSString stringWithFormat:@"价格:  %zi 元",_model.price];
+            cell.textLabel.text = [NSString stringWithFormat:@"价格:  %g 元",_model.price];
             break;
         case 4:
             cell.textLabel.text = [NSString stringWithFormat:@"备注:  %@",_model.descriptions];

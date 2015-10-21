@@ -12,7 +12,7 @@
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *type;
-@property (nonatomic, assign) NSInteger price;
+@property (nonatomic, assign) CGFloat price;
 @property (nonatomic, copy) NSString *info;
 @property (nonatomic, copy) NSString *photo;
 @property (nonatomic, copy) NSString *oid, *factoryUid;

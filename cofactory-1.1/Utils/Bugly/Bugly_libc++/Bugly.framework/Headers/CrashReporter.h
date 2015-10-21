@@ -1,6 +1,6 @@
 //
 //  CrashReporter.h
-//  Bugly Version: 1.3.1
+//  Bugly Version: 1.4.0
 //
 //  Copyright (c) 2015年 Tencent All rights reserved.
 //
@@ -217,7 +217,7 @@ extern exp_callback exp_call_back_func;
  *    @param stacks C#异常的堆栈
  *  
  *    @note This method is deprecated starting in version 1.3.0.
- *    @note Please use @code reportException:name:reason:stackTrace:userInfo:terminateApp: @endcode instead. The category is 4 for Unity C# exception
+ *    @note Please use @code reportException:name:reason:stackTrace:extraInfo:terminateApp: @endcode instead. The category is 4 for Unity C# exception
  */
 - (void)reportUnityExceptionWithName:(NSString *)aName reason:(NSString *)aReason stack:(NSString *)stacks __deprecated_msg("1.3.0");
 

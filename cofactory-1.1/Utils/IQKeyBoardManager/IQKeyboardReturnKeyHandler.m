@@ -33,9 +33,7 @@
 #import <UIKit/UITableView.h>
 #import <UIKit/UIViewController.h>
 
-#ifdef NSFoundationVersionNumber_iOS_5_1
 #import <UIKit/UICollectionView.h>
-#endif
 
 NSString *const kIQTextField                =   @"kIQTextField";
 NSString *const kIQTextFieldDelegate        =   @"kIQTextFieldDelegate";
@@ -56,6 +54,12 @@ NSString *const kIQTextFieldReturnKeyType   =   @"kIQTextFieldReturnKeyType";
 @synthesize lastTextFieldReturnKeyType = _lastTextFieldReturnKeyType;
 @synthesize toolbarManageBehaviour = _toolbarManageBehaviour;
 @synthesize delegate = _delegate;
+
+- (instancetype)init
+{
+    self = [self initWithViewController:nil];
+    return self;
+}
 
 -(instancetype)initWithViewController:(UIViewController*)controller
 {
@@ -136,10 +140,7 @@ NSString *const kIQTextFieldReturnKeyType   =   @"kIQTextFieldReturnKeyType";
 {
     UIView *tableView = [textField superviewOfClassType:[UITableView class]];
     
-#ifdef NSFoundationVersionNumber_iOS_5_1
     if (tableView == nil)   tableView = [textField superviewOfClassType:[UICollectionView class]];
-#endif
-
 
     NSArray *textFields = nil;
 
@@ -180,9 +181,7 @@ NSString *const kIQTextFieldReturnKeyType   =   @"kIQTextFieldReturnKeyType";
 -(void)goToNextResponderOrResign:(UIView*)textField
 {
     UIView *tableView = [textField superviewOfClassType:[UITableView class]];
-#ifdef NSFoundationVersionNumber_iOS_5_1
     if (tableView == nil)   tableView = [textField superviewOfClassType:[UICollectionView class]];
-#endif
     
     NSArray *textFields = nil;
     
@@ -214,14 +213,11 @@ NSString *const kIQTextFieldReturnKeyType   =   @"kIQTextFieldReturnKeyType";
         }
     }
         
-    if ([textFields containsObject:textField])
-    {
-        //Getting index of current textField.
-        NSUInteger index = [textFields indexOfObject:textField];
-        
-        //If it is not last textField. then it's next object becomeFirstResponder.
-        (index < textFields.count-1) ?   [[textFields objectAtIndex:index+1] becomeFirstResponder]  :   [textField resignFirstResponder];
-    }
+    //Getting index of current textField.
+    NSUInteger index = [textFields indexOfObject:textField];
+    
+    //If it is not last textField. then it's next object becomeFirstResponder.
+    (index != NSNotFound && index < textFields.count-1) ?   [[textFields objectAtIndex:index+1] becomeFirstResponder]  :   [textField resignFirstResponder];
 }
 
 #pragma mark - TextField delegate
