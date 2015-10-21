@@ -62,6 +62,7 @@ static NSString *LastCellIdentifier = @"LastCell";
 - (void)viewWillAppear:(BOOL)animated {
     //设置代理（融云）
     [[RCIM sharedRCIM] setUserInfoDataSource:self];
+    
     //工厂类型
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
@@ -98,6 +99,9 @@ static NSString *LastCellIdentifier = @"LastCell";
     
 }
 
+
+
+
 #pragma mark - RCIMUserInfoDataSource
 
 //获取IM用户信息
@@ -117,7 +121,6 @@ static NSString *LastCellIdentifier = @"LastCell";
     }];
     
 }
-
 
 
 
@@ -202,7 +205,6 @@ static NSString *LastCellIdentifier = @"LastCell";
         [[RCIM sharedRCIM] connectWithToken:token success:^(NSString *userId) {
             // Connect 成功
             DLog(@" Connect 成功");
-            
         }
                                       error:^(RCConnectErrorCode status) {
                                           // Connect 失败
@@ -213,7 +215,6 @@ static NSString *LastCellIdentifier = @"LastCell";
                              }];
         
     }];
-
 
     
     self.view.backgroundColor=[UIColor whiteColor];

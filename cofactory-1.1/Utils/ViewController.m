@@ -126,7 +126,6 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
     UITabBarItem *item2 = tabbar.items[1];
     UITabBarItem *item3 = tabbar.items[2];
     UITabBarItem *item4 = tabbar.items[3];
-    
     item1.selectedImage = [[UIImage imageNamed:@"tabHomeSelected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     item1.image = [[UIImage imageNamed:@"tabHome"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     item2.selectedImage = [[UIImage imageNamed:@"tabpatSelected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];

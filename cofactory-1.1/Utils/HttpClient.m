@@ -1389,7 +1389,7 @@
             DLog(@"===%@", operation.responseString);
             
             DLog(@"%@",error);
-            DLog(@"======%d",[operation.response statusCode]);
+            DLog(@"======%ld",[operation.response statusCode]);
             switch ([operation.response statusCode]) {
                 case 400:
                     block(@{@"statusCode": @([operation.response statusCode]), @"message": @"未登录"});

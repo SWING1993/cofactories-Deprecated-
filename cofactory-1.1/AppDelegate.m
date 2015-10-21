@@ -40,7 +40,6 @@
     //初始化融云SDK。
     [[RCIM sharedRCIM] initWithAppKey:RONGCLOUD_IM_APPKEY];
     
-    
     /**
      * 融云推送处理1
      */
@@ -161,6 +160,12 @@
     ViewController *mainVC = [[ViewController alloc] init];
     self.window.rootViewController = mainVC;
     [_window makeKeyAndVisible];
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(didReceiveMessageNotification:)
+     name:RCKitDispatchMessageNotification
+     object:nil];
+
     return YES;
 }
 
@@ -191,7 +196,10 @@
     
     [[RCIMClient sharedRCIMClient] setDeviceToken:token];
 }
-
+- (void)didReceiveMessageNotification:(NSNotification *)notification {
+    [UIApplication sharedApplication].applicationIconBadgeNumber =
+    [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
+}
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     [UMessage didReceiveRemoteNotification:userInfo];
@@ -221,6 +229,14 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    int unreadMsgCount = [[RCIMClient sharedRCIMClient] getUnreadCount:@[
+                                                                         @(ConversationType_PRIVATE),
+                                                                         @(ConversationType_DISCUSSION),
+                                                                         @(ConversationType_APPSERVICE),
+                                                                         @(ConversationType_PUBLICSERVICE),
+                                                                         @(ConversationType_GROUP)
+                                                                         ]];
+    application.applicationIconBadgeNumber = unreadMsgCount;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -252,6 +268,9 @@
     [[UITextView appearance] setTintColor:kGreen];//设置UITextView的光标颜色
 //    [[UISearchBar appearance] setBackgroundImage:[UIImage imageWithColor:kColorTableSectionBg] forBarPosition:0 barMetrics:UIBarMetricsDefault];
 }
+
+
+
 
 //禁止横屏
 //- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
