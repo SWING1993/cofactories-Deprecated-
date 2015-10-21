@@ -83,8 +83,8 @@ static NSString *LastCellIdentifier = @"LastCell";
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryAddress forKey:@"factoryAddress"];
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
-            //[[NSUserDefaults standardUserDefaults] setInteger:self.factoryType forKey:@"factoryType"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+            [[NSUserDefaults standardUserDefaults] setObject:userModel.phone forKey:@"factoryPhone"];
+            [[NSUserDefaults standardUserDefaults] setObject:userModel.name forKey:@"userName"];            [[NSUserDefaults standardUserDefaults] synchronize];
             [self.tableView reloadData];
         }
         
@@ -293,8 +293,8 @@ static NSString *LastCellIdentifier = @"LastCell";
 #pragma mark - 找合作商
 - (void)findClicked:(id)sender {
     FactoryListViewController *factoryListVC= [[FactoryListViewController alloc]init];
+    factoryListVC.selectedFactoryIndex = 0;
     factoryListVC.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-    //    factoryListVC.factoryType = 10;
     [self.navigationController pushViewController:factoryListVC animated:YES];
 }
 
@@ -379,8 +379,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         {
             // 找服装厂信息
             FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-            searchViewController.factoryType = 100;
-            searchViewController.currentData1Index = 1;
+            searchViewController.selectedFactoryIndex = 100;
             searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
             [self.navigationController pushViewController:searchViewController animated:YES];
         }
@@ -389,8 +388,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         {
             // 找锁眼钉扣厂信息
             FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-            searchViewController.factoryType = 3;
-            searchViewController.currentData1Index = 3;
+            searchViewController.selectedFactoryIndex = 3;
             searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
             [self.navigationController pushViewController:searchViewController animated:YES];
         }
@@ -399,8 +397,8 @@ static NSString *LastCellIdentifier = @"LastCell";
         {
             // 找加工厂信息
             FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-            searchViewController.factoryType = 1;
-            searchViewController.currentData1Index = 2;
+            searchViewController.selectedFactoryIndex = 1;
+
             searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
             [self.navigationController pushViewController:searchViewController animated:YES];
         }
@@ -411,9 +409,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             // 找代裁厂信息
             
             FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-            
-            searchViewController.factoryType = 2;
-            searchViewController.currentData1Index = 4;
+            searchViewController.selectedFactoryIndex = 2;
             searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
             [self.navigationController pushViewController:searchViewController animated:YES];
         }

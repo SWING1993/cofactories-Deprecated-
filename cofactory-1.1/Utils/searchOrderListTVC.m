@@ -88,17 +88,18 @@
 
 - (void)getDataWithModel:(OrderModel *)model orderListType:(int)orderListType{
 
-    if (model.interest == 0) {
-        self.labels.hidden = YES;
-        self.interestCountLabel.hidden = YES;
-    }else {
-        self.labels.hidden = NO;
-        self.interestCountLabel.hidden = NO;
-        [HttpClient getBidOrderWithOid:model.oid andBlock:^(NSDictionary *responseDictionary) {
-            _competeFactoryArray = responseDictionary[@"responseArray"];
+    [HttpClient getBidOrderWithOid:model.oid andBlock:^(NSDictionary *responseDictionary) {
+        _competeFactoryArray = responseDictionary[@"responseArray"];
+        if (_competeFactoryArray.count == 0) {
+            self.labels.hidden = YES;
+            self.interestCountLabel.hidden = YES;
+        }else {
+            self.labels.hidden = NO;
+            self.interestCountLabel.hidden = NO;
             self.interestCountLabel.text = [NSString stringWithFormat:@"%zi",_competeFactoryArray.count];
-        }];
-    }
+        }
+    }];
+    
     
     if (model.status == 0) {
         self.statusImage.hidden = YES;

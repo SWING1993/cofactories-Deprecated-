@@ -97,7 +97,7 @@
         _otherTwoFactoryStatus = [[dictionary objectForKey:@"factoryFreeStatus"] intValue];
         self.facTypeOneStatus = [dictionary objectForKey:@"factoryFreeTime"];
 
-
+        _city = dictionary[@"city"];
     }
     return self;
 }

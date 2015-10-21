@@ -80,7 +80,7 @@
         backgroundView.backgroundColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:0.3];
         [self addSubview:backgroundView];
         
-        self.interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.deleteButton.frame.origin.x+60, 92,30 , 22)];
+        self.interestCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.deleteButton.frame.origin.x+100, 92,30 , 22)];
         self.interestCountLabel.font = [UIFont systemFontOfSize:14.0f];
         self.interestCountLabel.textColor = [UIColor orangeColor];
         self.interestCountLabel.textAlignment = 2;
@@ -88,7 +88,7 @@
         
         self.labels = [[UILabel alloc]initWithFrame:CGRectMake(self.interestCountLabel.frame.origin.x+30, 92, 140, 22)];
         self.labels.font = [UIFont systemFontOfSize:14.0f];
-        self.labels.text = @"家厂商对此订单感兴趣";
+        self.labels.text = @"家厂商已投标";
         [self addSubview:self.labels];
     
     }

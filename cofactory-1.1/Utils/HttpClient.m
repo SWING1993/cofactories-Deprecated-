@@ -26,6 +26,7 @@
 #define API_favorite @"/user/favorite"
 #define API_factoryProfile @"/factory/profile"
 #define API_search @"/search"
+#define API_searchFactory @"/search/factory"
 #define API_drawAccess @"/draw/access"
 #define API_updateMenu @"/menu/edit"
 #define API_getMenu @"/menu/list"
@@ -2128,6 +2129,52 @@
         block(@{@"statusCode":@(404)});
     }
 
+}
+
++ (void)searchFactoriesWithFactoryType:(NSInteger)factoryType factorySize:(NSArray *)factorySize city:(NSString *)city factoryServiceRange:(NSString *)factoryServiceRange factoryFreeTime:(NSNumber *)factoryFreeTime factoryFreeStatus:(NSString *)factoryFreeStatus page:(NSNumber*)page completionBlock:(void (^)(NSDictionary *responseDictionary))block{
+    
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+    if (credential) {
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+    }
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:6];
+    
+    if (factoryType){
+        [mutableDictionary setObject:@(factoryType) forKey:@"factoryType"];
+    }
+    if (factorySize) {
+        [mutableDictionary setObject:factorySize forKey:@"factorySize"];
+    }
+    if (city){
+        [mutableDictionary setObject:city forKey:@"city"];
+    }
+    if (factoryServiceRange){
+        [mutableDictionary setObject:factoryServiceRange forKey:@"factoryServiceRange"];
+    }
+    if (factoryFreeTime){
+        [mutableDictionary setObject:factoryFreeTime forKey:@"factoryFreeTime"];
+    }
+    if (factoryFreeStatus){
+        [mutableDictionary setObject:factoryFreeStatus forKey:@"factoryFreeStatus"];
+    }
+    if (page) {
+        [mutableDictionary setObject:page forKey:@"page"];
+    }
+    [manager GET:API_searchFactory parameters:mutableDictionary success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSArray *jsonArray = (NSArray *)responseObject;
+        NSMutableArray *responseArray = [@[] mutableCopy];
+        for (NSDictionary *dictionary in jsonArray) {
+            FactoryModel *factoryModel = [[FactoryModel alloc] initWithDictionary:dictionary];
+            [responseArray addObject:factoryModel];
+        }
+        block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseArray});
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        block(@{@"statusCode": @404, @"NSError": error});
+    }];
+    
 }
 
 @end

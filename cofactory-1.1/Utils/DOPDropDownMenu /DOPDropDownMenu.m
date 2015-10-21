@@ -61,17 +61,21 @@
 #pragma mark - menu implementation
 
 @interface DOPDropDownMenu (){
-struct {
-    unsigned int numberOfRowsInColumn :1;
-    unsigned int numberOfItemsInRow :1;
-    unsigned int titleForRowAtIndexPath :1;
-    unsigned int titleForItemsInRowAtIndexPath :1;
-    
-}_dataSourceFlags;
+    struct {
+        unsigned int numberOfRowsInColumn :1;
+        unsigned int numberOfItemsInRow :1;
+        unsigned int titleForRowAtIndexPath :1;
+        unsigned int titleForItemsInRowAtIndexPath :1;
+        unsigned int imageNameForRowAtIndexPath :1;
+        unsigned int imageNameForItemsInRowAtIndexPath :1;
+        unsigned int detailTextForRowAtIndexPath: 1;
+        unsigned int detailTextForItemsInRowAtIndexPath: 1;
+        
+    }_dataSourceFlags;
 }
 
 @property (nonatomic, assign) NSInteger currentSelectedMenudIndex;  // 当前选中列
-@property (nonatomic, assign) NSInteger currentSelectedMenudRow;    // 当前选中行
+
 @property (nonatomic, assign) BOOL show;
 @property (nonatomic, assign) NSInteger numOfMenu;
 @property (nonatomic, assign) CGPoint origin;
@@ -90,15 +94,33 @@ struct {
 
 @end
 
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define IS_RETINA ([[UIScreen mainScreen] scale] >= 2.0)
+
+#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
+#define SCREEN_MIN_LENGTH (MIN(SCREEN_WIDTH, SCREEN_HEIGHT))
+
+#define IS_IPHONE_4_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH < 568.0)
+#define IS_IPHONE_5 (IS_IPHONE && SCREEN_MAX_LENGTH == 568.0)
+#define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
+#define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
+
 #define kTableViewCellHeight 43
 #define kTableViewHeight 300
 #define kButtomImageViewHeight 21
+
 #define kTextColor [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1]
+#define kDetailTextColor [UIColor colorWithRed:136/255.0 green:136/255.0 blue:136/255.0 alpha:1]
 #define kSeparatorColor [UIColor colorWithRed:219/255.0 green:219/255.0 blue:219/255.0 alpha:1]
 #define kCellBgColor [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1]
 #define kTextSelectColor [UIColor colorWithRed:246/255.0 green:79/255.0 blue:0/255.0 alpha:1]
 
-@implementation DOPDropDownMenu
+@implementation DOPDropDownMenu {
+    CGFloat _tableViewHeight;
+}
 
 #pragma mark - getter
 - (UIColor *)indicatorColor {
@@ -126,21 +148,71 @@ struct {
     return [self.dataSource menu:self titleForRowAtIndexPath:indexPath];
 }
 
+- (void)reloadData
+{
+    [self animateBackGroundView:_backGroundView show:NO complete:^{
+        [self animateTableView:nil show:NO complete:^{
+            _show = NO;
+            id VC = self.dataSource;
+            self.dataSource = nil;
+            self.dataSource = VC;
+        }];
+    }];
+    
+}
+
 - (void)selectDefalutIndexPath
 {
-    if (_dataSource && _delegate
-        && [_delegate respondsToSelector:@selector(menu:didSelectRowAtIndexPath:)]) {
-        
-        if (!_isClickHaveItemValid &&_dataSourceFlags.numberOfItemsInRow
-            && [_dataSource menu:self numberOfItemsInRow:0 column:0] > 0) {
-            
-            [_delegate menu:self didSelectRowAtIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:0]];
-        } else if (_dataSourceFlags.numberOfRowsInColumn
-                   && [_dataSource menu:self numberOfRowsInColumn:0] > 0){
-            [_delegate menu:self didSelectRowAtIndexPath:[DOPIndexPath indexPathWithCol:0 row:0]];
-        }
+    [self selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0]];
+}
+
+- (void)selectIndexPath:(DOPIndexPath *)indexPath triggerDelegate:(BOOL)trigger {
+    if (!_dataSource || !_delegate
+        || ![_delegate respondsToSelector:@selector(menu:didSelectRowAtIndexPath:)]) {
+        return;
     }
     
+    if (_dataSourceFlags.numberOfRowsInColumn <= indexPath.column || [_dataSource menu:self numberOfRowsInColumn:indexPath.column] <= indexPath.row) {
+        return;
+    }
+    
+    CATextLayer *title = (CATextLayer *)_titles[indexPath.column];
+    
+    if (indexPath.item < 0 ) {
+        if (!_isClickHaveItemValid && [_dataSource menu:self numberOfItemsInRow:indexPath.row column:indexPath.column] > 0){
+            title.string = [_dataSource menu:self titleForItemsInRowAtIndexPath:[DOPIndexPath indexPathWithCol:indexPath.column row:self.isRemainMenuTitle ? 0 : indexPath.row item:0]];
+            if (trigger) {
+                [_delegate menu:self didSelectRowAtIndexPath:[DOPIndexPath indexPathWithCol:indexPath.column row:indexPath.row item:0]];
+            }
+        }else {
+            title.string = [_dataSource menu:self titleForRowAtIndexPath:
+                            [DOPIndexPath indexPathWithCol:indexPath.column row:self.isRemainMenuTitle ? 0 : indexPath.row]];
+            if (trigger) {
+                [_delegate menu:self didSelectRowAtIndexPath:indexPath];
+            }
+        }
+        if (_currentSelectRowArray.count > indexPath.column) {
+            _currentSelectRowArray[indexPath.column] = @(indexPath.row);
+        }
+        CGSize size = [self calculateTitleSizeWithString:title.string];
+        CGFloat sizeWidth = (size.width < (self.frame.size.width / _numOfMenu) - 25) ? size.width : self.frame.size.width / _numOfMenu - 25;
+        title.bounds = CGRectMake(0, 0, sizeWidth, size.height);
+    }else if ([_dataSource menu:self numberOfItemsInRow:indexPath.row column:indexPath.column] > indexPath.column) {
+        title.string = [_dataSource menu:self titleForRowAtIndexPath:indexPath];
+        if (trigger) {
+            [_delegate menu:self didSelectRowAtIndexPath:indexPath];
+        }
+        if (_currentSelectRowArray.count > indexPath.column) {
+            _currentSelectRowArray[indexPath.column] = @(indexPath.row);
+        }
+        CGSize size = [self calculateTitleSizeWithString:title.string];
+        CGFloat sizeWidth = (size.width < (self.frame.size.width / _numOfMenu) - 25) ? size.width : self.frame.size.width / _numOfMenu - 25;
+        title.bounds = CGRectMake(0, 0, sizeWidth, size.height);
+    }
+}
+
+- (void)selectIndexPath:(DOPIndexPath *)indexPath {
+    [self selectIndexPath:indexPath triggerDelegate:YES];
 }
 
 #pragma mark - setter
@@ -149,7 +221,7 @@ struct {
         return;
     }
     _dataSource = dataSource;
-
+    
     //configure view
     if ([_dataSource respondsToSelector:@selector(numberOfColumnsInMenu:)]) {
         _numOfMenu = [_dataSource numberOfColumnsInMenu:self];
@@ -157,10 +229,20 @@ struct {
         _numOfMenu = 1;
     }
     
+    _currentSelectRowArray = [NSMutableArray arrayWithCapacity:_numOfMenu];
+    
+    for (NSInteger index = 0; index < _numOfMenu; ++index) {
+        [_currentSelectRowArray addObject:@(0)];
+    }
+    
     _dataSourceFlags.numberOfRowsInColumn = [_dataSource respondsToSelector:@selector(menu:numberOfRowsInColumn:)];
     _dataSourceFlags.numberOfItemsInRow = [_dataSource respondsToSelector:@selector(menu:numberOfItemsInRow:column:)];
     _dataSourceFlags.titleForRowAtIndexPath = [_dataSource respondsToSelector:@selector(menu:titleForRowAtIndexPath:)];
     _dataSourceFlags.titleForItemsInRowAtIndexPath = [_dataSource respondsToSelector:@selector(menu:titleForItemsInRowAtIndexPath:)];
+    _dataSourceFlags.imageNameForRowAtIndexPath = [_dataSource respondsToSelector:@selector(menu:imageNameForRowAtIndexPath:)];
+    _dataSourceFlags.imageNameForItemsInRowAtIndexPath = [_dataSource respondsToSelector:@selector(menu:imageNameForItemsInRowAtIndexPath:)];
+    _dataSourceFlags.detailTextForRowAtIndexPath = [_dataSource respondsToSelector:@selector(menu:detailTextForRowAtIndexPath:)];
+    _dataSourceFlags.detailTextForItemsInRowAtIndexPath = [_dataSource respondsToSelector:@selector(menu:detailTextForItemsInRowAtIndexPath:)];
     
     _bottomShadow.hidden = NO;
     CGFloat textLayerInterval = self.frame.size.width / ( _numOfMenu * 2);
@@ -186,7 +268,7 @@ struct {
         }else {
             titleString =[_dataSource menu:self titleForRowAtIndexPath:[DOPIndexPath indexPathWithCol:i row:0]];
         }
-
+        
         CATextLayer *title = [self createTextLayerWithNSString:titleString withColor:self.textColor andPosition:titlePosition];
         [self.layer addSublayer:title];
         [tempTitles addObject:title];
@@ -201,7 +283,7 @@ struct {
             CAShapeLayer *separator = [self createSeparatorLineWithColor:self.separatorColor andPosition:separatorPosition];
             [self.layer addSublayer:separator];
         }
-       
+        
         
     }
     _titles = [tempTitles copy];
@@ -218,10 +300,14 @@ struct {
         _currentSelectedMenudIndex = -1;
         _show = NO;
         _fontSize = 14;
+        _cellStyle = UITableViewCellStyleValue1;
         _separatorColor = kSeparatorColor;
         _textColor = kTextColor;
         _textSelectedColor = kTextSelectColor;
+        _detailTextFont = [UIFont systemFontOfSize:11];
+        _detailTextColor = kDetailTextColor;
         _indicatorColor = kTextColor;
+        _tableViewHeight = IS_IPHONE_4_OR_LESS ? 200 : kTableViewHeight;
         _isClickHaveItemValid = YES;
         
         //lefttableView init
@@ -231,6 +317,7 @@ struct {
         _leftTableView.delegate = self;
         _leftTableView.separatorColor = kSeparatorColor;
         _leftTableView.separatorInset = UIEdgeInsetsZero;
+        _leftTableView.tableFooterView = [[UIView alloc]init];
         
         //righttableView init
         _rightTableView = [[UITableView alloc] initWithFrame:CGRectMake(origin.x + self.frame.size.width/2, self.frame.origin.y + self.frame.size.height, self.frame.size.width/2, 0) style:UITableViewStylePlain];
@@ -239,7 +326,7 @@ struct {
         _rightTableView.delegate = self;
         _rightTableView.separatorColor = kSeparatorColor;
         _rightTableView.separatorInset = UIEdgeInsetsZero;
-        //_rightTableView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+        //_rightTableView.tableFooterView = [[UIView alloc]init];
         
         _buttomImageView = [[UIImageView alloc]initWithFrame:CGRectMake(origin.x, self.frame.origin.y + self.frame.size.height, self.frame.size.width, kButtomImageViewHeight)];
         _buttomImageView.image = [UIImage imageNamed:@"icon_chose_bottom"];
@@ -272,8 +359,6 @@ struct {
     
     layer.position = position;
     layer.bounds = CGRectMake(0, 0, self.frame.size.width/self.numOfMenu, self.frame.size.height-1);
-//    NSLog(@"bglayer bounds:%@",NSStringFromCGRect(layer.bounds));
-//    NSLog(@"bglayer position:%@", NSStringFromCGPoint(position));
     layer.backgroundColor = color.CGColor;
     
     return layer;
@@ -315,8 +400,6 @@ struct {
     layer.bounds = CGPathGetBoundingBox(bound);
     CGPathRelease(bound);
     layer.position = point;
-    //NSLog(@"separator position: %@",NSStringFromCGPoint(point));
-    //NSLog(@"separator bounds: %@",NSStringFromCGRect(layer.bounds));
     return layer;
 }
 
@@ -345,7 +428,7 @@ struct {
     //CGFloat fontSize = 14.0;
     NSDictionary *dic = @{NSFontAttributeName: [UIFont systemFontOfSize:_fontSize]};
     CGSize size = [string boundingRectWithSize:CGSizeMake(280, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil].size;
-    return size;
+    return CGSizeMake(ceilf(size.width)+2, size.height);
 }
 
 #pragma mark - gesture handle
@@ -356,7 +439,7 @@ struct {
     CGPoint touchPoint = [paramSender locationInView:self];
     //calculate index
     NSInteger tapIndex = touchPoint.x / (self.frame.size.width / _numOfMenu);
- 
+    
     for (int i = 0; i < _numOfMenu; i++) {
         if (i != tapIndex) {
             [self animateIndicator:_indicators[i] Forward:NO complete:^{
@@ -390,7 +473,6 @@ struct {
     [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
         _show = NO;
     }];
-    //[(CALayer *)self.bgLayers[_currentSelectedMenudIndex] setBackgroundColor:[UIColor whiteColor].CGColor];
 }
 
 #pragma mark - animation method
@@ -431,7 +513,7 @@ struct {
         }];
     } else {
         [UIView animateWithDuration:0.2 animations:^{
-             view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+            view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
         } completion:^(BOOL finished) {
             [view removeFromSuperview];
         }];
@@ -442,7 +524,7 @@ struct {
 - (void)animateTableView:(UITableView *)tableView show:(BOOL)show complete:(void(^)())complete {
     
     BOOL haveItems = NO;
-
+    
     if (_dataSource) {
         NSInteger num = [_leftTableView numberOfRowsInSection:0];
         
@@ -470,13 +552,12 @@ struct {
         _buttomImageView.frame = CGRectMake(self.origin.x, self.frame.origin.y + self.frame.size.height, self.frame.size.width, kButtomImageViewHeight);
         [self.superview addSubview:_buttomImageView];
         
-        //CGFloat tableViewHeight = ([_leftTableView numberOfRowsInSection:0] > 5) ? (5 * tableView.rowHeight) : ([_leftTableView numberOfRowsInSection:0] * tableView.rowHeight);
         NSInteger num = [_leftTableView numberOfRowsInSection:0];
-        CGFloat tableViewHeight = num * kTableViewCellHeight > kTableViewHeight+1 ? kTableViewHeight:num*kTableViewCellHeight+1;
+        CGFloat tableViewHeight = num * kTableViewCellHeight > _tableViewHeight+1 ? _tableViewHeight:num*kTableViewCellHeight+1;
         
         [UIView animateWithDuration:0.2 animations:^{
             if (haveItems) {
-                 _leftTableView.frame = CGRectMake(self.origin.x, self.frame.origin.y + self.frame.size.height, self.frame.size.width/2, tableViewHeight);
+                _leftTableView.frame = CGRectMake(self.origin.x, self.frame.origin.y + self.frame.size.height, self.frame.size.width/2, tableViewHeight);
                 
                 _rightTableView.frame = CGRectMake(self.origin.x + self.frame.size.width/2, self.frame.origin.y + self.frame.size.height, self.frame.size.width/2, tableViewHeight);
             } else {
@@ -533,21 +614,22 @@ struct {
 
 #pragma mark - table datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSAssert(_dataSource != nil, @"menu's dataSource shouldn't be nil");
+    //NSAssert(_dataSource != nil, @"menu's dataSource shouldn't be nil");
     if (_leftTableView == tableView) {
         if (_dataSourceFlags.numberOfRowsInColumn) {
             return [_dataSource menu:self
-                    numberOfRowsInColumn:_currentSelectedMenudIndex];
+                numberOfRowsInColumn:_currentSelectedMenudIndex];
         } else {
-            NSAssert(0 == 1, @"required method of dataSource protocol should be implemented");
+            //NSAssert(0 == 1, @"required method of dataSource protocol should be implemented");
             return 0;
         }
     } else {
         if (_dataSourceFlags.numberOfItemsInRow) {
+            NSInteger currentSelectedMenudRow = [_currentSelectRowArray[_currentSelectedMenudIndex] integerValue];
             return [_dataSource menu:self
-                    numberOfItemsInRow:_currentSelectedMenudRow column:_currentSelectedMenudIndex];
+                  numberOfItemsInRow:currentSelectedMenudRow column:_currentSelectedMenudIndex];
         } else {
-            NSAssert(0 == 1, @"required method of dataSource protocol should be implemented");
+            //NSAssert(0 == 1, @"required method of dataSource protocol should be implemented");
             return 0;
         }
     }
@@ -558,24 +640,50 @@ struct {
     static NSString *identifier = @"DropDownMenuCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[UITableViewCell alloc] initWithStyle:_cellStyle reuseIdentifier:identifier];
         //cell.separatorInset = UIEdgeInsetsZero;
         DOPBackgroundCellView *bg = [[DOPBackgroundCellView alloc]init];
         bg.backgroundColor = [UIColor whiteColor];
         cell.selectedBackgroundView = bg;
-        cell.textLabel.highlightedTextColor = kTextSelectColor;
-        cell.textLabel.textColor = kTextColor;
+        cell.textLabel.highlightedTextColor = _textSelectedColor;
+        cell.textLabel.textColor = _textColor;
+        cell.textLabel.font = [UIFont systemFontOfSize:_fontSize];
+        if (_dataSourceFlags.detailTextForRowAtIndexPath || _dataSourceFlags.detailTextForItemsInRowAtIndexPath) {
+            cell.detailTextLabel.textColor = _detailTextColor;
+            cell.detailTextLabel.font = _detailTextFont;
+        }
     }
-    NSAssert(_dataSource != nil, @"menu's datasource shouldn't be nil");
+    //NSAssert(_dataSource != nil, @"menu's datasource shouldn't be nil");
     if (tableView == _leftTableView) {
         if (_dataSourceFlags.titleForRowAtIndexPath) {
             cell.textLabel.text = [_dataSource menu:self titleForRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:indexPath.row]];
+            if (_dataSourceFlags.imageNameForRowAtIndexPath) {
+                NSString *imageName = [_dataSource menu:self imageNameForRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:indexPath.row]];
+                if (imageName && imageName.length > 0) {
+                    cell.imageView.image = [UIImage imageNamed:imageName];
+                }else {
+                    cell.imageView.image = nil;
+                }
+                
+            }else {
+                cell.imageView.image = nil;
+            }
+            
+            if (_dataSourceFlags.detailTextForRowAtIndexPath) {
+                NSString *detailText = [_dataSource menu:self detailTextForRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:indexPath.row]];
+                cell.detailTextLabel.text = detailText;
+            }else {
+                cell.detailTextLabel.text = nil;
+            }
+            
         } else {
-            NSAssert(0 == 1, @"dataSource method needs to be implemented");
+            //NSAssert(0 == 1, @"dataSource method needs to be implemented");
         }
         
-        if ([cell.textLabel.text isEqualToString:[(CATextLayer *)[_titles objectAtIndex:_currentSelectedMenudIndex] string]]) {
-           [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+        NSInteger currentSelectedMenudRow = [_currentSelectRowArray[_currentSelectedMenudIndex] integerValue];
+        if (indexPath.row == currentSelectedMenudRow)
+        {
+            [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
         }
         
         if (_dataSourceFlags.numberOfItemsInRow && [_dataSource menu:self numberOfItemsInRow:indexPath.row column:_currentSelectedMenudIndex]> 0){
@@ -588,24 +696,53 @@ struct {
         
     } else {
         if (_dataSourceFlags.titleForItemsInRowAtIndexPath) {
-            cell.textLabel.text = [_dataSource menu:self titleForItemsInRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:_currentSelectedMenudRow item:indexPath.row]];
+            NSInteger currentSelectedMenudRow = [_currentSelectRowArray[_currentSelectedMenudIndex] integerValue];
+            cell.textLabel.text = [_dataSource menu:self titleForItemsInRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:currentSelectedMenudRow item:indexPath.row]];
+            
+            if (_dataSourceFlags.imageNameForItemsInRowAtIndexPath) {
+                NSString *imageName = [_dataSource menu:self imageNameForItemsInRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:currentSelectedMenudRow item:indexPath.row]];
+                
+                if (imageName && imageName.length > 0) {
+                    cell.imageView.image = [UIImage imageNamed:imageName];
+                }else {
+                    cell.imageView.image = nil;
+                }
+            }else {
+                cell.imageView.image = nil;
+            }
+            
+            if (_dataSourceFlags.detailTextForItemsInRowAtIndexPath) {
+                NSString *detailText = [_dataSource menu:self detailTextForItemsInRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:currentSelectedMenudRow item:indexPath.row]];
+                cell.detailTextLabel.text = detailText;
+            }else {
+                cell.detailTextLabel.text = nil;
+            }
+            
         } else {
-            NSAssert(0 == 1, @"dataSource method needs to be implemented");
+            //NSAssert(0 == 1, @"dataSource method needs to be implemented");
         }
         if ([cell.textLabel.text isEqualToString:[(CATextLayer *)[_titles objectAtIndex:_currentSelectedMenudIndex] string]]) {
-            [_leftTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:_currentSelectedMenudRow inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+            NSInteger currentSelectedMenudRow = [_currentSelectRowArray[_currentSelectedMenudIndex] integerValue];
+            [_leftTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:currentSelectedMenudRow inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
             [_rightTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
         }
         cell.backgroundColor = [UIColor whiteColor];
         cell.accessoryView = nil;
     }
     
-    cell.textLabel.font = [UIFont systemFontOfSize:_fontSize];
-    
     return cell;
 }
 
 #pragma mark - tableview delegate
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.delegate && [_delegate respondsToSelector:@selector(menu:willSelectRowAtIndexPath:)]) {
+        return [self.delegate menu:self willSelectRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:indexPath.row]];
+    } else {
+        //TODO: delegate is nil
+        return indexPath;
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
@@ -621,7 +758,8 @@ struct {
     } else {
         [self confiMenuWithSelectItem:indexPath.item];
         if (self.delegate && [_delegate respondsToSelector:@selector(menu:didSelectRowAtIndexPath:)]) {
-            [self.delegate menu:self didSelectRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:_currentSelectedMenudRow item:indexPath.row]];
+            NSInteger currentSelectedMenudRow = [_currentSelectRowArray[_currentSelectedMenudIndex] integerValue];
+            [self.delegate menu:self didSelectRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:currentSelectedMenudRow item:indexPath.row]];
         } else {
             //TODO: delegate is nil
             
@@ -631,11 +769,12 @@ struct {
 
 - (BOOL )confiMenuWithSelectRow:(NSInteger)row {
     
-    _currentSelectedMenudRow = row;
+    _currentSelectRowArray[_currentSelectedMenudIndex] = @(row);
+    
     
     CATextLayer *title = (CATextLayer *)_titles[_currentSelectedMenudIndex];
     
-    if (_dataSourceFlags.numberOfItemsInRow && [_dataSource menu:self numberOfItemsInRow:_currentSelectedMenudRow column:_currentSelectedMenudIndex]> 0) {
+    if (_dataSourceFlags.numberOfItemsInRow && [_dataSource menu:self numberOfItemsInRow:row column:_currentSelectedMenudIndex]> 0) {
         
         // 有双列表 有item数据
         if (self.isClickHaveItemValid) {
@@ -649,22 +788,24 @@ struct {
         return NO;
         
     } else {
-        title.string = [_dataSource menu:self titleForRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:row]];
+        
+        title.string = [_dataSource menu:self titleForRowAtIndexPath:
+                        [DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:self.isRemainMenuTitle ? 0 : row]];
         [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
             _show = NO;
         }];
         return YES;
     }
 }
-
 - (void)confiMenuWithSelectItem:(NSInteger)item {
     
     CATextLayer *title = (CATextLayer *)_titles[_currentSelectedMenudIndex];
-    title.string = [_dataSource menu:self titleForItemsInRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:_currentSelectedMenudRow item:item]];
+    NSInteger currentSelectedMenudRow = [_currentSelectRowArray[_currentSelectedMenudIndex] integerValue];
+    title.string = [_dataSource menu:self titleForItemsInRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:currentSelectedMenudRow item:item]];
     [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
         _show = NO;
     }];
-
+    
 }
 
 @end
