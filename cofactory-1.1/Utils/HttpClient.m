@@ -21,7 +21,7 @@
 #define API_login @"/user/login"
 #define API_verify @"/user/code"
 #define API_checkCode @"/user/checkCode"
-#define API_register @"/user/register"
+#define API_register @"/user/register/v2"
 #define API_userProfile @"/user/profile"
 #define API_favorite @"/user/favorite"
 #define API_factoryProfile @"/factory/profile"
@@ -217,7 +217,7 @@
     }
 }
 
-
+/*
 //注册
 + (void)registerWithUsername:(NSString *)username InviteCode:(NSString *)inviteCode password:(NSString *)password factoryType:(int)type verifyCode:(NSString *)code factoryName:(NSString *)factoryName lon:(double)lon lat:(double)lat factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange andBlock:(void (^)(NSDictionary *))block {
     //    NSParameterAssert(username);
@@ -239,6 +239,33 @@
     
     NSArray *factorySize = [[NSArray alloc] initWithObjects:factorySizeMin, factorySizeMax, nil];
     [manager POST:API_register parameters:@{@"phone": username,@"inviteCode": inviteCode, @"password": password, @"type": @(type), @"code": code, @"factoryName": factoryName, @"lon": @(lon), @"lat": @(lat), @"factorySize": factorySize, @"factoryAddress": factoryAddress, @"factoryServiceRange": (factoryServiceRange == nil ? @"" : factoryServiceRange)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        block(@{@"statusCode": @(200), @"message": @"注册成功"});
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        switch ([operation.response statusCode]) {
+            case 401:
+                block(@{@"statusCode": @(401), @"message": @"邀请码或者验证码错误"});
+                break;
+            case 409:
+                block(@{@"statusCode": @(409), @"message": @"该手机已经注册过"});
+                break;
+                
+            default:
+                block(@{@"statusCode": @(0), @"message": @"网络错误"});
+                break;
+        }
+    }];
+}
+ */
+
+//注册V2
++ (void)registerWithUsername:(NSString *)username password:(NSString *)password factoryType:(int)type  code:(NSString *)code  factoryName:(NSString *)factoryName andBlock:(void (^)(NSDictionary *responseDictionary))block {
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
+    
+    [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+    manager.requestSerializer.timeoutInterval = 3.f;
+    [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+    
+    [manager POST:API_register parameters:@{@"phone": username, @"password": password,@"code": code, @"factoryType": @(type), @"factoryName": factoryName} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         block(@{@"statusCode": @(200), @"message": @"注册成功"});
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         switch ([operation.response statusCode]) {

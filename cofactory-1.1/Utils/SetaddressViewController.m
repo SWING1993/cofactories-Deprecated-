@@ -14,10 +14,9 @@
 #define CITY_COMPONENT      1
 #define DISTRICT_COMPONENT  2
 
-@interface SetaddressViewController () <BMKGeoCodeSearchDelegate,UIPickerViewDataSource,UIPickerViewDelegate> {
+@interface SetaddressViewController () <UIPickerViewDataSource,UIPickerViewDelegate> {
     UITextField*addressTF;
     UITextField*addressTF1;
-    BMKGeoCodeSearch *_searcher;
 }
 
 
@@ -73,14 +72,9 @@
     district = [[NSArray alloc] initWithArray: [cityDic objectForKey: selectedCity]];
 
 
-    _searcher = [[BMKGeoCodeSearch alloc] init];
-    _searcher.delegate = self;
-
-        //确定Btn
+    //确定Btn
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
     self.navigationItem.rightBarButtonItem = setButton;
-
-
 
 
     UILabel*label1 = [[UILabel alloc]initWithFrame:CGRectMake(0, 10, 80, 35)];
@@ -134,34 +128,10 @@
     if ([addressString isEqualToString:@""]) {
         [Tools showErrorWithStatus:@"公司地址不能为空！"];
     }else{
-        BMKGeoCodeSearchOption *geoCodeSearchOption = [[BMKGeoCodeSearchOption alloc] init];
-        geoCodeSearchOption.address = addressString;
-        if ([_searcher geoCode:geoCodeSearchOption]) {
-            DLog(@"geo检索发送正常");
-
-        } else {
-            DLog(@"geo检索发送失败");
-            [Tools showErrorWithStatus:@"检索发送失败"];
-        }
-
+       
     }
 }
 
-#pragma mark - <BMKGeoCodeSearchDelegate>
-- (void)onGetGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
-    if (error == BMK_SEARCH_NO_ERROR) {
-        // 正常结果
-
-        //NSLog(@"%lf %lf", result.location.latitude, result.location.longitude);
-        SetMapViewController*mapVC = [[SetMapViewController alloc]init];
-        mapVC.addressStr=addressString;
-        mapVC.centerLocation = result.location;
-        [self.navigationController pushViewController:mapVC animated:YES];
-    } else {
-        [Tools showErrorWithStatus:@"抱歉，未找到结果。"];
-
-    }
-}
 
 //sizePicker
 - (UIPickerView *)fecthAddressPicker{
