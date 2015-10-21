@@ -32,7 +32,7 @@
         if (statusCode == 200) {
             self.modelArray = responseDictionary[@"responseArray"];
             if (self.modelArray.count == 0) {
-                [Tools showErrorWithStatus:@"您尚未添加合作商！"];
+//                [Tools showErrorWithStatus:@"您尚未添加合作商！"];
             }else{
                 [self.tableView reloadData];
             }
@@ -175,8 +175,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    
-    
     FactoryModel*factoryModel=self.modelArray[indexPath.section];
     CooperationInfoViewController*infoVC = [[CooperationInfoViewController alloc]init];
     infoVC.factoryModel=factoryModel;

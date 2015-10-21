@@ -9,6 +9,8 @@
 #import "Header.h"
 #import "ModifySizeViewController.h"
 
+#define PROVINCE_COMPONENT  0
+
 @interface ModifySizeViewController () <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource>{
     UITextField*SizeTF;
     NSString *_tmpPickerName;
@@ -37,6 +39,7 @@
     self.tableView.showsVerticalScrollIndicator=NO;
 
     SizeTF=[[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 44)];
+    SizeTF.font = kFont;
     SizeTF.text=self.placeholder;
     SizeTF.clearButtonMode=YES;
     SizeTF.inputView = [self fecthPicker];
@@ -54,8 +57,7 @@
         hud.labelText = @"正在修改";
 
         DLog(@"%@===%@",[[Tools RangeSizeWith:SizeTF.text] firstObject],[[Tools RangeSizeWith:SizeTF.text] lastObject]);
-
-        [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:[[Tools RangeSizeWith:SizeTF.text] firstObject] factorySizeMax:[[Tools RangeSizeWith:SizeTF.text] lastObject] factoryLon:nil factoryLat:nil factoryFree:nil  factoryDescription:nil andBlock:^(int statusCode) {
+        [HttpClient updateFactoryProfileWithFactoryAddress:nil province:nil city:nil district:nil factoryServiceRange:nil factorySizeMin:[[Tools RangeSizeWith:SizeTF.text] firstObject] factorySizeMax:[[Tools RangeSizeWith:SizeTF.text] lastObject] factoryDescription:nil andBlock:^(int statusCode) {
             if (statusCode == 200) {
                 hud.labelText = @"修改成功";
                 [hud hide:YES];
@@ -64,7 +66,6 @@
                 hud.labelText = @"修改失败";
                 [hud hide:YES];
             }
-
         }];
     }
 }
@@ -143,6 +144,16 @@
     return [self.cellPickList objectAtIndex:row];
 }
 
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+{
+    UILabel *myView = nil;
+    myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, kScreenW, 30)];
+    myView.textAlignment = NSTextAlignmentCenter;
+    myView.text = [self.cellPickList objectAtIndex:row];
+    myView.font = kFont;
+    myView.backgroundColor = [UIColor clearColor];
+    return myView;
+}
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
@@ -151,6 +162,9 @@
 -(void)ensure{
 
     if (_tmpPickerName) {
+        
+        NSInteger provinceIndex = [self.orderPicker selectedRowInComponent: PROVINCE_COMPONENT];
+        _tmpPickerName = [self.cellPickList objectAtIndex: provinceIndex];
         SizeTF.text = _tmpPickerName;
         _tmpPickerName = nil;
     }

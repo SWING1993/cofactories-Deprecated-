@@ -96,7 +96,7 @@
 
     NSString *curTag = [_allTags objectAtIndex:indexPath.row];
 
-    [HttpClient updateFactoryfactoryTag:curTag andBlock:^(int statusCode) {
+    [HttpClient updateFactoryTag:curTag andBlock:^(int statusCode) {
         [Tools showShimmeringString:[NSString stringWithFormat:@"您选择的标签为%@",curTag ]];
     }];
 }

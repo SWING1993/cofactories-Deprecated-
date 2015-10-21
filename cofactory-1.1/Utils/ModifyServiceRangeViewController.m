@@ -9,12 +9,12 @@
 #import "Header.h"
 #import "ModifyServiceRangeViewController.h"
 
+#define PROVINCE_COMPONENT  0
+
 @interface ModifyServiceRangeViewController () <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource> {
 
     UITextField*FactoryTypeTF;
-
     NSString *_tmpPickerName;
-
 }
 
 @property (nonatomic,strong) UIPickerView *orderPicker;
@@ -41,6 +41,7 @@
 
     FactoryTypeTF=[[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 44)];
     FactoryTypeTF.text=self.placeholder;
+    FactoryTypeTF.font = kFont;
     FactoryTypeTF.clearButtonMode=YES;
     FactoryTypeTF.inputView = [self fecthPicker];
     FactoryTypeTF.inputAccessoryView = [self fecthToolbar];
@@ -55,8 +56,7 @@
     }else{
         MBProgressHUD *hud = [Tools createHUD];
         hud.labelText = @"正在修改";
-
-        [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:FactoryTypeTF.text factorySizeMin:nil factorySizeMax:nil factoryLon:nil factoryLat:nil factoryFree:nil  factoryDescription:nil andBlock:^(int statusCode) {
+        [HttpClient updateFactoryProfileWithFactoryAddress:nil province:nil city:nil district:nil factoryServiceRange:FactoryTypeTF.text factorySizeMin:nil factorySizeMax:nil factoryDescription:nil andBlock:^(int statusCode) {
             if (statusCode == 200) {
                 hud.labelText = @"修改成功";
                 [hud hide:YES];
@@ -65,7 +65,6 @@
                 hud.labelText = @"修改失败";
                 [hud hide:YES];
             }
-
         }];
     }
 }
@@ -145,6 +144,16 @@
     return [self.cellPickList objectAtIndex:row];
 }
 
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+{
+    UILabel *myView = nil;
+    myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, kScreenW, 30)];
+    myView.textAlignment = NSTextAlignmentCenter;
+    myView.text = [self.cellPickList objectAtIndex:row];
+    myView.font = kFont;
+    myView.backgroundColor = [UIColor clearColor];
+    return myView;
+}
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
@@ -153,6 +162,9 @@
 -(void)ensure{
 
     if (_tmpPickerName) {
+        
+        NSInteger provinceIndex = [self.orderPicker selectedRowInComponent: PROVINCE_COMPONENT];
+        _tmpPickerName = [self.cellPickList objectAtIndex: provinceIndex];
         FactoryTypeTF.text = _tmpPickerName;
         _tmpPickerName = nil;
     }

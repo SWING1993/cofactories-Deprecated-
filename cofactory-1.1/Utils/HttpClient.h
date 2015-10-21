@@ -148,18 +148,18 @@
  更新工厂资料
  工厂规模必须从小到大排序,如果规模范围是 x 到无限大,则 factorySizeMin = @(x), factorySizeMax = nil;
 
- @param factoryName         工厂名称
  @param factoryAddress      工厂地址
+ @param province            省份
+ @param city                市
+ @param district            区
  @param factoryServiceRange 业务类型
  @param factorySizeMin      工厂规模最小值(必须是最小值,且用 NSNumber 包装)
  @param factorySizeMax      工厂规模最大值(必须是最大值,且用 NSNumber 包装)
- @param factoryLon          工厂经度
- @param factoryLat          工厂纬度
  @param factoryDescription  工厂描述
  @param factoryFree         工厂空闲状态(服装厂传nil,加工厂传yyyy-MM-DD字符串,代裁厂锁眼钉扣厂传NSNumber,关闭状态都传NSNumber对象)
  @param block               回调函数 会返回 0->(网络错误) 200->(更新成功) 400->(未登录) 401->(access_token过期或无效) 404->(access_token不存在)
  */
-+ (void)updateFactoryProfileWithFactoryName:(NSString *)factoryName factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryLon:(NSNumber *)factoryLon factoryLat:(NSNumber *)factoryLat factoryFree:(id)factoryFree factoryDescription:(NSString *)factoryDescription andBlock:(void (^)(int statusCode))block;
++ (void)updateFactoryProfileWithFactoryAddress:(NSString *)factoryAddress  province:(NSString *)province city:(NSString *)city district:(NSString *)district  factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDescription:(NSString *)factoryDescription andBlock:(void (^)(int statusCode))block;
 
 /*!
  设置工厂标签
@@ -167,7 +167,19 @@
  @param factoryTag 工厂标签
  @param block      回调函数 会返回 0->(网络错误) 200->(更新成功) 400->(未登录) 401->(access_token过期或无效) 404->(access_token不存在)
  */
-+ (void)updateFactoryfactoryTag:(NSString *)factoryTag andBlock:(void (^)(int statusCode))block;
++ (void)updateFactoryTag:(NSString *)factoryTag andBlock:(void (^)(int statusCode))block;
+
+/*!
+ 修改工厂空闲状态
+ 
+ @param factoryTag 工厂标签
+ @param block      回调函数 会返回 0->(网络错误) 200->(更新成功) 400->(未登录) 401->(access_token过期或无效) 404->(access_token不存在)
+ */
++ (void)updateFactoryFree:(NSString *)factoryFree andBlock:(void (^)(int statusCode))block;
+
+//是否有货车
++ (void)updateFactoryProfileWithHasTruck:(id)hasTruck andBlock:(void (^)(int statusCode))block;
+
 
 /*!
  获取任意用户资料
@@ -198,9 +210,6 @@
  @param block               回调函数 会返回 @{@"statusCode": @200, @"model": FactoryModel对象数组}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误)
  */
 + (void)searchWithFactoryName:(NSString *)factoryName factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax Truck:(id)hasTruck factoryFree:(id)factoryFree page:(NSNumber *)page andBlock:(void (^)(NSDictionary *responseDictionary))block;
-
-//是否有货车
-+ (void)updateFactoryProfileWithHasTruck:(id)hasTruck andBlock:(void (^)(int statusCode))block;
 
 /*!
  抽奖验证接口

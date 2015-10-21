@@ -266,11 +266,14 @@
         return 1;
     }
     if (section==1) {
+        return 7;
+/*
         if (self.factoryModel.factoryType == GarmentFactory) {
             return 6;
         }else{
             return 7;
         }
+ */
     }else{
         return 1;
     }
@@ -359,18 +362,19 @@
                 }
                     break;
                 case 5:{
-                    cellLabel.text=@"公司相册";
-                    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-                    
-                }
-                    break;
-                case 6:{
                     cellLabel.text=@"公司标签";
                     if ([self.factoryModel.tag isEqualToString:@"0"]||[self.factoryModel.tag isEqualToString:@"(null)"]) {
                         cell.detailTextLabel.text=@"暂无标签";
                     }else{
                         cell.detailTextLabel.text=self.factoryModel.tag;
                     }
+                }
+                    break;
+
+                case 6:{
+                    cellLabel.text=@"公司相册";
+                    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+                    
                 }
                     break;
                     
@@ -504,7 +508,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section==1&&indexPath.row==5) {
+    if (indexPath.section==1&&indexPath.row==6) {
         DLog(@"相册");
         PhotoViewController* factoryPhotoVC = [[PhotoViewController alloc]init];
         factoryPhotoVC.userUid = [NSString stringWithFormat:@"%d",self.factoryModel.uid];

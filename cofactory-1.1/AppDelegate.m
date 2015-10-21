@@ -17,9 +17,6 @@
 #import "UMSocialSinaHandler.h"
 #import "MobClick.h"
 
-//蒲公英
-#import <PgySDK/PgyManager.h>
-
 //腾讯Bugly
 #import <Bugly/CrashReporter.h>
 
@@ -66,9 +63,7 @@
     [MobClick setCrashReportEnabled:NO];
 
     if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
-        //个人开发者 关闭蒲公英
-        DLog(@"个人开发者 关闭蒲公英");
-
+        //个人开发者
         // 友盟分享
         [UMSocialData setAppKey:UMENGAppKey];
         [UMSocialData openLog:NO];
@@ -87,14 +82,8 @@
         
     }else
     {
-        //企业账号 开启蒲公英
-        DLog(@"企业账号 开启蒲公英")
-
-        //关闭蒲公英用户手势反馈
-        [[PgyManager sharedPgyManager] setEnableFeedback:NO];
-
-        //启动蒲公英SDK
-        [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
+        //企业账号
+        DLog(@"企业版")
 
         // 友盟分享
         [UMSocialData setAppKey:UMENGAppKey];
@@ -171,7 +160,6 @@
 
     ViewController *mainVC = [[ViewController alloc] init];
     self.window.rootViewController = mainVC;
-
     [_window makeKeyAndVisible];
     return YES;
 }
@@ -266,10 +254,10 @@
 }
 
 //禁止横屏
-- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
-{
-    return UIInterfaceOrientationMaskPortrait;
-}
+//- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+//{
+//    return UIInterfaceOrientationMaskPortrait;
+//}
 
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url

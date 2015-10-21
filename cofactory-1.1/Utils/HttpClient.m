@@ -477,7 +477,7 @@
     }
 }
 
-+ (void)updateFactoryProfileWithFactoryName:(NSString *)factoryName factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryLon:(NSNumber *)factoryLon factoryLat:(NSNumber *)factoryLat factoryFree:(id)factoryFree factoryDescription:(NSString *)factoryDescription andBlock:(void (^)(int statusCode))block {
++ (void)updateFactoryProfileWithFactoryAddress:(NSString *)factoryAddress  province:(NSString *)province city:(NSString *)city district:(NSString *)district  factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDescription:(NSString *)factoryDescription andBlock:(void (^)(int statusCode))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
@@ -485,8 +485,14 @@
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
         NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
-        if (factoryName)
-            [mutableDictionary setObject:factoryName forKey:@"factoryName"];
+        if (factoryAddress)
+            [mutableDictionary setObject:factoryAddress forKey:@"factoryAddress"];
+        if (province)
+            [mutableDictionary setObject:province forKey:@"province"];
+        if (city)
+            [mutableDictionary setObject:city forKey:@"city"];
+        if (district)
+            [mutableDictionary setObject:district forKey:@"district"];
         if (factoryDescription)
             [mutableDictionary setObject:factoryDescription forKey:@"factoryDescription"];
         if (factoryAddress)
@@ -497,13 +503,7 @@
             NSArray *factorySize = [[NSArray alloc] initWithObjects:factorySizeMin, factorySizeMax, nil];
             [mutableDictionary setObject:factorySize forKey:@"factorySize"];
         }
-        if (factoryLon)
-            [mutableDictionary setObject:factoryLon forKey:@"factoryLon"];
-        if (factoryLat)
-            [mutableDictionary setObject:factoryLat forKey:@"factoryLat"];
-        if (factoryFree) {
-            [mutableDictionary setObject:factoryFree forKey:@"factoryFree"];
-        }
+       
         [manager POST:API_factoryProfile parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
             block((int)[operation.response statusCode]);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -514,7 +514,7 @@
     }
 }
 
-+ (void)updateFactoryfactoryTag:(NSString *)factoryTag andBlock:(void (^)(int statusCode))block {
++ (void)updateFactoryTag:(NSString *)factoryTag andBlock:(void (^)(int statusCode))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
@@ -533,8 +533,54 @@
     } else {
         block(404);// access_token不存在
     }
+}
+
++ (void)updateFactoryFree:(NSString *)factoryFree andBlock:(void (^)(int statusCode))block {
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
+        
+        if (factoryFree)
+            [mutableDictionary setObject:factoryFree forKey:@"factoryFree"];
+        [manager POST:API_factoryProfile parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block((int)[operation.response statusCode]);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            block((int)[operation.response statusCode]);
+        }];
+    } else {
+        block(404);// access_token不存在
+    }
+
+
+}
+
+
+//是否有货车
++ (void)updateFactoryProfileWithHasTruck:(id)hasTruck andBlock:(void (^)(int statusCode))block {
     
-    
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    if (credential) {
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
+        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
+        NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
+        
+        if (hasTruck) {
+            [mutableDictionary setObject:hasTruck forKey:@"hasTruck"];
+        }
+        [manager POST:API_factoryProfile parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            block((int)[operation.response statusCode]);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            block((int)[operation.response statusCode]);
+        }];
+    } else {
+        block(404);// access_token不存在
+    }
 }
 
 + (void)getIMTokenWithBlock:(void (^)(NSDictionary *))block {
@@ -596,30 +642,6 @@
         }];
     } else {
         block(@{@"statusCode": @404, @"message": @"access_token不存在"});// access_token不存在
-    }
-}
-
-//是否有货车
-+ (void)updateFactoryProfileWithHasTruck:(id)hasTruck andBlock:(void (^)(int statusCode))block {
-    
-    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
-    NSString *serviceProviderIdentifier = [baseUrl host];
-    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
-    if (credential) {
-        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
-        [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
-        NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
-        
-        if (hasTruck) {
-            [mutableDictionary setObject:hasTruck forKey:@"hasTruck"];
-        }
-        [manager POST:API_factoryProfile parameters:mutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            block((int)[operation.response statusCode]);
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            block((int)[operation.response statusCode]);
-        }];
-    } else {
-        block(404);// access_token不存在
     }
 }
 

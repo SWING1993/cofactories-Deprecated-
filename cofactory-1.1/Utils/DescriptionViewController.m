@@ -44,7 +44,7 @@
     }else{
         MBProgressHUD *hud = [Tools createHUD];
         hud.labelText = @"正在修改姓名";
-        [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryLon:nil factoryLat:nil factoryFree:nil factoryDescription:descriptionTV.text andBlock:^(int statusCode) {
+        [HttpClient updateFactoryProfileWithFactoryAddress:nil province:nil city:nil district:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDescription:descriptionTV.text andBlock:^(int statusCode) {
             if (statusCode == 200) {
                 hud.labelText = @"公司简介修改成功";
                 [hud hide:YES];
@@ -53,6 +53,7 @@
                 hud.labelText = @"公司简介修改失败";
                 [hud hide:YES];
             }
+
         }];
     }
 }

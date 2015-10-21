@@ -18,8 +18,6 @@
 #import "ProviderViewController.h"
 #import "IMChatListViewController.h"
 
-#import <PgySDK/PgyManager.h>
-
 //面辅料 供应
 #import "SupplyViewController.h"
 
@@ -189,6 +187,9 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    [self goUpdata];
 
     //获取融云的token
     [HttpClient getIMTokenWithBlock:^(NSDictionary *responseDictionary) {
@@ -216,7 +217,6 @@ static NSString *LastCellIdentifier = @"LastCell";
 
     
     self.view.backgroundColor=[UIColor whiteColor];
-    [self goUpdata];
 
     //工厂类型
     NSNumber * factoryTypeNumber = [[NSNumber alloc]initWithInteger:kFactoryType];
@@ -283,6 +283,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             NSInteger  statusCode = [upDateDictionary[@"statusCode"] integerValue];
             if (statusCode == 200) {
                 double latestVersion = [upDateDictionary[@"latestVersion"] doubleValue];
+                DLog(@"appStore最新版本号：%f",latestVersion);
                 if (latestVersion > [kVersion_Cofactories doubleValue]) {
                     DLog(@"发现新版本")
                     NSString * releaseNotes = upDateDictionary[@"releaseNotes"];
@@ -297,21 +298,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     {
         //企业账号
         //DLog(@"企业账号 开启检测更新")
-        [[PgyManager sharedPgyManager] checkUpdate];
     }
-    
-    //抽奖
-    /*
-    [HttpClient drawAccessWithBlock:^(int statusCode) {
-        DLog(@"%d",statusCode);
-        if (statusCode==200) {
-            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"您已达到抽奖资格，您想要抽奖吗" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            alertView.tag=100;
-            [alertView show];
-        }
-    }];
-     */
-    
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag==100) {

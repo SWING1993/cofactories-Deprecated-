@@ -189,7 +189,6 @@
 		04DFCAAC1B63D53A00356F4B /* PushHelperItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DFCAA71B63D53A00356F4B /* PushHelperItemModel.m */; };
 		04DFCAAD1B63D53A00356F4B /* PushHelperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DFCAAA1B63D53A00356F4B /* PushHelperModel.m */; };
 		04E81EF01B57F75700B7CE7B /* SetaddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E81EEF1B57F75700B7CE7B /* SetaddressViewController.m */; };
-		04E94E121B8EA32200EE911E /* PgySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E94E111B8EA32200EE911E /* PgySDK.framework */; };
 		04E94E141B8EB41600EE911E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E94E131B8EB41600EE911E /* AVFoundation.framework */; };
 		04E94E161B8EB45700EE911E /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E94E151B8EB45700EE911E /* CoreMotion.framework */; };
 		04E94E181B8EB49000EE911E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E94E171B8EB49000EE911E /* AudioToolbox.framework */; };
@@ -339,7 +338,7 @@
 		BD8C4E011B4FB30F0065ECFA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4E001B4FB30F0065ECFA /* UIKit.framework */; };
 		BD8C4E031B4FB31B0065ECFA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8C4E021B4FB31B0065ECFA /* Foundation.framework */; };
 		BDC907BD1B4E9A5700856A32 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC907BC1B4E9A5700856A32 /* main.m */; };
-		BDC907C01B4E9A5700856A32 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = BDC907BF1B4E9A5700856A32 /* AppDelegate.mm */; };
+		BDC907C01B4E9A5700856A32 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC907BF1B4E9A5700856A32 /* AppDelegate.m */; };
 		BDC907CB1B4E9A5700856A32 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDC907C91B4E9A5700856A32 /* LaunchScreen.xib */; };
 		BDC907D71B4E9A5700856A32 /* cofactory_1_1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC907D61B4E9A5700856A32 /* cofactory_1_1Tests.m */; };
 		BDC908D41B4E9B3700856A32 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC907E41B4E9B3700856A32 /* AFHTTPRequestOperation.m */; };
@@ -688,7 +687,6 @@
 		04DFCAAA1B63D53A00356F4B /* PushHelperModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushHelperModel.m; sourceTree = "<group>"; };
 		04E81EEE1B57F75700B7CE7B /* SetaddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetaddressViewController.h; sourceTree = "<group>"; };
 		04E81EEF1B57F75700B7CE7B /* SetaddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetaddressViewController.m; sourceTree = "<group>"; };
-		04E94E111B8EA32200EE911E /* PgySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PgySDK.framework; sourceTree = "<group>"; };
 		04E94E131B8EB41600EE911E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		04E94E151B8EB45700EE911E /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		04E94E171B8EB49000EE911E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -978,7 +976,7 @@
 		BDC907BB1B4E9A5700856A32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BDC907BC1B4E9A5700856A32 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BDC907BE1B4E9A5700856A32 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		BDC907BF1B4E9A5700856A32 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; wrapsLines = 0; };
+		BDC907BF1B4E9A5700856A32 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; wrapsLines = 0; };
 		BDC907CA1B4E9A5700856A32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		BDC907D01B4E9A5700856A32 /* cofactory-1.1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "cofactory-1.1Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDC907D51B4E9A5700856A32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1082,7 +1080,6 @@
 				BD8753931BB5963D00A5F4CC /* libUMSocial_Sdk_4.2.3.a in Frameworks */,
 				0492C5011BC7A76000FAF11A /* RongIMLib.framework in Frameworks */,
 				BD8C4E031B4FB31B0065ECFA /* Foundation.framework in Frameworks */,
-				04E94E121B8EA32200EE911E /* PgySDK.framework in Frameworks */,
 				BD8753691BB5936500A5F4CC /* libSocialSinaSSO.a in Frameworks */,
 				BD8753A51BB5969600A5F4CC /* libMobClickLibrary.a in Frameworks */,
 			);
@@ -2256,16 +2253,16 @@
 				BD4311CC1B4F41DE0097E4BC /* MeViewController.m */,
 				040C9B1D1B8C6E7A00B90BE6 /* HeaderImageView */,
 				0451D65F1B578E37007CCD59 /* Set */,
-				0448E14D1B75DF6D002B78B8 /* SettingTag */,
-				04D7D02C1B5A492D0054861E /* Description */,
-				04D7D0281B5A1B1A0054861E /* Favorite */,
-				04D7D0241B5A12980054861E /* Photo */,
-				04D7D0201B59E7850054861E /* Range */,
-				04F60C6D1B58EF1C00CD3DEC /* Size */,
 				04C28A1A1B58ABAA005014E5 /* Name */,
 				04F60C5F1B58BF7C00CD3DEC /* Job */,
+				04D7D0281B5A1B1A0054861E /* Favorite */,
+				0448E14D1B75DF6D002B78B8 /* SettingTag */,
 				04F60C631B58CB7100CD3DEC /* FactoryName */,
 				04E81EED1B57F71A00B7CE7B /* Address */,
+				04D7D0241B5A12980054861E /* Photo */,
+				04F60C6D1B58EF1C00CD3DEC /* Size */,
+				04D7D0201B59E7850054861E /* Range */,
+				04D7D02C1B5A492D0054861E /* Description */,
 			);
 			name = Me;
 			sourceTree = "<group>";
@@ -2295,7 +2292,7 @@
 				BDC907E01B4E9A8700856A32 /* Header.h */,
 				044B8C6E1B7D9D39008A4854 /* Cofactory_iOS-Prefix.pch */,
 				BDC907BE1B4E9A5700856A32 /* AppDelegate.h */,
-				BDC907BF1B4E9A5700856A32 /* AppDelegate.mm */,
+				BDC907BF1B4E9A5700856A32 /* AppDelegate.m */,
 				BDC907C91B4E9A5700856A32 /* LaunchScreen.xib */,
 				BDC907E11B4E9B3700856A32 /* Utils */,
 				BDC908F31B4E9B6B00856A32 /* Model */,
@@ -2349,7 +2346,6 @@
 				04CDA9F41BB2570A00A015AD /* WSProgressHUD */,
 				04CE49BD1BB2384C004442D2 /* EAIntroView */,
 				64F295501BA2CCC80018ED90 /* DOPDropDownMenu - Enhanced */,
-				04E94E111B8EA32200EE911E /* PgySDK.framework */,
 				64F4C6611B70B31D00F52FF0 /* MJRefresh */,
 				049582F01B6B68EF00A69E6D /* UMeng */,
 				049582BF1B6B490F00A69E6D /* SinaImagePicker */,
@@ -2871,7 +2867,7 @@
 				0366DD291BD0F886002351A5 /* IQNSArray+Sort.m in Sources */,
 				04B7E4321BAFE49D00B83DF0 /* UIColor+expanded.m in Sources */,
 				BDC908DC1B4E9B3700856A32 /* AFURLSessionManager.m in Sources */,
-				BDC907C01B4E9A5700856A32 /* AppDelegate.mm in Sources */,
+				BDC907C01B4E9A5700856A32 /* AppDelegate.m in Sources */,
 				BD8AD7EA1B50E62600373E5E /* SDWebImageDecoder.m in Sources */,
 				04CDAA0E1BB2579600A015AD /* FBShimmeringLayer.m in Sources */,
 				70FBD3B11BC637BF00A20DF8 /* ShopDetailViewViewController.m in Sources */,
@@ -3099,7 +3095,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAsset;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: BingHong Shang (8J2G9KMU7P)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3133,7 +3129,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cofactory.iosapp;
 				PRODUCT_NAME = "cofactory-1.1";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a47f4562-f314-4541-bccd-23e0ff533807";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -3145,7 +3141,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAsset;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: BingHong Shang (8J2G9KMU7P)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3177,7 +3173,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cofactory.iosapp;
 				PRODUCT_NAME = "cofactory-1.1";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a47f4562-f314-4541-bccd-23e0ff533807";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
