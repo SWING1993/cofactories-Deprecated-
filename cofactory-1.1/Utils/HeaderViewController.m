@@ -9,7 +9,6 @@
 #import "Header.h"
 #import "HeaderViewController.h"
 #import <RongIMKit/RongIMKit.h>
-#import "RCIM.h"
 @interface HeaderViewController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate> {
 
     UIImageView*headerView;
