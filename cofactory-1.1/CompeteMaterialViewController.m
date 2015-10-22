@@ -19,8 +19,7 @@
     UIButton *priceButton;
     UIButton *leftButton, *rightButton;
     NSString *stateString, *price;
-    
-    
+    FactoryModel  *_userModel;
 }
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *collectionImage;
@@ -32,6 +31,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [self.navigationController.navigationBar setHidden:NO];
+    [self netWork];
 }
 
 
@@ -39,7 +39,7 @@
     [super viewDidLoad];
     self.navigationItem.title = @"投标";
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"确认投标" style:UIBarButtonItemStyleBordered target:self action:@selector(confirmBid)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"确认投标" style:UIBarButtonItemStylePlain target:self action:@selector(confirmBid)];
     
     //设置Btn
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
@@ -57,6 +57,14 @@
 
 
 
+}
+- (void)netWork {
+    //解析工厂信息
+    NSNumber *uid = (NSNumber *)[[NSUserDefaults standardUserDefaults] valueForKey:@"selfuid"];
+    [HttpClient getUserProfileWithUid:[uid intValue] andBlock:^(NSDictionary *responseDictionary) {
+        _userModel = (FactoryModel *)responseDictionary[@"model"];
+    }];
+    
 }
 
 - (void)buttonClicked{
@@ -350,56 +358,56 @@
             } else {
                 price = @"-1";
             }
-
-            if (price.length == 0) {
-                [Tools showErrorWithStatus:@"请完善价格"];
-                
-            } else if (_commentsTextField.text.length == 0) {
-                [Tools showErrorWithStatus:@"请完善备注"];
+            if (_userModel.factoryServiceRange == nil || _userModel.factoryAddress == nil) {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"个人信息不完整" message:@"请完善信息后再继续发布" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
             } else {
-                [HttpClient registMaterialBidWithOid:self.oid price:price status:stateString comment:_commentsTextField.text completionBlock:^(int statusCode) {
-                    DLog(@"%d", statusCode);
-                    if (statusCode == 200) {
-                        [Tools showSuccessWithStatus:@"投标成功"];
-                        if (![self.collectionImage count]==0) {
-                            [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                                
-                                NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
-                                UIImage*newImage = [[UIImage alloc]initWithData:imageData];
-                                NSString *oidString = [NSString stringWithFormat:@"%ld",(long)self.oid];
-                                [HttpClient uploadMaterialImageWithImage:newImage oid:oidString type:@"bidBuy" andblock:^(NSDictionary *dictionary) {
-                                    if ([dictionary[@"statusCode"] intValue]==200) {
-                                        [Tools showSuccessWithStatus:@"投标成功"];
-                                        double delayInSeconds = 1.0f;
-                                        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-                                        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                                            
-                                            [self dismissViewControllerAnimated:YES completion:nil];
-                                        });
-                                        
-                                        DLog(@"图片上传成功");
-                                    }else{
-                                        
-                                        DLog(@"图片上传失败%@",dictionary);
-                                    }
+                if (price.length == 0) {
+                    [Tools showErrorWithStatus:@"请完善价格"];
+                    
+                } else if (_commentsTextField.text.length == 0) {
+                    [Tools showErrorWithStatus:@"请完善备注"];
+                } else {
+                    [HttpClient registMaterialBidWithOid:self.oid price:price status:stateString comment:_commentsTextField.text completionBlock:^(int statusCode) {
+                        DLog(@"%d", statusCode);
+                        if (statusCode == 200) {
+                            [Tools showSuccessWithStatus:@"投标成功"];
+                            if (![self.collectionImage count]==0) {
+                                [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                                     
+                                    NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
+                                    UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+                                    NSString *oidString = [NSString stringWithFormat:@"%ld",(long)self.oid];
+                                    [HttpClient uploadMaterialImageWithImage:newImage oid:oidString type:@"bidBuy" andblock:^(NSDictionary *dictionary) {
+                                        if ([dictionary[@"statusCode"] intValue]==200) {
+                                            [Tools showSuccessWithStatus:@"投标成功"];
+                                            double delayInSeconds = 1.0f;
+                                            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                                            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                                                
+                                                [self dismissViewControllerAnimated:YES completion:nil];
+                                            });
+                                            
+                                            DLog(@"图片上传成功");
+                                        }else{
+                                            
+                                            DLog(@"图片上传失败%@",dictionary);
+                                        }
+                                        
+                                    }];
                                 }];
-                            }];
+                            }else{
+                                DLog(@"没有图片");
+                                [self dismissViewControllerAnimated:YES completion:nil];
+                            }
+                            
                         }else{
-                            DLog(@"没有图片");
-                            [self dismissViewControllerAnimated:YES completion:nil];
+                            [Tools showErrorWithStatus:@"订单投标失败"];
                         }
                         
-                    }else{
-                        [Tools showErrorWithStatus:@"订单投标失败"];
-                    }
-                    
-                }];
+                    }];
+                }
             }
-            
-            
-            
-
         }
     }
 }

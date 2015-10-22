@@ -16,21 +16,31 @@
     NSMutableArray *_contentArray;
     NSArray *_imageArray;
     UITextField *_commentsTextField;
+    FactoryModel   *_userModel;
+    BOOL infoFlag;
 }
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *collectionImage;
 @property (nonatomic, strong) JKAssets  *asset;
+@property (nonatomic, strong) FactoryRangeModel * factoryRangeModel;
+@property (nonatomic, retain) NSString * factoryTypeString;
 
 @end
 
 @implementation CompeteViewController
+- (void)viewWillAppear:(BOOL)animated {
+    [self netWork];
+    self.factoryRangeModel = [[FactoryRangeModel alloc]init];
+    self.factoryTypeString = self.factoryRangeModel.serviceList[kFactoryType];
+    DLog(@"++++++++++++%@", self.factoryTypeString);
+}
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     self.navigationItem.title = @"订单投标";
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"确认投标" style:UIBarButtonItemStyleBordered target:self action:@selector(confirmBid)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"确认投标" style:UIBarButtonItemStylePlain target:self action:@selector(confirmBid)];
     
     _imageArray = @[@"公司名称",@"公司类型",@"公司规模"];
     _collectionImage = [@[] mutableCopy];
@@ -58,6 +68,14 @@
         label.font = [UIFont systemFontOfSize:14.0f];
         [self.view addSubview:label];
     }
+}
+- (void)netWork {
+    //解析工厂信息
+    NSNumber *uid = (NSNumber *)[[NSUserDefaults standardUserDefaults] valueForKey:@"selfuid"];
+    [HttpClient getUserProfileWithUid:[uid intValue] andBlock:^(NSDictionary *responseDictionary) {
+        _userModel = (FactoryModel *)responseDictionary[@"model"];
+    }];
+    
 }
 
 - (void)creatCommentsTextField{
@@ -241,43 +259,66 @@
     
 }
 
+- (void)factoryInfo {
+    if ([self.factoryTypeString isEqualToString:@"服装厂"] || [self.factoryTypeString isEqualToString:@"加工厂"]) {
+        if (_userModel.factorySize != nil || _userModel.factoryServiceRange != nil || _userModel.factoryAddress != nil) {
+            infoFlag = YES;
+        }
+    }
+    if ([self.factoryTypeString isEqualToString:@"代裁厂"]) {
+        if (_userModel.factorySize != nil || _userModel.factoryAddress != nil) {
+            infoFlag = YES;
+        }
+    }
+    if ([self.factoryTypeString isEqualToString:@"锁眼钉扣厂"]) {
+        if  (_userModel.factoryAddress != nil) {
+            infoFlag = YES;
+        }
+    }
+}
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if (alertView.tag == 10 ) {
         
         if (buttonIndex == 1) {
-            [HttpClient registBidWithOid:self.oid commit:_commentsTextField.text completionBlock:^(int statusCode) {
-                DLog(@"statusCode==%d",statusCode);
-                if (statusCode == 200 ) {
-                    [Tools showSuccessWithStatus:@"订单投标成功"];
-                    if (![self.collectionImage count]==0) {
-                        [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                            
-                            NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
-                            UIImage*newImage = [[UIImage alloc]initWithData:imageData];
-                            NSString *oidString = [NSString stringWithFormat:@"%d",self.oid];
-                            [HttpClient uploadOrderImageWithImage:newImage oid:oidString type:@"bid" andblock:^(NSDictionary *dictionary) {
-                                if ([dictionary[@"statusCode"] intValue]==200) {
-                                    DLog(@"图片上传成功");
-                                    NSArray *navArray = self.navigationController.viewControllers;
-                                    [self.navigationController popToViewController:navArray[1] animated:YES];
-                                }
-                                else{
-                                    DLog(@"图片上传失败%@",dictionary);
-                                }
+            [self factoryInfo];
+            if (infoFlag) {
+                [HttpClient registBidWithOid:self.oid commit:_commentsTextField.text completionBlock:^(int statusCode) {
+                    DLog(@"statusCode==%d",statusCode);
+                    if (statusCode == 200 ) {
+                        [Tools showSuccessWithStatus:@"订单投标成功"];
+                        if (![self.collectionImage count]==0) {
+                            [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                                
+                                NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
+                                UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+                                NSString *oidString = [NSString stringWithFormat:@"%d",self.oid];
+                                [HttpClient uploadOrderImageWithImage:newImage oid:oidString type:@"bid" andblock:^(NSDictionary *dictionary) {
+                                    if ([dictionary[@"statusCode"] intValue]==200) {
+                                        DLog(@"图片上传成功");
+                                        NSArray *navArray = self.navigationController.viewControllers;
+                                        [self.navigationController popToViewController:navArray[1] animated:YES];
+                                    }
+                                    else{
+                                        DLog(@"图片上传失败%@",dictionary);
+                                    }
+                                }];
+                                
                             }];
-                            
-                        }];
+                        }else{
+                            DLog(@"没有图片");
+                            NSArray *navArray = self.navigationController.viewControllers;
+                            [self.navigationController popToViewController:navArray[1] animated:YES];
+                        }
+                        
                     }else{
-                        DLog(@"没有图片");
-                        NSArray *navArray = self.navigationController.viewControllers;
-                        [self.navigationController popToViewController:navArray[1] animated:YES];
+                        [Tools showErrorWithStatus:@"订单投标失败"];
                     }
-                    
-                }else{
-                    [Tools showErrorWithStatus:@"订单投标失败"];
-                }
-            }];
+                }];
+            } else {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"个人信息不完整" message:@"请完善信息后再继续发布" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            }
         }
     }
 }

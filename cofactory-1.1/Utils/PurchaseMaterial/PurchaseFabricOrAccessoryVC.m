@@ -23,19 +23,29 @@
     NSMutableArray *_imageViewArray;
     UIButton       *_addButton;
     CGRect          _unitRect;
+    FactoryModel   *_userModel;
 }
 @property (strong,nonatomic) UIImageView *selectedImage;
 @property (nonatomic, strong) JKAssets  *asset;
+@property (nonatomic, strong) FactoryRangeModel * factoryRangeModel;
+@property (nonatomic, retain) NSString * factoryTypeString;
 
 @end
 
 @implementation PurchaseFabricOrAccessoryVC
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self netWork];
+    self.factoryRangeModel = [[FactoryRangeModel alloc]init];
+    self.factoryTypeString = self.factoryRangeModel.serviceList[kFactoryType];
+    DLog(@"++++++++++++%@", self.factoryTypeString);
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
     
-    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"发布采购" style:UIBarButtonItemStyleBordered target:self action:@selector(publishButton)];
+    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"发布采购" style:UIBarButtonItemStylePlain target:self action:@selector(donePublish)];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
     
     if ([self.materiaType isEqualToString:@"面料"]) {
@@ -93,6 +103,14 @@
                 break;
         }
     }
+}
+- (void)netWork {
+    //解析工厂信息
+    NSNumber *uid = (NSNumber *)[[NSUserDefaults standardUserDefaults] valueForKey:@"selfuid"];
+    [HttpClient getUserProfileWithUid:[uid intValue] andBlock:^(NSDictionary *responseDictionary) {
+        _userModel = (FactoryModel *)responseDictionary[@"model"];
+    }];
+    
 }
 
 - (void)singleSelect{
@@ -268,6 +286,35 @@
     
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确定返回?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alert show];
+}
+
+- (void)donePublish {
+    if ([self.factoryTypeString isEqualToString:@"服装厂"] || [self.factoryTypeString isEqualToString:@"加工厂"]) {
+        if (_userModel.factorySize == nil || _userModel.factoryServiceRange == nil || _userModel.factoryAddress == nil) {
+            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"个人信息不完整" message:@"请完善信息后再继续发布" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alertView show];
+        } else {
+            [self publishButton];
+        }
+    }
+    if ([self.factoryTypeString isEqualToString:@"代裁厂"]) {
+        if (_userModel.factorySize == nil || _userModel.factoryAddress == nil) {
+            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"个人信息不完整" message:@"请完善信息后再继续发布" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alertView show];
+        } else {
+            [self publishButton];
+        }
+    }
+    if ([self.factoryTypeString isEqualToString:@"锁眼钉扣厂"]) {
+        if  (_userModel.factoryAddress == nil) {
+            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"个人信息不完整" message:@"请完善信息后再继续发布" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alertView show];
+        } else {
+            [self publishButton];
+        }
+    }
+
+
 }
 
 - (void)publishButton{

@@ -11,5 +11,5 @@
 @interface CooperationInfoViewController : UITableViewController
 
 @property (nonatomic,retain) FactoryModel *factoryModel;
-
+@property (nonatomic,assign) BOOL IMFlag;
 @end
