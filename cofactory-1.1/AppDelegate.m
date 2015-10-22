@@ -60,6 +60,8 @@
 
     //关闭友盟bug检测
     [MobClick setCrashReportEnabled:NO];
+    //开启腾讯Bugly
+    [[CrashReporter sharedInstance] installWithAppId:@"900009962"];
 
     if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
         //个人开发者
@@ -69,15 +71,12 @@
         // 友盟用户反馈
         [UMFeedback setAppkey:appStoreUMENGAppKey];
         // 注册友盟统计 SDK
-        [MobClick startWithAppkey:appStoreUMENGAppKey reportPolicy:REALTIME channelId:nil];// 启动时发送 Log AppStore分发渠道
+        [MobClick startWithAppkey:appStoreUMENGAppKey reportPolicy:SEND_INTERVAL channelId:@"开发环境"];// 启动时发送 Log AppStore分发渠道
         [MobClick setAppVersion:kVersion_Cofactories];
         
         // 注册友盟推送服务 SDK
         //set AppKey and LaunchOptions
         [UMessage startWithAppkey:appStoreUMENGAppKey launchOptions:launchOptions];
-
-        //开启腾讯Bugly
-        [[CrashReporter sharedInstance] installWithAppId:@"900009962"];
         
     }else
     {
@@ -99,8 +98,6 @@
         //set AppKey and LaunchOptions
         [UMessage startWithAppkey:UMENGAppKey launchOptions:launchOptions];
 
-        //开启腾讯Bugly
-        [[CrashReporter sharedInstance] installWithAppId:@"900009962"];
     }
     //设置微信AppId、appSecret，分享url
     [UMSocialWechatHandler setWXAppId:@"wxdf66977ff3f413e2" appSecret:@"a6e3fe6788a9a523cb6657e0ef7ae9f4" url:@"http://www.umeng.com/social"];
@@ -111,7 +108,7 @@
     //[UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
     //没有安装，把其隐藏
     [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ,UMShareToQzone,UMShareToWechatSession,UMShareToWechatTimeline]];
-//    [UMessage setAutoAlert:NO];
+    
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
     if(UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
     {
@@ -151,7 +148,7 @@
 
 #endif
     //for log
-    [UMessage setLogEnabled:YES];
+    [UMessage setLogEnabled:NO];
 
 
     //设置导航条样式
@@ -204,21 +201,6 @@
 {
     [UMessage didReceiveRemoteNotification:userInfo];
 //    DLog(@"%@",userInfo);
-    [UMessage setAutoAlert:NO];
-
-//    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
-//    {
-//        NSDictionary*aps = userInfo[@"aps"];
-//        NSString*message = aps[@"alert"];
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"通知消息"
-//                                                            message:message
-//                                                           delegate:self
-//                                                  cancelButtonTitle:@"确定"
-//                                                  otherButtonTitles:nil];
-//
-//        [alertView show];
-//    }
-
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

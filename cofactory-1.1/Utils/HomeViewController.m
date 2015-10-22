@@ -74,7 +74,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             self.factoryFreeStatus=userModel.factoryFreeStatus;
             self.hasTruck=userModel.hasTruck;
             self.factoryFreeTime=userModel.factoryFreeTime;
-            //        self.factoryType =userModel.factoryType;
+            //self.factoryType =userModel.factoryType;
             
             DLog(@"刷新工厂=%@  自备货车%d  空闲时间%@",userModel.factoryFreeStatus,self.hasTruck,self.factoryFreeTime);
             
@@ -130,6 +130,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     switch (button.tag) {
         case 0:
         {
+            [MobClick event:@"news"];
             PopularMesageViewController *vc = [[PopularMesageViewController alloc]init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
@@ -139,6 +140,8 @@ static NSString *LastCellIdentifier = @"LastCell";
         case 1:
         {
             if (self.factoryType == 5) {
+                [MobClick event:@"materials_2"];
+                
                 ProviderViewController*supplyVC = [[ProviderViewController alloc]init];
                 supplyVC.hidesBottomBarWhenPushed = YES;
                 UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
@@ -146,6 +149,8 @@ static NSString *LastCellIdentifier = @"LastCell";
                 self.navigationItem.backBarButtonItem = backItem;
                 [self.navigationController pushViewController:supplyVC animated:YES];
             }else{
+                [MobClick event:@"materials_buys"];
+
                 PurchaseVC *VC =[PurchaseVC new];
                 VC.hidesBottomBarWhenPushed = YES;
                 UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
@@ -161,12 +166,16 @@ static NSString *LastCellIdentifier = @"LastCell";
         case 2:
         {
             if (self.factoryType == 1) {
+                [MobClick event:@"order"];
+
                 PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
                 pushOrderVC.factoryType = self.factoryType;
                 pushOrderVC.hidesBottomBarWhenPushed=YES;
                 [self.navigationController pushViewController:pushOrderVC animated:YES];
                 
             }else{
+                [MobClick event:@"jgc_out_order"];
+
                 SearchFactoryOrderVC *vc = [[SearchFactoryOrderVC alloc]init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:vc animated:YES];
@@ -283,7 +292,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             NSInteger  statusCode = [upDateDictionary[@"statusCode"] integerValue];
             if (statusCode == 200) {
                 double latestVersion = [upDateDictionary[@"latestVersion"] doubleValue];
-                DLog(@"appStore最新版本号：%f",latestVersion);
+                DLog(@"appStore最新版本号：%@",upDateDictionary[@"latestVersion"]);
                 if (latestVersion > [kVersion_Cofactories doubleValue]) {
                     DLog(@"发现新版本")
                     NSString * releaseNotes = upDateDictionary[@"releaseNotes"];
