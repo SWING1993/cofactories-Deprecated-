@@ -265,6 +265,7 @@
 - (UIButton *)skipButton {
     if (!_skipButton) {
         _skipButton = [[UIButton alloc] init];
+        [_skipButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_skipButton setTitle:NSLocalizedString(@"跳过", nil) forState:UIControlStateNormal];
         [self applyDefaultsToSkipButton];
     }

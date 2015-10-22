@@ -69,9 +69,9 @@
         // 友盟用户反馈
         [UMFeedback setAppkey:appStoreUMENGAppKey];
         // 注册友盟统计 SDK
-        [MobClick startWithAppkey:appStoreUMENGAppKey reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
+        [MobClick startWithAppkey:appStoreUMENGAppKey reportPolicy:REALTIME channelId:nil];// 启动时发送 Log AppStore分发渠道
         [MobClick setAppVersion:kVersion_Cofactories];
-
+        
         // 注册友盟推送服务 SDK
         //set AppKey and LaunchOptions
         [UMessage startWithAppkey:appStoreUMENGAppKey launchOptions:launchOptions];
