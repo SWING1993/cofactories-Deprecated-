@@ -108,7 +108,7 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
     if ([kBaseUrl isEqualToString:@"http://192.168.100.2:3001"]) {
         VC1.title = @"聚工厂（内网）";
     }
-    if ([kBaseUrl isEqualToString:@"http://test.cofactories.com"]) {
+    else if ([kBaseUrl isEqualToString:@"http://test.cofactories.com"]) {
         VC1.title = @"聚工厂（测试）";
     }else{
         VC1.title = @"聚工厂";
@@ -177,14 +177,6 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
     page5.desc = sampleDescription4;
     page5.bgImage = [UIImage imageNamed:@"05"];
     //    page4.titleIconView = [[UIImageView bgalloc] initWithImage:[UIImage imageNamed:@"title4"]];
-
-
-//    EAIntroPage *page6 = [EAIntroPage page];
-//    page6.title = @"This is page 6";
-//    page6.desc = sampleDescription4;
-//    page6.bgImage = [UIImage imageNamed:@"06"];
-    //    page4.titleIconView = [[UIImageView bgalloc] initWithImage:[UIImage imageNamed:@"title4"]];
-
 
     EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1,page2,page3,page4,page5]];
     [intro setDelegate:self];

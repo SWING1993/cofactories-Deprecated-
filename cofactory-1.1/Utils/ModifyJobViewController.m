@@ -35,6 +35,7 @@
     self.tableView.showsVerticalScrollIndicator=NO;
 
     jobTF=[[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 44)];
+    jobTF.font = kFont;
     jobTF.text=self.placeholder;
     jobTF.clearButtonMode=YES;
     jobTF.placeholder=@"输入职位";

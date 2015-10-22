@@ -18,8 +18,6 @@
 #import "ProviderViewController.h"
 #import "IMChatListViewController.h"
 
-#import <PgySDK/PgyManager.h>
-
 //面辅料 供应
 #import "SupplyViewController.h"
 
@@ -76,7 +74,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             self.factoryFreeStatus=userModel.factoryFreeStatus;
             self.hasTruck=userModel.hasTruck;
             self.factoryFreeTime=userModel.factoryFreeTime;
-            //        self.factoryType =userModel.factoryType;
+            //self.factoryType =userModel.factoryType;
             
             DLog(@"刷新工厂=%@  自备货车%d  空闲时间%@",userModel.factoryFreeStatus,self.hasTruck,self.factoryFreeTime);
             
@@ -86,8 +84,8 @@ static NSString *LastCellIdentifier = @"LastCell";
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryAddress forKey:@"factoryAddress"];
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
-            //[[NSUserDefaults standardUserDefaults] setInteger:self.factoryType forKey:@"factoryType"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+            [[NSUserDefaults standardUserDefaults] setObject:userModel.phone forKey:@"factoryPhone"];
+            [[NSUserDefaults standardUserDefaults] setObject:userModel.name forKey:@"userName"];            [[NSUserDefaults standardUserDefaults] synchronize];
             [self.tableView reloadData];
         }
         
@@ -132,6 +130,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     switch (button.tag) {
         case 0:
         {
+            [MobClick event:@"news"];
             PopularMesageViewController *vc = [[PopularMesageViewController alloc]init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
@@ -141,6 +140,8 @@ static NSString *LastCellIdentifier = @"LastCell";
         case 1:
         {
             if (self.factoryType == 5) {
+                [MobClick event:@"materials_2"];
+                
                 ProviderViewController*supplyVC = [[ProviderViewController alloc]init];
                 supplyVC.hidesBottomBarWhenPushed = YES;
                 UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
@@ -148,6 +149,8 @@ static NSString *LastCellIdentifier = @"LastCell";
                 self.navigationItem.backBarButtonItem = backItem;
                 [self.navigationController pushViewController:supplyVC animated:YES];
             }else{
+                [MobClick event:@"materials_buys"];
+
                 PurchaseVC *VC =[PurchaseVC new];
                 VC.hidesBottomBarWhenPushed = YES;
                 UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
@@ -163,12 +166,16 @@ static NSString *LastCellIdentifier = @"LastCell";
         case 2:
         {
             if (self.factoryType == 1) {
+                [MobClick event:@"order"];
+
                 PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
                 pushOrderVC.factoryType = self.factoryType;
                 pushOrderVC.hidesBottomBarWhenPushed=YES;
                 [self.navigationController pushViewController:pushOrderVC animated:YES];
                 
             }else{
+                [MobClick event:@"jgc_out_order"];
+
                 SearchFactoryOrderVC *vc = [[SearchFactoryOrderVC alloc]init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:vc animated:YES];
@@ -193,6 +200,8 @@ static NSString *LastCellIdentifier = @"LastCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self goUpdata];
+
     //获取融云的token
     [HttpClient getIMTokenWithBlock:^(NSDictionary *responseDictionary) {
         NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
@@ -217,7 +226,6 @@ static NSString *LastCellIdentifier = @"LastCell";
 
     
     self.view.backgroundColor=[UIColor whiteColor];
-    [self goUpdata];
 
     //工厂类型
     NSNumber * factoryTypeNumber = [[NSNumber alloc]initWithInteger:kFactoryType];
@@ -284,6 +292,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             NSInteger  statusCode = [upDateDictionary[@"statusCode"] integerValue];
             if (statusCode == 200) {
                 double latestVersion = [upDateDictionary[@"latestVersion"] doubleValue];
+                DLog(@"appStore最新版本号：%@",upDateDictionary[@"latestVersion"]);
                 if (latestVersion > [kVersion_Cofactories doubleValue]) {
                     DLog(@"发现新版本")
                     NSString * releaseNotes = upDateDictionary[@"releaseNotes"];
@@ -298,21 +307,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     {
         //企业账号
         //DLog(@"企业账号 开启检测更新")
-        [[PgyManager sharedPgyManager] checkUpdate];
     }
-    
-    //抽奖
-    /*
-    [HttpClient drawAccessWithBlock:^(int statusCode) {
-        DLog(@"%d",statusCode);
-        if (statusCode==200) {
-            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"您已达到抽奖资格，您想要抽奖吗" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            alertView.tag=100;
-            [alertView show];
-        }
-    }];
-     */
-    
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag==100) {
@@ -340,6 +335,9 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 #pragma mark - 流行资讯
 - (void)pushClicked:(id)sender {
+    
+    [MobClick event:@"news"];
+    
     PopularMesageViewController *vc = [[PopularMesageViewController alloc]init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
@@ -347,15 +345,19 @@ static NSString *LastCellIdentifier = @"LastCell";
 }
 #pragma mark - 找合作商
 - (void)findClicked:(id)sender {
+   
+    [MobClick event:@"find"];
     FactoryListViewController *factoryListVC= [[FactoryListViewController alloc]init];
+    factoryListVC.selectedFactoryIndex = 0;
     factoryListVC.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-    //    factoryListVC.factoryType = 10;
     [self.navigationController pushViewController:factoryListVC animated:YES];
 }
 
 #pragma mark - 面辅料供应
 - (void)pushSupply:(id)sender {
     
+    [MobClick event:@"materials_1"];
+
     ProviderViewController*supplyVC = [[ProviderViewController alloc]init];
     supplyVC.hidesBottomBarWhenPushed = YES;
     UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
@@ -367,6 +369,7 @@ static NSString *LastCellIdentifier = @"LastCell";
 #pragma mark - 发布订单
 - (void)postClicked:(id)sender {
     
+    [MobClick event:@"order"];
     PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
     pushOrderVC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:pushOrderVC animated:YES];
@@ -374,6 +377,9 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 #pragma mark - 设置状态
 - (void)authClicked:(id)sender {
+    
+    [MobClick event:@"config"];
+
     if (self.factoryType==1) {
         StatusViewController*statusVC = [[StatusViewController alloc]init];
         statusVC.factoryFreeTime=self.factoryFreeTime;
@@ -392,6 +398,9 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 #pragma mark - 认证服务
 - (void)statusClicked:(id)sender {
+    
+    [MobClick event:@"config"];
+
     UIButton*button = (UIButton *)sender;
     [button setUserInteractionEnabled:NO];
     
@@ -432,30 +441,31 @@ static NSString *LastCellIdentifier = @"LastCell";
     switch (button.tag) {
         case 1000:
         {
+            [MobClick event:@"fzc"];
             // 找服装厂信息
             FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-            searchViewController.factoryType = 100;
-            searchViewController.currentData1Index = 1;
+            searchViewController.selectedFactoryIndex = 100;
             searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
             [self.navigationController pushViewController:searchViewController animated:YES];
         }
             break;
         case 1001:
         {
+            [MobClick event:@"sydk"];
             // 找锁眼钉扣厂信息
             FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-            searchViewController.factoryType = 3;
-            searchViewController.currentData1Index = 3;
+            searchViewController.selectedFactoryIndex = 3;
             searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
             [self.navigationController pushViewController:searchViewController animated:YES];
         }
             break;
         case 1002:
         {
+            [MobClick event:@"jgc"];
             // 找加工厂信息
             FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-            searchViewController.factoryType = 1;
-            searchViewController.currentData1Index = 2;
+            searchViewController.selectedFactoryIndex = 1;
+
             searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
             [self.navigationController pushViewController:searchViewController animated:YES];
         }
@@ -463,12 +473,10 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1003:
         {
+            [MobClick event:@"dcc"];
             // 找代裁厂信息
-            
             FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-            
-            searchViewController.factoryType = 2;
-            searchViewController.currentData1Index = 4;
+            searchViewController.selectedFactoryIndex = 2;
             searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
             [self.navigationController pushViewController:searchViewController animated:YES];
         }
@@ -476,6 +484,8 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1004:
         {
+            [MobClick event:@"fzc_order"];
+
             // 找服装厂外发加工订单
             searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc]init];
             orderDetailViewController.orderListType = 1;
@@ -488,6 +498,8 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1005:
         {
+            [MobClick event:@"dcc_order"];
+
             // 找服装厂外发代裁订单
             
             searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc] init];
@@ -501,6 +513,8 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1006:
         {
+            [MobClick event:@"sydk_order"];
+
             //找服装厂外发锁眼钉扣订单
             
             searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc] init];
@@ -514,6 +528,8 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1007:
         {
+
+            [MobClick event:@"materials_2"];
 
             //我想供应
             if (self.factoryType == 5) {
@@ -534,7 +550,8 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1008:
         {
-            
+            [MobClick event:@"materials_buys"];
+
             if (self.factoryType == 5) {
                 [Tools showShimmeringString:@"采购商专区，供应商请发布供应！"];
             }else{
@@ -553,6 +570,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1009:
         {
+            [MobClick event:@"jgc_out_order"];
             //加工厂订单外发
             if (self.factoryType == 1) {
                 //加工厂订单外发
@@ -570,6 +588,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1010:
         {
+            [MobClick event:@"find_jgc_other"];
             //寻找加工厂订单
             SearchFactoryOrderVC *vc = [[SearchFactoryOrderVC alloc]init];
             vc.hidesBottomBarWhenPushed = YES;// 隐藏底部栏

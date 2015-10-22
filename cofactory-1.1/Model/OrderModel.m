@@ -33,7 +33,11 @@
         _status = [dictionary[@"status"] intValue];
         _facName = dictionary[@"factoryName"];
         _photoArray = dictionary[@"photo"];
-        _comment = dictionary[@"comment"];
+        if (dictionary[@"comment"] == nil || [dictionary[@"comment"] isEqualToString:@"(null)"]) {
+            _comment = @"商家未填写备注信息";
+        }else{
+            _comment = dictionary[@"comment"];
+        }
         if (_status == 1) {
             _bidWinner = [dictionary[@"bidWinner"] intValue];
         }else{

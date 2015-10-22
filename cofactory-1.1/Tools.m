@@ -41,7 +41,7 @@
         [mutableArray addObject:sizeMax];
 
     }
-    if ([sizeString rangeOfString:@"人"].location !=NSNotFound) {
+    else if ([sizeString rangeOfString:@"人"].location !=NSNotFound) {
 
         NSArray*sizeArray=[sizeString componentsSeparatedByString:@"-"];
 
@@ -54,12 +54,13 @@
 
         //最大值
         NSString*lastSizeString = [sizeArray lastObject];
-        NSArray*lastArray=[lastSizeString componentsSeparatedByString:@"万件"];
+        NSArray*lastArray=[lastSizeString componentsSeparatedByString:@"人"];
         NSString*max=[lastArray firstObject];
         NSNumber* sizeMax= [[NSNumber alloc]initWithInteger:[max integerValue]];
         [mutableArray addObject:sizeMax];
     }
 
+    DLog(@"SizeArray == %@",mutableArray);
     return mutableArray;
 }
 

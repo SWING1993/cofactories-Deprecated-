@@ -11,13 +11,16 @@
  融云
  admin@cofactories.com
  rongcofactories
+ 
+ UMENG
+ cofactories@bangbang93.com
+ umengcofactories
   */
 
 
 #pragma mark - 服务器
 //内网服务器
 //#define kBaseUrl @"http://192.168.100.2:3001"
-
 
 //测试服务器
 #define kBaseUrl @"http://test.cofactories.com"
@@ -33,20 +36,16 @@
 #pragma mark - 第三方key
 //企业版
 #define UMENGAppKey @"55e03514e0f55a390f003db7"
-#define mapApi @"pnnhXGR5g1cLReulX6fOQxMQ"
+//#define mapApi @"pnnhXGR5g1cLReulX6fOQxMQ"
 
 //个人开发者版
 #define appStoreUMENGAppKey @"5566b5e767e58e0c4700aab0"
-#define appStoreMapApi @"ijDoxrS8H8lrgD9GDbLQpjNR"
+//#define appStoreMapApi @"ijDoxrS8H8lrgD9GDbLQpjNR"
 
 //appStore地址
 #define kAppUrl  @"http://itunes.apple.com/app/id1015359842"
 //appStore评分地址
 #define kAppReviewURL   @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1015359842"
-
-//蒲公英
-#define PGY_APPKEY @"5a53ca291f9b941c3c009f04fe23d2cc"
-
 
 #pragma mark - 系统版本  屏幕尺寸
 //版本号
@@ -111,10 +110,9 @@
  */
 #import "HttpClient.h"
 #import "Tools.h"
-//#import "MobClick.h"
+#import "MobClick.h"
 #import "UIButton+WebCache.h"//SDWebImage
 #import "UIImageView+WebCache.h"//SDWebImage
-#import "JSDropDownMenu.h"//筛选
 #import "ODRefreshControl.h"//下拉刷新
 #import "IQKeyboardManager.h"//不遮挡输入框
 #import "MJPhotoBrowser.h"//MJ图片浏览

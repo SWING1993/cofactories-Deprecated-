@@ -123,7 +123,7 @@
     switch (switchBtn.tag) {
         case 0:{
             if (switchBtn.on==YES) {
-                [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryLon:nil factoryLat:nil factoryFree:@"忙碌" factoryDescription:nil andBlock:^(int statusCode) {
+                [HttpClient updateFactoryFree:@"忙碌" andBlock:^(int statusCode) {
                     if (statusCode==200) {
                         UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"公司状态为忙绿" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                         [alertView show];
@@ -135,7 +135,7 @@
                 }];
             }
             if (switchBtn.on==NO) {
-                [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryLon:nil factoryLat:nil factoryFree:@"空闲" factoryDescription:nil andBlock:^(int statusCode) {
+                [HttpClient updateFactoryFree:@"空闲" andBlock:^(int statusCode) {
                     if (statusCode==200) {
                         UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"公司状态为空闲" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                         [alertView show];
@@ -144,6 +144,7 @@
                         [alertView show];
                         switchBtn.on=!switchBtn.on;
                     }
+
                 }];
             }
         }
@@ -200,7 +201,7 @@
             DLog(@"3节日  %@",model.holiday);
 
             self.timeLabel.text=[NSString stringWithFormat:@"%@",[model toString]];
-            [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryLon:nil factoryLat:nil factoryFree:[model toString] factoryDescription:nil andBlock:^(int statusCode) {
+            [HttpClient updateFactoryFree:[model toString] andBlock:^(int statusCode) {
                 if (statusCode==200) {
                     UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:[NSString stringWithFormat:@"空闲时间到%@",[model toString]] message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                     [alertView show];

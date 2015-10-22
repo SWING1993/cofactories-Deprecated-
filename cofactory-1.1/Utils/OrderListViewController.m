@@ -13,7 +13,8 @@
 @interface OrderListViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
     UITableView *_tableView;
-    NSInteger _deleteOrderIndex;
+    NSInteger    _deleteOrderIndex;
+    NSArray     *_competeFactoryArray;
 }
 @property (nonatomic, strong)NSArray *orderModerArr;
 @end
@@ -47,6 +48,7 @@
         self.title=@"加工厂订单";
         self.orderModerArr = nil;
     }
+    
 }
 
 - (void)viewDidLoad {
@@ -111,14 +113,20 @@
     NSLog(@">>%@",[NSString stringWithFormat:@"%@/order/%d.png",PhotoAPI,model.oid]);
     cell.amountLabel.text = [NSString stringWithFormat:@"订单数量 :  %d%@",model.amount,@"件"];
     
-    if (model.interest == 0) {
-        cell.labels.hidden = YES;
-        cell.interestCountLabel.hidden = YES;
-    }if (model.interest > 0) {
-        cell.labels.hidden = NO;
-        cell.interestCountLabel.hidden = NO;
-        cell.interestCountLabel.text = [NSString stringWithFormat:@"%d",model.interest];
-    }
+    [HttpClient getBidOrderWithOid:model.oid andBlock:^(NSDictionary *responseDictionary) {
+        _competeFactoryArray = responseDictionary[@"responseArray"];
+        if (_competeFactoryArray.count == 0) {
+            cell.labels.hidden = YES;
+            cell.interestCountLabel.hidden = YES;
+        }else {
+            cell.labels.hidden = NO;
+            cell.interestCountLabel.hidden = NO;
+            cell.interestCountLabel.text = [NSString stringWithFormat:@"%zi",_competeFactoryArray.count];
+        }
+    }];
+
+    NSLog(@">>++%d",model.interest);
+
 
     if (self.myOrderEnum == HistoryOrder) {
         cell.statusImage.hidden = NO;

@@ -32,6 +32,7 @@
     self.tableView.showsVerticalScrollIndicator=NO;
 
     nameTF=[[UITextField alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 44)];
+    nameTF.font = kFont;
     nameTF.text=self.placeholder;
     nameTF.clearButtonMode=YES;
     nameTF.placeholder=@"输入姓名";

@@ -53,17 +53,13 @@
     int x = arc4random() % 6;
     NSString * imageStr = [NSString stringWithFormat:@"headerView%d",x];
     imageBG.image=[UIImage imageNamed:imageStr];
-    NSString *homePath = NSHomeDirectory();
-
-    DLog(@"Home目录：%@",homePath);
-
-    DLog(@"缓存%lu",(unsigned long)[[SDImageCache sharedImageCache] getSize]);
 
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
         DLog(@"状态码 == %ld",(long)statusCode);
         if (statusCode == 200) {
             self.userModel=responseDictionary[@"model"];
+            DLog(@"userModel == %@",self.userModel);
             //更新公司名称label.text
             factoryNameLabel.text=self.userModel.factoryName;
             //更新信息完整度
@@ -125,7 +121,6 @@
     headerButton.layer.masksToBounds=YES;
     [headerButton addTarget:self action:@selector(uploadBtn) forControlEvents:UIControlEventTouchUpInside];
 
-
     factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 180-60, kScreenW, 20)];
     factoryNameLabel.font=[UIFont systemFontOfSize:16];
     factoryNameLabel.textAlignment = NSTextAlignmentCenter;
@@ -142,7 +137,6 @@
     [BGView addSubview:infoLabel];
 
     self.tableView.tableHeaderView = BGView;
-
 }
 - (void)getArrayData {
     
@@ -160,7 +154,7 @@
     }
     if (kFactoryType == CuttingFactory) {
         DLog(@"---代裁厂");
-        self.allTags = @[@"排版好",@"工期快",@"设备齐全",@"节省布料"];
+        self.allTags = @[@"排版好",@"工期快",@"设备全",@"省布料"];
         self.sizeArray=self.factoryRangeModel.cuttingSize;
     }
     if (kFactoryType ==LockButtonFactory) {
@@ -288,6 +282,7 @@
             case 0:{
                 cellLabel.text=@"公司名称";
                 cell.detailTextLabel.text=self.userModel.factoryName;
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
 
             }
                 break;
@@ -426,10 +421,12 @@
         case 1:{
             switch (indexPath.row) {
                 case 0:{
+                    /*
                     ModifyFactoryNameViewController*modifyFactoryNameVC = [[ModifyFactoryNameViewController alloc]init];
                     modifyFactoryNameVC.placeholder=self.userModel.factoryName;
                     modifyFactoryNameVC.hidesBottomBarWhenPushed=YES;
                     [self.navigationController pushViewController:modifyFactoryNameVC animated:YES];
+                     */
                 }
                     break;
                 case 1:{

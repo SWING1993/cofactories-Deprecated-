@@ -15,8 +15,9 @@
 #define DISTRICT_COMPONENT  2
 
 @interface SetaddressViewController () <UIPickerViewDataSource,UIPickerViewDelegate> {
-    UITextField*addressTF;
     UITextField*addressTF1;
+    UITextField*addressTF2;
+
 }
 
 
@@ -81,13 +82,14 @@
     label1.backgroundColor = [UIColor whiteColor];
     label1.text = @"公司位置:";
     label1.textAlignment = NSTextAlignmentCenter;
-    label1.font = [UIFont systemFontOfSize:16.0f];
+    label1.font = kFont;
     [self.view addSubview:label1];
 
     addressTF1=[[UITextField alloc]initWithFrame:CGRectMake(80, 10, kScreenW-75, 35)];
     addressTF1.backgroundColor = [UIColor whiteColor];
+    addressTF1.font = kFont;
     addressTF1.inputView = [self fecthAddressPicker];
-    addressTF1.inputAccessoryView = [self fecthAddressToolbar];    addressTF1.text=self.placeholder;
+    addressTF1.inputAccessoryView = [self fecthAddressToolbar];
     addressTF1.clearButtonMode=YES;
     addressTF1.placeholder=@"选择公司地址";
     [self.view addSubview:addressTF1];
@@ -97,39 +99,51 @@
     label.backgroundColor = [UIColor whiteColor];
     label.text = @"详细位置:";
     label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont systemFontOfSize:16.0f];
+    label.font = kFont;
     [self.view addSubview:label];
 
-    addressTF=[[UITextField alloc]initWithFrame:CGRectMake(80, 55, kScreenW-75, 35)];
-    addressTF.backgroundColor = [UIColor whiteColor];
-    addressTF.text=self.placeholder;
-    addressTF.clearButtonMode=YES;
-    addressTF.placeholder=@"输入公司详细地址";
-    [self.view addSubview:addressTF];
+    addressTF2=[[UITextField alloc]initWithFrame:CGRectMake(80, 55, kScreenW-75, 35)];
+    addressTF2.backgroundColor = [UIColor whiteColor];
+    addressTF2.font = kFont;
+    addressTF2.clearButtonMode=YES;
+    addressTF2.placeholder=@"输入公司详细地址";
+    [self.view addSubview:addressTF2];
 
 }
 
 - (void)buttonClicked {
-
-    NSInteger provinceIndex = [self.addressPicker selectedRowInComponent: PROVINCE_COMPONENT];
-    NSInteger cityIndex = [self.addressPicker selectedRowInComponent: CITY_COMPONENT];
-    NSInteger districtIndex = [self.addressPicker selectedRowInComponent: DISTRICT_COMPONENT];
-
-    NSString *provinceStr = [province objectAtIndex: provinceIndex];
-    NSString *cityStr = [city objectAtIndex: cityIndex];
-    NSString *districtStr = [district objectAtIndex:districtIndex];
     
-
-    addressString = [NSString stringWithFormat: @"%@%@%@%@", provinceStr, cityStr, districtStr,addressTF.text];
-
-    DLog(@"addressString%@",addressString);
-
-
-    if ([addressString isEqualToString:@""]) {
-        [Tools showErrorWithStatus:@"公司地址不能为空！"];
+    if ([addressTF1.text isEqualToString:@""]) {
+        UIAlertView*alertView =[[UIAlertView alloc]initWithTitle:@"公司规模不能为空!" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
     }else{
-       
+        NSInteger provinceIndex = [self.addressPicker selectedRowInComponent: PROVINCE_COMPONENT];
+        NSInteger cityIndex = [self.addressPicker selectedRowInComponent: CITY_COMPONENT];
+        NSInteger districtIndex = [self.addressPicker selectedRowInComponent: DISTRICT_COMPONENT];
+        
+        NSString *provinceStr = [province objectAtIndex: provinceIndex];
+        NSString *cityStr = [city objectAtIndex: cityIndex];
+        NSString *districtStr = [district objectAtIndex:districtIndex];
+        
+        DLog(@"provinceStr == %@,cityStr == %@,districtStr == %@",provinceStr,cityStr,districtStr);
+
+        MBProgressHUD *hud = [Tools createHUD];
+        hud.labelText = @"正在修改地址！";
+        [HttpClient updateFactoryProfileWithFactoryAddress:[NSString stringWithFormat:@"%@%@",addressTF1.text,addressTF2.text] province:provinceStr city:cityStr district:districtStr factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDescription:nil andBlock:^(int statusCode) {
+            if (statusCode == 200) {
+                hud.labelText = @"地址修改成功";
+                [hud hide:YES];
+                [self.navigationController popViewControllerAnimated:YES];
+            } else {
+                [hud hide:YES];
+                [Tools showErrorWithStatus:@"地址修改失败！"];
+            }
+        }];
+      
+        DLog(@"FactoryAddress == %@",[NSString stringWithFormat:@"%@%@",addressTF1.text,addressTF2.text]);
     }
+
+
 }
 
 
@@ -158,6 +172,7 @@
 -(void)addressCancel{
 
     addressString = nil;
+    addressTF1.text = nil;
     [addressTF1 endEditing:YES];
 }
 
@@ -173,12 +188,8 @@
 
 
     addressString = [NSString stringWithFormat: @"%@%@%@", provinceStr, cityStr, districtStr];
-
-    DLog(@"%@",addressString);
-
     addressTF1.text = addressString;
     addressString = nil;
-
     [addressTF1 endEditing:YES];
 }
 
