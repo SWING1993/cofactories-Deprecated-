@@ -37,7 +37,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self.pluginBoardView removeItemAtIndex:2];
+    [self.pluginBoardView removeItemAtIndex:3];
 }
 
 

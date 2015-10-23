@@ -75,7 +75,6 @@ static NSString *noneCellIdentifier = @"noneCell";
             CommentModel *comment = [CommentModel getModelWith:dictionary];
             [self.commentArray addObject:comment];
         }
-        DLog(@"++++++++++++++%@", self.commentArray);
         NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:1];
         [self.myTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
     }];
