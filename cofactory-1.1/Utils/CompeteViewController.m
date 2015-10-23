@@ -252,26 +252,33 @@
 
 
 - (void)confirmBid{
+    [self factoryInfo];
+    if (infoFlag) {
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"个人信息不完整" message:@"请完善信息后再继续发布" delegate:self cancelButtonTitle:@"暂不完善" otherButtonTitles:@"去完善", nil];
+        alertView.tag = 222;
+        [alertView show];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确认投标?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alert.tag = 10;
+        [alert show];
+    }
     
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确认投标?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    alert.tag = 10;
-    [alert show];
     
 }
 
 - (void)factoryInfo {
     if ([self.factoryTypeString isEqualToString:@"服装厂"] || [self.factoryTypeString isEqualToString:@"加工厂"]) {
-        if (_userModel.factorySize != nil || _userModel.factoryServiceRange != nil || _userModel.factoryAddress != nil) {
+        if (_userModel.factorySize == nil || _userModel.factoryServiceRange == nil || _userModel.factoryAddress == nil) {
             infoFlag = YES;
         }
     }
     if ([self.factoryTypeString isEqualToString:@"代裁厂"]) {
-        if (_userModel.factorySize != nil || _userModel.factoryAddress != nil) {
+        if (_userModel.factorySize == nil || _userModel.factoryAddress == nil) {
             infoFlag = YES;
         }
     }
     if ([self.factoryTypeString isEqualToString:@"锁眼钉扣厂"]) {
-        if  (_userModel.factoryAddress != nil) {
+        if  (_userModel.factoryAddress == nil) {
             infoFlag = YES;
         }
     }
@@ -281,44 +288,47 @@
     if (alertView.tag == 10 ) {
         
         if (buttonIndex == 1) {
-            [self factoryInfo];
-            if (infoFlag) {
-                [HttpClient registBidWithOid:self.oid commit:_commentsTextField.text completionBlock:^(int statusCode) {
-                    DLog(@"statusCode==%d",statusCode);
-                    if (statusCode == 200 ) {
-                        [Tools showSuccessWithStatus:@"订单投标成功"];
-                        if (![self.collectionImage count]==0) {
-                            [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                                
-                                NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
-                                UIImage*newImage = [[UIImage alloc]initWithData:imageData];
-                                NSString *oidString = [NSString stringWithFormat:@"%d",self.oid];
-                                [HttpClient uploadOrderImageWithImage:newImage oid:oidString type:@"bid" andblock:^(NSDictionary *dictionary) {
-                                    if ([dictionary[@"statusCode"] intValue]==200) {
-                                        DLog(@"图片上传成功");
-                                        NSArray *navArray = self.navigationController.viewControllers;
-                                        [self.navigationController popToViewController:navArray[1] animated:YES];
-                                    }
-                                    else{
-                                        DLog(@"图片上传失败%@",dictionary);
-                                    }
-                                }];
-                                
+            [HttpClient registBidWithOid:self.oid commit:_commentsTextField.text completionBlock:^(int statusCode) {
+                DLog(@"statusCode==%d",statusCode);
+                if (statusCode == 200 ) {
+                    [Tools showSuccessWithStatus:@"订单投标成功"];
+                    if (![self.collectionImage count]==0) {
+                        [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                            
+                            NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
+                            UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+                            NSString *oidString = [NSString stringWithFormat:@"%d",self.oid];
+                            [HttpClient uploadOrderImageWithImage:newImage oid:oidString type:@"bid" andblock:^(NSDictionary *dictionary) {
+                                if ([dictionary[@"statusCode"] intValue]==200) {
+                                    DLog(@"图片上传成功");
+                                    NSArray *navArray = self.navigationController.viewControllers;
+                                    [self.navigationController popToViewController:navArray[1] animated:YES];
+                                }
+                                else{
+                                    DLog(@"图片上传失败%@",dictionary);
+                                }
                             }];
-                        }else{
-                            DLog(@"没有图片");
-                            NSArray *navArray = self.navigationController.viewControllers;
-                            [self.navigationController popToViewController:navArray[1] animated:YES];
-                        }
-                        
+                            
+                        }];
                     }else{
-                        [Tools showErrorWithStatus:@"订单投标失败"];
+                        DLog(@"没有图片");
+                        NSArray *navArray = self.navigationController.viewControllers;
+                        [self.navigationController popToViewController:navArray[1] animated:YES];
                     }
-                }];
-            } else {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"个人信息不完整" message:@"请完善信息后再继续发布" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
-            }
+                    
+                }else{
+                    [Tools showErrorWithStatus:@"订单投标失败"];
+                }
+            }];
+        }
+    } else if (alertView.tag == 222){
+        if (buttonIndex == 1) {
+            DLog(@"去完善资料");
+            MeViewController *meVC = [[MeViewController alloc] init];
+            meVC.changeFlag = YES;
+            [self.navigationController pushViewController:meVC animated:YES];
+        } else {
+            DLog(@"暂不完善");
         }
     }
 }

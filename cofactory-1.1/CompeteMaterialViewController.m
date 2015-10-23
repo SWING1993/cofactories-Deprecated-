@@ -339,11 +339,16 @@
 
 
 - (void)confirmBid{
-    
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确认投标?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    alert.tag = 10;
-    [alert show];
-    
+    if (_userModel.factoryServiceRange == nil || _userModel.factoryAddress == nil) {
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"个人信息不完整" message:@"请完善信息后再继续发布" delegate:self cancelButtonTitle:@"暂不完善" otherButtonTitles:@"去完善", nil];
+        alertView.tag = 222;
+        [alertView show];
+    } else {
+        
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确认投标?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alert.tag = 10;
+        [alert show];
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -358,56 +363,62 @@
             } else {
                 price = @"-1";
             }
-            if (_userModel.factoryServiceRange == nil || _userModel.factoryAddress == nil) {
-                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"个人信息不完整" message:@"请完善信息后再继续发布" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                [alertView show];
+            
+            if (price.length == 0) {
+                [Tools showErrorWithStatus:@"请完善价格"];
+                
+            } else if (_commentsTextField.text.length == 0) {
+                [Tools showErrorWithStatus:@"请完善备注"];
             } else {
-                if (price.length == 0) {
-                    [Tools showErrorWithStatus:@"请完善价格"];
-                    
-                } else if (_commentsTextField.text.length == 0) {
-                    [Tools showErrorWithStatus:@"请完善备注"];
-                } else {
-                    [HttpClient registMaterialBidWithOid:self.oid price:price status:stateString comment:_commentsTextField.text completionBlock:^(int statusCode) {
-                        DLog(@"%d", statusCode);
-                        if (statusCode == 200) {
-                            [Tools showSuccessWithStatus:@"投标成功"];
-                            if (![self.collectionImage count]==0) {
-                                [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                                    
-                                    NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
-                                    UIImage*newImage = [[UIImage alloc]initWithData:imageData];
-                                    NSString *oidString = [NSString stringWithFormat:@"%ld",(long)self.oid];
-                                    [HttpClient uploadMaterialImageWithImage:newImage oid:oidString type:@"bidBuy" andblock:^(NSDictionary *dictionary) {
-                                        if ([dictionary[@"statusCode"] intValue]==200) {
-                                            [Tools showSuccessWithStatus:@"投标成功"];
-                                            double delayInSeconds = 1.0f;
-                                            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-                                            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                                                
-                                                [self dismissViewControllerAnimated:YES completion:nil];
-                                            });
+                [HttpClient registMaterialBidWithOid:self.oid price:price status:stateString comment:_commentsTextField.text completionBlock:^(int statusCode) {
+                    DLog(@"%d", statusCode);
+                    if (statusCode == 200) {
+                        [Tools showSuccessWithStatus:@"投标成功"];
+                        if (![self.collectionImage count]==0) {
+                            [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                                
+                                NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
+                                UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+                                NSString *oidString = [NSString stringWithFormat:@"%ld",(long)self.oid];
+                                [HttpClient uploadMaterialImageWithImage:newImage oid:oidString type:@"bidBuy" andblock:^(NSDictionary *dictionary) {
+                                    if ([dictionary[@"statusCode"] intValue]==200) {
+                                        [Tools showSuccessWithStatus:@"投标成功"];
+                                        double delayInSeconds = 1.0f;
+                                        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                                        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                                             
-                                            DLog(@"图片上传成功");
-                                        }else{
-                                            
-                                            DLog(@"图片上传失败%@",dictionary);
-                                        }
+                                            [self dismissViewControllerAnimated:YES completion:nil];
+                                        });
                                         
-                                    }];
+                                        DLog(@"图片上传成功");
+                                    }else{
+                                        
+                                        DLog(@"图片上传失败%@",dictionary);
+                                    }
+                                    
                                 }];
-                            }else{
-                                DLog(@"没有图片");
-                                [self dismissViewControllerAnimated:YES completion:nil];
-                            }
-                            
+                            }];
                         }else{
-                            [Tools showErrorWithStatus:@"订单投标失败"];
+                            DLog(@"没有图片");
+                            [self dismissViewControllerAnimated:YES completion:nil];
                         }
                         
-                    }];
-                }
+                    }else{
+                        [Tools showErrorWithStatus:@"订单投标失败"];
+                    }
+                    
+                }];
             }
+            
+        }
+    } else if (alertView.tag == 222){
+        if (buttonIndex == 1) {
+            DLog(@"去完善资料");
+            MeViewController *meVC = [[MeViewController alloc] init];
+            meVC.changeFlag = YES;
+            [self.navigationController pushViewController:meVC animated:YES];
+        } else {
+            DLog(@"暂不完善");
         }
     }
 }

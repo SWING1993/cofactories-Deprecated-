@@ -7,7 +7,7 @@
 //
 
 #import "AddmaterialViewController.h"
-
+#import "MeViewController.h"
 
 #import "JKPhotoBrowser.h"
 #import "JKImagePickerController.h"
@@ -108,7 +108,8 @@
 
 - (void)pushOrderBtn {
     if (_userModel.factoryServiceRange == nil || _userModel.factoryAddress == nil) {
-        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"个人信息不完整" message:@"请完善信息后再继续发布" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"个人信息不完整" message:@"请完善信息后再继续发布" delegate:self cancelButtonTitle:@"暂不完善" otherButtonTitles:@"去完善", nil];
+        alertView.tag = 222;
         [alertView show];
     } else {
         if (self.materialType == 1) {
@@ -249,6 +250,15 @@
                     });
                 }
             }];
+        }
+    } else if (alertView.tag == 222){
+        if (buttonIndex == 1) {
+            DLog(@"去完善资料");
+            MeViewController *meVC = [[MeViewController alloc] init];
+            meVC.changeFlag = YES;
+            [self.navigationController pushViewController:meVC animated:YES];
+        } else {
+            DLog(@"暂不完善");
         }
     }
 }

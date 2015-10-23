@@ -205,6 +205,7 @@
 		7D2378CE1BB10A4D000FC478 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2378CD1BB10A4D000FC478 /* ImageIO.framework */; };
 		7D2CFB9A1BB12EFC00957797 /* userInformationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2CFB991BB12EFC00957797 /* userInformationCell.m */; settings = {ASSET_TAGS = (); }; };
 		7D616B2F1BABE67100ABA177 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D616B2E1BABE67100ABA177 /* CommentModel.m */; settings = {ASSET_TAGS = (); }; };
+		7D8912B41BD9E11100D6455A /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8912B31BD9E11100D6455A /* CommentsViewController.m */; settings = {ASSET_TAGS = (); }; };
 		7DCA89A31BABB01D00AB8EC0 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA89A21BABB01D00AB8EC0 /* CommentCell.m */; settings = {ASSET_TAGS = (); }; };
 		7DCA89A61BABBADF00AB8EC0 /* InformationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA89A51BABBADF00AB8EC0 /* InformationModel.m */; settings = {ASSET_TAGS = (); }; };
 		7DE0FFBB1BAAA97A006B9D96 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */; };
@@ -724,6 +725,8 @@
 		7D4954421BBA4C2800C7905F /* WeiyunAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiyunAPI.h; sourceTree = "<group>"; };
 		7D616B2D1BABE67100ABA177 /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
 		7D616B2E1BABE67100ABA177 /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
+		7D8912B21BD9E11100D6455A /* CommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsViewController.h; sourceTree = "<group>"; };
+		7D8912B31BD9E11100D6455A /* CommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsViewController.m; sourceTree = "<group>"; };
 		7DCA89A11BABB01D00AB8EC0 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
 		7DCA89A21BABB01D00AB8EC0 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
 		7DCA89A41BABBADF00AB8EC0 /* InformationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InformationModel.h; sourceTree = "<group>"; };
@@ -1707,6 +1710,8 @@
 				04AEF4FC1BA96A17002DA22E /* PopularMessageInfoVC.m */,
 				7DE0FFB91BAAA97A006B9D96 /* CommentViewController.h */,
 				7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */,
+				7D8912B21BD9E11100D6455A /* CommentsViewController.h */,
+				7D8912B31BD9E11100D6455A /* CommentsViewController.m */,
 				7DCA89A11BABB01D00AB8EC0 /* CommentCell.h */,
 				7DCA89A21BABB01D00AB8EC0 /* CommentCell.m */,
 				7D0609841BACF8450021606D /* PMSearchViewController.h */,
@@ -2467,9 +2472,6 @@
 				03316B031BD8C9FA00C7E0D0 /* 04.png in Resources */,
 				BD8753951BB5963D00A5F4CC /* UMSCommentInputController.xib in Resources */,
 				049582E01B6B490F00A69E6D /* JKImagePickerController.strings in Resources */,
-				64F295571BA2CCC80018ED90 /* icon_chose_arrow_nor@2x.png in Resources */,
-				045A26B51B6893D5002DE415 /* calendar_ok-disabled.png in Resources */,
-				045A26AD1B6893D5002DE415 /* arrow_right.png in Resources */,
 				7DE3939B1BD76FFF00B3361C /* RongCloudKit.strings in Resources */,
 				BD8753961BB5963D00A5F4CC /* UMSCommentInputControlleriPad.xib in Resources */,
 				BD8753DE1BB596CF00A5F4CC /* umeng_fb_audio_play_02@2x.png in Resources */,
@@ -2485,19 +2487,12 @@
 				BD8753DA1BB596CF00A5F4CC /* umeng_add_photo@2x.png in Resources */,
 				BD8753D01BB596CF00A5F4CC /* UMFeedbackLocalizable.strings in Resources */,
 				BD8753DF1BB596CF00A5F4CC /* umeng_fb_audio_play_03@2x.png in Resources */,
-				045A26AB1B6893D5002DE415 /* arrow_left.png in Resources */,
-				045A26BE1B6893D5002DE415 /* dialog_ok-disabled@2x.png in Resources */,
-				04CE49D01BB23A00004442D2 /* bg2@2x.png in Resources */,
-				0492C4FF1BC7A76000FAF11A /* RongCloud.bundle in Resources */,
 				BD8753DC1BB596CF00A5F4CC /* umeng_fb_audio_dialog_content@2x.png in Resources */,
 				BD041A6B1B69D5DC00F9FC74 /* Images.xcassets in Resources */,
 				70FECD8B1BD78230004DBCDF /* icon_chose_bottom@2x.png in Resources */,
 				BD8753D21BB596CF00A5F4CC /* bubble_min@2x.png in Resources */,
 				049582E11B6B490F00A69E6D /* ImagesPicker.xcassets in Resources */,
-				045A26C01B6893D5002DE415 /* dialog_ok@2x.png in Resources */,
 				7DE3939D1BD76FFF00B3361C /* release_notes_ios.txt in Resources */,
-				045A26B01B6893D5002DE415 /* calendar_clear-disabled@2x.png in Resources */,
-				045A26B61B6893D5002DE415 /* calendar_ok-disabled@2x.png in Resources */,
 				70FECD8A1BD78230004DBCDF /* icon_chose_arrow_sel@2x.png in Resources */,
 				04CDAA0D1BB2579600A015AD /* WSProgressBundle.bundle in Resources */,
 				03316B021BD8C9FA00C7E0D0 /* 03.png in Resources */,
@@ -2506,9 +2501,6 @@
 				045A266D1B686682002DE415 /* chack.png in Resources */,
 				BD8753971BB5963D00A5F4CC /* UMShareEditViewController.xib in Resources */,
 				7DE3939E1BD76FFF00B3361C /* RongCloud.bundle in Resources */,
-				04CE49D11BB23A00004442D2 /* bg3@2x.png in Resources */,
-				045A26B21B6893D5002DE415 /* calendar_littledot-disabled@2x.png in Resources */,
-				0451D6581B574BCB007CCD59 /* ico_make.png in Resources */,
 				BD8753941BB5963D00A5F4CC /* UMSCommentDetailController.xib in Resources */,
 				64F4C6721B70B31D00F52FF0 /* MJRefresh.bundle in Resources */,
 				BD8753D71BB596CF00A5F4CC /* ToolViewInputTextHL@2x.png in Resources */,
@@ -2526,15 +2518,6 @@
 				BD87536E1BB5936500A5F4CC /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				0448E15E1B760CE1002B78B8 /* Areas.plist in Resources */,
 				BD87539A1BB5963D00A5F4CC /* UMSnsAccountViewController.xib in Resources */,
-				64F295581BA2CCC80018ED90 /* icon_chose_arrow_sel@2x.png in Resources */,
-				045A26AC1B6893D5002DE415 /* arrow_left@2x.png in Resources */,
-				04CE49D21BB23A00004442D2 /* bg4@2x.png in Resources */,
-				045A26B81B6893D5002DE415 /* dialog_cancel@2x.png in Resources */,
-				045A26AE1B6893D5002DE415 /* arrow_right@2x.png in Resources */,
-				045A26B91B6893D5002DE415 /* dialog_clear-disabled.png in Resources */,
-				0492C4FB1BC7A76000FAF11A /* Emoji.plist in Resources */,
-				0492C4FC1BC7A76000FAF11A /* RongCloudKit.strings in Resources */,
-				0492C4FE1BC7A76000FAF11A /* release_notes_ios.txt in Resources */,
 				0457E3F11B8EE57100F38881 /* MJPhotoBrowser.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2735,6 +2718,7 @@
 				7DE1630E1BB000A800777AEF /* SupplyHistory.m in Sources */,
 				BDC908FC1B4E9B6B00856A32 /* FactoryModel.m in Sources */,
 				04F60C701B58EF8D00CD3DEC /* ModifySizeViewController.m in Sources */,
+				7D8912B41BD9E11100D6455A /* CommentsViewController.m in Sources */,
 				70FECD881BD78230004DBCDF /* DOPDropDownMenu.m in Sources */,
 				042A0EE81B7B588100ECE841 /* HttpClient.m in Sources */,
 				04DFCAAC1B63D53A00356F4B /* PushHelperItemModel.m in Sources */,
