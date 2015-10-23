@@ -161,13 +161,10 @@
 }
 -(void)ensure{
 
-    if (_tmpPickerName) {
-        
-        NSInteger provinceIndex = [self.orderPicker selectedRowInComponent: PROVINCE_COMPONENT];
-        _tmpPickerName = [self.cellPickList objectAtIndex: provinceIndex];
-        FactoryTypeTF.text = _tmpPickerName;
-        _tmpPickerName = nil;
-    }
+    NSInteger provinceIndex = [self.orderPicker selectedRowInComponent: PROVINCE_COMPONENT];
+    _tmpPickerName = [self.cellPickList objectAtIndex: provinceIndex];
+    FactoryTypeTF.text = _tmpPickerName;
+    _tmpPickerName = nil;
     [FactoryTypeTF endEditing:YES];
 }
 -(void)cancel{

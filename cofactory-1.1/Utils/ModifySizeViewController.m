@@ -160,14 +160,11 @@
     _tmpPickerName = [self pickerView:pickerView titleForRow:row forComponent:component];
 }
 -(void)ensure{
-
-    if (_tmpPickerName) {
-        
-        NSInteger provinceIndex = [self.orderPicker selectedRowInComponent: PROVINCE_COMPONENT];
-        _tmpPickerName = [self.cellPickList objectAtIndex: provinceIndex];
-        SizeTF.text = _tmpPickerName;
-        _tmpPickerName = nil;
-    }
+    
+    NSInteger provinceIndex = [self.orderPicker selectedRowInComponent: PROVINCE_COMPONENT];
+    _tmpPickerName = [self.cellPickList objectAtIndex: provinceIndex];
+    SizeTF.text = _tmpPickerName;
+    _tmpPickerName = nil;
     [SizeTF endEditing:YES];
 }
 -(void)cancel{
