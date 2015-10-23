@@ -27,6 +27,9 @@
     conversationVC.targetId = model.targetId;
     conversationVC.userName =model.conversationTitle;
     conversationVC.title = model.conversationTitle;
+    UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+    backItem.title=@"返回";
+    self.navigationItem.backBarButtonItem = backItem;
     conversationVC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:conversationVC animated:YES];
 }
@@ -44,13 +47,15 @@
     int messageCount = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
     //[[[[[self tabBarController] viewControllers] objectAtIndex: 2] tabBarItem] setBadgeValue:[NSString stringWithFormat:@"%d", messageCount]];
     //self.tabBarController.viewControllers[2].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", messageCount];
+    UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:2];
+    item.badgeValue = [NSString stringWithFormat:@"%d",messageCount];
     DLog(@"tttttttttttt%d", messageCount);
-    if (messageCount>0) {
-        self.tabBarController.viewControllers[0].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",messageCount];
-    }else
-    {
-        self.tabBarController.viewControllers[0].tabBarItem.badgeValue = nil;
-    }
+//    if (messageCount>0) {
+//        self.tabBarController.viewControllers[0].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",messageCount];
+//    }else
+//    {
+//        self.tabBarController.viewControllers[0].tabBarItem.badgeValue = nil;
+//    }
     
 }
 

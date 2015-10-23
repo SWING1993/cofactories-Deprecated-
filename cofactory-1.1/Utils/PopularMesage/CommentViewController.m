@@ -21,6 +21,8 @@ static NSString *commentCellIdentifier = @"commentCell";
     int _refrushCount;
 }
 
+
+
 @end
 
 @implementation CommentViewController
@@ -33,9 +35,9 @@ static NSString *commentCellIdentifier = @"commentCell";
     [self.tableView registerClass:[CommentCell class] forCellReuseIdentifier:commentCellIdentifier];
     [self creatHeadView];
     [self creatCancleItem];
-    _refrushCount = 1;
-    [self netWork];
-    [self setupRefresh];
+//    _refrushCount = 1;
+//    [self netWork];
+//    [self setupRefresh];
 
 }
 
@@ -90,53 +92,54 @@ static NSString *commentCellIdentifier = @"commentCell";
     [doneButton setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
     [doneButton addTarget:self action:@selector(clickDonebBtn:) forControlEvents:UIControlEventTouchUpInside];
     [tableViewHeadView addSubview:doneButton];
-    self.tableView.tableHeaderView = tableViewHeadView;
+    [self.view addSubview:tableViewHeadView];
 }
 
 
 #pragma mark - 网络请求
-
-- (void)netWork {
-    [HttpClient getCommentWithOid:self.oid page:1 andBlock:^(NSDictionary *responseDictionary) {
-        DLog(@"%@", responseDictionary);
-        NSArray *jsonArray = responseDictionary[@"responseArray"];
-        self.commentArray = [NSMutableArray arrayWithCapacity:0];
-        for (NSDictionary *dictionary in jsonArray) {
-            CommentModel *comment = [CommentModel getModelWith:dictionary];
-            DLog(@"%@", comment);
-            [self.commentArray addObject:comment];
-        }
-        [self.tableView reloadData];
-    }];
-}
-
-- (void)setupRefresh
-{
-    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
-    self.tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
-    self.tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
-    self.tableView.footerRefreshingText = @"加载中。。。";
-}
-
-- (void)footerRereshing
-{
-    _refrushCount++;
-    DLog(@"???????????%d",_refrushCount);
-    [HttpClient getCommentWithOid:self.oid page:_refrushCount andBlock:^(NSDictionary *responseDictionary) {
-        DLog(@"%d", self.oid);
-        NSArray *jsonArray = (NSArray *)responseDictionary[@"responseArray"];
-        
-        for (NSDictionary *dictionary in jsonArray) {
-            CommentModel *comment = [CommentModel getModelWith:dictionary];
-            [self.commentArray addObject:comment];
-        }
-        
-        [self.tableView reloadData];
-    }];
-    
-    [self.tableView footerEndRefreshing];
-}
-
+//
+//- (void)netWork {
+//    [HttpClient getCommentWithOid:self.oid page:1 andBlock:^(NSDictionary *responseDictionary) {
+//        DLog(@"%@", responseDictionary);
+//        NSArray *jsonArray = responseDictionary[@"responseArray"];
+//        self.commentArray = [NSMutableArray arrayWithCapacity:0];
+//        for (NSDictionary *dictionary in jsonArray) {
+//            CommentModel *comment = [CommentModel getModelWith:dictionary];
+//            DLog(@"%@", comment);
+//            [self.commentArray addObject:comment];
+//        }
+//        [self.tableView reloadData];
+//    }];
+//}
+//
+//- (void)setupRefresh
+//{
+//    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+//    self.tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+//    self.tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+//    self.tableView.footerRefreshingText = @"加载中。。。";
+//}
+//
+//- (void)footerRereshing
+//{
+//    _refrushCount++;
+//    DLog(@"???????????%d",_refrushCount);
+//    [HttpClient getCommentWithOid:self.oid page:_refrushCount andBlock:^(NSDictionary *responseDictionary) {
+//        DLog(@"%d", self.oid);
+//        NSArray *jsonArray = (NSArray *)responseDictionary[@"responseArray"];
+//        
+//        for (NSDictionary *dictionary in jsonArray) {
+//            CommentModel *comment = [CommentModel getModelWith:dictionary];
+//            [self.commentArray addObject:comment];
+//        }
+//        
+//        NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
+//        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+//    }];
+//    
+//    [self.tableView footerEndRefreshing];
+//}
+//
 #pragma mark - UITextViewDelegate
 
 //开始编辑
@@ -168,45 +171,45 @@ static NSString *commentCellIdentifier = @"commentCell";
 
 #pragma mark - UITableViewDataSource
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.commentArray.count;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:commentCellIdentifier forIndexPath:indexPath];
-    CommentModel *comment = self.commentArray[indexPath.row];
-    cell.comment = comment;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-    return cell;
-}
-- (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"全部评论";
-}
-
-
-
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//    return 1;
+//}
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    return self.commentArray.count;
+//}
+//
+//
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:commentCellIdentifier forIndexPath:indexPath];
+//    CommentModel *comment = self.commentArray[indexPath.row];
+//    cell.comment = comment;
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//
+//    return cell;
+//}
+//- (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//    return @"全部评论";
+//}
+//
+//
+//
 #pragma mark - UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CommentModel *comment = self.commentArray[indexPath.row];
-    return [CommentCell heightOfCell:comment];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-   
-    return 30;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.5;
-}
-
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    CommentModel *comment = self.commentArray[indexPath.row];
+//    return [CommentCell heightOfCell:comment];
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//   
+//    return 30;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+//    return 0.5;
+//}
+//
 
 
 #pragma mark - Action
@@ -224,7 +227,8 @@ static NSString *commentCellIdentifier = @"commentCell";
                     [Tools showSuccessWithStatus:@"评论成功！"];
                     commentTextView.text = kPlaceholder;
                     commentTextView.textColor = [UIColor grayColor];
-                    [self netWork];
+                    [self dismissViewControllerAnimated:YES completion:nil];
+//                    [self netWork];
                 }
                     break;
                     

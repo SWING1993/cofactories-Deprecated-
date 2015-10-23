@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class CommentModel;
 @interface CommentCell : UITableViewCell
-
+@property (nonatomic, strong) UIImageView *userImage;
 @property (nonatomic, strong) UILabel *authorLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *contentLabel;

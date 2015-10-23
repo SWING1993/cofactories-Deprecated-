@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MeViewController : UITableViewController
-
+@property (nonatomic, assign) BOOL changeFlag;
 @end

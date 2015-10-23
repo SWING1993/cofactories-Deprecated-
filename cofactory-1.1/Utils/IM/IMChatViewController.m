@@ -45,21 +45,28 @@
 
 
 - (void)didTapCellPortrait:(NSString *)userId {
-    DLog(@"%@", userId);
-    //解析工厂信息
-    
-    [HttpClient getUserProfileWithUid:[userId intValue] andBlock:^(NSDictionary *responseDictionary) {
-        _userModel = (FactoryModel *)responseDictionary[@"model"];
-        CooperationInfoViewController *vc = [CooperationInfoViewController new];
-        vc.factoryModel = _userModel;
-        [self.navigationController.navigationBar setHidden:NO];
-        [self.navigationController pushViewController:vc animated:YES];
+    NSNumber *uid = (NSNumber *)[[NSUserDefaults standardUserDefaults] valueForKey:@"selfuid"];
+    if ([[NSString stringWithFormat:@"%@", uid] isEqualToString:userId]) {
+        DLog(@"自己的uid = %@", userId);
+    } else {
+        DLog(@"对方的uid = %@", userId);
+        //解析工厂信息
+        [Tools showLoadString:@"获取资料中..."];
+        [HttpClient getUserProfileWithUid:[userId intValue] andBlock:^(NSDictionary *responseDictionary) {
+            _userModel = (FactoryModel *)responseDictionary[@"model"];
+            [Tools WSProgressHUDDismiss];
+            CooperationInfoViewController *vc = [CooperationInfoViewController new];
+            vc.factoryModel = _userModel;
+            vc.IMFlag = YES;
+            UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+            backItem.title=@"返回";
+            self.navigationItem.backBarButtonItem = backItem;
+            [self.navigationController.navigationBar setHidden:NO];
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }];
 
-    }];
-
-    
-
-    
+    }
     
 }
 

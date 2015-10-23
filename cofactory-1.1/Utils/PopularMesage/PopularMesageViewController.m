@@ -58,7 +58,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     
     [self creatTableView];
     [self creatTableViewHeadView];
-    [self netWork];
+    [self netWorker];
 //    [self creatScrollViewAndPageControl];
     
 }
@@ -69,9 +69,12 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 - (void)netWorker {
     [HttpClient getHeaderInfomationWithBlock:^(NSDictionary *responseDictionary) {
         self.headerInformationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
-        DLog(@"%@", self.headerInformationArray);
-        [Tools WSProgressHUDDismiss];
-        [_tableView reloadData];
+        //DLog(@"%@", self.headerInformationArray);
+        [self netWork];
+        NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
+        [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationRight];
+        
+        
     }];
 
 }
@@ -79,7 +82,10 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 - (void)netWork {
         [HttpClient getInfomationWithKind:@"cat=man" andBlock:^(NSDictionary *responseDictionary) {
         self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
-            [self netWorker];
+            
+            NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:1];
+            [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationLeft];
+            [Tools WSProgressHUDDismiss];
     }];
 }
 
@@ -96,7 +102,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 }
 
 - (void)creatTableView{
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;
@@ -176,14 +182,16 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
-    if (section == 0) {
-        return 0.0001;
-    }if (section == 1) {
-        return 15;
-    }
-    return 0;
+    return 0.0001;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == 0) {
+        return 10;
+    } else {
+        return 0.0001;
+    }
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         return 60;
@@ -267,11 +275,12 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     NSArray *kindArray = @[@"cat=man", @"cat=woman", @"cat=child"];
     [HttpClient getInfomationWithKind:kindArray[button.tag] andBlock:^(NSDictionary *responseDictionary) {
         self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
-        [self netWorker];
-        //[_tableView reloadData];
+        
+        NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:1];
+        [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationBottom];
+        [Tools WSProgressHUDDismiss];
+        
     }];
-
-    DLog(@"%zi",button.tag);
 }
 
 

@@ -7,14 +7,19 @@
 //
 
 #import "PopularMessageInfoVC.h"
-#import "CommentViewController.h"
+#import "CommentsViewController.h"
 #import "UMSocial.h"
 #import "QQApiInterface.h"
 #import "WXApi.h"
+#import "CommentCell.h"
+#import "MJRefresh.h"
 
-
-@interface PopularMessageInfoVC ()<UIWebViewDelegate, UMSocialUIDelegate> {
+static NSString *myCellIdentifier = @"myCell";
+static NSString *commentCellIdentifier = @"commentCell";
+static NSString *noneCellIdentifier = @"noneCell";
+@interface PopularMessageInfoVC ()<UIWebViewDelegate, UMSocialUIDelegate, UITableViewDataSource, UITableViewDelegate> {
     UIButton *btn3;
+    int _refrushCount;
 }
 
 @property (nonatomic,assign)int webViewHeight;
@@ -23,7 +28,11 @@
 
 @property (nonatomic,assign)BOOL isSelected;
 
+@property (nonatomic,strong)UITableView *myTableView;
 
+@property (nonatomic, strong) NSMutableArray *commentArray;
+
+@property (nonatomic, assign) NSInteger totalHeight;
 @end
 
 @implementation PopularMessageInfoVC
@@ -40,18 +49,64 @@
     _webView = [[UIWebView alloc] init];
     _webView.delegate = self;
     _webView.backgroundColor = [UIColor whiteColor];
-    _webView.frame = CGRectMake(0,0,kScreenW,kScreenH-64-40);
+    _webView.frame = CGRectMake(0,0,kScreenW,3 * kScreenH);
     NSURL *url = [NSURL URLWithString:self.urlString];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [_webView sizeToFit];
     [_webView loadRequest:urlRequest];
-    [self.view addSubview:_webView];
-
+//    [self.view addSubview:_webView];
+    
     [self creatCancleItem];
+    
+    [self creatTableView];
     [self creatToolbar];
-
+    _refrushCount = 1;
+    [self netWork];
+    [self setupRefresh];
+    self.totalHeight = 3 * kScreenH;
 }
 
+- (void)netWork {
+    [HttpClient getCommentWithOid:self.oid page:1 andBlock:^(NSDictionary *responseDictionary) {
+        DLog(@"%@", responseDictionary);
+        NSArray *jsonArray = responseDictionary[@"responseArray"];
+        self.commentArray = [NSMutableArray arrayWithCapacity:0];
+        for (NSDictionary *dictionary in jsonArray) {
+            CommentModel *comment = [CommentModel getModelWith:dictionary];
+            [self.commentArray addObject:comment];
+        }
+        DLog(@"++++++++++++++%@", self.commentArray);
+        NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:1];
+        [self.myTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+    }];
+}
+- (void)setupRefresh
+{
+    [self.myTableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    self.myTableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+    self.myTableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+    self.myTableView.footerRefreshingText = @"加载中。。。";
+}
+
+- (void)footerRereshing
+{
+    _refrushCount++;
+    DLog(@"???????????%d",_refrushCount);
+    [HttpClient getCommentWithOid:self.oid page:_refrushCount andBlock:^(NSDictionary *responseDictionary) {
+        DLog(@"%d", self.oid);
+        NSArray *jsonArray = (NSArray *)responseDictionary[@"responseArray"];
+        
+        for (NSDictionary *dictionary in jsonArray) {
+            CommentModel *comment = [CommentModel getModelWith:dictionary];
+            [self.commentArray addObject:comment];
+        }
+        
+        NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:1];
+        [self.myTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+    }];
+    
+    [self.myTableView footerEndRefreshing];
+}
 
 #pragma mark - 创建UI
 
@@ -61,6 +116,19 @@
     temporaryBarButtonItem.target = self;
     temporaryBarButtonItem.action = @selector(back);
     self.navigationItem.leftBarButtonItem = temporaryBarButtonItem;
+}
+
+- (void)creatTableView {
+    
+    
+    self.myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - 120) style:UITableViewStylePlain];
+    self.myTableView.dataSource = self;
+    self.myTableView.delegate = self;
+    [self.view addSubview:self.myTableView];
+    [self.myTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:myCellIdentifier];
+    [self.myTableView registerClass:[CommentCell class] forCellReuseIdentifier:commentCellIdentifier];
+    [self.myTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:noneCellIdentifier];
+    
 }
 
 - (void)creatToolbar {
@@ -119,7 +187,12 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
+    self.totalHeight = [[_webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.scrollHeight"] integerValue];
+    DLog(@"+++++++++++++%ld", self.totalHeight);
+    _webView.frame = CGRectMake(0,0,kScreenW,self.totalHeight);
     [Tools WSProgressHUDDismiss];
+    NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
+    [self.myTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
 }
 //去除链接
 //- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -133,6 +206,98 @@
 //    }
 //}
 
+
+
+#pragma mark - UITableViewDataSource
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return 1;
+    } else {
+        if (self.commentArray.count == 0) {
+            return 1;
+        } else {
+            return self.commentArray.count;
+        }
+    }
+}
+
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:myCellIdentifier forIndexPath:indexPath];
+        UIScrollView *tempView=(UIScrollView *)[_webView.subviews objectAtIndex:0];
+        tempView.scrollEnabled=NO;
+        [cell addSubview:_webView];
+        return cell;
+    } else {
+        
+        if (self.commentArray.count == 0) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:noneCellIdentifier forIndexPath:indexPath];
+            cell.textLabel.text = @"暂无任何评论";
+            return cell;
+        } else {
+            CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:commentCellIdentifier forIndexPath:indexPath];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            CommentModel *comment = self.commentArray[indexPath.row];
+            cell.comment = comment;
+            return cell;
+        }
+        
+    }
+    
+}
+
+- (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 1) {
+        return @"全部评论";
+    } else {
+        return nil;
+    }
+    
+}
+
+
+
+
+
+
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return self.totalHeight;
+    } else {
+        if (self.commentArray.count == 0) {
+            return 50;
+        } else {
+            CommentModel *comment = self.commentArray[indexPath.row];
+            return [CommentCell heightOfCell:comment];
+        }
+        
+    }
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 1) {
+        return 30;
+    } else {
+        return 0;
+    }
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.5;
+}
 
 
 #pragma mark - Action
@@ -170,12 +335,13 @@
 
         case 2:
         {
-            CommentViewController *commentVC = [[CommentViewController alloc] init];
+            CommentsViewController *commentVC = [[CommentsViewController alloc] init];
             UINavigationController *commentNaVC = [[UINavigationController alloc] initWithRootViewController:commentVC];
             commentNaVC.navigationBar.barStyle = UIBarStyleBlack;
             commentVC.oid = self.oid;
 
             [self presentViewController:commentNaVC animated:YES completion:nil];
+            
             DLog(@"评论");
 
         }
@@ -192,6 +358,9 @@
                         {
                             [Tools showSuccessWithStatus:@"已赞！"];
                             [btn3 setUserInteractionEnabled:YES];
+                            NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:1];
+                            [self.myTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationLeft];
+
                         }
                             break;
                             

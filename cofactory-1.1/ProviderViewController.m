@@ -32,7 +32,7 @@
 
     self.navigationItem.title = @"供应管理";
     self.view.backgroundColor = [UIColor whiteColor];
-    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"历史发布" style:UIBarButtonItemStyleBordered target:self action:@selector(historyPublishButton)];
+    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"历史发布" style:UIBarButtonItemStylePlain target:self action:@selector(historyPublishButton)];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
 
     NSArray *buttonBGImageArray = @[@"我的店铺" ,@"面辅料_查看求购",];

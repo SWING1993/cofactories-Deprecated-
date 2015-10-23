@@ -61,6 +61,9 @@
     
     DLog(@"发布供应！");
     AddmaterialViewController *VC = [[AddmaterialViewController alloc]init];
+    UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+    backItem.title=@"返回";
+    self.navigationItem.backBarButtonItem = backItem;
     VC.materialType = button.tag;  // 采购面料
     [self.navigationController pushViewController:VC animated:YES];
 

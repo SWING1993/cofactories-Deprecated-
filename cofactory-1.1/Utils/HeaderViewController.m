@@ -157,7 +157,8 @@
                 
                 //清除缓存  显示头像
                 [[SDImageCache sharedImageCache] clearDisk];
-                
+//                RCIM *rcim = [RCIM sharedRCIM];
+//                [rcim clearUserInfoCache];
             }
         }];
     }];

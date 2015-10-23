@@ -54,8 +54,6 @@ static NSString *shopCellIdentifier = @"shopCell";
     [self network];
     //[self setupRefresh];
     [shopCollectionView registerClass:[ShopCollectionViewCell class] forCellWithReuseIdentifier:shopCellIdentifier];
-    
-
 
 }
 
@@ -112,7 +110,7 @@ static NSString *shopCellIdentifier = @"shopCell";
 //
 
 - (void)creatMessage {
-    UIImageView *bigView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 200)];
+    UIImageView *bigView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 210)];
     bigView.image = [UIImage imageNamed:@"布背景"];
     bigView.userInteractionEnabled = YES;
     bigView.backgroundColor = [UIColor yellowColor];
@@ -121,9 +119,6 @@ static NSString *shopCellIdentifier = @"shopCell";
     titleLabel.font = kFont;
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [bigView addSubview:titleLabel];
-    
-    
-    
     
     messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
     messageButton.frame = CGRectMake((kScreenW - 80)/2, CGRectGetMaxY(titleLabel.frame) + 10, 80, 80);
@@ -136,10 +131,6 @@ static NSString *shopCellIdentifier = @"shopCell";
     NSNumber *uid = (NSNumber *)[[NSUserDefaults standardUserDefaults] valueForKey:@"selfuid"];
     [photoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%@.png",PhotoAPI,uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];
 
-    
-    
-    
-    
     [bigView addSubview:photoView];
     [bigView addSubview:messageButton];
     
@@ -158,9 +149,12 @@ static NSString *shopCellIdentifier = @"shopCell";
     [bigView addSubview:addressLabel];
     
     UIButton *editBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-    editBtn.frame = CGRectMake(kScreenW - 60, CGRectGetMaxY(addressLabel.frame), 60, 20);
+    editBtn.frame = CGRectMake(kScreenW - 70, CGRectGetMaxY(addressLabel.frame), 60, 25);
     [editBtn addTarget:self action:@selector(editActionEvent:) forControlEvents:UIControlEventTouchUpInside];
+    editBtn.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
     [editBtn setTitle:@"编辑" forState:UIControlStateNormal];
+    editBtn.layer.cornerRadius = 4;
+    editBtn.clipsToBounds = YES;
     editBtn.tintColor = [UIColor blackColor];
     [bigView addSubview:editBtn];
     
@@ -173,15 +167,13 @@ static NSString *shopCellIdentifier = @"shopCell";
     //滚动方向
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     
-    shopCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 200, kScreenW, kScreenH - 200) collectionViewLayout:layout];
+    shopCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 210, kScreenW, kScreenH - 210) collectionViewLayout:layout];
     shopCollectionView.dataSource = self;
     shopCollectionView.tag = 1000;
     shopCollectionView.delegate = self;
     shopCollectionView.backgroundColor = [UIColor whiteColor];
     
     [self.view addSubview:shopCollectionView];
-    
-    
 }
 
 

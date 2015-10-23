@@ -172,20 +172,11 @@
 }
 
 - (void)callBtn {
-    // 您需要根据自己的 App 选择场景触发聊天。这里的例子是一个 Button 点击事件。
-    IMChatViewController *conversationVC = [[IMChatViewController alloc]init];
-    conversationVC.conversationType = ConversationType_PRIVATE; //会话类型，这里设置为 PRIVATE 即发起单聊会话。
-    conversationVC.targetId = [NSString stringWithFormat:@"%d", self.factoryModel.uid]; // 接收者的 targetId，这里为举例。
-    conversationVC.userName = self.factoryModel.factoryName; // 接受者的 username，这里为举例。
-    conversationVC.title = self.factoryModel.name; // 会话的 title。
-    conversationVC.hidesBottomBarWhenPushed=YES;
-    // 把单聊视图控制器添加到导航栈。
-    [self.navigationController.navigationBar setHidden:NO];
-    [self.navigationController pushViewController:conversationVC animated:YES];
-//    //    NSLog(@"拨打电话");
-//    NSString *str = [NSString stringWithFormat:@"telprompt://%@", self.factoryModel.phone];
-//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-//    [self performSelector:@selector(popAlertViewController) withObject:nil afterDelay:3.0f];
+    
+    //    NSLog(@"拨打电话");
+    NSString *str = [NSString stringWithFormat:@"telprompt://%@", self.factoryModel.phone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    [self performSelector:@selector(popAlertViewController) withObject:nil afterDelay:3.0f];
     double delayInSeconds = 2.5f;
 
 
@@ -222,36 +213,57 @@
 }
 
 - (void)favoriteBtn {
-    
     DLog(@"添加收藏");
     NSString * Uid = [NSString stringWithFormat:@"%d",self.factoryModel.uid];
     [HttpClient addFavoriteWithUid:Uid andBlock:^(int statusCode) {
         switch (statusCode) {
+                
             case 201:
             {
-                
-                [Tools showSuccessWithStatus:@"收藏成功!"];
+                DLog(@"%d", statusCode);
+                //[Tools showSuccessWithStatus:@"收藏成功!"];
             }
                 break;
                 
             case 400:
             {
-                [Tools showErrorWithStatus:@"未登录"];
+                DLog(@"%d", statusCode);
+                //[Tools showErrorWithStatus:@"未登录"];
                 
             }
                 break;
                 
             case 401:
             {
-                [Tools showErrorWithStatus:@"需要重新登录"];
+                DLog(@"%d", statusCode);
+                //[Tools showErrorWithStatus:@"需要重新登录"];
                 
             }
                 break;
                 
             default:
-                [Tools showErrorWithStatus:@"添加失败"];
+                DLog(@"%d", statusCode);
+                //[Tools showErrorWithStatus:@"添加失败"];
                 break;
         }    }];
+    if (self.IMFlag) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else { 
+        // 您需要根据自己的 App 选择场景触发聊天。这里的例子是一个 Button 点击事件。
+        IMChatViewController *conversationVC = [[IMChatViewController alloc]init];
+        conversationVC.conversationType = ConversationType_PRIVATE; //会话类型，这里设置为 PRIVATE 即发起单聊会话。
+        conversationVC.targetId = [NSString stringWithFormat:@"%d", self.factoryModel.uid]; // 接收者的 targetId，这里为举例。
+        conversationVC.userName = self.factoryModel.factoryName; // 接受者的 username，这里为举例。
+        conversationVC.title = self.factoryModel.name; // 会话的 title。
+        conversationVC.hidesBottomBarWhenPushed=YES;
+        // 把单聊视图控制器添加到导航栈。
+        UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+        backItem.title=@"返回";
+        self.navigationItem.backBarButtonItem = backItem;
+        [self.navigationController.navigationBar setHidden:NO];
+        [self.navigationController pushViewController:conversationVC animated:YES];
+    }
+    
     
 }
 
@@ -293,28 +305,32 @@
         if (indexPath.section == 0) {
             
             
-            UIButton*callBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 10, kScreenW/2-20, 40)];
-            callBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
-            [callBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [callBtn setTitle:@"拨打电话" forState:UIControlStateNormal];
-            callBtn.titleEdgeInsets = UIEdgeInsetsMake(20, -20, 20, 00);
-            
-            [callBtn setImage:[UIImage imageNamed:@"set_号码"] forState:UIControlStateNormal];
-            callBtn.imageEdgeInsets = UIEdgeInsetsMake(0,0 ,0 ,kScreenW/2-60);
+            UIButton*callBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 0, kScreenW/2-10, 55)];
+            //callBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
+            //[callBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            //[callBtn setTitle:@"拨打电话" forState:UIControlStateNormal];
+            //callBtn.titleEdgeInsets = UIEdgeInsetsMake(20, -20, 20, 00);
+            callBtn.adjustsImageWhenHighlighted = NO;
+            callBtn.imageView.contentMode= UIViewContentModeScaleAspectFill;
+
+            [callBtn setImage:[UIImage imageNamed:@"IM-拨打电话"] forState:UIControlStateNormal];
+            //callBtn.imageEdgeInsets = UIEdgeInsetsMake(0,0 ,0 ,kScreenW/2-60);
             [callBtn addTarget:self action:@selector(callBtn) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:callBtn];
             
-            UIView*view=[[UIView alloc]initWithFrame:CGRectMake(kScreenW/2-1.5f, 0, 1.0f, 60)];
+            UIView*view=[[UIView alloc]initWithFrame:CGRectMake(kScreenW/2-1.5f, 0, 1.0f, 55)];
             view.backgroundColor=[UIColor lightGrayColor];
             [cell addSubview:view];
             
-            favoriteBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2+10, 10, kScreenW/2-20, 40)];
-            favoriteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
-            favoriteBtn.titleEdgeInsets = UIEdgeInsetsMake(20, -20, 20, 00);
-            [favoriteBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [favoriteBtn setTitle:@"收藏工厂" forState:UIControlStateNormal];
-            [favoriteBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
-            favoriteBtn.imageEdgeInsets = UIEdgeInsetsMake(0,0 ,0 ,kScreenW/2-60);
+            favoriteBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2+10, 0, kScreenW/2-10, 55)];
+            //favoriteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
+            //favoriteBtn.titleEdgeInsets = UIEdgeInsetsMake(20, -20, 20, 00);
+            //[favoriteBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            //[favoriteBtn setTitle:@"收藏工厂" forState:UIControlStateNormal];
+            [favoriteBtn setImage:[UIImage imageNamed:@"IM-发送消息"] forState:UIControlStateNormal];
+            favoriteBtn.adjustsImageWhenHighlighted = NO;
+            favoriteBtn.imageView.contentMode= UIViewContentModeScaleAspectFill;
+            //favoriteBtn.imageEdgeInsets = UIEdgeInsetsMake(0,0 ,0 ,kScreenW/2-60);
             [favoriteBtn addTarget:self action:@selector(favoriteBtn) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:favoriteBtn];
             
@@ -496,8 +512,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.section==0) {
-        return 60;
+    if (indexPath.section == 0) {
+        return 55;
     }
     if (indexPath.section==3) {
         CGSize size = [Tools getSize:[NSString stringWithFormat:@"%@",self.factoryModel.factoryDescription] andFontOfSize:14.0f];

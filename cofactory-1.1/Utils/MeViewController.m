@@ -95,8 +95,13 @@
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
 
     //设置Btn
-    UIBarButtonItem*setButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"settingBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(saetButtonClicked)];
-    self.navigationItem.rightBarButtonItem = setButton;
+    if (self.changeFlag) {
+        
+    } else {
+        UIBarButtonItem*setButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"settingBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(saetButtonClicked)];
+        self.navigationItem.rightBarButtonItem = setButton;
+    }
+    
 
 
     self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH+240) style:UITableViewStyleGrouped];
