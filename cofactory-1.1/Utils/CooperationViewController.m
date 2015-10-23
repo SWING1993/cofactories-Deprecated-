@@ -56,7 +56,7 @@
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.showsVerticalScrollIndicator=NO;
-    self.tableView.rowHeight=100;
+    self.tableView.rowHeight=70;
     [self.view addSubview:self.tableView];
 
     self.modelArray = [[NSMutableArray alloc]initWithCapacity:0];
@@ -108,43 +108,45 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
         FactoryModel*factoryModel=self.modelArray[indexPath.section];
-        UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 80, 80)];
-        headerImage.layer.borderWidth=0.3f;
-        headerImage.layer.borderColor=[UIColor blackColor].CGColor;
+        UIImageView*headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 50, 50)];
         NSString* imageUrlString = [NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,factoryModel.uid];
         [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"消息头像"]];
         headerImage.clipsToBounds=YES;
         headerImage.contentMode=UIViewContentModeScaleAspectFill;
-        headerImage.layer.cornerRadius=80/2.0f;
+        headerImage.layer.cornerRadius=50/2.0f;
         headerImage.layer.masksToBounds=YES;
         [cell addSubview:headerImage];
 
-        UIButton*callBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-55, 30, 30, 30)];
+        UIButton*callBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-55, 20, 30, 30)];
         callBtn.tag=indexPath.section;
         [callBtn setBackgroundImage:[UIImage imageNamed:@"PHONE"] forState:UIControlStateNormal];
         [callBtn addTarget:self action:@selector(callBtn:) forControlEvents:UIControlEventTouchUpInside];
         [cell addSubview:callBtn];
 
         for (int i=0; i<3; i++) {
-            UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, (10+30*i), kScreenW-170, 20)];
-            cellLabel.font=kLargeFont;
+            UILabel*cellLabel = [[UILabel alloc]initWithFrame:CGRectMake(70, (5+20*i), kScreenW-170, 20)];
             switch (i) {
                 case 0:
                 {
+                    cellLabel.font=kFont;
                     cellLabel.text=factoryModel.factoryName;
-                    cellLabel.textColor=[UIColor orangeColor];
+                    cellLabel.textColor=kBlack;
 
                 }
                     break;
                 case 1:
                 {
+                    cellLabel.font=kSmallFont;
                     cellLabel.text=factoryModel.name;
+                    cellLabel.textColor=[UIColor grayColor];
 
                 }
                     break;
                 case 2:
                 {
+                    cellLabel.font=kSmallFont;
                     cellLabel.text=factoryModel.phone;
+                    cellLabel.textColor=[UIColor lightGrayColor];
                     
                 }
                     break;
