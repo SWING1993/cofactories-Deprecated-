@@ -81,6 +81,8 @@ static NSString *LastCellIdentifier = @"LastCell";
             // 存储用户相关信息
             NSNumber *MyUid = [NSNumber numberWithInt:userModel.uid];
             [[NSUserDefaults standardUserDefaults] setObject:MyUid forKey:@"selfuid"];
+            [[NSUserDefaults standardUserDefaults] setObject:@(userModel.factoryType) forKey:@"factoryType"];
+
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryAddress forKey:@"factoryAddress"];
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
