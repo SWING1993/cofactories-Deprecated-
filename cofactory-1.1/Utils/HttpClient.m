@@ -58,7 +58,7 @@
 #define API_sendMaterial @"/material/buy"
 #define API_sendMaterialHistory @"/material/history"
 #define API_searchMaterial @"/search/material"
-#define API_addMaterial @"/material"
+#define API_addMaterial @"/material/shop/add"
 #define API_bidMaterial @"/material/buy/bid"
 #define API_searchBidMaterial @"/search/materialBuy"
 #define API_deleteMateria @"/material/shop/"

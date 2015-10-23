@@ -248,6 +248,8 @@
                         [self.navigationController popToViewController:navArray[3] animated:YES];
                         
                     });
+                } else {
+                    [Tools showErrorWithStatus:@"发布失败"];
                 }
             }];
         }
