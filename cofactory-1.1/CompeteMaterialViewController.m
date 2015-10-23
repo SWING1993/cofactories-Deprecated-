@@ -85,7 +85,7 @@
     priceTextField = [[UITextField alloc] initWithFrame:CGRectMake(20 *2 + kMargin, 20, kMargin, 30)];
     priceTextField.layer.borderWidth = 0.5;
     priceTextField.layer.borderColor = [UIColor colorWithRed:70/255.0 green:126/255.0 blue:220/255.0 alpha:1.0].CGColor;
-    priceTextField.keyboardType = UIKeyboardTypeNumberPad;
+    priceTextField.keyboardType = UIKeyboardTypeDecimalPad;
     priceTextField.font = kFont;
     priceTextField.placeholder = @"填写价格";
     priceTextField.delegate = self;
