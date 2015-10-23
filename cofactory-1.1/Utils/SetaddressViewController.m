@@ -113,8 +113,8 @@
 
 - (void)buttonClicked {
     
-    if ([addressTF1.text isEqualToString:@""]) {
-        UIAlertView*alertView =[[UIAlertView alloc]initWithTitle:@"公司规模不能为空!" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    if ([addressTF1.text isEqualToString:@""]  || [addressTF2.text isEqualToString:@""]) {
+        UIAlertView*alertView =[[UIAlertView alloc]initWithTitle:@"公司地址不能为空!" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alertView show];
     }else{
         NSInteger provinceIndex = [self.addressPicker selectedRowInComponent: PROVINCE_COMPONENT];
