@@ -389,15 +389,22 @@ static NSString *const reuseIdentifier = @"reuseIdentifier";
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不可投标自己的订单" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
             [alert show];
         }else{
-            if (_isCompete) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"该订单您已投标" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+        NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"factoryType"];
+        NSInteger facType = [number integerValue];
+            if (facType == 5) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"面辅料商不可投标服装厂订单" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
                 [alert show];
             }else{
-                DLog(@"tobid");
-                CompeteViewController *VC = [[CompeteViewController alloc]init];
-                VC.oid = self.model.oid;
-                [self.navigationController pushViewController:VC animated:YES];
-
+                if (_isCompete) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"该订单您已投标" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                    [alert show];
+                }else{
+                    DLog(@"tobid");
+                    CompeteViewController *VC = [[CompeteViewController alloc]init];
+                    VC.oid = self.model.oid;
+                    [self.navigationController pushViewController:VC animated:YES];
+                }
             }
         }
     }else{
