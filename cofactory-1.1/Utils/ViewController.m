@@ -35,9 +35,19 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
         //[ViewController goLogin];
 
     }else{
+        DLog(@"已登录");
+
+        //刷新Token
+        [HttpClient validateOAuthWithBlock:^(int statusCode) {
+            if (statusCode == 200) {
+                DLog(@"刷新access_token & refresh_token成功！");
+            }else {
+                DLog(@"刷新access_token & refresh_token失败！");
+            }
+        }];
+        
         //存储工厂类型
         [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
-
             if ([responseDictionary[@"statusCode"]integerValue]==200) {
                 UserModel*userModel=responseDictionary[@"model"];
                 // 存储用户相关信息
@@ -51,26 +61,11 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
                     }
                 }else{
                     DLog(@"用户身份与本地一致！");
-                    //                [Tools showSuccessWithStatus:@"用户身份一致！"];
                 }
-
-            }
-        }];
-        
-        //刷新Token
-        [HttpClient validateOAuthWithBlock:^(int statusCode) {
-            DLog(@"刷新Token");
-        
-            if (statusCode == 200) {
-                DLog(@"刷新Token成功！");
-            }else {
-                DLog(@"刷新Token失败！");
             }
         }];
         
         [ViewController goMain];
-
-        DLog(@"已登录");
     }
 }
 //加载注册界面
