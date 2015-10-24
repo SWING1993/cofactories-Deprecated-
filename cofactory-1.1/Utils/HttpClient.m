@@ -132,8 +132,10 @@
                 block(0);// 网络错误
             }];
         } else {
+            DLog(@" access_token & refresh_token 已经过期");
             // access_token & refresh_token 已经过期
             // 重新登录
+            /*
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             NSString *username = [userDefaults objectForKey:@"username"];
             NSString *password = [userDefaults objectForKey:@"password"];
@@ -149,6 +151,7 @@
                     block(0);// 网络错误
                 }
             }];
+             */
         }
     } else {
         // 不存在 access_token
@@ -298,6 +301,7 @@
     [OAuth2Manager authenticateUsingOAuthWithURLString:API_login username:username password:password scope:@"/" success:^(AFOAuthCredential *credential) {
         // 存储 access_token
         [AFOAuthCredential storeCredential:credential withIdentifier:OAuth2Manager.serviceProviderIdentifier];
+        /*
         // 保存用户身份
         [self getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
             
@@ -305,6 +309,7 @@
                 DLog(@"登录信息:%@",[responseDictionary objectForKey:@"model"] );
             }
         }];
+         */
         block(200);// 登录成功
     } failure:^(NSError *error) {
         if ([[error.userInfo objectForKey:@"com.alamofire.serialization.response.error.response"] statusCode] == 400) {

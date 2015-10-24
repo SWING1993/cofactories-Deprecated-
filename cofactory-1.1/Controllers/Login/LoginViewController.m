@@ -142,8 +142,8 @@
                             
                             DLog(@"登陆成功");
                             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                            [userDefaults setObject:_usernameTF.text forKey:@"username"];
-                            [userDefaults setObject:_passwordTF.text forKey:@"password"];
+//                            [userDefaults setObject:_usernameTF.text forKey:@"username"];
+//                            [userDefaults setObject:_passwordTF.text forKey:@"password"];
 
                             //工厂类型
                             [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
