@@ -38,7 +38,8 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 
 @property (nonatomic, strong) NSMutableArray *collectionImage;
-
+@property (nonatomic, strong) FactoryRangeModel * factoryRangeModel;
+@property (nonatomic, retain) NSString * factoryTypeString;
 @end
 
 @implementation AddOrderViewController {
@@ -54,6 +55,14 @@
     UILabel *_lineLabel;
     UIButton*addImageBtn;
     UIButton*blurBtn;
+    FactoryModel   *_userModel;
+    BOOL           flag, changeFlag;
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [self netWork];
+    self.factoryRangeModel = [[FactoryRangeModel alloc]init];
+    self.factoryTypeString = self.factoryRangeModel.serviceList[kFactoryType];
+    DLog(@"++++++++++++%@", self.factoryTypeString);
 }
 
 - (void)viewDidLoad {
@@ -154,127 +163,174 @@
     }
     self.collectionImage = [[NSMutableArray alloc]initWithCapacity:9];
 }
-
-- (void)pushOrderBtn:(id)sender {
-    UIButton*button = (UIButton *)sender;
-    [button setUserInteractionEnabled:NO];
-
-    int amount = [numberTextField.text intValue];
-    if (self.type==0) {
-        if (ServiceRangeTextField.text.length==0 ||numberTextField.text.length==0 || numberTextField.text.length==0) {
-            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单信息不完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alertView show];
-            [button setUserInteractionEnabled:YES];
-
-        }else{
-            [HttpClient addOrderWithAmount:amount factoryType:1 factoryServiceRange:ServiceRangeTextField.text workingTime:dateTextField.text comment:commentTextField.text andBlock:^(NSDictionary *responseDictionary) {
-                int statusCode = [responseDictionary[@"statusCode"] intValue];
-                if (statusCode==200) {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
-                    [button setUserInteractionEnabled:YES];
-
-                    NSDictionary*data = responseDictionary[@"data"];
-                    self.oid = data[@"oid"];
-                    if (![self.collectionImage count]==0) {
-                        [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-
-                            NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
-                            UIImage*newImage = [[UIImage alloc]initWithData:imageData];
-                            if (idx==0) {
-                                [HttpClient uploadOrderImageWithImage:newImage oid:self.oid type:@"head" andblock:^(NSDictionary *dictionary) {
-                                    if ([dictionary[@"statusCode"] intValue]==200) {
-                                        DLog(@"图片上传成功");
-                                    }else{
-                                        DLog(@"图片上传失败%@",dictionary);
-                                    }
-                                }];
-                            }else{
-                                [HttpClient uploadOrderImageWithImage:newImage oid:self.oid type:@"content" andblock:^(NSDictionary *dictionary) {
-                                    if ([dictionary[@"statusCode"] intValue]==200) {
-                                        DLog(@"图片上传成功");
-                                    }else{
-                                        DLog(@"图片上传失败%@",dictionary);
-                                    }
-                                }];
-                            }
-                        }];
-                    }else{
-                        [button setUserInteractionEnabled:YES];
-                        DLog(@"没有图片");
-                    }
-                }else{
-                    [button setUserInteractionEnabled:YES];
-
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
-                }
-            }];
+- (void)netWork {
+    //解析工厂信息
+    NSNumber *uid = (NSNumber *)[[NSUserDefaults standardUserDefaults] valueForKey:@"selfuid"];
+    [HttpClient getUserProfileWithUid:[uid intValue] andBlock:^(NSDictionary *responseDictionary) {
+        _userModel = (FactoryModel *)responseDictionary[@"model"];
+    }];
+    
+}
+- (void)donePublish {
+    if ([self.factoryTypeString isEqualToString:@"服装厂"] || [self.factoryTypeString isEqualToString:@"加工厂"]) {
+        if (_userModel.factorySize == nil || _userModel.factoryServiceRange == nil || _userModel.factoryAddress == nil) {
+            flag = YES;
         }
-    }else {
-
-        if (numberTextField.text.length==0 || numberTextField.text.length==0) {
-            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单信息不完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alertView show];
-            [button setUserInteractionEnabled:YES];
-
-        }else{
-
-            [HttpClient addOrderWithAmount:amount factoryType:self.type+1 factoryServiceRange:nil workingTime:dateTextField.text comment:commentTextField.text andBlock:^(NSDictionary *responseDictionary) {
-                int statusCode = [responseDictionary[@"statusCode"] intValue];
-                if (statusCode==200) {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
-                    [button setUserInteractionEnabled:YES];
-
-                    NSDictionary*data = responseDictionary[@"data"];
-                    self.oid = data[@"oid"];
-
-                    if (![self.collectionImage count]==0) {
-                        [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-
-                            NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
-                            UIImage*newImage = [[UIImage alloc]initWithData:imageData];
-                            if (idx==0) {
-                                [HttpClient uploadOrderImageWithImage:newImage oid:self.oid type:@"head" andblock:^(NSDictionary *dictionary) {
-                                    if ([dictionary[@"statusCode"] intValue]==200) {
-                                        DLog(@"图片上传成功");
-                                    }else{
-                                        DLog(@"图片上传失败%@",dictionary);
-                                    }
-                                }];
-                            }else{
-                                [HttpClient uploadOrderImageWithImage:newImage oid:self.oid type:@"content" andblock:^(NSDictionary *dictionary) {
-                                    if ([dictionary[@"statusCode"] intValue]==200) {
-                                        DLog(@"图片上传成功");
-                                    }else{
-                                        DLog(@"图片上传失败%@",dictionary);
-                                    }
-                                }];
-                            }
-                        }];
-                    }else{
-                        [button setUserInteractionEnabled:YES];
-
-                        DLog(@"没有图片");
-                    }
-                }else{
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
-                    [button setUserInteractionEnabled:YES];
-
-                }
-            }];
+    }
+    if ([self.factoryTypeString isEqualToString:@"代裁厂"]) {
+        if (_userModel.factorySize == nil || _userModel.factoryAddress == nil) {
+            flag = YES;
+        }
+    }
+    if ([self.factoryTypeString isEqualToString:@"锁眼钉扣厂"]) {
+        if  (_userModel.factoryAddress == nil) {
+            flag = YES;
         }
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+- (void)pushOrderBtn:(id)sender {
+    [self donePublish];
+    UIButton*button = (UIButton *)sender;
+    [button setUserInteractionEnabled:NO];
 
-    DLog(@"oid=%@",self.oid);
-    OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
-    orderListVC.myOrderEnum=GarmentFactoryOrder;
-    [self.navigationController pushViewController:orderListVC animated:YES];
+    int amount = [numberTextField.text intValue];
+    if (flag) {
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"个人信息不完整" message:@"请完善信息后再继续发布" delegate:self cancelButtonTitle:@"暂不完善" otherButtonTitles:@"去完善", nil];
+        alertView.tag = 222;
+        [alertView show];
+    } else {
+        if (self.type==0) {
+            if (ServiceRangeTextField.text.length==0 ||numberTextField.text.length==0 || numberTextField.text.length==0) {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单信息不完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+                [button setUserInteractionEnabled:YES];
+                
+            }else{
+                [HttpClient addOrderWithAmount:amount factoryType:1 factoryServiceRange:ServiceRangeTextField.text workingTime:dateTextField.text comment:commentTextField.text andBlock:^(NSDictionary *responseDictionary) {
+                    int statusCode = [responseDictionary[@"statusCode"] intValue];
+                    if (statusCode==200) {
+                        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                        alertView.tag = 200;
+                        [alertView show];
+                        [button setUserInteractionEnabled:YES];
+                        
+                        NSDictionary*data = responseDictionary[@"data"];
+                        self.oid = data[@"oid"];
+                        if (![self.collectionImage count]==0) {
+                            [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                                
+                                NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
+                                UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+                                if (idx==0) {
+                                    [HttpClient uploadOrderImageWithImage:newImage oid:self.oid type:@"head" andblock:^(NSDictionary *dictionary) {
+                                        if ([dictionary[@"statusCode"] intValue]==200) {
+                                            DLog(@"图片上传成功");
+                                        }else{
+                                            DLog(@"图片上传失败%@",dictionary);
+                                        }
+                                    }];
+                                }else{
+                                    [HttpClient uploadOrderImageWithImage:newImage oid:self.oid type:@"content" andblock:^(NSDictionary *dictionary) {
+                                        if ([dictionary[@"statusCode"] intValue]==200) {
+                                            DLog(@"图片上传成功");
+                                        }else{
+                                            DLog(@"图片上传失败%@",dictionary);
+                                        }
+                                    }];
+                                }
+                            }];
+                        }else{
+                            [button setUserInteractionEnabled:YES];
+                            DLog(@"没有图片");
+                        }
+                    }else{
+                        [button setUserInteractionEnabled:YES];
+                        
+                        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                        [alertView show];
+                    }
+                }];
+            }
+        }else {
+            
+            if (numberTextField.text.length==0 || numberTextField.text.length==0) {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单信息不完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+                [button setUserInteractionEnabled:YES];
+                
+            }else{
+                
+                [HttpClient addOrderWithAmount:amount factoryType:self.type+1 factoryServiceRange:nil workingTime:dateTextField.text comment:commentTextField.text andBlock:^(NSDictionary *responseDictionary) {
+                    int statusCode = [responseDictionary[@"statusCode"] intValue];
+                    if (statusCode==200) {
+                        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                        [alertView show];
+                        [button setUserInteractionEnabled:YES];
+                        
+                        NSDictionary*data = responseDictionary[@"data"];
+                        self.oid = data[@"oid"];
+                        
+                        if (![self.collectionImage count]==0) {
+                            [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                                
+                                NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
+                                UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+                                if (idx==0) {
+                                    [HttpClient uploadOrderImageWithImage:newImage oid:self.oid type:@"head" andblock:^(NSDictionary *dictionary) {
+                                        if ([dictionary[@"statusCode"] intValue]==200) {
+                                            DLog(@"图片上传成功");
+                                        }else{
+                                            DLog(@"图片上传失败%@",dictionary);
+                                        }
+                                    }];
+                                }else{
+                                    [HttpClient uploadOrderImageWithImage:newImage oid:self.oid type:@"content" andblock:^(NSDictionary *dictionary) {
+                                        if ([dictionary[@"statusCode"] intValue]==200) {
+                                            DLog(@"图片上传成功");
+                                        }else{
+                                            DLog(@"图片上传失败%@",dictionary);
+                                        }
+                                    }];
+                                }
+                            }];
+                        }else{
+                            [button setUserInteractionEnabled:YES];
+                            
+                            DLog(@"没有图片");
+                        }
+                    }else{
+                        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                        [alertView show];
+                        [button setUserInteractionEnabled:YES];
+                        
+                    }
+                }];
+            }
+        }
+    }
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 200) {
+        DLog(@"oid=%@",self.oid);
+        OrderListViewController*orderListVC = [[OrderListViewController alloc]init];
+        orderListVC.myOrderEnum=GarmentFactoryOrder;
+        [self.navigationController pushViewController:orderListVC animated:YES];
+    } else if (alertView.tag == 222) {
+        if (buttonIndex == 1) {
+            DLog(@"去完善资料");
+            MeViewController *meVC = [[MeViewController alloc] init];
+            meVC.changeFlag = YES;
+            [self.navigationController pushViewController:meVC animated:YES];
+        } else {
+            DLog(@"暂不完善");
+        }
+        
+    }
+
+    
 }
 
 - (void)clickTypeBtn:(UIButton *)sender {
