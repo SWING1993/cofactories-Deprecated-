@@ -78,7 +78,7 @@ static NSString *const reuseIdentifier = @"reuseIdentifier";
 }
 
 - (void)creatTableView{
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, kScreenW, kScreenH-44) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, kScreenW, kScreenH-44-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;
