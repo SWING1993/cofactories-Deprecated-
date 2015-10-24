@@ -1185,8 +1185,6 @@
 		0451D64D1B574A1B007CCD59 /* FactoryList */ = {
 			isa = PBXGroup;
 			children = (
-				64F2954D1BA2C9C00018ED90 /* SearchFactoryOrderVC.h */,
-				64F2954E1BA2C9C00018ED90 /* SearchFactoryOrderVC.m */,
 				70FECD7D1BD77EE2004DBCDF /* FactoryListViewController.h */,
 				70FECD7C1BD77EE2004DBCDF /* FactoryListViewController.m */,
 				70FECD7E1BD77EE2004DBCDF /* FacTableViewCell.m */,
@@ -1312,6 +1310,8 @@
 				64EDB08A1B9C09F800D2A655 /* CompeteViewController.m */,
 				64F607041B904B5900AA7F22 /* OrderPhotoViewController.h */,
 				64F607051B904B5900AA7F22 /* OrderPhotoViewController.m */,
+				64F2954D1BA2C9C00018ED90 /* SearchFactoryOrderVC.h */,
+				64F2954E1BA2C9C00018ED90 /* SearchFactoryOrderVC.m */,
 			);
 			name = SearchOrder;
 			sourceTree = "<group>";

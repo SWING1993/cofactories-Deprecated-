@@ -395,6 +395,9 @@ static NSString *const reuseIdentifier = @"reuseIdentifier";
             if (facType == 5) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"面辅料商不可投标服装厂订单" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
                 [alert show];
+            }else if (facType == 0){
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"服装厂不可投标订单" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [alert show];
             }else{
                 if (_isCompete) {
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"该订单您已投标" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
