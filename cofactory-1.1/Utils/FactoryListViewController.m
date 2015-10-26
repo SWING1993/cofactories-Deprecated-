@@ -11,6 +11,7 @@
 #import "DOPDropDownMenu.h"
 #import "FacTableViewCell.h"
 #import "MJRefresh.h"
+#import "CooperationInfoViewController.h"
 
 @interface FactoryListViewController ()<DOPDropDownMenuDataSource,DOPDropDownMenuDelegate,UITableViewDataSource,UITableViewDelegate>{
     
@@ -77,7 +78,7 @@ static NSString *const reuseIdentifier = @"reuseIdentifier";
 }
 
 - (void)creatTableView{
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, kScreenW, kScreenH-44) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, kScreenW, kScreenH-44-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;
@@ -100,7 +101,10 @@ static NSString *const reuseIdentifier = @"reuseIdentifier";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    FactoryModel *model = (FactoryModel *)_dataArray[indexPath.row];
+    CooperationInfoViewController *VC = [[CooperationInfoViewController alloc] init];
+    VC.factoryModel = model;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 #pragma mark - MJRefesh

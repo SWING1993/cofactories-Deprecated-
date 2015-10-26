@@ -52,7 +52,7 @@
     }
     else
     {
-        [[self appearance] setTranslucent:NO];
+//        [[self appearance] setTranslucent:NO];
     }
 #endif
     

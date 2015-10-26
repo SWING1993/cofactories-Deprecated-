@@ -112,8 +112,8 @@
 }
 
 - (void)buttonClicked {
-    
-    if ([addressTF1.text isEqualToString:@""] || [addressTF2.text isEqualToString:@""]) {
+
+    if ([addressTF1.text isEqualToString:@""]  || [addressTF2.text isEqualToString:@""]) {
         UIAlertView*alertView =[[UIAlertView alloc]initWithTitle:@"公司地址不能为空!" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alertView show];
     }else{

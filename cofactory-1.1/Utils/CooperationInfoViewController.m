@@ -176,7 +176,7 @@
     //    NSLog(@"拨打电话");
     NSString *str = [NSString stringWithFormat:@"telprompt://%@", self.factoryModel.phone];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-    [self performSelector:@selector(popAlertViewController) withObject:nil afterDelay:3.0f];
+//    [self performSelector:@selector(popAlertViewController) withObject:nil afterDelay:3.0f];
     double delayInSeconds = 2.5f;
 
 

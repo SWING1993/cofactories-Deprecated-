@@ -299,7 +299,12 @@
         _origin = origin;
         _currentSelectedMenudIndex = -1;
         _show = NO;
-        _fontSize = 14;
+        if (IS_IPHONE_4_OR_LESS || IS_IPHONE_5) {
+            _fontSize = 12;
+
+        }else{
+            _fontSize = 14;
+        }
         _cellStyle = UITableViewCellStyleValue1;
         _separatorColor = kSeparatorColor;
         _textColor = kTextColor;

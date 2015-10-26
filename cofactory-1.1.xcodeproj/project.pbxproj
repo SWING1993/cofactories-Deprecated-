@@ -1185,8 +1185,6 @@
 		0451D64D1B574A1B007CCD59 /* FactoryList */ = {
 			isa = PBXGroup;
 			children = (
-				64F2954D1BA2C9C00018ED90 /* SearchFactoryOrderVC.h */,
-				64F2954E1BA2C9C00018ED90 /* SearchFactoryOrderVC.m */,
 				70FECD7D1BD77EE2004DBCDF /* FactoryListViewController.h */,
 				70FECD7C1BD77EE2004DBCDF /* FactoryListViewController.m */,
 				70FECD7E1BD77EE2004DBCDF /* FacTableViewCell.m */,
@@ -1312,6 +1310,8 @@
 				64EDB08A1B9C09F800D2A655 /* CompeteViewController.m */,
 				64F607041B904B5900AA7F22 /* OrderPhotoViewController.h */,
 				64F607051B904B5900AA7F22 /* OrderPhotoViewController.m */,
+				64F2954D1BA2C9C00018ED90 /* SearchFactoryOrderVC.h */,
+				64F2954E1BA2C9C00018ED90 /* SearchFactoryOrderVC.m */,
 			);
 			name = SearchOrder;
 			sourceTree = "<group>";
@@ -2426,7 +2426,7 @@
 				TargetAttributes = {
 					BDC907B61B4E9A5700856A32 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 23L882L49W;
+						DevelopmentTeam = 3AFPZD3ZQ9;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 0;
@@ -2948,7 +2948,7 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/cofactory-1.1/Cofactory_iOS-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = DEBUG;
 				INFOPLIST_FILE = "cofactory-1.1/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2968,9 +2968,9 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cofactory.iosapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jugongchang.cofactory;
 				PRODUCT_NAME = "cofactory-1.1";
-				PROVISIONING_PROFILE = "1f8f05a7-2512-45ce-b60b-7a74c3426c53";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -2996,7 +2996,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/cofactory-1.1/Cofactory_iOS-Prefix.pch";
 				INFOPLIST_FILE = "cofactory-1.1/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3015,9 +3015,9 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cofactory.iosapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jugongchang.cofactory;
 				PRODUCT_NAME = "cofactory-1.1";
-				PROVISIONING_PROFILE = "1f8f05a7-2512-45ce-b60b-7a74c3426c53";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
