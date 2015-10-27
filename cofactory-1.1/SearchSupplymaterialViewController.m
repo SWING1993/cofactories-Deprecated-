@@ -7,7 +7,6 @@
 //
 
 #import "SearchSupplymaterialViewController.h"
-#import "userInformationCell.h"
 #import "MaterialInfoCell.h"
 #import "PHPDetailTableViewCell.h"
 @interface SearchSupplymaterialViewController () {

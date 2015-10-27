@@ -203,12 +203,10 @@
 		7D2378B91BB10460000FC478 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2378B81BB10460000FC478 /* libstdc++.tbd */; };
 		7D2378BB1BB104AD000FC478 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2378BA1BB104AD000FC478 /* CoreTelephony.framework */; };
 		7D2378CE1BB10A4D000FC478 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2378CD1BB10A4D000FC478 /* ImageIO.framework */; };
-		7D2CFB9A1BB12EFC00957797 /* userInformationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2CFB991BB12EFC00957797 /* userInformationCell.m */; settings = {ASSET_TAGS = (); }; };
 		7D616B2F1BABE67100ABA177 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D616B2E1BABE67100ABA177 /* CommentModel.m */; settings = {ASSET_TAGS = (); }; };
 		7D8912B41BD9E11100D6455A /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8912B31BD9E11100D6455A /* CommentsViewController.m */; settings = {ASSET_TAGS = (); }; };
 		7DCA89A31BABB01D00AB8EC0 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA89A21BABB01D00AB8EC0 /* CommentCell.m */; settings = {ASSET_TAGS = (); }; };
 		7DCA89A61BABBADF00AB8EC0 /* InformationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCA89A51BABBADF00AB8EC0 /* InformationModel.m */; settings = {ASSET_TAGS = (); }; };
-		7DE0FFBB1BAAA97A006B9D96 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */; };
 		7DE1630E1BB000A800777AEF /* SupplyHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE1630D1BB000A800777AEF /* SupplyHistory.m */; settings = {ASSET_TAGS = (); }; };
 		7DE221461BCF39410001E82A /* IMChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE221451BCF39410001E82A /* IMChatViewController.m */; settings = {ASSET_TAGS = (); }; };
 		7DE3939A1BD76FFF00B3361C /* Emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7DE393911BD76FFF00B3361C /* Emoji.plist */; settings = {ASSET_TAGS = (); }; };
@@ -712,8 +710,6 @@
 		7D2378B81BB10460000FC478 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		7D2378BA1BB104AD000FC478 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		7D2378CD1BB10A4D000FC478 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		7D2CFB981BB12EFC00957797 /* userInformationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = userInformationCell.h; sourceTree = "<group>"; };
-		7D2CFB991BB12EFC00957797 /* userInformationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = userInformationCell.m; sourceTree = "<group>"; };
 		7D49543A1BBA4C2800C7905F /* QQApiInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QQApiInterface.h; sourceTree = "<group>"; };
 		7D49543B1BBA4C2800C7905F /* QQApiInterfaceObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QQApiInterfaceObject.h; sourceTree = "<group>"; };
 		7D49543C1BBA4C2800C7905F /* sdkdef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sdkdef.h; sourceTree = "<group>"; };
@@ -731,8 +727,6 @@
 		7DCA89A21BABB01D00AB8EC0 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
 		7DCA89A41BABBADF00AB8EC0 /* InformationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InformationModel.h; sourceTree = "<group>"; };
 		7DCA89A51BABBADF00AB8EC0 /* InformationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InformationModel.m; sourceTree = "<group>"; };
-		7DE0FFB91BAAA97A006B9D96 /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
-		7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		7DE1630C1BB000A800777AEF /* SupplyHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyHistory.h; sourceTree = "<group>"; };
 		7DE1630D1BB000A800777AEF /* SupplyHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyHistory.m; sourceTree = "<group>"; };
 		7DE221441BCF39410001E82A /* IMChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMChatViewController.h; sourceTree = "<group>"; };
@@ -1447,8 +1441,6 @@
 				7DE7A1BD1BB3997C00512101 /* NeedMaterialViewController.m */,
 				7D0609901BAD5FE60021606D /* MaterialInfoCell.h */,
 				7D0609911BAD5FE60021606D /* MaterialInfoCell.m */,
-				7D2CFB981BB12EFC00957797 /* userInformationCell.h */,
-				7D2CFB991BB12EFC00957797 /* userInformationCell.m */,
 				7DE9DEE11BB28091002C64AD /* CompeteMaterialViewController.h */,
 				7DE9DEE21BB28091002C64AD /* CompeteMaterialViewController.m */,
 			);
@@ -1708,8 +1700,6 @@
 				640A9B061BA7F5A800B71DE5 /* PMSectionOneTableViewCell.m */,
 				04AEF4FB1BA96A17002DA22E /* PopularMessageInfoVC.h */,
 				04AEF4FC1BA96A17002DA22E /* PopularMessageInfoVC.m */,
-				7DE0FFB91BAAA97A006B9D96 /* CommentViewController.h */,
-				7DE0FFBA1BAAA97A006B9D96 /* CommentViewController.m */,
 				7D8912B21BD9E11100D6455A /* CommentsViewController.h */,
 				7D8912B31BD9E11100D6455A /* CommentsViewController.m */,
 				7DCA89A11BABB01D00AB8EC0 /* CommentCell.h */,
@@ -2601,7 +2591,6 @@
 				04CE49C21BB2384C004442D2 /* EAIntroPage.m in Sources */,
 				04822E421B62E7A600A370F6 /* NSData+MD5Digest.m in Sources */,
 				BD4311CF1B4F41DE0097E4BC /* MessageViewController.m in Sources */,
-				7DE0FFBB1BAAA97A006B9D96 /* CommentViewController.m in Sources */,
 				0366DD331BD0F886002351A5 /* IQTitleBarButtonItem.m in Sources */,
 				045A26691B686682002DE415 /* CalendarLogic.m in Sources */,
 				04AE21861B535ABC007A3279 /* Tools.m in Sources */,
@@ -2654,7 +2643,6 @@
 				70F66BED1BD1FDEF00BF28FA /* OrderDetailViewController.m in Sources */,
 				BD8AD7F51B50E62600373E5E /* UIView+WebCacheOperation.m in Sources */,
 				64F607061B904B5900AA7F22 /* OrderPhotoViewController.m in Sources */,
-				7D2CFB9A1BB12EFC00957797 /* userInformationCell.m in Sources */,
 				BDC908F21B4E9B3800856A32 /* UpYun.m in Sources */,
 				0457E3F31B8EE57100F38881 /* MJPhotoLoadingView.m in Sources */,
 				BD8AD7E81B50E62600373E5E /* SDImageCache.m in Sources */,

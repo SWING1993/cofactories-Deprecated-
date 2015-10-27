@@ -35,7 +35,7 @@
 {
     [super viewWillAppear:animated];
     
-    [[RCIM sharedRCIM] setReceiveMessageDelegate:self];
+    //[[RCIM sharedRCIM] setReceiveMessageDelegate:self];
     
     
 
@@ -55,22 +55,22 @@
 }
 
 
--(void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left {
-    DLog(@"=============================");
-    int messageCount = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
-    //[[[[[self tabBarController] viewControllers] objectAtIndex: 2] tabBarItem] setBadgeValue:[NSString stringWithFormat:@"%d", messageCount]];
-    //self.tabBarController.viewControllers[2].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", messageCount];
-    UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:2];
-    item.badgeValue = [NSString stringWithFormat:@"%d",messageCount];
-    DLog(@"tttttttttttt%d", messageCount);
-//    if (messageCount>0) {
-//        self.tabBarController.viewControllers[0].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",messageCount];
-//    }else
-//    {
-//        self.tabBarController.viewControllers[0].tabBarItem.badgeValue = nil;
-//    }
-    
-}
+//-(void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left {
+//    DLog(@"=============================");
+//    int messageCount = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
+//    //[[[[[self tabBarController] viewControllers] objectAtIndex: 2] tabBarItem] setBadgeValue:[NSString stringWithFormat:@"%d", messageCount]];
+//    //self.tabBarController.viewControllers[2].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", messageCount];
+//    UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:2];
+//    item.badgeValue = [NSString stringWithFormat:@"%d",messageCount];
+//    DLog(@"tttttttttttt%d", messageCount);
+////    if (messageCount>0) {
+////        self.tabBarController.viewControllers[0].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",messageCount];
+////    }else
+////    {
+////        self.tabBarController.viewControllers[0].tabBarItem.badgeValue = nil;
+////    }
+//    
+//}
 
 
 - (void)didReceiveMemoryWarning {
