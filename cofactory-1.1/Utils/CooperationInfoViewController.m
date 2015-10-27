@@ -189,6 +189,7 @@
 
 }
 
+/*
 - (void)popAlertViewController {
     if ([self.navigationController.topViewController isEqual:self]) {
         // 弹出对话框
@@ -197,6 +198,7 @@
         [alertView show];
     }
 }
+ */
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 88) {
@@ -254,7 +256,7 @@
         conversationVC.conversationType = ConversationType_PRIVATE; //会话类型，这里设置为 PRIVATE 即发起单聊会话。
         conversationVC.targetId = [NSString stringWithFormat:@"%d", self.factoryModel.uid]; // 接收者的 targetId，这里为举例。
         conversationVC.userName = self.factoryModel.factoryName; // 接受者的 username，这里为举例。
-        conversationVC.title = self.factoryModel.name; // 会话的 title。
+        conversationVC.title = self.factoryModel.factoryName; // 会话的 title。
         conversationVC.hidesBottomBarWhenPushed=YES;
         // 把单聊视图控制器添加到导航栈。
         UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
@@ -318,9 +320,12 @@
             [callBtn addTarget:self action:@selector(callBtn) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:callBtn];
             
-            UIView*view=[[UIView alloc]initWithFrame:CGRectMake(kScreenW/2-1.5f, 0, 1.0f, 55)];
+            
+            
+            UIView*view=[[UIView alloc]initWithFrame:CGRectMake(kScreenW/2-1.5f, 10, 0.5f, 35)];
             view.backgroundColor=[UIColor lightGrayColor];
             [cell addSubview:view];
+            
             
             favoriteBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2+10, 0, kScreenW/2-10, 55)];
             //favoriteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];

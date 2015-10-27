@@ -2260,6 +2260,7 @@
     
 }
 
+/*
 + (void)upDataWithBlock:(void (^)(NSDictionary *upDateDictionary))block {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] init];
     [manager POST:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=1015359842"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -2284,5 +2285,6 @@
         block(errorDic);
     }];
 }
+ */
 
 @end
