@@ -132,7 +132,7 @@ static NSString *const reuseIdentifier = @"reuseIdentifier";
     NSArray *imgeArray = @[@"实时对话",@"投标"];
     for (int i = 0; i<2; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(30+i*kScreenW/2.0, 142+5, 30, 30);
+        button.frame = CGRectMake(i*kScreenW/2.0, 142, kScreenW/2.0, 40);
         [button setBackgroundImage:[UIImage imageNamed:imgeArray[i]] forState:UIControlStateNormal];
         button.tag = i + 100;
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -143,22 +143,11 @@ static NSString *const reuseIdentifier = @"reuseIdentifier";
             _bidButton = button;
         }
     }
-    
-    UILabel *chatLB = [[UILabel alloc] initWithFrame:CGRectMake(_chatButton.frame.origin.x+30+10, _chatButton.frame.origin.y, 70, 30)];
-    chatLB.font = kFont;
-    chatLB.text = @"实时对话";
-    [tableHeadView addSubview:chatLB];
-    
-    UILabel *bidLB = [[UILabel alloc] initWithFrame:CGRectMake(_bidButton.frame.origin.x+30+10, _bidButton.frame.origin.y, 70, 30)];
-    bidLB.font = kFont;
-    [tableHeadView addSubview:bidLB];
-    
+
     if (self.model.status == 0) {
         _bidButton.enabled = YES;
-        bidLB.text = @"参与投标";
         
     }else{
-        bidLB.text = @"投标结束";
         _bidButton.enabled = NO;
     }
     

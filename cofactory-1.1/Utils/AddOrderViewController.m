@@ -230,7 +230,18 @@
                                             DLog(@"图片上传失败%@",dictionary);
                                         }
                                     }];
-                                }else{
+                                }
+                                
+                                [HttpClient uploadOrderImageWithImage:newImage oid:self.oid type:@"content" andblock:^(NSDictionary *dictionary) {
+                                    if ([dictionary[@"statusCode"] intValue]==200) {
+                                        DLog(@"图片上传成功");
+                                    }else{
+                                        DLog(@"图片上传失败%@",dictionary);
+                                    }
+                                }];
+
+                                /*
+                                else{
                                     [HttpClient uploadOrderImageWithImage:newImage oid:self.oid type:@"content" andblock:^(NSDictionary *dictionary) {
                                         if ([dictionary[@"statusCode"] intValue]==200) {
                                             DLog(@"图片上传成功");
@@ -239,6 +250,8 @@
                                         }
                                     }];
                                 }
+                                 */
+                                
                             }];
                         }else{
                             [button setUserInteractionEnabled:YES];
@@ -284,7 +297,17 @@
                                             DLog(@"图片上传失败%@",dictionary);
                                         }
                                     }];
-                                }else{
+                                }
+                                [HttpClient uploadOrderImageWithImage:newImage oid:self.oid type:@"content" andblock:^(NSDictionary *dictionary) {
+                                    if ([dictionary[@"statusCode"] intValue]==200) {
+                                        DLog(@"图片上传成功");
+                                    }else{
+                                        DLog(@"图片上传失败%@",dictionary);
+                                    }
+                                }];
+
+                                /*
+                                else{
                                     [HttpClient uploadOrderImageWithImage:newImage oid:self.oid type:@"content" andblock:^(NSDictionary *dictionary) {
                                         if ([dictionary[@"statusCode"] intValue]==200) {
                                             DLog(@"图片上传成功");
@@ -293,6 +316,7 @@
                                         }
                                     }];
                                 }
+                                 */
                             }];
                         }else{
                             [button setUserInteractionEnabled:YES];
