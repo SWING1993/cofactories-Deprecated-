@@ -401,11 +401,10 @@ static NSString *LastCellIdentifier = @"LastCell";
 #pragma mark - 认证服务
 - (void)statusClicked:(id)sender {
     
-    [MobClick event:@"config"];
-
     UIButton*button = (UIButton *)sender;
     [button setUserInteractionEnabled:NO];
-    
+    [MobClick event:@"verify"];
+
     //认证信息
     [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
         NSDictionary*VeifyDic=dictionary[@"responseDictionary"];
@@ -415,6 +414,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         
         //未认证
         if ( self.status==0) {
+            [MobClick event:@"verify"];
             VeifyViewController*veifyVC = [[VeifyViewController alloc]init];
             veifyVC.hidesBottomBarWhenPushed=YES;
             veifyVC.title=@"未认证";
@@ -422,6 +422,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         }
         //认证中
         if ( self.status==1) {
+            [MobClick event:@"verify"];
             VeifyingViewController*veifyingVC = [[VeifyingViewController alloc]init];
             veifyingVC.hidesBottomBarWhenPushed=YES;
             veifyingVC.VeifyDic=VeifyDic;
@@ -430,6 +431,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         }
         //认证成功
         if ( self.status==2) {
+            [MobClick event:@"verify"];
             VeifyEndViewController*endVC = [[VeifyEndViewController alloc]init];
             endVC.hidesBottomBarWhenPushed=YES;
             endVC.title=@"认证成功";

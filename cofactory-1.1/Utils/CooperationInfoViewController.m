@@ -189,6 +189,7 @@
 
 }
 
+/*
 - (void)popAlertViewController {
     if ([self.navigationController.topViewController isEqual:self]) {
         // 弹出对话框
@@ -197,6 +198,7 @@
         [alertView show];
     }
 }
+ */
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 88) {
@@ -318,9 +320,11 @@
             [callBtn addTarget:self action:@selector(callBtn) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:callBtn];
             
+            /*
             UIView*view=[[UIView alloc]initWithFrame:CGRectMake(kScreenW/2-1.5f, 0, 1.0f, 55)];
             view.backgroundColor=[UIColor lightGrayColor];
             [cell addSubview:view];
+             */
             
             favoriteBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2+10, 0, kScreenW/2-10, 55)];
             //favoriteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
