@@ -333,7 +333,7 @@
                     [alert show];
                 }else{
                     DLog(@"123");
-                    int amuont = [_amountTF.text intValue];
+                    CGFloat amuont = [_amountTF.text floatValue];
                     [HttpClient sendMaterialPurchaseInfomationWithType:self.materiaType name:_nameTF.text description:_commentTF.text amount:@(amuont) unit:_buttonTitleArray[_selectedIndex-1] completionBlock:^(NSDictionary *responseDictionary) {
                         int statusCode = [responseDictionary[@"statusCode"] intValue];
                         DLog("++++>>>>%d",statusCode);
@@ -390,7 +390,7 @@
     
     if (alertView.tag == 100) {
         if (buttonIndex == 1) {
-            int amuont = [_amountTF.text intValue];
+            CGFloat amuont = [_amountTF.text floatValue];
             [HttpClient sendMaterialPurchaseInfomationWithType:self.materiaType name:_nameTF.text description:_commentTF.text amount:@(amuont) unit:_buttonTitleArray[_selectedIndex-1] completionBlock:^(NSDictionary *responseDictionary) {
                 int statusCode = [responseDictionary[@"statusCode"] intValue];
                 if (statusCode == 200) {
