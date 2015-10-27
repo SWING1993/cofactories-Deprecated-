@@ -49,7 +49,7 @@ static NSString *noneCellIdentifier = @"noneCell";
     _webView = [[UIWebView alloc] init];
     _webView.delegate = self;
     _webView.backgroundColor = [UIColor whiteColor];
-    _webView.frame = CGRectMake(0,0,kScreenW,3 * kScreenH);
+    _webView.frame = CGRectMake(0,0,kScreenW,15 * kScreenH);
     NSURL *url = [NSURL URLWithString:self.urlString];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [_webView sizeToFit];
@@ -63,7 +63,7 @@ static NSString *noneCellIdentifier = @"noneCell";
     _refrushCount = 1;
     [self netWork];
     [self setupRefresh];
-    self.totalHeight = 3 * kScreenH;
+    self.totalHeight = 15 * kScreenH;
 }
 
 - (void)netWork {
@@ -120,7 +120,7 @@ static NSString *noneCellIdentifier = @"noneCell";
 - (void)creatTableView {
     
     
-    self.myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - 120) style:UITableViewStylePlain];
+    self.myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - 104) style:UITableViewStylePlain];
     self.myTableView.dataSource = self;
     self.myTableView.delegate = self;
     [self.view addSubview:self.myTableView];
@@ -241,6 +241,7 @@ static NSString *noneCellIdentifier = @"noneCell";
         if (self.commentArray.count == 0) {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:noneCellIdentifier forIndexPath:indexPath];
             cell.textLabel.text = @"暂无任何评论";
+            cell.textLabel.font = kFont;
             return cell;
         } else {
             CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:commentCellIdentifier forIndexPath:indexPath];

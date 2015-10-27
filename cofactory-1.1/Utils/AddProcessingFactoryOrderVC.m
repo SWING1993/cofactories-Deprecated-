@@ -157,7 +157,7 @@
         if (_userModel.factorySize == nil || _userModel.factoryServiceRange == nil || _userModel.factoryAddress == nil) {
             flag = YES;
         }
-    }
+    }  
     if ([self.factoryTypeString isEqualToString:@"代裁厂"]) {
         if (_userModel.factorySize == nil || _userModel.factoryAddress == nil) {
             flag = YES;

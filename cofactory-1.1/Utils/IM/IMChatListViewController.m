@@ -9,14 +9,11 @@
 #import "IMChatListViewController.h"
 #import "IMChatViewController.h"
 
-
 @interface IMChatListViewController ()
 
 @end
 
 @implementation IMChatListViewController
-
-
 
 
 //重载函数，onSelectedTableRow 是选择会话列表之后的事件，该接口开放是为了便于您自定义跳转事件。
@@ -27,48 +24,54 @@
     conversationVC.targetId = model.targetId;
     conversationVC.userName =model.conversationTitle;
     conversationVC.title = model.conversationTitle;
-    UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
-    backItem.title=@"返回";
-    self.navigationItem.backBarButtonItem = backItem;
+    
     conversationVC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:conversationVC animated:YES];
+    //self.emptyConversationView.userInteractionEnabled = YES;
 }
 
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[RCIM sharedRCIM] setReceiveMessageDelegate:self];
+    
+    
+
+}
+
+/*
+ * 如果原 TableView 和 SearchDisplayController 中的 TableView 的 delete 指向同一个对象
+ * 需要在回调中区分出当前是哪个 TableView
+ */
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.conversationListTableView.tableFooterView = [[UIView alloc] init];
-     
-//    [[RCIM sharedRCIM] setReceiveMessageDelegate:self];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    //设置tableView样式
+    self.conversationListTableView.tableFooterView = [UIView new];
     
 }
 
-//-(void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left {
-//    DLog(@"=============================");
-//    int messageCount = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
-//    //[[[[[self tabBarController] viewControllers] objectAtIndex: 2] tabBarItem] setBadgeValue:[NSString stringWithFormat:@"%d", messageCount]];
-//    //self.tabBarController.viewControllers[2].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", messageCount];
-//    UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:2];
-//    item.badgeValue = [NSString stringWithFormat:@"%d",messageCount];
-//    DLog(@"tttttttttttt%d", messageCount);
-////    if (messageCount>0) {
-////        self.tabBarController.viewControllers[0].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",messageCount];
-////    }else
-////    {
-////        self.tabBarController.viewControllers[0].tabBarItem.badgeValue = nil;
-////    }
-//    
-//}
 
-- (void) didTapCellPortrait:(NSString*)userId {
-   
-    DLog(@"%@", userId);
+-(void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left {
+    DLog(@"=============================");
+    int messageCount = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
+    //[[[[[self tabBarController] viewControllers] objectAtIndex: 2] tabBarItem] setBadgeValue:[NSString stringWithFormat:@"%d", messageCount]];
+    //self.tabBarController.viewControllers[2].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", messageCount];
+    UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:2];
+    item.badgeValue = [NSString stringWithFormat:@"%d",messageCount];
+    DLog(@"tttttttttttt%d", messageCount);
+//    if (messageCount>0) {
+//        self.tabBarController.viewControllers[0].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",messageCount];
+//    }else
+//    {
+//        self.tabBarController.viewControllers[0].tabBarItem.badgeValue = nil;
+//    }
     
-//    CooperationInfoViewController *vc = [CooperationInfoViewController new];
-//    vc.factoryModel = _userModel;
-//    [self.navigationController.navigationBar setHidden:NO];
-//    [self.navigationController pushViewController:vc animated:YES];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

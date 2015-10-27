@@ -51,7 +51,7 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
     }
     
     self.view.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
-
+    _tableView.tableFooterView = [[UIView alloc] init];
     _refrushCount = 1;
     _dataArray = [@[] mutableCopy];
     
@@ -153,6 +153,14 @@ static NSString * const reuseIdentifier = @"cellIdentifier";
     [cell getDataWithModel:model];
     return cell;
 }
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    cell.layer.transform = CATransform3DMakeScale(0.1, 0.1, 1);
+    [UIView animateWithDuration:0.5 animations:^{
+        cell.layer.transform = CATransform3DMakeScale(1, 1, 1);
+    }];
+}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
