@@ -202,7 +202,7 @@ static NSString *LastCellIdentifier = @"LastCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self goUpdata];
+    //[self goUpdata];
 
     //获取融云的token
     [HttpClient getIMTokenWithBlock:^(NSDictionary *responseDictionary) {
@@ -286,6 +286,8 @@ static NSString *LastCellIdentifier = @"LastCell";
 }
 
 #pragma mark - 抽奖 检测更新
+
+/*
 - (void)goUpdata {
     DLog(@"%@",Kidentifier);
     if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
@@ -311,6 +313,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         //DLog(@"企业账号 开启检测更新")
     }
 }
+ */
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag==100) {
         if (buttonIndex==1) {

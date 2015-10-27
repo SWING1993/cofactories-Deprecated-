@@ -320,11 +320,12 @@
             [callBtn addTarget:self action:@selector(callBtn) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:callBtn];
             
-            /*
-            UIView*view=[[UIView alloc]initWithFrame:CGRectMake(kScreenW/2-1.5f, 0, 1.0f, 55)];
+            
+            
+            UIView*view=[[UIView alloc]initWithFrame:CGRectMake(kScreenW/2-1.5f, 10, 0.5f, 35)];
             view.backgroundColor=[UIColor lightGrayColor];
             [cell addSubview:view];
-             */
+            
             
             favoriteBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2+10, 0, kScreenW/2-10, 55)];
             //favoriteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];

@@ -99,7 +99,7 @@
                 break;
             case 2:
                 _amountTF = textField ;
-                _amountTF.keyboardType = UIKeyboardTypeNumberPad;
+                _amountTF.keyboardType = UIKeyboardTypeDecimalPad;
                 break;
                 
             default:

@@ -526,9 +526,9 @@
 + (void)searchFactoriesWithFactoryType:(NSInteger)factoryType factorySize:(NSArray *)factorySize city:(NSString *)city factoryServiceRange:(NSString *)factoryServiceRange factoryFreeTime:(NSNumber *)factoryFreeTime factoryFreeStatus:(NSString *)factoryFreeStatus page:(NSNumber*)page completionBlock:(void (^)(NSDictionary *responseDictionary))block;
 /**检测更新
  *
- */
+ 
 + (void)upDataWithBlock:(void (^)(NSDictionary *upDateDictionary))block ;
-
+*/
 
 /**
  *获取融云的Token
