@@ -27,7 +27,7 @@
         
         _bidManagerButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _bidManagerButton.frame = CGRectMake(kScreenW-80-40, 10, 30, 30);
-        [_bidManagerButton setBackgroundImage:[UIImage imageNamed:@"投标"] forState:UIControlStateNormal];
+        [_bidManagerButton setBackgroundImage:[UIImage imageNamed:@"投标1"] forState:UIControlStateNormal];
         [self addSubview:_bidManagerButton];
         
         UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(kScreenW-80-50, 8, 0.8, 34)];
