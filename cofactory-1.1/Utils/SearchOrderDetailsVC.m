@@ -125,15 +125,12 @@ static NSString *const reuseIdentifier = @"reuseIdentifier";
     [detailButton addTarget:self action:@selector(facDetailClick) forControlEvents:UIControlEventTouchUpInside];
     [tableHeadView addSubview:detailButton];
     
-    UILabel *lineLB0 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenW/2.0, 140+5, 0.8, 34)];
-    lineLB0.backgroundColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0];
-    [tableHeadView addSubview:lineLB0];
-    
     NSArray *imgeArray = @[@"实时对话",@"投标"];
     for (int i = 0; i<2; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(i*kScreenW/2.0, 142, kScreenW/2.0, 40);
-        [button setBackgroundImage:[UIImage imageNamed:imgeArray[i]] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:imgeArray[i]] forState:UIControlStateNormal];
+        button.imageView.contentMode = UIViewContentModeScaleAspectFill;
         button.tag = i + 100;
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         [tableHeadView addSubview:button];
@@ -150,6 +147,10 @@ static NSString *const reuseIdentifier = @"reuseIdentifier";
     }else{
         _bidButton.enabled = NO;
     }
+    
+    UILabel *lineLB0 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenW/2.0, 145, 0.8, 34)];
+    lineLB0.backgroundColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0];
+    [tableHeadView addSubview:lineLB0];
     
     UILabel *lineLB = [[UILabel alloc] initWithFrame:CGRectMake(0, 139, kScreenW, 0.8)];
     lineLB.backgroundColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0];
