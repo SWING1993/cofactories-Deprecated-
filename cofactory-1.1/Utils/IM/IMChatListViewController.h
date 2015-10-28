@@ -8,6 +8,6 @@
 
 #import <RongIMKit/RongIMKit.h>
 
-@interface IMChatListViewController : RCConversationListViewController<RCIMReceiveMessageDelegate>
+@interface IMChatListViewController : RCConversationListViewController
 
 @end

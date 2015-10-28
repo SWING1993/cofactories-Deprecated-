@@ -18,7 +18,7 @@
         _phone = dictionary[@"phone"];
         _photoArray = [NSArray arrayWithArray:dictionary[@"photo"]];
         _uid = [dictionary[@"uid"] integerValue];
-        _amount = [dictionary[@"amount"] integerValue];
+        _amount = [dictionary[@"amount"] floatValue];
         _oid = [dictionary[@"id"] integerValue];
         _createdAt = dictionary[@"createdAt"];
     }
@@ -32,7 +32,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@, %@, %@, %@, %ld, %ld, %ld, %@", _photoArray, _info, _name, _phone, (long)_uid, (long)_amount, (long)_oid, _createdAt];
+    return [NSString stringWithFormat:@"%@, %@, %@, %@, %ld, %g, %ld, %@", _photoArray, _info, _name, _phone, (long)_uid, _amount, (long)_oid, _createdAt];
 }
 
 @end

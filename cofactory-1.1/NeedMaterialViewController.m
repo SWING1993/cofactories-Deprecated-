@@ -184,7 +184,7 @@ static NSString *const reuseIdentifier2 = @"reuseIdentifier2";
                 cell.textLabel.text = [NSString stringWithFormat:@"名称:  %@",self.needName];
                 break;
             case 1:
-                cell.textLabel.text = [NSString stringWithFormat:@"数量:  %ld%@",self.detail.amount, self.amount];
+                cell.textLabel.text = [NSString stringWithFormat:@"数量:  %g%@",self.detail.amount, self.amount];
                 break;
             case 2:
                 cell.textLabel.text = [NSString stringWithFormat:@"时间:  %@",timeString];

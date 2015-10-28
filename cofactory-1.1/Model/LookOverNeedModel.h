@@ -10,7 +10,8 @@
 
 @interface LookOverNeedModel : NSObject
 @property (nonatomic, copy)NSString *name, *phone, *info, *createdAt;
-@property (nonatomic, assign)NSInteger oid, uid, amount;
+@property (nonatomic, assign)NSInteger oid, uid;
+@property (nonatomic, assign)CGFloat amount;
 @property (nonatomic, copy) NSArray *photoArray;
 - (instancetype)initModelWith:(NSDictionary *)dictionary;
 + (instancetype)getModelWith:(NSDictionary *)dictionary;
