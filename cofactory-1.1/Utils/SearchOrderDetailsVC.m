@@ -409,7 +409,7 @@ static NSString *const reuseIdentifier = @"reuseIdentifier";
             conversationVC.conversationType = ConversationType_PRIVATE; //会话类型，这里设置为 PRIVATE 即发起单聊会话。
             conversationVC.targetId = [NSString stringWithFormat:@"%d", self.model.uid]; // 接收者的 targetId，这里为举例。
             conversationVC.userName = self.model.facName; // 接受者的 username，这里为举例。
-            conversationVC.title = self.model.name; // 会话的 title。
+            conversationVC.title = self.model.facName; // 会话的 title。
             conversationVC.hidesBottomBarWhenPushed=YES;
             // 把单聊视图控制器添加到导航栈。
             UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];

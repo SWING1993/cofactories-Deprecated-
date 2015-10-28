@@ -38,7 +38,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.pluginBoardView removeItemAtIndex:2];
-    [self.pluginBoardView removeItemAtIndex:3];
     [self notifyUpdateUnreadMessageCount];
     self.enableNewComingMessageIcon = YES;
 }

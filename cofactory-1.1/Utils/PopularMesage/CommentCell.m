@@ -16,6 +16,8 @@
         self.userImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 30, 30)];
         self.userImage.layer.cornerRadius = 15;
         self.userImage.clipsToBounds = YES;
+        self.userImage.layer.borderWidth = 0.5;
+        self.userImage.layer.borderColor = [UIColor grayColor].CGColor;
 //        self.userImage.backgroundColor = [UIColor cyanColor];
         [self addSubview:self.userImage];
         self.authorLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.userImage.frame) + 10, 10, (kScreenW - 80) / 2, 30)];
@@ -32,7 +34,7 @@
         [self addSubview:self.timeLabel];
         self.contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.userImage.frame) + 10, CGRectGetMaxY(self.authorLabel.frame), kScreenW - 80, 50)];
         self.contentLabel.numberOfLines = 0;
-        self.contentLabel.font = [UIFont systemFontOfSize:15];
+        self.contentLabel.font = [UIFont systemFontOfSize:14];
 //        self.contentLabel.backgroundColor = [UIColor greenColor];
         [self addSubview:self.contentLabel];
         
@@ -46,10 +48,10 @@
         _comment = comment;
     }
     self.authorLabel.text = comment.authour;
-    [self.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%ld.png",PhotoAPI,comment.uid]] placeholderImage:[UIImage imageNamed:@"placeholder88"]];
+    [self.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%ld.png",PhotoAPI,comment.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];
     self.timeLabel.text = [Tools getUTCFormateDate:comment.time];
-    CGSize size = CGSizeMake(kScreenW - 20, 0);
-    NSDictionary *dic = @{NSFontAttributeName : [UIFont systemFontOfSize:15]};
+    CGSize size = CGSizeMake(kScreenW - 80, 0);
+    NSDictionary *dic = @{NSFontAttributeName : [UIFont systemFontOfSize:14]};
     CGRect rect = [comment.comment boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil];
     CGRect frame = self.contentLabel.frame;
     frame.size.height = rect.size.height;
@@ -60,8 +62,8 @@
 
 
 + (CGFloat)heightOfCell:(CommentModel *)comment {
-    CGSize size = CGSizeMake(kScreenW - 20, 0);
-    NSDictionary *dic = @{NSFontAttributeName : [UIFont systemFontOfSize:15]};
+    CGSize size = CGSizeMake(kScreenW - 80, 0);
+    NSDictionary *dic = @{NSFontAttributeName : [UIFont systemFontOfSize:14]};
     CGRect rect = [comment.comment boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil];
     CGFloat height = rect.size.height + 50;
     return height;
