@@ -64,7 +64,6 @@ static NSString *LastCellIdentifier = @"LastCell";
 - (void)viewWillAppear:(BOOL)animated {
     //设置代理（融云）
     [[RCIM sharedRCIM] setUserInfoDataSource:self];
-    
     //工厂类型
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
@@ -215,6 +214,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         
         // 快速集成第二步，连接融云服务器
         [[RCIM sharedRCIM] connectWithToken:token success:^(NSString *userId) {
+            [self updateBadgeValueForTabBarItem];
             // Connect 成功
             DLog(@" Connect 成功");
         }
@@ -727,6 +727,29 @@ static NSString *LastCellIdentifier = @"LastCell";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)updateBadgeValueForTabBarItem
+{
+    //__weak typeof(self) __weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        int count = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
+        if (count>0) {
+            DLog(@"++++++++++++++%d", count);
+            
+            self.tabBarController.viewControllers[2].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",count];
+        }else
+        {
+            self.tabBarController.viewControllers[2].tabBarItem.badgeValue = nil;
+        }
+        
+    });
+}
+
+
+
+
+
+
 
 - (void)dealloc {
     DLog(@"释放内存");
