@@ -10,6 +10,9 @@
 #import "SettingTagsViewController.h"
 #import "HeaderViewController.h"
 
+
+#define kHeaderHeight 180
+
 @interface MeViewController ()<UIAlertViewDelegate,UIScrollViewDelegate>
 
 
@@ -104,7 +107,7 @@
     
 
 
-    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH+240) style:UITableViewStyleGrouped];
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH) style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
 
     self.cellImageArray1=@[[UIImage imageNamed:@"set_人名"],[UIImage imageNamed:@"set_号码"],[UIImage imageNamed:@"set_职务 "],[UIImage imageNamed:@"set_收藏"],[UIImage imageNamed:@"set_标签"]];
@@ -113,25 +116,25 @@
 
     BGView=[[UIView alloc]init];
     BGView.backgroundColor=[UIColor clearColor];
-    BGView.frame=CGRectMake(0, 0, kScreenW, 200);
+    BGView.frame=CGRectMake(0, 0, kScreenW, kHeaderHeight);
 
     imageBG=[[UIImageView alloc]init];
-    imageBG.frame=CGRectMake(0, 0, kScreenW, 200);
+    imageBG.frame=CGRectMake(0, 0, kScreenW, kHeaderHeight);
     imageBG.contentMode = UIViewContentModeScaleAspectFill;
     imageBG.clipsToBounds = YES;
    
 
-    headerButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2-40, 80-64, 80, 80)];
+    headerButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW/2-40, 80-54, 80, 80)];
     headerButton.layer.cornerRadius=80/2.0f;
     headerButton.layer.masksToBounds=YES;
     [headerButton addTarget:self action:@selector(uploadBtn) forControlEvents:UIControlEventTouchUpInside];
 
-    factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 180-60, kScreenW, 20)];
+    factoryNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, kHeaderHeight-60, kScreenW, 20)];
     factoryNameLabel.font=[UIFont systemFontOfSize:16];
     factoryNameLabel.textAlignment = NSTextAlignmentCenter;
     factoryNameLabel.textColor = [UIColor whiteColor];
 
-    infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 180-30, kScreenW, 20)];
+    infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, kHeaderHeight-30, kScreenW, 20)];
     infoLabel.textAlignment = NSTextAlignmentCenter;
     infoLabel.font=[UIFont systemFontOfSize:14.0f];
     infoLabel.textColor=[UIColor whiteColor];
@@ -343,6 +346,7 @@
         descriptionLabel.text=self.userModel.factoryDescription;
         descriptionLabel.font=kFont;
         descriptionLabel.numberOfLines=0;
+        [descriptionLabel sizeToFit];
         [cell addSubview:descriptionLabel];
     }
     [cell addSubview:cellLabel];
@@ -366,7 +370,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section==2) {
-        CGSize size = [Tools getSize:[NSString stringWithFormat:@"%@",self.userModel.factoryDescription] andFontOfSize:14.0f];
+        CGSize size = [Tools getSize:[NSString stringWithFormat:@"%@",self.userModel.factoryDescription] andFontOfSize:14.5f];
         return size.height+40;
     }else{
         return 44;
@@ -510,7 +514,7 @@
 
         CGRect rect = imageBG.frame;
         rect.origin.y = yOffset;
-        rect.size.height =  200-yOffset ;
+        rect.size.height = kHeaderHeight-yOffset ;
         rect.origin.x = xOffset;
         rect.size.width = kScreenW + fabs(xOffset)*2;
 

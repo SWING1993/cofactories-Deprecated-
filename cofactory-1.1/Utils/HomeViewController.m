@@ -21,8 +21,10 @@
 //面辅料 供应
 #import "SupplyViewController.h"
 
-#define kButtonViewHeight 74
-#define kBannerHeight kScreenW*0.535
+//#define kButtonViewHeight 74
+//#define kBannerHeight kScreenW*0.535
+#define kButtonViewHeight 60
+#define kBannerHeight kScreenW*0.400
 #define kMargin [[UIScreen mainScreen] bounds].size.width / 375
 
 static NSString *ActivityCellIdentifier = @"ActivityCell";
@@ -241,12 +243,12 @@ static NSString *LastCellIdentifier = @"LastCell";
     
     // 表头视图
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
-    NSArray *imageArray = @[@"服装平台.png",@"面辅料.png",@"新功能.png", @"活动策划bbbb.png"];
+    NSArray *imageArray = @[@"服装平台.png",@"面辅料.png",@"新功能.png", @"首页轮播图4.png"];
     PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:imageArray pageCount:4 isNetWork:YES];
     [bannerView.imageButton1 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
     [bannerView.imageButton2 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
     [bannerView.imageButton3 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
-    [bannerView.imageButton4 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
+    //[bannerView.imageButton4 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:bannerView];
     
     if (self.factoryType==0) {

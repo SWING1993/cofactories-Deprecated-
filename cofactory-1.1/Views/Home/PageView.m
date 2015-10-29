@@ -26,9 +26,10 @@
         if (isNetWork) {
             for (int i = 1; i <= pageCount; i++) {
                 UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-                [button setBackgroundImage:[UIImage imageNamed:imageArray[i-1]] forState:UIControlStateNormal];
+                [button setImage:[UIImage imageNamed:imageArray[i-1]] forState:UIControlStateNormal];
+                //[button setBackgroundImage:[UIImage imageNamed:imageArray[i-1]] forState:UIControlStateNormal];
                  [button setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];
-                button.imageView.contentMode = UIViewContentModeScaleAspectFill;
+//                button.imageView.contentMode = UIViewContentModeScaleAspectFill;
 
                 button.tag = i-1;
                 [scrollView addSubview:button];
