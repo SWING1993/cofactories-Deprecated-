@@ -26,7 +26,27 @@
 
 @end
 
-@implementation SetaddressViewController
+@implementation SetaddressViewController{
+    BOOL _wasKeyboardManagerEnabled;
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
+    [[IQKeyboardManager sharedManager] setEnable:NO];
+//    [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
+//    [[IQKeyboardManager sharedManager] setEnableAutoToolbar:_wasKeyboardManagerEnabled];
+    
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

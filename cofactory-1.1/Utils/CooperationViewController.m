@@ -113,7 +113,7 @@
         [headerImage sd_setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"消息头像"]];
         headerImage.clipsToBounds=YES;
         headerImage.contentMode=UIViewContentModeScaleAspectFill;
-        headerImage.layer.cornerRadius=50/2.0f;
+        headerImage.layer.cornerRadius=3.0f;
         headerImage.layer.masksToBounds=YES;
         [cell addSubview:headerImage];
 

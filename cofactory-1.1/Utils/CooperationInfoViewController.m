@@ -71,7 +71,8 @@
     BGImage.clipsToBounds = YES;
     int x = arc4random() % 6;
     NSString * imageStr = [NSString stringWithFormat:@"headerView%d",x];
-    BGImage.image=[UIImage imageNamed:imageStr];    headerView.backgroundColor=[UIColor whiteColor];
+    BGImage.image=[UIImage imageNamed:imageStr];
+    headerView.backgroundColor=[UIColor whiteColor];
     [headerView addSubview:BGImage];
     
     /*
@@ -280,7 +281,7 @@
         return 1;
     }
     if (section==1) {
-        return 7;
+        return 6;
 /*
         if (self.factoryModel.factoryType == GarmentFactory) {
             return 6;
@@ -347,7 +348,6 @@
                 case 0:{
                     cellLabel.text=@"公司名称";
                     cell.detailTextLabel.text=self.factoryModel.factoryName;
-                    
                 }
                     break;
                 case 1:{
@@ -364,27 +364,37 @@
                     break;
                 case 2:{
                     cellLabel.text=@"公司规模";
-                    if (self.factoryModel.factoryType==GarmentFactory) {
-                        cell.detailTextLabel.text=[Tools SizeWith:self.factoryModel.factorySize];
-                    }else {
-                        cell.detailTextLabel.text=self.factoryModel.factorySize;
-                    }
                     
+                    if ([self.factoryModel.factorySize isEqualToString:@""] || [self.factoryModel.factorySize isEqualToString:@"(null)"]) {
+                        cell.detailTextLabel.text = @"暂无";
+                    }else{
+                        if (self.factoryModel.factoryType==GarmentFactory) {
+                            cell.detailTextLabel.text=[Tools SizeWith:self.factoryModel.factorySize];
+                        }else {
+                            cell.detailTextLabel.text=self.factoryModel.factorySize;
+                        }
+                    }
                 }
                     break;
                 case 3:{
                     cellLabel.text=@"业务类型";
-                    cell.detailTextLabel.text=self.factoryModel.factoryServiceRange;
+                    if ([self.factoryModel.factoryServiceRange isEqualToString:@""] || [self.factoryModel.factoryServiceRange isEqualToString:@"(null)"]) {
+                        cell.detailTextLabel.text = @"暂无";
+                    }else{
+                        cell.detailTextLabel.text=self.factoryModel.factoryServiceRange;
+                    }
                 }
                     break;
+                    /*
                 case 4:{
                     cellLabel.text=@"公司电话";
                     cell.detailTextLabel.text=self.factoryModel.phone;
                 }
                     break;
-                case 5:{
+                     */
+                case 4:{
                     cellLabel.text=@"公司标签";
-                    if ([self.factoryModel.tag isEqualToString:@"0"]||[self.factoryModel.tag isEqualToString:@"(null)"]) {
+                    if ([self.factoryModel.tag isEqualToString:@""]||[self.factoryModel.tag isEqualToString:@"0"]||[self.factoryModel.tag isEqualToString:@"(null)"]) {
                         cell.detailTextLabel.text=@"暂无标签";
                     }else{
                         cell.detailTextLabel.text=self.factoryModel.tag;
@@ -392,7 +402,7 @@
                 }
                     break;
 
-                case 6:{
+                case 5:{
                     cellLabel.text=@"公司相册";
                     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
                     
@@ -505,12 +515,12 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 5.0f;
+    return 2.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if (section==3) {
-        return 5.0f;
+        return 2.0f;
     }
     return 0.01f;
 }
