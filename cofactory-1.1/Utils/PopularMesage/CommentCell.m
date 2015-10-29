@@ -13,7 +13,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.userImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 30, 30)];
+        self.userImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 15, 30, 30)];
         self.userImage.layer.cornerRadius = 15;
         self.userImage.clipsToBounds = YES;
         self.userImage.layer.borderWidth = 0.5;

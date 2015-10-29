@@ -35,10 +35,6 @@
 {
     [super viewWillAppear:animated];
     [self updateBadgeValueForTabBarItem];
-    [[RCIM sharedRCIM] setReceiveMessageDelegate:self];
-    
-    
-
 }
 
 /*
@@ -48,44 +44,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    
     //设置tableView样式
     self.conversationListTableView.tableFooterView = [UIView new];
     
 }
 - (void)updateBadgeValueForTabBarItem
 {
-    //__weak typeof(self) __weakSelf = self;
+    __weak IMChatListViewController *IMSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         int count = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
         if (count>0) {
-            DLog(@"++++++++++++++%d", count);
-            
-            self.tabBarController.viewControllers[2].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",count];
-        }else
-        {
-            self.tabBarController.viewControllers[2].tabBarItem.badgeValue = nil;
+            IMSelf.tabBarController.viewControllers[2].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",count];
+        } else {
+            IMSelf.tabBarController.viewControllers[2].tabBarItem.badgeValue = nil;
         }
-        
     });
-}
-
-
--(void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left {
-    DLog(@"=============================");
-    dispatch_async(dispatch_get_main_queue(), ^{
-        int messageCount = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
-        if (messageCount>0) {
-            DLog(@"++++++++++++++%d", messageCount);
-            
-            self.tabBarController.viewControllers[2].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",messageCount];
-        }else
-        {
-            self.tabBarController.viewControllers[2].tabBarItem.badgeValue = nil;
-        }
-        
-    });
-
 }
 
 

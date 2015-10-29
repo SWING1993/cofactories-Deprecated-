@@ -64,6 +64,7 @@ static NSString *LastCellIdentifier = @"LastCell";
 - (void)viewWillAppear:(BOOL)animated {
     //设置代理（融云）
     [[RCIM sharedRCIM] setUserInfoDataSource:self];
+    [[RCIM sharedRCIM] setReceiveMessageDelegate:self];
     //工厂类型
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
         NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
@@ -613,7 +614,7 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 
 
-#pragma mark - Table view data source
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 5;
@@ -676,6 +677,9 @@ static NSString *LastCellIdentifier = @"LastCell";
     }
     
 }
+
+
+#pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         return 38 *kMargin;
@@ -728,27 +732,34 @@ static NSString *LastCellIdentifier = @"LastCell";
     // Dispose of any resources that can be recreated.
 }
 
-- (void)updateBadgeValueForTabBarItem
-{
-    //__weak typeof(self) __weakSelf = self;
+#pragma mark - Action
+- (void)updateBadgeValueForTabBarItem {
+    __weak typeof(self) IMSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         int count = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
         if (count>0) {
-            DLog(@"++++++++++++++%d", count);
-            
-            self.tabBarController.viewControllers[2].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",count];
-        }else
-        {
-            self.tabBarController.viewControllers[2].tabBarItem.badgeValue = nil;
+            IMSelf.tabBarController.viewControllers[2].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",count];
+        } else {
+            IMSelf.tabBarController.viewControllers[2].tabBarItem.badgeValue = nil;
         }
         
     });
 }
-
-
-
-
-
+#pragma mark - RCIMReceiveMessageDelegate
+//必须要写在这里，不能写在通话列表里
+-(void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left {
+    DLog(@"=============================");
+    __weak typeof(self) IMSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        int messageCount = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
+        if (messageCount>0) {
+            IMSelf.tabBarController.viewControllers[2].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",messageCount];
+        } else {
+            IMSelf.tabBarController.viewControllers[2].tabBarItem.badgeValue = nil;
+        }
+    });
+    
+}
 
 
 - (void)dealloc {

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomeViewController : UITableViewController<RCIMUserInfoDataSource>
+@interface HomeViewController : UITableViewController<RCIMUserInfoDataSource, RCIMReceiveMessageDelegate>
 
 @end
