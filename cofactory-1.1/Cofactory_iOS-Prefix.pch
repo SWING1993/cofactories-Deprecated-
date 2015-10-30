@@ -121,7 +121,7 @@
 
 //融云IM
 #import <RongIMKit/RongIMKit.h>
-#define RONGCLOUD_IM_APPKEY @"pwe86ga5edfp6"
+#define RONGCLOUD_IM_APPKEY @"4z3hlwrv3iult"
 
 #pragma mark - 日志开关
 /*!
