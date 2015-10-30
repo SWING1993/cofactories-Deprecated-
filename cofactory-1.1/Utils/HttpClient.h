@@ -527,8 +527,8 @@
 /**检测更新
  *
  
-+ (void)upDataWithBlock:(void (^)(NSDictionary *upDateDictionary))block ;
 */
++ (void)upDataWithBlock:(void (^)(NSDictionary *upDateDictionary))block ;
 
 /**
  *获取融云的Token

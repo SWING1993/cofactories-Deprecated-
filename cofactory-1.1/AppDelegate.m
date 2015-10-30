@@ -71,7 +71,7 @@
         // 友盟用户反馈
         [UMFeedback setAppkey:appStoreUMENGAppKey];
         // 注册友盟统计 SDK
-        [MobClick startWithAppkey:appStoreUMENGAppKey reportPolicy:REALTIME channelId:@"开发环境"];// 启动时发送 Log AppStore分发渠道
+        [MobClick startWithAppkey:appStoreUMENGAppKey reportPolicy:SENDDAILY channelId:@"app-Store"];// 启动时发送 Log AppStore分发渠道
         [MobClick setAppVersion:kVersion_Cofactories];
         
         // 注册友盟推送服务 SDK
@@ -89,7 +89,7 @@
         // 友盟用户反馈
         [UMFeedback setAppkey:UMENGAppKey];
         // 注册友盟统计 SDK
-        [MobClick startWithAppkey:UMENGAppKey reportPolicy:BATCH channelId:nil];// 启动时发送 Log AppStore分发渠道
+        [MobClick startWithAppkey:UMENGAppKey reportPolicy:SENDDAILY channelId:@"企业版"];// 启动时发送 Log AppStore分发渠道
         // Version 标识
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         [MobClick setAppVersion:version];
