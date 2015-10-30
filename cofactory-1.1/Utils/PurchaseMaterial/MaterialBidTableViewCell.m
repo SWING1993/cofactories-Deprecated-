@@ -92,10 +92,10 @@
 
 - (void)getDataWithModel:(MaterialBidManagerModel *)model{
     _nameLB.text = model.name;
-    if (model.price == -1) {
+    if ([model.price isEqualToString:@"-1"]) {
         _priceLB.text = @"价格:  面议";
     }else{
-        _priceLB.text = [NSString stringWithFormat:@"价格:  %zi元",model.price];
+        _priceLB.text = [NSString stringWithFormat:@"价格:  %@元",model.price];
     }
     _goodsSourceLB.text = [NSString stringWithFormat:@"货源状态:  %@",model.goodsSource];
     [self.userButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%zi.png",PhotoAPI,model.userID]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"消息头像"]];

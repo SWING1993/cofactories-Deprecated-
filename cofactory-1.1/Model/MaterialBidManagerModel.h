@@ -15,7 +15,7 @@
 @property (nonatomic, copy) NSString *goodsSource;
 @property (nonatomic, strong) NSArray *photoArray;
 @property (nonatomic, assign) NSInteger userID;
-@property (nonatomic, assign) NSInteger price;
+@property (nonatomic, copy) NSString  *price;
 
 
 - (instancetype)initModelWith:(NSDictionary *)dictionary;

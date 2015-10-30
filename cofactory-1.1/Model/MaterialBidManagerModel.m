@@ -14,7 +14,7 @@
     if (self = [super init]) {
         
         _name = dictionary[@"factoryName"];
-        _price = [dictionary[@"price"] integerValue];
+        _price = [NSString stringWithFormat:@"%@",dictionary[@"price"]];
         _goodsSource = dictionary[@"status"];
         _photoArray = dictionary[@"photo"];
         _userID = [dictionary[@"uid"] integerValue];
