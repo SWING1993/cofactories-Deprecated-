@@ -110,7 +110,6 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 //获取IM用户信息
 - (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{
-    
     //解析工厂信息
     [HttpClient getUserProfileWithUid:[userId intValue] andBlock:^(NSDictionary *responseDictionary) {
         FactoryModel *userModel = (FactoryModel *)responseDictionary[@"model"];
@@ -121,9 +120,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         user.portraitUri = [NSString stringWithFormat:@"%@/factory/%@.png",PhotoAPI,userId];
         return completion(user);
         //        });
-        
     }];
-    
 }
 
 
@@ -203,34 +200,33 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self goUpdata];
+    self.view.backgroundColor=[UIColor whiteColor];
+
+//    [self goUpdata];
 
     //获取融云的token
     [HttpClient getIMTokenWithBlock:^(NSDictionary *responseDictionary) {
         NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
         DLog(@"融云====%ld", (long)statusCode);
-        NSString *token = responseDictionary[@"IMToken"];
-        DLog(@"融云token====%@", token);
-        
-        // 快速集成第二步，连接融云服务器
-        [[RCIM sharedRCIM] connectWithToken:token success:^(NSString *userId) {
-            [self updateBadgeValueForTabBarItem];
-            // Connect 成功
-            DLog(@" Connect 成功");
+        if (statusCode == 200) {
+            NSString *token = responseDictionary[@"IMToken"];
+            DLog(@"融云token====%@", token);
+            
+            // 快速集成第二步，连接融云服务器
+            [[RCIM sharedRCIM] connectWithToken:token success:^(NSString *userId) {
+                [self updateBadgeValueForTabBarItem];
+                // Connect 成功
+                DLog(@" Connect 成功");
+            }
+                                          error:^(RCConnectErrorCode status) {
+                                              // Connect 失败
+                                              DLog(@" Connect 失败")
+                                          }
+                                 tokenIncorrect:^() {
+                                     // Token 失效的状态处理
+                                 }];
         }
-                                      error:^(RCConnectErrorCode status) {
-                                          // Connect 失败
-                                          DLog(@" Connect 失败")
-                                      }
-                             tokenIncorrect:^() {
-                                 // Token 失效的状态处理
-                             }];
-        
     }];
-
-    
-    self.view.backgroundColor=[UIColor whiteColor];
 
     //工厂类型
     NSNumber * factoryTypeNumber = [[NSNumber alloc]initWithInteger:kFactoryType];
