@@ -13,7 +13,7 @@
 static NSString * const sampleDescription1 = @"面辅料商可在此板块发布产品，用户也可以自由发布求购信息。";
 static NSString * const sampleDescription2 = @"新增的流行资讯板块可以为广大用户和设计师提供一个交流的平台。请记住！这里有更多更好更新鲜的流行资讯。";
 static NSString * const sampleDescription3 = @"新增的加工厂订单外发板块，可以为加工厂解决订单外发的问题。";
-static NSString * const sampleDescription4 = @"我们完善了投标系统，让投标更贴近真实生活，参与投标时可以自行填写投标书。";
+static NSString * const sampleDescription4 = @"新增即时通讯功能，让沟通无处不在。";
 static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情况下，我们的新版面终于问世了，此处应有掌声。";
 
 
@@ -144,13 +144,13 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
 
 - (void)showIntroWithCrossDissolve {
     EAIntroPage *page1 = [EAIntroPage page];
-    page1.title = @"面辅料商的福音";
+    page1.title = @"面辅料商的福音！";
     page1.desc = sampleDescription1;
     page1.bgImage = [UIImage imageNamed:@"01"];
 //    page1.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title1"]];
 
     EAIntroPage *page2 = [EAIntroPage page];
-    page2.title = @"服装设计师面对面";
+    page2.title = @"服装设计师面对面！";
     page2.desc = sampleDescription2;
     page2.bgImage = [UIImage imageNamed:@"02"];
 //    page2.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title2"]];
@@ -162,13 +162,13 @@ static NSString * const sampleDescription5 = @"在美工师傅日夜加工的情
 //    page3.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title3"]];
 
     EAIntroPage *page4 = [EAIntroPage page];
-    page4.title = @"让投标更真实";
+    page4.title = @"让交流更便捷！";
     page4.desc = sampleDescription4;
     page4.bgImage = [UIImage imageNamed:@"04"];
 //    page4.titleIconView = [[UIImageView bgalloc] initWithImage:[UIImage imageNamed:@"title4"]];
 
     EAIntroPage *page5 = [EAIntroPage page];
-    page5.title = @"新版面新气象";
+    page5.title = @"新版面新气象！";
     page5.desc = sampleDescription4;
     page5.bgImage = [UIImage imageNamed:@"05"];
     //    page4.titleIconView = [[UIImageView bgalloc] initWithImage:[UIImage imageNamed:@"title4"]];
