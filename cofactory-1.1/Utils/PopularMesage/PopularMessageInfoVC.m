@@ -50,7 +50,13 @@ static NSString *noneCellIdentifier = @"noneCell";
     _webView.delegate = self;
     _webView.backgroundColor = [UIColor whiteColor];
     _webView.frame = CGRectMake(0,0,kScreenW,15 * kScreenH);
-    NSURL *url = [NSURL URLWithString:self.urlString];
+    NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
+    NSString *serviceProviderIdentifier = [baseUrl host];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
+    NSString*token = credential.accessToken;
+
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@&access_token=%@", self.urlString, token]];
+    
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [_webView sizeToFit];
     [_webView loadRequest:urlRequest];
