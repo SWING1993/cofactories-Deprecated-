@@ -409,10 +409,10 @@
  */
 + (void)getHeaderInfomationWithBlock:(void (^)(NSDictionary *responseDictionary))block;
 
-/**资讯列表(下边资讯)(改过了)
+/**资讯列表(下边资讯 + 搜索)
  *
  */
-+ (void)getInfomationWithKind:(NSString *)kind andBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)getInfomationWithKind:(NSString *)kind page:(NSInteger)page andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 /**评论列表
  *@param oid   ID

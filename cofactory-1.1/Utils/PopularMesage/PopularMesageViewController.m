@@ -5,7 +5,7 @@
 //  Created by gt on 15/9/15.
 //  Copyright (c) 2015年 聚工科技. All rights reserved.
 //
-
+#import "MJRefresh.h"
 #import "PopularMesageViewController.h"
 #import "PopularMesageTableViewCell.h"
 #import "PMSectionOneTableViewCell.h"
@@ -28,6 +28,8 @@
     UISearchBar       *_searchBar;
     UILabel           *_lineLabel;
     UIView            *bigView;
+    NSInteger         _refrushCount;
+    NSString          *select;
 }
 
 @end
@@ -59,8 +61,10 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     [self creatTableView];
     [self creatTableViewHeadView];
     [self netWorker];
+    [self setupRefresh];
+    _refrushCount = 1;
 //    [self creatScrollViewAndPageControl];
-    
+    select = @"cat=man";
 }
 
 
@@ -80,9 +84,17 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 }
 
 - (void)netWork {
-        [HttpClient getInfomationWithKind:@"cat=man" andBlock:^(NSDictionary *responseDictionary) {
-        self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
+    [HttpClient getInfomationWithKind:@"cat=man" page:1 andBlock:^(NSDictionary *responseDictionary){
+        self.informationArray = [NSMutableArray arrayWithCapacity:0];
+        NSArray *jsonArray = responseDictionary[@"responseArray"];
+        for (NSDictionary *dictionary in jsonArray) {
+            InformationModel *information = [[InformationModel alloc] initModelWith:dictionary];
             
+            [self.informationArray addObject:information];
+        }
+
+//        self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
+        
             NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:1];
             [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationLeft];
             [Tools WSProgressHUDDismiss];
@@ -105,7 +117,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    _tableView.showsVerticalScrollIndicator = NO;
+//    _tableView.showsVerticalScrollIndicator = NO;
     _tableView.tableFooterView = [[UIView alloc] init];
     [_tableView registerClass:[PMSectionOneTableViewCell class] forCellReuseIdentifier:cellIdetifier1];
     [_tableView registerClass:[PopularMesageTableViewCell class] forCellReuseIdentifier:cellIdetifier2];
@@ -239,8 +251,15 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     [searchBar resignFirstResponder];
     [bigView removeFromSuperview];
     _searchBar.frame = kSearchFrameLong;
-    [HttpClient getInfomationWithKind:[NSString stringWithFormat:@"s=%@", searchBar.text] andBlock:^(NSDictionary *responseDictionary) {
-        self.searchArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
+    self.searchArray = [NSMutableArray arrayWithCapacity:0];
+    [HttpClient getInfomationWithKind:[NSString stringWithFormat:@"s=%@", searchBar.text] page:1 andBlock:^(NSDictionary *responseDictionary){
+        NSArray *jsonArray = responseDictionary[@"responseArray"];
+        for (NSDictionary *dictionary in jsonArray) {
+            InformationModel *information = [[InformationModel alloc] initModelWith:dictionary];
+            
+            [self.searchArray addObject:information];
+        }
+//        self.searchArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
         if (self.searchArray.count == 0) {
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"搜索结果为空" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             [alertView show];
@@ -248,7 +267,8 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
         } else {
             [self removeSearchBar];
             PMSearchViewController *PMSearchVC = [[PMSearchViewController alloc] init];
-            PMSearchVC.searchArray = [NSMutableArray arrayWithArray:self.searchArray];
+//            PMSearchVC.searchArray = [NSMutableArray arrayWithArray:self.searchArray];
+            PMSearchVC.searchText = searchBar.text;
             [self.navigationController pushViewController:PMSearchVC animated:YES];
         }
     }];
@@ -267,14 +287,25 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 
 #pragma mark - Action
 - (void)buttonClick:(UIButton *)button{
+    NSArray *kindArray = @[@"cat=man", @"cat=woman", @"cat=child"];
+    select = kindArray[button.tag];
+    _refrushCount = 1;
+    self.informationArray = [NSMutableArray arrayWithCapacity:0];
     // 控制下划线Label与按钮的同步
     [UIView animateWithDuration:0.2 animations:^{
         _lineLabel.frame = CGRectMake(button.frame.origin.x, 40, button.frame.size.width, 2);
     }];
     [Tools showLoadString:@"正在加载中..."];
-    NSArray *kindArray = @[@"cat=man", @"cat=woman", @"cat=child"];
-    [HttpClient getInfomationWithKind:kindArray[button.tag] andBlock:^(NSDictionary *responseDictionary) {
-        self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
+    
+    [HttpClient getInfomationWithKind:select page:_refrushCount andBlock:^(NSDictionary *responseDictionary) {
+        NSArray *jsonArray = responseDictionary[@"responseArray"];
+        for (NSDictionary *dictionary in jsonArray) {
+            InformationModel *information = [[InformationModel alloc] initModelWith:dictionary];
+            
+            [self.informationArray addObject:information];
+        }
+
+//        self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
         
         NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:1];
         [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationBottom];
@@ -309,6 +340,36 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     _tableView.dataSource = nil;
     
 }
+
+
+- (void)setupRefresh
+{
+    [_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    _tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+    _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+    _tableView.footerRefreshingText = @"加载中。。。";
+}
+
+- (void)footerRereshing
+{
+    _refrushCount++;
+    DLog(@"???????????%ld",_refrushCount);
+
+    [HttpClient getInfomationWithKind:select page:_refrushCount andBlock:^(NSDictionary *responseDictionary) {
+        NSArray *jsonArray = responseDictionary[@"responseArray"];
+        for (NSDictionary *dictionary in jsonArray) {
+            InformationModel *information = [[InformationModel alloc] initModelWith:dictionary];
+            
+            [self.informationArray addObject:information];
+        }
+
+        
+        NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:1];
+        [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+    }];
+    [_tableView footerEndRefreshing];
+}
+
 
 
 - (void)didReceiveMemoryWarning {

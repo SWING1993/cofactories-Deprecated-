@@ -9,10 +9,12 @@
 #import "PMSearchViewController.h"
 #import "PopularMesageTableViewCell.h"
 #import "PopularMessageInfoVC.h"
-
+#import "MJRefresh.h"
 static NSString *searchCellIdentifier = @"searchCell";
 
-@interface PMSearchViewController ()
+@interface PMSearchViewController () {
+    NSInteger _refrushCount;
+}
 
 @end
 
@@ -23,7 +25,42 @@ static NSString *searchCellIdentifier = @"searchCell";
     self.title = @"搜索结果";
     //注册cell
     [self.tableView registerClass:[PopularMesageTableViewCell class] forCellReuseIdentifier:searchCellIdentifier];
+    _refrushCount = 1;
+    self.searchArray = [NSMutableArray arrayWithCapacity:0];
+    [self netWork];
+    [self setupRefresh];
+    
+}
 
+
+- (void)netWork {
+    
+    [HttpClient getInfomationWithKind:[NSString stringWithFormat:@"s=%@", self.searchText] page:_refrushCount andBlock:^(NSDictionary *responseDictionary){
+        NSArray *jsonArray = responseDictionary[@"responseArray"];
+        for (NSDictionary *dictionary in jsonArray) {
+            InformationModel *information = [[InformationModel alloc] initModelWith:dictionary];
+            
+            [self.searchArray addObject:information];
+        }
+        [self.tableView reloadData];
+    }];
+}
+
+- (void)setupRefresh
+{
+    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    self.tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+    self.tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+    self.tableView.footerRefreshingText = @"加载中。。。";
+}
+
+- (void)footerRereshing
+{
+    _refrushCount++;
+    DLog(@"???????????%ld",_refrushCount);
+    
+    [self netWork];
+    [self.tableView footerEndRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
