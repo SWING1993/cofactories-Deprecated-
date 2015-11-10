@@ -9,7 +9,7 @@
 #import "PopularMessageInfoVC.h"
 #import "CommentsViewController.h"
 #import "UMSocial.h"
-#import "QQApiInterface.h"
+#import <TencentOpenAPI/QQApiInterface.h>
 #import "WXApi.h"
 #import "CommentCell.h"
 #import "MJRefresh.h"
@@ -20,6 +20,7 @@ static NSString *noneCellIdentifier = @"noneCell";
 @interface PopularMessageInfoVC ()<UIWebViewDelegate, UMSocialUIDelegate, UITableViewDataSource, UITableViewDelegate> {
     UIButton *btn3;
     int _refrushCount;
+    UIWebView *webView1;
 }
 
 @property (nonatomic,assign)int webViewHeight;
@@ -33,6 +34,12 @@ static NSString *noneCellIdentifier = @"noneCell";
 @property (nonatomic, strong) NSMutableArray *commentArray;
 
 @property (nonatomic, assign) NSInteger totalHeight;
+
+@property (nonatomic, assign) NSString *userAgent;
+
+
+
+
 @end
 
 @implementation PopularMessageInfoVC
@@ -45,20 +52,39 @@ static NSString *noneCellIdentifier = @"noneCell";
     self.isSelected = NO;
     
     [Tools showLoadString:@"正在加载网页..."];
+    //获取当前UA
+    [self createHttpRequest];
+    NSString *uaString = [self userAgentString];
     
     _webView = [[UIWebView alloc] init];
     _webView.delegate = self;
     _webView.backgroundColor = [UIColor whiteColor];
     _webView.frame = CGRectMake(0,0,kScreenW,15 * kScreenH);
+    
+    //添加access_token
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
     NSString*token = credential.accessToken;
-
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@&access_token=%@", self.urlString, token]];
     
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [_webView sizeToFit];
+    //原来的ua+原来没有空格 加空格+CoFactories-iOS-版本号
+    //修改ua
+    NSString *ua = @"";
+    //版本号
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *app_build = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    if ([uaString rangeOfString:@" CoFactories-iOS-"].location != NSNotFound) {
+        ua = uaString;
+    } else {
+        ua = [[NSString alloc] initWithFormat:@"%@ CoFactories-iOS-%@", uaString, app_build];
+
+    }
+        NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:ua, @"UserAgent", nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+    
     [_webView loadRequest:urlRequest];
 //    [self.view addSubview:_webView];
     
@@ -69,12 +95,48 @@ static NSString *noneCellIdentifier = @"noneCell";
     _refrushCount = 1;
     [self netWork];
     [self setupRefresh];
-    self.totalHeight = 15 * kScreenH;
+    self.totalHeight = kScreenH;
+    
 }
 
+#pragma mark - 获取当前UA
+- (void)createHttpRequest {
+    webView1 = [[UIWebView alloc] init];
+    webView1.delegate = self;
+    [webView1 loadRequest:[NSURLRequest requestWithURL:
+                           [NSURL URLWithString:@"http://www.google.com"]]];
+    NSLog(@"%@", [self userAgentString]);
+}
+-(NSString *)userAgentString
+{
+    while (self.userAgent == nil)
+    {
+        NSLog(@"%@", @"in while");
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    }
+    return self.userAgent;
+}
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if (webView == webView1) {
+        self.userAgent = [request valueForHTTPHeaderField:@"User-Agent"];
+        // Return no, we don't care about executing an actual request.
+        return NO;
+    }
+    //去除链接，点击没有反应
+    if(navigationType==UIWebViewNavigationTypeLinkClicked)//判断是否是点击链接
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+
+}
 - (void)netWork {
     [HttpClient getCommentWithOid:self.oid page:1 andBlock:^(NSDictionary *responseDictionary) {
-        DLog(@"%@", responseDictionary);
+//        DLog(@"%@", responseDictionary);
         NSArray *jsonArray = responseDictionary[@"responseArray"];
         self.commentArray = [NSMutableArray arrayWithCapacity:0];
         for (NSDictionary *dictionary in jsonArray) {
@@ -195,21 +257,21 @@ static NSString *noneCellIdentifier = @"noneCell";
     self.totalHeight = [[_webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.scrollHeight"] integerValue];
     DLog(@"+++++++++++++%ld", self.totalHeight);
     _webView.frame = CGRectMake(0,0,kScreenW,self.totalHeight);
-    [Tools WSProgressHUDDismiss];
     NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
     [self.myTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+    [Tools WSProgressHUDDismiss];
 }
 //去除链接
-- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
-    if(navigationType==UIWebViewNavigationTypeLinkClicked)//判断是否是点击链接
-    {
-        return NO;
-    }
-    else
-    {
-        return YES;
-    }
-}
+//- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
+//    if(navigationType==UIWebViewNavigationTypeLinkClicked)//判断是否是点击链接
+//    {
+//        return NO;
+//    }
+//    else
+//    {
+//        return YES;
+//    }
+//}
 
 
 
@@ -246,6 +308,7 @@ static NSString *noneCellIdentifier = @"noneCell";
         
         if (self.commentArray.count == 0) {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:noneCellIdentifier forIndexPath:indexPath];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.text = @"暂无任何评论";
             cell.textLabel.font = kFont;
             return cell;
@@ -312,7 +375,7 @@ static NSString *noneCellIdentifier = @"noneCell";
     switch (sender.tag) {
         case 1:
         {
-            if ([WXApi isWXAppInstalled] == NO && [QQApiInterface isQQInstalled] == NO) {
+            if ( [WXApi isWXAppInstalled] == NO &&[QQApiInterface isQQInstalled] == NO) {
                 DLog(@"微信和QQ都没安装");
                 [UMSocialSnsService presentSnsIconSheetView:self
                                                      appKey:UMENGAppKey

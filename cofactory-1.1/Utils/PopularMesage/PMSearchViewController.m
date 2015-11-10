@@ -23,6 +23,7 @@ static NSString *searchCellIdentifier = @"searchCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"搜索结果";
+    self.tableView.tableFooterView = [UIView new];
     //注册cell
     [self.tableView registerClass:[PopularMesageTableViewCell class] forCellReuseIdentifier:searchCellIdentifier];
     _refrushCount = 1;

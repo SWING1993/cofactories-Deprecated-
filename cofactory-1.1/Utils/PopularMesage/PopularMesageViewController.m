@@ -359,11 +359,8 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
         NSArray *jsonArray = responseDictionary[@"responseArray"];
         for (NSDictionary *dictionary in jsonArray) {
             InformationModel *information = [[InformationModel alloc] initModelWith:dictionary];
-            
             [self.informationArray addObject:information];
         }
-
-        
         NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:1];
         [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
     }];

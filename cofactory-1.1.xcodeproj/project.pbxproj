@@ -749,6 +749,7 @@
 		7DE7A1C31BB3F79600512101 /* MaterialBidFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaterialBidFactory.m; sourceTree = "<group>"; };
 		7DE9DEE11BB28091002C64AD /* CompeteMaterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompeteMaterialViewController.h; sourceTree = "<group>"; };
 		7DE9DEE21BB28091002C64AD /* CompeteMaterialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompeteMaterialViewController.m; sourceTree = "<group>"; };
+		7DEC1B4F1BF19961005D3E7A /* UMSocialQQHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMSocialQQHandler.h; sourceTree = "<group>"; };
 		7DEE112E1BA29CC100678607 /* LastmachineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastmachineCell.h; sourceTree = "<group>"; };
 		7DEE112F1BA29CC100678607 /* LastmachineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastmachineCell.m; sourceTree = "<group>"; };
 		7DF7CE881BC6075F00CFF428 /* ProviderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProviderViewController.h; sourceTree = "<group>"; };
@@ -782,7 +783,6 @@
 		BD87535E1BB5936500A5F4CC /* libSocialQQ.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSocialQQ.a; sourceTree = "<group>"; };
 		BD87535F1BB5936500A5F4CC /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		BD8753601BB5936500A5F4CC /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
-		BD8753611BB5936500A5F4CC /* UMSocialQQHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialQQHandler.h; sourceTree = "<group>"; };
 		BD8753631BB5936500A5F4CC /* libSocialWechat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSocialWechat.a; sourceTree = "<group>"; };
 		BD8753641BB5936500A5F4CC /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		BD8753651BB5936500A5F4CC /* UMSocialWechatHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialWechatHandler.h; sourceTree = "<group>"; };
@@ -1865,11 +1865,11 @@
 		BD87535D1BB5936500A5F4CC /* TencentOpenAPI */ = {
 			isa = PBXGroup;
 			children = (
+				7DEC1B4F1BF19961005D3E7A /* UMSocialQQHandler.h */,
 				7D4954391BBA4C2800C7905F /* Headers */,
 				BD87535E1BB5936500A5F4CC /* libSocialQQ.a */,
 				BD87535F1BB5936500A5F4CC /* TencentOpenAPI.framework */,
 				BD8753601BB5936500A5F4CC /* TencentOpenApi_IOS_Bundle.bundle */,
-				BD8753611BB5936500A5F4CC /* UMSocialQQHandler.h */,
 			);
 			path = TencentOpenAPI;
 			sourceTree = "<group>";
