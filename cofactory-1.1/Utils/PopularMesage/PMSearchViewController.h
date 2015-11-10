@@ -11,5 +11,6 @@
 @interface PMSearchViewController : UITableViewController
 
 @property (nonatomic, strong)NSMutableArray *searchArray;
+@property (nonatomic, strong)NSString *searchText;
 
 @end
