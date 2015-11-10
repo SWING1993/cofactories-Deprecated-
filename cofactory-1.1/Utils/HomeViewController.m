@@ -202,7 +202,7 @@ static NSString *LastCellIdentifier = @"LastCell";
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
 
-//    [self goUpdata];
+    [self goUpdata];
 
     //获取融云的token
     [HttpClient getIMTokenWithBlock:^(NSDictionary *responseDictionary) {
@@ -294,23 +294,23 @@ static NSString *LastCellIdentifier = @"LastCell";
 
     }else
     {
-//        //企业账号
-//        [HttpClient upDataWithBlock:^(NSDictionary *upDateDictionary) {
-//            NSInteger  statusCode = [upDateDictionary[@"statusCode"] integerValue];
-//            if (statusCode == 200) {
-//                
-//                NSString * latestVersion = [NSString stringWithFormat:@"%@",upDateDictionary[@"latestVersion"]];
-//                DLog(@"appStore最新版本号：%@",upDateDictionary[@"latestVersion"]);
-//                if ([latestVersion isEqualToString:@"2.2.0"]) {
-//                    DLog(@"发现新版本")
-//                    NSString * releaseNotes = upDateDictionary[@"releaseNotes"];
-//                    UIAlertView * upDataAlertView = [[UIAlertView alloc]initWithTitle:@"为提高软件稳定性，iOS用户下载更新平台迁至苹果商城。" message:releaseNotes delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去更新", nil];
-//                    upDataAlertView.tag = 200;
-//                    [upDataAlertView show];
-//                    
-//                }
-//            }
-//        }];
+        //企业账
+        [HttpClient upDataWithBlock:^(NSDictionary *upDateDictionary) {
+            NSInteger  statusCode = [upDateDictionary[@"statusCode"] integerValue];
+            if (statusCode == 200) {
+                
+                NSString * latestVersion = [NSString stringWithFormat:@"%@",upDateDictionary[@"latestVersion"]];
+                DLog(@"appStore最新版本号：%@",upDateDictionary[@"latestVersion"]);
+                if ([latestVersion isEqualToString:@"2.2.0"]) {
+                    DLog(@"发现新版本")
+                    NSString * releaseNotes = upDateDictionary[@"releaseNotes"];
+                    UIAlertView * upDataAlertView = [[UIAlertView alloc]initWithTitle:@"为提高软件稳定性，iOS用户下载更新平台迁至苹果商城。" message:releaseNotes delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去更新", nil];
+                    upDataAlertView.tag = 200;
+                    [upDataAlertView show];
+                    
+                }
+            }
+        }];
     }
 }
 
