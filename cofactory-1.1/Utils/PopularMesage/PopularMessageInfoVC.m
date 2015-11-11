@@ -334,6 +334,15 @@ static NSString *noneCellIdentifier = @"noneCell";
 }
 
 
+//实现回调方法（可选）：
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response {
+    //根据`responseCode`得到发送结果,如果分享成功
+    if(response.responseCode == UMSResponseCodeSuccess) {
+        [Tools showSuccessWithStatus:@"分享成功"];
+    } else {
+        [Tools showErrorWithStatus:@"分享失败"];
+    }
+}
 
 
 

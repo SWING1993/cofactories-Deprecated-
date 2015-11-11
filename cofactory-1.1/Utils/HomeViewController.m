@@ -60,6 +60,9 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 @implementation HomeViewController {
     UIView *headerView;
+    BOOL flag;
+    NSString *factoryTypeString;
+    UserModel*userModel;
 }
 - (void)viewWillAppear:(BOOL)animated {
     //设置代理（融云）
@@ -70,7 +73,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
         DLog(@"getUserProfile状态码 == %ld",(long)statusCode);
         if (statusCode == 200) {
-            UserModel*userModel=responseDictionary[@"model"];
+            userModel=responseDictionary[@"model"];
             [super viewWillAppear:animated];
             
             self.factoryFreeStatus=userModel.factoryFreeStatus;
@@ -84,12 +87,21 @@ static NSString *LastCellIdentifier = @"LastCell";
             NSNumber *MyUid = [NSNumber numberWithInt:userModel.uid];
             [[NSUserDefaults standardUserDefaults] setObject:MyUid forKey:@"selfuid"];
             [[NSUserDefaults standardUserDefaults] setObject:@(userModel.factoryType) forKey:@"factoryType"];
-
+            
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryAddress forKey:@"factoryAddress"];
             [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
             [[NSUserDefaults standardUserDefaults] setObject:userModel.phone forKey:@"factoryPhone"];
             [[NSUserDefaults standardUserDefaults] setObject:userModel.name forKey:@"userName"];            [[NSUserDefaults standardUserDefaults] synchronize];
+            //判断信息是不是完整
+            FactoryRangeModel *factoryRangeModel = [[FactoryRangeModel alloc]init];
+            factoryTypeString = factoryRangeModel.serviceList[kFactoryType];
+            [self factoryInfo];
+            if (flag) {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"您的个人信息不完整" message:@"去完善信息" delegate:self cancelButtonTitle:@"暂不完善" otherButtonTitles:@"去完善", nil];
+                alertView.tag = 222;
+                [alertView show];
+            }
             [self.tableView reloadData];
         }
         
@@ -112,11 +124,11 @@ static NSString *LastCellIdentifier = @"LastCell";
 - (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{
     //解析工厂信息
     [HttpClient getUserProfileWithUid:[userId intValue] andBlock:^(NSDictionary *responseDictionary) {
-        FactoryModel *userModel = (FactoryModel *)responseDictionary[@"model"];
+        FactoryModel *userModel1 = (FactoryModel *)responseDictionary[@"model"];
         //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (intm 64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         RCUserInfo *user = [[RCUserInfo alloc]init];
         user.userId = userId;
-        user.name = userModel.factoryName;
+        user.name = userModel1.factoryName;
         user.portraitUri = [NSString stringWithFormat:@"%@/factory/%@.png",PhotoAPI,userId];
         return completion(user);
         //        });
@@ -232,7 +244,6 @@ static NSString *LastCellIdentifier = @"LastCell";
     NSNumber * factoryTypeNumber = [[NSNumber alloc]initWithInteger:kFactoryType];
     self.factoryType = [factoryTypeNumber intValue];
     
-    
     // 初始化模型
     self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, kScreenW, kScreenH-(kNavigationBarHeight+kStatusBarHeight)) style:UITableViewStyleGrouped];
     self.automaticallyAdjustsScrollViewInsets = YES;// 自动调整视图关闭
@@ -332,6 +343,17 @@ static NSString *LastCellIdentifier = @"LastCell";
     if (alertView.tag == 401) {
         [ViewController goLogin];
     }
+    if (alertView.tag == 222){
+        if (buttonIndex == 1) {
+            DLog(@"去完善资料");
+            MeViewController *meVC = [[MeViewController alloc] init];
+            meVC.changeFlag = YES;
+            [self.navigationController pushViewController:meVC animated:YES];
+        } else {
+            DLog(@"暂不完善");
+        }
+    }
+
 }
 
 
@@ -758,6 +780,23 @@ static NSString *LastCellIdentifier = @"LastCell";
     
 }
 
+- (void)factoryInfo {
+    if ([factoryTypeString isEqualToString:@"服装厂"] || [factoryTypeString isEqualToString:@"加工厂"]) {
+        if (userModel.factorySize == nil || userModel.factoryServiceRange == nil || userModel.factoryAddress == nil) {
+            flag = YES;
+        }
+    }
+    if ([factoryTypeString isEqualToString:@"代裁厂"]) {
+        if (userModel.factorySize == nil || userModel.factoryAddress == nil) {
+            flag = YES;
+        }
+    }
+    if ([factoryTypeString isEqualToString:@"锁眼钉扣厂"]) {
+        if  (userModel.factoryAddress == nil) {
+            flag = YES;
+        }
+    }
+}
 
 - (void)dealloc {
     DLog(@"释放内存");
