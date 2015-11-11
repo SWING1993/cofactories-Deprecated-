@@ -11,7 +11,7 @@
 #import "OrderPhotoViewController.h"
 #import "IMChatViewController.h"
 
-@interface SearchOrderDetailsVC ()<UITableViewDataSource,UITableViewDelegate>{
+@interface SearchOrderDetailsVC ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>{
     UITableView   *_tableView;
     NSArray       *_competeFactoryArray;
     BOOL           _isMyOrder;
@@ -393,10 +393,20 @@ static NSString *const reuseIdentifier = @"reuseIdentifier";
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"该订单您已投标" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
                     [alert show];
                 }else{
-                    DLog(@"tobid");
-                    CompeteViewController *VC = [[CompeteViewController alloc]init];
-                    VC.oid = self.model.oid;
-                    [self.navigationController pushViewController:VC animated:YES];
+                    
+                    NSString * addressString = [[NSUserDefaults standardUserDefaults] objectForKey:@"factoryAddress"];
+                    if (addressString == nil) {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您的信息不完整，请完善信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                        alert.tag = 1122;
+                        [alert show];
+                    }else{
+                        CompeteViewController *VC = [[CompeteViewController alloc]init];
+                        VC.oid = self.model.oid;
+                        [self.navigationController pushViewController:VC animated:YES];
+                    }
+                    
+                    
+                    
                 }
             }
         }
@@ -436,6 +446,15 @@ static NSString *const reuseIdentifier = @"reuseIdentifier";
         [alert show];
     }
     
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if (alertView.tag == 1122) {
+        if (buttonIndex == 0) {
+            NSLog(@"11");
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
