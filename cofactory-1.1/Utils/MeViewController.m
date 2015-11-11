@@ -294,8 +294,19 @@
 
             }
                 break;
+                
             case 1:{
-                cellLabel.text=@"公司地址";
+                
+                cellLabel.text=@"公司相册";
+                
+            }
+                break;
+
+            case 2:{
+                
+              
+                cellLabel.text=@"*公司地址";
+                cellLabel.textColor = [UIColor redColor];
                 UILabel*label = [[UILabel alloc]init];
                 label.frame = CGRectMake(110, 7, kScreenW-145, 30);
                 label.font=kFont;
@@ -305,18 +316,17 @@
 
             }
                 break;
-            case 2:{
-
-                cellLabel.text=@"公司相册";
-
-            }
-                break;
+           
             case 3:{
                 if (kFactoryType == materialFactory) {
-                    cellLabel.text=@"业务类型";
+                    cellLabel.text=@"*业务类型";
+                    cellLabel.textColor = [UIColor redColor];
+
                     cell.detailTextLabel.text=self.userModel.factoryServiceRange;
                 }else {
-                    cellLabel.text=@"公司规模";
+                    cellLabel.text=@"*公司规模";
+                    cellLabel.textColor = [UIColor redColor];
+
                     cell.detailTextLabel.text=self.userModel.factorySize;
                 }
                 
@@ -324,7 +334,9 @@
                 break;
                 
             case 4:{
-                cellLabel.text=@"业务类型";
+                cellLabel.text=@"*业务类型";
+                cellLabel.textColor = [UIColor redColor];
+
                 cell.detailTextLabel.text=self.userModel.factoryServiceRange;
             }
                 break;
@@ -439,20 +451,22 @@
                 }
                     break;
                 case 1:{
-                    SetaddressViewController*setaddressVC = [[SetaddressViewController alloc]init];
-                    setaddressVC.hidesBottomBarWhenPushed=YES;
-                    [self.navigationController pushViewController:setaddressVC animated:YES];
-                }
-                    break;
-                case 2:{
                     PhotoViewController*photoVC = [[PhotoViewController alloc]init];
                     photoVC.userUid=[NSString stringWithFormat:@"%d",self.userModel.uid];
                     photoVC.isMySelf = YES;
                     photoVC.hidesBottomBarWhenPushed = YES;
                     [self.navigationController pushViewController:photoVC animated:YES];
-
+                    
                 }
                     break;
+
+                case 2:{
+                    SetaddressViewController*setaddressVC = [[SetaddressViewController alloc]init];
+                    setaddressVC.hidesBottomBarWhenPushed=YES;
+                    [self.navigationController pushViewController:setaddressVC animated:YES];
+                }
+                    break;
+                
                 case 3:{
                     if (kFactoryType == materialFactory) {
                         ModifyServiceRangeViewController*rangeVC = [[ModifyServiceRangeViewController alloc]init];
