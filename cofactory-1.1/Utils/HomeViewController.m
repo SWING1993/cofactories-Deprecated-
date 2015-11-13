@@ -252,11 +252,11 @@ static NSString *LastCellIdentifier = @"LastCell";
     // 表头视图
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
     NSArray *imageArray = @[@"服装平台.png",@"面辅料.png",@"新功能.png", @"首页轮播图4.png"];
-    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:imageArray pageCount:4 isNetWork:YES];
+    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:imageArray pageCount:4 isNetWork:YES netWork:NO];
     [bannerView.imageButton1 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
     [bannerView.imageButton2 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
     [bannerView.imageButton3 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
-    //[bannerView.imageButton4 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
+    [bannerView.imageButton4 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:bannerView];
     
     if (self.factoryType==0) {
@@ -625,7 +625,6 @@ static NSString *LastCellIdentifier = @"LastCell";
         }
             break;
             
-            
         default:
             break;
     }
@@ -793,6 +792,11 @@ static NSString *LastCellIdentifier = @"LastCell";
     }
     if ([factoryTypeString isEqualToString:@"锁眼钉扣厂"]) {
         if  (userModel.factoryAddress == nil) {
+            flag = YES;
+        }
+    }
+    if ([factoryTypeString isEqualToString:@"面辅料商"]) {
+        if (userModel.factoryServiceRange == nil || userModel.factoryAddress == nil) {
             flag = YES;
         }
     }

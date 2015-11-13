@@ -47,8 +47,6 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    
-    _titleImageArray = @[@{@"title":@"时尚服装咨询师-LIJO",@"image":@"1.png"},@{@"title":@"15-16秋冬童装新款解析-Wild",@"image":@"2.png"}];
     [Tools showLoadString:@"正在加载中..."];
     
     UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
@@ -57,34 +55,34 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     temporaryBarButtonItem.action = @selector(back);
     self.navigationItem.leftBarButtonItem = temporaryBarButtonItem;
     
-    
     [self creatTableView];
     [self creatTableViewHeadView];
     [self netWorker];
     [self setupRefresh];
     _refrushCount = 1;
 //    [self creatScrollViewAndPageControl];
-    select = @"cat=man";
+    select = @"cat=child";
 }
 
 
 #pragma mark - 网络请求
 
 - (void)netWorker {
-    [HttpClient getHeaderInfomationWithBlock:^(NSDictionary *responseDictionary) {
-        self.headerInformationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
-        //DLog(@"%@", self.headerInformationArray);
+    [HttpClient getHeaderInfomationWithKind:@"置顶" andBlock:^(NSDictionary *responseDictionary) {
+        NSArray *jsonArray = responseDictionary[@"responseArray"];
+        self.headerInformationArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
+        for (NSDictionary *dictionary in jsonArray) {
+            InformationModel *information = [[InformationModel alloc] initModelWith:dictionary];
+            [self.headerInformationArray addObject:information];
+        }
         [self netWork];
         NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
         [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationRight];
-        
-        
     }];
-
 }
 
 - (void)netWork {
-    [HttpClient getInfomationWithKind:@"cat=man" page:1 andBlock:^(NSDictionary *responseDictionary){
+    [HttpClient getInfomationWithKind:@"cat=child" page:1 andBlock:^(NSDictionary *responseDictionary){
         self.informationArray = [NSMutableArray arrayWithCapacity:0];
         NSArray *jsonArray = responseDictionary[@"responseArray"];
         for (NSDictionary *dictionary in jsonArray) {
@@ -92,8 +90,6 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
             
             [self.informationArray addObject:information];
         }
-
-//        self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
         
             NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:1];
             [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationLeft];
@@ -128,14 +124,14 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 - (void)creatTableViewHeadView{
     _tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 50 + 0.4*kScreenW)];
     
-    NSArray*btnTitleArray = @[@"男装",@"女装",@"童装"];
+    NSArray*btnTitleArray = @[@"童装",@"男装",@"女装",@"面料"];
     UIView*headerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 50)];
     headerView.backgroundColor=[UIColor whiteColor];
-    for (int i=0; i<3; i++) {
-        UIButton*typeBtn = [[UIButton alloc]initWithFrame:CGRectMake((kScreenW-240)/4+i*((kScreenW-240)/4+80), 10, 80 , 30)];
+    for (int i=0; i<4; i++) {
+        UIButton*typeBtn = [[UIButton alloc]initWithFrame:CGRectMake((kScreenW-280)/5+i*((kScreenW-280)/5+70), 10, 70 , 30)];
         if (i==0) {
             //设置与按钮同步的下划线Label
-            _lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(typeBtn.frame.origin.x, 40, 80,2 )];
+            _lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(typeBtn.frame.origin.x, 40, 70,2 )];
             _lineLabel.backgroundColor = [UIColor redColor];
             [_tableViewHeadView addSubview:_lineLabel];
         }
@@ -147,13 +143,37 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
         [_tableViewHeadView addSubview:typeBtn];
     }
     _tableView.tableHeaderView = _tableViewHeadView;
-    NSArray *imageArray = @[@"时尚资讯.png",@"童装设计潮流趋势.png",@"男装新潮流.png",@"女装新潮流.png"];
-    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 50, kScreenW, 0.4*kScreenW) andImageArray:imageArray pageCount:4 isNetWork:NO];
-    [_tableViewHeadView addSubview:bannerView];
+    
+    [HttpClient getHeaderInfomationWithKind:@"轮播" andBlock:^(NSDictionary *responseDictionary) {
+        NSArray *jsonArray = responseDictionary[@"responseArray"];
+        self.photoArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
+        self.urlArray = [NSMutableArray arrayWithCapacity:jsonArray.count];
+        for (NSDictionary *dictionary in jsonArray) {
+            InformationModel *information = [[InformationModel alloc] initModelWith:dictionary];
+            NSString* encodedString = [information.photoUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            [self.photoArray addObject:encodedString];
+            [self.urlArray addObject:information];
+        }
+        DLog(@"^^^^^^^^^^^^%@", self.photoArray);
+        PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 50, kScreenW, 0.4*kScreenW) andImageArray:self.photoArray pageCount:4 isNetWork:YES netWork:YES];
+        [bannerView.imageButton1 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
+        [bannerView.imageButton2 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
+        [bannerView.imageButton3 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
+        [bannerView.imageButton4 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_tableViewHeadView addSubview:bannerView];
+    }];
 }
 
-
-
+- (void)bannerViewClick:(UIButton *)button {
+    [self removeSearchBar];
+    PopularMessageInfoVC * infoVC = [[PopularMessageInfoVC alloc]init];
+    InformationModel *information = self.urlArray[button.tag];
+    infoVC.urlString = information.urlString;
+    infoVC.oid = information.oid;
+    infoVC.name = information.title;
+    [self.navigationController pushViewController:infoVC animated:YES];
+    
+}
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 2;
@@ -284,10 +304,9 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
     }
 }
 
-
 #pragma mark - Action
 - (void)buttonClick:(UIButton *)button{
-    NSArray *kindArray = @[@"cat=man", @"cat=woman", @"cat=child"];
+    NSArray *kindArray = @[@"cat=child", @"cat=man", @"cat=woman", @"cat=fabirrc"];
     select = kindArray[button.tag];
     _refrushCount = 1;
     self.informationArray = [NSMutableArray arrayWithCapacity:0];
@@ -304,9 +323,6 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
             
             [self.informationArray addObject:information];
         }
-
-//        self.informationArray = [NSMutableArray arrayWithArray:responseDictionary[@"responseArray"]];
-        
         NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:1];
         [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationBottom];
         [Tools WSProgressHUDDismiss];

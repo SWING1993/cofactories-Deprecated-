@@ -11,7 +11,7 @@
 
 @implementation PageView
 
-- (instancetype)initWithFrame:(CGRect)frame andImageArray:(NSArray *)imageArray pageCount:(int)pageCount isNetWork:(BOOL)isNetWork {
+- (instancetype)initWithFrame:(CGRect)frame andImageArray:(NSArray *)imageArray pageCount:(int)pageCount isNetWork:(BOOL)isNetWork netWork:(BOOL)netWork {
     self = [super initWithFrame:frame];
     if (self) {
         // 实例化控件
@@ -26,7 +26,13 @@
         if (isNetWork) {
             for (int i = 1; i <= pageCount; i++) {
                 UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-                [button setImage:[UIImage imageNamed:imageArray[i-1]] forState:UIControlStateNormal];
+                if (netWork) {
+                    [button sd_setBackgroundImageWithURL:[NSURL URLWithString:imageArray[i - 1]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@""]];
+                } else {
+                    [button setImage:[UIImage imageNamed:imageArray[i-1]] forState:UIControlStateNormal];
+                }
+                
+//                [button setImage:[UIImage imageNamed:imageArray[i-1]] forState:UIControlStateNormal];
                 //[button setBackgroundImage:[UIImage imageNamed:imageArray[i-1]] forState:UIControlStateNormal];
                  [button setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];
 //                button.imageView.contentMode = UIViewContentModeScaleAspectFill;

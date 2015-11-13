@@ -1631,24 +1631,24 @@
     }
 }
 
-+ (void)getHeaderInfomationWithBlock:(void (^)(NSDictionary *responseDictionary))block {
++ (void)getHeaderInfomationWithKind:(NSString *)kind andBlock:(void (^)(NSDictionary *responseDictionary))block {
     NSURL *baseUrl = [NSURL URLWithString:kBaseUrl];
     NSString *serviceProviderIdentifier = [baseUrl host];
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:serviceProviderIdentifier];
     if (credential) {
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
         [manager.requestSerializer setAuthorizationHeaderFieldWithCredential:credential];
-        NSString *url = @"http://news.cofactories.com/?co&op=category&cat=置顶";
+        NSString *url = [NSString stringWithFormat:@"http://news.cofactories.com/?co&op=category&cat=%@", kind];
         
         NSString *urlString = [url stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
         [manager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSArray *jsonArray = (NSArray *)responseObject;
-            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
-            for (NSDictionary *dictionary in jsonArray) {
-                InformationModel *information = [[InformationModel alloc] initModelWith:dictionary];
-                [responseArray addObject:information];
-            }
-            block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseArray});
+//            NSArray *jsonArray = (NSArray *)responseObject;
+//            NSMutableArray *responseArray = [[NSMutableArray alloc] initWithCapacity:jsonArray.count];
+//            for (NSDictionary *dictionary in jsonArray) {
+//                InformationModel *information = [[InformationModel alloc] initModelWith:dictionary];
+//                [responseArray addObject:information];
+//            }
+            block(@{@"statusCode": @([operation.response statusCode]), @"responseArray": responseObject});
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             switch ([operation.response statusCode]) {
                 case 400:

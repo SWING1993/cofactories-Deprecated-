@@ -404,10 +404,10 @@
  */
 + (void)registBidWithOid:(int)oid commit:(NSString *)commit completionBlock:(void(^)(int statusCode))block;
 
-/**资讯列表(中间资讯)
+/**资讯列表(中间资讯 + 轮播图片)
  *
  */
-+ (void)getHeaderInfomationWithBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)getHeaderInfomationWithKind:(NSString *)kind andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 /**资讯列表(下边资讯 + 搜索)
  *

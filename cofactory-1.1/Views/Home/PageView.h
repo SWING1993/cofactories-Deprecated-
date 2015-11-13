@@ -17,6 +17,6 @@
 @property (nonatomic,strong) UIButton *imageButton3;
 @property (nonatomic,strong) UIButton *imageButton4;
 
-- (instancetype)initWithFrame:(CGRect)frame andImageArray:(NSArray *)imageArray pageCount:(int)pageCount isNetWork:(BOOL)isNetWork;
+- (instancetype)initWithFrame:(CGRect)frame andImageArray:(NSArray *)imageArray pageCount:(int)pageCount isNetWork:(BOOL)isNetWork netWork:(BOOL)netWork;
 - (void)scrollToNextPage:(NSTimer *)timer;
 @end

@@ -18,6 +18,7 @@
         self.oid = [dictionary[@"ID"] intValue];
         self.urlString = dictionary[@"guid"];
         self.imageString = dictionary[@"thumbnail"];
+        self.photoUrl = dictionary[@"photo"];
     }
     return self;
 }

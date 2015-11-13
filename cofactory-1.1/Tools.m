@@ -328,7 +328,7 @@
 
     [WSProgressHUD showWithStatus:string maskType:WSProgressHUDMaskTypeClear maskWithout:WSProgressHUDMaskWithoutNavigation];
 
-    double delayInSeconds = 10.0;
+    double delayInSeconds = 15.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^{
         [WSProgressHUD dismiss];
