@@ -154,7 +154,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
             [self.photoArray addObject:encodedString];
             [self.urlArray addObject:information];
         }
-        DLog(@"^^^^^^^^^^^^%@", self.photoArray);
+//        DLog(@"^^^^^^^^^^^^%@", self.photoArray);
         PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 50, kScreenW, 0.4*kScreenW) andImageArray:self.photoArray pageCount:4 isNetWork:YES netWork:YES];
         [bannerView.imageButton1 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
         [bannerView.imageButton2 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
