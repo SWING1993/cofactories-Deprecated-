@@ -50,7 +50,7 @@ static NSString *noneCellIdentifier = @"noneCell";
     self.title = @"资讯详情";
     self.view.backgroundColor = [UIColor whiteColor];
     self.isSelected = NO;
-    
+    DLog(@"name === %@", self.name);
     [Tools showLoadString:@"正在加载网页..."];
     //获取当前UA
     [self createHttpRequest];
@@ -398,6 +398,9 @@ static NSString *noneCellIdentifier = @"noneCell";
                 [UMSocialData defaultData].extConfig.wechatTimelineData.url = self.urlString;//微信朋友圈
                 [UMSocialData defaultData].extConfig.qqData.url = self.urlString;//QQ好友
                 [UMSocialData defaultData].extConfig.qzoneData.url = self.urlString;//QQ空间
+                if (self.name.length == 0) {
+                    self.name = @"来自于聚工厂的分享";
+                }
                 [UMSocialSnsService presentSnsIconSheetView:self
                                                     appKey:@"55e03514e0f55a390f003db7"
                                         shareText:self.name

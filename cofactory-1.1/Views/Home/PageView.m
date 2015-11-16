@@ -26,6 +26,7 @@
         if (isNetWork) {
             for (int i = 1; i <= pageCount; i++) {
                 UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+                button.adjustsImageWhenHighlighted = NO;
                 if (netWork) {
                     [button sd_setBackgroundImageWithURL:[NSURL URLWithString:imageArray[i - 1]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@""]];
                 } else {

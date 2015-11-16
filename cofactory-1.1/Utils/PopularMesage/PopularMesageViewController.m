@@ -30,6 +30,7 @@
     UIView            *bigView;
     NSInteger         _refrushCount;
     NSString          *select;
+    NSMutableArray    *array4Btn;
 }
 
 @end
@@ -123,7 +124,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 
 - (void)creatTableViewHeadView{
     _tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 50 + 0.4*kScreenW)];
-    
+    array4Btn = [NSMutableArray arrayWithCapacity:0];
     NSArray*btnTitleArray = @[@"童装",@"男装",@"女装",@"面料"];
     UIView*headerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 50)];
     headerView.backgroundColor=[UIColor whiteColor];
@@ -132,15 +133,20 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
         if (i==0) {
             //设置与按钮同步的下划线Label
             _lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(typeBtn.frame.origin.x, 40, 70,2 )];
-            _lineLabel.backgroundColor = [UIColor redColor];
+            _lineLabel.backgroundColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f];
             [_tableViewHeadView addSubview:_lineLabel];
         }
         typeBtn.tag=i;
         typeBtn.titleLabel.font=[UIFont systemFontOfSize:16.0f];
         [typeBtn setTitle:btnTitleArray[i] forState:UIControlStateNormal];
         [typeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [typeBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateSelected];
         [typeBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+        if (i == 0) {
+            typeBtn.selected = YES;
+        }
         [_tableViewHeadView addSubview:typeBtn];
+        [array4Btn addObject:typeBtn];
     }
     _tableView.tableHeaderView = _tableViewHeadView;
     
@@ -306,6 +312,12 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 
 #pragma mark - Action
 - (void)buttonClick:(UIButton *)button{
+    button.selected = YES;
+    for (UIButton *sunbBtn in array4Btn) {
+        if (sunbBtn != button) {
+            sunbBtn.selected = NO;
+        }
+    }
     NSArray *kindArray = @[@"cat=child", @"cat=man", @"cat=woman", @"cat=fabirrc"];
     select = kindArray[button.tag];
     _refrushCount = 1;
