@@ -14,6 +14,8 @@
 @property (nonatomic,retain)NSMutableArray*modelArray;
 @property (nonatomic, retain) UITableView *tableView;
 
+@property (nonatomic,retain) UIImageView * BGimageView;
+
 
 @end
 
@@ -32,8 +34,11 @@
         if (statusCode == 200) {
             self.modelArray = responseDictionary[@"responseArray"];
             if (self.modelArray.count == 0) {
-//                [Tools showErrorWithStatus:@"您尚未添加合作商！"];
+                self.tableView.hidden = YES;
+                [self.view addSubview:self.BGimageView];
             }else{
+                [self.BGimageView removeFromSuperview];
+                self.tableView.hidden = NO;
                 [self.tableView reloadData];
             }
         }
@@ -51,6 +56,12 @@
     self.title=@"合作商";
     self.view.backgroundColor=[UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets=NO;
+    
+    self.modelArray = [[NSMutableArray alloc]initWithCapacity:0];
+    self.BGimageView = [[UIImageView alloc]initWithFrame:kScreenBounds];
+    self.BGimageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.BGimageView.image = [UIImage imageNamed:@"CooperationView"];
+
 
     self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64-44) style:UITableViewStylePlain];
     self.tableView.dataSource=self;
@@ -59,8 +70,7 @@
     self.tableView.rowHeight=70;
     [self.view addSubview:self.tableView];
 
-    self.modelArray = [[NSMutableArray alloc]initWithCapacity:0];
-
+   
     //下拉刷新
     ODRefreshControl *refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
     [refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
