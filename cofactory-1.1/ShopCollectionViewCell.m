@@ -19,17 +19,11 @@
         self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.shopImage.frame.size.height - 20, self.frame.size.width, 20)];
         self.nameLabel.textAlignment = NSTextAlignmentCenter;
         self.nameLabel.font = kSmallFont;
-        
         self.nameLabel.backgroundColor = [UIColor whiteColor];
-        
         [self.shopImage addSubview:self.nameLabel];
     }
-    
-    
     return self;
 }
-
-
 
 - (UIButton *)but {
     if (!_but) {
@@ -37,14 +31,11 @@
         self.but.frame = CGRectMake(self.frame.size.width - 25, 0, 25, 25);
         [self.but setBackgroundImage:[UIImage imageNamed:@"删除图片"] forState:UIControlStateNormal];
     }
-    
     return _but;
 }
 
-
 - (void)setIsDeleteButtonHide:(BOOL)isDeleteButtonHide {
     _isDeleteButtonHide = isDeleteButtonHide;
-    
     if (!_isDeleteButtonHide) {
         [self addSubview:self.but];
     } else {
@@ -52,11 +43,5 @@
     }
     
 }
-
-
-
-
-
-
 
 @end

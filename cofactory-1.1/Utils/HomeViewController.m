@@ -348,6 +348,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             DLog(@"去完善资料");
             MeViewController *meVC = [[MeViewController alloc] init];
             meVC.changeFlag = YES;
+            meVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:meVC animated:YES];
         } else {
             DLog(@"暂不完善");

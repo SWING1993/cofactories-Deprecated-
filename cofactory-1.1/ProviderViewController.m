@@ -21,11 +21,7 @@
     [self.navigationController.navigationBar setHidden:NO];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
-    
-    
 }
-
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,8 +43,6 @@
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:button];
     }
-
-
 }
 
 - (void)buttonClick:(id)sender{
@@ -64,15 +58,10 @@
         backItem.title=@"返回";
         self.navigationItem.backBarButtonItem = backItem;
         [self.navigationController pushViewController:VC animated:YES];
-        
     }else{
-        
         ShopViewController *shopVC = [[ShopViewController alloc] init];
-        
         [self.navigationController pushViewController:shopVC animated:YES];
-        
     }
-    
 }
 - (void)historyPublishButton {
     
@@ -82,7 +71,6 @@
     backItem.title=@"返回";
     self.navigationItem.backBarButtonItem = backItem;
     [self.navigationController pushViewController:searchSupplyFactoryVC animated:YES];
-    
 }
 
 - (void)didReceiveMemoryWarning {

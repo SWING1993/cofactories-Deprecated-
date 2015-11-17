@@ -33,16 +33,8 @@ static NSString *shopCellIdentifier = @"shopCell";
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-   
     [self.navigationController.navigationBar setHidden:YES];
-    
-    
 }
-
-
-
-
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -54,18 +46,13 @@ static NSString *shopCellIdentifier = @"shopCell";
     [self network];
     //[self setupRefresh];
     [shopCollectionView registerClass:[ShopCollectionViewCell class] forCellWithReuseIdentifier:shopCellIdentifier];
-
 }
 
 - (void)network {
     [HttpClient checkMaterialHistoryPublishWithPage:1 completionBlock:^(NSDictionary *responseDictionary) {
-        
         NSArray *jsonArray = (NSArray *)responseDictionary[@"responseObject"];
-        
         for (NSDictionary *dictionary in jsonArray) {
-            
             SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
-            
             [self.historyArray addObject:history];
         }
         //解析工厂信息
@@ -73,41 +60,9 @@ static NSString *shopCellIdentifier = @"shopCell";
         [HttpClient getUserProfileWithUid:[uid intValue] andBlock:^(NSDictionary *responseDictionary) {
             _userModel = (FactoryModel *)responseDictionary[@"model"];
         }];
-
         [shopCollectionView reloadData];
     }];
-    
 }
-
-//- (void)setupRefresh
-//{
-//    [shopCollectionView addFooterWithTarget:self action:@selector(footerRereshing)];
-//    shopCollectionView.footerPullToRefreshText = @"上拉可以加载更多数据了";
-//    shopCollectionView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
-//    shopCollectionView.footerRefreshingText = @"加载中。。。";
-//}
-//
-//- (void)footerRereshing
-//{
-//    _refrushCount++;
-//    DLog(@"???????????%d",_refrushCount);
-//    [HttpClient checkMaterialHistoryPublishWithPage:_refrushCount completionBlock:^(NSDictionary *responseDictionary) {
-//        
-//        NSArray *jsonArray = (NSArray *)responseDictionary[@"responseObject"];
-//        
-//        for (NSDictionary *dictionary in jsonArray) {
-//            
-//            SupplyHistory *history = [SupplyHistory getModelWith:dictionary];
-//            
-//            [self.historyArray addObject:history];
-//        }
-//        
-//        [shopCollectionView reloadData];
-//    }];
-//    
-//    [shopCollectionView footerEndRefreshing];
-//}
-//
 
 - (void)creatMessage {
     UIImageView *bigView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 210)];
@@ -157,7 +112,6 @@ static NSString *shopCellIdentifier = @"shopCell";
     editBtn.clipsToBounds = YES;
     editBtn.tintColor = [UIColor blackColor];
     [bigView addSubview:editBtn];
-    
     [self.view addSubview:bigView];
 }
 
@@ -176,11 +130,7 @@ static NSString *shopCellIdentifier = @"shopCell";
     [self.view addSubview:shopCollectionView];
 }
 
-
-
 #pragma mark - UICollectionViewDataSource
-
-
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
@@ -211,9 +161,6 @@ static NSString *shopCellIdentifier = @"shopCell";
     return cell;
 }
 
-
-
-
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 //cell的大小
@@ -235,15 +182,12 @@ static NSString *shopCellIdentifier = @"shopCell";
     return 0;
 }
 
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.row == 0) {
         DLog(@"发布产品！");
         SupplyViewController *supplyVC = [[SupplyViewController alloc] init];
         [self.navigationController pushViewController:supplyVC animated:YES];
-        
-        
     } else {
         SearchSupplymaterialViewController *searchSupplymaterialVC = [[SearchSupplymaterialViewController alloc] init];
         SupplyHistory *history = self.historyArray[indexPath.row - 1];
@@ -252,11 +196,7 @@ static NSString *shopCellIdentifier = @"shopCell";
         searchSupplymaterialVC.photoArray = [NSMutableArray arrayWithArray:history.photoArray];
         [self.navigationController pushViewController:searchSupplymaterialVC animated:YES];
     }
-    
 }
-
-
-
 
 - (void)editActionEvent:(UIButton *)sender {
     if ([sender.titleLabel.text isEqualToString:@"编辑"]) {
@@ -272,32 +212,21 @@ static NSString *shopCellIdentifier = @"shopCell";
 - (void)deleteCell:(UIButton*)sender {
     DLog(@"%ld",(long)sender.tag);
     
-    
     SupplyHistory *history = self.historyArray[sender.tag - 1];
     [HttpClient deleteMaterialWithid:[history.oid intValue] completionBlock:^(int statusCode) {
-        
         DLog(@"%d", statusCode);
     }];
-    
     [self.historyArray removeObjectAtIndex:sender.tag - 1];
     [shopCollectionView reloadData];
-    
 }
-
-
 
 - (void)messageEventPress {
     DLog(@"用户信息");
-    
     CooperationInfoViewController *vc = [CooperationInfoViewController new];
     vc.factoryModel = _userModel;
     [self.navigationController.navigationBar setHidden:NO];
     [self.navigationController pushViewController:vc animated:YES];
-    
-    
-    
 }
-
 
 - (void)creatGobackButton{
     UIImageView *cancleImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 30, 30, 30)];
@@ -320,15 +249,5 @@ static NSString *shopCellIdentifier = @"shopCell";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -125,7 +125,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
 - (void)creatTableViewHeadView{
     _tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 50 + 0.4*kScreenW)];
     array4Btn = [NSMutableArray arrayWithCapacity:0];
-    NSArray*btnTitleArray = @[@"童装",@"男装",@"女装",@"面料"];
+    NSArray*btnTitleArray = @[@"童装",@"男装",@"女装",@"面辅料"];
     UIView*headerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 50)];
     headerView.backgroundColor=[UIColor whiteColor];
     for (int i=0; i<4; i++) {
@@ -318,7 +318,7 @@ static NSString *const cellIdetifier2 = @"cellIdentifier2";
             sunbBtn.selected = NO;
         }
     }
-    NSArray *kindArray = @[@"cat=child", @"cat=man", @"cat=woman", @"cat=fabirrc"];
+    NSArray *kindArray = @[@"cat=child", @"cat=man", @"cat=woman", @"cat=fabirc"];
     select = kindArray[button.tag];
     _refrushCount = 1;
     self.informationArray = [NSMutableArray arrayWithCapacity:0];
