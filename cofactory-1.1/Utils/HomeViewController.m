@@ -299,30 +299,27 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 
 - (void)goUpdata {
-    DLog(@"%@",Kidentifier);
-    if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
-        //个人开发者
-
-    }else
-    {
-        //企业账
-        [HttpClient upDataWithBlock:^(NSDictionary *upDateDictionary) {
-            NSInteger  statusCode = [upDateDictionary[@"statusCode"] integerValue];
-            if (statusCode == 200) {
-                
-                NSString * latestVersion = [NSString stringWithFormat:@"%@",upDateDictionary[@"latestVersion"]];
-                DLog(@"appStore最新版本号：%@",upDateDictionary[@"latestVersion"]);
-                if ([latestVersion isEqualToString:@"2.2.0"]) {
+    [HttpClient upDataWithBlock:^(NSDictionary *upDateDictionary) {
+        NSInteger  statusCode = [upDateDictionary[@"statusCode"] integerValue];
+        if (statusCode == 200) {
+            NSString * latestVersion = [NSString stringWithFormat:@"%@",upDateDictionary[@"latestVersion"]];
+            DLog(@"appStore最新版本号：%@\n线下版本号：%@",upDateDictionary[@"latestVersion"],kVersion_Cofactories);
+            
+            if ([latestVersion isEqualToString:kVersion_Cofactories]) {
+                //判断版本号  如果AppStore版本号和本地版本号一致 说明没有更新
+            }else {
+                //版本号不一致 说明有新版本在审核或上线 则 进一步判断
+                if ([latestVersion compare:kVersion_Cofactories] != NSOrderedAscending) {
+                    //判断版本号 如果AppStore线上版本号大于现app版本号 说明有更新 就去更新
                     DLog(@"发现新版本")
                     NSString * releaseNotes = upDateDictionary[@"releaseNotes"];
-                    UIAlertView * upDataAlertView = [[UIAlertView alloc]initWithTitle:@"为提高软件稳定性，iOS用户下载更新平台迁至苹果商城。" message:releaseNotes delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去更新", nil];
+                    UIAlertView * upDataAlertView = [[UIAlertView alloc]initWithTitle:@"发现新版本" message:releaseNotes delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去更新", nil];
                     upDataAlertView.tag = 200;
                     [upDataAlertView show];
-                    
                 }
             }
-        }];
-    }
+        }
+    }];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
