@@ -781,21 +781,29 @@ static NSString *LastCellIdentifier = @"LastCell";
     if ([factoryTypeString isEqualToString:@"服装厂"] || [factoryTypeString isEqualToString:@"加工厂"]) {
         if (userModel.factorySize == nil || userModel.factoryServiceRange == nil || userModel.factoryAddress == nil) {
             flag = YES;
+        } else {
+            flag = NO;
         }
     }
     if ([factoryTypeString isEqualToString:@"代裁厂"]) {
         if (userModel.factorySize == nil || userModel.factoryAddress == nil) {
             flag = YES;
+        } else {
+            flag = NO;
         }
     }
     if ([factoryTypeString isEqualToString:@"锁眼钉扣厂"]) {
         if  (userModel.factoryAddress == nil) {
             flag = YES;
+        } else {
+            flag = NO;
         }
     }
     if ([factoryTypeString isEqualToString:@"面辅料商"]) {
         if (userModel.factoryServiceRange == nil || userModel.factoryAddress == nil) {
             flag = YES;
+        } else {
+            flag = NO;
         }
     }
 }

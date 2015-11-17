@@ -175,16 +175,22 @@
     if ([self.factoryTypeString isEqualToString:@"服装厂"] || [self.factoryTypeString isEqualToString:@"加工厂"]) {
         if (_userModel.factorySize == nil || _userModel.factoryServiceRange == nil || _userModel.factoryAddress == nil) {
             flag = YES;
+        } else {
+            flag = NO;
         }
     }
     if ([self.factoryTypeString isEqualToString:@"代裁厂"]) {
         if (_userModel.factorySize == nil || _userModel.factoryAddress == nil) {
             flag = YES;
+        } else {
+            flag = NO;
         }
     }
     if ([self.factoryTypeString isEqualToString:@"锁眼钉扣厂"]) {
         if  (_userModel.factoryAddress == nil) {
             flag = YES;
+        } else {
+            flag = NO;
         }
     }
 }
