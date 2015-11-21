@@ -539,7 +539,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section==1&&indexPath.row==6) {
+    if (indexPath.section==1&&indexPath.row==5) {
         DLog(@"相册");
         PhotoViewController* factoryPhotoVC = [[PhotoViewController alloc]init];
         factoryPhotoVC.userUid = [NSString stringWithFormat:@"%d",self.factoryModel.uid];
