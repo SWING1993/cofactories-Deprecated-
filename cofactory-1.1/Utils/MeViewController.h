@@ -9,7 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MeViewController : UITableViewController
-//用户模型
-@property (nonatomic, strong) UserModel*userModel;
-
+@property (nonatomic, assign) BOOL changeFlag;
 @end

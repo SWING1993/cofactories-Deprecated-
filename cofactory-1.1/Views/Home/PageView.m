@@ -11,7 +11,7 @@
 
 @implementation PageView
 
-- (instancetype)initWithFrame:(CGRect)frame andImageArray:(NSArray *)imageArray isNetWork:(BOOL)isNetWork {
+- (instancetype)initWithFrame:(CGRect)frame andImageArray:(NSArray *)imageArray pageCount:(int)pageCount isNetWork:(BOOL)isNetWork netWork:(BOOL)netWork {
     self = [super initWithFrame:frame];
     if (self) {
         // 实例化控件
@@ -21,19 +21,52 @@
         scrollView.pagingEnabled = YES;
         scrollView.showsHorizontalScrollIndicator = NO;
         scrollView.showsVerticalScrollIndicator = NO;
-        scrollView.contentSize = CGSizeMake(frame.size.width * 3, frame.size.height);
+        scrollView.contentSize = CGSizeMake(frame.size.width * pageCount, frame.size.height);
         // 添加图片
         if (isNetWork) {
-            for (int i = 1; i <= 3; ++i) {
-                NSString *url = imageArray[i-1];
-                UIImageView *imageView = [[UIImageView alloc] init];
-                [imageView sd_setImageWithURL:[NSURL URLWithString:url]];
-                [imageView setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];
-                [scrollView addSubview:imageView];
+            for (int i = 1; i <= pageCount; i++) {
+                UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+                button.adjustsImageWhenHighlighted = NO;
+                if (netWork) {
+                    [button sd_setBackgroundImageWithURL:[NSURL URLWithString:imageArray[i - 1]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@""]];
+                } else {
+                    [button setImage:[UIImage imageNamed:imageArray[i-1]] forState:UIControlStateNormal];
+                }
+                
+//                [button setImage:[UIImage imageNamed:imageArray[i-1]] forState:UIControlStateNormal];
+                //[button setBackgroundImage:[UIImage imageNamed:imageArray[i-1]] forState:UIControlStateNormal];
+                 [button setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];
+//                button.imageView.contentMode = UIViewContentModeScaleAspectFill;
+
+                button.tag = i-1;
+                [scrollView addSubview:button];
+                switch (i) {
+                    case 1:
+                        _imageButton1 = button;
+                          break;
+                        
+                    case 2:
+                        _imageButton2 = button;
+                        break;
+                        
+                    case 3:
+                        _imageButton3 = button;
+                        break;
+                        
+                    case 4:
+                        _imageButton4 = button;
+                        break;
+
+                        
+                    default:
+                        break;
+                }
             }
         }if (!isNetWork) {
-            for (int i = 1; i <= 3; ++i) {
+            for (int i = 1; i <= pageCount; i++) {
                 UIImageView *imageView = [[UIImageView alloc] init];
+                imageView.contentMode = UIViewContentModeScaleAspectFill;
+                imageView.clipsToBounds = YES;
                 imageView.image = [UIImage imageNamed:imageArray[i-1]];
                 [imageView setFrame:CGRectMake((i - 1) * frame.size.width, 0, frame.size.width, frame.size.height)];
                 [scrollView addSubview:imageView];
@@ -44,12 +77,13 @@
         [self addSubview:scrollView];
         
         UIPageControl *pageControl = [[UIPageControl alloc] initWithFrame:CGRectZero];
-        pageControl.numberOfPages = 3;
+        pageControl.numberOfPages = pageCount;
         pageControl.center = CGPointMake(frame.size.width / 2, frame.size.height - 10);
         self.pageControl = pageControl;
         [self addSubview:pageControl];
         // 定时器
-        [NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(scrollToNextPage:) userInfo:nil repeats:YES];
+        [NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(scrollToNextPage:) userInfo:@(pageCount) repeats:YES];
+        
     }
     return self;
 }
@@ -61,10 +95,14 @@
 }
 
 - (void)scrollToNextPage:(NSTimer *)timer {
+    int pageCount = [timer.userInfo intValue];
     CGSize size = [[UIScreen mainScreen] bounds].size;
-    self.pageControl.currentPage = (self.pageControl.currentPage + 1) % 3;
+    self.pageControl.currentPage = (self.pageControl.currentPage + 1) % pageCount;
     [self.scrollView setContentOffset:CGPointMake(size.width * self.pageControl.currentPage, 0) animated:YES];
 }
+
+
+
 
 
 

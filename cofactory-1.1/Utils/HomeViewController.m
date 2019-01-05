@@ -14,32 +14,31 @@
 #import "SearchFactoryOrderVC.h"
 #import "PopularMesageViewController.h"
 #import "PurchaseVC.h"
+#import "ActivityViewController.h"
+#import "ProviderViewController.h"
+#import "IMChatListViewController.h"
 
 //面辅料 供应
 #import "SupplyViewController.h"
 
-
-#define kStatusBarHeight 20
-#define kNavigationBarHeight 44
-//#define kBannerHeight 150
-#define kButtonViewHeight 74
-#define kBannerHeight kScreenW*0.535
+//#define kButtonViewHeight 74
+//#define kBannerHeight kScreenW*0.535
+#define kButtonViewHeight 60
+#define kBannerHeight kScreenW*0.400
 #define kMargin [[UIScreen mainScreen] bounds].size.width / 375
-
-#define kRowInset 5
 
 static NSString *ActivityCellIdentifier = @"ActivityCell";
 static NSString *FactoryCellIdentifier = @"FactoryCell";
 static NSString *OrderCellIdentifier = @"OrderCell";
 static NSString *LastCellIdentifier = @"LastCell";
-@interface HomeViewController () <UIAlertViewDelegate>
+
+@interface HomeViewController () <UIAlertViewDelegate> 
 
 //记录工厂类型
 @property (nonatomic, assign) int factoryType;
 
 //记录认证状态
 @property (nonatomic, assign) int status;
-
 
 //记录空闲忙碌
 @property (nonatomic, copy) NSString* factoryFreeStatus;
@@ -59,82 +58,208 @@ static NSString *LastCellIdentifier = @"LastCell";
 
 @end
 
-@implementation HomeViewController
+@implementation HomeViewController {
+    UIView *headerView;
+    BOOL flag;
+    NSString *factoryTypeString;
+    UserModel*userModel;
+}
 - (void)viewWillAppear:(BOOL)animated {
-
+    //设置代理（融云）
+    [[RCIM sharedRCIM] setUserInfoDataSource:self];
+    [[RCIM sharedRCIM] setReceiveMessageDelegate:self];
     //工厂类型
     [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
-        UserModel*userModel=responseDictionary[@"model"];
-
-
-        self.factoryFreeStatus=userModel.factoryFreeStatus;
-        self.factoryType =userModel.factoryType;
-        self.hasTruck=userModel.hasTruck;
-        self.factoryFreeTime=userModel.factoryFreeTime;
-        DLog(@"刷新工厂=%@  自备货车%d  空闲时间%@",userModel.factoryFreeStatus,self.hasTruck,self.factoryFreeTime);
-
-
-        // 存储用户相关信息
-        NSNumber *MyUid = [NSNumber numberWithInt:userModel.uid];
-        [[NSUserDefaults standardUserDefaults] setObject:MyUid forKey:@"selfuid"];
-        [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
-        [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryAddress forKey:@"factoryAddress"];
-        [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
-        [[NSUserDefaults standardUserDefaults] setInteger:self.factoryType forKey:@"factoryType"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-
-
+        NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
+        DLog(@"getUserProfile状态码 == %ld",(long)statusCode);
+        if (statusCode == 200) {
+            userModel=responseDictionary[@"model"];
+            [super viewWillAppear:animated];
+            
+            self.factoryFreeStatus=userModel.factoryFreeStatus;
+            self.hasTruck=userModel.hasTruck;
+            self.factoryFreeTime=userModel.factoryFreeTime;
+            //self.factoryType =userModel.factoryType;
+            
+            DLog(@"刷新工厂=%@  自备货车%d  空闲时间%@",userModel.factoryFreeStatus,self.hasTruck,self.factoryFreeTime);
+            
+            // 存储用户相关信息
+            NSNumber *MyUid = [NSNumber numberWithInt:userModel.uid];
+            [[NSUserDefaults standardUserDefaults] setObject:MyUid forKey:@"selfuid"];
+            [[NSUserDefaults standardUserDefaults] setObject:@(userModel.factoryType) forKey:@"factoryType"];
+            
+            [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryName forKey:@"factoryName"];
+            [[NSUserDefaults standardUserDefaults] setObject:userModel.factoryAddress forKey:@"factoryAddress"];
+            [[NSUserDefaults standardUserDefaults] setObject:userModel.factorySize forKey:@"factorySize"];
+            [[NSUserDefaults standardUserDefaults] setObject:userModel.phone forKey:@"factoryPhone"];
+            [[NSUserDefaults standardUserDefaults] setObject:userModel.name forKey:@"userName"];            [[NSUserDefaults standardUserDefaults] synchronize];
+            //判断信息是不是完整
+            FactoryRangeModel *factoryRangeModel = [[FactoryRangeModel alloc]init];
+            factoryTypeString = factoryRangeModel.serviceList[kFactoryType];
+            [self factoryInfo];
+            if (flag) {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"您的个人信息不完整" message:@"去完善信息" delegate:self cancelButtonTitle:@"暂不完善" otherButtonTitles:@"去完善", nil];
+                alertView.tag = 222;
+                [alertView show];
+            }
+            [self.tableView reloadData];
+        }
+        
+        if (statusCode == 401 || statusCode == 404) {
+            UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"您的登录信息已过期，请重新登录！" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            alertView.tag = 401;
+            [alertView show];
+        }
     }];
-
-    [super viewWillAppear:animated];
-    [self.tableView reloadData];
+    
+    
 }
 
 
+
+
+#pragma mark - RCIMUserInfoDataSource
+
+//获取IM用户信息
+- (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{
+    //解析工厂信息
+    [HttpClient getUserProfileWithUid:[userId intValue] andBlock:^(NSDictionary *responseDictionary) {
+        FactoryModel *userModel1 = (FactoryModel *)responseDictionary[@"model"];
+        //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (intm 64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        RCUserInfo *user = [[RCUserInfo alloc]init];
+        user.userId = userId;
+        user.name = userModel1.factoryName;
+        user.portraitUri = [NSString stringWithFormat:@"%@/factory/%@.png",PhotoAPI,userId];
+        return completion(user);
+        //        });
+    }];
+}
+
+
+
+- (void)bannerViewClick:(id)sender{
+    UIButton *button = (UIButton *)sender;
+    DLog(@"%zi",button.tag);
+    switch (button.tag) {
+        case 0:
+        {
+            [MobClick event:@"news"];
+            PopularMesageViewController *vc = [[PopularMesageViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+        case 1:
+        {
+            if (self.factoryType == 5) {
+                [MobClick event:@"materials_2"];
+                
+                ProviderViewController*supplyVC = [[ProviderViewController alloc]init];
+                supplyVC.hidesBottomBarWhenPushed = YES;
+                UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+                backItem.title=@"返回";
+                self.navigationItem.backBarButtonItem = backItem;
+                [self.navigationController pushViewController:supplyVC animated:YES];
+            }else{
+                [MobClick event:@"materials_buys"];
+
+                PurchaseVC *VC =[PurchaseVC new];
+                VC.hidesBottomBarWhenPushed = YES;
+                UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+                backItem.title=@"返回";
+                backItem.tintColor=[UIColor whiteColor];
+                self.navigationItem.backBarButtonItem = backItem;
+                self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+                [self.navigationController pushViewController:VC animated:YES];
+            }
+        }
+            break;
+            
+        case 2:
+        {
+            if (self.factoryType == 1) {
+                [MobClick event:@"order"];
+
+                PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
+                pushOrderVC.factoryType = self.factoryType;
+                pushOrderVC.hidesBottomBarWhenPushed=YES;
+                [self.navigationController pushViewController:pushOrderVC animated:YES];
+                
+            }else{
+                [MobClick event:@"jgc_out_order"];
+
+                SearchFactoryOrderVC *vc = [[SearchFactoryOrderVC alloc]init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }
+            break;
+            
+        case 3:
+        {
+            ActivityViewController *vc = [[ActivityViewController alloc]init];
+            vc.url = @"http://activity.cofactories.com/";
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-
     self.view.backgroundColor=[UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 
+    [self goUpdata];
+
+    //获取融云的token
+    [HttpClient getIMTokenWithBlock:^(NSDictionary *responseDictionary) {
+        NSInteger statusCode = [responseDictionary[@"statusCode"]integerValue];
+        DLog(@"融云====%ld", (long)statusCode);
+        if (statusCode == 200) {
+            NSString *token = responseDictionary[@"IMToken"];
+            DLog(@"融云token====%@", token);
+            
+            // 快速集成第二步，连接融云服务器
+            [[RCIM sharedRCIM] connectWithToken:token success:^(NSString *userId) {
+                [self updateBadgeValueForTabBarItem];
+                // Connect 成功
+                DLog(@" Connect 成功");
+            }
+                                          error:^(RCConnectErrorCode status) {
+                                              // Connect 失败
+                                              DLog(@" Connect 失败")
+                                          }
+                                 tokenIncorrect:^() {
+                                     // Token 失效的状态处理
+                                 }];
+        }
+    }];
+
+    //工厂类型
+    NSNumber * factoryTypeNumber = [[NSNumber alloc]initWithInteger:kFactoryType];
+    self.factoryType = [factoryTypeNumber intValue];
+    
     // 初始化模型
     self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, kScreenW, kScreenH-(kNavigationBarHeight+kStatusBarHeight)) style:UITableViewStyleGrouped];
     self.automaticallyAdjustsScrollViewInsets = YES;// 自动调整视图关闭
     self.tableView.showsVerticalScrollIndicator = NO;// 竖直滚动条不显示
-
-    DLog(@"%@",Kidentifier);
-    if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
-        //个人开发者 关闭检测更新
-        DLog(@"个人开发者 关闭检测更新");
-    }else
-    {
-        //企业账号 开启检测更新
-        DLog(@"企业账号 开启检测更新")
-        [[PgyManager sharedPgyManager] checkUpdate];
-    }
-    
-    //抽奖
-    [HttpClient drawAccessWithBlock:^(int statusCode) {
-        DLog(@"%d",statusCode);
-        if (statusCode==200) {
-            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"您已达到抽奖资格，您想要抽奖吗" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            alertView.tag=100;
-            [alertView show];
-        }
-    }];
-
     
     // 表头视图
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
-    NSArray *imageArray = @[@"http://cdn.cofactories.com/banner/banner1.png",@"http://cdn.cofactories.com/banner/banner2.png",@"http://cdn.cofactories.com/banner/banner3.png"];
-    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:imageArray isNetWork:YES];
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight + kButtonViewHeight)];
+    NSArray *imageArray = @[@"服装平台.png",@"面辅料.png",@"新功能.png", @"首页轮播图4.png"];
+    PageView *bannerView = [[PageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kBannerHeight) andImageArray:imageArray pageCount:4 isNetWork:YES netWork:NO];
+    [bannerView.imageButton1 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
+    [bannerView.imageButton2 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
+    [bannerView.imageButton3 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [bannerView.imageButton4 addTarget:self action:@selector(bannerViewClick:) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:bannerView];
-
-
-    NSInteger factoryType = [[[NSUserDefaults standardUserDefaults]objectForKey:@"factoryType"] integerValue];
-
-    if (factoryType==0) {
+    
+    if (self.factoryType==0) {
         ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"订单管理"];
         [headerView addSubview:buttonView];
         [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -142,8 +267,8 @@ static NSString *LastCellIdentifier = @"LastCell";
         [buttonView.postButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
         [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
     }
-    if (factoryType==1 || factoryType==2 || factoryType== 3) {
-
+    if (self.factoryType==1 || self.factoryType==2 || self.factoryType== 3) {
+        
         ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"设置状态"];
         [headerView addSubview:buttonView];
         [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -151,18 +276,17 @@ static NSString *LastCellIdentifier = @"LastCell";
         [buttonView.postButton addTarget:self action:@selector(authClicked:) forControlEvents:UIControlEventTouchUpInside];
         [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
     }
-
-    if (factoryType==5) {
-        ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"面料供应"];
+    
+    if (self.factoryType==5) {
+        ButtonView*buttonView = [[ButtonView alloc]initWithFrame:CGRectMake(0, kBannerHeight, kScreenW, kButtonViewHeight) withString:@"产品供应"];
         [headerView addSubview:buttonView];
         [buttonView.pushHelperButton addTarget:self action:@selector(pushClicked:) forControlEvents:UIControlEventTouchUpInside];
         [buttonView.findCooperationButton addTarget:self action:@selector(findClicked:) forControlEvents:UIControlEventTouchUpInside];
         [buttonView.postButton addTarget:self action:@selector(pushSupply:) forControlEvents:UIControlEventTouchUpInside];
         [buttonView.authenticationButton addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
     }
-
     self.tableView.tableHeaderView = headerView;
-
+    
     //注册cell
     [self.tableView registerClass:[ActivityCell class] forCellReuseIdentifier:ActivityCellIdentifier];
     [self.tableView registerClass:[FindFactoryCell class] forCellReuseIdentifier:FactoryCellIdentifier];
@@ -171,45 +295,116 @@ static NSString *LastCellIdentifier = @"LastCell";
     
 }
 
+#pragma mark - 抽奖 检测更新
+
+
+- (void)goUpdata {
+    [HttpClient upDataWithBlock:^(NSDictionary *upDateDictionary) {
+        NSInteger  statusCode = [upDateDictionary[@"statusCode"] integerValue];
+        if (statusCode == 200) {
+            NSString * latestVersion = [NSString stringWithFormat:@"%@",upDateDictionary[@"latestVersion"]];
+            DLog(@"appStore最新版本号：%@\n线下版本号：%@",upDateDictionary[@"latestVersion"],kVersion_Cofactories);
+            
+            if ([latestVersion isEqualToString:kVersion_Cofactories]) {
+                //判断版本号  如果AppStore版本号和本地版本号一致 说明没有更新
+            }else {
+                //版本号不一致 说明有新版本在审核或上线 则 进一步判断
+                if ([latestVersion compare:kVersion_Cofactories] != NSOrderedAscending) {
+                    //判断版本号 如果AppStore线上版本号大于现app版本号 说明有更新 就去更新
+                    DLog(@"发现新版本")
+                    NSString * releaseNotes = upDateDictionary[@"releaseNotes"];
+                    UIAlertView * upDataAlertView = [[UIAlertView alloc]initWithTitle:@"发现新版本" message:releaseNotes delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去更新", nil];
+                    upDataAlertView.tag = 200;
+                    [upDataAlertView show];
+                }
+            }
+        }
+    }];
+}
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex==1) {
-        if (alertView.tag==100) {
+    if (alertView.tag==100) {
+        if (buttonIndex==1) {
             WebViewController*webVC = [[WebViewController alloc]init];
             UINavigationController*webNav=[[UINavigationController alloc]initWithRootViewController:webVC];
             webNav.navigationBar.barStyle=UIBarStyleBlack;
             [self presentViewController:webNav animated:YES completion:nil];
         }
     }
+    if (alertView.tag == 200) {
+        if (buttonIndex == 1) {
+            NSString *str = kAppUrl;
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+        }
+    }
+    if (alertView.tag == 401) {
+        [ViewController goLogin];
+    }
+    if (alertView.tag == 222){
+        if (buttonIndex == 1) {
+            DLog(@"去完善资料");
+            MeViewController *meVC = [[MeViewController alloc] init];
+            meVC.changeFlag = YES;
+            meVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:meVC animated:YES];
+        } else {
+            DLog(@"暂不完善");
+        }
+    }
+
 }
 
+
+
+#pragma mark - buttonView 点击事件
+
+#pragma mark - 流行资讯
 - (void)pushClicked:(id)sender {
+    
+    [MobClick event:@"news"];
+    
     PopularMesageViewController *vc = [[PopularMesageViewController alloc]init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
-
+    
 }
+#pragma mark - 找合作商
 - (void)findClicked:(id)sender {
+   
+    [MobClick event:@"find"];
     FactoryListViewController *factoryListVC= [[FactoryListViewController alloc]init];
+    factoryListVC.selectedFactoryIndex = 0;
     factoryListVC.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
-    //    factoryListVC.factoryType = 10;
     [self.navigationController pushViewController:factoryListVC animated:YES];
 }
 
+#pragma mark - 面辅料供应
 - (void)pushSupply:(id)sender {
+    
+    [MobClick event:@"materials_1"];
 
-    SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
+    ProviderViewController*supplyVC = [[ProviderViewController alloc]init];
     supplyVC.hidesBottomBarWhenPushed = YES;
+    UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+    backItem.title=@"返回";
+    self.navigationItem.backBarButtonItem = backItem;
     [self.navigationController pushViewController:supplyVC animated:YES];
 }
-- (void)postClicked:(id)sender {
 
+#pragma mark - 发布订单
+- (void)postClicked:(id)sender {
+    
+    [MobClick event:@"order"];
     PushOrderViewController*pushOrderVC = [[PushOrderViewController alloc]init];
     pushOrderVC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:pushOrderVC animated:YES];
 }
 
+#pragma mark - 设置状态
 - (void)authClicked:(id)sender {
+    
+    [MobClick event:@"config"];
+
     if (self.factoryType==1) {
         StatusViewController*statusVC = [[StatusViewController alloc]init];
         statusVC.factoryFreeTime=self.factoryFreeTime;
@@ -225,9 +420,13 @@ static NSString *LastCellIdentifier = @"LastCell";
         [self.navigationController pushViewController:statusVC animated:YES];
     }
 }
+
+#pragma mark - 认证服务
 - (void)statusClicked:(id)sender {
+    
     UIButton*button = (UIButton *)sender;
     [button setUserInteractionEnabled:NO];
+    [MobClick event:@"verify"];
 
     //认证信息
     [HttpClient getVeifyInfoWithBlock:^(NSDictionary *dictionary) {
@@ -235,9 +434,10 @@ static NSString *LastCellIdentifier = @"LastCell";
         self.status = [VeifyDic[@"status"] intValue];
         DLog(@"认证状态%d", self.status);
         [button setUserInteractionEnabled:YES];
-
+        
         //未认证
         if ( self.status==0) {
+            [MobClick event:@"verify"];
             VeifyViewController*veifyVC = [[VeifyViewController alloc]init];
             veifyVC.hidesBottomBarWhenPushed=YES;
             veifyVC.title=@"未认证";
@@ -245,6 +445,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         }
         //认证中
         if ( self.status==1) {
+            [MobClick event:@"verify"];
             VeifyingViewController*veifyingVC = [[VeifyingViewController alloc]init];
             veifyingVC.hidesBottomBarWhenPushed=YES;
             veifyingVC.VeifyDic=VeifyDic;
@@ -253,6 +454,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         }
         //认证成功
         if ( self.status==2) {
+            [MobClick event:@"verify"];
             VeifyEndViewController*endVC = [[VeifyEndViewController alloc]init];
             endVC.hidesBottomBarWhenPushed=YES;
             endVC.title=@"认证成功";
@@ -261,54 +463,56 @@ static NSString *LastCellIdentifier = @"LastCell";
     }];
 }
 
+
 - (void)findFactory:(UIButton *)button {
     switch (button.tag) {
         case 1000:
         {
+            [MobClick event:@"fzc"];
             // 找服装厂信息
             FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-            searchViewController.factoryType = 100;
-            searchViewController.currentData1Index = 1;
+            searchViewController.selectedFactoryIndex = 100;
             searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
             [self.navigationController pushViewController:searchViewController animated:YES];
         }
             break;
         case 1001:
         {
+            [MobClick event:@"sydk"];
             // 找锁眼钉扣厂信息
             FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-            searchViewController.factoryType = 3;
-            searchViewController.currentData1Index = 3;
+            searchViewController.selectedFactoryIndex = 3;
             searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
             [self.navigationController pushViewController:searchViewController animated:YES];
         }
             break;
         case 1002:
         {
+            [MobClick event:@"jgc"];
             // 找加工厂信息
             FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-            searchViewController.factoryType = 1;
-            searchViewController.currentData1Index = 2;
+            searchViewController.selectedFactoryIndex = 1;
+
             searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
             [self.navigationController pushViewController:searchViewController animated:YES];
         }
-
+            
             break;
         case 1003:
         {
+            [MobClick event:@"dcc"];
             // 找代裁厂信息
-
             FactoryListViewController *searchViewController = [[FactoryListViewController alloc]init];
-            
-            searchViewController.factoryType = 2;
-            searchViewController.currentData1Index = 4;
+            searchViewController.selectedFactoryIndex = 2;
             searchViewController.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
             [self.navigationController pushViewController:searchViewController animated:YES];
         }
-
+            
             break;
         case 1004:
         {
+            [MobClick event:@"fzc_order"];
+
             // 找服装厂外发加工订单
             searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc]init];
             orderDetailViewController.orderListType = 1;
@@ -321,6 +525,8 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1005:
         {
+            [MobClick event:@"dcc_order"];
+
             // 找服装厂外发代裁订单
             
             searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc] init];
@@ -334,6 +540,8 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1006:
         {
+            [MobClick event:@"sydk_order"];
+
             //找服装厂外发锁眼钉扣订单
             
             searchOrderListVC *orderDetailViewController =[[searchOrderListVC alloc] init];
@@ -347,39 +555,49 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1007:
         {
-#warning 记得改回来。。。。
-            
-//            SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
-//            supplyVC.hidesBottomBarWhenPushed = YES;
-//            [self.navigationController pushViewController:supplyVC animated:YES];
+
+            [MobClick event:@"materials_2"];
+
             //我想供应
             if (self.factoryType == 5) {
-                SupplyViewController*supplyVC = [[SupplyViewController alloc]init];
-                supplyVC.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:supplyVC animated:YES];
+                ProviderViewController *providerVC = [[ProviderViewController alloc] init];
+                providerVC.hidesBottomBarWhenPushed = YES;
+                UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+                backItem.title=@"返回";
+                self.navigationItem.backBarButtonItem = backItem;
+                [self.navigationController pushViewController:providerVC animated:YES];
+                
             }else{
-                [Tools showHudTipStr:@"面辅料专区，非加工厂请至首页上方发布订单！"];
+                [Tools showShimmeringString:@"面辅料专区，非面辅料请至首页上方发布订单！"];
             }
-
+            
             DLog(@"我想供应");
-
+            
         }
             break;
         case 1008:
         {
-            //我想采购
-            PurchaseVC *VC =[PurchaseVC new];
-            VC.hidesBottomBarWhenPushed = YES;
-            UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
-            backItem.title=@"返回";
-            backItem.tintColor=[UIColor whiteColor];
-            self.navigationItem.backBarButtonItem = backItem;
-            self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-            [self.navigationController pushViewController:VC animated:YES];
+            [MobClick event:@"materials_buys"];
+
+            if (self.factoryType == 5) {
+                [Tools showShimmeringString:@"采购商专区，供应商请发布供应！"];
+            }else{
+                //我想采购
+                PurchaseVC *VC =[PurchaseVC new];
+                VC.hidesBottomBarWhenPushed = YES;
+                UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+                backItem.title=@"返回";
+                backItem.tintColor=[UIColor whiteColor];
+                self.navigationItem.backBarButtonItem = backItem;
+                self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+                [self.navigationController pushViewController:VC animated:YES];
+                
+            }
         }
             break;
         case 1009:
         {
+            [MobClick event:@"jgc_out_order"];
             //加工厂订单外发
             if (self.factoryType == 1) {
                 //加工厂订单外发
@@ -389,7 +607,7 @@ static NSString *LastCellIdentifier = @"LastCell";
                 [self.navigationController pushViewController:pushOrderVC animated:YES];
                 
             }else{
-                [Tools showHudTipStr:@"加工厂专区，非加工厂请至首页上方发布订单！"];
+                [Tools showShimmeringString:@"加工厂专区，非加工厂请至首页上方发布订单！"];
             }
             
             DLog(@"加工厂订单外发");
@@ -397,6 +615,7 @@ static NSString *LastCellIdentifier = @"LastCell";
             break;
         case 1010:
         {
+            [MobClick event:@"find_jgc_other"];
             //寻找加工厂订单
             SearchFactoryOrderVC *vc = [[SearchFactoryOrderVC alloc]init];
             vc.hidesBottomBarWhenPushed = YES;// 隐藏底部栏
@@ -404,15 +623,14 @@ static NSString *LastCellIdentifier = @"LastCell";
         }
             break;
             
-
-                default:
+        default:
             break;
     }
 }
 
 
 
-#pragma mark - Table view data source
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 5;
@@ -447,7 +665,7 @@ static NSString *LastCellIdentifier = @"LastCell";
         cell.machineButton.tag = 1005;
         [cell.cutButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
         cell.cutButton.tag = 1006;
-
+        
         return cell;
     } else if(indexPath.section == 3){
         LastmachineCell *cell = [tableView dequeueReusableCellWithIdentifier:LastCellIdentifier forIndexPath:indexPath];
@@ -471,10 +689,13 @@ static NSString *LastCellIdentifier = @"LastCell";
         [cell.rightButton addTarget:self action:@selector(findFactory:) forControlEvents:UIControlEventTouchUpInside];
         cell.rightButton.tag = 1010;
         return cell;
-
+        
     }
-
+    
 }
+
+
+#pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         return 38 *kMargin;
@@ -496,7 +717,7 @@ static NSString *LastCellIdentifier = @"LastCell";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return kRowInset;
+    return 5;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -516,22 +737,10 @@ static NSString *LastCellIdentifier = @"LastCell";
     
 }
 
-
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kRowInset)];
-    return view;
-}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
-        // 各类营销活动
-        NSString*accessToken = [[NSUserDefaults standardUserDefaults]objectForKey:@"accessToken"];
-        ActivityViewController *webViewController = [[ActivityViewController alloc] init];
-        webViewController.url = [NSString stringWithFormat:@"http://app2.cofactories.com/activity/draw.html#%@",accessToken];
-        webViewController.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:webViewController animated:YES];
-    }
+
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -539,8 +748,67 @@ static NSString *LastCellIdentifier = @"LastCell";
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
+#pragma mark - Action
+- (void)updateBadgeValueForTabBarItem {
+    __weak typeof(self) IMSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        int count = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
+        if (count>0) {
+            IMSelf.tabBarController.viewControllers[2].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",count];
+        } else {
+            IMSelf.tabBarController.viewControllers[2].tabBarItem.badgeValue = nil;
+        }
+        
+    });
+}
+#pragma mark - RCIMReceiveMessageDelegate
+//必须要写在这里，不能写在通话列表里
+-(void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left {
+    DLog(@"=============================");
+    __weak typeof(self) IMSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        int messageCount = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
+        if (messageCount>0) {
+            IMSelf.tabBarController.viewControllers[2].tabBarItem.badgeValue = [[NSString alloc]initWithFormat:@"%d",messageCount];
+        } else {
+            IMSelf.tabBarController.viewControllers[2].tabBarItem.badgeValue = nil;
+        }
+    });
+    
+}
 
+- (void)factoryInfo {
+    if ([factoryTypeString isEqualToString:@"服装厂"] || [factoryTypeString isEqualToString:@"加工厂"]) {
+        if (userModel.factorySize == nil || userModel.factoryServiceRange == nil || userModel.factoryAddress == nil) {
+            flag = YES;
+        } else {
+            flag = NO;
+        }
+    }
+    if ([factoryTypeString isEqualToString:@"代裁厂"]) {
+        if (userModel.factorySize == nil || userModel.factoryAddress == nil) {
+            flag = YES;
+        } else {
+            flag = NO;
+        }
+    }
+    if ([factoryTypeString isEqualToString:@"锁眼钉扣厂"]) {
+        if  (userModel.factoryAddress == nil) {
+            flag = YES;
+        } else {
+            flag = NO;
+        }
+    }
+    if ([factoryTypeString isEqualToString:@"面辅料商"]) {
+        if (userModel.factoryServiceRange == nil || userModel.factoryAddress == nil) {
+            flag = YES;
+        } else {
+            flag = NO;
+        }
+    }
+}
+
+- (void)dealloc {
     DLog(@"释放内存");
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;

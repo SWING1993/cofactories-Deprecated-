@@ -26,10 +26,10 @@
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
-    self.tableView.rowHeight=200.0f;
 
-    descriptionTV=[[UITextView alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, 200)];
-    descriptionTV.font=[UIFont systemFontOfSize:15.0f];
+    CGSize size = [Tools getSize:self.placeholder andFontOfSize:15.0f];
+    descriptionTV=[[UITextView alloc]initWithFrame:CGRectMake(15, 0, kScreenW-30, size.height+40)];
+    descriptionTV.font=kLargeFont;
     descriptionTV.text=self.placeholder;
 
     //设置Btn
@@ -40,11 +40,11 @@
 - (void)buttonClicked{
 
     if ([descriptionTV.text isEqualToString:@""]) {
-        [Tools showHudTipStr:@"公司简介不能为空！"];
+        [Tools showErrorWithStatus:@"公司简介不能为空！"];
     }else{
         MBProgressHUD *hud = [Tools createHUD];
         hud.labelText = @"正在修改姓名";
-        [HttpClient updateFactoryProfileWithFactoryName:nil factoryAddress:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryLon:nil factoryLat:nil factoryFree:nil factoryDescription:descriptionTV.text andBlock:^(int statusCode) {
+        [HttpClient updateFactoryProfileWithFactoryAddress:nil province:nil city:nil district:nil factoryServiceRange:nil factorySizeMin:nil factorySizeMax:nil factoryDescription:descriptionTV.text andBlock:^(int statusCode) {
             if (statusCode == 200) {
                 hud.labelText = @"公司简介修改成功";
                 [hud hide:YES];
@@ -53,6 +53,7 @@
                 hud.labelText = @"公司简介修改失败";
                 [hud hide:YES];
             }
+
         }];
     }
 }
@@ -61,6 +62,12 @@
 //    [self.tableView endEditing:YES];
 //}
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    CGSize size = [Tools getSize:self.placeholder andFontOfSize:15.0f];
+    return size.height+40;
+
+}
 
 #pragma mark - Table view data source
 

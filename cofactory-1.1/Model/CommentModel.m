@@ -10,4 +10,20 @@
 
 @implementation CommentModel
 
+- (instancetype)initModelWith:(NSDictionary *)dictionary {
+    if (self = [super init]) {
+        self.authour = dictionary[@"comment_author"];
+        self.time = dictionary[@"comment_date"];
+        self.comment = dictionary[@"comment_content"];
+        self.uid = [dictionary[@"uid"] integerValue];
+    }
+    return self;
+}
++(instancetype)getModelWith:(NSDictionary *)dictionary {
+    return [[self alloc] initModelWith:dictionary];
+}
+
+
+
+
 @end

@@ -8,16 +8,11 @@
 #import "Header.h"
 #import "LoginViewController.h"
 
-#import "ZFModalTransitionAnimator.h"
-
-
 @interface LoginViewController () <UIAlertViewDelegate>{
     UITextField*_usernameTF;
 
     UITextField*_passwordTF;
 }
-
-@property (nonatomic, strong) ZFModalTransitionAnimator *animator;
 
 @end
 
@@ -25,6 +20,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    //判断网络状态 给用户相应提示
+    [Tools AFNetworkReachabilityStatusReachableVia];
 
     //删除注册信息
     DLog(@"删除NSUserDefaults信息");
@@ -34,23 +32,18 @@
         [defs removeObjectForKey:key];
     }
     [defs synchronize];
+    DLog(@"%d",[defs synchronize]);
 
     // Do any additional setup after loading the view from its nib.
     self.title=@"登录";
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW-64, kScreenH) style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
     self.tableView.backgroundColor = [UIColor whiteColor];
 
-    UIView*tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
-    tableHeaderView.backgroundColor=[UIColor clearColor];
-    UIImageView*logoImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2-40, 10, 80, 80)];
-    logoImage.image=[UIImage imageNamed:@"login_logo"];
-    logoImage.layer.cornerRadius = 80/2.0f;
-    logoImage.layer.masksToBounds = YES;
-    [tableHeaderView addSubview:logoImage];
-
+    tablleHeaderView*tableHeaderView = [[tablleHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, tableHeaderView_height)];
     self.tableView.tableHeaderView = tableHeaderView;
 
     UIView * tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 80)];
@@ -65,7 +58,6 @@
     [loginBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
     [loginBtn addTarget:self action:@selector(clickbBtn:) forControlEvents:UIControlEventTouchUpInside];
     [tableFooterView addSubview:loginBtn];
-
 
 
     //注册 button
@@ -90,11 +82,7 @@
     [tableFooterView addSubview:forgetBtn];
 
     self.tableView.tableFooterView = tableFooterView;
-
-
-    
     [self createUI];
-    
 }
 - (void)createUI {
 
@@ -138,44 +126,60 @@
             if ([_passwordTF.text isEqualToString:@""]||[_usernameTF.text isEqualToString:@""]) {
 
                 [button setEnabled:YES];
-                [Tools showHudTipStr:@"请您填写账号以及密码后登陆"];
+                [Tools showErrorWithStatus:@"请您填写账号以及密码后登陆"];
             }else{
                 [HttpClient loginWithUsername:_usernameTF.text password:_passwordTF.text andBlock:^(int statusCode) {
                     DLog(@"%d",statusCode);
                     switch (statusCode) {
                         case 0:{
                             [button setEnabled:YES];
-                            [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                            [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
 
                         }
                             break;
                         case 200:{
                             [button setEnabled:YES];
+                            
+                            DLog(@"登陆成功");
+                            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//                            [userDefaults setObject:_usernameTF.text forKey:@"username"];
+//                            [userDefaults setObject:_passwordTF.text forKey:@"password"];
 
-                            [ViewController goMain];
+                            //工厂类型
+                            [HttpClient getUserProfileWithBlock:^(NSDictionary *responseDictionary) {
 
+                                if ([responseDictionary[@"statusCode"]integerValue]==200) {
+                                    UserModel*userModel=responseDictionary[@"model"];
+                                    [userDefaults setInteger:userModel.factoryType forKey:@"factoryType"];
+
+                                    if ([userDefaults synchronize] == YES) {
+                                        DLog(@"token、username、password储存成功！");
+                                        [ViewController goMain];
+                                    }
+                                    else{
+                                        DLog(@"token、username、password储存失败！");
+                                        [Tools showErrorWithStatus:@"获取用户身份失败，请尝试重新登录！"];
+                                    }
+                                }
+                            }];
                         }
                             break;
                         case 400:{
                             [button setEnabled:YES];
-
-                            [Tools showHudTipStr:@"用户名或密码错误！"];
-
+                            [Tools showErrorWithStatus:@"用户名或密码错误！"];
                         }
                             break;
                             
                         default:
                             [button setEnabled:YES];
-                            [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                            [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
                             break;
                     }
                 }];
             }
-            
         }
             break;
         case 2:{
-
         }
             break;
         case 3:{
@@ -187,13 +191,6 @@
             resetNav.navigationBar.barStyle=UIBarStyleBlack;
             
             resetNav.modalPresentationStyle = UIModalPresentationCustom;
-            self.animator = [[ZFModalTransitionAnimator alloc] initWithModalViewController:resetNav];
-            self.animator.dragable = YES;
-            self.animator.bounces = NO;
-            self.animator.behindViewAlpha = 0.5f;
-            self.animator.behindViewScale = 0.5f;
-            self.animator.direction = ZFModalTransitonDirectionBottom;
-            resetNav.transitioningDelegate = self.animator;
             [self presentViewController:resetNav animated:YES completion:nil];
         }
         default:

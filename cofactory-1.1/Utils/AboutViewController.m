@@ -21,7 +21,6 @@
     self.title=@"关于聚工厂";
     self.view.backgroundColor=[UIColor whiteColor];
 
-
     self.tableView=[[UITableView alloc]initWithFrame:kScreenBounds style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator=NO;
     self.tableView.rowHeight=40;
@@ -35,8 +34,8 @@
     [tableHeaderView addSubview:logoImage];
 
     UILabel*logoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, kScreenW, 20)];
-    logoLabel.font = [UIFont systemFontOfSize:16];
-    logoLabel.text=[NSString stringWithFormat:@"聚工厂 cofactories %@",kVersion_Coding];//@"聚工厂 cofactories 1.3";
+    logoLabel.font = kLargeFont;
+    logoLabel.text=[NSString stringWithFormat:@"聚工厂 cofactories %@",kVersion_Cofactories];
     logoLabel.textAlignment = NSTextAlignmentCenter;
     [tableHeaderView addSubview:logoLabel];
 
@@ -58,13 +57,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([Kidentifier isEqualToString:@"com.cofactory.iosapp"]) {
-        //个人开发者
-        return 1;
-    }else{
-        //企业账号
-        return 2;
-    }
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -73,7 +66,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-    cell.textLabel.font=[UIFont systemFontOfSize:16];
+    cell.textLabel.font=kLargeFont;
     cell.detailTextLabel.textColor=[UIColor blackColor];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
 
@@ -85,7 +78,6 @@
             break;
             
         case 1:{
-            cell.textLabel.text=@"检测更新";
 
         }
             break;
@@ -112,7 +104,6 @@
         }
             break;
         case 1:{
-            [self checkUpdate];
 
         }
             break;
@@ -139,45 +130,5 @@
     // Pass the selected object to the new view controller.
 }
 */
-
-/**
- *  检查更新
- */
-- (void)checkUpdate
-{
-    //  有回调的检查更新
-    [[PgyManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(updateMethod:)];
-
-}
-
-/**
- *  检查更新回调
- *
- *  @param response 检查更新的返回结果
- */
-- (void)updateMethod:(NSDictionary *)response
-{
-    if (response[@"downloadURL"]) {
-
-        //    无回调的检查更新，如果有新版本，则会提示用户更新，确认更新后会自动安装新版本
-        [[PgyManager sharedPgyManager] checkUpdate];
-
-    }
-    else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"当前版本为最新版本"
-                                                            message:nil
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"好的"
-                                                  otherButtonTitles:nil,
-                                  nil];
-
-        [alertView show];
-
-    }
-
-    //    调用checkUpdateWithDelegete后可用此方法来更新本地的版本号，如果有更新的话，在调用了此方法后再次调用将不提示更新信息。
-    //    [[PgyManager sharedPgyManager] updateLocalBuildNumber];
-}
-
 
 @end

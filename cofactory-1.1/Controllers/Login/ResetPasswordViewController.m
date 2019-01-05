@@ -22,7 +22,7 @@
 
     NSInteger seconds;
 
-    UIButton*_codeBtn;
+    blueButton*_codeBtn;
 
 //    BOOL _wasKeyboardManagerEnabled;
 
@@ -54,15 +54,17 @@
     self.tableView.showsVerticalScrollIndicator=NO;
     self.tableView.backgroundColor = [UIColor whiteColor];
 
-    UIView*tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
-    tableHeaderView.backgroundColor=[UIColor clearColor];
-    UIImageView*logoImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW/2-40, 10, 80, 80)];
-    logoImage.image=[UIImage imageNamed:@"login_logo"];
-    logoImage.layer.cornerRadius = 80/2.0f;
-    logoImage.layer.masksToBounds = YES;
-    [tableHeaderView addSubview:logoImage];
-
+    tablleHeaderView*tableHeaderView = [[tablleHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, tableHeaderView_height)];
     self.tableView.tableHeaderView = tableHeaderView;
+
+    UIView*tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 50)];
+    tableFooterView.backgroundColor = [UIColor clearColor];
+    blueButton*nextBtn=[[blueButton alloc]initWithFrame:CGRectMake(20, 7, kScreenW-40, 35)];
+    [nextBtn setTitle:@"重置密码" forState:UIControlStateNormal];
+    [nextBtn addTarget:self action:@selector(nextBtn) forControlEvents:UIControlEventTouchUpInside];
+    [tableFooterView addSubview:nextBtn];
+    self.tableView.tableFooterView = tableFooterView;
+
 
     //返回Btn
     UIBarButtonItem *setButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(buttonClicked)];
@@ -98,28 +100,12 @@
     }
 
     if (!_codeBtn) {
-        _codeBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenW-100, 7, 90, 30)];
-        _codeBtn.layer.cornerRadius=5.0f;
-        _codeBtn.layer.masksToBounds=YES;
-        _codeBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-        _codeBtn.layer.borderWidth = 1.0f;
-        _codeBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+        _codeBtn=[[blueButton alloc]initWithFrame:CGRectMake(kScreenW-100, 7, 90, 30)];
+
+        _codeBtn.titleLabel.font=[UIFont systemFontOfSize:14.0f];
         [_codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-        [_codeBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
         [_codeBtn addTarget:self action:@selector(sendCodeBtn) forControlEvents:UIControlEventTouchUpInside];
     }
-
-    UIButton*nextBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 44*3+20+120, kScreenW-40, 35)];
-    nextBtn.layer.cornerRadius=5.0f;
-    nextBtn.layer.masksToBounds=YES;
-    nextBtn.layer.borderColor = [UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f].CGColor;
-    nextBtn.layer.borderWidth = 1.0f;
-
-    [nextBtn setTitleColor:[UIColor colorWithRed:70.0f/255.0f green:126.0f/255.0f blue:220/255.0f alpha:1.0f] forState:UIControlStateNormal];
-    [nextBtn setTitle:@"重置密码" forState:UIControlStateNormal];
-    [nextBtn addTarget:self action:@selector(nextBtn) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView addSubview:nextBtn];
-
 }
 
 - (void)buttonClicked {
@@ -128,7 +114,7 @@
 
 - (void)nextBtn {
     if (_passwordTF.text.length<6) {
-        [Tools showHudTipStr:@"密码长度应该是6位及以上！"];
+        [Tools showErrorWithStatus:@"密码长度应该是6位及以上！"];
 
     }
     else{
@@ -146,20 +132,20 @@
                 case 400:
                 {
 
-                    [Tools showHudTipStr:@"没有这个用户！"];
+                    [Tools showErrorWithStatus:@"没有这个用户！"];
 
                 }
                     break;
                 case 403:
                 {
-                    [Tools showHudTipStr:@"验证码错误"];
+                    [Tools showErrorWithStatus:@"验证码错误"];
 
 
                 }
                     break;
 
                 default:
-                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                    [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
 
                     break;
             }
@@ -174,19 +160,19 @@
         [HttpClient postVerifyCodeWithPhone:_usernameTF.text andBlock:^(int statusCode) {
             switch (statusCode) {
                 case 0:{
-                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                    [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
                     [_codeBtn setEnabled:YES];
 
                 }
                     break;
                 case 200:{
-                    [Tools showHudTipStr:@"发送成功，十分钟内有效"];
+                    [Tools showSuccessWithStatus:@"发送成功，十分钟内有效"];
                     seconds = 60;
                     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
                 }
                     break;
                 case 400:{
-                    [Tools showHudTipStr:@"手机格式不正确"];
+                    [Tools showErrorWithStatus:@"手机格式不正确"];
                     [_codeBtn setEnabled:YES];
 
 
@@ -194,14 +180,14 @@
                     break;
                 case 409:{
 
-                    [Tools showHudTipStr:@"需要等待冷却"];
+                    [Tools showErrorWithStatus:@"需要等待冷却"];
                     [_codeBtn setEnabled:YES];
 
 
                 }
                     break;
                 case 502:{
-                    [Tools showHudTipStr:@"发送错误"];
+                    [Tools showErrorWithStatus:@"发送错误"];
                     [_codeBtn setEnabled:YES];
 
 
@@ -209,7 +195,7 @@
                     break;
 
                 default:
-                    [Tools showHudTipStr:@"您的网络状态不太顺畅哦！"];
+                    [Tools showErrorWithStatus:@"您的网络状态不太顺畅哦！"];
                     [_codeBtn setEnabled:YES];
                     break;
             }
@@ -217,7 +203,7 @@
 
     }else{
 
-        [Tools showHudTipStr:@"您输入的是一个无效的手机号码"];
+        [Tools showErrorWithStatus:@"您输入的是一个无效的手机号码！"];
         [_codeBtn setEnabled:YES];
     }
 }
@@ -226,15 +212,21 @@
 //倒计时方法验证码实现倒计时60秒，60秒后按钮变换开始的样子
 -(void)timerFireMethod:(NSTimer *)theTimer {
     if (seconds == 1) {
+
         [theTimer invalidate];
         seconds = 60;
+        _codeBtn.titleLabel.text = @"重新获取";
         [_codeBtn setTitle:@"重新获取" forState: UIControlStateNormal];
         [_codeBtn setEnabled:YES];
     }else{
         seconds--;
-        NSString *title = [NSString stringWithFormat:@"倒计时%lds",(long)seconds];
         [_codeBtn setEnabled:NO];
+        NSString *title = [NSString stringWithFormat:@"倒计时%lds",(long)seconds];
+        [_codeBtn.titleLabel sizeToFit];
+        _codeBtn.titleLabel.text = title;
         [_codeBtn setTitle:title forState:UIControlStateNormal];
+        DLog(@"%@",_codeBtn.titleLabel.text);
+
     }
 }
 

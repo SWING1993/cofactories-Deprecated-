@@ -8,7 +8,7 @@
 
 #import "ActivityCell.h"
 #define kMargin [[UIScreen mainScreen] bounds].size.width / 375
-#define kSpace 30*kMargin
+#define kSpace 22*kMargin
 
 @implementation ActivityCell
 
@@ -23,7 +23,7 @@
         self.middleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kSpace + CGRectGetMaxX(self.photoView.frame), 10*kMargin, 40*kMargin, 18 *kMargin)];
         self.middleLabel.text = @"热门";
         self.middleLabel.textAlignment = NSTextAlignmentCenter;
-        self.middleLabel.font = [UIFont systemFontOfSize:13];
+        self.middleLabel.font = kFont;
         self.middleLabel.textColor = [UIColor colorWithRed:215/255. green:86/255. blue:69/255. alpha:1];
         
         self.middleLabel.layer.borderWidth = 0.8;
@@ -33,9 +33,9 @@
         
         
         [self addSubview:self.middleLabel];
-        self.rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.middleLabel.frame) + kSpace, 9*kMargin, 150*kMargin, 20 *kMargin)];
-        self.rightLabel.text = @"聚工厂抽奖进行中！";
-        self.rightLabel.font = [UIFont systemFontOfSize:13];
+        self.rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.middleLabel.frame) + kSpace, 9*kMargin, 190*kMargin, 20 *kMargin)];
+        self.rightLabel.text = @"聚工厂新颜新气象！";
+        self.rightLabel.font = kFont;
         [self addSubview:self.rightLabel];
         
     }

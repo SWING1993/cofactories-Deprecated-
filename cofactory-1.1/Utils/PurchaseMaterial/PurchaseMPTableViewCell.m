@@ -7,7 +7,7 @@
 //
 
 #import "PurchaseMPTableViewCell.h"
-
+#import "PurchasePublicHistoryModel.h"
 @implementation PurchaseMPTableViewCell{
     
     UILabel      *_nameLabel;
@@ -15,6 +15,7 @@
     UILabel      *_commentLabel;
     UILabel      *_typeLabel;
     UIImageView  *_bgImage;
+    UIImageView  *_completionImage;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
@@ -26,6 +27,10 @@
         _bgImage.layer.masksToBounds = YES;
         _bgImage.layer.cornerRadius = 5;
         [self addSubview:_bgImage];
+        
+        _completionImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-65, 30, 55, 55)];
+        _completionImage.image = [UIImage imageNamed:@"章.jpg"];
+        [self addSubview:_completionImage];
         
         _nameLabel = [[UILabel alloc]init];
         _nameLabel.frame = CGRectMake(100, 8, kScreenW-100-45, 25);
@@ -60,7 +65,7 @@
         _typeLabel.textColor = [UIColor colorWithRed:241/255.0 green:145/255.0 blue:73/255.0 alpha:1.0];
     }
     
-    _amountLabel.text = [NSString stringWithFormat:@"数量: %zi%@",model.amount,model.unit];
+    _amountLabel.text = [NSString stringWithFormat:@"数量: %@%@",model.amount,model.unit];
     _commentLabel.text = [NSString stringWithFormat:@"备注: %@",model.comment];
     if (model.photoArray.count > 0 ) {
         NSString *imageOne = model.photoArray[0];
@@ -69,7 +74,11 @@
         _bgImage.image = [UIImage imageNamed:@"placeholder88"];
     }
     
-    
+    if (model.isCompletion == 0) {
+        _completionImage.hidden = YES;
+    }else{
+        _completionImage.hidden = NO;
+    }
 }
 
 - (void)awakeFromNib {

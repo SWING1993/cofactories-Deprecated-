@@ -14,9 +14,10 @@
 #import "MessageModel.h"
 #import "UpYun.h"
 #import "BidManagerModel.h"
+#import "LookoverMaterialModel.h"
 
 
-@interface HttpClient : NSObject
+@interface HttpClient : NSObject <UIAlertViewDelegate>
 
 #pragma mark - API RESTful方法
 
@@ -85,8 +86,9 @@
  @param factoryServiceRange 业务类型
  @param block               回调函数 会返回 @{@"statusCode": @201, @"responseObject": 字典}->(注册成功) @{@"statusCode": @401, @"message": @"验证码错误"}->(验证码错误) @{@"statusCode": @409, @"message": @"该手机已经注册过""}->(手机已经注册过) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误)
  */
-+ (void)registerWithUsername:(NSString *)username InviteCode:(NSString *)inviteCode password:(NSString *)password factoryType:(int)type verifyCode:(NSString *)code factoryName:(NSString *)factoryName lon:(double)lon lat:(double)lat factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange andBlock:(void (^)(NSDictionary *responseDictionary))block;
+//+ (void)registerWithUsername:(NSString *)username InviteCode:(NSString *)inviteCode password:(NSString *)password factoryType:(int)type verifyCode:(NSString *)code factoryName:(NSString *)factoryName lon:(double)lon lat:(double)lat factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
++ (void)registerWithUsername:(NSString *)username password:(NSString *)password factoryType:(int)type  code:(NSString *)code  factoryName:(NSString *)factoryName andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 //邀请码
 + (void)registerWithInviteCode:(NSString *)inviteCode andBlock:(void (^)(NSDictionary *responseDictionary))block;
@@ -146,18 +148,18 @@
  更新工厂资料
  工厂规模必须从小到大排序,如果规模范围是 x 到无限大,则 factorySizeMin = @(x), factorySizeMax = nil;
 
- @param factoryName         工厂名称
  @param factoryAddress      工厂地址
+ @param province            省份
+ @param city                市
+ @param district            区
  @param factoryServiceRange 业务类型
  @param factorySizeMin      工厂规模最小值(必须是最小值,且用 NSNumber 包装)
  @param factorySizeMax      工厂规模最大值(必须是最大值,且用 NSNumber 包装)
- @param factoryLon          工厂经度
- @param factoryLat          工厂纬度
  @param factoryDescription  工厂描述
  @param factoryFree         工厂空闲状态(服装厂传nil,加工厂传yyyy-MM-DD字符串,代裁厂锁眼钉扣厂传NSNumber,关闭状态都传NSNumber对象)
  @param block               回调函数 会返回 0->(网络错误) 200->(更新成功) 400->(未登录) 401->(access_token过期或无效) 404->(access_token不存在)
  */
-+ (void)updateFactoryProfileWithFactoryName:(NSString *)factoryName factoryAddress:(NSString *)factoryAddress factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryLon:(NSNumber *)factoryLon factoryLat:(NSNumber *)factoryLat factoryFree:(id)factoryFree factoryDescription:(NSString *)factoryDescription andBlock:(void (^)(int statusCode))block;
++ (void)updateFactoryProfileWithFactoryAddress:(NSString *)factoryAddress  province:(NSString *)province city:(NSString *)city district:(NSString *)district  factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDescription:(NSString *)factoryDescription andBlock:(void (^)(int statusCode))block;
 
 /*!
  设置工厂标签
@@ -165,7 +167,19 @@
  @param factoryTag 工厂标签
  @param block      回调函数 会返回 0->(网络错误) 200->(更新成功) 400->(未登录) 401->(access_token过期或无效) 404->(access_token不存在)
  */
-+ (void)updateFactoryfactoryTag:(NSString *)factoryTag andBlock:(void (^)(int statusCode))block;
++ (void)updateFactoryTag:(NSString *)factoryTag andBlock:(void (^)(int statusCode))block;
+
+/*!
+ 修改工厂空闲状态
+ 
+ @param factoryTag 工厂标签
+ @param block      回调函数 会返回 0->(网络错误) 200->(更新成功) 400->(未登录) 401->(access_token过期或无效) 404->(access_token不存在)
+ */
++ (void)updateFactoryFree:(NSString *)factoryFree andBlock:(void (^)(int statusCode))block;
+
+//是否有货车
++ (void)updateFactoryProfileWithHasTruck:(id)hasTruck andBlock:(void (^)(int statusCode))block;
+
 
 /*!
  获取任意用户资料
@@ -196,9 +210,6 @@
  @param block               回调函数 会返回 @{@"statusCode": @200, @"model": FactoryModel对象数组}->(获取成功) @{@"statusCode": @0, @"message": @"网络错误"}->(网络错误)
  */
 + (void)searchWithFactoryName:(NSString *)factoryName factoryType:(FactoryType)factoryType factoryServiceRange:(NSString *)factoryServiceRange factorySizeMin:(NSNumber *)factorySizeMin factorySizeMax:(NSNumber *)factorySizeMax factoryDistanceMin:(NSNumber *)factoryDistanceMin factoryDistanceMax:(NSNumber *)factoryDistanceMax Truck:(id)hasTruck factoryFree:(id)factoryFree page:(NSNumber *)page andBlock:(void (^)(NSDictionary *responseDictionary))block;
-
-//是否有货车
-+ (void)updateFactoryProfileWithHasTruck:(id)hasTruck andBlock:(void (^)(int statusCode))block;
 
 /*!
  抽奖验证接口
@@ -393,20 +404,20 @@
  */
 + (void)registBidWithOid:(int)oid commit:(NSString *)commit completionBlock:(void(^)(int statusCode))block;
 
-/**资讯列表(中间资讯)
+/**资讯列表(中间资讯 + 轮播图片)
  *
  */
-+ (void)getHeaderInfomationWithBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)getHeaderInfomationWithKind:(NSString *)kind andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
-/**资讯列表(下边资讯)
+/**资讯列表(下边资讯 + 搜索)
  *
  */
-+ (void)getInfomationWithKind:(NSString *)kind andBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)getInfomationWithKind:(NSString *)kind page:(NSInteger)page andBlock:(void (^)(NSDictionary *responseDictionary))block;
 
 /**评论列表
  *@param oid   ID
  */
-+ (void)getCommentWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)getCommentWithOid:(int)oid page:(int)page andBlock:(void (^)(NSDictionary *responseDictionary))block;
 /** 提交评论
  *@param ID   ID
   @param content  评论内容
@@ -423,7 +434,7 @@
  */
 
 
-+ (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(int)price width:(int)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block;
++ (void)addMaterialWithType:(NSString *)type name:(NSString *)name usage:(NSString *)usage price:(CGFloat)price width:(NSString *)width description:(NSString *)description andBlock:(void (^)(NSDictionary *responseDictionary))block;
 /**发布求购信息
  *
  */
@@ -443,6 +454,91 @@
  *
  */
 + (void)checkMaterialHistoryPublishWithPage:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+/**搜索面辅料
+ *
+ */
++ (void)searchMaterialWithKeywords:(NSString *)aKeywords type:(NSString *)aType page:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+/**搜索面辅料求购
+ *
+ */
+
++ (void)searchMaterialBidWithKeywords:(NSString *)aKeywords type:(NSString *)aType page:(int)aPage completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+/**获取面辅料详情信息
+ *
+ */
++ (void)getMaterialDetailMessageWithId:(NSString *)aId completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+/**获取面辅料信息详情
+ *
+ */
+
++ (void)getMaterialMessageWithID:(NSString *)oid completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+/**面辅料投标
+ *
+ */
+
++ (void)registMaterialBidWithOid:(NSInteger)oid price:(NSString *)price status:(NSString *)status comment:(NSString *)comment completionBlock:(void(^)(int statusCode))block;
+
+/**获取求购投标
+ *
+ */
+
++ (void)getPurchaseBidInformationWithID:(NSInteger)aId completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+/**关闭面辅料投标订单
+ *
+ */
+
++ (void)closeMaterialBidOrderWithWinnerID:(NSInteger)aWinnerID orderID:(NSInteger)aOrderID completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
+/**获取求购信息详情
+ *
+ */
+
++ (void)getNeedMaterialDetailMessageWithId:(NSString *)aId completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+/**获取求购投标详情
+ *
+ */
+
+
++ (void)getMaterialBidOrderWithOid:(int)oid andBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+/**删除面辅料工厂自己发布的面辅料
+ *
+ */
++ (void)deleteMaterialWithid:(int)oid completionBlock:(void(^)(int statusCode))block;
+
+
+
+
+
+/**获取用户所有发布面辅料
+ *
+ */
++ (void)getAllMaterialWithUserID:(NSInteger)aID completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+
+
+/**找合作商新版
+ *
+ */
++ (void)searchFactoriesWithFactoryType:(NSInteger)factoryType factorySize:(NSArray *)factorySize city:(NSString *)city factoryServiceRange:(NSString *)factoryServiceRange factoryFreeTime:(NSNumber *)factoryFreeTime factoryFreeStatus:(NSString *)factoryFreeStatus page:(NSNumber*)page completionBlock:(void (^)(NSDictionary *responseDictionary))block;
+/**检测更新
+ *
+ 
+*/
++ (void)upDataWithBlock:(void (^)(NSDictionary *upDateDictionary))block ;
+
+/**
+ *获取融云的Token
+ */
+
++ (void)getIMTokenWithBlock:(void (^)(NSDictionary *))block;
+
+
 
 
 @end
+
+

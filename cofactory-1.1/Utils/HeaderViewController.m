@@ -8,8 +8,7 @@
 
 #import "Header.h"
 #import "HeaderViewController.h"
-
-
+#import <RongIMKit/RongIMKit.h>
 @interface HeaderViewController ()<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate> {
 
     UIImageView*headerView;
@@ -27,9 +26,9 @@
 
     self.view.backgroundColor = [UIColor whiteColor];
 
-    UIButton*uploadBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-35-64, kScreenW-60, 35)];
+    UIButton*uploadBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-35-55, kScreenW-60, 35)];
     if (iphone4x_3_5) {
-        uploadBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-45-64, kScreenW-60, 35);
+        uploadBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2-20-55, kScreenW-60, 30);
     }
     [uploadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [uploadBtn setTitle:@"更换头像" forState:UIControlStateNormal];
@@ -37,9 +36,9 @@
     [uploadBtn addTarget:self action:@selector(clickUploadBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:uploadBtn];
 
-    UIButton*backBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+35-64, kScreenW-60, 35)];
+    UIButton*backBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+35-55, kScreenW-60, 35)];
     if (iphone4x_3_5) {
-        backBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+20-64, kScreenW-60, 35);
+        backBtn.frame = CGRectMake(30, kScreenW+(kScreenH-kScreenW)/2+20-55, kScreenW-60, 30);
     }
     [backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backBtn setTitle:@"返回" forState:UIControlStateNormal];
@@ -51,6 +50,7 @@
 
     headerView = [[UIImageView alloc]init];
     headerView.frame = CGRectMake(kScreenW/2-40, 30+64, 80, 80);
+    headerView.contentMode = UIViewContentModeScaleAspectFill;
     headerView.layer.cornerRadius = 80/2.0f;
     headerView.layer.masksToBounds = YES;
     [headerView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/factory/%d.png",PhotoAPI,self.uid]] placeholderImage:[UIImage imageNamed:@"消息头像"]];
@@ -66,7 +66,10 @@
         [UIView setAnimationDuration:.4f];
         [UIView setAnimationDelegate:self];
         headerView.frame = CGRectMake(0, 0, kScreenW, kScreenW);
+        DLog(@"%@",headerView);
         headerView.layer.cornerRadius = 0;
+        headerView.contentMode = UIViewContentModeScaleAspectFill;
+
         [UIView commitAnimations];
         
     });
@@ -114,7 +117,7 @@
     if (buttonIndex == 0) {
 
         if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            [Tools showHudTipStr:@"设备没有相机"];
+            [Tools showErrorWithStatus:@"设备没有相机"];
         } else {
             UIImagePickerController *imagePickerController = [UIImagePickerController new];
             imagePickerController.delegate = self;
@@ -142,21 +145,24 @@
 
 #pragma mark <UIImagePickerControllerDelegate>
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
     UIImage *image = info[UIImagePickerControllerEditedImage];
     NSData*imageData = UIImageJPEGRepresentation(image, 0.2);
     UIImage*newImage = [[UIImage alloc]initWithData:imageData];
     [picker dismissViewControllerAnimated:YES completion:^{
         [HttpClient uploadImageWithImage:newImage type:@"avatar" andblock:^(NSDictionary *dictionary) {
             if ([dictionary[@"statusCode"] intValue]==200) {
-                [Tools showHudTipStr:@"头像上传成功,但是头像显示会略有延迟。"];
+                [Tools showSuccessWithStatus:@"头像上传成功,但是头像显示会略有延迟。"];
                 headerView.image = image;
-
+                
                 //清除缓存  显示头像
                 [[SDImageCache sharedImageCache] clearDisk];
-
+//                RCIM *rcim = [RCIM sharedRCIM];
+//                [rcim clearUserInfoCache];
             }
         }];
     }];
+    
 }
 
 

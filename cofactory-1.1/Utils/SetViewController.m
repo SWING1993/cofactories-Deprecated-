@@ -11,12 +11,7 @@
 #import "UMSocial.h"
 #import "UMFeedback.h"
 
-
-#import "ZFModalTransitionAnimator.h"
-
 @interface SetViewController () <UIAlertViewDelegate,UMSocialUIDelegate>
-
-@property (nonatomic, strong) ZFModalTransitionAnimator *animator;
 
 @end
 
@@ -42,6 +37,7 @@
     self.tableView.showsVerticalScrollIndicator=NO;
 
     quitButton=[[UIButton alloc]initWithFrame:CGRectMake(50, 7, kScreenW-100, 30)];
+    quitButton.titleLabel.font = kFont;
     [quitButton setTitle:@"退出登录" forState:UIControlStateNormal];
     [quitButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     //loginBtn.alpha=0.8f;
@@ -65,12 +61,12 @@
 
 - (void)OKBtn {
     if (inviteCodeTF.text.length!=0) {
-        [Tools showHudTipStr:@"邀请码提交成功!"];
+        [Tools showSuccessWithStatus:@"邀请码提交成功!"];
         [HttpClient registerWithInviteCode:inviteCodeTF.text andBlock:^(NSDictionary *responseDictionary) {
             DLog(@"%@",responseDictionary);
         }];
     }else{
-        [Tools showHudTipStr:@"请您填写邀请码后再提交!"];
+        [Tools showErrorWithStatus:@"请您填写邀请码后再提交!"];
     }
 }
 
@@ -94,7 +90,7 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-        cell.textLabel.font=[UIFont systemFontOfSize:16];
+        cell.textLabel.font=kFont;
         cell.detailTextLabel.textColor=[UIColor blackColor];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
 
@@ -125,12 +121,14 @@
 
 
             case 4:{
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
+
                 [cell addSubview:inviteCodeTF];
-                UIButton*OKBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenW-70, 7, 60, 30)];
-                [OKBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
+                blueButton*OKBtn = [[blueButton alloc]initWithFrame:CGRectMake(kScreenW-70, 10, 60, 24)];
                 [OKBtn setTitle:@"提交" forState:UIControlStateNormal];
                 [OKBtn addTarget:self action:@selector(OKBtn) forControlEvents:UIControlEventTouchUpInside];
                 [cell addSubview:OKBtn];
+
             }
                 break;
 
@@ -170,16 +168,7 @@
             RevisePasswordViewController*reviseVC = [[RevisePasswordViewController alloc]init];
             UINavigationController*reviseNav = [[UINavigationController alloc]initWithRootViewController:reviseVC];
             reviseNav.navigationBar.barStyle=UIBarStyleBlack;
-//            [self presentViewController:reviseNav animated:YES completion:nil];
-            
             reviseNav.modalPresentationStyle = UIModalPresentationCustom;
-            self.animator = [[ZFModalTransitionAnimator alloc] initWithModalViewController:reviseNav];
-            self.animator.dragable = YES;
-            self.animator.bounces = NO;
-            self.animator.behindViewAlpha = 0.5f;
-            self.animator.behindViewScale = 0.5f;
-            self.animator.direction = ZFModalTransitonDirectionBottom;
-            reviseNav.transitioningDelegate = self.animator;
             [self presentViewController:reviseNav animated:YES completion:nil];
 
 
@@ -197,33 +186,20 @@
             break;
         case 2:{
             [UMSocialSnsService presentSnsIconSheetView:self
-                                                 appKey:@"55a0778367e58e452400710a"
+                                                 appKey:UMENGAppKey
                                               shareText:@"推荐一款非常好用的app——聚工厂，大家快来试试。下载链接：https://itunes.apple.com/cn/app/ju-gong-chang/id1015359842?mt=8"
                                              shareImage:[UIImage imageNamed:@"icon.png"]
-                                        shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToQQ,UMShareToRenren,UMShareToDouban,UMShareToEmail,UMShareToSms,UMShareToFacebook,UMShareToTwitter,nil]
+                                        shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQQ,UMShareToRenren, UMShareToSina,UMShareToTencent,UMShareToEmail,UMShareToSms,nil]
                                                delegate:self];
         }
             break;
 
         case 3:{
             AboutViewController*aboutVC = [[AboutViewController alloc]init];
-//            [self.navigationController pushViewController:aboutVC animated:YES];
-            
             UINavigationController*aboutNav = [[UINavigationController alloc]initWithRootViewController:aboutVC];
             aboutNav.navigationBar.barStyle=UIBarStyleBlack;
-            //            [self presentViewController:reviseNav animated:YES completion:nil];
-            
             aboutNav.modalPresentationStyle = UIModalPresentationCustom;
-            self.animator = [[ZFModalTransitionAnimator alloc] initWithModalViewController:aboutNav];
-            self.animator.dragable = YES;
-            self.animator.bounces = NO;
-            self.animator.behindViewAlpha = 0.5f;
-            self.animator.behindViewScale = 0.5f;
-            self.animator.direction = ZFModalTransitonDirectionBottom;
-            aboutNav.transitioningDelegate = self.animator;
             [self presentViewController:aboutNav animated:YES completion:nil];
-            
-
 
         }
             break;
@@ -247,13 +223,6 @@
 }
 
 
-/**
- *  通过代码调用来显示用户反馈界面
- */
-- (void)showFeedbackView
-{
-    [[PgyManager sharedPgyManager] showFeedbackView];
-}
 
 
 

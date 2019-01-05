@@ -7,15 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <BaiduMapAPI/BMapKit.h>
+// 引用 IMKit 头文件。
+#import <RongIMKit/RongIMKit.h>
 
-#define PGY_APPKEY @"5a53ca291f9b941c3c009f04fe23d2cc"
-
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, RCIMConnectionStatusDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) BMKMapManager *mapManager;
-
 
 @end
 

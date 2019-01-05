@@ -7,7 +7,7 @@
 //
 
 #import "AddmaterialViewController.h"
-
+#import "MeViewController.h"
 
 #import "JKPhotoBrowser.h"
 #import "JKImagePickerController.h"
@@ -23,7 +23,11 @@
 
 @property(nonatomic,retain) UITextField * WidthTF;
 
+@property(nonatomic,retain) UILabel *widthLabel;
+
 @property(nonatomic,retain) UITextField * PriceTF;
+
+@property(nonatomic, retain) UILabel *priceLabel;
 
 @property(nonatomic,retain) UITextField * ExplainTF;
 
@@ -40,12 +44,16 @@
 @implementation AddmaterialViewController {
 
     UIButton * _addImageBtn;
+    UIButton *btn;
+    FactoryModel  *_userModel;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self netWork];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    switch (self.materialType) {
+        switch (self.materialType) {
         case 1:
             self.title = @"发布面料供应";
             break;
@@ -61,7 +69,7 @@
     }
 
 
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(0, 0, 80, 20);
     btn.titleLabel.font = [UIFont systemFontOfSize:16];
     [btn setTitle:@"发布供应" forState:UIControlStateNormal];
@@ -89,59 +97,174 @@
     
     
 }
-
-- (void)pushOrderBtn {
-    DLog(@"%ld", (long)self.materialType)
-    if (self.materialType == 1) {
-        if (self.NameTF.text.length == 0 || self.UseTF.text.length == 0 || self.WidthTF.text.length == 0 || self.PriceTF.text.length == 0) {
-            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单信息不完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alertView show];
-        } else {
-            
-            [HttpClient addMaterialWithType:@"面料" name:self.NameTF.text usage:self.UseTF.text price:[self.PriceTF.text intValue] width:[self.WidthTF.text intValue] description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
-                int statusCode = [responseDictionary[@"statusCode"] intValue];
-                DLog(@"%d", statusCode);
-                if (statusCode==200) {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
-                } else {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
-
-                }
-
-            }];
-        }
-    } else {
-        if (self.NameTF.text.length == 0 || self.PriceTF.text.length == 0) {
-            UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单信息不完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alertView show];
-
-        } else {
-            NSArray *nameArr = @[@"面料", @"辅料", @"坯布"];
-            [HttpClient addMaterialWithType:nameArr[self.materialType - 1] name:self.NameTF.text usage:nil price:[self.PriceTF.text intValue] width:0 description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
-                int statusCode = [responseDictionary[@"statusCode"] intValue];
-                DLog(@"%d", statusCode);
-                if (statusCode==200) {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布成功" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
-                } else {
-                    UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单发布失败" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    [alertView show];
-                }
-
-            }];
-            
-        }
-        
-        
-        
-    }
-//    AFOAuthCredential *credential=[HttpClient getToken];
-//    NSString*token = credential.accessToken;
-//    DLog(@"%@",token);
+- (void)netWork {
+    //解析工厂信息
+    NSNumber *uid = (NSNumber *)[[NSUserDefaults standardUserDefaults] valueForKey:@"selfuid"];
+    [HttpClient getUserProfileWithUid:[uid intValue] andBlock:^(NSDictionary *responseDictionary) {
+        _userModel = (FactoryModel *)responseDictionary[@"model"];
+    }];
 
 }
+
+- (void)pushOrderBtn {
+    if (_userModel.factoryServiceRange == nil || _userModel.factoryAddress == nil) {
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"个人信息不完整" message:@"请完善信息后再继续发布" delegate:self cancelButtonTitle:@"暂不完善" otherButtonTitles:@"去完善", nil];
+        alertView.tag = 222;
+        [alertView show];
+    } else {
+        if (self.materialType == 1) {
+            if (self.NameTF.text.length == 0 || self.UseTF.text.length == 0 || self.WidthTF.text.length == 0 || self.PriceTF.text.length == 0 || self.ExplainTF.text.length == 0) {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单信息不完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            } else {
+                if (self.collectionImage.count == 0) {
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确定不上传图片?" message:nil delegate:self cancelButtonTitle:@"我要上传" otherButtonTitles:@"直接发布", nil];
+                    alert.tag = 100;
+                    [alert show];
+                } else {
+                    [btn setUserInteractionEnabled:NO];
+                    NSArray *nameArr = @[@"面料", @"辅料", @"坯布"];
+                    [HttpClient addMaterialWithType:nameArr[self.materialType - 1] name:self.NameTF.text usage:self.UseTF.text price:[self.PriceTF.text floatValue] width:self.WidthTF.text  description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
+                        int statusCode = [responseDictionary[@"statusCode"] intValue];
+                        DLog(@"%d", statusCode);
+                        if (statusCode==200) {
+                            
+                            int index = [responseDictionary[@"responseObject"][@"id"] intValue];
+                            if (![self.collectionImage count]==0) {
+                                [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                                    NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
+                                    UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+                                    NSString *oidString = [NSString stringWithFormat:@"%d",index];
+                                    [HttpClient uploadMaterialImageWithImage:newImage oid:oidString type:@"sell" andblock:^(NSDictionary *dictionary) {
+                                        if ([dictionary[@"statusCode"] intValue]==200) {
+                                            [Tools showSuccessWithStatus:@"发布成功"];
+                                            double delayInSeconds = 1.0f;
+                                            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                                            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                                                NSArray *navArray = self.navigationController.viewControllers;
+                                                [self.navigationController popToViewController:navArray[3] animated:YES];
+                                                
+                                            });
+                                            
+                                            DLog(@"图片上传成功");
+                                        }else{
+                                            [btn setUserInteractionEnabled:YES];
+                                            DLog(@"图片上传失败%@",dictionary);
+                                        }
+                                        
+                                    }];
+                                    
+                                }];
+                            }
+                            
+                            
+                        } else {
+                            [btn setUserInteractionEnabled:YES];
+                            [Tools showErrorWithStatus:@"订单发布失败"];
+                            
+                        }
+                        
+                    }];
+                }
+                
+                
+            }
+        } else {
+            if (self.NameTF.text.length == 0 || self.PriceTF.text.length == 0 || self.ExplainTF.text.length == 0) {
+                UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"订单信息不完整" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alertView show];
+            } else {
+                if (self.collectionImage.count == 0) {
+                    
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确定不上传图片?" message:nil delegate:self cancelButtonTitle:@"我要上传" otherButtonTitles:@"直接发布", nil];
+                    alert.tag = 100;
+                    [alert show];
+                } else {
+                    [btn setUserInteractionEnabled:NO];
+                    NSArray *nameArr = @[@"面料", @"辅料", @"坯布"];
+                    [HttpClient addMaterialWithType:nameArr[self.materialType - 1] name:self.NameTF.text usage:self.UseTF.text price:[self.PriceTF.text floatValue] width:self.WidthTF.text  description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
+                        int statusCode = [responseDictionary[@"statusCode"] intValue];
+                        DLog(@"%d", statusCode);
+                        if (statusCode==200) {
+                            int index = [responseDictionary[@"responseObject"][@"id"] intValue];
+                            if (![self.collectionImage count]==0) {
+                                
+                                [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                                    
+                                    NSData*imageData = UIImageJPEGRepresentation(obj, 0.1);
+                                    UIImage*newImage = [[UIImage alloc]initWithData:imageData];
+                                    NSString *oidString = [NSString stringWithFormat:@"%d",index];
+                                    [HttpClient uploadMaterialImageWithImage:newImage oid:oidString type:@"sell" andblock:^(NSDictionary *dictionary) {
+                                        if ([dictionary[@"statusCode"] intValue]==200) {
+                                            [Tools showSuccessWithStatus:@"发布成功"];
+                                            double delayInSeconds = 1.0f;
+                                            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                                            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                                                NSArray *navArray = self.navigationController.viewControllers;
+                                                [self.navigationController popToViewController:navArray[3] animated:YES];
+                                                
+                                            });
+                                            DLog(@"图片上传成功");
+                                        }else{
+                                            [btn setUserInteractionEnabled:YES];
+                                            DLog(@"图片上传失败%@",dictionary);
+                                        }
+                                        
+                                    }];
+                                    
+                                }];
+                            }
+                            
+                            
+                        } else {
+                            [btn setUserInteractionEnabled:YES];
+                            [Tools showErrorWithStatus:@"订单发布失败"];
+                            
+                        }
+                        
+                    }];
+                }
+                
+                
+            }
+        }
+
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if (alertView.tag == 100) {
+        if (buttonIndex == 1) {
+            NSArray *nameArr = @[@"面料", @"辅料", @"坯布"];
+            [HttpClient addMaterialWithType:nameArr[self.materialType - 1] name:self.NameTF.text usage:self.UseTF.text price:[self.PriceTF.text floatValue] width:self.WidthTF.text description:self.ExplainTF.text andBlock:^(NSDictionary *responseDictionary) {
+                int statusCode = [responseDictionary[@"statusCode"] intValue];
+                if (statusCode == 200) {
+                    [Tools showSuccessWithStatus:@"发布成功"];
+                    double delayInSeconds = 1.0f;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        NSArray *navArray = self.navigationController.viewControllers;
+                        [self.navigationController popToViewController:navArray[3] animated:YES];
+                        
+                    });
+                } else {
+                    [Tools showErrorWithStatus:@"发布失败"];
+                }
+            }];
+        }
+    } else if (alertView.tag == 222){
+        if (buttonIndex == 1) {
+            DLog(@"去完善资料");
+            MeViewController *meVC = [[MeViewController alloc] init];
+            meVC.changeFlag = YES;
+            [self.navigationController pushViewController:meVC animated:YES];
+        } else {
+            DLog(@"暂不完善");
+        }
+    }
+}
+
 
 - (UITextField *)createNameTF {
     if (!self.NameTF) {
@@ -165,23 +288,41 @@
 
 - (UITextField *)createWidthTF {
     if (!self.WidthTF) {
-        self.WidthTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - kScreenW/5, 44)];
+        self.WidthTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - 2*kScreenW/5, 44)];
+        self.WidthTF.keyboardType = UIKeyboardTypeDecimalPad;
         self.WidthTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-        self.WidthTF.placeholder = @"请填写门幅";
+        self.WidthTF.placeholder = @"请填写数字，如3.5";
 
     }
     return self.WidthTF;
 }
+- (UILabel *)creatWidthLabel {
+    if (!self.widthLabel) {
+        self.widthLabel = [[UILabel alloc] initWithFrame:CGRectMake(4*kScreenW/5, 0, kScreenW/5, 44)];
+        self.widthLabel.text = @"米";
+    }
+    
+    return self.widthLabel;
+    
+}
 
 - (UITextField *)createPriceTF {
     if (!self.PriceTF) {
-        self.PriceTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - kScreenW/5, 44)];
-        self.PriceTF.keyboardType = UIKeyboardTypeNumberPad;
+        self.PriceTF = [[UITextField alloc]initWithFrame:CGRectMake(kScreenW/5, 0, kScreenW - 2*kScreenW/5, 44)];
+        self.PriceTF.keyboardType = UIKeyboardTypeDecimalPad;
         self.PriceTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-        self.PriceTF.placeholder = @"请填写价格";
+        self.PriceTF.placeholder = @"请填写数字，如12.3";
 
     }
     return self.PriceTF;
+}
+
+- (UILabel *)creatPriceLabel {
+    if (!self.priceLabel) {
+        self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(4*kScreenW/5, 0, kScreenW/5, 44)];
+        self.priceLabel.text = @"元";
+    }
+    return self.priceLabel;
 }
 
 - (UITextField *)createExplainTF {
@@ -290,7 +431,8 @@
                         case 0:{
                             [self createPriceTF];
                             [cell addSubview:self.PriceTF];
-                            
+                            [self creatPriceLabel];
+                            [cell addSubview:self.priceLabel];
                             NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:@"*价 格"];
                             [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
                             cell.textLabel.attributedText = labelText;
@@ -299,6 +441,10 @@
                         case 1:{
                             [self createWidthTF];
                             [cell addSubview:self.WidthTF];
+                            [self creatWidthLabel];
+                            [cell addSubview:self.widthLabel];
+                            
+                            
                             NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:@"*门 幅"];
                             [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
                             cell.textLabel.attributedText = labelText;
@@ -342,6 +488,8 @@
 
                             [self createPriceTF];
                             [cell addSubview:self.PriceTF];
+                            [self creatPriceLabel];
+                            [cell addSubview:self.priceLabel];
                             NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:@"*价 格"];
                             [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
                             cell.textLabel.attributedText = labelText;                        }
@@ -415,14 +563,14 @@
 - (void)addImageBtn {
 
     if ([self.collectionImage count]== 9) {
-        [Tools showHudTipStr:@"订单图片最多能上传9张"];
+        [Tools showErrorWithStatus:@"订单图片最多能上传9张"];
     }else {
         JKImagePickerController *imagePickerController = [[JKImagePickerController alloc] init];
         imagePickerController.delegate = self;
         imagePickerController.showsCancelButton = YES;
         imagePickerController.allowsMultipleSelection = YES;
         imagePickerController.minimumNumberOfSelection = 0;
-        imagePickerController.maximumNumberOfSelection = 9-[self.collectionImage count];
+        imagePickerController.maximumNumberOfSelection = 9 - [self.collectionImage count];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
         [self presentViewController:navigationController animated:YES completion:NULL];
     }

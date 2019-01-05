@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface SearchSupplyFactoryViewController : UITableViewController
-
 @property (nonatomic, strong) NSMutableArray *historyArray;
-
+@property (nonatomic,assign)BOOL isMe;
 @end

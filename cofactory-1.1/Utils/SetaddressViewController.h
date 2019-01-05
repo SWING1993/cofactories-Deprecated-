@@ -19,12 +19,7 @@
     NSArray *district;
 
     NSString *selectedProvince;
-
     NSString *addressString;
-
-
 }
-
-@property (nonatomic,copy) NSString*placeholder;
 
 @end

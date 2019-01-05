@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class InformationModel;
 @interface MaterialInfoCell : UITableViewCell
 
+
+@property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *infoLabel;
-@property (nonatomic, strong) UILabel *timeLabel;
-//@property (nonatomic, strong) UILabel *addre
+@property (nonatomic, strong) InformationModel *info;
++ (CGFloat)heightOfCell:(NSString *)title;
 
 @end

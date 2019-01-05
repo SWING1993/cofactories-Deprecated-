@@ -7,46 +7,50 @@
  AppStore账号：378829879@qq.com
  密码：Jugongkeji123
  Bundle ID: com.cofactory.iosapp
+ 
+ 融云
+ admin@cofactories.com
+ rongcofactories
+ 
+ UMENG
+ cofactories@bangbang93.com
+ umengcofactories
+ 
+ chao5983@163.com	Dd112233
   */
 
 
 #pragma mark - 服务器
 //内网服务器
-#define kBaseUrl @"http://192.168.100.2:3001"
-
+//#define kBaseUrl @"http://192.168.100.2:3001"
 
 //测试服务器
 //#define kBaseUrl @"http://test.cofactories.com"
-#define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
-#define bucketAPI @"cofactories-test"
+//#define PhotoAPI @"http://cofactories-test.b0.upaiyun.com"
+//#define bucketAPI @"cofactories-test"
 
 //正式服务器
-//#define kBaseUrl @"http://app2.cofactories.com"
-//#define PhotoAPI @"http://cdn.cofactories.com"
-//#define bucketAPI @"cofactories"
-
-
+#define kBaseUrl @"http://app2.cofactories.com"
+#define PhotoAPI @"http://cdn.cofactories.com"
+#define bucketAPI @"cofactories"
 
 
 #pragma mark - 第三方key
 //企业版
 #define UMENGAppKey @"55e03514e0f55a390f003db7"
-#define mapApi @"pnnhXGR5g1cLReulX6fOQxMQ"
 
 //个人开发者版
 #define appStoreUMENGAppKey @"5566b5e767e58e0c4700aab0"
-#define appStoreMapApi @"ijDoxrS8H8lrgD9GDbLQpjNR"
 
 //appStore地址
 #define kAppUrl  @"http://itunes.apple.com/app/id1015359842"
 //appStore评分地址
 #define kAppReviewURL   @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1015359842"
 
-
 #pragma mark - 系统版本  屏幕尺寸
 //版本号
-#define kVersion_Coding [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
-#define kVersionBuild_Coding [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
+#define kVersion_Cofactories [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
+#define kVersionBuild_Cofactories [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
 #define Kidentifier [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]
 
 //ios系统版本
@@ -73,7 +77,23 @@
 #define kNavigationBarHeight 44
 #define CellIdentifier @"Cell"
 
+//登录注册 tableHeaderView 高度
+#define tableHeaderView_height 120
 
+//用户身份 FactoryType
+#define kFactoryType [[[NSUserDefaults standardUserDefaults]objectForKey:@"factoryType"] integerValue]
+
+//字体 Font
+
+//Nav字体大小
+#define kNavTitleFontSize 17.5f
+#define kLargeFont  [UIFont systemFontOfSize:16.0f]
+#define kFont [UIFont systemFontOfSize:14.5f]
+#define kSmallFont  [UIFont systemFontOfSize:12.0f]
+
+//Color
+#define kGreen [UIColor colorWithHexString:@"0x3bbd79"]
+#define kBlack [UIColor colorWithHexString:@"0x28303b"]
 
 #pragma mark - 第三方框架
 /*!
@@ -83,6 +103,7 @@
 #import "UIColor+Expanded.h"
 #import "UIImage+Common.h"
 #import "UIImageView+Common.h"
+#import "UINavigationBar+Awesome.h"
 
 /*!
  Utils
@@ -90,15 +111,15 @@
 #import "HttpClient.h"
 #import "Tools.h"
 #import "MobClick.h"
-#import "MBProgressHUD.h"
-#import "UIButton+WebCache.h"
-#import "UIImageView+WebCache.h"
-#import "JSDropDownMenu.h"//筛选
+#import "UIButton+WebCache.h"//SDWebImage
+#import "UIImageView+WebCache.h"//SDWebImage
 #import "ODRefreshControl.h"//下拉刷新
-#import <PgySDK/PgyManager.h>
-#import "IQKeyboardManager.h"
-#import "MJPhotoBrowser.h"
+#import "IQKeyboardManager.h"//不遮挡输入框
+#import "MJPhotoBrowser.h"//MJ图片浏览
 
+//融云IM
+#import <RongIMKit/RongIMKit.h>
+#define RONGCLOUD_IM_APPKEY @"4z3hlwrv3iult"
 
 #pragma mark - 日志开关
 /*!

@@ -20,6 +20,7 @@ typedef enum {
 @property (nonatomic, assign) int uid;
 @property (nonatomic, assign) int oid;
 @property (nonatomic, copy) NSString *factoryName;
+@property (nonatomic, copy) NSString *name;
 @property (nonatomic, strong) NSString *factorySize;
 @property (nonatomic, copy) NSString *factoryServiceRange;
 @property (nonatomic, copy) NSString *factoryAddress;
@@ -34,6 +35,7 @@ typedef enum {
 @property (nonatomic, copy) NSString* factoryFreeStatus;
 @property (nonatomic, copy) NSString* factoryFreeTime;
 @property (nonatomic, copy) NSString* tag;
+@property (nonatomic, copy) NSString* city;
 
 
 @property (nonatomic,assign) int verifyStatus;

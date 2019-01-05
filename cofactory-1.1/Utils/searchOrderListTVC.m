@@ -9,7 +9,9 @@
 #import "searchOrderListTVC.h"
 #import "Header.h"
 
-@implementation searchOrderListTVC
+@implementation searchOrderListTVC{
+    NSArray   *_competeFactoryArray;
+}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -55,7 +57,7 @@
         
         self.labels = [[UILabel alloc]initWithFrame:CGRectMake((kScreenW-140)/2.0, 92, 140, 22)];
         self.labels.font = [UIFont systemFontOfSize:14.0f];
-        self.labels.text = @"家厂商对此订单感兴趣";
+        self.labels.text = @"家厂商已投标";
         [self addSubview:self.labels];
         
         self.statusImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-75, 15, 65, 65)];
@@ -86,14 +88,18 @@
 
 - (void)getDataWithModel:(OrderModel *)model orderListType:(int)orderListType{
 
-    if (model.interest == 0) {
-        self.labels.hidden = YES;
-        self.interestCountLabel.hidden = YES;
-    }else {
-        self.labels.hidden = NO;
-        self.interestCountLabel.hidden = NO;
-        self.interestCountLabel.text = [NSString stringWithFormat:@"%d",model.interest];
-    }
+    [HttpClient getBidOrderWithOid:model.oid andBlock:^(NSDictionary *responseDictionary) {
+        _competeFactoryArray = responseDictionary[@"responseArray"];
+        if (_competeFactoryArray.count == 0) {
+            self.labels.hidden = YES;
+            self.interestCountLabel.hidden = YES;
+        }else {
+            self.labels.hidden = NO;
+            self.interestCountLabel.hidden = NO;
+            self.interestCountLabel.text = [NSString stringWithFormat:@"%zi",_competeFactoryArray.count];
+        }
+    }];
+    
     
     if (model.status == 0) {
         self.statusImage.hidden = YES;

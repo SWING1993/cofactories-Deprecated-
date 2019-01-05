@@ -7,17 +7,24 @@
 //
 
 #import "SearchSupplymaterialViewController.h"
-
-@interface SearchSupplymaterialViewController ()
+#import "MaterialInfoCell.h"
+#import "PHPDetailTableViewCell.h"
+@interface SearchSupplymaterialViewController () {
+    NSArray *titleArray1;
+    NSArray *titleArray2;
+    UIScrollView *scrollView;
+    FactoryModel  *_userModel;
+}
 
 @end
 
 static NSString *searchCellIdentifier = @"SearchCell";
-
+static NSString *userCellIdentifier = @"userCell";
 @implementation SearchSupplymaterialViewController
 
 - (void)viewWillAppear:(BOOL)animated {
     [self.navigationController.navigationBar setHidden:YES];
+    
 }
 
 
@@ -26,46 +33,101 @@ static NSString *searchCellIdentifier = @"SearchCell";
     [self creatTableView];
     [self creatCancleButton];
     [self creatHeaderView];
-    //注册cell
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:searchCellIdentifier];
     
-
+    [self netWork];
+    
+    //注册cell
+    [self.tableView registerClass:[MaterialInfoCell class] forCellReuseIdentifier:searchCellIdentifier];
+    [self.tableView registerClass:[PHPDetailTableViewCell class] forCellReuseIdentifier:userCellIdentifier];
+    
+    titleArray1 = @[@"类型:", @"名称:", @"价格:", @"门幅:", @"产品用途:", @"面料说明:"];
+    titleArray2 = @[@"类型:", @"名称:", @"价格:", @"面料说明:"];
 
 }
+
+
+- (void)netWork {
+    [HttpClient getMaterialMessageWithID:self.oid completionBlock:^(NSDictionary *responseDictionary) {
+        self.history = responseDictionary[@"model"];
+        [self.tableView reloadData];
+    }];
+}
+
+
 
 - (void)creatHeaderView {
-    self.tableViewHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW + 40)];
-    self.photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW)];
-    self.photoView.image = [UIImage imageNamed:@"1"];
-    [self.tableViewHeadView addSubview:self.photoView];
-    
-    self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, kScreenW, kScreenW - 20, 40)];
-    self.numberLabel.text = @"采购数量：300米";
-    
-    [self.tableViewHeadView addSubview:self.numberLabel];
-    
-    
-    
+    self.tableViewHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW)];
+
+    if (self.photoArray.count == 0) {
+        
+        self.photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW)];
+        self.photoView.image = [UIImage imageNamed:@"没有上传图片"];
+        [self.tableViewHeadView addSubview:self.photoView];
+        
+    } else {
+        [self creatScrollView];
+    }
     self.tableView.tableHeaderView = self.tableViewHeadView;
 }
-
-
-- (void)creatCancleButton {
-    UIButton *cancleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    cancleButton.frame = CGRectMake(20, 30, 30, 30);
-    [cancleButton setImage:[UIImage imageNamed:@"nav_back_icon"] forState:UIControlStateNormal];
-    cancleButton.layer.cornerRadius = 15;
-    cancleButton.layer.masksToBounds = YES;
-    [cancleButton addTarget:self action:@selector(pressCancleButton) forControlEvents:UIControlEventTouchUpInside];
+- (void)creatScrollView{
+    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.85 *kScreenW)];
+    scrollView.delegate = self;
+    scrollView.pagingEnabled = YES;
+    scrollView.showsHorizontalScrollIndicator = NO;
+    scrollView.showsVerticalScrollIndicator = NO;
+    [self.tableViewHeadView addSubview:scrollView];
     
-    cancleButton.backgroundColor = [UIColor colorWithWhite:0.500 alpha:0.430];
+    scrollView.contentSize = CGSizeMake(kScreenW * self.photoArray.count, 0.85 *kScreenW);
+    for (int i = 0; i < self.photoArray.count; i++) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+        button.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        [button sd_setBackgroundImageWithURL:[NSURL URLWithString:self.photoArray[i]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@""]];
+        [button setFrame:CGRectMake(i * kScreenW, 0, kScreenW, 0.85 *kScreenW)];
+        [button addTarget:self action:@selector(MJPhotoBrowserClick:) forControlEvents:UIControlEventTouchUpInside];
+        button.tag = i;
+        [scrollView addSubview:button];
+        
+    }
+    
+
+}
+
+- (void)MJPhotoBrowserClick:(id)sender{
+    
+    UIButton *button = (UIButton *)sender;
+    NSMutableArray *photos = [NSMutableArray arrayWithCapacity:[self.photoArray count]];
+    [self.photoArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        
+        MJPhoto *photo = [[MJPhoto alloc] init];
+        photo.url = [NSURL URLWithString:self.photoArray[idx]];
+        [photos addObject:photo];
+    }];
+    
+    MJPhotoBrowser *browser = [[MJPhotoBrowser alloc] init];
+    browser.currentPhotoIndex = button.tag;
+    browser.photos = photos;
+    [browser show];
+    
+}
+- (void)creatCancleButton {
+    UIImageView *cancleImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 30, 30, 30)];
+    cancleImage.image = [UIImage imageNamed:@"goback"];
+    [self.view addSubview:cancleImage];
+    
+    UIButton *cancleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    cancleButton.frame = CGRectMake(0, 20, 80, 40);
+    [cancleButton addTarget:self action:@selector(pressCancleButton) forControlEvents:UIControlEventTouchUpInside];
+    cancleButton.backgroundColor = [UIColor clearColor];
     [self.view addSubview:cancleButton];
 
 }
 
+
+
+
 - (void)creatTableView {
 //    [self.navigationController.navigationBar setHidden:YES];
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -20, kScreenW, kScreenH + 40) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -20, kScreenW, kScreenH + 20) style:UITableViewStylePlain];
     _tableView.dataSource = self;
     _tableView.delegate = self;
     [self.view addSubview:self.tableView];
@@ -75,25 +137,134 @@ static NSString *searchCellIdentifier = @"SearchCell";
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 10;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    if (section == 0) {
+        return 1;
+    } else {
+        if ([self.type isEqualToString:@"面料"]) {
+            
+            return 6;
+        } else {
+            return 4;
+        }
+ 
+    }
+    
+    
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:searchCellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
+    if (indexPath.section == 0) {
+        PHPDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:userCellIdentifier forIndexPath:indexPath];
+        cell.phoneButton.hidden = NO;
+        [cell.phoneButton addTarget:self action:@selector(contactWithFactory) forControlEvents:UIControlEventTouchUpInside];
+        NSNumber *uid = (NSNumber *)[[NSUserDefaults standardUserDefaults] valueForKey:@"selfuid"];
+        [cell getDataWithOtherModel:[uid integerValue] isMaterial:YES];
+        return cell;
+    } else {
+        MaterialInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:searchCellIdentifier forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.nameLabel.font = [UIFont systemFontOfSize:14];
+        cell.nameLabel.textColor = [UIColor grayColor];
+        cell.infoLabel.textColor = [UIColor grayColor];
+        cell.infoLabel.font = [UIFont systemFontOfSize:14];
+        if ([self.type isEqualToString:@"面料"]) {
+            cell.nameLabel.text = titleArray1[indexPath.row];
+            
+            InformationModel *information = [[InformationModel alloc] init];
+            
+            switch (indexPath.row) {
+                case 0:
+                    cell.infoLabel.text = self.history.type;
+                    
+                    break;
+                case 1:
+                    cell.infoLabel.text = self.history.name;
+                    
+                    break;
+                case 2:
+                    cell.infoLabel.text = [NSString stringWithFormat:@"%g 元", self.history.price];
+                    
+                    break;
+                case 3:
+                    cell.infoLabel.text = [NSString stringWithFormat:@"%@ 米", self.history.width];
+                    
+                    break;
+                    
+                case 4:
+                    information.title = self.history.usage;
+                    cell.info = information;
+                    break;
+                case 5:
+                    information.title = self.history.info;
+                    cell.info = information;
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            return cell;
+        } else {
+            cell.nameLabel.text = titleArray2[indexPath.row];
+            InformationModel *information = [[InformationModel alloc] init];
+            
+            switch (indexPath.row) {
+                case 0:
+                    cell.infoLabel.text = self.history.type;
+                    break;
+                case 1:
+                    cell.infoLabel.text = self.history.name;
+                    break;
+                case 2:
+                    cell.infoLabel.text = [NSString stringWithFormat:@"%g 元", self.history.price];
+                    break;
+                    
+                case 3:
+                    information.title = self.history.info;
+                    cell.info = information;
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            return cell;
+        }
+
+    }
+
 }
 
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80;
+    if (indexPath.section == 0) {
+        return 75;
+    } else {
+        if ([self.type isEqualToString:@"面料"]) {
+            if (indexPath.row == 4 && self.history.info.length != 0) {
+                return [MaterialInfoCell heightOfCell:self.history.usage];
+            } else if (indexPath.row == 5 && self.history.info.length != 0) {
+                return [MaterialInfoCell heightOfCell:self.history.info];
+            } else {
+                return 40;
+            }
+        } else {
+            if (indexPath.row == 3 && self.history.info.length != 0) {
+                return [MaterialInfoCell heightOfCell:self.history.info];
+            } else {
+                return 40;
+            }
+            
+        }
+    }
+    
+    
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -101,6 +272,7 @@ static NSString *searchCellIdentifier = @"SearchCell";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+
     return 10;
 }
 
@@ -112,8 +284,23 @@ static NSString *searchCellIdentifier = @"SearchCell";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)contactWithFactory{
+    NSString *phone = [[NSUserDefaults standardUserDefaults] valueForKey:@"factoryPhone"];
+    NSString *str = [NSString stringWithFormat:@"telprompt://%@", phone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+}
 
 
+
+//裁剪图片
+//- (UIImage *)reSizeImage:(UIImage *)image toSize:(CGSize)reSize
+//{
+//    UIGraphicsBeginImageContext(CGSizeMake(reSize.width, reSize.height));
+//    [image drawInRect:CGRectMake(0, 0, reSize.width, reSize.height)];
+//    UIImage *reSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return reSizeImage;
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

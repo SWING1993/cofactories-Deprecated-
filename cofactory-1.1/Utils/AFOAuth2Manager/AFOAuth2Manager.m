@@ -147,6 +147,8 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
                                     success:(void (^)(AFOAuthCredential *credential))success
                                     failure:(void (^)(NSError *error))failure
 {
+    
+#warning Bug
     NSParameterAssert(username);
     NSParameterAssert(password);
     NSParameterAssert(scope);

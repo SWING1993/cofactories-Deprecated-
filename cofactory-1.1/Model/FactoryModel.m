@@ -13,12 +13,13 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
-//        NSLog(@"%@",dictionary);
+        //DLog(@"-------%@",dictionary);
         _uid = [[dictionary objectForKey:@"uid"] intValue];
         _oid = [[dictionary objectForKey:@"oid"] intValue];
         _factoryName = [dictionary objectForKey:@"factoryName"];
         _factoryType = [[dictionary objectForKey:@"factoryType"] intValue];
         _hasTruck =[[dictionary objectForKey:@"hasTruck"] intValue];
+        _name = [dictionary objectForKey:@"name"];
         
         switch (_factoryType) {
             case 0:
@@ -96,7 +97,7 @@
         _otherTwoFactoryStatus = [[dictionary objectForKey:@"factoryFreeStatus"] intValue];
         self.facTypeOneStatus = [dictionary objectForKey:@"factoryFreeTime"];
 
-
+        _city = dictionary[@"city"];
     }
     return self;
 }

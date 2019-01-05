@@ -16,6 +16,9 @@
 @property (nonatomic, assign) int oid;
 @property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, strong) NSString *imageString;
+@property (nonatomic, strong) NSString *photoUrl;
+- (instancetype)initModelWith:(NSDictionary *)dictionary;
++(instancetype)getModelWith:(NSDictionary *)dictionary;
 
 
 @end

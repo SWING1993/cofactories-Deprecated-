@@ -20,15 +20,15 @@
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, 200, 20)];
-        _titleLabel.font = [UIFont systemFontOfSize:13.0f];
+        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, kScreenW - 110, 20)];
+        _titleLabel.font = kFont;
         [self addSubview:_titleLabel];
         
-        _abbreviateImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-60, 5, 50, 50)];
+        _abbreviateImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenW-70, 5, 50, 50)];
         _abbreviateImage.layer.masksToBounds = YES;
         _abbreviateImage.layer.cornerRadius = 5;
-        _abbreviateImage.layer.borderWidth = 1;
-        //_abbreviateImage.layer.backgroundColor = [UIColor grayColor].CGColor;
+        //_abbreviateImage.layer.borderWidth = 0.2;
+//        _abbreviateImage.layer.backgroundColor = [UIColor grayColor].CGColor;
         [self addSubview:_abbreviateImage];
         
     }
@@ -40,15 +40,15 @@
         _information = information;
     }
     _titleLabel.text = information.title;
-    
-    [_abbreviateImage sd_setImageWithURL:[NSURL URLWithString:information.imageString] placeholderImage:nil];
+    NSString* encodedString = [information.imageString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [_abbreviateImage sd_setImageWithURL:[NSURL URLWithString:encodedString] placeholderImage:nil];
 }
 
+//- (void)getDataWithDictionary:(NSDictionary *)dictionary{
+//    _titleLabel.text = dictionary[@"title"];
+//    _abbreviateImage.image = [UIImage imageNamed:dictionary[@"image"]];
+//}
 
-- (void)getDataWithDictionary:(NSDictionary *)dictionary{
-    _titleLabel.text = dictionary[@"title"];
-    _abbreviateImage.image = [UIImage imageNamed:dictionary[@"image"]];
-}
 
 - (void)awakeFromNib {
     // Initialization code

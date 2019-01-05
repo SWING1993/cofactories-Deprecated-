@@ -16,21 +16,31 @@
     NSMutableArray *_contentArray;
     NSArray *_imageArray;
     UITextField *_commentsTextField;
+    FactoryModel   *_userModel;
+    BOOL infoFlag;
 }
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *collectionImage;
 @property (nonatomic, strong) JKAssets  *asset;
+@property (nonatomic, strong) FactoryRangeModel * factoryRangeModel;
+@property (nonatomic, retain) NSString * factoryTypeString;
 
 @end
 
 @implementation CompeteViewController
+- (void)viewWillAppear:(BOOL)animated {
+    [self netWork];
+    self.factoryRangeModel = [[FactoryRangeModel alloc]init];
+    self.factoryTypeString = self.factoryRangeModel.serviceList[kFactoryType];
+    DLog(@"++++++++++++%@", self.factoryTypeString);
+}
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     self.navigationItem.title = @"订单投标";
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"确认投标" style:UIBarButtonItemStyleBordered target:self action:@selector(confirmBid)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"确认投标" style:UIBarButtonItemStylePlain target:self action:@selector(confirmBid)];
     
     _imageArray = @[@"公司名称",@"公司类型",@"公司规模"];
     _collectionImage = [@[] mutableCopy];
@@ -58,6 +68,14 @@
         label.font = [UIFont systemFontOfSize:14.0f];
         [self.view addSubview:label];
     }
+}
+- (void)netWork {
+    //解析工厂信息
+    NSNumber *uid = (NSNumber *)[[NSUserDefaults standardUserDefaults] valueForKey:@"selfuid"];
+    [HttpClient getUserProfileWithUid:[uid intValue] andBlock:^(NSDictionary *responseDictionary) {
+        _userModel = (FactoryModel *)responseDictionary[@"model"];
+    }];
+    
 }
 
 - (void)creatCommentsTextField{
@@ -96,7 +114,7 @@
 
 - (void)addImageView:(id)sender{
     if ([self.collectionImage count]== 9) {
-        [Tools showHudTipStr:@"订单图片最多能上传9张"];
+        [Tools showErrorWithStatus:@"订单图片最多能上传9张"];
     }else {
         JKImagePickerController *imagePickerController = [[JKImagePickerController alloc] init];
         imagePickerController.delegate = self;
@@ -234,13 +252,43 @@
 
 
 - (void)confirmBid{
+    [self factoryInfo];
+    if (infoFlag) {
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"个人信息不完整" message:@"请完善信息后再继续发布" delegate:self cancelButtonTitle:@"暂不完善" otherButtonTitles:@"去完善", nil];
+        alertView.tag = 222;
+        [alertView show];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确认投标?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alert.tag = 10;
+        [alert show];
+    }
     
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确认投标?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    alert.tag = 10;
-    [alert show];
     
 }
 
+- (void)factoryInfo {
+    if ([self.factoryTypeString isEqualToString:@"服装厂"] || [self.factoryTypeString isEqualToString:@"加工厂"]) {
+        if (_userModel.factorySize == nil || _userModel.factoryServiceRange == nil || _userModel.factoryAddress == nil) {
+            infoFlag = YES;
+        } else {
+            infoFlag = NO;
+        }
+    }
+    if ([self.factoryTypeString isEqualToString:@"代裁厂"]) {
+        if (_userModel.factorySize == nil || _userModel.factoryAddress == nil) {
+            infoFlag = YES;
+        } else {
+            infoFlag = NO;
+        }
+    }
+    if ([self.factoryTypeString isEqualToString:@"锁眼钉扣厂"]) {
+        if  (_userModel.factoryAddress == nil) {
+            infoFlag = YES;
+        } else {
+            infoFlag = NO;
+        }
+    }
+}
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if (alertView.tag == 10 ) {
@@ -249,7 +297,7 @@
             [HttpClient registBidWithOid:self.oid commit:_commentsTextField.text completionBlock:^(int statusCode) {
                 DLog(@"statusCode==%d",statusCode);
                 if (statusCode == 200 ) {
-                    [Tools showHudTipStr:@"订单投标成功"];
+                    [Tools showSuccessWithStatus:@"订单投标成功"];
                     if (![self.collectionImage count]==0) {
                         [self.collectionImage enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                             
@@ -275,9 +323,18 @@
                     }
                     
                 }else{
-                    [Tools showHudTipStr:@"订单投标失败"];
+                    [Tools showErrorWithStatus:@"订单投标失败"];
                 }
             }];
+        }
+    } else if (alertView.tag == 222){
+        if (buttonIndex == 1) {
+            DLog(@"去完善资料");
+            MeViewController *meVC = [[MeViewController alloc] init];
+            meVC.changeFlag = YES;
+            [self.navigationController pushViewController:meVC animated:YES];
+        } else {
+            DLog(@"暂不完善");
         }
     }
 }

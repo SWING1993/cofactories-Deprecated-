@@ -74,7 +74,7 @@ static NSString *const cellIdentifer = @"bidCellIdentifer";
 }
 
 - (void)confirmBid{
-    DLog(@"==%ld",_selectedRow);
+    DLog(@"==%ld",(long)_selectedRow);
     if (_selectedRow == -1) {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"未选择中标厂商!" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         alertView.tag = 10;
@@ -126,7 +126,7 @@ static NSString *const cellIdentifer = @"bidCellIdentifer";
         if (buttonIndex == 1) {
             [HttpClient closeOrderWithOid:self.oid Uid:model.uid andBlock:^(int statusCode) {
                 if (statusCode == 200) {
-                    [Tools showHudTipStr:@"招标成功，祝您合作愉快"];
+                    [Tools showSuccessWithStatus:@"招标成功，祝您合作愉快"];
                     NSArray *navArray = self.navigationController.viewControllers;
                     [self.navigationController popToViewController:navArray[1] animated:YES];
                 }

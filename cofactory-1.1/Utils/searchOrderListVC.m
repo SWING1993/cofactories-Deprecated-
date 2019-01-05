@@ -27,7 +27,7 @@
     NSString        *_timeString;
     int              _role;
     int              _refrushCount;
-    
+    NSInteger        _selectedIndex;
 }
 
 @end
@@ -40,7 +40,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     _dataArray = [@[] mutableCopy];
     [self creatTableAndDOPDropDownMenu];
-    
+
     [HttpClient searchOrderWithRole:self.orderListType FactoryServiceRange:nil Time:nil AmountMin:nil AmountMax:nil Page:@1 andBlock:^(NSDictionary *responseDictionary) {
         _dataArray = responseDictionary[@"responseArray"];
         DLog(@"+++++responseDictionary==%@",_dataArray);
@@ -48,6 +48,7 @@
     }];
     
     _refrushCount = 1;
+    _role = self.orderListType;
     [self setupRefresh];
 }
 
@@ -86,8 +87,7 @@
 {
     _refrushCount++;
     DLog(@"???????????%d",_refrushCount);
-    NSNumber *num = [NSNumber numberWithInt:_refrushCount];
-    [HttpClient searchOrderWithRole:_role FactoryServiceRange:_serviceRangeString Time:_timeString AmountMin:_minNumber AmountMax:_maxNumber Page:num andBlock:^(NSDictionary *responseDictionary) {
+    [HttpClient searchOrderWithRole:_role FactoryServiceRange:_serviceRangeString Time:_timeString AmountMin:_minNumber AmountMax:_maxNumber Page:@(_refrushCount) andBlock:^(NSDictionary *responseDictionary) {
         
         NSArray *array = responseDictionary[@"responseArray"];
         
@@ -100,7 +100,8 @@
         [_tableView reloadData];
     }];
     
-    
+    DLog(@">>>>>>==%ld",_dataArray.count);
+
     [_tableView footerEndRefreshing];
 }
 
@@ -116,6 +117,8 @@
     
     searchOrderListTVC *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     OrderModel *model = _dataArray[indexPath.row];
+//    DLog(@"???????????>>%d",model.type);
+
     [cell getDataWithModel:model orderListType:self.orderListType];
     self.uid = model.uid;
     [cell.orderDetailsBtn addTarget:self action:@selector(orderDetailsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -192,7 +195,7 @@
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath {
     
     if (indexPath.column == 0) {
-        
+        _selectedIndex = indexPath.column;
         if (indexPath.row == 0) {
             _orderAmountArray = [@[@"不限数量"] mutableCopy];
             _orderWorkingTimeArray = [@[@"不限期限"] mutableCopy];
@@ -209,7 +212,7 @@
         }
     }
     
-    switch (indexPath.column) {
+    switch (_selectedIndex) {
         case 0:
             switch (indexPath.row) {
                 case 0:
@@ -331,7 +334,7 @@
             break;
     }
     
-    DLog(@"\n%d,\n%@，\n%@,\n%@,\n%@",_role,_serviceRangeString,_minNumber,_maxNumber,_timeString);
+    DLog(@"\n=1=%d,\n=2=%@，\n%@,\n%@,\n%@",_role,_serviceRangeString,_minNumber,_maxNumber,_timeString);
     
     _refrushCount = 1;
     [HttpClient searchOrderWithRole:_role FactoryServiceRange:_serviceRangeString Time:_timeString AmountMin:_minNumber AmountMax:_maxNumber Page:@1 andBlock:^(NSDictionary *responseDictionary) {

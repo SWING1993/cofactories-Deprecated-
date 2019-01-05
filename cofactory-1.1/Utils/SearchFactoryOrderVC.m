@@ -32,6 +32,7 @@ static NSString *const cellIdentifer = @"cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.title = @"加工厂外发订单";
     
     _classifyArray = @[@"不限类型",@"针织",@"梭织"];
     _amountArray = @[@"不限数量",@"500件以内",@"500-1000件",@"1000-2000件",@"2000-5000件",@"5000件以上"];

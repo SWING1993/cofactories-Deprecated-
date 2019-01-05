@@ -24,8 +24,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    [Tools AFNetworkReachabilityStatusReachableVia];
-
 
     self.messageArray = [[NSMutableArray alloc]initWithCapacity:0];
     self.automaticallyAdjustsScrollViewInsets=NO;
@@ -48,6 +46,7 @@
 
     [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {
         if ([responseDictionary[@"statusCode"] intValue]==200) {
+            //判断网络状态 给用户相应提示
             self.messageArray=responseDictionary[@"responseArray"];
             [self.tableView reloadData];
             [refreshControl endRefreshing];
@@ -60,8 +59,6 @@
 
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
 {
-    [Tools AFNetworkReachabilityStatusReachableVia];
-
     double delayInSeconds = 2.0;
     //列出合作商
     [HttpClient getSystemMessageWithBlock:^(NSDictionary *responseDictionary) {
@@ -102,20 +99,20 @@
         [cell addSubview:headerImage];
 
         UILabel*headerLabel=[[UILabel alloc]initWithFrame:CGRectMake(64, 5, kScreenW-64, 20)];
-        headerLabel.font=[UIFont systemFontOfSize:13];
+        headerLabel.font=kFont;
         headerLabel.text = @"系统消息";
         headerLabel.textAlignment=NSTextAlignmentLeft;
         [cell addSubview:headerLabel];
 
         UILabel*timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(kScreenW-135, 5, 125, 20)];
-        timeLabel.font=[UIFont systemFontOfSize:12];
+        timeLabel.font=kSmallFont;
         timeLabel.textColor=[UIColor lightGrayColor];
         timeLabel.textAlignment = NSTextAlignmentRight;
         timeLabel.text = model.time1;
         [cell addSubview:timeLabel];
 
         UILabel*messageLabel=[[UILabel alloc]initWithFrame:CGRectMake(64, 30, kScreenW-70, 20)];
-        messageLabel.font=[UIFont systemFontOfSize:12];
+        messageLabel.font=kSmallFont;
         messageLabel.textColor=[UIColor grayColor];
         messageLabel.text = model.message;
         [cell addSubview:messageLabel];

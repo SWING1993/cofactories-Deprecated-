@@ -30,12 +30,14 @@
         for (int i =0; i<4; i++) {
             
             UIButton*btn=[[UIButton alloc]initWithFrame:CGRectMake(
-                                                                   (frame.size.width-4*(frame.size.height-30))/5+i*(frame.size.height-30+(frame.size.width-4*(frame.size.height-30))/5),
-                                                                   10,
-                                                                   frame.size.height-30, frame.size.height-30)
+                                                                   (frame.size.width-4*(frame.size.height-20))/5+i*(frame.size.height-20+(frame.size.width-4*(frame.size.height-20))/5),
+                                                                   2.5f,
+                                                                   frame.size.height-20,
+                                                                   frame.size.height-20
+                                                                   )
                           ];
             [btn setBackgroundImage:[UIImage imageNamed:btnImageArr[i]] forState:UIControlStateNormal];
-            btn.layer.cornerRadius=(frame.size.height-30)/2.0f;
+            btn.layer.cornerRadius=(frame.size.height-20)/2.0f;
             btn.layer.masksToBounds=YES;
             if (i==0) {
                 self.pushHelperButton=btn;
@@ -52,10 +54,11 @@
             [self addSubview:btn];
             
             UILabel*btnTitleLabel=[[UILabel alloc]initWithFrame:CGRectMake(
-                                                                           (frame.size.width-4*(frame.size.height-20))/5+i*(frame.size.height-20+(frame.size.width-4*(frame.size.height-20))/5),
-                                                                           frame.size.height-20,
-                                                                           frame.size.height-20,
-                                                                           20)
+                                                                           (frame.size.width-4*(frame.size.height-10))/5+i*(frame.size.height-10+(frame.size.width-4*(frame.size.height-10))/5),
+                                                                           frame.size.height-15,
+                                                                           frame.size.height-10,
+                                                                           10
+                                                                           )
                                    ];
 
 

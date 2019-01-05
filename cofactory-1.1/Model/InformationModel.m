@@ -10,10 +10,29 @@
 
 @implementation InformationModel
 
+- (instancetype)initModelWith:(NSDictionary *)dictionary {
+    if (self = [super init]) {
+        self.title = dictionary[@"post_title"];
+        self.comment = dictionary[@"comment_count"];
+        self.interest = dictionary[@"like"];
+        self.oid = [dictionary[@"ID"] intValue];
+        self.urlString = dictionary[@"guid"];
+        self.imageString = dictionary[@"thumbnail"];
+        self.photoUrl = dictionary[@"photo"];
+    }
+    return self;
+}
 
+
+
++(instancetype)getModelWith:(NSDictionary *)dictionary {
+    return [[self alloc]initModelWith:dictionary];
+}
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@, %@, %@", self.title, self.comment, self.interest];
+    return [NSString stringWithFormat:@"%@, %@, %@, %@, %@", self.title, self.comment, self.interest, self.urlString, self.imageString];
 }
+
+
 
 @end

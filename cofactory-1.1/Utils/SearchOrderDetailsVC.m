@@ -2,24 +2,26 @@
 //  SearchOrderDetailsVC.m
 //  cofactory-1.1
 //
-//  Created by gt on 15/8/12.
-//  Copyright (c) 2015年 聚工科技. All rights reserved.
+//  Created by GTF on 15/10/13.
+//  Copyright © 2015年 聚工科技. All rights reserved.
 //
 
 #import "SearchOrderDetailsVC.h"
-#import "Header.h"
-#import "OrderPhotoViewController.h"
 #import "CompeteViewController.h"
+#import "OrderPhotoViewController.h"
+#import "IMChatViewController.h"
 
-@interface SearchOrderDetailsVC ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
-{
-    UITableView *_tableView;
-    NSArray *_competeFactoryArray;
+@interface SearchOrderDetailsVC ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>{
+    UITableView   *_tableView;
+    NSArray       *_competeFactoryArray;
+    BOOL           _isMyOrder;
+    BOOL           _isCompete;
+    UIButton      *_chatButton;
+    UIButton      *_bidButton;
 }
-@property (nonatomic,assign) BOOL isCompete;
-@end
-static  NSString *const cellIdentifier1 = @"cell1";
 
+@end
+static NSString *const reuseIdentifier = @"reuseIdentifier";
 @implementation SearchOrderDetailsVC
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -27,110 +29,134 @@ static  NSString *const cellIdentifier1 = @"cell1";
     [self layoutCompeteData];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.navigationItem.title = @"订单详情";
-    [self creatTableViewAndTableViewHeaderView];
-}
-
-- (void)creatTableViewAndTableViewHeaderView{
-    
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-44) style:UITableViewStyleGrouped];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    _tableView.showsVerticalScrollIndicator = NO;
-    _tableView.backgroundColor = [UIColor whiteColor];
-    [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier1];
-    
-    [self.view addSubview:_tableView];
-    
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
-    headerView.backgroundColor = [UIColor whiteColor];
-    _tableView.tableHeaderView = headerView;
-    
-    UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
-    backgroundView.backgroundColor = [UIColor colorWithRed:98/255.0 green:190/255.0 blue:181/255.0 alpha:1.0];
-    [headerView addSubview:backgroundView];
-    
-    UIButton *facDetailButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    facDetailButton.frame = backgroundView.frame;
-    [facDetailButton addTarget:self action:@selector(goToCoopInfoBtn) forControlEvents:UIControlEventTouchUpInside];
-    [backgroundView addSubview:facDetailButton];
-    
-    UILabel *companyName = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, backgroundView.frame.size.width-30, 40)];
-    companyName.textColor = [UIColor whiteColor];
-    companyName.text = self.model.facName;
-    companyName.font = [UIFont systemFontOfSize:18.0f];
-    [backgroundView addSubview:companyName];
-    
-    UIButton *contactManufacturerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    contactManufacturerButton.frame = CGRectMake(10, 55, 70, 25);
-    [contactManufacturerButton setBackgroundImage:[UIImage imageNamed:@"联系厂商"] forState:UIControlStateNormal];
-    [contactManufacturerButton addTarget:self action:@selector(contactManufacturerButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    [backgroundView addSubview:contactManufacturerButton];
-    
-    if (self.model.interest > 0) {
-        
-        UIFont *font = [UIFont systemFontOfSize:16.0f];
-        UILabel *interestCount = [[UILabel alloc]init];
-        interestCount.textColor = [UIColor orangeColor];
-        interestCount.font = font;
-        CGSize size = [[NSString stringWithFormat:@"%d",self.model.interest] sizeWithFont:font constrainedToSize:CGSizeMake(280, 100000) lineBreakMode:NSLineBreakByWordWrapping];
-        interestCount.frame = CGRectMake(10, 90, size.width, 20);
-        interestCount.textAlignment = 2;
-        interestCount.text = [NSString stringWithFormat:@"%d",self.model.interest];
-        [backgroundView addSubview:interestCount];
-        
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(interestCount.frame.size.width+15, 90, 160, 20)];
-        label.font = [UIFont systemFontOfSize:14.0f];
-        label.text = @"家厂商对此订单感兴趣";
-        [backgroundView addSubview:label];
-    }
-    
-    
-    UIButton *orderImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    orderImageButton.frame = CGRectMake(kScreenW-20-70, 55, 70, 30);
-    orderImageButton.backgroundColor = [UIColor colorWithRed:59/255.0 green:141/255.0 blue:191/255.0 alpha:1.0];
-    orderImageButton.layer.masksToBounds = YES;
-    orderImageButton.layer.cornerRadius = 5;
-    [orderImageButton setTitle:@"订单图片" forState:UIControlStateNormal];
-    orderImageButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-    [orderImageButton addTarget:self action:@selector(orderImageButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    [backgroundView addSubview:orderImageButton];
-    
-    
-}
-
 - (void)layoutCompeteData{
+    
+    NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"selfuid"];
+    int myUid = [number intValue];
+    
+    if (myUid == self.model.uid) {
+        _isMyOrder = YES;
+    }else{
+        _isMyOrder = NO;
+    }
     
     [HttpClient getBidOrderWithOid:self.model.oid andBlock:^(NSDictionary *responseDictionary) {
         _competeFactoryArray = responseDictionary[@"responseArray"];
-        //       NSLog(@"_competeFactoryArray==%@",_competeFactoryArray);
-        NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"selfuid"];
-        DLog(@"+++++%@",number);
-        int myUid = [number intValue];
         
-        [_competeFactoryArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            FactoryModel *model = _competeFactoryArray[idx];
-            
-            if (model.uid == myUid) {
-                self.isCompete = YES;
-            }else{
-                self.isCompete = NO;
+        if (!_isMyOrder) {
+            if (_competeFactoryArray.count > 0) {
+                [_competeFactoryArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    FactoryModel *model = _competeFactoryArray[idx];
+                    if (model.uid == myUid) {
+                        _isCompete = YES;
+                    }else{
+                        _isCompete = NO;
+                    }
+                    if (_isCompete == YES) {
+                        *stop = YES;
+                    }
+                    DLog(@"isCompete==%d",_isCompete);
+                }];
             }
-            
-            if (self.isCompete == YES) {
-                *stop = YES;
-            }
-            DLog(@"isCompete==%d",self.isCompete);
-        }];
+        }
         
         [_tableView reloadData];
     }];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.navigationItem.title = @"订单详情";
+    self.view.backgroundColor = [UIColor colorWithRed:239/255.0 green:239/255.0 blue:239/255.0 alpha:1.0];
+    [self creatTableView];
     
 }
 
-#pragma mark -- table
+- (void)creatTableView{
+    _tableView =[[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH-64) style:UITableViewStyleGrouped];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:reuseIdentifier];
+    [self.view addSubview:_tableView];
+    
+    UIView *tableHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 184)];
+    tableHeadView.backgroundColor = [UIColor whiteColor];
+    _tableView.tableHeaderView = tableHeadView;
+    
+    UIButton *imageButton = [[UIButton alloc]initWithFrame:CGRectMake(15, 20, 140, 100)];
+    if (self.model.photoArray.count > 0) {
+        [imageButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",PhotoAPI,self.model.photoArray[0]]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"placeholder232"]];
+        [imageButton addTarget:self action:@selector(orderImageButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    }else{
+        [imageButton setBackgroundImage:[UIImage imageNamed:@"placeholder232"] forState:UIControlStateNormal];
+    }
+    [tableHeadView addSubview:imageButton];
+    
+    UILabel *facNameLB = [[UILabel alloc]initWithFrame:CGRectMake(imageButton.bounds.size.width+30, 20, kScreenW-imageButton.bounds.size.width-50, 30)];
+    facNameLB.font = kLargeFont;
+    facNameLB.text = self.model.facName;
+    [tableHeadView addSubview:facNameLB];
+    
+    UILabel *userNameLB = [[UILabel alloc]initWithFrame:CGRectMake(facNameLB.frame.origin.x, 45, kScreenW-imageButton.bounds.size.width-50, 30)];
+    userNameLB.font = kFont;
+    userNameLB.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1.0];
+    userNameLB.text = [NSString stringWithFormat:@"%@  %@",self.model.name,self.model.phone];
+    [tableHeadView addSubview:userNameLB];
+    
+//    if (self.model.interest > 0) {
+//        UILabel *interestLB = [[UILabel alloc]initWithFrame:CGRectMake(facNameLB.frame.origin.x, 105, kScreenW-imageButton.bounds.size.width-50, 20)];
+//        interestLB.textColor = [UIColor grayColor];
+//        interestLB.font = kFont;
+//        NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d  %@",self.model.interest,@"家厂商对此订单感兴趣"]];
+//        NSString *lengthString = [NSString stringWithFormat:@"%d",self.model.interest];
+//        NSInteger length = lengthString.length;
+//        [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,length)];
+//        interestLB.attributedText = labelText;
+//        [tableHeadView addSubview:interestLB];
+//    }
+    
+    UIImageView *arow = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenW-28, 70, 11, 21)];
+    arow.image = [UIImage imageNamed:@"箭头"];
+    [tableHeadView addSubview:arow];
+    
+    UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    detailButton.frame = CGRectMake(kScreenW-60, 40, 60, 60);
+    [detailButton addTarget:self action:@selector(facDetailClick) forControlEvents:UIControlEventTouchUpInside];
+    [tableHeadView addSubview:detailButton];
+    
+    NSArray *imgeArray = @[@"实时对话",@"投标"];
+    for (int i = 0; i<2; i++) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame = CGRectMake(i*kScreenW/2.0, 142, kScreenW/2.0, 40);
+        [button setImage:[UIImage imageNamed:imgeArray[i]] forState:UIControlStateNormal];
+        button.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        button.tag = i + 100;
+        [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [tableHeadView addSubview:button];
+        if (i == 0) {
+            _chatButton = button;
+        }if (i == 1){
+            _bidButton = button;
+        }
+    }
+
+    if (self.model.status == 0) {
+        _bidButton.enabled = YES;
+        
+    }else{
+        _bidButton.enabled = NO;
+    }
+    
+    UILabel *lineLB0 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenW/2.0, 145, 0.8, 34)];
+    lineLB0.backgroundColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0];
+    [tableHeadView addSubview:lineLB0];
+    
+    UILabel *lineLB = [[UILabel alloc] initWithFrame:CGRectMake(0, 139, kScreenW, 0.8)];
+    lineLB.backgroundColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0];
+    [tableHeadView addSubview:lineLB];
+    
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 2;
@@ -138,194 +164,272 @@ static  NSString *const cellIdentifier1 = @"cell1";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
-        return 7;
+        if (self.model.type == 1) {
+            return 4;
+        }else{
+            return 3;
+        }
+    }else{
+        return 2;
     }
-    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier1 forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
-    cell.textLabel.textColor = [UIColor grayColor];
-    switch (indexPath.row) {
-        case 0:
-            cell.textLabel.text = [NSString stringWithFormat:@"联系人:  %@",self.model.name];
-            break;
-        case 1:
-            cell.textLabel.text = [NSString stringWithFormat:@"联系电话:  %@",self.model.phone];
-            break;
-        case 2:
-            switch (self.model.type) {
+    if (indexPath.section == 0) {
+        cell.textLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1.0];
+        cell.textLabel.font = kFont;
+        if (self.model.type == 1) {
+            switch (indexPath.row) {
+                case 0:
+                    cell.textLabel.text = [NSString stringWithFormat:@"订单类型          %@",self.model.serviceRange];
+                    break;
+                case 1:
+                    cell.textLabel.text = [NSString stringWithFormat:@"订单数量          %d件",self.model.amount];
+                    break;
                 case 2:
-                    cell.textLabel.text = @"订单类型:  代裁订单";
-                    
+                    cell.textLabel.text = [NSString stringWithFormat:@"订单工期          %@天",self.model.workingTime];
                     break;
                 case 3:
-                    cell.textLabel.text = @"订单类型:  锁眼钉扣订单";
-                    
+                {
+                    NSString *string = [Tools WithTime:self.model.createTime][0];
+                    cell.textLabel.text = [NSString stringWithFormat:@"下单时间          %@",string];
+                }
                     break;
+                    
                 default:
-                    cell.textLabel.text = @"订单类型:  加工订单";
                     break;
             }
-            break;
-        case 3:
-            cell.textLabel.text = [NSString stringWithFormat:@"订单数量:  %d件",self.model.amount];
-            break;
-        case 4:
-        {
-            cell.textLabel.text = [NSString stringWithFormat:@"工期:  %@天",self.model.workingTime];
+        }else{
+            switch (indexPath.row) {
+                    
+                case 0:
+                    cell.textLabel.text = [NSString stringWithFormat:@"订单数量          %d件",self.model.amount];
+                    break;
+                case 1:
+                {
+                    NSString *string = [NSString stringWithFormat:@"%@",self.model.workingTime];
+                    if ([string isEqualToString:@"0"] ) {
+                        cell.textLabel.text = [NSString stringWithFormat:@"订单工期          一天以内"];
+                    }else{
+                        cell.textLabel.text = [NSString stringWithFormat:@"订单工期          %@天",self.model.workingTime];
+                    }
+                }
+                    break;
+                case 2:
+                {
+                    NSString *string = [Tools WithTime:self.model.createTime][0];
+                    cell.textLabel.text = [NSString stringWithFormat:@"下单时间          %@",string];
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
         }
-            break;
-        case 5:
-        {
-            NSMutableArray *array = [Tools WithTime:self.model.createTime];
-            cell.textLabel.text = [NSString stringWithFormat:@"下单时间:  %@",array[0]];
-        }
-            break;
-        case 6:
-        {
-            if ([self.model.comment isEqualToString:@""] || self.model.comment== nil) {
-                cell.textLabel.text = [NSString stringWithFormat:@"备注:  暂无备注"];
+        
+    }else{
+        if (indexPath.row == 0) {
+            cell.textLabel.font = kLargeFont;
+            if (_competeFactoryArray.count == 0) {
+                cell.textLabel.text = @"暂无厂商投标";
             }else{
-                cell.textLabel.text = [NSString stringWithFormat:@"备注:  %@",self.model.comment];
+                NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"已参与投标的厂商有%zi家",_competeFactoryArray.count]];
+                NSString *lengthString = [NSString stringWithFormat:@"%d",self.model.interest];
+                NSInteger length = lengthString.length;
+                [labelText addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(9,length)];
+                cell.textLabel.attributedText = labelText;
             }
             
+        }else{
+            cell.textLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1.0];
+            cell.textLabel.font = kFont;
+            if (_isMyOrder) {
+                if (self.model.status == 0) {
+                    cell.textLabel.text = @"订单未完成";
+                }else{
+                    cell.textLabel.text = @"订单已完成";
+                }
+            }else{
+                
+                if (self.model.status == 0) {
+                    if (_isCompete) {
+                        cell.textLabel.text = @"已投标";
+                    }else{
+                        cell.textLabel.text = @"未投标";
+                    }
+                    
+                }else{
+                    cell.textLabel.text = @"订单已完成";
+                }
+                
+            }
         }
-            break;
-        default:
-            break;
     }
     
     return cell;
-    
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    
-    if (section == 0) {
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 44)];
-        view.backgroundColor = [UIColor whiteColor];
-        
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 43)];
-        label.text = @"订单详情";
-        label.font = [UIFont systemFontOfSize:18.0f];
-        [view addSubview:label];
-        
-        UILabel *orderNumber = [[UILabel alloc]initWithFrame:CGRectMake(kScreenW-160, 0, 150, 43)];
-        orderNumber.text = [NSString stringWithFormat:@"订单号:  %d",self.model.oid];
-        orderNumber.font = [UIFont systemFontOfSize:14.0f];
-        orderNumber.textColor = [UIColor grayColor];
-        [view addSubview:orderNumber];
-        
-        return view;
-    }else{
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 44)];
-        view.backgroundColor = [UIColor whiteColor];
-        
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 150, 43)];
-        label.text = @"已参与投标的工厂有";
-        label.font = [UIFont systemFontOfSize:16.0f];
-        [view addSubview:label];
-        
-        UILabel *competeCount = [[UILabel alloc]initWithFrame:CGRectMake(160, 0, 30, 43)];
-        competeCount.textColor = [UIColor colorWithRed:205/255.0 green:17/255.0 blue:23/255.0 alpha:1.0];
-        competeCount.textAlignment = 1;
-        competeCount.font = [UIFont systemFontOfSize:18.0f];
-        competeCount.text = [NSString stringWithFormat:@"%ld",_competeFactoryArray.count];
-        [view addSubview:competeCount];
-        
-        UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(195, 0, 20, 43)];
-        label1.text = @"家";
-        label.font = [UIFont systemFontOfSize:16.0f];
-        [view addSubview:label1];
-        
-        return view;
-    }
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    if (section == 0) {
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 74+15)];
-        view.backgroundColor = [UIColor whiteColor];
-        
-        UIButton *competeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        competeButton.frame = CGRectMake((kScreenW-120)/2.0, 15, 120, 44);
-        competeButton.backgroundColor = [UIColor colorWithRed:57/255.0 green:57/255.0 blue:57/255.0 alpha:1.0];
-        competeButton.layer.masksToBounds = YES;
-        competeButton.layer.cornerRadius = 5;
-        [competeButton addTarget:self action:@selector(competeButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:competeButton];
-        
-        
-        if (self.model.status == 0) {
-            
-            if (self.isCompete == YES) {
-                
-                [competeButton setTitle:@"已投标" forState:UIControlStateNormal];
-                competeButton.enabled = NO;
-            }
-            if (self.isCompete == NO) {
-                [competeButton setTitle:@"参与投标" forState:UIControlStateNormal];
-                competeButton.enabled = YES;
-            }
-        }
-        if (self.model.status == 1) {
-            
-            [competeButton setTitle:@"订单完成" forState:UIControlStateNormal];
-            competeButton.enabled = NO;
-        }
-        
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 74, kScreenW, 15)];
-        label.backgroundColor = [UIColor colorWithRed:213/255.0 green:213/255.0 blue:213/255.0 alpha:1.0];
-        [view addSubview:label];
-        
-        return view;
-    }else{
-        return nil;
-    }
-    
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.section == 0 && indexPath.row == 6) {
-        
-        if ([self.model.comment isEqualToString:@""] || self.model.comment== nil) {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"备注" message:@"暂无备注" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alert show];
-        }else{
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"备注" message:self.model.comment delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [alert show];
-        }
-    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 44;
+    if (section == 0) {
+        return 12+50;
+    }
+    return 12;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     if (section == 0) {
-        return 74+15;
-    }else{
-        return 0;
+        return 120;
     }
+    return 0.001;
 }
 
-#pragma mark -- ButtonClick
-- (void)competeButtonClick{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 35;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 62)];
+        
+        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 12, kScreenW, 50)];
+        bgView.backgroundColor = [UIColor whiteColor];
+        [header addSubview:bgView];
+        
+        UILabel *LB = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 90, 50)];
+        LB.font = kLargeFont;
+        LB.text = @"订单详情";
+        [bgView addSubview:LB];
+        
+        UILabel *LB1 = [[UILabel alloc] initWithFrame:CGRectMake(120, 0, kScreenW-140, 50)];
+        LB1.font = kSmallFont;
+        LB1.textColor = [UIColor grayColor];
+        LB1.text = [NSString stringWithFormat:@"订单编号: %d",self.model.oid];
+        LB1.textAlignment = 2;
+        [bgView addSubview:LB1];
+        
+        UILabel *lineLB = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, kScreenW, 0.8)];
+        lineLB.backgroundColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0];
+        [bgView addSubview:lineLB];
+        
+        
+        return header;
+    }
+    return nil;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    if (section == 0) {
+        UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 132)];
+        
+        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 120)];
+        bgView.backgroundColor = [UIColor whiteColor];
+        [header addSubview:bgView];
+        
+        UILabel *lineLB = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.8)];
+        lineLB.backgroundColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0];
+        [bgView addSubview:lineLB];
+        
+        // set warp and line spacing
+        NSString *string = [NSString stringWithFormat:@"备注信息: %@",self.model.comment];
+        NSDictionary *attribute = @{NSFontAttributeName: kFont};
+        CGSize size = [string boundingRectWithSize:CGSizeMake(kScreenW-40, LONG_MAX) options:NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading
+                                        attributes:attribute context:nil].size;
+        
+        UILabel *LB1 = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, size.width, size.height+15)];
+        LB1.font = kFont;
+        LB1.numberOfLines = 0;
+        LB1.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1.0];
+        LB1.text = string;
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:LB1.text];;
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+        [paragraphStyle setLineSpacing:5];
+        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, LB1.text.length)];
+        LB1.attributedText = attributedString;
+        
+        [bgView addSubview:LB1];
+        
+        return header;
+    }
+    return nil;
     
-    NSNumber *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"selfuid"];
-    if ([uid intValue] == self.model.uid) {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"不能竞标自己的订单" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alert show];
+}
+
+- (void)facDetailClick{
+    
+    CooperationInfoViewController *vc = [CooperationInfoViewController new];
+    UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+    backItem.title=@"返回";
+    backItem.tintColor=[UIColor whiteColor];
+    self.navigationItem.backBarButtonItem = backItem;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [HttpClient getUserProfileWithUid:self.model.uid andBlock:^(NSDictionary *responseDictionary) {
+        FactoryModel *facModel = (FactoryModel *)responseDictionary[@"model"];
+        vc.factoryModel = facModel;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+
+}
+
+- (void)buttonClick:(id)sender{
+    UIButton *button = (UIButton *)sender;
+    if (button.tag == 101) {
+        if (_isMyOrder) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不可投标自己的订单" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alert show];
+        }else{
+            
+        NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"factoryType"];
+        NSInteger facType = [number integerValue];
+            if (facType == 5) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"面辅料商不可投标服装厂订单" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [alert show];
+            }else if (facType == 0){
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"服装厂不可投标订单" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [alert show];
+            }else{
+                if (_isCompete) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"该订单您已投标" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                    [alert show];
+                }else{
+                    
+                    NSString * addressString = [[NSUserDefaults standardUserDefaults] objectForKey:@"factoryAddress"];
+                    if (addressString == nil) {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您的信息不完整，请完善信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                        alert.tag = 1122;
+                        [alert show];
+                    }else{
+                        CompeteViewController *VC = [[CompeteViewController alloc]init];
+                        VC.oid = self.model.oid;
+                        [self.navigationController pushViewController:VC animated:YES];
+                    }
+                    
+                    
+                    
+                }
+            }
+        }
     }else{
-        CompeteViewController *VC = [[CompeteViewController alloc]init];
-        VC.oid = self.model.oid;
-        [self.navigationController pushViewController:VC animated:YES];
+        if (_isMyOrder) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不可同自己对话" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alert show];
+        }else{
+            // 您需要根据自己的 App 选择场景触发聊天。这里的例子是一个 Button 点击事件。
+            IMChatViewController *conversationVC = [[IMChatViewController alloc]init];
+            conversationVC.conversationType = ConversationType_PRIVATE; //会话类型，这里设置为 PRIVATE 即发起单聊会话。
+            conversationVC.targetId = [NSString stringWithFormat:@"%d", self.model.uid]; // 接收者的 targetId，这里为举例。
+            conversationVC.userName = self.model.facName; // 接受者的 username，这里为举例。
+            conversationVC.title = self.model.facName; // 会话的 title。
+            conversationVC.hidesBottomBarWhenPushed=YES;
+            // 把单聊视图控制器添加到导航栈。
+            UIBarButtonItem *backItem=[[UIBarButtonItem alloc]init];
+            backItem.title=@"返回";
+            self.navigationItem.backBarButtonItem = backItem;
+            [self.navigationController.navigationBar setHidden:NO];
+            [self.navigationController pushViewController:conversationVC animated:YES];
+            DLog(@"chatClick");
+        }
     }
 }
 
@@ -344,29 +448,14 @@ static  NSString *const cellIdentifier1 = @"cell1";
     
 }
 
-- (void)contactManufacturerButtonClick{
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
-    NSString *str = [NSString stringWithFormat:@"telprompt://%@", self.model.phone];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-    
-    //感兴趣
-    [HttpClient interestOrderWithOid:self.model.oid andBlock:^(int statusCode) {
-        DLog(@"感兴趣状态码%d",statusCode);
-    }];
-}
-
-- (void)goToCoopInfoBtn{
-    
-    [HttpClient getUserProfileWithUid:self.model.uid andBlock:^(NSDictionary *responseDictionary) {
-        DLog(@"----%@",responseDictionary);
-        NSNumber *number = responseDictionary[@"statusCode"];
-        if ([number compare:@200] == NSOrderedSame) {
-            CooperationInfoViewController *vc = [CooperationInfoViewController new];
-            vc.factoryModel = (FactoryModel *)responseDictionary[@"model"];
-            [self.navigationController pushViewController:vc animated:YES];
+    if (alertView.tag == 1122) {
+        if (buttonIndex == 0) {
+            NSLog(@"11");
         }
-    }];
- }
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

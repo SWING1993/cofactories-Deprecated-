@@ -12,5 +12,5 @@
 @property (nonatomic, strong) NSMutableArray *headerInformationArray;
 @property (nonatomic, strong) NSMutableArray *informationArray;
 @property (nonatomic, strong) NSMutableArray *searchArray;
-
+@property (nonatomic, strong) NSMutableArray *photoArray, *urlArray;
 @end

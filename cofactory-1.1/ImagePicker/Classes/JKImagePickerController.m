@@ -597,7 +597,7 @@ static NSString *kJKAssetsFooterViewIdentifier = @"kJKAssetsFooterViewIdentifier
 - (void)startPhotoAssetsViewCell:(JKAssetsViewCell *)assetsCell
 {
     if (self.selectedAssetArray.count>=self.maximumNumberOfSelection) {
-        NSString  *str = [NSString stringWithFormat:@"最多选择%lu张照片",self.maximumNumberOfSelection];
+        NSString  *str = [NSString stringWithFormat:@"最多选择%lu张照片",(unsigned long)self.maximumNumberOfSelection];
         [JKPromptView showWithImageName:@"picker_alert_sigh" message:str];
         return;
     }

@@ -7,15 +7,11 @@
  */
 #import "ViewController.h"
 
-#import "ButtonView.h"
-#import "PageView.h"
-
 #import "LoginViewController.h"//登录
 #import "RegisterViewController.h"//注册
 #import "ResetPasswordViewController.h" //找回密码
 
 #import "HomeViewController.h"//HomeVC
-//#import "HomeEditViewController.h"//主页编辑
 
 //推送助手
 #import "PushViewController.h"
@@ -57,7 +53,6 @@
 #import "ModifyJobViewController.h"//设置job
 #import "SetaddressViewController.h"//工厂位置
 #import "ModifyFactoryNameViewController.h"//工厂名称
-#import "SetMapViewController.h"//地图
 #import "ModifySizeViewController.h"//公司规模
 #import "ModifyServiceRangeViewController.h"//公司业务类型
 #import "PhotoViewController.h"//公司相册
@@ -69,15 +64,26 @@
 #import "PushHelperItemModel.h"
 #import "PushHelperModel.h"
 
+
+#pragma mark Model
+
 #import "FactoryModel.h"
 #import "MessageModel.h"
 #import "OrderModel.h"
 #import "UserModel.h"
-
 #import "FactoryRangeModel.h"
-
 #import "InformationModel.h"
 #import "CommentModel.h"
+#import "PurchasePublicHistoryModel.h"
+#import "LookOverNeedModel.h"
+#import "MaterialBidFactory.h"
+
+#pragma mark Views
+
+#import "ButtonView.h"
+#import "PageView.h"
+#import "tablleHeaderView.h"
+#import "blueButton.h" // 蓝边Button
 
 #import "SupplyHistory.h"
 
